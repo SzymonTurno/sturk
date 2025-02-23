@@ -1,0 +1,4 @@
+---
+  logger:
+    trace: "on"
+    exceptions: "on"

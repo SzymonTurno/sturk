@@ -1,0 +1,7 @@
+---
+  osal:
+    mem: "none"
+    mutex: "none"
+    sem: "none"
+    sys: "none"
+    fstream: "none"

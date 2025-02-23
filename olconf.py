@@ -1,0 +1,9 @@
+import os
+from sys import platform
+
+def join(olvars):
+    olvars.append('CC', 'gcc')
+    olvars.append('cantil_INC', '-I' + olvars.slashify(olvars.acwd(), 'include'))
+    olvars.include('src')
+    olvars.include('samples')
+    olvars.include('tests')

@@ -1,0 +1,80 @@
+name: Default
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-default-on-unix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build cantil
+      run: tools/picky.sh make cantil-default
+    - uses: actions/upload-artifact@v4
+      with:
+        name: build-default-on-${{ matrix.platform }}-output
+        path: build/
+
+  check-default-on-unix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest]
+    needs: build-default-on-unix
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup
+      run: |
+        sudo apt update
+        sudo apt-get install valgrind
+    - uses: actions/download-artifact@v4
+      with:
+        name: build-default-on-${{ matrix.platform }}-output
+        path: build/
+    - name: Clone Unity
+      run: make unity-default
+    - name: Build tests
+      run: tools/picky.sh make all-default
+    - name: Run tests
+      run: tools/picky.sh make check-default
+    - uses: actions/upload-artifact@v4
+      with:
+        name: check-default-on-${{ matrix.platform }}-output
+        path: build/
+
+  build-default-on-win32:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup
+      run: python -m pip install pyyaml
+    - name: Build cantil
+      run: make cantil-default
+    - uses: actions/upload-artifact@v4
+      with:
+        name: build-default-on-win32-output
+        path: build/
+
+  check-default-on-win32:
+    runs-on: windows-latest
+    needs: build-default-on-win32
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup
+      run: python -m pip install pyyaml
+    - uses: actions/download-artifact@v4
+      with:
+        name: build-default-on-win32-output
+        path: build/
+    - name: Clone Unity
+      run: make unity-default
+    - name: Build tests
+      run: make all-default
+    - name: Run tests
+      run: make check-default
