@@ -1,0 +1,25 @@
+#include "ub/os/sem.h"
+#include <stddef.h>
+
+UBsem* ub_sem_create(UBits args)
+{
+	(void)args;
+	return NULL;
+}
+
+void ub_sem_destroy(UBsem* sem)
+{
+	(void)sem;
+}
+
+enum UBsemStatus ub_sem_wait(UBsem* sem)
+{
+	(void)sem;
+	return 0;
+}
+
+enum UBsemStatus ub_sem_post(UBsem* sem)
+{
+	(void)sem;
+	return 0;
+}

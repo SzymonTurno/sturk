@@ -1,0 +1,15 @@
+ub-cflags := -O3 -Wall -Wextra
+ub-cflags += -Wbad-function-cast
+ub-cflags += -Wcast-align
+ub-cflags += -Wconversion
+ub-cflags += -Wdisabled-optimization
+ub-cflags += -Winline
+ub-cflags += -Wlogical-op
+ub-cflags += -Wmissing-prototypes
+ub-cflags += -Wnested-externs
+ub-cflags += -Wpadded
+ub-cflags += -Wredundant-decls
+ub-cflags += -Wshadow
+ub-cflags += -Wstrict-prototypes
+ub-cflags += -Wswitch-default
+ub-cflags += -Wwrite-strings
