@@ -5,13 +5,11 @@
 
 typedef struct UBchan UBchan;
 
-typedef unsigned UBeatPrio;
-
 UBchan* ub_chan_create(UBloader* loader);
 
 void ub_chan_destroy(UBchan* chan);
 
-void ub_chan_attach(UBchan* chan, void* eater, UBeatPrio prio);
+void ub_chan_attach(UBchan* chan, void* eater, unsigned prio);
 
 void ub_chan_detach(UBchan* chan, void* eater);
 

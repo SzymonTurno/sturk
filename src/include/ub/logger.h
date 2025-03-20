@@ -17,6 +17,8 @@
 #define UB_ERROR_EN 0
 #endif /* UB_DEBUG_EN */
 
+#include <stddef.h>
+
 enum UBlogLvl {
 	UB_DEBUG = 0,
 	UB_INFO,
@@ -26,16 +28,12 @@ enum UBlogLvl {
 
 void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...);
 
-void ub_log_initlock(void);
+void ub_log_open(const char* filename);
 
-void ub_log_deinitlock(void);
+void ub_log_close(void);
 
-void ub_log_inittest(const char* filename);
-
-void ub_log_closetest(void);
-
-#define ub_log_error(tag, format, ...)                                        \
-	ub_log(UB_ERROR, tag, "%s:%d: "format, __FILE__, __LINE__, __VA_ARGS__)
+#define ub_log_error(text)                                                    \
+	ub_log(UB_ERROR, NULL, "%s:%d: %s",  __FILE__, __LINE__, (text))
 
 #define UB_LOG(lvl, tag, format, ...)                                         \
 	do {                                                                   \
@@ -43,7 +41,13 @@ void ub_log_closetest(void);
 			ub_log(lvl, tag, format, __VA_ARGS__);                 \
 	} while (0)
 
-#define UB_LOG_ERROR(tag, format, ...)                                        \
-	UB_LOG(UB_ERROR, tag, "%s:%d: "format, __FILE__, __LINE__, __VA_ARGS__)
+#define UB_LOG_ERROR(text)                                                    \
+	UB_LOG(UB_ERROR, NULL, "%s:%d: %s", __FILE__, __LINE__, (text))
+
+#define UB_ENSURE(cond, text)                                                 \
+	do {                                                                   \
+		if (!cond)                                                     \
+			UB_LOG_ERROR(text);                                    \
+	} while (0)
 
 #endif /* UB_LOGGER_H */

@@ -40,7 +40,7 @@ int main(void)
 	ub_scribe(sub4, input, 1);
 	ub_scribe(sub4, result, 1);
 
-	ub_log_inittest("example/expected.out");
+	ub_log_open("example/expected.out");
 
 	ub_log(UB_INFO, NULL, "broadcast -3");
 	ub_lish(ub_mess_create(input, -3));
@@ -51,7 +51,7 @@ int main(void)
 	ub_log(UB_INFO, NULL, "broadcast 1");
 	ub_lish(ub_mess_create(input, 1));
 
-	ub_log_closetest();
+	ub_log_close();
 
 	ub_scriber_destroy(sub4);
 	ub_scriber_destroy(sub3);

@@ -11,47 +11,47 @@
 #include <unistd.h>
 #endif
 
-bool ub_fs_fexists(const char* filename)
+bool ub_fexists(const char* filename)
 {
 	return access(filename, F_OK) == 0;
 }
 
-UBfstream* ub_fs_fopen(const char *filename, const char *mode)
+UBfstream* ub_fopen(const char *filename, const char *mode)
 {
 	return (UBfstream*)fopen(filename, mode);
 }
 
-void ub_fs_fclose(UBfstream* stream)
+void ub_fclose(UBfstream* stream)
 {
 	fclose((FILE*)stream);
 }
 
-int ub_fs_fgetc(UBfstream* stream)
+int ub_fgetc(UBfstream* stream)
 {
 	return fgetc((FILE*)stream);
 }
 
-char* ub_fs_fgets(char* str, int size, UBfstream* stream)
+char* ub_fgets(char* str, int size, UBfstream* stream)
 {
 	return fgets(str, size, (FILE*)stream);
 }
 
-int ub_fs_fseekcur(UBfstream* stream, long int offset)
+int ub_fseekcur(UBfstream* stream, long int offset)
 {
 	return fseek((FILE*)stream, offset, SEEK_CUR);
 }
 
-UBfstream* ub_fs_stdout(void)
+UBfstream* ub_stdout(void)
 {
 	return (UBfstream*)stdout;
 }
 
-UBfstream* ub_fs_stderr(void)
+UBfstream* ub_stderr(void)
 {
 	return (UBfstream*)stderr;
 }
 
-int ub_fs_vprintf(UBfstream* stream, const char* format, va_list vlist)
+int ub_fvprintf(UBfstream* stream, const char* format, va_list vlist)
 {
 	return vfprintf((FILE*)stream, format, vlist);
 }

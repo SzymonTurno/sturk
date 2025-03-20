@@ -1,40 +1,7 @@
+#include "defs.h"
 #include "ub/mom/scribe.h"
-#include "ub/mom/lish.h"
-#include "ub/pool.h"
-#include "ub/list.h"
-#include "ub/cirq.h"
 #include "ub/os/mem.h"
-#include "ub/os/mutex.h"
-#include "ub/os/sem.h"
 #include <string.h>
-
-struct UBloader {
-	const struct UBloadVt* vp;
-	UBpool* pool;
-};
-
-UB_LIST(struct UBeaterList, void*);
-
-struct UBchan {
-	UBloader* loader;
-	struct UBeaterList* list;
-};
-
-UB_LIST(struct ChanList, UBchan*);
-
-struct UBscriber {
-	void* eater;
-	struct ChanList* list;
-};
-
-UB_CIRQ(struct MessQ, struct UBmess);
-
-struct UBus {
-	UBpool* pool;
-	UBmutex* mut;
-	UBsem* sem;
-	struct MessQ* q;
-};
 
 UBloader* ub_loader_create(const struct UBloadVt* vp)
 {
@@ -84,7 +51,7 @@ void ub_chan_destroy(UBchan* chan)
 	ub_free(chan);
 }
 
-void ub_chan_attach(UBchan* chan, void* eater, UBeatPrio prio)
+void ub_chan_attach(UBchan* chan, void* eater, unsigned prio)
 {
 	struct UBeaterList* entry = ub_malloc(sizeof(*entry));
 
@@ -130,7 +97,7 @@ void ub_scriber_destroy(UBscriber* scriber)
 	ub_free(scriber);
 }
 
-void ub_scribe(UBscriber* scriber, UBchan* chan, UBeatPrio prio)
+void ub_scribe(UBscriber* scriber, UBchan* chan, unsigned prio)
 {
 	struct ChanList* entry = ub_malloc(sizeof(*entry));
 

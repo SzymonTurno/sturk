@@ -31,9 +31,9 @@ static inline void skip_spaces(UBfstream* stream)
 {
 	int c = 0;
 
-	while (isspace(c = ub_fs_fgetc(stream)))
+	while (isspace(c = ub_fgetc(stream)))
 		;
-	ub_fs_fseekcur(stream, -1);
+	ub_fseekcur(stream, -1);
 }
 
 static inline void outfile_err(const char* s1, const char* s2)
@@ -41,7 +41,7 @@ static inline void outfile_err(const char* s1, const char* s2)
 	va_list vlist;
 	char* msg = msg_create(UB_ERROR, LOGGER_TAG, s1, s2);
 
-	ub_fs_vprintf(ub_fs_stderr(), msg, vlist);
+	ub_fvprintf(ub_stderr(), msg, vlist);
 	ub_free(msg);
 }
 
@@ -52,7 +52,7 @@ static inline void outfile_verify(const char* format, va_list vlist)
 
 	ub_vsnprintf(logged, LOG_MAX_LENGTH, format, vlist);
 	skip_spaces(outfile.fp);
-	ub_fs_fgets(expect, LOG_MAX_LENGTH, outfile.fp);
+	ub_fgets(expect, LOG_MAX_LENGTH, outfile.fp);
 	rtrim(logged);
 	rtrim(expect);
 	if (strcmp(logged, expect)) {
@@ -68,7 +68,7 @@ static inline void outfile_printf(const char* format, va_list vlist)
 	if (outfile.test_on)
 		outfile_verify(format, vlist);
 	else
-		ub_fs_vprintf(outfile.fp, format, vlist);
+		ub_fvprintf(outfile.fp, format, vlist);
 }
 
 #endif /* OUTFILE_H */

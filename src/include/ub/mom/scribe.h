@@ -9,6 +9,6 @@ UBscriber* ub_scriber_create(void* eater, size_t size);
 
 void ub_scriber_destroy(UBscriber* scriber);
 
-void ub_scribe(UBscriber* scriber, UBchan* chan, UBeatPrio prio);
+void ub_scribe(UBscriber* scriber, UBchan* chan, unsigned prio);
 
 #endif /* UB_MOM_SCRIBE_H */
