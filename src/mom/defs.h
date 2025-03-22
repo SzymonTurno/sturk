@@ -5,6 +5,7 @@
 #include "ub/pool.h"
 #include "ub/list.h"
 #include "ub/cirq.h"
+#include "ub/dict.h"
 #include "ub/os/mutex.h"
 #include "ub/os/sem.h"
 
@@ -19,6 +20,8 @@ struct UBchan {
 	struct UBloader* loader;
 	struct UBeaterList* list;
 };
+
+UB_DICT(struct Dict, struct UBchan);
 
 UB_LIST(struct ChanList, struct UBchan*);
 

@@ -5,7 +5,7 @@
 
 #define UB_LIST_ITER(i, ...) _UB_LIST_ITER((i), __VA_ARGS__, 1)
 
-#define ub_list_cast(list) (&(list)->data)
+#define ub_list_data(list) (&(list)->data)
 
 #define ub_list_ins(list, ...) _UB_LIST_INS((list), __VA_ARGS__, 0,)
 

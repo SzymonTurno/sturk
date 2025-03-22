@@ -1,65 +1,68 @@
 #include "middleware.h"
-#include "ub/mom/lish.h"
 #include "ub/logger.h"
-#include <stdio.h>
 
-static void persist(void* instance, struct Payload* pl)
+static void broadcast(UBchan** chans, struct Subscriber* subs, int* store,
+	int val)
 {
-	int* val = instance;
+	struct Payload* pl = NULL;
+	int done = 0;
+	int n = 0;
 
-	pl->old = *val;
-	*val = pl->new;
-}
+	ub_log(UB_INFO, NULL, "broadcast %d", val);
+	ub_lish(chans[0], val, 0);
+	do {
+		done = 1;
+		receive(&subs[0]);
+		receive(&subs[1]);
+		receive(&subs[2]);
+		if (subs[0].pl) {
+			pl = subs[0].pl;
+			n = subs[0].chan == chans[0] ? 0 : 1;
+			pl->old = store[n];
+			store[n] = pl->new;
+			done = 0;
+		}
 
-static void multiply(void* instance, struct Payload* pl)
-{
-	ub_lish(ub_mess_create(instance, pl->new * pl->old));
-}
+		if (subs[1].pl) {
+			pl = subs[1].pl;
+			ub_lish(chans[1], pl->new * pl->old, store[1]);
+			done = 0;
+		}
 
-static void report(void* instance, struct Payload* pl)
-{
-	(void)instance;
-	ub_log(UB_INFO, NULL, "message: new = %d, old = %d", pl->new, pl->old);
+		if (subs[2].pl) {
+			pl = subs[2].pl;
+			ub_log(UB_INFO, NULL, "message: new = %d, old = %d",
+				pl->new, pl->old);
+			done = 0;
+		}
+	} while (!done);
 }
 
 int main(void)
 {
-	UBloader* loader = ub_loader_create(PAYLOAD);
-	UBchan* input = ub_chan_create(loader);
-	UBchan* result = ub_chan_create(loader);
-	int input_val = 0;
-	int result_val = 0;
-	struct UBscriber* sub1 = create_subscriber(&input_val, persist);
-	struct UBscriber* sub2 = create_subscriber(&result_val, persist);
-	struct UBscriber* sub3 = create_subscriber(result, multiply);
-	struct UBscriber* sub4 = create_subscriber(NULL, report);
+	UBroker* broker = ub_broker_create(PAYLOAD);
+	UBchan* chans[] = {
+		ub_broker_search(broker, "input"),
+		ub_broker_search(broker, "result")
+	};
+	struct Subscriber subs[] = {
+		{ub_scriber_create(broker), NULL, NULL},
+		{ub_scriber_create(broker), NULL, NULL},
+		{ub_scriber_create(broker), NULL, NULL}
+	};
+	int store[2] = {0};
 
-	ub_scribe(sub1, input, 0);
-	ub_scribe(sub2, result, 0);
-	ub_scribe(sub3, input, 2);
-	ub_scribe(sub4, input, 1);
-	ub_scribe(sub4, result, 1);
-
+	ub_scribe(subs[0].scriber, "input");
+	ub_scribe(subs[0].scriber, "result");
+	ub_scribe(subs[1].scriber, "input");
+	ub_scribe(subs[2].scriber, "input");
+	ub_scribe(subs[2].scriber, "result");
 	ub_log_open("example/expected.out");
-
-	ub_log(UB_INFO, NULL, "broadcast -3");
-	ub_lish(ub_mess_create(input, -3));
-	ub_log(UB_INFO, NULL, "broadcast -13");
-	ub_lish(ub_mess_create(input, -13));
-	ub_log(UB_INFO, NULL, "broadcast 7");
-	ub_lish(ub_mess_create(input, 7));
-	ub_log(UB_INFO, NULL, "broadcast 1");
-	ub_lish(ub_mess_create(input, 1));
-
+	broadcast(chans, subs, store, -3);
+	broadcast(chans, subs, store, -13);
+	broadcast(chans, subs, store, 7);
+	broadcast(chans, subs, store, 1);
 	ub_log_close();
-
-	ub_scriber_destroy(sub4);
-	ub_scriber_destroy(sub3);
-	ub_scriber_destroy(sub2);
-	ub_scriber_destroy(sub1);
-	ub_chan_destroy(result);
-	ub_chan_destroy(input);
-	ub_loader_destroy(loader);
-
+	ub_broker_destroy(broker);
 	return 0;
 }

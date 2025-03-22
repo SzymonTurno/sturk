@@ -2,29 +2,34 @@
 #define UB_DICT_H
 
 #include "ub/rbtree.h"
+#include "ub/arith.h"
 #include <string.h>
 
 #define UB_DICT(name, type)                                                   \
-	name {struct UBrbnode node; char* key; type val;}
+	name {struct UBrbnode _dictn_; char* _key_; type _val_;}
 
-#define ub_dict_setkey(dict, str) ((dict)->key = (str))
+#define ub_dict_cast(dict) (&(dict)->_dictn_)
 
-#define ub_dict_getkey(dict) ((dict)->key)
+#define ub_dict_setkey(dict, str) ((dict)->_key_ = (str))
 
-#define ub_dict_cast(dict) (&(dict)->val)
+#define ub_dict_getkey(dict) ((dict)->_key_)
+
+#define ub_dict_data(dict) (&(dict)->_val_)
+
+#define ub_dict_container(ptr, type) ub_container_of(ptr, type, _dictn_)
 
 #define ub_dict_ins(dict, entry)                                              \
 	({                                                                     \
 		__typeof__(entry) _entry = (entry);                            \
-		const char* _key = _entry->key;                                \
-		struct UBrbnode* _root = &(dict)->node;                        \
+		const char* _key = _entry->_key_;                              \
+		struct UBrbnode* _root = &(dict)->_dictn_;                     \
 		struct UBrbnode** _i = &_root;                                 \
 		struct UBrbnode* _p = NULL;                                    \
-		struct UBrbnode* _node = &_entry->node;                        \
+		struct UBrbnode* _node = &_entry->_dictn_;                     \
 									       \
 		while (*_i) {                                                  \
 			_p = *_i;                                              \
-			if (strcmp(_key, ((__typeof__(dict))_p)->key) < 0)     \
+			if (strcmp(_key, ((__typeof__(dict))_p)->_key_) < 0)   \
 				_i = &_p->left;                                \
 			else                                                   \
 				_i = &_p->right;                               \
@@ -38,16 +43,20 @@
 	({                                                                     \
 		const char* _key = (str);                                      \
 		__typeof__(dict) _dict = (dict);                               \
+		struct UBrbnode* _node = NULL;                                 \
 		int _tmp = 0;                                                  \
 									       \
 		while (_dict) {                                                \
-			_tmp = strcmp(_key, _dict->key);                       \
-			if (_tmp < 0)                                          \
-				_dict = (__typeof__(_dict))&_dict->node.left;  \
-			else if (_tmp > 0)                                     \
-				_dict = (__typeof__(_dict))&_dict->node.right; \
-			else                                                   \
+			_tmp = strcmp(_key, _dict->_key_);                     \
+			if (_tmp < 0) {                                        \
+				_node = _dict->_dictn_.left;                   \
+				_dict = (__typeof__(_dict))_node;              \
+			} else if (_tmp > 0) {                                 \
+				_node = _dict->_dictn_.right;                  \
+				_dict = (__typeof__(_dict))_node;              \
+			} else {                                               \
 				break;                                         \
+			}                                                      \
 		}                                                              \
 		_dict;                                                         \
 	})

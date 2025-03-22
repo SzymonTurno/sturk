@@ -11,6 +11,8 @@ void ub_pool_destroy(UBpool* pool);
 
 void* ub_pool_alloc(UBpool* pool);
 
+void* ub_pool_tryalloc(UBpool* pool);
+
 void ub_pool_free(UBpool* pool, void* blk);
 
 #endif /* UB_POOL_H */

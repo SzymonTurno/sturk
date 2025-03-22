@@ -4,6 +4,7 @@
 #include "message.h"
 #include <string.h>
 #include <ctype.h>
+#include <stdint.h>
 
 #define LOGGER_TAG "ub-logger"
 
@@ -11,8 +12,7 @@ static struct {
 	UBfstream* fp;
 	char* cwd;
 	char* name;
-	int test_on;
-	int _padding;
+	intptr_t test_on;
 } outfile;
 
 static inline void rtrim(char* str)

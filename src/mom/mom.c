@@ -62,7 +62,7 @@ void ub_chan_attach(UBchan* chan, void* eater, unsigned prio)
 void ub_chan_detach(UBchan* chan, void* eater)
 {
 	for (UB_LIST_ITER(i, &chan->list))
-		if (*ub_list_cast(*i) == eater) {
+		if (*ub_list_data(*i) == eater) {
 			ub_free(ub_list_rem(i));
 			break;
 		}
@@ -73,7 +73,7 @@ void ub_chan_upload(UBchan* chan, UBload load)
 	void (*eat)(void*, UBload) = chan->loader->vp->eat;
 
 	for (UB_LIST_ITER(i, &chan->list))
-		eat(*ub_list_cast(*i), load);
+		eat(*ub_list_data(*i), load);
 }
 
 UBscriber* ub_scriber_create(void* eater, size_t size)
@@ -89,7 +89,7 @@ UBscriber* ub_scriber_create(void* eater, size_t size)
 void ub_scriber_destroy(UBscriber* scriber)
 {
 	while (scriber->list) {
-		ub_chan_detach(*ub_list_cast(scriber->list), scriber->eater);
+		ub_chan_detach(*ub_list_data(scriber->list), scriber->eater);
 		ub_free(ub_list_rem(&scriber->list));
 	}
 	ub_free(scriber->eater);
@@ -101,7 +101,7 @@ void ub_scribe(UBscriber* scriber, UBchan* chan, unsigned prio)
 {
 	struct ChanList* entry = ub_malloc(sizeof(*entry));
 
-	*ub_list_cast(entry) = chan;
+	*ub_list_data(entry) = chan;
 	scriber->list = ub_list_ins(scriber->list, entry);
 	ub_chan_attach(chan, scriber->eater, prio);
 }
@@ -153,7 +153,7 @@ void ub_bus_ins(UBus* bus, struct UBmess msg)
 {
 	struct MessQ* entry = ub_pool_alloc(bus->pool);
 
-	*ub_cirq_cast(entry) = msg;
+	*ub_cirq_data(entry) = msg;
 	ub_mutex_lock(bus->mut);
 	bus->q = ub_cirq_ins(bus->q, entry);
 	ub_sem_post(bus->sem);
@@ -169,7 +169,7 @@ struct UBmess ub_bus_rem(UBus* bus)
 	ub_mutex_lock(bus->mut);
 	entry = ub_cirq_rem(&bus->q);
 	ub_mutex_unlock(bus->mut);
-	ret = *ub_cirq_cast(entry);
+	ret = *ub_cirq_data(entry);
 	ub_pool_free(bus->pool, entry);
 	return ret;
 }

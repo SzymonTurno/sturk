@@ -44,6 +44,17 @@ void* ub_pool_alloc(UBpool* pool)
 	return ret ? ret : ub_malloc(pool->blk_size);
 }
 
+void* ub_pool_tryalloc(UBpool* pool)
+{
+	void* ret = NULL;
+
+	ub_mutex_lock(pool->mutex);
+	if (pool->list)
+		ret = ub_list_rem(&pool->list);
+	ub_mutex_unlock(pool->mutex);
+	return ret;
+}
+
 void ub_pool_free(UBpool* pool, void* blk)
 {
 	ub_mutex_lock(pool->mutex);

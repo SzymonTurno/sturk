@@ -1,7 +1,7 @@
 example-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 example-build := build/$(example-dir)
 example-target := $(example-build)/example
-example-objs := $(example-dir)/example.o
+example-objs := $(example-dir)/example.o $(example-dir)/middleware.o
 
 run-example: $(example-target)
 	./$(example-target)
