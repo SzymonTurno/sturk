@@ -5,16 +5,21 @@ static size_t size(void)
 	return sizeof(struct Payload);
 }
 
-static UBload* init(UBload* load, va_list vlist)
+static void init(UBload* load, va_list vlist)
 {
 	((struct Payload*)load)->new = va_arg(vlist, int);
 	((struct Payload*)load)->old = va_arg(vlist, int);
-	return load;
+}
+
+static void deinit(UBload* load)
+{
+	(void)load;
 }
 
 const struct UBloadVt PAYLOAD[] = {{
 	.size = size,
 	.ctor = init,
+	.dtor = deinit
 }};
 
 void receive(struct Subscriber* sub)

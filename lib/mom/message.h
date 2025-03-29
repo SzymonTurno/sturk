@@ -26,9 +26,7 @@ static inline struct Message* msg_create(struct UBchan* chan, va_list args)
 	}
 	meta->chan = chan;
 	meta->n_pending = 0;
-	load = c->vp->ctor(load, args);
-	if (load != msg_getload(self))
-		*(UBload**)msg_getload(self) = load;
+	c->vp->ctor(load, args);
 	return self;
 }
 
@@ -52,8 +50,10 @@ static inline void msg_release(struct Message* msg)
 	if (!--meta->n_pending)
 		last = 1;
 	ub_mutex_unlock(meta->mutex);
-	if (last)
+	if (last) {
+		ub_dict_data(meta->chan)->vp->dtor(msg_getload(msg));
 		ub_pool_free(ub_dict_data(meta->chan)->pool, msg_getload(msg));
+	}
 }
 
 static inline void msg_lock(struct Message* msg)

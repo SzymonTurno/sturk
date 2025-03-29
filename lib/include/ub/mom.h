@@ -8,7 +8,8 @@ typedef char UBload;
 
 struct UBloadVt {
 	size_t (*size)(void);
-	UBload* (*ctor)(UBload*, va_list);
+	void (*ctor)(UBload*, va_list);
+	void (*dtor)(UBload*);
 };
 
 typedef struct UBroker UBroker;
