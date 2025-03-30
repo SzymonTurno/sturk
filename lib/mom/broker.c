@@ -66,6 +66,14 @@ static struct ScriberList* slist_create(struct UBscriber* scriber)
 	return self;
 }
 
+static void ins_msg(struct UBscriber* scriber, struct Message* msg)
+{
+	struct Qentry* entry = ub_pool_alloc(scriber->pool);
+
+	*ub_cirq_data(entry) = msg;
+	ub_waitq_ins(scriber->q, ub_cirq_cast(entry));
+}
+
 static void notify(struct Chan* chan, struct Message* msg)
 {
 	int n = 0;
@@ -73,7 +81,7 @@ static void notify(struct Chan* chan, struct Message* msg)
 	ub_mutex_lock(chan->mutex);
 	msg_lock(msg);
 	for (UB_LIST_ITER(i, &chan->list)) {
-		ub_waitq_ins((*ub_list_data(*i))->q, ub_cirq_cast(msg));
+		ins_msg(*ub_list_data(*i), msg);
 		++n;
 	}
 	msg_unlock(msg, n);
@@ -142,15 +150,18 @@ UBscriber* ub_scriber_create(UBroker* broker)
 	ub_mutex_unlock(broker->mutex);
 	self->list = NULL;
 	self->msg = NULL;
+	self->pool = ub_pool_create(sizeof(struct Qentry));
 	self->q = ub_waitq_create();
 	return self;
 }
 
 void ub_scriber_destroy(UBscriber* scriber)
 {
+	ub_scriber_release(scriber);
 	ub_waitq_destroy(scriber->q);
 	scriber->q = NULL;
-	ub_scriber_release(scriber);
+	ub_pool_destroy(scriber->pool);
+	scriber->pool = NULL;
 	while (scriber->list) {
 		unscribe(*ub_list_data(scriber->list), scriber);
 		ub_free(ub_list_rem(&scriber->list));
@@ -170,13 +181,16 @@ UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
 {
 	UBload* ret = NULL;
 	struct UBcirq* q = NULL;
+	struct Qentry* qe = NULL;
 
 	ub_scriber_release(scriber);
 	q = ub_waitq_rem(scriber->q);
 	if (q) {
-		scriber->msg = ub_cirq_container(q, struct Message);
+		qe = ub_cirq_container(q, struct Qentry);
+		scriber->msg = *ub_cirq_data(qe);
+		ub_pool_free(scriber->pool, qe);
 		if (chan)
-			*chan = ub_cirq_data(scriber->msg)->chan;
+			*chan = scriber->msg->chan;
 		ret = msg_getload(scriber->msg);
 	}
 	return ret;

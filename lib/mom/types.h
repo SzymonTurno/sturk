@@ -25,7 +25,7 @@ struct UBroker {
 	UBmutex* mutex;
 };
 
-struct Meta {
+struct Message {
 	struct UBchan* chan;
 	UBmutex* mutex;
 	union {
@@ -35,11 +35,12 @@ struct Meta {
 };
 
 UB_LIST(struct ChanList, struct UBchan*);
-UB_CIRQ(struct Message, struct Meta);
+UB_CIRQ(struct Qentry, struct Message*);
 struct UBscriber {
 	struct UBroker* broker;
 	struct ChanList* list;
 	struct Message* msg;
+	UBpool* pool;
 	UBwaitQ* q;
 };
 
