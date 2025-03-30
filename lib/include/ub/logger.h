@@ -35,6 +35,12 @@ void ub_log_close(void);
 #define ub_log_error(text)                                                    \
 	ub_log(UB_ERROR, NULL, "%s:%d: %s",  __FILE__, __LINE__, (text))
 
+#define ub_ensure(cond, text)                                                 \
+	do {                                                                   \
+		if (!cond)                                                     \
+			ub_log_error(text);                                    \
+	} while (0)
+
 #define UB_LOG(lvl, tag, format, ...)                                         \
 	do {                                                                   \
 		if (lvl##_EN)                                                  \

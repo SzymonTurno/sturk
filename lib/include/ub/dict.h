@@ -10,26 +10,29 @@
 
 #define ub_dict_cast(dict) (&(dict)->_dictn_)
 
-#define ub_dict_setkey(dict, str) ((dict)->_key_ = (str))
+#define ub_dict_setk(dict, str) ((dict)->_key_ = (str))
 
-#define ub_dict_getkey(dict) ((dict)->_key_)
+#define ub_dict_getk(dict) ((dict)->_key_)
 
 #define ub_dict_data(dict) (&(dict)->_val_)
 
-#define ub_dict_container(ptr, type) ub_container_of(ptr, type, _dictn_)
+#define ub_dict_cont(ptr, type) ub_container_of(ptr, type, _dictn_)
 
 #define ub_dict_ins(dict, entry)                                              \
 	({                                                                     \
+		__typeof__(dict) _dict = (dict);                               \
 		__typeof__(entry) _entry = (entry);                            \
 		const char* _key = _entry->_key_;                              \
-		struct UBrbnode* _root = &(dict)->_dictn_;                     \
+		const char* _tmp = NULL;                                       \
+		struct UBrbnode* _root = _dict ? &_dict->_dictn_ : NULL;       \
 		struct UBrbnode** _i = &_root;                                 \
 		struct UBrbnode* _p = NULL;                                    \
 		struct UBrbnode* _node = &_entry->_dictn_;                     \
 									       \
 		while (*_i) {                                                  \
 			_p = *_i;                                              \
-			if (strcmp(_key, ((__typeof__(dict))_p)->_key_) < 0)   \
+			_tmp = ub_dict_cont(_p, __typeof__(*dict))->_key_;     \
+			if (strcmp(_key, _tmp) < 0)                            \
 				_i = &_p->left;                                \
 			else                                                   \
 				_i = &_p->right;                               \
@@ -50,10 +53,10 @@
 			_tmp = strcmp(_key, _dict->_key_);                     \
 			if (_tmp < 0) {                                        \
 				_node = _dict->_dictn_.left;                   \
-				_dict = (__typeof__(_dict))_node;              \
+				_dict = ub_dict_cont(_node, __typeof__(*dict));\
 			} else if (_tmp > 0) {                                 \
 				_node = _dict->_dictn_.right;                  \
-				_dict = (__typeof__(_dict))_node;              \
+				_dict = ub_dict_cont(_node, __typeof__(*dict));\
 			} else {                                               \
 				break;                                         \
 			}                                                      \

@@ -18,11 +18,11 @@ struct UBcirq {
 
 #define UB_CIRQ(name, type) name {struct UBcirq _cirqn_; type _data_;}
 
-#define ub_cirq_cast(cirq) (&(cirq)->_cirqn_)
+#define ub_cirq_cast(cirq) ((struct UBcirq*)(&(cirq)->_cirqn_))
 
 #define ub_cirq_data(cirq) (&(cirq)->_data_)
 
-#define ub_cirq_container(ptr, type) ub_container_of(ptr, type, _cirqn_)
+#define ub_cirq_cont(ptr, type) ub_container_of(ptr, type, _cirqn_)
 
 #define ub_cirq_ins(cirq, ...) _UB_CIRQ_INS((cirq), __VA_ARGS__, -1,)
 
@@ -30,7 +30,7 @@ struct UBcirq {
 
 #define ub_cirq_sibl(cirq, pos)                                               \
 	({                                                                     \
-		struct UBcirq* _cirq_ = (struct UBcirq*)&(cirq)->_cirqn_;      \
+		struct UBcirq* _cirq_ = ub_cirq_cast(cirq);                    \
 		long long _pos_ = (pos);                                       \
 									       \
 		while (_pos_ > 0) {                                            \
@@ -47,8 +47,9 @@ struct UBcirq {
 
 #define _UB_CIRQ_INS(cirq, entry, pos, ...)                                   \
 	({                                                                     \
-		struct UBcirq* _cirq = (struct UBcirq*)&(cirq)->_cirqn_;       \
-		struct UBcirq* _entry = (struct UBcirq*)&(entry)->_cirqn_;     \
+		__typeof__(cirq) _tmp = (cirq);                                \
+		struct UBcirq* _cirq = _tmp ? ub_cirq_cast(_tmp) : NULL;       \
+		struct UBcirq* _entry = ub_cirq_cast(entry);                   \
 		long long _pos = (pos);                                        \
 									       \
 		if (_cirq) {                                                   \
@@ -78,7 +79,7 @@ struct UBcirq {
 		struct UBcirq* _entry = NULL;                                  \
 									       \
 		if (*_cirqp) {                                                 \
-			      _first = (struct UBcirq*)&(*_cirqp)->_cirqn_;    \
+			      _first = ub_cirq_cast(*_cirqp);                  \
 			      _entry = ub_cirq_sibl(_first, _pos);             \
 			      _entry->next->prev = _entry->prev;               \
 			      _entry->prev->next = _entry->next;               \

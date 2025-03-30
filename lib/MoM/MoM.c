@@ -8,7 +8,7 @@ static struct UBchan* chan_create(const char* topic, const struct UBloadVt* vp)
 	struct UBchan* self = ub_malloc(sizeof(*self));
 	struct Chan* c = ub_dict_data(self);
 
-	ub_dict_setkey(self, strcpy(ub_malloc(strlen(topic) + 1), topic));
+	ub_dict_setk(self, strcpy(ub_malloc(strlen(topic) + 1), topic));
 	c->vp = vp;
 	c->list = NULL;
 	c->mutex = ub_mutex_create(UB_MUTEX_PROTOCOL_PRIO_INHERIT);
@@ -29,8 +29,8 @@ static void chan_destroy(struct UBchan* chan)
 	while (c->list)
 		ub_free(ub_list_rem(&c->list));
 	c->vp = NULL;
-	ub_free(ub_dict_getkey(chan));
-	ub_dict_setkey(chan, NULL);
+	ub_free(ub_dict_getk(chan));
+	ub_dict_setk(chan, NULL);
 	ub_free(chan);
 }
 
@@ -39,7 +39,7 @@ static void dict_destroy(struct UBchan* dict)
 	for (struct UBrbnode *i = NULL, *p = NULL;;) {
 		i = ub_rb_deepest(ub_dict_cast(dict));
 		p = ub_rb_parent(i);
-		chan_destroy(ub_dict_container(i, UBchan));
+		chan_destroy(ub_dict_cont(i, UBchan));
 		if (!p)
 			break;
 
@@ -186,7 +186,7 @@ UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
 	ub_scriber_release(scriber);
 	q = ub_waitq_rem(scriber->q);
 	if (q) {
-		qe = ub_cirq_container(q, struct Qentry);
+		qe = ub_cirq_cont(q, struct Qentry);
 		scriber->msg = *ub_cirq_data(qe);
 		ub_pool_free(scriber->pool, qe);
 		if (chan)
@@ -205,7 +205,7 @@ void ub_scriber_release(UBscriber* scriber)
 
 const char* ub_get_topic(UBchan* chan)
 {
-	return ub_dict_getkey(chan);
+	return ub_dict_getk(chan);
 }
 
 void ub_lish(UBchan* chan, ...)
