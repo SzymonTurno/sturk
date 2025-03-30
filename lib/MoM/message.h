@@ -17,7 +17,7 @@ static inline struct Message* msg_create(struct UBchan* chan, va_list args)
 	if (!load) {
 		load = ub_pool_alloc(c->pool);
 		self = (struct Message*)&load[c->offset];
-		self->mutex = ub_mutex_create(UB_MUTEX_PROTOCOL_PRIO_INHERIT);
+		self->mutex = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
 	} else {
 		self = (struct Message*)&load[c->offset];
 	}

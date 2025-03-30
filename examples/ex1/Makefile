@@ -7,7 +7,7 @@ run-ex1: $(ex1-target)
 	./$(ex1-target)
 
 $(ex1-target): $(ex1-objs) $(ex1-build)
-	make all-ub
+	make all-ub ub-yamls=$(ex1-dir)/ub.yaml
 	gcc -o $@ $(ex1-objs) $(ub-lib)
 	mv $(ex1-objs) $(ex1-build)/
 

@@ -11,7 +11,7 @@ static struct UBchan* chan_create(const char* topic, const struct UBloadVt* vp)
 	ub_dict_setk(self, strcpy(ub_malloc(strlen(topic) + 1), topic));
 	c->vp = vp;
 	c->list = NULL;
-	c->mutex = ub_mutex_create(UB_MUTEX_PROTOCOL_PRIO_INHERIT);
+	c->mutex = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
 	c->offset = (vp->size() / MSG_SIZE + 1) * MSG_SIZE;
 	c->pool = ub_pool_create(c->offset + MSG_SIZE);
 	return self;
@@ -108,7 +108,7 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 	self->vp = vp;
 	self->dict = NULL;
 	self->list = NULL;
-	self->mutex = ub_mutex_create(UB_MUTEX_PROTOCOL_PRIO_INHERIT);
+	self->mutex = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
 	return self;
 }
 

@@ -16,7 +16,7 @@ UBwaitQ* ub_waitq_create(void)
 {
 	UBwaitQ* self = ub_malloc(sizeof(*self));
 
-	self->mut = ub_mutex_create(UB_MUTEX_PROTOCOL_PRIO_INHERIT);
+	self->mut = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
 	self->sem = ub_sem_create(0);
 	self->q = NULL;
 	return self;

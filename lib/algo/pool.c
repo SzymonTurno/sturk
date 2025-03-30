@@ -16,7 +16,7 @@ UBpool* ub_pool_create(size_t blk_size)
 {
 	UBpool* self = ub_malloc(sizeof(*self));
 
-	self->mutex = ub_mutex_create(UB_MUTEX_PROTOCOL_PRIO_INHERIT);
+	self->mutex = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
 	self->blk_size = ub_max(blk_size, sizeof(*self->list));
 	self->list = NULL;
 	return self;

@@ -7,7 +7,7 @@ static UBmutex* logger_mutex;
 static void mutex_lock(void)
 {
 	if (!logger_mutex)
-		logger_mutex = ub_mutex_create(UB_MUTEX_PROTOCOL_PRIO_INHERIT);
+		logger_mutex = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
 	ub_mutex_lock(logger_mutex);
 }
 

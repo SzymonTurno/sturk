@@ -12,20 +12,18 @@ void ub_mutex_destroy(UBmutex* mutex)
 	(void)mutex;
 }
 
-enum UBmutexStatus ub_mutex_lock(UBmutex* mutex)
+void ub_mutex_lock(UBmutex* mutex)
 {
 	(void)mutex;
-	return UB_MUTEX_OK;
 }
 
-enum UBmutexStatus ub_mutex_trylock(UBmutex* mutex)
+bool ub_mutex_trylock(UBmutex* mutex)
 {
 	(void)mutex;
-	return UB_MUTEX_OK;
+	return true;
 }
 
-enum UBmutexStatus ub_mutex_unlock(UBmutex* mutex)
+void ub_mutex_unlock(UBmutex* mutex)
 {
 	(void)mutex;
-	return UB_MUTEX_OK;
 }
