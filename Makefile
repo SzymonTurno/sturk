@@ -1,8 +1,7 @@
-all: run-example
+usage:
+	@echo Usage: make run-ex*
 
 include lib/Makefile
-include example/Makefile
+include examples/ex1/Makefile
 
-clean: clean-example clean-ub
-
-.PHONY: all clean
+.PHONY: usage

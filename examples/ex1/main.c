@@ -57,7 +57,7 @@ int main(void)
 	ub_scribe(subs[1].scriber, "input");
 	ub_scribe(subs[2].scriber, "input");
 	ub_scribe(subs[2].scriber, "result");
-	ub_log_open("example/expected.out");
+	ub_log_open(EXPECTED_OUT);
 	broadcast(chans, subs, store, -3);
 	broadcast(chans, subs, store, -13);
 	broadcast(chans, subs, store, 7);
