@@ -3,6 +3,7 @@ ub-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 ub-build := build/$(ub-dir)
 ub-lib := $(ub-build)/libub.a
 ub-incs := -I$(ub-dir)/include
+ub-configure := python $(ub-dir)/configure.py $(ub-yamls)
 
 all-ub: $(ub-lib)
 

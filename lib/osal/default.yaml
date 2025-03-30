@@ -1,0 +1,6 @@
+---
+  ub-osal:
+    mem: "none"
+    mutex: "none"
+    sem: "none"
+    sysio: "none"
