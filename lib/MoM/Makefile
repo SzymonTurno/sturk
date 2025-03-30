@@ -7,6 +7,5 @@ ub-objs += $(ub-mom-build)/*.o
 ub-builds += $(ub-mom-build)
 
 $(ub-mom-build): $(ub-mom-objs)
-	@echo "[UB] Creating MoM."
 	mkdir -p $@
 	mv $(ub-mom-objs) $(ub-mom-build)/

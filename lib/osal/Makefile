@@ -7,6 +7,5 @@ ub-objs += $(ub-osal-build)/*.o
 ub-builds += $(ub-osal-build)
 
 $(ub-osal-build): $(ub-osal-objs)
-	@echo "[UB] Creating osal."
 	mkdir -p $@
 	mv $(ub-osal-objs) $(ub-osal-build)/

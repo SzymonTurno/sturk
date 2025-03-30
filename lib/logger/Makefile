@@ -7,6 +7,5 @@ ub-objs += $(ub-logger-build)/*.o
 ub-builds += $(ub-logger-build)
 
 $(ub-logger-build): $(ub-logger-objs)
-	@echo "[UB] Creating logger."
 	mkdir -p $@
 	mv $(ub-logger-objs) $(ub-logger-build)/

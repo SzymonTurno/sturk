@@ -9,6 +9,5 @@ ub-objs += $(ub-algo-build)/*.o
 ub-builds += $(ub-algo-build)
 
 $(ub-algo-build): $(ub-algo-objs)
-	@echo "[UB] Creating algo."
 	mkdir -p $@
 	mv $(ub-algo-objs) $(ub-algo-build)/
