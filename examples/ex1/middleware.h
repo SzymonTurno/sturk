@@ -1,7 +1,7 @@
 #ifndef MIDDLEWARE_H
 #define MIDDLEWARE_H
 
-#include "ub/MoM.h"
+#include "ub/broker.h"
 
 struct Payload {
 	int new;

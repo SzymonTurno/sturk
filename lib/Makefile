@@ -7,8 +7,8 @@ ub-configure := python $(ub-dir)/configure.py $(ub-yamls)
 all-ub: $(ub-lib)
 
 include $(ub-dir)/algo/Makefile
+include $(ub-dir)/broker/Makefile
 include $(ub-dir)/logger/Makefile
-include $(ub-dir)/MoM/Makefile
 include $(ub-dir)/osal/Makefile
 
 $(ub-lib): $(ub-builds)

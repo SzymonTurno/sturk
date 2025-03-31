@@ -1,5 +1,5 @@
-#ifndef UB_MOM_H
-#define UB_MOM_H
+#ifndef UB_BROKER_H
+#define UB_BROKER_H
 
 #include <stddef.h>
 #include <stdarg.h>
@@ -38,4 +38,4 @@ void ub_lish(UBchan* chan, ...);
 
 void ub_scribe(UBscriber* scriber, const char* topic);
 
-#endif /* UB_MOM_H */
+#endif /* UB_BROKER_H */
