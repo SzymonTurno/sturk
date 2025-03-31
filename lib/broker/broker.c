@@ -115,11 +115,11 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 void ub_broker_destroy(UBroker* broker)
 {
 	ub_ensure(broker, "Bad pointer.");
-	ub_mutex_destroy(broker->mutex);
-	broker->mutex = NULL;
 	while (broker->list)
 		ub_scriber_destroy(*ub_list_data(ub_list_rem(&broker->list)));
 
+	ub_mutex_destroy(broker->mutex);
+	broker->mutex = NULL;
 	if (broker->dict)
 		dict_destroy(broker->dict);
 	broker->dict = NULL;

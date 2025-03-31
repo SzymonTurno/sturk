@@ -35,13 +35,13 @@ void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)
 	va_start(vlist, format);
 	switch (lvl) {
 	default:
-	case UB_DEBUG:
 	case UB_INFO:
 		if (outfile.fp)
 			outfile_printf(msg, vlist);
 		else
 			ub_fvprintf(ub_stdout(), msg, vlist);
 		break;
+	case UB_DEBUG:
 	case UB_WARNING:
 	case UB_ERROR:
 		if (outfile.fp) {
