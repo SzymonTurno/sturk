@@ -1,6 +1,6 @@
 #include "ub/rbtree.h"
 #include "ub/bits.h"
-#include "ub/logger.h"
+#include "ub/debug.h"
 #include <stddef.h>
 
 #define COLOR_MASK ((intptr_t)UBit(0))
@@ -77,6 +77,7 @@ static struct UBrbnode* rot_right(struct UBrbnode* node, struct UBrbnode* root)
 
 struct UBrbnode* ub_rb_link(struct UBrbnode* node, struct UBrbnode* parent)
 {
+	ub_ensure(node, "Bad pointer.");
 	paint_red(node);
 	set_parent(node, parent);
 	node->left = NULL;
@@ -86,6 +87,7 @@ struct UBrbnode* ub_rb_link(struct UBrbnode* node, struct UBrbnode* parent)
 
 struct UBrbnode* ub_rb_insrebal(struct UBrbnode* root, struct UBrbnode* node)
 {
+	ub_ensure(node, "Bad pointer.");
 	for (struct UBrbnode *p = NULL, *g = NULL, *u = NULL;;) {
 		p = get_parent(node);
 		if (!painted_red(p)) {
@@ -169,11 +171,13 @@ struct UBrbnode* ub_rb_insrebal(struct UBrbnode* root, struct UBrbnode* node)
 
 struct UBrbnode* ub_rb_parent(struct UBrbnode* node)
 {
+	ub_ensure(node, "Bad pointer.");
 	return get_parent(node);
 }
 
 struct UBrbnode* ub_rb_deepest(struct UBrbnode* node)
 {
+	ub_ensure(node, "Bad pointer.");
 	for (;;) {
 		if (node->left)
 			node = node->left;

@@ -114,6 +114,7 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 
 void ub_broker_destroy(UBroker* broker)
 {
+	ub_ensure(broker, "Bad pointer.");
 	ub_mutex_destroy(broker->mutex);
 	broker->mutex = NULL;
 	while (broker->list)
@@ -130,6 +131,7 @@ UBchan* ub_broker_search(UBroker* broker, const char* topic)
 {
 	struct UBchan* c = NULL;
 
+	ub_ensure(broker, "Bad pointer.");
 	ub_mutex_lock(broker->mutex);
 	c = ub_dict_find(broker->dict, topic);
 	if (!c) {
@@ -145,6 +147,7 @@ UBscriber* ub_scriber_create(UBroker* broker)
 	UBscriber* self = ub_malloc(sizeof(*self));
 
 	self->broker = broker;
+	ub_ensure(broker, "Bad pointer.");
 	ub_mutex_lock(broker->mutex);
 	broker->list = ub_list_ins(broker->list, slist_create(self));
 	ub_mutex_unlock(broker->mutex);
@@ -158,6 +161,7 @@ UBscriber* ub_scriber_create(UBroker* broker)
 void ub_scriber_destroy(UBscriber* scriber)
 {
 	ub_scriber_release(scriber);
+	ub_ensure(scriber, "Bad pointer.");
 	ub_waitq_destroy(scriber->q);
 	scriber->q = NULL;
 	ub_pool_destroy(scriber->pool);
@@ -184,6 +188,7 @@ UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
 	struct Qentry* qe = NULL;
 
 	ub_scriber_release(scriber);
+	ub_ensure(scriber, "Bad pointer.");
 	q = ub_waitq_rem(scriber->q);
 	if (q) {
 		qe = ub_cirq_cont(q, struct Qentry);
@@ -198,6 +203,7 @@ UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
 
 void ub_scriber_release(UBscriber* scriber)
 {
+	ub_ensure(scriber, "Bad pointer.");
 	if (scriber->msg)
 		msg_release(scriber->msg);
 	scriber->msg = NULL;
@@ -221,9 +227,12 @@ void ub_lish(UBchan* chan, ...)
 
 void ub_scribe(UBscriber* scriber, const char* topic)
 {
-	struct UBchan* chan = ub_broker_search(scriber->broker, topic);
-	struct Chan* c = ub_dict_data(chan);
+	struct UBchan* chan = NULL;
+	struct Chan* c = NULL;
 
+	ub_ensure(scriber, "Bad pointer.");
+	chan = ub_broker_search(scriber->broker, topic);
+	c = ub_dict_data(chan);
 	scriber->list = ub_list_ins(scriber->list, clist_create(chan));
 	ub_mutex_lock(c->mutex);
 	c->list = ub_list_ins(c->list, slist_create(scriber));

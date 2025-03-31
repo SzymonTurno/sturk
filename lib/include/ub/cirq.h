@@ -2,6 +2,7 @@
 #define UB_CIRQ_H
 
 #include "ub/arith.h"
+#include "ub/debug.h"
 
 struct UBcirq {
 	union {
@@ -18,9 +19,21 @@ struct UBcirq {
 
 #define UB_CIRQ(name, type) name {struct UBcirq _cirqn_; type _data_;}
 
-#define ub_cirq_cast(cirq) ((struct UBcirq*)(&(cirq)->_cirqn_))
+#define ub_cirq_cast(cirq)                                                    \
+	({                                                                     \
+		__typeof__(cirq) _mcirq = (cirq);                              \
+									       \
+		ub_ensure(_mcirq, "Bad pointer.");                             \
+		(struct UBcirq*)(&(_mcirq)->_cirqn_);                          \
+	})
 
-#define ub_cirq_data(cirq) (&(cirq)->_data_)
+#define ub_cirq_data(cirq)                                                    \
+	({                                                                     \
+		__typeof__(cirq) _mcirq = (cirq);                              \
+									       \
+		ub_ensure(_mcirq, "Bad pointer.");                             \
+		(&(_mcirq)->_data_);                                           \
+	})
 
 #define ub_cirq_cont(ptr, type) ub_container_of(ptr, type, _cirqn_)
 

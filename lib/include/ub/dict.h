@@ -3,18 +3,43 @@
 
 #include "ub/rbtree.h"
 #include "ub/arith.h"
+#include "ub/debug.h"
 #include <string.h>
 
 #define UB_DICT(name, type)                                                   \
 	name {struct UBrbnode _dictn_; char* _key_; type _val_;}
 
-#define ub_dict_cast(dict) (&(dict)->_dictn_)
+#define ub_dict_cast(dict)                                                    \
+	({                                                                     \
+		__typeof__(dict) _mdict = (dict);                              \
+									       \
+		ub_ensure(_mdict, "Bad pointer.");                             \
+		(&(_mdict)->_dictn_);                                          \
+	})
 
-#define ub_dict_setk(dict, str) ((dict)->_key_ = (str))
+#define ub_dict_setk(dict, str)                                               \
+	({                                                                     \
+		__typeof__(dict) _mdict = (dict);                              \
+									       \
+		ub_ensure(_mdict, "Bad pointer.");                             \
+		((_mdict)->_key_ = (str));                                     \
+	})
 
-#define ub_dict_getk(dict) ((dict)->_key_)
+#define ub_dict_getk(dict)                                                    \
+	({                                                                     \
+		__typeof__(dict) _mdict = (dict);                              \
+									       \
+		ub_ensure(_mdict, "Bad pointer.");                             \
+		((_mdict)->_key_);                                             \
+	})
 
-#define ub_dict_data(dict) (&(dict)->_val_)
+#define ub_dict_data(dict)                                                    \
+	({                                                                     \
+		__typeof__(dict) _mdict = (dict);                              \
+									       \
+		ub_ensure(_mdict, "Bad pointer.");                             \
+		(&(_mdict)->_val_);                                            \
+	})
 
 #define ub_dict_cont(ptr, type) ub_container_of(ptr, type, _dictn_)
 
@@ -23,16 +48,15 @@
 		__typeof__(dict) _dict = (dict);                               \
 		__typeof__(entry) _entry = (entry);                            \
 		const char* _key = _entry->_key_;                              \
-		const char* _tmp = NULL;                                       \
 		struct UBrbnode* _root = _dict ? &_dict->_dictn_ : NULL;       \
 		struct UBrbnode** _i = &_root;                                 \
 		struct UBrbnode* _p = NULL;                                    \
-		struct UBrbnode* _node = &_entry->_dictn_;                     \
+		struct UBrbnode* _node = _entry ? &_entry->_dictn_ : NULL;     \
 									       \
 		while (*_i) {                                                  \
 			_p = *_i;                                              \
-			_tmp = ub_dict_cont(_p, __typeof__(*dict))->_key_;     \
-			if (strcmp(_key, _tmp) < 0)                            \
+			if (strcmp(_key, ub_dict_cont(_p,                      \
+				__typeof__(*dict))->_key_) < 0)                \
 				_i = &_p->left;                                \
 			else                                                   \
 				_i = &_p->right;                               \
@@ -49,6 +73,7 @@
 		struct UBrbnode* _node = NULL;                                 \
 		int _tmp = 0;                                                  \
 									       \
+		ub_ensure(_key, "Bad pointer.");                               \
 		while (_dict) {                                                \
 			_tmp = strcmp(_key, _dict->_key_);                     \
 			if (_tmp < 0) {                                        \

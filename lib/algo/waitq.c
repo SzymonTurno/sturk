@@ -24,6 +24,7 @@ UBwaitQ* ub_waitq_create(void)
 
 void ub_waitq_destroy(UBwaitQ* waitq)
 {
+	ub_ensure(waitq, "Bad pointer.");
 	ub_sem_destroy(waitq->sem);
 	waitq->sem = NULL;
 	ub_mutex_destroy(waitq->mut);
@@ -33,6 +34,7 @@ void ub_waitq_destroy(UBwaitQ* waitq)
 
 void ub_waitq_ins(UBwaitQ* waitq, struct UBcirq* entry)
 {
+	ub_ensure(waitq, "Bad pointer.");
 	ub_mutex_lock(waitq->mut);
 	waitq->q = ub_cirq_ins(waitq->q, entry);
 	ub_sem_post(waitq->sem);
@@ -43,6 +45,7 @@ struct UBcirq* ub_waitq_rem(UBwaitQ* waitq)
 {
 	struct UBcirq* entry = NULL;
 
+	ub_ensure(waitq, "Bad pointer.");
 	ub_sem_wait(waitq->sem);
 	ub_mutex_lock(waitq->mut);
 	entry = ub_cirq_rem(&waitq->q);
