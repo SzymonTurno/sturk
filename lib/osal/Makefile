@@ -1,11 +1,6 @@
 ub-osal-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-ub-osal-build := build/$(ub-osal-dir)
-ub-osal-objs := $(shell $(ub-configure) $(ub-osal-dir)/default.yaml -f osal)
+ub-blddirs += $(blddir)/$(ub-osal-dir)/none
+ub-blddirs += $(blddir)/$(ub-osal-dir)/posix
 
-ub-tmp-objs += $(ub-osal-objs)
-ub-objs += $(ub-osal-build)/*.o
-ub-builds += $(ub-osal-build)
-
-$(ub-osal-build): $(ub-osal-objs)
-	mkdir -p $@
-	mv $(ub-osal-objs) $(ub-osal-build)/
+ub-osal-objs += $(shell $(ub-configure) $(ub-osal-dir)/default.yaml -f osal)
+ub-objs += $(addprefix $(blddir)/$(ub-osal-dir)/,$(ub-osal-objs))

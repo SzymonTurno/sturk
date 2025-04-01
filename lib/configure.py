@@ -20,15 +20,14 @@ def get_cfg(args):
         cfg = cfg | parse_yaml(i, args.Filter)
     return cfg
 
-def print_cfg(cfg, lib):
-    dirname = os.path.dirname(__file__)
+def print_cfg(cfg):
     for key, val in cfg.items():
-        print(dirname + "/" + lib + "/" + val + "/" + key + ".o")
+        print(val + "/" + key + ".o")
 
 def main():
     args = get_args()
     cfg = get_cfg(args)
-    print_cfg(cfg, args.Filter)
+    print_cfg(cfg)
 
 if __name__ == "__main__":
     main()
