@@ -184,16 +184,16 @@ void ub_scriber_destroy(UBscriber* scriber)
 UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
 {
 	UBload* ret = NULL;
-	struct UBcirq* q = NULL;
-	struct Qentry* qe = NULL;
+	struct UBinode* n = NULL;
+	struct Qentry* q = NULL;
 
 	ub_scriber_release(scriber);
 	ub_ensure(scriber, "Bad pointer.");
-	q = ub_waitq_rem(scriber->q);
-	if (q) {
-		qe = ub_cirq_cont(q, struct Qentry);
-		scriber->msg = *ub_cirq_data(qe);
-		ub_pool_free(scriber->pool, qe);
+	n = ub_waitq_rem(scriber->q);
+	if (n) {
+		q = ub_cirq_cont(n, struct Qentry);
+		scriber->msg = *ub_cirq_data(q);
+		ub_pool_free(scriber->pool, q);
 		if (chan)
 			*chan = scriber->msg->chan;
 		ret = msg_getload(scriber->msg);

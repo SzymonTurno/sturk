@@ -7,14 +7,14 @@
 #include <string.h>
 
 #define UB_DICT(name, type)                                                   \
-	name {struct UBrbnode _dictn_; char* _key_; type _val_;}
+	name {struct UBrbnode node; char* key; type val;}
 
 #define ub_dict_cast(dict)                                                    \
 	({                                                                     \
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
 		ub_ensure(_mdict, "Bad pointer.");                             \
-		(&(_mdict)->_dictn_);                                          \
+		(&(_mdict)->node);                                             \
 	})
 
 #define ub_dict_setk(dict, str)                                               \
@@ -22,7 +22,7 @@
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
 		ub_ensure(_mdict, "Bad pointer.");                             \
-		((_mdict)->_key_ = (str));                                     \
+		((_mdict)->key = (str));                                       \
 	})
 
 #define ub_dict_getk(dict)                                                    \
@@ -30,7 +30,7 @@
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
 		ub_ensure(_mdict, "Bad pointer.");                             \
-		((_mdict)->_key_);                                             \
+		((_mdict)->key);                                               \
 	})
 
 #define ub_dict_data(dict)                                                    \
@@ -38,25 +38,25 @@
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
 		ub_ensure(_mdict, "Bad pointer.");                             \
-		(&(_mdict)->_val_);                                            \
+		(&(_mdict)->val);                                              \
 	})
 
-#define ub_dict_cont(ptr, type) ub_container_of(ptr, type, _dictn_)
+#define ub_dict_cont(ptr, type) ub_container_of(ptr, type, node)
 
 #define ub_dict_ins(dict, entry)                                              \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
 		__typeof__(entry) _entry = (entry);                            \
-		const char* _key = _entry->_key_;                              \
-		struct UBrbnode* _root = _dict ? &_dict->_dictn_ : NULL;       \
+		const char* _key = _entry->key;                                \
+		struct UBrbnode* _root = _dict ? &dict->node : NULL;           \
 		struct UBrbnode** _i = &_root;                                 \
 		struct UBrbnode* _p = NULL;                                    \
-		struct UBrbnode* _node = _entry ? &_entry->_dictn_ : NULL;     \
+		struct UBrbnode* _node = _entry ? &_entry->node : NULL;        \
 									       \
 		while (*_i) {                                                  \
 			_p = *_i;                                              \
 			if (strcmp(_key, ub_dict_cont(_p,                      \
-				__typeof__(*dict))->_key_) < 0)                \
+				__typeof__(*dict))->key) < 0)                  \
 				_i = &_p->left;                                \
 			else                                                   \
 				_i = &_p->right;                               \
@@ -75,12 +75,12 @@
 									       \
 		ub_ensure(_key, "Bad pointer.");                               \
 		while (_dict) {                                                \
-			_tmp = strcmp(_key, _dict->_key_);                     \
+			_tmp = strcmp(_key, _dict->key);                       \
 			if (_tmp < 0) {                                        \
-				_node = _dict->_dictn_.left;                   \
+				_node = _dict->node.left;                      \
 				_dict = ub_dict_cont(_node, __typeof__(*dict));\
 			} else if (_tmp > 0) {                                 \
-				_node = _dict->_dictn_.right;                  \
+				_node = _dict->node.right;                     \
 				_dict = ub_dict_cont(_node, __typeof__(*dict));\
 			} else {                                               \
 				break;                                         \

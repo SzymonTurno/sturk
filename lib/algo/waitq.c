@@ -9,7 +9,7 @@
 struct UBwaitQ {
 	UBmutex* mut;
 	UBsem* sem;
-	struct UBcirq* q;
+	struct UBinode* q;
 };
 
 UBwaitQ* ub_waitq_create(void)
@@ -32,23 +32,23 @@ void ub_waitq_destroy(UBwaitQ* waitq)
 	ub_free(waitq);
 }
 
-void ub_waitq_ins(UBwaitQ* waitq, struct UBcirq* entry)
+void ub_waitq_ins(UBwaitQ* waitq, struct UBinode* entry)
 {
 	ub_ensure(waitq, "Bad pointer.");
 	ub_mutex_lock(waitq->mut);
-	waitq->q = ub_cirq_ins(waitq->q, entry);
+	waitq->q = ub_binode_ins(waitq->q, entry);
 	ub_sem_post(waitq->sem);
 	ub_mutex_unlock(waitq->mut);
 }
 
-struct UBcirq* ub_waitq_rem(UBwaitQ* waitq)
+struct UBinode* ub_waitq_rem(UBwaitQ* waitq)
 {
-	struct UBcirq* entry = NULL;
+	struct UBinode* entry = NULL;
 
 	ub_ensure(waitq, "Bad pointer.");
 	ub_sem_wait(waitq->sem);
 	ub_mutex_lock(waitq->mut);
-	entry = ub_cirq_rem(&waitq->q);
+	entry = ub_binode_rem(&waitq->q);
 	ub_mutex_unlock(waitq->mut);
 	return entry;
 }
