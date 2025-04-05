@@ -20,34 +20,34 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 
 #define ub_dict_cast(dict)                                                    \
 	({                                                                     \
-		__typeof__(dict) _mdict = (dict);                              \
+		__typeof__(dict) _dict = (dict);                               \
 									       \
-		ub_ensure(_mdict, "Null pointer.");                            \
-		&_mdict->strnode;                                              \
+		ub_ensure(_dict, "Null pointer.");                             \
+		&_dict->strnode;                                               \
 	})
 
 #define ub_dict_setk(dict, key)                                               \
 	({                                                                     \
-		__typeof__(dict) _mdict = (dict);                              \
+		__typeof__(dict) _dict = (dict);                               \
 									       \
-		ub_ensure(_mdict, "Null pointer.");                            \
-		_mdict->strnode.str = (key);                                   \
+		ub_ensure(_dict, "Null pointer.");                             \
+		_dict->strnode.str = (key);                                    \
 	})
 
 #define ub_dict_getk(dict)                                                    \
 	({                                                                     \
-		__typeof__(dict) _mdict = (dict);                              \
+		__typeof__(dict) _dict = (dict);                               \
 									       \
-		ub_ensure(_mdict, "Null pointer.");                            \
-		_mdict->strnode.str;                                           \
+		ub_ensure(_dict, "Null pointer.");                             \
+		_dict->strnode.str;                                            \
 	})
 
 #define ub_dict_data(dict)                                                    \
 	({                                                                     \
-		__typeof__(dict) _mdict = (dict);                              \
+		__typeof__(dict) _dict = (dict);                               \
 									       \
-		ub_ensure(_mdict, "Null pointer.");                            \
-		&_mdict->data;                                                 \
+		ub_ensure(_dict, "Null pointer.");                             \
+		&_dict->data;                                                  \
 	})
 
 #define ub_dict_cont(ptr, type) ub_container_of(ptr, type, strnode)

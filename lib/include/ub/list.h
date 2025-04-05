@@ -33,7 +33,7 @@
 
 #define _UB_LIST_INS(list, entry, pos, ...)                                   \
 	({                                                                     \
-		__typeof__(list) _list = (list);                               \
+		__typeof__(entry) _list = (list);                              \
 		__typeof__(entry) _entry = (entry);                            \
 		__typeof__(&list) _tmp = ub_list_hand(&_list, (pos));          \
 									       \

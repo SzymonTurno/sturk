@@ -14,8 +14,8 @@ struct UBinode* ub_binode_sibl(struct UBinode* node, int pos)
 	return node;
 }
 
-struct UBinode*
-_ub_binode_ins(struct UBinode* root, struct UBinode* entry, int pos, ...)
+struct UBinode* ub_binode_ins(struct UBinode* root, struct UBinode* entry,
+	int pos)
 {
 	ub_ensure(entry, "Null pointer.");
 	if (root) {
@@ -37,7 +37,7 @@ _ub_binode_ins(struct UBinode* root, struct UBinode* entry, int pos, ...)
 	return root;
 }
 
-struct UBinode* _ub_binode_rem(struct UBinode** nodep, int pos, ...)
+struct UBinode* ub_binode_rem(struct UBinode** nodep, int pos)
 {
 	struct UBinode* ret = NULL;
 
