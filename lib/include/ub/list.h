@@ -9,7 +9,7 @@
 	({                                                                     \
 		__typeof__(list) _mlist = (list);                              \
 									       \
-		ub_ensure(_mlist, "Bad pointer.");                             \
+		ub_ensure(_mlist, "Null pointer.");                            \
 		(&(_mlist)->data);                                             \
 	})
 
@@ -22,7 +22,7 @@
 		__typeof__(listp) _listp = (listp);                            \
 		long long _pos = (pos);                                        \
 									       \
-		ub_ensure(_listp, "Bad pointer");                              \
+		ub_ensure(_listp, "Null pointer.");                            \
 		for (; *_listp && _pos--; _listp = &(*_listp)->next)           \
 			;                                                      \
 		_listp;                                                        \
@@ -37,7 +37,7 @@
 		__typeof__(entry) _entry = (entry);                            \
 		__typeof__(&list) _tmp = ub_list_hand(&_list, (pos));          \
 									       \
-		ub_ensure(_entry, "Bad pointer");                              \
+		ub_ensure(_entry, "Null pointer.");                            \
 		_entry->next = *_tmp;                                          \
 		*_tmp = _entry;                                                \
 		_list;                                                         \

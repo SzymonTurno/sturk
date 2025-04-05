@@ -17,7 +17,7 @@ struct UBinode* ub_binode_sibl(struct UBinode* node, int pos)
 struct UBinode*
 _ub_binode_ins(struct UBinode* root, struct UBinode* entry, int pos, ...)
 {
-	ub_ensure(entry, "Bad pointer.");
+	ub_ensure(entry, "Null pointer.");
 	if (root) {
 		if (pos > 0)
 			root = ub_binode_sibl(root, pos);

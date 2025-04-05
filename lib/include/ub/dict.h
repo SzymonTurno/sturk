@@ -13,7 +13,7 @@
 	({                                                                     \
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
-		ub_ensure(_mdict, "Bad pointer.");                             \
+		ub_ensure(_mdict, "Null pointer.");                            \
 		(&(_mdict)->node);                                             \
 	})
 
@@ -21,7 +21,7 @@
 	({                                                                     \
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
-		ub_ensure(_mdict, "Bad pointer.");                             \
+		ub_ensure(_mdict, "Null pointer.");                            \
 		((_mdict)->key = (str));                                       \
 	})
 
@@ -29,7 +29,7 @@
 	({                                                                     \
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
-		ub_ensure(_mdict, "Bad pointer.");                             \
+		ub_ensure(_mdict, "Null pointer.");                            \
 		((_mdict)->key);                                               \
 	})
 
@@ -37,7 +37,7 @@
 	({                                                                     \
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
-		ub_ensure(_mdict, "Bad pointer.");                             \
+		ub_ensure(_mdict, "Null pointer.");                            \
 		(&(_mdict)->val);                                              \
 	})
 
@@ -73,7 +73,7 @@
 		struct UBrbnode* _node = NULL;                                 \
 		int _tmp = 0;                                                  \
 									       \
-		ub_ensure(_key, "Bad pointer.");                               \
+		ub_ensure(_key, "Null pointer.");                              \
 		while (_dict) {                                                \
 			_tmp = strcmp(_key, _dict->key);                       \
 			if (_tmp < 0) {                                        \

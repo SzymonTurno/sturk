@@ -77,7 +77,7 @@ static struct UBrbnode* rot_right(struct UBrbnode* node, struct UBrbnode* root)
 
 struct UBrbnode* ub_rb_link(struct UBrbnode* node, struct UBrbnode* parent)
 {
-	ub_ensure(node, "Bad pointer.");
+	ub_ensure(node, "Null pointer.");
 	paint_red(node);
 	set_parent(node, parent);
 	node->left = NULL;
@@ -87,7 +87,7 @@ struct UBrbnode* ub_rb_link(struct UBrbnode* node, struct UBrbnode* parent)
 
 struct UBrbnode* ub_rb_insrebal(struct UBrbnode* root, struct UBrbnode* node)
 {
-	ub_ensure(node, "Bad pointer.");
+	ub_ensure(node, "Null pointer.");
 	for (struct UBrbnode *p = NULL, *g = NULL, *u = NULL;;) {
 		p = get_parent(node);
 		if (!painted_red(p)) {
@@ -171,13 +171,13 @@ struct UBrbnode* ub_rb_insrebal(struct UBrbnode* root, struct UBrbnode* node)
 
 struct UBrbnode* ub_rb_parent(struct UBrbnode* node)
 {
-	ub_ensure(node, "Bad pointer.");
+	ub_ensure(node, "Null pointer.");
 	return get_parent(node);
 }
 
 struct UBrbnode* ub_rb_deepest(struct UBrbnode* node)
 {
-	ub_ensure(node, "Bad pointer.");
+	ub_ensure(node, "Null pointer.");
 	for (;;) {
 		if (node->left)
 			node = node->left;

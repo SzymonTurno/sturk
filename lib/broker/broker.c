@@ -114,7 +114,7 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 
 void ub_broker_destroy(UBroker* broker)
 {
-	ub_ensure(broker, "Bad pointer.");
+	ub_ensure(broker, "Null pointer.");
 	while (broker->list)
 		ub_scriber_destroy(*ub_list_data(ub_list_rem(&broker->list)));
 
@@ -131,7 +131,7 @@ UBchan* ub_broker_search(UBroker* broker, const char* topic)
 {
 	struct UBchan* c = NULL;
 
-	ub_ensure(broker, "Bad pointer.");
+	ub_ensure(broker, "Null pointer.");
 	ub_mutex_lock(broker->mutex);
 	c = ub_dict_find(broker->dict, topic);
 	if (!c) {
@@ -147,7 +147,7 @@ UBscriber* ub_scriber_create(UBroker* broker)
 	UBscriber* self = ub_malloc(sizeof(*self));
 
 	self->broker = broker;
-	ub_ensure(broker, "Bad pointer.");
+	ub_ensure(broker, "Null pointer.");
 	ub_mutex_lock(broker->mutex);
 	broker->list = ub_list_ins(broker->list, slist_create(self));
 	ub_mutex_unlock(broker->mutex);
@@ -161,7 +161,7 @@ UBscriber* ub_scriber_create(UBroker* broker)
 void ub_scriber_destroy(UBscriber* scriber)
 {
 	ub_scriber_release(scriber);
-	ub_ensure(scriber, "Bad pointer.");
+	ub_ensure(scriber, "Null pointer.");
 	ub_waitq_destroy(scriber->q);
 	scriber->q = NULL;
 	ub_pool_destroy(scriber->pool);
@@ -188,7 +188,7 @@ UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
 	struct Qentry* q = NULL;
 
 	ub_scriber_release(scriber);
-	ub_ensure(scriber, "Bad pointer.");
+	ub_ensure(scriber, "Null pointer.");
 	n = ub_waitq_rem(scriber->q);
 	if (n) {
 		q = ub_cirq_cont(n, struct Qentry);
@@ -203,7 +203,7 @@ UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
 
 void ub_scriber_release(UBscriber* scriber)
 {
-	ub_ensure(scriber, "Bad pointer.");
+	ub_ensure(scriber, "Null pointer.");
 	if (scriber->msg)
 		msg_release(scriber->msg);
 	scriber->msg = NULL;
@@ -230,7 +230,7 @@ void ub_scribe(UBscriber* scriber, const char* topic)
 	struct UBchan* chan = NULL;
 	struct Chan* c = NULL;
 
-	ub_ensure(scriber, "Bad pointer.");
+	ub_ensure(scriber, "Null pointer.");
 	chan = ub_broker_search(scriber->broker, topic);
 	c = ub_dict_data(chan);
 	scriber->list = ub_list_ins(scriber->list, clist_create(chan));

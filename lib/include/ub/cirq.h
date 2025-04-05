@@ -26,7 +26,7 @@ struct UBinode* _ub_binode_rem(struct UBinode** nodep, int pos, ...);
 	({                                                                     \
 		__typeof__(cirq) _mcirq = (cirq);                              \
 									       \
-		ub_ensure(_mcirq, "Bad pointer.");                             \
+		ub_ensure(_mcirq, "Null pointer.");                            \
 		&(_mcirq)->node;                                               \
 	})
 
@@ -34,7 +34,7 @@ struct UBinode* _ub_binode_rem(struct UBinode** nodep, int pos, ...);
 	({                                                                     \
 		__typeof__(cirq) _mcirq = (cirq);                              \
 									       \
-		ub_ensure(_mcirq, "Bad pointer.");                             \
+		ub_ensure(_mcirq, "Null pointer.");                            \
 		&(_mcirq)->data;                                               \
 	})
 

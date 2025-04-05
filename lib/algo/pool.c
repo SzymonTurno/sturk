@@ -24,7 +24,7 @@ UBpool* ub_pool_create(size_t blk_size)
 
 void ub_pool_destroy(UBpool* pool)
 {
-	ub_ensure(pool, "Bad pointer.");
+	ub_ensure(pool, "Null pointer.");
 	ub_mutex_lock(pool->mutex);
 	while (pool->list)
 		ub_free(ub_list_rem(&pool->list));
@@ -38,7 +38,7 @@ void* ub_pool_alloc(UBpool* pool)
 {
 	void* ret = NULL;
 
-	ub_ensure(pool, "Bad pointer.");
+	ub_ensure(pool, "Null pointer.");
 	ub_mutex_lock(pool->mutex);
 	if (pool->list)
 		ret = ub_list_rem(&pool->list);
@@ -50,7 +50,7 @@ void* ub_pool_tryalloc(UBpool* pool)
 {
 	void* ret = NULL;
 
-	ub_ensure(pool, "Bad pointer.");
+	ub_ensure(pool, "Null pointer.");
 	ub_mutex_lock(pool->mutex);
 	if (pool->list)
 		ret = ub_list_rem(&pool->list);
@@ -60,7 +60,7 @@ void* ub_pool_tryalloc(UBpool* pool)
 
 void ub_pool_free(UBpool* pool, void* blk)
 {
-	ub_ensure(pool, "Bad pointer.");
+	ub_ensure(pool, "Null pointer.");
 	ub_mutex_lock(pool->mutex);
 	pool->list = ub_list_ins(pool->list, (union FreeList*)blk);
 	ub_mutex_unlock(pool->mutex);
