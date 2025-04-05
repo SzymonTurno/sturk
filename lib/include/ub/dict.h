@@ -4,25 +4,34 @@
 #include "ub/rbtree.h"
 #include "ub/arith.h"
 #include "ub/debug.h"
-#include <string.h>
+
+struct UBstrnode {
+	char* str;
+	struct UBrbnode node;
+};
 
 #define UB_DICT(name, type)                                                   \
-	name {struct UBrbnode node; char* key; type val;}
+	name { struct UBstrnode strnode; type data; }
+
+struct UBstrnode*
+ub_strnode_ins(struct UBstrnode* root, struct UBstrnode* node);
+
+struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 
 #define ub_dict_cast(dict)                                                    \
 	({                                                                     \
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
 		ub_ensure(_mdict, "Null pointer.");                            \
-		(&(_mdict)->node);                                             \
+		&_mdict->strnode;                                              \
 	})
 
-#define ub_dict_setk(dict, str)                                               \
+#define ub_dict_setk(dict, key)                                               \
 	({                                                                     \
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
 		ub_ensure(_mdict, "Null pointer.");                            \
-		((_mdict)->key = (str));                                       \
+		_mdict->strnode.str = (key);                                   \
 	})
 
 #define ub_dict_getk(dict)                                                    \
@@ -30,7 +39,7 @@
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
 		ub_ensure(_mdict, "Null pointer.");                            \
-		((_mdict)->key);                                               \
+		_mdict->strnode.str;                                           \
 	})
 
 #define ub_dict_data(dict)                                                    \
@@ -38,55 +47,32 @@
 		__typeof__(dict) _mdict = (dict);                              \
 									       \
 		ub_ensure(_mdict, "Null pointer.");                            \
-		(&(_mdict)->val);                                              \
+		&_mdict->data;                                                 \
 	})
 
-#define ub_dict_cont(ptr, type) ub_container_of(ptr, type, node)
+#define ub_dict_cont(ptr, type) ub_container_of(ptr, type, strnode)
 
-#define ub_dict_ins(dict, entry)                                              \
+#define ub_dict_ins(root, node)                                               \
 	({                                                                     \
-		__typeof__(dict) _dict = (dict);                               \
-		__typeof__(entry) _entry = (entry);                            \
-		const char* _key = _entry->key;                                \
-		struct UBrbnode* _root = _dict ? &dict->node : NULL;           \
-		struct UBrbnode** _i = &_root;                                 \
-		struct UBrbnode* _p = NULL;                                    \
-		struct UBrbnode* _node = _entry ? &_entry->node : NULL;        \
+		__typeof__(root) _root = (root);                               \
 									       \
-		while (*_i) {                                                  \
-			_p = *_i;                                              \
-			if (strcmp(_key, ub_dict_cont(_p,                      \
-				__typeof__(*dict))->key) < 0)                  \
-				_i = &_p->left;                                \
-			else                                                   \
-				_i = &_p->right;                               \
-		}                                                              \
-		*_i = ub_rb_link(_node, _p);                                   \
-		_root = ub_rb_insrebal(_root, _node);                          \
-		(__typeof__(dict))_root;                                       \
+		ub_dict_cont(                                                  \
+			ub_strnode_ins(                                        \
+				_root ? &_root->strnode : NULL,                \
+				&node->strnode                                 \
+			),                                                     \
+			__typeof__(*root)                                      \
+		);                                                             \
 	})
 
-#define ub_dict_find(dict, str)                                               \
+#define ub_dict_find(root, key)                                               \
 	({                                                                     \
-		const char* _key = (str);                                      \
-		__typeof__(dict) _dict = (dict);                               \
-		struct UBrbnode* _node = NULL;                                 \
-		int _tmp = 0;                                                  \
+		__typeof__(root) _root = (root);                               \
 									       \
-		ub_ensure(_key, "Null pointer.");                              \
-		while (_dict) {                                                \
-			_tmp = strcmp(_key, _dict->key);                       \
-			if (_tmp < 0) {                                        \
-				_node = _dict->node.left;                      \
-				_dict = ub_dict_cont(_node, __typeof__(*dict));\
-			} else if (_tmp > 0) {                                 \
-				_node = _dict->node.right;                     \
-				_dict = ub_dict_cont(_node, __typeof__(*dict));\
-			} else {                                               \
-				break;                                         \
-			}                                                      \
-		}                                                              \
-		_dict;                                                         \
+		ub_dict_cont(                                                  \
+			ub_strnode_find(_root ? &_root->strnode : NULL, (key)),\
+			__typeof__(*root)                                      \
+		);                                                             \
 	})
 
 #endif /* UB_DICT_H */

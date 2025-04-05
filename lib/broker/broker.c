@@ -1,5 +1,6 @@
 #include "message.h"
 #include "ub/os/mem.h"
+#include <string.h>
 
 #define MSG_SIZE sizeof(struct Message)
 
@@ -36,10 +37,13 @@ static void chan_destroy(struct UBchan* chan)
 
 static void dict_destroy(struct UBchan* dict)
 {
+	struct UBstrnode* tmp = NULL;
+
 	for (struct UBrbnode *i = NULL, *p = NULL;;) {
-		i = ub_rb_deepest(ub_dict_cast(dict));
+		i = ub_rb_deepest(&ub_dict_cast(dict)->node);
 		p = ub_rb_parent(i);
-		chan_destroy(ub_dict_cont(i, UBchan));
+		tmp = ub_container_of(i, struct UBstrnode, node);
+		chan_destroy(ub_dict_cont(tmp, UBchan));
 		if (!p)
 			break;
 

@@ -36,7 +36,7 @@ void ub_waitq_ins(UBwaitQ* waitq, struct UBinode* entry)
 {
 	ub_ensure(waitq, "Null pointer.");
 	ub_mutex_lock(waitq->mut);
-	waitq->q = ub_binode_ins(waitq->q, entry);
+	waitq->q = ub_binode_ins(waitq->q, entry, -1);
 	ub_sem_post(waitq->sem);
 	ub_mutex_unlock(waitq->mut);
 }
@@ -48,7 +48,7 @@ struct UBinode* ub_waitq_rem(UBwaitQ* waitq)
 	ub_ensure(waitq, "Null pointer.");
 	ub_sem_wait(waitq->sem);
 	ub_mutex_lock(waitq->mut);
-	entry = ub_binode_rem(&waitq->q);
+	entry = ub_binode_rem(&waitq->q, 0);
 	ub_mutex_unlock(waitq->mut);
 	return entry;
 }

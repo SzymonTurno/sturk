@@ -9,25 +9,20 @@ struct UBinode {
 	struct UBinode* prev;
 };
 
+#define UB_CIRQ(name, type) name { struct UBinode node; type data; }
+
 struct UBinode* ub_binode_sibl(struct UBinode* node, int pos);
 
-struct UBinode*
-_ub_binode_ins(struct UBinode* root, struct UBinode* entry, int pos, ...);
+#define ub_binode_ins(root, entry, pos) _ub_binode_ins(root, entry, pos)
 
-struct UBinode* _ub_binode_rem(struct UBinode** nodep, int pos, ...);
-
-#define ub_binode_ins(root, ...) _ub_binode_ins(root, __VA_ARGS__, -1)
-
-#define ub_binode_rem(...) _ub_binode_rem(__VA_ARGS__, 0)
-
-#define UB_CIRQ(name, type) name {struct UBinode node; type data;}
+#define ub_binode_rem(rootp, pos) _ub_binode_rem(rootp, pos)
 
 #define ub_cirq_cast(cirq)                                                    \
 	({                                                                     \
 		__typeof__(cirq) _mcirq = (cirq);                              \
 									       \
 		ub_ensure(_mcirq, "Null pointer.");                            \
-		&(_mcirq)->node;                                               \
+		&_mcirq->node;                                                 \
 	})
 
 #define ub_cirq_data(cirq)                                                    \
@@ -35,7 +30,7 @@ struct UBinode* _ub_binode_rem(struct UBinode** nodep, int pos, ...);
 		__typeof__(cirq) _mcirq = (cirq);                              \
 									       \
 		ub_ensure(_mcirq, "Null pointer.");                            \
-		&(_mcirq)->data;                                               \
+		&_mcirq->data;                                                 \
 	})
 
 #define ub_cirq_cont(ptr, type) ub_container_of(ptr, type, node)
@@ -44,23 +39,32 @@ struct UBinode* _ub_binode_rem(struct UBinode** nodep, int pos, ...);
 
 #define ub_cirq_rem(...) _UB_CIRQ_REM(__VA_ARGS__, 0)
 
-#define ub_cirq_sibl(cirq, pos) ub_binode_sibl(ub_cirq_cast(cirq), pos)
+struct UBinode*
+_ub_binode_ins(struct UBinode* root, struct UBinode* entry, int pos, ...);
+
+struct UBinode* _ub_binode_rem(struct UBinode** rootp, int pos, ...);
 
 #define _UB_CIRQ_INS(cirq, entry, pos, ...)                                   \
 	({                                                                     \
 		__typeof__(cirq) _cirq = (cirq);                               \
 									       \
-		_ub_binode_ins(_cirq ? ub_cirq_cast(_cirq) : NULL,             \
-			ub_cirq_cast(entry), pos, __VA_ARGS__);                \
-		_cirq;                                                         \
+		ub_cirq_cont(                                                  \
+			_ub_binode_ins(                                        \
+				_cirq ? &_cirq->node : NULL,                   \
+				ub_cirq_cast(entry), pos, __VA_ARGS__          \
+			),                                                     \
+			__typeof__(*cirq)                                      \
+		);                                                             \
 	})
 
 #define _UB_CIRQ_REM(cirqp, pos, ...)                                         \
 	({                                                                     \
 		struct UBinode* node = ub_cirq_cast(*cirqp);                   \
 									       \
-		node = _ub_binode_rem(&node, __VA_ARGS__, 0);                  \
-		ub_cirq_cont(node, __typeof__(cirqp));                         \
+		ub_cirq_cont(                                                  \
+			_ub_binode_rem(&node, __VA_ARGS__, 0),                 \
+			__typeof__(**cirqp)                                    \
+		);                                                             \
 	})
 
 #endif /* UB_CIRQ_H */

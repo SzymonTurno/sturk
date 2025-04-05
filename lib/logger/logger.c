@@ -6,8 +6,11 @@ static UBmutex* logger_mutex;
 
 static void mutex_lock(void)
 {
+	const UBits policy = UB_MUTEX_POLICY_PRIO_INHERIT;
+	const UBits type = UB_MUTEX_TYPE_RECURSIVE;
+
 	if (!logger_mutex)
-		logger_mutex = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
+		logger_mutex = ub_mutex_create(policy | type);
 	ub_mutex_lock(logger_mutex);
 }
 

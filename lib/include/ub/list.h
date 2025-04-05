@@ -1,7 +1,7 @@
 #ifndef UB_LIST_H
 #define UB_LIST_H
 
-#define UB_LIST(name, type) name {name* next; type data;}
+#define UB_LIST(name, type) name { name* next; type data; }
 
 #define UB_LIST_ITER(i, ...) _UB_LIST_ITER((i), __VA_ARGS__, 1)
 
