@@ -14,21 +14,21 @@ UBsem* ub_sem_create(UBits args)
 	(void) args;
 
 	if (sem_init(&self->sem, 0, 0) != OK)
-		ub_raise("semaphore failure");
+		ub_raise("Semaphore failure.");
 	return self;
 }
 
 void ub_sem_destroy(UBsem* sem)
 {
 	if (sem_destroy(&sem->sem) != OK)
-		ub_raise("semaphore failure");
+		ub_raise("Semaphore failure.");
 	ub_free(sem);
 }
 
 void ub_sem_wait(UBsem* sem)
 {
 	if (sem_wait(&sem->sem) != OK)
-		ub_raise("semaphore failure");
+		ub_raise("Semaphore failure.");
 }
 
 bool ub_sem_trywait(UBsem* sem)
@@ -39,5 +39,5 @@ bool ub_sem_trywait(UBsem* sem)
 void ub_sem_post(UBsem* sem)
 {
 	if (sem_post(&sem->sem) != OK)
-		ub_raise("semaphore failure");
+		ub_raise("Semaphore failure.");
 }

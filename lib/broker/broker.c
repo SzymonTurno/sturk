@@ -84,7 +84,7 @@ static void notify(struct Chan* chan, struct Message* msg)
 
 	ub_mutex_lock(chan->mutex);
 	msg_lock(msg);
-	for (UB_LIST_ITER(i, &chan->list)) {
+	for (UB_LIST_ITER(struct ScriberList, i, &chan->list)) {
 		ins_msg(*ub_list_data(*i), msg);
 		++n;
 	}
@@ -97,7 +97,7 @@ static void unscribe(struct UBchan* chan, UBscriber* scriber)
 	struct Chan* c = ub_dict_data(chan);
 
 	ub_mutex_lock(c->mutex);
-	for (UB_LIST_ITER(i, &c->list))
+	for (UB_LIST_ITER(struct ScriberList, i, &c->list))
 		if (*ub_list_data(*i) == scriber) {
 			ub_free(ub_list_rem(i));
 			break;
@@ -175,7 +175,7 @@ void ub_scriber_destroy(UBscriber* scriber)
 		ub_free(ub_list_rem(&scriber->list));
 	}
 	ub_mutex_lock(scriber->broker->mutex);
-	for (UB_LIST_ITER(i, &scriber->broker->list))
+	for (UB_LIST_ITER(struct ScriberList, i, &scriber->broker->list))
 		if (*ub_list_data(*i) == scriber) {
 			ub_free(ub_list_rem(i));
 			break;
