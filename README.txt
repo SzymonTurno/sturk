@@ -2,8 +2,9 @@
 
 - unity for unit testing (full coverage)
 - valgrind
-- doxygen everywhere
+- doxygen
 - custom heap (free list allocator)
-- allow std99 pedantic
 - data structures should sometimes allow NULL when empty
 - klocwork
+- yaml constraints
+- ci
