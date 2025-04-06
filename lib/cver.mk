@@ -1,4 +1,4 @@
-ub-cverstr := $(shell $(ub-getcfg) -s constants -p cver)
+ub-cverstr := $(shell $(ub-getcfg) -s common -p cver)
 
 ifeq ($(ub-cverstr), gnu)
 ub-cver := -std=gnu11
