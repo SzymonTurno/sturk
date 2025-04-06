@@ -1,9 +1,8 @@
 usage:
-	@echo Usage: make run-ex*
+	@echo Usage: make run-*
 
 include lib/Makefile
 include examples/ex1/Makefile
-include examples/ex2/Makefile
-include examples/ex3/Makefile
+include tests/Makefile
 
 .PHONY: usage
