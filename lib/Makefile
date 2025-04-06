@@ -1,6 +1,7 @@
 blddir ?= build
 ub-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-ub-lib := $(blddir)/$(ub-dir)/libub.a
+ub-blddir := $(patsubst %/.,%,$(blddir)/$(ub-dir))
+ub-lib := $(ub-blddir)/libub.a
 ub-incs := -I$(ub-dir)/include
 ub-getcfg := python $(ub-dir)/getcfg.py $(ub-yamls) $(ub-dir)/default.yaml
 
@@ -19,7 +20,7 @@ $(ub-objs): CFLAGS := $(ub-cver) $(ub-cflags) $(ub-incs)
 $(ub-lib): $(ub-objs)
 	ar rcs $@ $(ub-objs)
 
-$(blddir)/$(ub-dir)/%.o: $(ub-dir)/%.c | $(ub-blddirs)
+$(ub-blddir)/%.o: $(ub-dir)/%.c | $(ub-blddirs)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(ub-blddirs):
