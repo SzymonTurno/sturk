@@ -6,8 +6,8 @@
 #include "ub/debug.h"
 
 struct UBstrnode {
-	char* str;
 	struct UBrbnode node;
+	char* str;
 };
 
 #define UB_DICT(name, type)                                                   \
@@ -18,6 +18,17 @@ ub_strnode_ins(struct UBstrnode* root, struct UBstrnode* node);
 
 struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 
+#ifdef __STRICT_ANSI__
+#define ub_dict_cast(dict) (&(dict)->strnode)
+
+#define ub_dict_setk(dict, key) ((dict)->strnode.str = (key))
+
+#define ub_dict_getk(dict) ((dict)->strnode.str)
+
+#define ub_dict_data(dict) (&(dict)->data)
+
+#define ub_dict_cont(ptr, type) ((type*)(ptr))
+#else /* __STRICT_ANSI__ */
 #define ub_dict_cast(dict)                                                    \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
@@ -51,7 +62,15 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 	})
 
 #define ub_dict_cont(ptr, type) ub_container_of(ptr, type, strnode)
+#endif /* __STRICT_ANSI__ */
 
+#ifdef __STRICT_ANSI__
+#define ub_dict_ins(root, node)                                               \
+	((void*)ub_strnode_ins((struct UBstrnode*)(root), &(node)->strnode))
+
+#define ub_dict_find(root, key)                                               \
+	((void*)ub_strnode_find((struct UBstrnode*)(root), (key)))
+#else /* __STRICT_ANSI__ */
 #define ub_dict_ins(root, node)                                               \
 	({                                                                     \
 		__typeof__(root) _root = (root);                               \
@@ -71,5 +90,6 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 			ub_strnode_find(_root ? &_root->strnode : NULL, (key)),\
 			__typeof__(*root));                                    \
 	})
+#endif /* __STRICT_ANSI__ */
 
 #endif /* UB_DICT_H */

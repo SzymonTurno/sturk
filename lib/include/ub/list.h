@@ -13,7 +13,7 @@ struct UBunnode {
 	name { union { name* next; struct UBunnode node; }; type data; }
 #endif /* __STRICT_ANSI__ */
 
-#define UB_LIST_ITER(type, i, ...) _UB_LIST_ITER(type, (i), __VA_ARGS__, 1)
+#define UB_LIST_ITER(type, i, ...) _UB_LIST_ITER(type, (i), __VA_ARGS__, 1,)
 
 struct UBunnode** ub_unnode_hand(struct UBunnode** nodep, int pos);
 

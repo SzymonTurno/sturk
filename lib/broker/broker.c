@@ -4,6 +4,11 @@
 
 #define MSG_SIZE sizeof(struct Message)
 
+static struct UBstrnode* strnode_cont(struct UBrbnode* ptr)
+{
+	return ub_container_of(ptr, struct UBstrnode, node);
+}
+
 static struct UBchan* chan_create(const char* topic, const struct UBloadVt* vp)
 {
 	struct UBchan* self = ub_malloc(sizeof(*self));
@@ -37,13 +42,10 @@ static void chan_destroy(struct UBchan* chan)
 
 static void dict_destroy(struct UBchan* dict)
 {
-	struct UBstrnode* tmp = NULL;
-
 	for (struct UBrbnode *i = NULL, *p = NULL;;) {
 		i = ub_rb_deepest(&ub_dict_cast(dict)->node);
 		p = ub_rb_parent(i);
-		tmp = ub_container_of(i, struct UBstrnode, node);
-		chan_destroy(ub_dict_cont(tmp, UBchan));
+		chan_destroy(ub_dict_cont(strnode_cont(i), UBchan));
 		if (!p)
 			break;
 
@@ -118,9 +120,13 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 
 void ub_broker_destroy(UBroker* broker)
 {
+	struct ScriberList* tmp = NULL;
+
 	ub_ensure(broker, "Null pointer.");
-	while (broker->list)
-		ub_scriber_destroy(*ub_list_data(ub_list_rem(&broker->list)));
+	while (broker->list) {
+		tmp = ub_list_rem(&broker->list);
+		ub_scriber_destroy(*ub_list_data(tmp));
+	}
 
 	ub_mutex_destroy(broker->mutex);
 	broker->mutex = NULL;

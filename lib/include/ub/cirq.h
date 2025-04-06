@@ -22,6 +22,8 @@ struct UBinode* ub_binode_rem(struct UBinode** rootp, int pos);
 #define ub_cirq_cast(cirq) (&(cirq)->node)
 
 #define ub_cirq_data(cirq) (&(cirq)->data)
+
+#define ub_cirq_cont(ptr, type) ((type*)(ptr))
 #else /* __STRICT_ANSI__ */
 #define ub_cirq_cast(cirq)                                                    \
 	({                                                                     \
@@ -38,9 +40,9 @@ struct UBinode* ub_binode_rem(struct UBinode** rootp, int pos);
 		ub_ensure(_cirq, "Null pointer.");                             \
 		&_cirq->data;                                                  \
 	})
-#endif /* __STRICT_ANSI__ */
 
 #define ub_cirq_cont(ptr, type) ub_container_of(ptr, type, node)
+#endif /* __STRICT_ANSI__ */
 
 #define ub_cirq_ins(cirq, ...) _UB_CIRQ_INS((cirq), __VA_ARGS__, -1,)
 

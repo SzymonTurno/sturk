@@ -31,7 +31,7 @@ struct Message {
 	union {
 		int n_pending;
 		void* align;
-	};
+	} u;
 };
 
 UB_LIST(struct ChanList, struct UBchan*);

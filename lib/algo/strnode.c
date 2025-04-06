@@ -1,9 +1,15 @@
 #include "ub/dict.h"
 #include <string.h>
 
-#define cont(ptr) ub_container_of(ptr, struct UBstrnode, node)
+static struct UBstrnode* cont(struct UBrbnode* ptr)
+{
+	return ub_container_of(ptr, struct UBstrnode, node);
+}
 
-#define trycont(ptr) ((ptr) ? cont(ptr) : NULL)
+static struct UBstrnode* trycont(struct UBrbnode* ptr)
+{
+	return ptr ? cont(ptr) : NULL;
+}
 
 struct UBstrnode*
 ub_strnode_ins(struct UBstrnode* root, struct UBstrnode* node)
@@ -30,6 +36,7 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str)
 
 	ub_ensure(str, "Null pointer.");
 	while (root) {
+		ub_ensure(root->str, "Null pointer.");
 		tmp = strcmp(str, root->str);
 		if (tmp < 0)
 			root = trycont(root->node.left);

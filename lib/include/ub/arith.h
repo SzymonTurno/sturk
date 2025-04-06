@@ -3,6 +3,14 @@
 
 #include <stddef.h>
 
+#ifdef __STRICT_ANSI__
+#define ub_max(x, y) (((x) > (y)) ? (x) : (y))
+
+#define ub_min(x, y) (((x) < (y)) ? (x) : (y))
+
+#define ub_container_of(ptr, type, member)                                    \
+	((type*)((char*)(ptr) - offsetof(type, member)))
+#else /* __STRICT_ANSI__ */
 #define ub_max(x, y)                                                          \
 	({                                                                     \
 		__typeof__(x) _x = (x);                                        \
@@ -25,5 +33,6 @@
 									       \
 		(type*)((char*)_ptr - offsetof(type, member));                 \
 	})
+#endif /* __STRICT_ANSI__ */
 
 #endif /* UB_ARITH_H */

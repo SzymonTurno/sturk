@@ -6,3 +6,4 @@
 - custom heap (free list allocator)
 - allow std99 pedantic
 - data structures should sometimes allow NULL when empty
+- klocwork
