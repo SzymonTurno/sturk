@@ -1,0 +1,5 @@
+---
+  ub-osal:
+    mutex: "none"
+  ub-constants:
+    cver: "iso"
