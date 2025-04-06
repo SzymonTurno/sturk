@@ -59,10 +59,8 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 		ub_dict_cont(                                                  \
 			ub_strnode_ins(                                        \
 				_root ? &_root->strnode : NULL,                \
-				&node->strnode                                 \
-			),                                                     \
-			__typeof__(*root)                                      \
-		);                                                             \
+				&node->strnode),                               \
+			__typeof__(*root));                                    \
 	})
 
 #define ub_dict_find(root, key)                                               \
@@ -71,8 +69,7 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 									       \
 		ub_dict_cont(                                                  \
 			ub_strnode_find(_root ? &_root->strnode : NULL, (key)),\
-			__typeof__(*root)                                      \
-		);                                                             \
+			__typeof__(*root));                                    \
 	})
 
 #endif /* UB_DICT_H */

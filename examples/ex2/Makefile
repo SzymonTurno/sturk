@@ -11,7 +11,7 @@ $(ex2-target): $(blddir)/$(ex2-dir) $(ex2-objs)
 	gcc -o $@ $(ex2-objs) $(ub-lib)
 
 $(ex2-objs): CC = gcc
-$(ex2-objs): CFLAGS += -std=gnu11 $(ub-cflags) $(ub-incs)
+$(ex2-objs): CFLAGS += -std=c99 -pedantic $(ub-cflags) $(ub-incs)
 $(ex2-objs): CFLAGS += -DEXPECTED_OUT="\"$(ex2-dir)/expected.out\""
 
 $(blddir)/$(ex2-dir):
