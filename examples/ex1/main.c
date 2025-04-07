@@ -6,23 +6,25 @@ static void broadcast(UBchan** chans, struct Subscriber* subs, int* store,
 {
 	struct Payload* pl = NULL;
 	int done = 0;
-	int n = 0;
 
 	ub_log(UB_INFO, NULL, "broadcast %d", val);
 	ub_lish(chans[0], val, 0);
 	do {
-		done = 1;
 		receive(&subs[0]);
 		receive(&subs[1]);
 		receive(&subs[2]);
 		if (subs[0].pl) {
 			pl = subs[0].pl;
-			n = subs[0].chan == chans[0] ? 0 : 1;
-			pl->old = store[n];
-			store[n] = pl->new;
-			done = 0;
+			if (subs[0].chan == chans[0]) {
+				pl->old = store[0];
+				store[0] = pl->new;
+			} else {
+				pl->old = store[1];
+				store[1] = pl->new;
+			}
 		}
 
+		done = 1;
 		if (subs[1].pl) {
 			pl = subs[1].pl;
 			ub_lish(chans[1], pl->new * pl->old, store[1]);
@@ -33,7 +35,6 @@ static void broadcast(UBchan** chans, struct Subscriber* subs, int* store,
 			pl = subs[2].pl;
 			ub_log(UB_INFO, NULL, "message: new = %d, old = %d",
 				pl->new, pl->old);
-			done = 0;
 		}
 	} while (!done);
 }
