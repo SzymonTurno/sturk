@@ -8,3 +8,4 @@
 - klocwork
 - yaml constraints
 - ci
+- clang format
