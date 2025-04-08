@@ -27,8 +27,8 @@ static void chan_destroy(struct UBchan* chan)
 {
 	struct Chan* c = ub_dict_data(chan);
 
-	if (c->pool)
-		ub_pool_destroy(c->pool);
+	msg_purge(chan);
+	ub_pool_destroy(c->pool);
 	c->pool = NULL;
 	ub_mutex_destroy(c->mutex);
 	c->mutex = NULL;
@@ -120,14 +120,9 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 
 void ub_broker_destroy(UBroker* broker)
 {
-	struct ScriberList* tmp = NULL;
-
 	ub_ensure(broker, "Null pointer.");
-	while (broker->list) {
-		tmp = ub_list_rem(&broker->list);
-		ub_scriber_destroy(*ub_list_data(tmp));
-	}
-
+	while (broker->list)
+		ub_scriber_destroy(*ub_list_data(broker->list));
 	ub_mutex_destroy(broker->mutex);
 	broker->mutex = NULL;
 	if (broker->dict)

@@ -21,11 +21,8 @@ static void mutex_unlock(void)
 
 static void mutex_destroy(void)
 {
-	UBmutex* tmp = logger_mutex;
-
+	ub_mutex_destroy(logger_mutex);
 	logger_mutex = NULL;
-	if (tmp)
-		ub_mutex_destroy(tmp);
 }
 
 void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)

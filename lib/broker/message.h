@@ -27,14 +27,19 @@ static inline struct Message* msg_create(struct UBchan* chan, va_list args)
 	return self;
 }
 
-static inline void msg_destroy(struct Message* msg)
+static inline void msg_purge(struct UBchan* chan)
 {
-	UBchan* chan = msg->chan;
+	struct Chan* c = ub_dict_data(chan);
+	UBload* load = NULL;
+	struct Message* msg = NULL;
 
-	msg->chan = NULL;
-	ub_mutex_destroy(msg->mutex);
-	msg->mutex = NULL;
-	ub_pool_free(ub_dict_data(chan)->pool, msg_getload(msg));
+	while ((load = ub_pool_tryalloc(c->pool))) {
+		msg = (struct Message*)&load[c->offset];
+		msg->chan = NULL;
+		ub_mutex_destroy(msg->mutex);
+		msg->mutex = NULL;
+		ub_free(load);
+	}
 }
 
 static inline void msg_release(struct Message* msg)
