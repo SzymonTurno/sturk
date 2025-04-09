@@ -14,7 +14,7 @@ include $(ub-dir)/osal/Makefile
 include $(ub-dir)/cflags.mk
 
 $(ub-objs): CC := gcc
-$(ub-objs): CFLAGS := $(ub-cver) $(ub-cflags) $(ub-incs)
+$(ub-objs): CFLAGS := $(ub-cflags)
 
 $(ub-lib): $(ub-objs)
 	ar rcs $@ $(ub-objs)

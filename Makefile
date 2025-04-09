@@ -1,5 +1,5 @@
 usage:
-	@echo Usage: make ub-yamls="path/to/some.yaml" run-*
+	@echo Usage: make run-* ub-yamls="path/to/optional.yaml"
 
 include lib/Makefile
 include examples/ex1/Makefile

@@ -1,11 +1,11 @@
 ub-cverstr := $(shell $(ub-getcfg) -s common -p cver)
 
 ifeq ($(ub-cverstr), gnu)
-ub-cver := -std=gnu99
+ub-cflags := -std=gnu99
 else ifeq ($(ub-cverstr), iso)
-ub-cver := -std=c99 -pedantic
+ub-cflags := -std=c99 -pedantic
 else
-$(error Unknown cver: "$(ub-cver)")
+$(error Unknown cver: "$(ub-cverstr)")
 endif
 
 ub-dbgstr := $(shell $(ub-getcfg) -s common -p debug)
@@ -17,7 +17,7 @@ else ifneq ($(ub-dbgstr), off)
 $(error Unknown debug: "$(ub-dbgstr)")
 endif
 
-ub-cflags := -O3 -Wall -Wextra
+ub-cflags += -O3 -Wall -Wextra
 ub-cflags += -Wbad-function-cast
 ub-cflags += -Wcast-align
 ub-cflags += -Wconversion
@@ -31,3 +31,4 @@ ub-cflags += -Wshadow
 ub-cflags += -Wstrict-prototypes
 ub-cflags += -Wswitch-default
 ub-cflags += -Wwrite-strings
+ub-cflags += $(ub-incs)

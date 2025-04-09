@@ -7,8 +7,8 @@ unity-dir := Unity
 run-ut: $(ut-blddir)/app
 	$(ub-runcmd) ./$(ut-blddir)/app
 
-$(ut-objs): CC = gcc
-$(ut-objs): CFLAGS += $(ub-cver) $(ub-cflags) $(ub-incs) -I$(unity-dir)/src
+$(ut-objs): CC := gcc
+$(ut-objs): CFLAGS := $(ub-cflags) -I$(unity-dir)/src
 
 $(ut-blddir)/app: $(ut-objs) $(blddir)/$(unity-dir)/unity.o $(ub-lib)
 	gcc -o $@ $(ut-objs) $(blddir)/$(unity-dir)/unity.o $(ub-lib)
