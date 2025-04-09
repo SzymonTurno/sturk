@@ -1,3 +1,4 @@
 ---
   ub-common:
     cver: "gnu"
+    debug: "off"

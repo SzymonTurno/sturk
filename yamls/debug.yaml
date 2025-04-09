@@ -1,3 +1,3 @@
 ---
   ub-common:
-    cver: "iso"
+    debug: "on"
