@@ -1,6 +1,10 @@
 ub-osal-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-ub-blddirs += $(blddir)/$(ub-osal-dir)/none
-ub-blddirs += $(blddir)/$(ub-osal-dir)/posix
+ub-osal-blddir := $(blddir)/$(ub-osal-dir)
+ub-blddirs += $(ub-osal-blddir)/none
+ub-blddirs += $(ub-osal-blddir)/posix
 
-ub-osal-objs += $(shell $(ub-getcfg) $(ub-osal-dir)/default.yaml -s osal)
-ub-objs += $(addprefix $(blddir)/$(ub-osal-dir)/,$(ub-osal-objs))
+getcfg := $(ub-getcfg) $(ub-osal-dir)/default.yaml -s osal
+ub-objs += $(ub-osal-blddir)/$(shell $(getcfg) -p mem)/mem.o
+ub-objs += $(ub-osal-blddir)/$(shell $(getcfg) -p mutex)/mutex.o
+ub-objs += $(ub-osal-blddir)/$(shell $(getcfg) -p sem)/sem.o
+ub-objs += $(ub-osal-blddir)/$(shell $(getcfg) -p sysio)/sysio.o

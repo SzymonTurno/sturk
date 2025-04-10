@@ -2,3 +2,4 @@
   ub-common:
     cver: "gnu"
     debug: "off"
+    gcov: "off"

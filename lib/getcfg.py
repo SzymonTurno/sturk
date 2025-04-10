@@ -3,7 +3,8 @@ import yaml
 import argparse
 
 CONSTRAINTS = [
-    (["common", "cver", "iso"], ["osal", "mutex", "posix"])
+    (["common", "cver", "iso"], ["osal", "mutex", "posix"]),
+    (["common", "debug", "off"], ["common", "gcov", "on"])
 ]
 
 def get_args():
@@ -29,10 +30,6 @@ def get_cfg(configs):
                 cfg[key] = yaml[key]
     return cfg
 
-def print_objs(cfg):
-    for key, val in cfg.items():
-        print(val + "/" + key + ".o")
-
 def find_cfg(cfg, entry):
     section = "ub-" + entry[0]
     if section in cfg:
@@ -57,10 +54,10 @@ def main():
     check_cfg(cfg)
     if args.Section is None:
         print(cfg)
-    elif args.Parameter is not None:
-        print(cfg["ub-" + args.Section][args.Parameter])
+    elif args.Parameter is None:
+        print(cfg["ub-" + args.Section])
     else:
-        print_objs(cfg["ub-" + args.Section])
+        print(cfg["ub-" + args.Section][args.Parameter])
 
 if __name__ == "__main__":
     main()

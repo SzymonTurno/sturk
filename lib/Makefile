@@ -13,12 +13,10 @@ include $(ub-dir)/logger/Makefile
 include $(ub-dir)/osal/Makefile
 include $(ub-dir)/cflags.mk
 
-$(ub-objs): CC := gcc
-$(ub-objs): CFLAGS := $(ub-cflags)
-
 $(ub-lib): $(ub-objs)
 	ar rcs $@ $(ub-objs)
 
+$(ub-objs): CFLAGS ?= $(ub-gcov) $(ub-cflags)
 $(ub-blddir)/%.o: $(ub-dir)/%.c | $(ub-blddirs)
 	$(CC) $(CFLAGS) -c -o $@ $<
 

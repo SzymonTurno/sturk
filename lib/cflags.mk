@@ -1,5 +1,4 @@
 ub-cverstr := $(shell $(ub-getcfg) -s common -p cver)
-
 ifeq ($(ub-cverstr), gnu)
 ub-cflags := -std=gnu99
 else ifeq ($(ub-cverstr), iso)
@@ -9,15 +8,24 @@ $(error Unknown cver: "$(ub-cverstr)")
 endif
 
 ub-dbgstr := $(shell $(ub-getcfg) -s common -p debug)
-
 ifeq ($(ub-dbgstr), on)
 ub-runcmd := valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
 ub-cflags += -g
+else ifeq ($(ub-dbgstr), off)
+ub-cflags += -O3
 else ifneq ($(ub-dbgstr), off)
 $(error Unknown debug: "$(ub-dbgstr)")
 endif
 
-ub-cflags += -O3 -Wall -Wextra
+ub-gcovstr := $(shell $(ub-getcfg) -s common -p gcov)
+ifeq ($(ub-gcovstr), on)
+ub-gcov := -fprofile-arcs -ftest-coverage
+ub-ldflags += -lgcov --coverage
+else ifneq ($(ub-gcovstr), off)
+$(error Unknown gcov: "$(ub-gcovstr)")
+endif
+
+ub-cflags += -Wall -Wextra
 ub-cflags += -Wbad-function-cast
 ub-cflags += -Wcast-align
 ub-cflags += -Wconversion
