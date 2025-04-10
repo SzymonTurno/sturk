@@ -7,24 +7,20 @@ else
 $(error Unknown cver: "$(ub-cverstr)")
 endif
 
-ub-dbgstr := $(shell $(ub-getcfg) -s common -p debug)
-ifeq ($(ub-dbgstr), on)
-ub-cflags += -g
-else ifeq ($(ub-dbgstr), off)
+ub-modestr := $(shell $(ub-getcfg) -s common -p mode)
+ifeq ($(ub-modestr), release)
 ub-cflags += -O3
-else ifneq ($(ub-dbgstr), off)
-$(error Unknown debug: "$(ub-dbgstr)")
-endif
-
-ub-analysisstr := $(shell $(ub-getcfg) -s common -p analysis)
-ifeq ($(ub-analysisstr), on)
+else ifeq ($(ub-modestr), debug)
+ub-cflags += -g
+else ifeq ($(ub-modestr), analysis)
+ub-cflags += -g
 ub-runcmd := valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
 ub-runcmd += --log-file="$(blddir)/analysis.d/valgrind.info"
 ub-blddirs += $(blddir)/analysis.d
 ub-gcov := -fprofile-arcs -ftest-coverage
 ub-ldflags += -lgcov --coverage
-else ifneq ($(ub-analysisstr), off)
-$(error Unknown gcov: "$(ub-analysisstr)")
+else
+$(error Unknown mode: "$(ub-modestr)")
 endif
 
 ub-cflags += -Wall -Wextra

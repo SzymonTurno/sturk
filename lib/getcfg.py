@@ -3,8 +3,7 @@ import yaml
 import argparse
 
 CONSTRAINTS = [
-    (["common", "cver", "iso"], ["osal", "mutex", "posix"]),
-    (["common", "debug", "off"], ["common", "analysis", "on"])
+    (["common", "cver", "iso"], ["osal", "mutex", "posix"])
 ]
 
 def get_args():

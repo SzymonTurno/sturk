@@ -1,5 +1,4 @@
 ---
   ub-common:
     cver: "gnu"
-    debug: "off"
-    analysis: "off"
+    mode: "release"
