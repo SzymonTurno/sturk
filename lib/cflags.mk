@@ -9,7 +9,6 @@ endif
 
 ub-dbgstr := $(shell $(ub-getcfg) -s common -p debug)
 ifeq ($(ub-dbgstr), on)
-ub-runcmd := valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
 ub-cflags += -g
 else ifeq ($(ub-dbgstr), off)
 ub-cflags += -O3
@@ -17,12 +16,15 @@ else ifneq ($(ub-dbgstr), off)
 $(error Unknown debug: "$(ub-dbgstr)")
 endif
 
-ub-gcovstr := $(shell $(ub-getcfg) -s common -p gcov)
-ifeq ($(ub-gcovstr), on)
+ub-analysisstr := $(shell $(ub-getcfg) -s common -p analysis)
+ifeq ($(ub-analysisstr), on)
+ub-runcmd := valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
+ub-runcmd += --log-file="$(blddir)/analysis.d/valgrind.info"
+ub-blddirs += $(blddir)/analysis.d
 ub-gcov := -fprofile-arcs -ftest-coverage
 ub-ldflags += -lgcov --coverage
-else ifneq ($(ub-gcovstr), off)
-$(error Unknown gcov: "$(ub-gcovstr)")
+else ifneq ($(ub-analysisstr), off)
+$(error Unknown gcov: "$(ub-analysisstr)")
 endif
 
 ub-cflags += -Wall -Wextra

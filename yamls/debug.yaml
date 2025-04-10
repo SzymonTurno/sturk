@@ -1,4 +1,4 @@
 ---
   ub-common:
     debug: "on"
-    gcov: "on"
+    analysis: "on"

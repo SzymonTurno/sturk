@@ -4,7 +4,7 @@ import argparse
 
 CONSTRAINTS = [
     (["common", "cver", "iso"], ["osal", "mutex", "posix"]),
-    (["common", "debug", "off"], ["common", "gcov", "on"])
+    (["common", "debug", "off"], ["common", "analysis", "on"])
 ]
 
 def get_args():

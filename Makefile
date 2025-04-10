@@ -5,16 +5,13 @@ rptdir := $(blddir)/analysis.d
 usage:
 	@echo Usage: make run-* ub-yamls="path/to/optional.yaml"
 
-coverage: $(rptdir)/out
+coverage: $(rptdir)/coverage.d
 
-$(rptdir)/out: $(rptdir)/coverage.info
+$(rptdir)/coverage.d: $(rptdir)/coverage.info
 	genhtml $(rptdir)/coverage.info --output-directory $@
 
 $(rptdir)/coverage.info: $(rptdir)
 	lcov --capture --directory ./$(blddir) --output-file $@
-
-$(rptdir): $(blddir)
-	mkdir -p $@
 
 include lib/Makefile
 include examples/ex1/Makefile
