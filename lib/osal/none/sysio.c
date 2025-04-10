@@ -1,5 +1,6 @@
 #include "ub/os/sysio.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifdef WIN32
 #include <io.h>
@@ -75,4 +76,9 @@ int ub_vsnprintf(char* buffer, size_t bufsz, const char* format, va_list vlist)
 char* ub_getcwd(char* buf, size_t size)
 {
 	return getcwd(buf, size);
+}
+
+void ub_sysfail(void)
+{
+	exit(EXIT_FAILURE);
 }

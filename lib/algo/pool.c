@@ -2,6 +2,7 @@
 #include "ub/list.h"
 #include "ub/arith.h"
 #include "ub/debug.h"
+#include "ub/os/mem.h"
 #include "ub/os/mutex.h"
 
 UB_LIST(union FreeList, void*);

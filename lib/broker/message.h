@@ -2,6 +2,7 @@
 #define MESSAGE_H
 
 #include "types.h"
+#include "ub/os/mem.h"
 
 static inline UBload* msg_getload(struct Message* msg)
 {

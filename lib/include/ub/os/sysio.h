@@ -31,4 +31,6 @@ int ub_vsnprintf(char* buffer, size_t bufsz, const char* format, va_list vlist);
 
 char* ub_getcwd(char* buf, size_t size);
 
+void ub_sysfail(void);
+
 #endif /* UB_SYSIO_H */

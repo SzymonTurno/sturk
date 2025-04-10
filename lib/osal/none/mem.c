@@ -14,8 +14,3 @@ void ub_free(void* ptr)
 {
 	free(ptr);
 }
-
-void ub_exit(void)
-{
-	exit(EXIT_FAILURE);
-}

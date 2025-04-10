@@ -2,13 +2,13 @@
 #define UB_DEBUG_H
 
 #include "ub/logger.h"
-#include "ub/os/mem.h"
+#include "ub/os/sysio.h"
 
 #define ub_ensure(cond, text)                                                 \
 	do {                                                                   \
 		if (!cond) {                                                   \
 			ub_log_error(text);                                    \
-			ub_exit();                                             \
+			ub_sysfail();                                          \
 		}                                                              \
 	} while (0)
 
@@ -16,7 +16,7 @@
 	do {                                                                   \
 		if (!cond) {                                                   \
 			UB_LOG_ERROR(text);                                    \
-			ub_exit();                                             \
+			ub_sysfail();                                          \
 		}                                                              \
 	} while (0)
 
