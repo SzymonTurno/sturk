@@ -6,17 +6,14 @@ static UBmutex* logger_mutex;
 
 static void mutex_lock(void)
 {
-	const UBits policy = UB_MUTEX_POLICY_PRIO_INHERIT;
-	const UBits type = UB_MUTEX_TYPE_RECURSIVE;
-
-	if (!logger_mutex)
-		logger_mutex = ub_mutex_create(policy | type);
-	ub_mutex_lock(logger_mutex);
+	if (logger_mutex)
+		ub_mutex_lock(logger_mutex);
 }
 
 static void mutex_unlock(void)
 {
-	ub_mutex_unlock(logger_mutex);
+	if (logger_mutex)
+		ub_mutex_unlock(logger_mutex);
 }
 
 static void mutex_destroy(void)
@@ -42,6 +39,13 @@ void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)
 			ub_fvprintf(ub_stdout(), msg, vlist);
 		break;
 	case UB_DEBUG:
+		if (outfile.fp) {
+			va_copy(vcopy, vlist);
+			outfile_printf(msg, vcopy);
+			va_end(vcopy);
+		}
+		ub_fvprintf(ub_stdout(), msg, vlist);
+		break;
 	case UB_WARNING:
 	case UB_ERROR:
 		if (outfile.fp) {
@@ -49,7 +53,7 @@ void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)
 			outfile_printf(msg, vcopy);
 			va_end(vcopy);
 		}
-		ub_fvprintf(ub_stdout(), msg, vlist);
+		ub_fvprintf(ub_stderr(), msg, vlist);
 		break;
 	}
 	va_end(vlist);
@@ -59,11 +63,11 @@ void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)
 
 void ub_log_open(const char* filename)
 {
-	mutex_lock();
+	logger_mutex = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
 	if (outfile.fp) {
-		ub_log_error("test already initialized");
+		UB_LOG(UB_ERROR, LOGGER_TAG, "test already initialized");
 	} else if (ub_fexists(filename)) {
-		outfile.test_on = true;
+		outfile.u.test_on = true;
 		outfile.fp = ub_fopen(filename, "rb");
 	} else {
 		outfile.fp = ub_fopen(filename, "wb");
@@ -71,17 +75,15 @@ void ub_log_open(const char* filename)
 		outfile.name = ub_malloc(strlen(filename) + 1);
 		strcpy(outfile.name, filename);
 	}
-	mutex_unlock();
 }
 
 void ub_log_close(void)
 {
-	mutex_lock();
 	if (outfile.fp) {
 		ub_fclose(outfile.fp);
 		outfile.fp = NULL;
-		if (!outfile.test_on) {
-			ub_log(UB_WARNING, LOGGER_TAG,
+		if (!outfile.u.test_on) {
+			UB_LOG(UB_WARNING, LOGGER_TAG,
 				"new file \"%s\" at \"%s\"", outfile.name,
 				outfile.cwd);
 			ub_free(outfile.name);
@@ -89,10 +91,7 @@ void ub_log_close(void)
 			ub_free(outfile.cwd);
 			outfile.cwd = NULL;
 		}
-		outfile.test_on = false;
-	} else {
-		ub_log(UB_ERROR, LOGGER_TAG, "test not initialized");
+		outfile.u.test_on = false;
 	}
-	mutex_unlock();
 	mutex_destroy();
 }

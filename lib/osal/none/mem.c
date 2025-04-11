@@ -1,12 +1,12 @@
 #include "ub/os/mem.h"
-#include "ub/debug.h"
+#include "ub/logger.h"
 #include <stdlib.h>
 
 void* ub_malloc(size_t size)
 {
 	void* ret = malloc(size);
 
-	ub_ensure(ret, "Memory allocation failed.");
+	UB_ENSURE(ret, "Memory allocation failed.");
 	return ret;
 }
 

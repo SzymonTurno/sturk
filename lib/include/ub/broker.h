@@ -30,6 +30,8 @@ void ub_scriber_destroy(UBscriber* scriber);
 
 UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan);
 
+UBload* ub_scriber_poll(UBscriber* scriber, UBchan** chan);
+
 void ub_scriber_release(UBscriber* scriber);
 
 const char* ub_get_topic(UBchan* chan);

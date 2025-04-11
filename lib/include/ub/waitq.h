@@ -13,4 +13,6 @@ void ub_waitq_ins(UBwaitQ* waitq, struct UBinode* entry);
 
 struct UBinode* ub_waitq_rem(UBwaitQ* waitq);
 
+struct UBinode* ub_waitq_tryrem(UBwaitQ* waitq);
+
 #endif /* UB_WAITQ_H */

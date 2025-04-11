@@ -12,19 +12,23 @@ static struct {
 	UBfstream* fp;
 	char* cwd;
 	char* name;
-	intptr_t test_on;
+	union {
+		int test_on;
+		void* align;
+	} u;
 } outfile;
 
 static inline void rtrim(char* str)
 {
-	int p = 0;
+	char prev = '0';
+	char** p = &str;
 
-	if (str && *str) {
-		while (str[++p])
-			;
-		while (isspace(str[--p]))
-			str[p] = '\0';
+	while (*str) {
+		if (!isspace(prev) && isspace(*str))
+			p = &str;
+		prev = *str++;
 	}
+	*p = '\0';
 }
 
 static inline void skip_spaces(UBfstream* stream)
@@ -65,7 +69,7 @@ static inline void outfile_verify(const char* format, va_list vlist)
 
 static inline void outfile_printf(const char* format, va_list vlist)
 {
-	if (outfile.test_on)
+	if (outfile.u.test_on)
 		outfile_verify(format, vlist);
 	else
 		ub_fvprintf(outfile.fp, format, vlist);

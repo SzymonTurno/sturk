@@ -6,7 +6,8 @@ ex1-objs := $(ex1-blddir)/main.o $(ex1-blddir)/middleware.o
 run-ex1: $(ex1-blddir)/app
 	$(ub-runcmd) ./$(ex1-blddir)/app
 
-$(ex1-blddir)/app: $(ex1-objs) $(ub-lib)
+$(ex1-blddir)/app: $(ex1-objs)
+	make all-ub ub-yamls="$(ex1-dir)/ex1.yaml $(ub-yamls)"
 	$(CC) -o $@ $(ex1-objs) $(ub-lib) $(ub-ldflags)
 
 $(ex1-objs): CFLAGS := $(ub-cflags) -DEXPECTED_OUT="\"$(ex1-dir)/expected.out\""

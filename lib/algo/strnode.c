@@ -18,7 +18,7 @@ ub_strnode_ins(struct UBstrnode* root, struct UBstrnode* node)
 	struct UBrbnode** i = &tmp;
 	struct UBstrnode* p = NULL;
 
-	ub_ensure(node && node->str, "Null pointer.");
+	UB_ENSURE(node && node->str, "Null pointer.");
 	while (*i) {
 		p = cont(*i);
 		if (strcmp(node->str, p->str) < 0)
@@ -34,9 +34,9 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str)
 {
 	int tmp = 0;
 
-	ub_ensure(str, "Null pointer.");
+	UB_ENSURE(str, "Null pointer.");
 	while (root) {
-		ub_ensure(root->str, "Null pointer.");
+		UB_ENSURE(root->str, "Null pointer.");
 		tmp = strcmp(str, root->str);
 		if (tmp < 0)
 			root = trycont(root->node.left);

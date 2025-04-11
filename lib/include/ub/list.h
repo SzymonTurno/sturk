@@ -1,6 +1,8 @@
 #ifndef UB_LIST_H
 #define UB_LIST_H
 
+#include "ub/logger.h"
+
 struct UBunnode {
 	struct UBunnode* next;
 };
@@ -29,7 +31,7 @@ struct UBunnode* ub_unnode_rem(struct UBunnode** headp, int pos);
 	({                                                                     \
 		__typeof__(list) _list = (list);                               \
 									       \
-		ub_ensure(_list, "Null pointer.");                             \
+		UB_ENSURE(_list, "Null pointer.");                             \
 		&(_list)->data;                                                \
 	})
 #endif /* __STRICT_ANSI__ */
@@ -47,7 +49,7 @@ struct UBunnode* ub_unnode_rem(struct UBunnode** headp, int pos);
 		__typeof__(listp) _listp = (listp);                            \
 		long long _pos = (pos);                                        \
 									       \
-		ub_ensure(_listp, "Null pointer.");                            \
+		UB_ENSURE(_listp, "Null pointer.");                            \
 		for (; *_listp && _pos--; _listp = &(*_listp)->next)           \
 			;                                                      \
 		_listp;                                                        \
@@ -68,7 +70,7 @@ struct UBunnode* ub_unnode_rem(struct UBunnode** headp, int pos);
 		__typeof__(entry) _entry = (entry);                            \
 		__typeof__(&list) _i = ub_list_hand(&_list, (pos));            \
 									       \
-		ub_ensure(_entry, "Null pointer.");                            \
+		UB_ENSURE(_entry, "Null pointer.");                            \
 		_entry->next = *_i;                                            \
 		*_i = _entry;                                                  \
 		_list;                                                         \

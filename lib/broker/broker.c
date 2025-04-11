@@ -107,6 +107,19 @@ static void unscribe(struct UBchan* chan, UBscriber* scriber)
 	ub_mutex_unlock(c->mutex);
 }
 
+static UBload* load_init(UBscriber* scriber, struct UBinode* node)
+{
+	struct Qentry* q = NULL;
+
+	ub_scriber_release(scriber);
+	if (!node)
+		return NULL;
+	q = ub_cirq_cont(node, struct Qentry);
+	scriber->msg = *ub_cirq_data(q);
+	ub_pool_free(scriber->pool, q);
+	return msg_getload(scriber->msg);
+}
+
 UBroker* ub_broker_create(const struct UBloadVt* vp)
 {
 	struct UBroker* self = ub_malloc(sizeof(*self));
@@ -120,7 +133,7 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 
 void ub_broker_destroy(UBroker* broker)
 {
-	ub_ensure(broker, "Null pointer.");
+	UB_ENSURE(broker, "Null pointer.");
 	while (broker->list)
 		ub_scriber_destroy(*ub_list_data(broker->list));
 	ub_mutex_destroy(broker->mutex);
@@ -136,7 +149,7 @@ UBchan* ub_broker_search(UBroker* broker, const char* topic)
 {
 	struct UBchan* c = NULL;
 
-	ub_ensure(broker, "Null pointer.");
+	UB_ENSURE(broker, "Null pointer.");
 	ub_mutex_lock(broker->mutex);
 	c = ub_dict_find(broker->dict, topic);
 	if (!c) {
@@ -152,29 +165,31 @@ UBscriber* ub_scriber_create(UBroker* broker)
 	UBscriber* self = ub_malloc(sizeof(*self));
 
 	self->broker = broker;
-	ub_ensure(broker, "Null pointer.");
+	UB_ENSURE(broker, "Null pointer.");
 	ub_mutex_lock(broker->mutex);
 	broker->list = ub_list_ins(broker->list, slist_create(self));
 	ub_mutex_unlock(broker->mutex);
-	self->list = NULL;
-	self->msg = NULL;
 	self->pool = ub_pool_create(sizeof(struct Qentry));
 	self->q = ub_waitq_create();
+	self->msg = NULL;
+	self->list = NULL;
 	return self;
 }
 
 void ub_scriber_destroy(UBscriber* scriber)
 {
-	ub_scriber_release(scriber);
-	ub_ensure(scriber, "Null pointer.");
-	ub_waitq_destroy(scriber->q);
-	scriber->q = NULL;
-	ub_pool_destroy(scriber->pool);
-	scriber->pool = NULL;
+	UB_ENSURE(scriber, "Null pointer.");
 	while (scriber->list) {
 		unscribe(*ub_list_data(scriber->list), scriber);
 		ub_free(ub_list_rem(&scriber->list));
 	}
+
+	while ((load_init(scriber, ub_waitq_tryrem(scriber->q))))
+		;
+	ub_waitq_destroy(scriber->q);
+	scriber->q = NULL;
+	ub_pool_destroy(scriber->pool);
+	scriber->pool = NULL;
 	ub_mutex_lock(scriber->broker->mutex);
 	for (UB_LIST_ITER(struct ScriberList, i, &scriber->broker->list))
 		if (*ub_list_data(*i) == scriber) {
@@ -189,26 +204,28 @@ void ub_scriber_destroy(UBscriber* scriber)
 UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
 {
 	UBload* ret = NULL;
-	struct UBinode* n = NULL;
-	struct Qentry* q = NULL;
 
-	ub_scriber_release(scriber);
-	ub_ensure(scriber, "Null pointer.");
-	n = ub_waitq_rem(scriber->q);
-	if (n) {
-		q = ub_cirq_cont(n, struct Qentry);
-		scriber->msg = *ub_cirq_data(q);
-		ub_pool_free(scriber->pool, q);
-		if (chan)
-			*chan = scriber->msg->chan;
-		ret = msg_getload(scriber->msg);
-	}
+	UB_ENSURE(scriber, "Null pointer.");
+	ret = load_init(scriber, ub_waitq_rem(scriber->q));
+	if (chan)
+		*chan = scriber->msg->chan;
+	return ret;
+}
+
+UBload* ub_scriber_poll(UBscriber* scriber, UBchan** chan)
+{
+	UBload* ret = NULL;
+
+	UB_ENSURE(scriber, "Null pointer.");
+	ret = load_init(scriber, ub_waitq_tryrem(scriber->q));
+	if (chan)
+		*chan = scriber->msg ? scriber->msg->chan : NULL;
 	return ret;
 }
 
 void ub_scriber_release(UBscriber* scriber)
 {
-	ub_ensure(scriber, "Null pointer.");
+	UB_ENSURE(scriber, "Null pointer.");
 	if (scriber->msg)
 		msg_release(scriber->msg);
 	scriber->msg = NULL;
@@ -235,7 +252,7 @@ void ub_scribe(UBscriber* scriber, const char* topic)
 	struct UBchan* chan = NULL;
 	struct Chan* c = NULL;
 
-	ub_ensure(scriber, "Null pointer.");
+	UB_ENSURE(scriber, "Null pointer.");
 	chan = ub_broker_search(scriber->broker, topic);
 	c = ub_dict_data(chan);
 	scriber->list = ub_list_ins(scriber->list, clist_create(chan));

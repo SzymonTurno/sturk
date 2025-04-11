@@ -15,6 +15,7 @@ $(rptdir)/coverage.info: $(rptdir)
 
 include lib/Makefile
 include examples/ex1/Makefile
+include examples/ex2/Makefile
 include tests/Makefile
 
 .PHONY: usage coverage

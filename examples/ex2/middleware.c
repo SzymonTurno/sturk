@@ -22,7 +22,16 @@ const struct UBloadVt PAYLOAD[] = {{
 	.dtor = deinit
 }};
 
-void receive(struct Subscriber* sub)
+int receive(struct Subscriber* sub)
 {
-	sub->pl = (struct Payload*)ub_scriber_poll(sub->scriber, &sub->chan);
+	sub->pl = (struct Payload*)ub_scriber_await(sub->scriber, &sub->chan);
+	return 1;
+}
+
+void publish(struct Publisher* pub, const char* topic, int data)
+{
+	UBchan* chan = ub_broker_search(pub->broker, topic);
+
+	ub_lish(chan, data, pub->u.data);
+	pub->u.data = data;
 }
