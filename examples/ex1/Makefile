@@ -3,11 +3,13 @@ ex1-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 ex1-blddir := $(blddir)/$(ex1-dir)
 ex1-objs := $(ex1-blddir)/main.o $(ex1-blddir)/middleware.o
 
-run-ex1: $(ex1-blddir)/app
+run-ex1:
+	make _run-ex1 ub-yamls="$(ex1-dir)/ex1.yaml $(ub-yamls)"
+
+_run-ex1: $(ex1-blddir)/app
 	$(ub-runcmd) ./$(ex1-blddir)/app
 
-$(ex1-blddir)/app: $(ex1-objs)
-	make all-ub ub-yamls="$(ex1-dir)/ex1.yaml $(ub-yamls)"
+$(ex1-blddir)/app: $(ex1-objs) $(ub-lib)
 	$(CC) -o $@ $(ex1-objs) $(ub-lib) $(ub-ldflags)
 
 $(ex1-objs): CFLAGS := $(ub-cflags) -DEXPECTED_OUT="\"$(ex1-dir)/expected.out\""
@@ -17,4 +19,4 @@ $(ex1-blddir)/%.o: $(ex1-dir)/%.c | $(ex1-blddir)
 $(ex1-blddir):
 	mkdir -p $@
 
-.PHONY: run-ex1
+.PHONY: run-ex1 _run-ex1

@@ -1,10 +1,10 @@
-ub-osal-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-ub-osal-blddir := $(blddir)/$(ub-osal-dir)
-ub-blddirs += $(ub-osal-blddir)/none
-ub-blddirs += $(ub-osal-blddir)/posix
+osal_dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+osal_blddir := $(blddir)/$(osal_dir)
+ub-blddirs += $(osal_blddir)/none
+ub-blddirs += $(osal_blddir)/posix
 
-getcfg := $(ub-getcfg) $(ub-osal-dir)/default.yaml -s osal
-ub-objs += $(ub-osal-blddir)/$(shell $(getcfg) -p mem)/mem.o
-ub-objs += $(ub-osal-blddir)/$(shell $(getcfg) -p mutex)/mutex.o
-ub-objs += $(ub-osal-blddir)/$(shell $(getcfg) -p sem)/sem.o
-ub-objs += $(ub-osal-blddir)/$(shell $(getcfg) -p sysio)/sysio.o
+getcfg := $(ub-getcfg) $(osal_dir)/default.yaml -s osal
+ub-objs += $(osal_blddir)/$(shell $(getcfg) -p mem)/mem.o
+ub-objs += $(osal_blddir)/$(shell $(getcfg) -p mutex)/mutex.o
+ub-objs += $(osal_blddir)/$(shell $(getcfg) -p sem)/sem.o
+ub-objs += $(osal_blddir)/$(shell $(getcfg) -p sysio)/sysio.o

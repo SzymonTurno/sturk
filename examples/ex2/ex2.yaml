@@ -1,4 +1,6 @@
 ---
+  ub-common:
+    run_mode: "valgrind"
   ub-osal:
     mutex: "posix"
     sem: "posix"

@@ -32,15 +32,11 @@ void ub_log_open(const char* filename);
 
 void ub_log_close(void);
 
-#if 0
-#define UB_LOG(lvl, tag, format, ...)                                         \
+#define UB_LOG(lvl, tag, ...)                                                 \
 	do {                                                                   \
 		if (lvl##_EN)                                                  \
-			ub_log(lvl, tag, format, __VA_ARGS__);                 \
+			ub_log(lvl, tag, __VA_ARGS__);                         \
 	} while (0)
-#else
-#define UB_LOG ub_log
-#endif
 
 #define UB_ENSURE(cond, text)                                                 \
 	do {                                                                   \

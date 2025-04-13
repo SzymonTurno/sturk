@@ -1,9 +1,9 @@
-ub-algo-blddir := $(blddir)/$(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-ub-blddirs += $(ub-algo-blddir)
+algo_blddir := $(blddir)/$(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+ub-blddirs += $(algo_blddir)
 
-ub-objs += $(ub-algo-blddir)/binode.o
-ub-objs += $(ub-algo-blddir)/list.o
-ub-objs += $(ub-algo-blddir)/pool.o
-ub-objs += $(ub-algo-blddir)/rbtree.o
-ub-objs += $(ub-algo-blddir)/strnode.o
-ub-objs += $(ub-algo-blddir)/waitq.o
+ub-objs += $(algo_blddir)/binode.o
+ub-objs += $(algo_blddir)/list.o
+ub-objs += $(algo_blddir)/pool.o
+ub-objs += $(algo_blddir)/rbtree.o
+ub-objs += $(algo_blddir)/strnode.o
+ub-objs += $(algo_blddir)/waitq.o

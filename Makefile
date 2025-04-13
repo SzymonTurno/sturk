@@ -8,7 +8,7 @@ usage:
 coverage: $(rptdir)/coverage.d
 
 $(rptdir)/coverage.d: $(rptdir)/coverage.info
-	genhtml $(rptdir)/coverage.info --output-directory $@
+	genhtml $(rptdir)/coverage.info --show-details --output-directory $@
 
 $(rptdir)/coverage.info: $(rptdir)
 	lcov --capture --directory ./$(blddir) --output-file $@

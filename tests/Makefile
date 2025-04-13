@@ -1,29 +1,30 @@
 blddir ?= build
-ut-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-ut-blddir := $(blddir)/$(ut-dir)
-ut-objs := $(ut-blddir)/test_algo.o
+tests-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+tests-blddir := $(blddir)/$(tests-dir)
+tests-objs := $(tests-blddir)/test_algo.o
 unity-dir := Unity
 
-run-ut: $(ut-blddir)/app
-	$(ub-runcmd) ./$(ut-blddir)/app
+run-tests:
+	make _run-tests ub-yamls="$(tests-dir)/tests.yaml $(ub-yamls)"
+	$(ub-runcmd) ./$(tests-blddir)/app
 
-$(ut-blddir)/app: $(ut-objs) $(blddir)/$(unity-dir)/unity.o $(ub-lib)
-	$(CC) -o $@ $(ut-objs) $(blddir)/$(unity-dir)/unity.o $(ub-lib) $(ub-ldflags)
+_run-tests: $(tests-blddir)/app
+	$(ub-runcmd) ./$(tests-blddir)/app
 
-$(ut-blddir)/%.o: $(ut-dir)/%.c | $(ut-blddir)
+$(tests-blddir)/app: $(tests-objs) $(tests-blddir)/unity.o $(ub-lib)
+	$(CC) -o $@ $(tests-objs) $(tests-blddir)/unity.o $(ub-lib) $(ub-ldflags)
+
+$(tests-blddir)/%.o: $(tests-dir)/%.c | $(tests-blddir)
 	$(CC) $(ub-cflags) -I$(unity-dir)/src -c -o $@ $<
 
-$(blddir)/$(unity-dir)/unity.o: $(unity-dir)/src/unity.c | $(blddir)/$(unity-dir)
+$(tests-blddir)/unity.o: $(unity-dir)/src/unity.c | $(tests-blddir)
 	cd $(unity-dir) && git checkout v2.6.1
-	$(CC) $(ub-cflags) -I$(unity-dir)/src -c -o $@ $<
+	$(CC) -I$(unity-dir)/src -c -o $@ $<
 
 $(unity-dir)/src/unity.c:
 	git clone https://github.com/ThrowTheSwitch/Unity.git
 
-$(blddir)/$(unity-dir):
+$(tests-blddir):
 	mkdir -p $@
 
-$(ut-blddir):
-	mkdir -p $@
-
-.PHONY: run-ut
+.PHONY: run-tests _run-tests

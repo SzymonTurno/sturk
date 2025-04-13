@@ -1,4 +1,4 @@
-ub-broker-blddir := $(blddir)/$(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-ub-blddirs += $(ub-broker-blddir)
+broker_blddir := $(blddir)/$(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+ub-blddirs += $(broker_blddir)
 
-ub-objs += $(ub-broker-blddir)/broker.o
+ub-objs += $(broker_blddir)/broker.o

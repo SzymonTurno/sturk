@@ -1,4 +1,5 @@
 ---
   ub-common:
     cver: "gnu"
-    mode: "release"
+    build_type: "release"
+    run_mode: "none"

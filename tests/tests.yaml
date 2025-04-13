@@ -1,4 +1,4 @@
 ---
   ub-common:
-    cver: "iso"
+    build_type: "coverage"
     run_mode: "valgrind"
