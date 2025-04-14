@@ -6,19 +6,19 @@
 
 static inline UBload* msg_getload(struct Message* msg)
 {
-	return (UBload*)msg - ub_dict_data(msg->chan)->offset;
+	return (UBload*)msg - dict_data(msg->chan)->offset;
 }
 
 static inline struct Message* msg_create(struct UBchan* chan, va_list args)
 {
-	struct Chan* c = ub_dict_data(chan);
-	UBload* load = ub_pool_tryalloc(c->pool);
+	struct Chan* c = dict_data(chan);
+	UBload* load = pool_tryalloc(c->pool);
 	struct Message* self = NULL;
 
 	if (!load) {
-		load = ub_pool_alloc(c->pool);
+		load = pool_alloc(c->pool);
 		self = (struct Message*)&load[c->offset];
-		self->mutex = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
+		self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	} else {
 		self = (struct Message*)&load[c->offset];
 	}
@@ -30,14 +30,14 @@ static inline struct Message* msg_create(struct UBchan* chan, va_list args)
 
 static inline void msg_purge(struct UBchan* chan)
 {
-	struct Chan* c = ub_dict_data(chan);
+	struct Chan* c = dict_data(chan);
 	UBload* load = NULL;
 	struct Message* msg = NULL;
 
-	while ((load = ub_pool_tryalloc(c->pool))) {
+	while ((load = pool_tryalloc(c->pool))) {
 		msg = (struct Message*)&load[c->offset];
 		msg->chan = NULL;
-		ub_mutex_destroy(msg->mutex);
+		mutex_destroy(msg->mutex);
 		msg->mutex = NULL;
 		ub_free(load);
 	}
@@ -47,27 +47,27 @@ static inline void msg_release(struct Message* msg)
 {
 	int last = 0;
 
-	ub_mutex_lock(msg->mutex);
+	mutex_lock(msg->mutex);
 	if (!--msg->u.n_pending)
 		last = 1;
-	ub_mutex_unlock(msg->mutex);
+	mutex_unlock(msg->mutex);
 	if (last) {
-		ub_dict_data(msg->chan)->vp->dtor(msg_getload(msg));
-		ub_pool_free(ub_dict_data(msg->chan)->pool, msg_getload(msg));
+		dict_data(msg->chan)->vp->dtor(msg_getload(msg));
+		pool_free(dict_data(msg->chan)->pool, msg_getload(msg));
 	}
 }
 
 static inline void msg_lock(struct Message* msg)
 {
-	ub_mutex_lock(msg->mutex);
+	mutex_lock(msg->mutex);
 }
 
 static inline void msg_unlock(struct Message* msg, int n_pending)
 {
 	msg->u.n_pending = n_pending;
-	ub_mutex_unlock(msg->mutex);
+	mutex_unlock(msg->mutex);
 	if (!n_pending)
-		ub_pool_free(ub_dict_data(msg->chan)->pool, msg_getload(msg));
+		pool_free(dict_data(msg->chan)->pool, msg_getload(msg));
 }
 
 #endif /* MESSAGE_H */

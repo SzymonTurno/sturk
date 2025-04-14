@@ -1,4 +1,5 @@
-#include "ub/cirq.h"
+#include "UB/cirq.h"
+#include "UB/logger.h"
 
 struct UBinode* ub_binode_sibl(struct UBinode* node, int pos)
 {
@@ -17,12 +18,12 @@ struct UBinode* ub_binode_sibl(struct UBinode* node, int pos)
 struct UBinode* ub_binode_ins(struct UBinode* root, struct UBinode* entry,
 	int pos)
 {
-	UB_ENSURE(entry, "Null pointer.");
+	ENSURE(entry, "Null pointer.");
 	if (root) {
 		if (pos > 0)
-			root = ub_binode_sibl(root, pos);
+			root = binode_sibl(root, pos);
 		else if (pos < -1)
-			root = ub_binode_sibl(root, pos + 1);
+			root = binode_sibl(root, pos + 1);
 		entry->next = root;
 		entry->prev = root->prev;
 		root->prev = entry;
@@ -42,7 +43,7 @@ struct UBinode* ub_binode_rem(struct UBinode** nodep, int pos)
 	struct UBinode* ret = NULL;
 
 	if (*nodep) {
-		ret = ub_binode_sibl(*nodep, pos);
+		ret = binode_sibl(*nodep, pos);
 		ret->next->prev = ret->prev;
 		ret->prev->next = ret->next;
 		if (ret == ret->next)

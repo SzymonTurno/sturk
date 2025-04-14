@@ -1,10 +1,10 @@
 #include "unity.h"
-#include "ub/list.h"
+#include "UB/list.h"
 #include "ub/cirq.h"
 #include "ub/os/mem.h"
 #include <string.h>
 
-UB_LIST(struct List, const char*);
+LIST(struct List, const char*);
 
 UB_CIRQ(struct Queue, const char*);
 
@@ -12,14 +12,14 @@ static struct List* insert_list(struct List* list, const char* str)
 {
 	struct List* self = ub_malloc(sizeof(*self));
 
-	*ub_list_data(self) = str;
-	return ub_list_ins(list, self);
+	*list_data(self) = str;
+	return list_ins(list, self);
 }
 
 static const char* remove_list(struct List** listp)
 {
-	struct List* tmp = ub_list_rem(listp);
-	const char* ret = *ub_list_data(tmp);
+	struct List* tmp = list_rem(listp);
+	const char* ret = *list_data(tmp);
 
 	ub_free(tmp);
 	return ret;

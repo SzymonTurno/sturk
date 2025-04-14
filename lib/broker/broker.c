@@ -1,4 +1,7 @@
 #include "message.h"
+#include "UB/arith.h"
+#include "UB/rbtree.h"
+#include "UB/logger.h"
 #include "ub/os/mem.h"
 #include <string.h>
 
@@ -6,46 +9,46 @@
 
 static struct UBstrnode* strnode_cont(struct UBrbnode* ptr)
 {
-	return ub_container_of(ptr, struct UBstrnode, node);
+	return container_of(ptr, struct UBstrnode, node);
 }
 
 static struct UBchan* chan_create(const char* topic, const struct UBloadVt* vp)
 {
 	struct UBchan* self = ub_malloc(sizeof(*self));
-	struct Chan* c = ub_dict_data(self);
+	struct Chan* c = dict_data(self);
 
-	ub_dict_setk(self, strcpy(ub_malloc(strlen(topic) + 1), topic));
+	dict_setk(self, strcpy(ub_malloc(strlen(topic) + 1), topic));
 	c->vp = vp;
 	c->list = NULL;
-	c->mutex = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
+	c->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	c->offset = (vp->size() / MSG_SIZE + 1) * MSG_SIZE;
-	c->pool = ub_pool_create(c->offset + MSG_SIZE);
+	c->pool = pool_create(c->offset + MSG_SIZE);
 	return self;
 }
 
 static void chan_destroy(struct UBchan* chan)
 {
-	struct Chan* c = ub_dict_data(chan);
+	struct Chan* c = dict_data(chan);
 
 	msg_purge(chan);
-	ub_pool_destroy(c->pool);
+	pool_destroy(c->pool);
 	c->pool = NULL;
-	ub_mutex_destroy(c->mutex);
+	mutex_destroy(c->mutex);
 	c->mutex = NULL;
 	while (c->list)
-		ub_free(ub_list_rem(&c->list));
+		ub_free(list_rem(&c->list));
 	c->vp = NULL;
-	ub_free(ub_dict_getk(chan));
-	ub_dict_setk(chan, NULL);
+	ub_free(dict_getk(chan));
+	dict_setk(chan, NULL);
 	ub_free(chan);
 }
 
 static void dict_destroy(struct UBchan* dict)
 {
 	for (struct UBrbnode *i = NULL, *p = NULL;;) {
-		i = ub_rb_deepest(&ub_dict_cast(dict)->node);
-		p = ub_rb_parent(i);
-		chan_destroy(ub_dict_cont(strnode_cont(i), UBchan));
+		i = rb_deepest(&dict_cast(dict)->node);
+		p = rb_parent(i);
+		chan_destroy(dict_cont(strnode_cont(i), UBchan));
 		if (!p)
 			break;
 
@@ -60,7 +63,7 @@ static struct ChanList* clist_create(struct UBchan* chan)
 {
 	struct ChanList* self = ub_malloc(sizeof(*self));
 
-	*ub_list_data(self) = chan;
+	*list_data(self) = chan;
 	return self;
 }
 
@@ -68,55 +71,55 @@ static struct ScriberList* slist_create(struct UBscriber* scriber)
 {
 	struct ScriberList* self = ub_malloc(sizeof(*self));
 
-	*ub_list_data(self) = scriber;
+	*list_data(self) = scriber;
 	return self;
 }
 
 static void ins_msg(struct UBscriber* scriber, struct Message* msg)
 {
-	struct Qentry* entry = ub_pool_alloc(scriber->pool);
+	struct Qentry* entry = pool_alloc(scriber->pool);
 
-	*ub_cirq_data(entry) = msg;
-	ub_waitq_ins(scriber->q, ub_cirq_cast(entry));
+	*cirq_data(entry) = msg;
+	waitq_ins(scriber->q, cirq_cast(entry));
 }
 
 static void notify(struct Chan* chan, struct Message* msg)
 {
 	int n = 0;
 
-	ub_mutex_lock(chan->mutex);
+	mutex_lock(chan->mutex);
 	msg_lock(msg);
-	for (UB_LIST_ITER(struct ScriberList, i, &chan->list)) {
-		ins_msg(*ub_list_data(*i), msg);
+	for (LIST_ITER(struct ScriberList, i, &chan->list)) {
+		ins_msg(*list_data(*i), msg);
 		++n;
 	}
 	msg_unlock(msg, n);
-	ub_mutex_unlock(chan->mutex);
+	mutex_unlock(chan->mutex);
 }
 
 static void unscribe(struct UBchan* chan, UBscriber* scriber)
 {
-	struct Chan* c = ub_dict_data(chan);
+	struct Chan* c = dict_data(chan);
 
-	ub_mutex_lock(c->mutex);
-	for (UB_LIST_ITER(struct ScriberList, i, &c->list))
-		if (*ub_list_data(*i) == scriber) {
-			ub_free(ub_list_rem(i));
+	mutex_lock(c->mutex);
+	for (LIST_ITER(struct ScriberList, i, &c->list))
+		if (*list_data(*i) == scriber) {
+			ub_free(list_rem(i));
 			break;
 		}
-	ub_mutex_unlock(c->mutex);
+	mutex_unlock(c->mutex);
 }
 
 static UBload* load_init(UBscriber* scriber, struct UBinode* node)
 {
 	struct Qentry* q = NULL;
 
-	ub_scriber_release(scriber);
+	scriber_release(scriber);
 	if (!node)
 		return NULL;
-	q = ub_cirq_cont(node, struct Qentry);
-	scriber->msg = *ub_cirq_data(q);
-	ub_pool_free(scriber->pool, q);
+	q = cirq_cont(node, struct Qentry);
+	scriber->msg = *cirq_data(q);
+	pool_free(scriber->pool, q);
 	return msg_getload(scriber->msg);
 }
 
@@ -127,16 +130,16 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 	self->vp = vp;
 	self->dict = NULL;
 	self->list = NULL;
-	self->mutex = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
+	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	return self;
 }
 
 void ub_broker_destroy(UBroker* broker)
 {
-	UB_ENSURE(broker, "Null pointer.");
+	ENSURE(broker, "Null pointer.");
 	while (broker->list)
-		ub_scriber_destroy(*ub_list_data(broker->list));
-	ub_mutex_destroy(broker->mutex);
+		scriber_destroy(*list_data(broker->list));
+	mutex_destroy(broker->mutex);
 	broker->mutex = NULL;
 	if (broker->dict)
 		dict_destroy(broker->dict);
@@ -149,14 +152,14 @@ UBchan* ub_broker_search(UBroker* broker, const char* topic)
 {
 	struct UBchan* c = NULL;
 
-	UB_ENSURE(broker, "Null pointer.");
-	ub_mutex_lock(broker->mutex);
-	c = ub_dict_find(broker->dict, topic);
+	ENSURE(broker, "Null pointer.");
+	mutex_lock(broker->mutex);
+	c = dict_find(broker->dict, topic);
 	if (!c) {
 		c = chan_create(topic, broker->vp);
-		broker->dict = ub_dict_ins(broker->dict, c);
+		broker->dict = dict_ins(broker->dict, c);
 	}
-	ub_mutex_unlock(broker->mutex);
+	mutex_unlock(broker->mutex);
 	return c;
 }
 
@@ -165,12 +168,12 @@ UBscriber* ub_scriber_create(UBroker* broker)
 	UBscriber* self = ub_malloc(sizeof(*self));
 
 	self->broker = broker;
-	UB_ENSURE(broker, "Null pointer.");
-	ub_mutex_lock(broker->mutex);
-	broker->list = ub_list_ins(broker->list, slist_create(self));
-	ub_mutex_unlock(broker->mutex);
-	self->pool = ub_pool_create(sizeof(struct Qentry));
-	self->q = ub_waitq_create();
+	ENSURE(broker, "Null pointer.");
+	mutex_lock(broker->mutex);
+	broker->list = list_ins(broker->list, slist_create(self));
+	mutex_unlock(broker->mutex);
+	self->pool = pool_create(sizeof(struct Qentry));
+	self->q = waitq_create();
 	self->msg = NULL;
 	self->list = NULL;
 	return self;
@@ -178,25 +181,25 @@ UBscriber* ub_scriber_create(UBroker* broker)
 
 void ub_scriber_destroy(UBscriber* scriber)
 {
-	UB_ENSURE(scriber, "Null pointer.");
+	ENSURE(scriber, "Null pointer.");
 	while (scriber->list) {
-		unscribe(*ub_list_data(scriber->list), scriber);
-		ub_free(ub_list_rem(&scriber->list));
+		unscribe(*list_data(scriber->list), scriber);
+		ub_free(list_rem(&scriber->list));
 	}
 
-	while ((load_init(scriber, ub_waitq_tryrem(scriber->q))))
+	while ((load_init(scriber, waitq_tryrem(scriber->q))))
 		;
-	ub_waitq_destroy(scriber->q);
+	waitq_destroy(scriber->q);
 	scriber->q = NULL;
-	ub_pool_destroy(scriber->pool);
+	pool_destroy(scriber->pool);
 	scriber->pool = NULL;
-	ub_mutex_lock(scriber->broker->mutex);
-	for (UB_LIST_ITER(struct ScriberList, i, &scriber->broker->list))
-		if (*ub_list_data(*i) == scriber) {
-			ub_free(ub_list_rem(i));
+	mutex_lock(scriber->broker->mutex);
+	for (LIST_ITER(struct ScriberList, i, &scriber->broker->list))
+		if (*list_data(*i) == scriber) {
+			ub_free(list_rem(i));
 			break;
 		}
-	ub_mutex_unlock(scriber->broker->mutex);
+	mutex_unlock(scriber->broker->mutex);
 	scriber->broker = NULL;
 	ub_free(scriber);
 }
@@ -205,8 +208,8 @@ UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
 {
 	UBload* ret = NULL;
 
-	UB_ENSURE(scriber, "Null pointer.");
-	ret = load_init(scriber, ub_waitq_rem(scriber->q));
+	ENSURE(scriber, "Null pointer.");
+	ret = load_init(scriber, waitq_rem(scriber->q));
 	if (chan)
 		*chan = scriber->msg->chan;
 	return ret;
@@ -216,8 +219,8 @@ UBload* ub_scriber_poll(UBscriber* scriber, UBchan** chan)
 {
 	UBload* ret = NULL;
 
-	UB_ENSURE(scriber, "Null pointer.");
-	ret = load_init(scriber, ub_waitq_tryrem(scriber->q));
+	ENSURE(scriber, "Null pointer.");
+	ret = load_init(scriber, waitq_tryrem(scriber->q));
 	if (chan)
 		*chan = scriber->msg ? scriber->msg->chan : NULL;
 	return ret;
@@ -225,7 +228,7 @@ UBload* ub_scriber_poll(UBscriber* scriber, UBchan** chan)
 
 void ub_scriber_release(UBscriber* scriber)
 {
-	UB_ENSURE(scriber, "Null pointer.");
+	ENSURE(scriber, "Null pointer.");
 	if (scriber->msg)
 		msg_release(scriber->msg);
 	scriber->msg = NULL;
@@ -233,7 +236,7 @@ void ub_scriber_release(UBscriber* scriber)
 
 const char* ub_get_topic(UBchan* chan)
 {
-	return ub_dict_getk(chan);
+	return dict_getk(chan);
 }
 
 void ub_lish(UBchan* chan, ...)
@@ -244,7 +247,7 @@ void ub_lish(UBchan* chan, ...)
 	va_start(args, chan);
 	msg = msg_create(chan, args);
 	va_end(args);
-	notify(ub_dict_data(chan), msg);
+	notify(dict_data(chan), msg);
 }
 
 void ub_scribe(UBscriber* scriber, const char* topic)
@@ -252,11 +255,11 @@ void ub_scribe(UBscriber* scriber, const char* topic)
 	struct UBchan* chan = NULL;
 	struct Chan* c = NULL;
 
-	UB_ENSURE(scriber, "Null pointer.");
-	chan = ub_broker_search(scriber->broker, topic);
-	c = ub_dict_data(chan);
-	scriber->list = ub_list_ins(scriber->list, clist_create(chan));
-	ub_mutex_lock(c->mutex);
-	c->list = ub_list_ins(c->list, slist_create(scriber));
-	ub_mutex_unlock(c->mutex);
+	ENSURE(scriber, "Null pointer.");
+	chan = broker_search(scriber->broker, topic);
+	c = dict_data(chan);
+	scriber->list = list_ins(scriber->list, clist_create(chan));
+	mutex_lock(c->mutex);
+	c->list = list_ins(c->list, slist_create(scriber));
+	mutex_unlock(c->mutex);
 }

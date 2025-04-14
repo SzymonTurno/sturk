@@ -1,14 +1,15 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#include "ub/broker.h"
-#include "ub/pool.h"
-#include "ub/list.h"
-#include "ub/dict.h"
-#include "ub/waitq.h"
-#include "ub/os/mutex.h"
+#include "UB/broker.h"
+#include "UB/pool.h"
+#include "UB/list.h"
+#include "UB/dict.h"
+#include "UB/cirq.h"
+#include "UB/waitq.h"
+#include "UB/os/mutex.h"
 
-UB_LIST(struct ScriberList, struct UBscriber*);
+LIST(struct ScriberList, struct UBscriber*);
 struct Chan {
 	const struct UBloadVt* vp;
 	struct ScriberList* list;
@@ -17,7 +18,7 @@ struct Chan {
 	size_t offset;
 };
 
-UB_DICT(struct UBchan, struct Chan);
+DICT(struct UBchan, struct Chan);
 struct UBroker {
 	const struct UBloadVt* vp;
 	struct UBchan* dict;
@@ -34,8 +35,8 @@ struct Message {
 	} u;
 };
 
-UB_LIST(struct ChanList, struct UBchan*);
-UB_CIRQ(struct Qentry, struct Message*);
+LIST(struct ChanList, struct UBchan*);
+CIRQ(struct Qentry, struct Message*);
 struct UBscriber {
 	struct UBroker* broker;
 	struct ChanList* list;

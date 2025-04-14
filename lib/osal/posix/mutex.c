@@ -1,6 +1,6 @@
-#include "ub/os/mutex.h"
+#include "UB/os/mutex.h"
 #include "ub/os/mem.h"
-#include "ub/logger.h"
+#include "UB/logger.h"
 #include <pthread.h>
 
 #define OK 0
@@ -12,22 +12,22 @@ struct UBmutex {
 static void setprotocol(pthread_mutexattr_t *attr, int protocol)
 {
 	if (pthread_mutexattr_setprotocol(attr, protocol) != OK)
-		UB_RAISE("Mutex failure.");
+		RAISE("Mutex failure.");
 }
 
 static void settype(pthread_mutexattr_t *attr, int type)
 {
 	if (pthread_mutexattr_settype(attr, type) != OK)
-		UB_RAISE("Mutex failure.");
+		RAISE("Mutex failure.");
 }
 
 static void init(pthread_mutex_t* mutex, pthread_mutexattr_t *attr)
 {
 	if (pthread_mutex_init(mutex, attr) != OK)
-		UB_RAISE("Mutex failure.");
+		RAISE("Mutex failure.");
 
 	if (pthread_mutexattr_destroy(attr) != OK)
-		UB_RAISE("Mutex failure.");
+		RAISE("Mutex failure.");
 }
 
 UBmutex* ub_mutex_create(UBits args)
@@ -36,18 +36,18 @@ UBmutex* ub_mutex_create(UBits args)
 	pthread_mutexattr_t attr;
 
 	if (pthread_mutexattr_init(&attr) != OK)
-		UB_RAISE("Mutex failure.");
+		RAISE("Mutex failure.");
 
-	switch (args & UB_MUTEX_POLICY_MASK) {
-	case UB_MUTEX_POLICY_PRIO_INHERIT:
+	switch (args & MUTEX_POLICY_MASK) {
+	case MUTEX_POLICY_PRIO_INHERIT:
 		setprotocol(&attr, PTHREAD_PRIO_INHERIT);
 		break;
 	default:
 		break;
 	}
 
-	switch (args & UB_MUTEX_TYPE_MASK) {
-	case UB_MUTEX_TYPE_RECURSIVE:
+	switch (args & MUTEX_TYPE_MASK) {
+	case MUTEX_TYPE_RECURSIVE:
 		settype(&attr, PTHREAD_MUTEX_RECURSIVE);
 		break;
 	default:
@@ -61,14 +61,14 @@ UBmutex* ub_mutex_create(UBits args)
 void ub_mutex_destroy(UBmutex* mutex)
 {
 	if (pthread_mutex_destroy(&mutex->pmut) != OK)
-		UB_RAISE("Mutex failure.");
+		RAISE("Mutex failure.");
 	ub_free(mutex);
 }
 
 void ub_mutex_lock(UBmutex* mutex)
 {
 	if (pthread_mutex_lock(&mutex->pmut) != OK)
-		UB_RAISE("Mutex failure.");
+		RAISE("Mutex failure.");
 }
 
 bool ub_mutex_trylock(UBmutex* mutex)
@@ -79,5 +79,5 @@ bool ub_mutex_trylock(UBmutex* mutex)
 void ub_mutex_unlock(UBmutex* mutex)
 {
 	if (pthread_mutex_unlock(&mutex->pmut) != OK)
-		UB_RAISE("Mutex failure.");
+		RAISE("Mutex failure.");
 }

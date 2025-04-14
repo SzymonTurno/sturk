@@ -2,9 +2,11 @@
 #define WAITQ_H
 
 #include "ub/waitq.h"
+#include "UB/cirq.h"
+#include "UB/logger.h"
 #include "ub/os/mem.h"
-#include "ub/os/mutex.h"
-#include "ub/os/sem.h"
+#include "UB/os/mutex.h"
+#include "UB/os/sem.h"
 
 struct UBwaitQ {
 	UBmutex* mut;
@@ -16,42 +18,42 @@ UBwaitQ* ub_waitq_create(void)
 {
 	UBwaitQ* self = ub_malloc(sizeof(*self));
 
-	self->mut = ub_mutex_create(UB_MUTEX_POLICY_PRIO_INHERIT);
-	self->sem = ub_sem_create(0);
+	self->mut = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
+	self->sem = sem_create(0);
 	self->q = NULL;
 	return self;
 }
 
 void ub_waitq_destroy(UBwaitQ* waitq)
 {
-	UB_ENSURE(waitq, "Null pointer.");
+	ENSURE(waitq, "Null pointer.");
 	if (waitq->q)
-		UB_LOG(UB_WARNING, "ub-waitq", "Data loss suspected.");
-	ub_sem_destroy(waitq->sem);
+		LOG(WARNING, "ub-waitq", "Data loss suspected.");
+	sem_destroy(waitq->sem);
 	waitq->sem = NULL;
-	ub_mutex_destroy(waitq->mut);
+	mutex_destroy(waitq->mut);
 	waitq->mut = NULL;
 	ub_free(waitq);
 }
 
 void ub_waitq_ins(UBwaitQ* waitq, struct UBinode* entry)
 {
-	UB_ENSURE(waitq, "Null pointer.");
-	ub_mutex_lock(waitq->mut);
-	waitq->q = ub_binode_ins(waitq->q, entry, -1);
-	ub_sem_post(waitq->sem);
-	ub_mutex_unlock(waitq->mut);
+	ENSURE(waitq, "Null pointer.");
+	mutex_lock(waitq->mut);
+	waitq->q = binode_ins(waitq->q, entry, -1);
+	sem_post(waitq->sem);
+	mutex_unlock(waitq->mut);
 }
 
 struct UBinode* ub_waitq_rem(UBwaitQ* waitq)
 {
 	struct UBinode* entry = NULL;
 
-	UB_ENSURE(waitq, "Null pointer.");
-	ub_sem_wait(waitq->sem);
-	ub_mutex_lock(waitq->mut);
-	entry = ub_binode_rem(&waitq->q, 0);
-	ub_mutex_unlock(waitq->mut);
+	ENSURE(waitq, "Null pointer.");
+	sem_wait(waitq->sem);
+	mutex_lock(waitq->mut);
+	entry = binode_rem(&waitq->q, 0);
+	mutex_unlock(waitq->mut);
 	return entry;
 }
 
@@ -59,11 +61,11 @@ struct UBinode* ub_waitq_tryrem(UBwaitQ* waitq)
 {
 	struct UBinode* entry = NULL;
 
-	UB_ENSURE(waitq, "Null pointer.");
-	if (ub_sem_trywait(waitq->sem)) {
-		ub_mutex_lock(waitq->mut);
-		entry = ub_binode_rem(&waitq->q, 0);
-		ub_mutex_unlock(waitq->mut);
+	ENSURE(waitq, "Null pointer.");
+	if (sem_trywait(waitq->sem)) {
+		mutex_lock(waitq->mut);
+		entry = binode_rem(&waitq->q, 0);
+		mutex_unlock(waitq->mut);
 	}
 	return entry;
 }
