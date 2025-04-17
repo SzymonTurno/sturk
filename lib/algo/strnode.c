@@ -1,6 +1,6 @@
 #include "ub/dict.h"
 #include "UB/arith.h"
-#include "UB/logger.h"
+#include "UB/except.h"
 #include "UB/rbtree.h"
 #include <string.h>
 
@@ -21,7 +21,7 @@ ub_strnode_ins(struct UBstrnode* root, struct UBstrnode* node)
 	struct UBrbnode** i = &tmp;
 	struct UBstrnode* p = NULL;
 
-	ENSURE(node && node->str, "Null pointer.");
+	ENSURE(node && node->str, ECODES.null_param);
 	while (*i) {
 		p = cont(*i);
 		if (strcmp(node->str, p->str) < 0)
@@ -37,9 +37,9 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str)
 {
 	int tmp = 0;
 
-	ENSURE(str, "Null pointer.");
+	ENSURE(str, ECODES.null_param);
 	while (root) {
-		ENSURE(root->str, "Null pointer.");
+		ENSURE(root->str, ECODES.null_param);
 		tmp = strcmp(str, root->str);
 		if (tmp < 0)
 			root = trycont(root->node.left);

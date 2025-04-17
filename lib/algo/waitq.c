@@ -3,6 +3,7 @@
 
 #include "ub/waitq.h"
 #include "UB/cirq.h"
+#include "UB/except.h"
 #include "UB/logger.h"
 #include "ub/os/mem.h"
 #include "UB/os/mutex.h"
@@ -26,7 +27,7 @@ UBwaitQ* ub_waitq_create(void)
 
 void ub_waitq_destroy(UBwaitQ* waitq)
 {
-	ENSURE(waitq, "Null pointer.");
+	ENSURE(waitq, ECODES.null_param);
 	if (waitq->q)
 		LOG(WARNING, "ub-waitq", "Data loss suspected.");
 	sem_destroy(waitq->sem);
@@ -38,7 +39,7 @@ void ub_waitq_destroy(UBwaitQ* waitq)
 
 void ub_waitq_ins(UBwaitQ* waitq, struct UBinode* entry)
 {
-	ENSURE(waitq, "Null pointer.");
+	ENSURE(waitq, ECODES.null_param);
 	mutex_lock(waitq->mut);
 	waitq->q = binode_ins(waitq->q, entry, -1);
 	sem_post(waitq->sem);
@@ -49,7 +50,7 @@ struct UBinode* ub_waitq_rem(UBwaitQ* waitq)
 {
 	struct UBinode* entry = NULL;
 
-	ENSURE(waitq, "Null pointer.");
+	ENSURE(waitq, ECODES.null_param);
 	sem_wait(waitq->sem);
 	mutex_lock(waitq->mut);
 	entry = binode_rem(&waitq->q, 0);
@@ -61,7 +62,7 @@ struct UBinode* ub_waitq_tryrem(UBwaitQ* waitq)
 {
 	struct UBinode* entry = NULL;
 
-	ENSURE(waitq, "Null pointer.");
+	ENSURE(waitq, ECODES.null_param);
 	if (sem_trywait(waitq->sem)) {
 		mutex_lock(waitq->mut);
 		entry = binode_rem(&waitq->q, 0);

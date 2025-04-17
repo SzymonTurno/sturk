@@ -1,5 +1,6 @@
 #include "ub/os/sem.h"
 #include "ub/os/mem.h"
+#include "UB/except.h"
 #include "UB/logger.h"
 #include <stddef.h>
 
@@ -23,7 +24,7 @@ void ub_sem_destroy(UBsem* sem)
 
 void ub_sem_wait(UBsem* sem)
 {
-	ENSURE(sem, "Null pointer.");
+	ENSURE(sem, ECODES.null_param);
 	if (!sem->count)
 		LOG(WARNING, "ub-osal",
 		       "Fake semaphore does not support context switch.");
@@ -32,7 +33,7 @@ void ub_sem_wait(UBsem* sem)
 
 bool ub_sem_trywait(UBsem* sem)
 {
-	ENSURE(sem, "Null pointer.");
+	ENSURE(sem, ECODES.null_param);
 	if (sem->count) {
 		--sem->count;
 		return true;
@@ -42,6 +43,6 @@ bool ub_sem_trywait(UBsem* sem)
 
 void ub_sem_post(UBsem* sem)
 {
-	ENSURE(sem, "Null pointer.");
+	ENSURE(sem, ECODES.null_param);
 	++sem->count;
 }

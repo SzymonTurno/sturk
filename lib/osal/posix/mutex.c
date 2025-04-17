@@ -1,6 +1,6 @@
 #include "UB/os/mutex.h"
 #include "ub/os/mem.h"
-#include "UB/logger.h"
+#include "UB/except.h"
 #include <pthread.h>
 
 #define OK 0
@@ -12,22 +12,22 @@ struct UBmutex {
 static void setprotocol(pthread_mutexattr_t *attr, int protocol)
 {
 	if (pthread_mutexattr_setprotocol(attr, protocol) != OK)
-		RAISE("Mutex failure.");
+		RAISE(ECODES.mutex_fail);
 }
 
 static void settype(pthread_mutexattr_t *attr, int type)
 {
 	if (pthread_mutexattr_settype(attr, type) != OK)
-		RAISE("Mutex failure.");
+		RAISE(ECODES.mutex_fail);
 }
 
 static void init(pthread_mutex_t* mutex, pthread_mutexattr_t *attr)
 {
 	if (pthread_mutex_init(mutex, attr) != OK)
-		RAISE("Mutex failure.");
+		RAISE(ECODES.mutex_fail);
 
 	if (pthread_mutexattr_destroy(attr) != OK)
-		RAISE("Mutex failure.");
+		RAISE(ECODES.mutex_fail);
 }
 
 UBmutex* ub_mutex_create(UBits args)
@@ -36,7 +36,7 @@ UBmutex* ub_mutex_create(UBits args)
 	pthread_mutexattr_t attr;
 
 	if (pthread_mutexattr_init(&attr) != OK)
-		RAISE("Mutex failure.");
+		RAISE(ECODES.mutex_fail);
 
 	switch (args & MUTEX_POLICY_MASK) {
 	case MUTEX_POLICY_PRIO_INHERIT:
@@ -61,14 +61,14 @@ UBmutex* ub_mutex_create(UBits args)
 void ub_mutex_destroy(UBmutex* mutex)
 {
 	if (pthread_mutex_destroy(&mutex->pmut) != OK)
-		RAISE("Mutex failure.");
+		RAISE(ECODES.mutex_fail);
 	ub_free(mutex);
 }
 
 void ub_mutex_lock(UBmutex* mutex)
 {
 	if (pthread_mutex_lock(&mutex->pmut) != OK)
-		RAISE("Mutex failure.");
+		RAISE(ECODES.mutex_fail);
 }
 
 bool ub_mutex_trylock(UBmutex* mutex)
@@ -79,5 +79,5 @@ bool ub_mutex_trylock(UBmutex* mutex)
 void ub_mutex_unlock(UBmutex* mutex)
 {
 	if (pthread_mutex_unlock(&mutex->pmut) != OK)
-		RAISE("Mutex failure.");
+		RAISE(ECODES.mutex_fail);
 }

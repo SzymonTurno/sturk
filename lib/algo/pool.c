@@ -1,7 +1,7 @@
 #include "ub/pool.h"
 #include "UB/list.h"
 #include "UB/arith.h"
-#include "UB/logger.h"
+#include "UB/except.h"
 #include "ub/os/mem.h"
 #include "UB/os/mutex.h"
 
@@ -25,7 +25,7 @@ UBpool* ub_pool_create(size_t blk_size)
 
 void ub_pool_destroy(UBpool* pool)
 {
-	ENSURE(pool, "Null pointer.");
+	ENSURE(pool, ECODES.null_param);
 	mutex_lock(pool->mutex);
 	while (pool->list)
 		ub_free(list_rem(&pool->list));
@@ -39,7 +39,7 @@ void* ub_pool_alloc(UBpool* pool)
 {
 	void* ret = NULL;
 
-	ENSURE(pool, "Null pointer.");
+	ENSURE(pool, ECODES.null_param);
 	mutex_lock(pool->mutex);
 	if (pool->list)
 		ret = list_rem(&pool->list);
@@ -51,7 +51,7 @@ void* ub_pool_tryalloc(UBpool* pool)
 {
 	void* ret = NULL;
 
-	ENSURE(pool, "Null pointer.");
+	ENSURE(pool, ECODES.null_param);
 	mutex_lock(pool->mutex);
 	if (pool->list)
 		ret = list_rem(&pool->list);
@@ -61,7 +61,7 @@ void* ub_pool_tryalloc(UBpool* pool)
 
 void ub_pool_free(UBpool* pool, void* blk)
 {
-	ENSURE(pool, "Null pointer.");
+	ENSURE(pool, ECODES.null_param);
 	mutex_lock(pool->mutex);
 	pool->list = list_ins(pool->list, (union FreeList*)blk);
 	mutex_unlock(pool->mutex);

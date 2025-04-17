@@ -1,5 +1,5 @@
 #include "UB/cirq.h"
-#include "UB/logger.h"
+#include "UB/except.h"
 
 struct UBinode* ub_binode_sibl(struct UBinode* node, int pos)
 {
@@ -18,7 +18,7 @@ struct UBinode* ub_binode_sibl(struct UBinode* node, int pos)
 struct UBinode* ub_binode_ins(struct UBinode* root, struct UBinode* entry,
 	int pos)
 {
-	ENSURE(entry, "Null pointer.");
+	ENSURE(entry, ECODES.null_param);
 	if (root) {
 		if (pos > 0)
 			root = binode_sibl(root, pos);

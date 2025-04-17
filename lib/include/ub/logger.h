@@ -38,16 +38,4 @@ void ub_log_close(void);
 			ub_log(lvl, tag, __VA_ARGS__);                         \
 	} while (0)
 
-#define UB_ENSURE(cond, text)                                                 \
-	do {                                                                   \
-		if (!cond) {                                                   \
-			UB_LOG(UB_ERROR, NULL, "%s:%d: %s",  __FILE__,         \
-			       __LINE__, (text));                              \
-			ub_log_close();                                        \
-			ub_sysfail();                                          \
-		}                                                              \
-	} while (0)
-
-#define UB_RAISE(text) UB_ENSURE(0, text)
-
 #endif /* UB_LOGGER_H */

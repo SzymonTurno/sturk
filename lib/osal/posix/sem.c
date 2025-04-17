@@ -1,6 +1,6 @@
 #include "ub/os/sem.h"
 #include "ub/os/mem.h"
-#include "ub/logger.h"
+#include "UB/except.h"
 #include <semaphore.h>
 
 #define OK 0
@@ -15,21 +15,21 @@ UBsem* ub_sem_create(UBits args)
 	(void) args;
 
 	if (sem_init(&self->sem, 0, 0) != OK)
-		UB_RAISE("Semaphore failure.");
+		RAISE(ECODES.sem_fail);
 	return self;
 }
 
 void ub_sem_destroy(UBsem* sem)
 {
 	if (sem_destroy(&sem->sem) != OK)
-		UB_RAISE("Semaphore failure.");
+		RAISE(ECODES.sem_fail);
 	ub_free(sem);
 }
 
 void ub_sem_wait(UBsem* sem)
 {
 	if (sem_wait(&sem->sem) != OK)
-		UB_RAISE("Semaphore failure.");
+		RAISE(ECODES.sem_fail);
 }
 
 bool ub_sem_trywait(UBsem* sem)
@@ -40,5 +40,5 @@ bool ub_sem_trywait(UBsem* sem)
 void ub_sem_post(UBsem* sem)
 {
 	if (sem_post(&sem->sem) != OK)
-		UB_RAISE("Semaphore failure.");
+		RAISE(ECODES.sem_fail);
 }

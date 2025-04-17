@@ -3,7 +3,7 @@
 
 #include "ub/rbtree.h"
 #include "ub/arith.h"
-#include "ub/logger.h"
+#include "ub/except.h"
 
 struct UBstrnode {
 	struct UBrbnode node;
@@ -33,7 +33,7 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
 									       \
-		UB_ENSURE(_dict, "Null pointer.");                             \
+		UB_ENSURE(_dict, UB_ECODES.null_param);                        \
 		&_dict->strnode;                                               \
 	})
 
@@ -41,7 +41,7 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
 									       \
-		UB_ENSURE(_dict, "Null pointer.");                             \
+		UB_ENSURE(_dict, UB_ECODES.null_param);                        \
 		_dict->strnode.str = (key);                                    \
 	})
 
@@ -49,7 +49,7 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
 									       \
-		UB_ENSURE(_dict, "Null pointer.");                             \
+		UB_ENSURE(_dict, UB_ECODES.null_param);                        \
 		_dict->strnode.str;                                            \
 	})
 
@@ -57,7 +57,7 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
 									       \
-		UB_ENSURE(_dict, "Null pointer.");                             \
+		UB_ENSURE(_dict, UB_ECODES.null_param);                        \
 		&_dict->data;                                                  \
 	})
 

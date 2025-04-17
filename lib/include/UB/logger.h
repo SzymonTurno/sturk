@@ -27,8 +27,4 @@
 
 #define LOG UB_LOG
 
-#define ENSURE UB_ENSURE
-
-#define RAISE UB_RAISE
-
 #endif /* _UB_LOGGER_H */

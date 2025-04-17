@@ -2,7 +2,7 @@
 #define UB_CIRQ_H
 
 #include "ub/arith.h"
-#include "ub/logger.h"
+#include "ub/except.h"
 
 struct UBinode {
 	struct UBinode* next;
@@ -29,7 +29,7 @@ struct UBinode* ub_binode_rem(struct UBinode** rootp, int pos);
 	({                                                                     \
 		__typeof__(cirq) _cirq = (cirq);                               \
 									       \
-		UB_ENSURE(_cirq, "Null pointer.");                             \
+		UB_ENSURE(_cirq, UB_ECODES.null_param);                        \
 		&_cirq->node;                                                  \
 	})
 
@@ -37,7 +37,7 @@ struct UBinode* ub_binode_rem(struct UBinode** rootp, int pos);
 	({                                                                     \
 		__typeof__(cirq) _cirq = (cirq);                               \
 									       \
-		UB_ENSURE(_cirq, "Null pointer.");                             \
+		UB_ENSURE(_cirq, UB_ECODES.null_param);                        \
 		&_cirq->data;                                                  \
 	})
 

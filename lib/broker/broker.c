@@ -1,7 +1,7 @@
 #include "message.h"
 #include "UB/arith.h"
 #include "UB/rbtree.h"
-#include "UB/logger.h"
+#include "UB/except.h"
 #include "ub/os/mem.h"
 #include <string.h>
 
@@ -136,7 +136,7 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 
 void ub_broker_destroy(UBroker* broker)
 {
-	ENSURE(broker, "Null pointer.");
+	ENSURE(broker, ECODES.null_param);
 	while (broker->list)
 		scriber_destroy(*list_data(broker->list));
 	mutex_destroy(broker->mutex);
@@ -152,7 +152,7 @@ UBchan* ub_broker_search(UBroker* broker, const char* topic)
 {
 	struct UBchan* c = NULL;
 
-	ENSURE(broker, "Null pointer.");
+	ENSURE(broker, ECODES.null_param);
 	mutex_lock(broker->mutex);
 	c = dict_find(broker->dict, topic);
 	if (!c) {
@@ -168,7 +168,7 @@ UBscriber* ub_scriber_create(UBroker* broker)
 	UBscriber* self = ub_malloc(sizeof(*self));
 
 	self->broker = broker;
-	ENSURE(broker, "Null pointer.");
+	ENSURE(broker, ECODES.null_param);
 	mutex_lock(broker->mutex);
 	broker->list = list_ins(broker->list, slist_create(self));
 	mutex_unlock(broker->mutex);
@@ -181,7 +181,7 @@ UBscriber* ub_scriber_create(UBroker* broker)
 
 void ub_scriber_destroy(UBscriber* scriber)
 {
-	ENSURE(scriber, "Null pointer.");
+	ENSURE(scriber, ECODES.null_param);
 	while (scriber->list) {
 		unscribe(*list_data(scriber->list), scriber);
 		ub_free(list_rem(&scriber->list));
@@ -208,7 +208,7 @@ UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
 {
 	UBload* ret = NULL;
 
-	ENSURE(scriber, "Null pointer.");
+	ENSURE(scriber, ECODES.null_param);
 	ret = load_init(scriber, waitq_rem(scriber->q));
 	if (chan)
 		*chan = scriber->msg->chan;
@@ -219,7 +219,7 @@ UBload* ub_scriber_poll(UBscriber* scriber, UBchan** chan)
 {
 	UBload* ret = NULL;
 
-	ENSURE(scriber, "Null pointer.");
+	ENSURE(scriber, ECODES.null_param);
 	ret = load_init(scriber, waitq_tryrem(scriber->q));
 	if (chan)
 		*chan = scriber->msg ? scriber->msg->chan : NULL;
@@ -228,7 +228,7 @@ UBload* ub_scriber_poll(UBscriber* scriber, UBchan** chan)
 
 void ub_scriber_release(UBscriber* scriber)
 {
-	ENSURE(scriber, "Null pointer.");
+	ENSURE(scriber, ECODES.null_param);
 	if (scriber->msg)
 		msg_release(scriber->msg);
 	scriber->msg = NULL;
@@ -255,7 +255,7 @@ void ub_scribe(UBscriber* scriber, const char* topic)
 	struct UBchan* chan = NULL;
 	struct Chan* c = NULL;
 
-	ENSURE(scriber, "Null pointer.");
+	ENSURE(scriber, ECODES.null_param);
 	chan = broker_search(scriber->broker, topic);
 	c = dict_data(chan);
 	scriber->list = list_ins(scriber->list, clist_create(chan));

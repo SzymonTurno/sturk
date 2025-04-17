@@ -1,9 +1,9 @@
 #include "UB/list.h"
-#include "UB/logger.h"
+#include "UB/except.h"
 
 struct UBunnode** ub_unnode_hand(struct UBunnode** nodep, int pos)
 {
-	ENSURE(nodep, "Null pointer.");
+	ENSURE(nodep, ECODES.null_param);
 	for (; *nodep && pos--; nodep = &(*nodep)->next)
 		;
 	return nodep;
@@ -14,7 +14,7 @@ struct UBunnode* ub_unnode_ins(struct UBunnode* head, struct UBunnode* node,
 {
 	struct UBunnode** i = list_hand(&head, pos);
 
-	ENSURE(node, "Null pointer.");
+	ENSURE(node, ECODES.null_param);
 	node->next = *i;
 	*i = node;
 	return head;
