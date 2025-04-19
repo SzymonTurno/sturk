@@ -37,9 +37,24 @@ char* ub_fgets(char* str, int size, UBfstream* stream)
 	return fgets(str, size, (FILE*)stream);
 }
 
+int ub_fputs(const char* str, UBfstream* stream)
+{
+	return fputs(str, (FILE*)stream);
+}
+
+int ub_fseekset(UBfstream* stream, long int offset)
+{
+	return fseek((FILE*)stream, offset, SEEK_SET);
+}
+
 int ub_fseekcur(UBfstream* stream, long int offset)
 {
 	return fseek((FILE*)stream, offset, SEEK_CUR);
+}
+
+int ub_fseekend(UBfstream* stream, long int offset)
+{
+	return fseek((FILE*)stream, offset, SEEK_END);
 }
 
 UBfstream* ub_stdout(void)

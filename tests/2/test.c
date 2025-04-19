@@ -42,7 +42,8 @@ static const char* remove_queue(struct Queue** qp)
 	return ret;
 }
 
-static void test_List_should_ImplementLifo(void)
+extern void test_List_should_ImplementLifo(void);
+void test_List_should_ImplementLifo(void)
 {
 	struct List* list = NULL;
 
@@ -55,7 +56,8 @@ static void test_List_should_ImplementLifo(void)
 	TEST_ASSERT_EQUAL(list, NULL);
 }
 
-static void test_Queue_should_ImplementFifo(void)
+extern void test_Queue_should_ImplementFifo(void);
+void test_Queue_should_ImplementFifo(void)
 {
 	struct Queue* q = NULL;
 
@@ -66,16 +68,4 @@ static void test_Queue_should_ImplementFifo(void)
 	TEST_ASSERT_EQUAL(0, strcmp(remove_queue(&q), "Two"));
 	TEST_ASSERT_EQUAL(0, strcmp(remove_queue(&q), "Three"));
 	TEST_ASSERT_EQUAL(q, NULL);
-}
-
-void setUp(void) {}
-
-void tearDown(void) {}
-
-int main(void)
-{
-	UNITY_BEGIN();
-	RUN_TEST(test_List_should_ImplementLifo);
-	RUN_TEST(test_Queue_should_ImplementFifo);
-	return UNITY_END();
 }

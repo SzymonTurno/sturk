@@ -14,8 +14,6 @@ $(rptdir)/coverage.info: $(rptdir)
 	lcov --capture --directory ./$(blddir) --output-file $@
 
 include lib/Makefile
-include examples/ex1/Makefile
-include examples/ex2/Makefile
 include tests/Makefile
 
 .PHONY: usage coverage

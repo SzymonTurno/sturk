@@ -10,7 +10,7 @@ all-ub: $(ub-lib)
 include $(ub-dir)/common.mk
 include $(ub-dir)/algo/Makefile
 include $(ub-dir)/broker/Makefile
-include $(ub-dir)/logger/Makefile
+include $(ub-dir)/debug/Makefile
 include $(ub-dir)/osal/Makefile
 
 $(ub-lib): $(ub-objs)

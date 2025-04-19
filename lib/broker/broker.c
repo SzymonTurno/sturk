@@ -1,7 +1,7 @@
 #include "message.h"
 #include "UB/arith.h"
 #include "UB/rbtree.h"
-#include "UB/except.h"
+#include "UB/debug/except.h"
 #include "ub/os/mem.h"
 #include <string.h>
 
@@ -136,7 +136,9 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 
 void ub_broker_destroy(UBroker* broker)
 {
-	ENSURE(broker, ECODES.null_param);
+	if (!broker)
+		return;
+
 	while (broker->list)
 		scriber_destroy(*list_data(broker->list));
 	mutex_destroy(broker->mutex);
@@ -181,7 +183,9 @@ UBscriber* ub_scriber_create(UBroker* broker)
 
 void ub_scriber_destroy(UBscriber* scriber)
 {
-	ENSURE(scriber, ECODES.null_param);
+	if (!scriber)
+		return;
+
 	while (scriber->list) {
 		unscribe(*list_data(scriber->list), scriber);
 		ub_free(list_rem(&scriber->list));

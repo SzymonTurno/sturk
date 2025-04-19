@@ -1,6 +1,0 @@
----
-  ub-logger:
-    info: "on"
-    debug: "on"
-    warning: "on"
-    error: "on"

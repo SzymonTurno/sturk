@@ -17,7 +17,13 @@ int ub_fgetc(UBfstream* stream);
 
 char* ub_fgets(char* str, int size, UBfstream* stream);
 
+int ub_fputs(const char* str, UBfstream* stream);
+
+int ub_fseekset(UBfstream* stream, long int offset);
+
 int ub_fseekcur(UBfstream* stream, long int offset);
+
+int ub_fseekend(UBfstream* stream, long int offset);
 
 UBfstream* ub_stdout(void);
 

@@ -1,4 +1,0 @@
----
-  ub-common:
-    build_type: "coverage"
-    run_mode: "valgrind"

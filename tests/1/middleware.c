@@ -24,5 +24,5 @@ const struct UBloadVt PAYLOAD[] = {{
 
 void receive(struct Subscriber* sub)
 {
-	sub->pl = (struct Payload*)ub_scriber_poll(sub->scriber, &sub->chan);
+	sub->pl = (struct Payload*)scriber_poll(sub->scriber, &sub->chan);
 }

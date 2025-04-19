@@ -1,33 +1,42 @@
 #include "UB/os/mutex.h"
 #include "ub/os/mem.h"
-#include "UB/except.h"
+#include "UB/debug/except.h"
 #include <pthread.h>
 
 #define OK 0
+#define FAIL 1
 
 struct UBmutex {
 	pthread_mutex_t pmut;
 };
 
-static void setprotocol(pthread_mutexattr_t *attr, int protocol)
+static int setprotocol(pthread_mutexattr_t *attr, UBits args)
 {
-	if (pthread_mutexattr_setprotocol(attr, protocol) != OK)
-		RAISE(ECODES.mutex_fail);
+	switch (args & MUTEX_POLICY_MASK) {
+	case MUTEX_POLICY_NONE:
+		return OK;
+	case MUTEX_POLICY_PRIO_INHERIT:
+		return pthread_mutexattr_setprotocol(attr,
+			PTHREAD_PRIO_INHERIT);
+	default:
+		RAISE(ECODES.not_supported);
+		break;
+	}
+	return FAIL;
 }
 
-static void settype(pthread_mutexattr_t *attr, int type)
+static int settype(pthread_mutexattr_t *attr, UBits args)
 {
-	if (pthread_mutexattr_settype(attr, type) != OK)
-		RAISE(ECODES.mutex_fail);
-}
-
-static void init(pthread_mutex_t* mutex, pthread_mutexattr_t *attr)
-{
-	if (pthread_mutex_init(mutex, attr) != OK)
-		RAISE(ECODES.mutex_fail);
-
-	if (pthread_mutexattr_destroy(attr) != OK)
-		RAISE(ECODES.mutex_fail);
+	switch (args & MUTEX_TYPE_MASK) {
+	case MUTEX_TYPE_NONE:
+		return OK;
+	case MUTEX_TYPE_RECURSIVE:
+		return pthread_mutexattr_settype(attr, PTHREAD_MUTEX_RECURSIVE);
+	default:
+		RAISE(ECODES.not_supported);
+		break;
+	}
+	return FAIL;
 }
 
 UBmutex* ub_mutex_create(UBits args)
@@ -35,26 +44,32 @@ UBmutex* ub_mutex_create(UBits args)
 	struct UBmutex* self = NULL;
 	pthread_mutexattr_t attr;
 
-	if (pthread_mutexattr_init(&attr) != OK)
+	if (pthread_mutexattr_init(&attr) != OK) {
 		RAISE(ECODES.mutex_fail);
-
-	switch (args & MUTEX_POLICY_MASK) {
-	case MUTEX_POLICY_PRIO_INHERIT:
-		setprotocol(&attr, PTHREAD_PRIO_INHERIT);
-		break;
-	default:
-		break;
+		return NULL;
 	}
 
-	switch (args & MUTEX_TYPE_MASK) {
-	case MUTEX_TYPE_RECURSIVE:
-		settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-		break;
-	default:
-		break;
+	if (setprotocol(&attr, args) != OK) {
+		RAISE(ECODES.mutex_fail);
+		return NULL;
+	}
+
+	if (settype(&attr, args) != OK) {
+		RAISE(ECODES.mutex_fail);
+		return NULL;
 	}
 	self = ub_malloc(sizeof(*self));
-	init(&self->pmut, &attr);
+	if (pthread_mutex_init(&self->pmut, &attr) != OK) {
+		RAISE(ECODES.mutex_fail);
+		ub_free(self);
+		return NULL;
+	}
+
+	if (pthread_mutexattr_destroy(&attr) != OK) {
+		RAISE(ECODES.mutex_fail);
+		ub_free(self);
+		return NULL;
+	}
 	return self;
 }
 

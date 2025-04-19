@@ -10,6 +10,7 @@
 #include "UB/os/mutex.h"
 
 LIST(struct ScriberList, struct UBscriber*);
+
 struct Chan {
 	const struct UBloadVt* vp;
 	struct ScriberList* list;
@@ -19,6 +20,7 @@ struct Chan {
 };
 
 DICT(struct UBchan, struct Chan);
+
 struct UBroker {
 	const struct UBloadVt* vp;
 	struct UBchan* dict;
@@ -36,7 +38,9 @@ struct Message {
 };
 
 LIST(struct ChanList, struct UBchan*);
+
 CIRQ(struct Qentry, struct Message*);
+
 struct UBscriber {
 	struct UBroker* broker;
 	struct ChanList* list;

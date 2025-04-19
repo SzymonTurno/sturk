@@ -1,7 +1,7 @@
 #include "ub/pool.h"
 #include "UB/list.h"
 #include "UB/arith.h"
-#include "UB/except.h"
+#include "UB/debug/except.h"
 #include "ub/os/mem.h"
 #include "UB/os/mutex.h"
 
@@ -25,7 +25,8 @@ UBpool* ub_pool_create(size_t blk_size)
 
 void ub_pool_destroy(UBpool* pool)
 {
-	ENSURE(pool, ECODES.null_param);
+	if (!pool)
+		return;
 	mutex_lock(pool->mutex);
 	while (pool->list)
 		ub_free(list_rem(&pool->list));

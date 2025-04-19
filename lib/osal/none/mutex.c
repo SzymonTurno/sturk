@@ -1,6 +1,7 @@
 #include "UB/os/mutex.h"
 #include "ub/os/mem.h"
-#include "UB/logger.h"
+#include "UB/debug/except.h"
+#include "UB/debug/log.h"
 #include <stddef.h>
 
 struct UBmutex {
@@ -24,6 +25,7 @@ void ub_mutex_destroy(UBmutex* mutex)
 
 void ub_mutex_lock(UBmutex* mutex)
 {
+	ENSURE(mutex, ECODES.null_param);
 	if (mutex->locked && !mutex->recursive)
 		LOG(WARNING, "ub-osal",
 		       "Fake mutex does not support context switch.");
@@ -32,6 +34,7 @@ void ub_mutex_lock(UBmutex* mutex)
 
 bool ub_mutex_trylock(UBmutex* mutex)
 {
+	ENSURE(mutex, ECODES.null_param);
 	if (mutex->locked && !mutex->recursive)
 		return false;
 	mutex->locked = 1;
@@ -40,6 +43,7 @@ bool ub_mutex_trylock(UBmutex* mutex)
 
 void ub_mutex_unlock(UBmutex* mutex)
 {
+	ENSURE(mutex, ECODES.null_param);
 	if (!mutex->locked)
 		LOG(WARNING, "ub-osal", "Unlocking an already unlocked mutex.");
 	mutex->locked = 0;

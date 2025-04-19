@@ -1,6 +1,6 @@
 #include "ub/rbtree.h"
 #include "ub/bits.h"
-#include "UB/except.h"
+#include "UB/debug/except.h"
 #include <stddef.h>
 
 #define COLOR_MASK ((intptr_t)UBit(0))

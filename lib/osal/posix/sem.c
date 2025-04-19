@@ -1,6 +1,6 @@
 #include "ub/os/sem.h"
 #include "ub/os/mem.h"
-#include "UB/except.h"
+#include "UB/debug/except.h"
 #include <semaphore.h>
 
 #define OK 0
@@ -14,8 +14,11 @@ UBsem* ub_sem_create(UBits args)
 	struct UBsem* self = ub_malloc(sizeof(*self));
 	(void) args;
 
-	if (sem_init(&self->sem, 0, 0) != OK)
+	if (sem_init(&self->sem, 0, 0) != OK) {
 		RAISE(ECODES.sem_fail);
+		ub_free(self);
+		return NULL;
+	}
 	return self;
 }
 

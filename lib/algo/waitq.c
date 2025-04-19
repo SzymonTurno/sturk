@@ -3,8 +3,8 @@
 
 #include "ub/waitq.h"
 #include "UB/cirq.h"
-#include "UB/except.h"
-#include "UB/logger.h"
+#include "UB/debug/except.h"
+#include "UB/debug/log.h"
 #include "ub/os/mem.h"
 #include "UB/os/mutex.h"
 #include "UB/os/sem.h"
@@ -27,7 +27,9 @@ UBwaitQ* ub_waitq_create(void)
 
 void ub_waitq_destroy(UBwaitQ* waitq)
 {
-	ENSURE(waitq, ECODES.null_param);
+	if (!waitq)
+		return;
+
 	if (waitq->q)
 		LOG(WARNING, "ub-waitq", "Data loss suspected.");
 	sem_destroy(waitq->sem);

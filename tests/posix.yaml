@@ -1,5 +1,6 @@
 ---
   ub-common:
+    build_type: "coverage"
     run_mode: "valgrind"
   ub-osal:
     mutex: "posix"
