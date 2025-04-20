@@ -13,7 +13,6 @@ ub-cflags += -O3
 else ifeq ($(bldtype), debug)
 ub-cflags += -g
 else ifeq ($(bldtype), coverage)
-ub-blddirs += $(blddir)/analysis.d
 ub-cflags += -g
 ub-gcov := -fprofile-arcs -ftest-coverage
 ub-ldflags += -lgcov --coverage
@@ -23,12 +22,17 @@ endif
 
 runmode := $(shell $(ub-getcfg) -s common -p run_mode)
 ifeq ($(runmode), valgrind)
-ub-blddirs += $(blddir)/analysis.d
 ub-runcmd := valgrind
 ub-runcmd += --leak-check=full --show-leak-kinds=all --track-origins=yes
 ub-runcmd += --log-file="$(blddir)/analysis.d/valgrind.info"
 else ifneq ($(runmode), none)
 $(error Unknown run mode: "$(runmode)")
+endif
+
+ifeq ($(bldtype), coverage)
+ub-blddirs += $(blddir)/analysis.d
+else ifeq ($(runmode), valgrind)
+ub-blddirs += $(blddir)/analysis.d
 endif
 
 ub-cflags += -Wall -Wextra

@@ -7,6 +7,6 @@
 - ci
 - clang format
 
-- yaml config per example
-- new yaml options: (1) logger, (2) build-type, (3) run-mode
-- change all ub_log to uppercase
+- remove run-cmd (with valgrind)
+- single suite
+- list of tests

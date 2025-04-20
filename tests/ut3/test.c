@@ -106,8 +106,8 @@ static void app(void)
 }
 
 #include <stdio.h>
-extern void test_Broker_should_SupportMultiThreadDesign(void);
-void test_Broker_should_SupportMultiThreadDesign(void)
+extern void test_Broker_should_SupportMultiThread(void);
+void test_Broker_should_SupportMultiThread(void)
 {
 	UBsnapshot* sshot = snapshot_prep(ACTUAL_OUT);
 	UBfstream* stream = snapshot_cast(sshot);

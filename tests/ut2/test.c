@@ -67,8 +67,8 @@ static void app(void)
 	broker_destroy(broker);
 }
 
-extern void test_Broker_should_SupportSingleThreadDesign(void);
-void test_Broker_should_SupportSingleThreadDesign(void)
+extern void test_Broker_should_SupportSingleThread(void);
+void test_Broker_should_SupportSingleThread(void)
 {
 	UBsnapshot* sshot = snapshot_prep(ACTUAL_OUT);
 	UBfstream* stream = snapshot_cast(sshot);
