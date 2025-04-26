@@ -106,7 +106,7 @@ static int unordered_compare(UBfstream* a, UBfstream* b)
 	return destroy_tree(root) ? 1 : err;
 }
 
-UBsnapshot* ub_snapshot_prep(const char* factual)
+UBsnapshot* ub_snapshot_open(const char* factual)
 {
 	return (UBsnapshot*)ub_fopen(factual, "w+");
 }
@@ -142,7 +142,6 @@ static int eval(UBsnapshot* snapshot, const char* fexpected,
 		LOG(WARNING, "ub-debug", "Created new file: %s.", fexpected);
 	}
 	ub_fclose(expected);
-	ub_fclose(actual);
 	return err;
 }
 
@@ -154,4 +153,9 @@ int ub_snapshot_ordered(UBsnapshot* snapshot, const char* fexpected)
 int ub_snapshot_unordered(UBsnapshot* snapshot, const char* fexpected)
 {
 	return eval(snapshot, fexpected, unordered_compare);
+}
+
+void ub_snapshot_close(UBsnapshot* snapshot)
+{
+	ub_fclose((UBfstream*)snapshot);
 }

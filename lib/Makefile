@@ -7,11 +7,11 @@ ub-getcfg := python $(ub-dir)/getcfg.py $(ub-yamls) $(ub-dir)/default.yaml
 
 all-ub: $(ub-lib)
 
-include $(ub-dir)/common.mk
-include $(ub-dir)/algo/Makefile
-include $(ub-dir)/broker/Makefile
-include $(ub-dir)/debug/Makefile
-include $(ub-dir)/osal/Makefile
+include cfg.mk
+include algo/Makefile
+include broker/Makefile
+include debug/Makefile
+include osal/Makefile
 
 $(ub-lib): $(ub-objs)
 	ar rcs $@ $(ub-objs)
