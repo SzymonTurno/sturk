@@ -1,7 +1,45 @@
-#include "unity.h"
-#include "middleware.h"
+#include "pubsub.h"
 #include "UB/debug/log.h"
 #include "UB/debug/snapshot.h"
+#include "UB/broker.h"
+
+struct Payload {
+	int new;
+	int old;
+};
+
+struct Subscriber {
+	UBscriber* scriber;
+	struct Payload* pl;
+	UBchan* chan;
+};
+
+static size_t size(void)
+{
+	return sizeof(struct Payload);
+}
+
+static void init(UBload* load, va_list vlist)
+{
+	((struct Payload*)load)->new = va_arg(vlist, int);
+	((struct Payload*)load)->old = va_arg(vlist, int);
+}
+
+static void deinit(UBload* load)
+{
+	(void)load;
+}
+
+static const struct UBloadVt PAYLOAD[] = {{
+	.size = size,
+	.ctor = init,
+	.dtor = deinit
+}};
+
+static void receive(struct Subscriber* sub)
+{
+	sub->pl = (struct Payload*)scriber_poll(sub->scriber, &sub->chan);
+}
 
 static void broadcast(UBchan** chans, struct Subscriber* subs, int* store,
 	int val)
@@ -10,7 +48,7 @@ static void broadcast(UBchan** chans, struct Subscriber* subs, int* store,
 	int done = 0;
 
 	log(INFO, NULL, "broadcast %d", val);
-	lish(chans[0], val, 0);
+	lish(chans[0], val, store[0]);
 	do {
 		receive(&subs[0]);
 		receive(&subs[1]);
@@ -41,7 +79,7 @@ static void broadcast(UBchan** chans, struct Subscriber* subs, int* store,
 	} while (!done);
 }
 
-static void app(void)
+void single_thread_pubsub(void)
 {
 	UBroker* broker = broker_create(PAYLOAD);
 	UBchan* chans[] = {
@@ -65,16 +103,4 @@ static void app(void)
 	broadcast(chans, subs, store, 7);
 	broadcast(chans, subs, store, 1);
 	broker_destroy(broker);
-}
-
-extern void test_Broker_should_SupportSingleThread(void);
-void test_Broker_should_SupportSingleThread(void)
-{
-	UBsnapshot* sshot = snapshot_prep(ACTUAL_OUT);
-	UBfstream* stream = snapshot_cast(sshot);
-
-	log_attach(INFO, stream);
-	app();
-	TEST_ASSERT_EQUAL(0, snapshot_ordered(sshot, EXPECTED_OUT));
-	log_detach(INFO, stream);
 }

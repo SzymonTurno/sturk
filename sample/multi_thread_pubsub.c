@@ -1,5 +1,5 @@
-#include "unity.h"
-#include "middleware.h"
+#include "pubsub.h"
+#include "UB/broker.h"
 #include "UB/debug/log.h"
 #include "UB/debug/snapshot.h"
 #include <pthread.h>
@@ -9,6 +9,61 @@
 #define MULT_TH_ID  0
 #define REP_TH_ID   1
 #define DELIM_TH_ID 2
+
+struct Payload {
+	int new;
+	int old;
+};
+
+struct Publisher {
+	UBroker* broker;
+	union {
+		int data;
+		void* align;
+	} u;
+};
+
+struct Subscriber {
+	UBscriber* scriber;
+	struct Payload* pl;
+	UBchan* chan;
+};
+
+static size_t size(void)
+{
+	return sizeof(struct Payload);
+}
+
+static void init(UBload* load, va_list vlist)
+{
+	((struct Payload*)load)->new = va_arg(vlist, int);
+	((struct Payload*)load)->old = va_arg(vlist, int);
+}
+
+static void deinit(UBload* load)
+{
+	(void)load;
+}
+
+const struct UBloadVt PAYLOAD[] = {{
+	.size = size,
+	.ctor = init,
+	.dtor = deinit
+}};
+
+static int receive(struct Subscriber* sub)
+{
+	sub->pl = (struct Payload*)scriber_await(sub->scriber, &sub->chan);
+	return 1;
+}
+
+static void publish(struct Publisher* pub, const char* topic, int data)
+{
+	UBchan* chan = broker_search(pub->broker, topic);
+
+	lish(chan, data, pub->u.data);
+	pub->u.data = data;
+}
 
 static int join_requested(struct Subscriber* sub, int i)
 {
@@ -88,7 +143,7 @@ static void join_thread(UBroker* broker, pthread_t* thid, int i)
 	free(res);
 }
 
-static void app(void)
+void multi_thread_pubsub(void)
 {
 	UBroker* broker = broker_create(PAYLOAD);
 	struct Publisher pub = {.broker = broker, .u.data = 0};
@@ -103,17 +158,4 @@ static void app(void)
 	join_thread(broker, thid, MULT_TH_ID);
 	join_thread(broker, thid, REP_TH_ID);
 	broker_destroy(broker);
-}
-
-#include <stdio.h>
-extern void test_Broker_should_SupportMultiThread(void);
-void test_Broker_should_SupportMultiThread(void)
-{
-	UBsnapshot* sshot = snapshot_prep(ACTUAL_OUT);
-	UBfstream* stream = snapshot_cast(sshot);
-
-	log_attach(INFO, stream);
-	app();
-	TEST_ASSERT_EQUAL(0, snapshot_unordered(sshot, EXPECTED_OUT));
-	log_detach(INFO, stream);
 }

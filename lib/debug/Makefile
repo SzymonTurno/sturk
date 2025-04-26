@@ -1,6 +1,7 @@
-include cfg.mk
+debug_dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+debug_blddir := $(blddir)/$(debug_dir)
 
-debug_blddir := $(blddir)/$(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+include $(debug_dir)/cfg.mk
 
 ub-blddirs += $(debug_blddir)
 ub-objs += $(debug_blddir)/logger.o

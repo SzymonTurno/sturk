@@ -1,5 +1,4 @@
-dir-x := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-getcfg := $(ub-getcfg) $(dir-x)/default.yaml -s debug
+getcfg := $(ub-getcfg) $(debug_dir)/default.yaml -s debug
 
 log := $(shell $(getcfg) -p log)
 ifeq ($(log), on)
