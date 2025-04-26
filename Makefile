@@ -13,7 +13,7 @@ $(rptdir)/coverage.d: $(rptdir)/coverage.info
 $(rptdir)/coverage.info: $(rptdir)
 	lcov --capture --directory ./$(blddir) --output-file $@
 
-include lib/Makefile
+include src/Makefile
 include sample/Makefile
 include test/Makefile
 
