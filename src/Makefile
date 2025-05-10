@@ -5,13 +5,13 @@ ub-lib := $(ub-blddir)/libub.a
 ub-incs := -I$(ub-dir)/include
 ub-getcfg := python $(ub-dir)/getcfg.py $(ub-yamls) $(ub-dir)/default.yaml
 
-all-ub: $(ub-lib)
-
 include $(ub-dir)/cfg.mk
 include $(ub-dir)/algo/Makefile
 include $(ub-dir)/broker/Makefile
 include $(ub-dir)/debug/Makefile
 include $(ub-dir)/osal/Makefile
+
+all-ub: $(ub-lib)
 
 $(ub-lib): $(ub-objs)
 	ar rcs $@ $(ub-objs)

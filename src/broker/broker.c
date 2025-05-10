@@ -125,8 +125,10 @@ static UBload* load_init(UBscriber* scriber, struct UBinode* node)
 
 UBroker* ub_broker_create(const struct UBloadVt* vp)
 {
-	struct UBroker* self = ub_malloc(sizeof(*self));
+	struct UBroker* self = NULL;
 
+	ENSURE(vp && vp->size && vp->ctor && vp->dtor, ECODES.null_param);
+	self = ub_malloc(sizeof(*self));
 	self->vp = vp;
 	self->dict = NULL;
 	self->list = NULL;
@@ -167,10 +169,11 @@ UBchan* ub_broker_search(UBroker* broker, const char* topic)
 
 UBscriber* ub_scriber_create(UBroker* broker)
 {
-	UBscriber* self = ub_malloc(sizeof(*self));
+	UBscriber* self = NULL;
 
-	self->broker = broker;
 	ENSURE(broker, ECODES.null_param);
+	self = ub_malloc(sizeof(*self));
+	self->broker = broker;
 	mutex_lock(broker->mutex);
 	broker->list = list_ins(broker->list, slist_create(self));
 	mutex_unlock(broker->mutex);
