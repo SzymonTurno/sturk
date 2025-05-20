@@ -1,0 +1,5 @@
+---
+  cydiom:
+    debug:
+      log: "on"
+      exceptions: "on"

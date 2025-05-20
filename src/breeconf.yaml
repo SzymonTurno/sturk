@@ -1,5 +1,5 @@
 ---
-  ub-common:
+  cydiom:
     cver: "gnu"
     build_type: "release"
-    run_mode: "none"
+    build_path: "build"

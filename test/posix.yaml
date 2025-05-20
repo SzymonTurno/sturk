@@ -1,7 +1,7 @@
 ---
-  ub-common:
+  cydiom:
+    cver: "gnu"
     build_type: "coverage"
-    run_mode: "valgrind"
-  ub-osal:
-    mutex: "posix"
-    sem: "posix"
+    osal:
+      mutex: "posix"
+      sem: "posix"

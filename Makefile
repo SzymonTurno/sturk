@@ -1,6 +1,6 @@
 CC := gcc
 blddir := build
-rptdir := $(blddir)/analysis.d
+rptdir := $(blddir)/src/analysis.d
 
 usage:
 	@echo Usage: make run-* ub-yamls="path/to/optional.yaml"

@@ -3,10 +3,6 @@
 
 #include "ub/os/sysio.h"
 
-#ifndef UB_LOG_EN
-#define UB_LOG_EN 0
-#endif /* UB_LOG_EN */
-
 enum UBlogLvl {
 	UB_DEBUG = 0,
 	UB_INFO,

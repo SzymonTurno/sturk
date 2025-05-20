@@ -11,25 +11,29 @@ unity_incs += -I$(unity_dir)/extras/fixture/src
 unity_incs += -I$(unity_dir)/extras/memory/src
 
 run-iso_tests:
-	make _run-tests ub-yamls="$(test_dir)/iso.yaml $(ub-yamls)"
+	make _run-tests cy-yamls="$(test_dir)/iso.yaml $(cy-yamls)"
 
 run-posix_tests:
-	make _run-tests ub-yamls="$(test_dir)/posix.yaml $(ub-yamls)"
+	make _run-tests cy-yamls="$(test_dir)/posix.yaml $(cy-yamls)"
 
 _run-tests: $(test_blddir)/app
-	$(ub-runcmd) ./$(test_blddir)/app
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+		--log-file="$(rptdir)/valgrind.info" \
+		./$(test_blddir)/app
 
-$(test_blddir)/app: $(test_objs) $(sample_objs) $(unity_objs) $(ub-lib)
-	$(CC) -o $@ $(test_objs) $(sample_objs) $(unity_objs) $(ub-lib) $(ub-ldflags)
+$(test_blddir)/app: $(test_objs) $(sample_objs) $(unity_objs)
+	make all-cy cy-yamls=$(cy-yamls)
+	$(CC) -o $@ $(test_objs) $(sample_objs) $(unity_objs) \
+		build/$(cy-dir)/$(cy-lib) -lgcov --coverage
 
 $(test_objs): CFLAGS += -DEXPECTED_OUT="\"$(test_dir)/expected.out\""
 $(test_objs): CFLAGS += -DACTUAL_OUT="\"$(test_dir)/actual.out\""
 $(test_blddir)/%.o: $(test_dir)/%.c | $(test_blddir)
 	$(CC) $(CFLAGS) $(unity_incs) $(sample_incs) -c -o $@ $<
 
-$(sample_objs): CFLAGS += $(ub-cflags)
+$(sample_objs): CFLAGS += $(cy-cflags)
 $(sample_blddir)/%.o: $(sample_dir)/%.c | $(sample_blddir)
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) $(cy-incs) -c -o $@ $<
 
 $(test_blddir)/unity.o: $(unity_dir)/src/unity.c | $(test_blddir)
 	cd $(unity_dir) && git checkout v2.6.1

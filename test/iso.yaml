@@ -1,5 +1,4 @@
 ---
-  ub-common:
+  cydiom:
     cver: "iso"
     build_type: "coverage"
-    run_mode: "valgrind"

@@ -1,26 +1,39 @@
-blddir ?= build
-ub-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-ub-blddir := $(patsubst %/.,%,$(blddir)/$(ub-dir))
-ub-lib := $(ub-blddir)/libub.a
-ub-incs := -I$(ub-dir)/include
-ub-getcfg := python $(ub-dir)/getcfg.py $(ub-yamls) $(ub-dir)/default.yaml
+cy-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+cy-incs := -I$(cy-dir)/include
+cy-lib := libcydiom.a
+cy-breeconf := python -B $(cy-dir)/breeconf.py $(cy-yamls)
 
-include $(ub-dir)/cfg.mk
-include $(ub-dir)/algo/Makefile
-include $(ub-dir)/broker/Makefile
-include $(ub-dir)/debug/Makefile
-include $(ub-dir)/osal/Makefile
+cy-cflags := -Wall
+cy-cflags += -Wcast-align
+cy-cflags += -Wconversion
+cy-cflags += -Wdisabled-optimization
+cy-cflags += -Wextra
+cy-cflags += -Wlogical-op
+cy-cflags += -Wmissing-prototypes
+cy-cflags += -Wnested-externs
+cy-cflags += -Wpadded
+cy-cflags += -Wredundant-decls
+cy-cflags += -Wshadow
+cy-cflags += -Wstrict-prototypes
+cy-cflags += -Wswitch-default
+cy-cflags += -Wwrite-strings
 
-all-ub: $(ub-lib)
+all-cy:
+ifeq "$(shell $(cy-breeconf))" ""
+	$(error "Breeck failure.")
+endif
+	make _all-cy $(shell $(cy-breeconf))
 
-$(ub-lib): $(ub-objs)
-	ar rcs $@ $(ub-objs)
+_all-cy: $(cy-blddir)/$(cy-lib)
 
-$(ub-objs): CFLAGS ?= $(ub-gcov) $(ub-cflags)
-$(ub-blddir)/%.o: $(ub-dir)/%.c | $(ub-blddirs)
-	$(CC) $(CFLAGS) -c -o $@ $<
+$(cy-blddir)/$(cy-lib): $(cy-objs) $(cy-blddir)
+	ar rcs $@ $(cy-objs)
 
-$(ub-blddirs):
+$(cy-objs): CFLAGS ?= $(cy-cflags) $(cy-extra-cflags)
+$(cy-blddir)/%.o: $(cy-dir)/%.c | $(cy-blddirs)
+	$(CC) $(CFLAGS) $(cy-incs) -c -o $@ $<
+
+$(cy-blddirs):
 	mkdir -p $@
 
-.PHONY: all-ub
+.PHONY: all-cy _all-cy

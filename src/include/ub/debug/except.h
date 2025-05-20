@@ -3,10 +3,6 @@
 
 #include "ub/debug/log.h"
 
-#ifndef UB_EXCEPTIONS_EN
-#define UB_EXCEPTIONS_EN 0
-#endif /* UB_EXCEPTIONS_EN */
-
 struct UBexception {
 	const char* reason;
 };
@@ -25,6 +21,7 @@ static const struct {
 	.not_supported = {{ "Not supported." }}
 };
 
+#ifdef UB_EXCEPTIONS_EN
 #define UB_ENSURE(cond, ecode)                                                \
 	do {                                                                   \
 		if (UB_EXCEPTIONS_EN && !cond) {                               \
@@ -34,6 +31,9 @@ static const struct {
 			ub_sysfail();                                          \
 		}                                                              \
 	} while (0)
+#else /* UB_EXCEPTIONS_EN */
+#define UB_ENSURE(cond, ecode)
+#endif /* UB_EXCEPTIONS_EN */
 
 #define UB_RAISE(ecode) UB_ENSURE(0, ecode)
 
