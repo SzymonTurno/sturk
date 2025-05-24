@@ -3,7 +3,7 @@ from cydiom.cycfg import Cynode
 
 def create(params):
     node = Cynode(params)
-    settings = node.settings()['cydiom']['debug']
+    settings = node.settings()['cydiom']['logger']
 
     if settings['log'] == 'on':
         node.cflags.append('-DUB_LOG_EN=1')

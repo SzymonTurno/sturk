@@ -1,7 +1,7 @@
 #include "message.h"
 #include "UB/arith.h"
 #include "UB/rbtree.h"
-#include "UB/debug/except.h"
+#include "UB/logger/except.h"
 #include "ub/os/mem.h"
 #include <string.h>
 

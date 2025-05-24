@@ -1,6 +1,6 @@
-#include "UB/debug/log.h"
-#include "UB/debug/logger.h"
-#include "UB/debug/except.h"
+#include "UB/logger/log.h"
+#include "UB/logger/logger.h"
+#include "UB/logger/except.h"
 #include "ub/os/mem.h"
 #include "types.h"
 

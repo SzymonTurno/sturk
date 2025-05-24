@@ -1,5 +1,5 @@
-#include "UB/debug/logger.h"
-#include "UB/debug/except.h"
+#include "UB/logger/logger.h"
+#include "UB/logger/except.h"
 #include "UB/list.h"
 #include "UB/os/mutex.h"
 #include "ub/os/mem.h"

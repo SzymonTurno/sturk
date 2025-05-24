@@ -1,7 +1,7 @@
 #ifndef UB_LIST_H
 #define UB_LIST_H
 
-#include "ub/debug/except.h"
+#include "ub/logger/except.h"
 
 struct UBunnode {
 	struct UBunnode* next;

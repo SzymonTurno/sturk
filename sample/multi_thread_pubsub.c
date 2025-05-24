@@ -1,7 +1,7 @@
 #include "pubsub.h"
 #include "UB/broker.h"
-#include "UB/debug/log.h"
-#include "UB/debug/snapshot.h"
+#include "UB/logger/log.h"
+#include "UB/logger/snapshot.h"
 #include <pthread.h>
 #include <string.h>
 #include <stdlib.h>

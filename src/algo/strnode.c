@@ -1,6 +1,6 @@
 #include "ub/dict.h"
 #include "UB/arith.h"
-#include "UB/debug/except.h"
+#include "UB/logger/except.h"
 #include "UB/rbtree.h"
 #include <string.h>
 

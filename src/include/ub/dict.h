@@ -3,7 +3,7 @@
 
 #include "ub/rbtree.h"
 #include "ub/arith.h"
-#include "ub/debug/except.h"
+#include "ub/logger/except.h"
 
 struct UBstrnode {
 	struct UBrbnode node;

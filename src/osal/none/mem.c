@@ -1,5 +1,5 @@
 #include "ub/os/mem.h"
-#include "UB/debug/except.h"
+#include "UB/logger/except.h"
 #include <stdlib.h>
 
 void* ub_malloc(size_t size)

@@ -32,7 +32,7 @@ def create(params):
     )
     node.include('algo')
     node.include('broker')
-    node.include('debug')
+    node.include('logger')
     node.include('osal')
     return node
 

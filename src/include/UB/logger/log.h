@@ -1,7 +1,7 @@
 #ifndef _UB_LOG_H
 #define _UB_LOG_H
 
-#include "ub/debug/log.h"
+#include "ub/logger/log.h"
 
 #define LOG_EN UB_LOG_EN
 

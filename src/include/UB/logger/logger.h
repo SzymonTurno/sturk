@@ -1,7 +1,7 @@
 #ifndef _UB_LOGGER_H
 #define _UB_LOGGER_H
 
-#include "ub/debug/logger.h"
+#include "ub/logger/logger.h"
 
 #define logger_create ub_logger_create
 

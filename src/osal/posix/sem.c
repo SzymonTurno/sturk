@@ -1,6 +1,6 @@
 #include "ub/os/sem.h"
 #include "ub/os/mem.h"
-#include "UB/debug/except.h"
+#include "UB/logger/except.h"
 #include <semaphore.h>
 
 #define OK 0

@@ -1,7 +1,7 @@
 #ifndef _UB_SNAPSHOT_H
 #define _UB_SNAPSHOT_H
 
-#include "ub/debug/snapshot.h"
+#include "ub/logger/snapshot.h"
 
 #define snapshot_open ub_snapshot_open
 

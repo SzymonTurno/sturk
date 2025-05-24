@@ -1,7 +1,7 @@
 #ifndef UB_EXCEPT_H
 #define UB_EXCEPT_H
 
-#include "ub/debug/log.h"
+#include "ub/logger/log.h"
 
 struct UBexception {
 	const char* reason;

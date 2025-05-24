@@ -4,7 +4,7 @@
 #include "unity.h"
 #include "unity_fixture.h"
 #include "snapshot.h"
-#include "UB/debug/log.h"
+#include "UB/logger/log.h"
 
 #define TEST_ASSERT_SNAPSHOT_ORDERED(fexpected)                               \
 	TEST_ASSERT_EQUAL(0, snapshot_test_ordered(fexpected));

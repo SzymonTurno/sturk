@@ -1,5 +1,5 @@
-#include "ub/debug/snapshot.h"
-#include "UB/debug/log.h"
+#include "ub/logger/snapshot.h"
+#include "UB/logger/log.h"
 #include "UB/arith.h"
 #include "UB/dict.h"
 #include "UB/rbtree.h"
@@ -139,7 +139,7 @@ static int eval(UBsnapshot* snapshot, const char* fexpected,
 	} else {
 		expected = ub_fopen(fexpected, "w");
 		copy_file(expected, actual);
-		LOG(WARNING, "ub-debug", "Created new file: %s.", fexpected);
+		LOG(WARNING, "ub-logger", "Created new file: %s.", fexpected);
 	}
 	ub_fclose(expected);
 	return err;

@@ -1,5 +1,5 @@
 ---
   cydiom:
-    debug:
+    logger:
       log: "on"
       exceptions: "on"

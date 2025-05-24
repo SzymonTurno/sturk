@@ -1,5 +1,5 @@
 #include "snapshot.h"
-#include "UB/debug/snapshot.h"
+#include "UB/logger/snapshot.h"
 #include "UB/os/mutex.h"
 
 static UBsnapshot* snapshot;

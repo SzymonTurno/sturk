@@ -2,7 +2,7 @@
 #define UB_CIRQ_H
 
 #include "ub/arith.h"
-#include "ub/debug/except.h"
+#include "ub/logger/except.h"
 
 struct UBinode {
 	struct UBinode* next;
