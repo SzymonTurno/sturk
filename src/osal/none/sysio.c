@@ -17,7 +17,7 @@ bool ub_fexists(const char* filename)
 	return access(filename, F_OK) == 0;
 }
 
-UBfstream* ub_fopen(const char *filename, const char *mode)
+UBfstream* ub_fopen(const char* filename, const char* mode)
 {
 	return (UBfstream*)fopen(filename, mode);
 }
