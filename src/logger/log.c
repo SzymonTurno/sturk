@@ -1,10 +1,10 @@
 #include "UB/logger/log.h"
-#include "UB/logger/logger.h"
+#include "UB/logger/streambag.h"
 #include "UB/logger/except.h"
 #include "ub/os/mem.h"
 #include "types.h"
 
-static struct UBlogger* logger[N_LOG_LVLS];
+static struct CyStreambag* streambag[N_LOG_LVLS];
 
 static const char* get_lvlstr(enum UBlogLvl lvl)
 {
@@ -26,14 +26,14 @@ static const char* get_lvlstr(enum UBlogLvl lvl)
 
 void ub_log_attach(enum UBlogLvl lvl, UBfstream* stream)
 {
-	if (!logger[lvl])
-		logger[lvl] = logger_create();
-	logger_attach(logger[lvl], stream);
+	if (!streambag[lvl])
+		streambag[lvl] = streambag_create();
+	streambag_push(streambag[lvl], stream);
 }
 
 void ub_log_detach(enum UBlogLvl lvl, UBfstream* stream)
 {
-	logger_detach(logger[lvl], stream);
+	streambag_pop(streambag[lvl], stream);
 }
 
 void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)
@@ -41,7 +41,7 @@ void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)
 	va_list vlist;
 	char* buff = NULL;
 
-	if (!logger[lvl])
+	if (!streambag[lvl])
 		return;
 	buff = ub_malloc(BUFF_MAX_SIZE);
 	if (tag)
@@ -51,7 +51,7 @@ void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)
 		ub_snprintf(buff, BUFF_MAX_SIZE, "[%s] %s\n",
 			get_lvlstr(lvl), format);
 	va_start(vlist, format);
-	logger_vprint(logger[lvl], buff, vlist);
+	streambag_vprint(streambag[lvl], buff, vlist);
 	va_end(vlist);
 	ub_free(buff);
 }
@@ -59,7 +59,7 @@ void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)
 void ub_log_deinit(void)
 {
 	for (int i = 0; i < N_LOG_LVLS; i++) {
-		logger_destroy(logger[i]);
-		logger[i] = NULL;
+		streambag_destroy(streambag[i]);
+		streambag[i] = NULL;
 	}
 }

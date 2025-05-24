@@ -19,7 +19,7 @@ def create(params):
     else:
         node.fail('Unknown exceptions mode: ' + settings['exceptions'] + '.')
 
-    node.objs.append('logger.o')
     node.objs.append('log.o')
+    node.objs.append('streambag.o')
     node.objs.append('snapshot.o')
     return node
