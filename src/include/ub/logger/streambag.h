@@ -1,7 +1,7 @@
 #ifndef CY_STREAMBAG_H
 #define CY_STREAMBAG_H
 
-#include "ub/os/sysio.h"
+#include "ub/os/fstream.h"
 
 typedef struct CyStreambag CyStreambag;
 

@@ -4,4 +4,5 @@
       mem: "none"
       mutex: "none"
       sem: "none"
-      sysio: "none"
+      sys: "none"
+      fstream: "none"

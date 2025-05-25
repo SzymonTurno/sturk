@@ -21,5 +21,4 @@ def create(params):
 
     node.objs.append('log.o')
     node.objs.append('streambag.o')
-    node.objs.append('snapshot.o')
     return node

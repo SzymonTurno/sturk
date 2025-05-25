@@ -1,14 +1,20 @@
 #ifndef UB_LOG_H
 #define UB_LOG_H
 
-#include "ub/os/sysio.h"
+#include "ub/os/fstream.h"
 
 enum UBlogLvl {
-	UB_DEBUG = 0,
+	UB_UNKNOWN = 0,
+	UB_DEBUG,
 	UB_INFO,
 	UB_WARNING,
 	UB_ERROR,
 	UB_N_LOG_LVLS
+};
+
+struct CyListener {
+	const char* name;
+	UBfstream* stream;
 };
 
 void ub_log_attach(enum UBlogLvl lvl, UBfstream* stream);
@@ -18,6 +24,10 @@ void ub_log_detach(enum UBlogLvl lvl, UBfstream* stream);
 void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...);
 
 void ub_log_deinit(void);
+
+struct CyListener* cy_listener_create(const char* name);
+
+void cy_listener_destroy(struct CyListener* listener);
 
 #define UB_LOG(lvl, tag, ...)                                                 \
 	do {                                                                   \

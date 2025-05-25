@@ -3,17 +3,34 @@
 
 #include "unity.h"
 #include "unity_fixture.h"
-#include "snapshot.h"
 #include "UB/logger/log.h"
+#include <string.h>
 
-#define TEST_ASSERT_SNAPSHOT_ORDERED(fexpected)                               \
-	TEST_ASSERT_EQUAL(0, snapshot_test_ordered(fexpected));
+#define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
 
-#define TEST_ASSERT_SNAPSHOT_UNORDERED(fexpected)                             \
-	TEST_ASSERT_EQUAL(0, snapshot_test_unordered(fexpected));
+#define EXPECTED_LINE(str) str"\n",
 
-#define TEST_ASSERT_EQUAL_STREAM_GETLINE(stream, str) NOT_IMPLEMENTED
+static inline int assert_line(UBfstream* stream, const char* str)
+{
+	int ret = 0;
+	char* buff = malloc(256);
 
-#define TEST_ASSERT_STREAM_CONTAINS(stream, str) NOT_IMPLEMENTED
+	ub_fgets(buff, 256, stream);
+	ret = strcmp(buff, str);
+	if (ret)
+		fprintf(stderr, "Assertion failed: \"%s\" != \"%s\".\n", buff,
+			str);
+	free(buff);
+	return ret;
+}
+
+#define TEST_ASSERT_LISTENER_ORDERED(listener, expected)                      \
+	do {                                                                   \
+		ub_fseekset((listener)->stream, 0);                            \
+		for (size_t i = 0; i < ARRAY_SIZE(expected); i++)              \
+			TEST_ASSERT_EQUAL(0, assert_line((listener)->stream,   \
+				expected[i]));                                 \
+		TEST_ASSERT_EQUAL(EOF, ub_fgetc((listener)->stream));          \
+	} while (0)
 
 #endif /* UNITTEST_H */

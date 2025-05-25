@@ -23,6 +23,10 @@
 
 #define log_deinit ub_log_deinit
 
+#define listener_create cy_listener_create
+
+#define listener_destroy cy_listener_destroy
+
 #define LOG UB_LOG
 
 #endif /* _UB_LOG_H */

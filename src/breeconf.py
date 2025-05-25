@@ -11,7 +11,7 @@ def create(params):
     settings = node.settings()['cydiom']
 
     if settings['cver'] == 'gnu':
-        node.cflags.append('-std=gnu99')
+        node.cflags.append('-std=gnu11')
     elif settings['cver'] == 'iso':
         node.cflags.append('-std=c99 -pedantic')
     else:

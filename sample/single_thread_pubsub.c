@@ -1,6 +1,5 @@
 #include "pubsub.h"
 #include "UB/logger/log.h"
-#include "UB/logger/snapshot.h"
 #include "UB/broker.h"
 
 struct Payload {

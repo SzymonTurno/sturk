@@ -2,7 +2,8 @@
 #include "UB/logger/streambag.h"
 #include "UB/logger/except.h"
 #include "ub/os/mem.h"
-#include "types.h"
+
+#define BUFF_MAX_SIZE 128
 
 static struct CyStreambag* streambag[N_LOG_LVLS];
 
@@ -62,4 +63,22 @@ void ub_log_deinit(void)
 		streambag_destroy(streambag[i]);
 		streambag[i] = NULL;
 	}
+}
+
+struct CyListener* cy_listener_create(const char* name)
+{
+	struct CyListener* self = ub_malloc(sizeof(*self));
+
+	self->name = name;
+	self->stream = ub_fopen(name, "w+");
+	return self;
+}
+
+void cy_listener_destroy(struct CyListener* listener)
+{
+	ub_fclose(listener->stream);
+	listener->stream = NULL;
+	ub_remove(listener->name);
+	listener->name = NULL;
+	ub_free(listener);
 }

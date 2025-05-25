@@ -2,6 +2,7 @@
 #define UB_EXCEPT_H
 
 #include "ub/logger/log.h"
+#include "ub/os/sys.h"
 
 struct UBexception {
 	const char* reason;
