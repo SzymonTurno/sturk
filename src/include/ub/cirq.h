@@ -1,7 +1,7 @@
 #ifndef UB_CIRQ_H
 #define UB_CIRQ_H
 
-#include "ub/arith.h"
+#include "ub/misc.h"
 #include "ub/logger/except.h"
 
 struct UBinode {

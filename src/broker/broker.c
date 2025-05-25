@@ -1,5 +1,5 @@
 #include "message.h"
-#include "UB/arith.h"
+#include "UB/misc.h"
 #include "UB/rbtree.h"
 #include "UB/logger/except.h"
 #include "ub/os/mem.h"
@@ -7,17 +7,12 @@
 
 #define MSG_SIZE sizeof(struct Message)
 
-static struct UBstrnode* strnode_cont(struct UBrbnode* ptr)
-{
-	return container_of(ptr, struct UBstrnode, node);
-}
-
 static struct UBchan* chan_create(const char* topic, const struct UBloadVt* vp)
 {
 	struct UBchan* self = ub_malloc(sizeof(*self));
 	struct Chan* c = dict_data(self);
 
-	dict_setk(self, strcpy(ub_malloc(strlen(topic) + 1), topic));
+	dict_setk(self, newstr(topic));
 	c->vp = vp;
 	c->list = NULL;
 	c->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);

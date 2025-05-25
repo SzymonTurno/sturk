@@ -10,7 +10,7 @@
 
 #define EXPECTED_LINE(str) str"\n",
 
-static inline int assert_line(UBfstream* stream, const char* str)
+static inline int assert_getline(UBfstream* stream, const char* str)
 {
 	int ret = 0;
 	char* buff = malloc(256);
@@ -28,7 +28,7 @@ static inline int assert_line(UBfstream* stream, const char* str)
 	do {                                                                   \
 		ub_fseekset((listener)->stream, 0);                            \
 		for (size_t i = 0; i < ARRAY_SIZE(expected); i++)              \
-			TEST_ASSERT_EQUAL(0, assert_line((listener)->stream,   \
+			TEST_ASSERT_EQUAL(0, assert_getline((listener)->stream,\
 				expected[i]));                                 \
 		TEST_ASSERT_EQUAL(EOF, ub_fgetc((listener)->stream));          \
 	} while (0)

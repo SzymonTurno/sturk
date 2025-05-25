@@ -2,7 +2,7 @@
 #define UB_DICT_H
 
 #include "ub/rbtree.h"
-#include "ub/arith.h"
+#include "ub/misc.h"
 #include "ub/logger/except.h"
 
 struct UBstrnode {
@@ -17,6 +17,11 @@ struct UBstrnode*
 ub_strnode_ins(struct UBstrnode* root, struct UBstrnode* node);
 
 struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
+
+static inline struct UBstrnode* ub_strnode_cont(struct UBrbnode* ptr)
+{
+	return ub_container_of(ptr, struct UBstrnode, node);
+}
 
 #ifdef __STRICT_ANSI__
 #define ub_dict_cast(dict) (&(dict)->strnode)
@@ -76,8 +81,7 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 		__typeof__(root) _root = (root);                               \
 									       \
 		ub_dict_cont(                                                  \
-			ub_strnode_ins(                                        \
-				_root ? &_root->strnode : NULL,                \
+			ub_strnode_ins(_root ? &_root->strnode : NULL,         \
 				&node->strnode),                               \
 			__typeof__(*root));                                    \
 	})
@@ -91,5 +95,9 @@ struct UBstrnode* ub_strnode_find(struct UBstrnode* root, const char* str);
 			__typeof__(*root));                                    \
 	})
 #endif /* __STRICT_ANSI__ */
+
+#define ub_dict_preorder(dict, type)                                          \
+	ub_dict_cont(ub_strnode_cont(ub_rb_preorder(&dict_cast(dict)->node)),  \
+		     type)
 
 #endif /* UB_DICT_H */

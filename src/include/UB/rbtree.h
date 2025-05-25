@@ -11,4 +11,6 @@
 
 #define rb_deepest ub_rb_deepest
 
+#define rb_preorder ub_rb_preorder
+
 #endif /* _UB_RBTREE_H */

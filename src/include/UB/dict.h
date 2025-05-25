@@ -9,6 +9,8 @@
 
 #define strnode_find ub_strnode_find
 
+#define strnode_cont ub_strnode_cont
+
 #define dict_cast ub_dict_cast
 
 #define dict_setk ub_dict_setk
@@ -22,5 +24,7 @@
 #define dict_ins ub_dict_ins
 
 #define dict_find ub_dict_find
+
+#define dict_preorder ub_dict_preorder
 
 #endif /* _UB_DICT_H */

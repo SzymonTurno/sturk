@@ -1,6 +1,6 @@
 #include "ub/pool.h"
 #include "UB/list.h"
-#include "UB/arith.h"
+#include "UB/misc.h"
 #include "UB/logger/except.h"
 #include "ub/os/mem.h"
 #include "UB/os/mutex.h"

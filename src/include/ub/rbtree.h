@@ -20,4 +20,6 @@ struct UBrbnode* ub_rb_parent(struct UBrbnode* node);
 
 struct UBrbnode* ub_rb_deepest(struct UBrbnode* node);
 
+struct UBrbnode* ub_rb_preorder(struct UBrbnode* node);
+
 #endif /* UB_RBTREE_H */

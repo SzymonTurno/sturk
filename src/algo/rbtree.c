@@ -188,3 +188,19 @@ struct UBrbnode* ub_rb_deepest(struct UBrbnode* node)
 	}
 	return node;
 }
+
+struct UBrbnode* ub_rb_preorder(struct UBrbnode* node)
+{
+	struct UBrbnode* p = NULL;
+
+	ENSURE(node, ECODES.null_param);
+	if (node->left)
+		return node->left;
+
+	if (node->right)
+		return node->right;
+
+	while ((p = get_parent(node)) && node == p->right)
+		node = p;
+	return p ? p->right : NULL;
+}
