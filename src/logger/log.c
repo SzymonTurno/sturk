@@ -57,7 +57,7 @@ void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)
 	ub_free(buff);
 }
 
-void ub_log_deinit(void)
+void ub_log_cleanup(void)
 {
 	for (int i = 0; i < N_LOG_LVLS; i++) {
 		streambag_destroy(streambag[i]);

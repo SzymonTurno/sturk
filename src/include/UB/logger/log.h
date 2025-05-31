@@ -21,7 +21,7 @@
 
 #define log ub_log
 
-#define log_deinit ub_log_deinit
+#define log_cleanup ub_log_cleanup
 
 #define listener_create cy_listener_create
 

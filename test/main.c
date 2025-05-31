@@ -144,6 +144,6 @@ int main(int argc, const char **argv)
 	log_attach(WARNING, ub_stderr());
 	log_attach(ERROR, ub_stderr());
 	UnityMain(argc, argv, run_all_tests);
-	log_deinit();
+	log_cleanup();
 	return 0;
 }

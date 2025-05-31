@@ -28,7 +28,7 @@ static const struct {
 		if (UB_EXCEPTIONS_EN && !cond) {                               \
 			UB_LOG(UB_ERROR, NULL, "%s:%d: %s",  __FILE__,         \
 				__LINE__, ((ecode)->reason));                  \
-			ub_log_deinit();                                       \
+			ub_log_cleanup();                                      \
 			ub_sysfail();                                          \
 		}                                                              \
 	} while (0)

@@ -18,7 +18,7 @@ void ub_log_detach(enum UBlogLvl lvl, UBfstream* stream);
 
 void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...);
 
-void ub_log_deinit(void);
+void ub_log_cleanup(void);
 
 #define UB_LOG(lvl, tag, ...)                                                 \
 	do {                                                                   \
