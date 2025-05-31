@@ -1,5 +1,5 @@
 #include "ub/dict.h"
-#include "UB/misc.h"
+#include "UB/arith.h"
 #include "UB/logger/except.h"
 #include "UB/rbtree.h"
 #include <string.h>

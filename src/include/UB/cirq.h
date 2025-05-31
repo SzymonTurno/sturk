@@ -15,7 +15,7 @@
 
 #define cirq_data ub_cirq_data
 
-#define cirq_cont ub_cirq_cont
+#define cirq_from ub_cirq_from
 
 #define cirq_ins ub_cirq_ins
 

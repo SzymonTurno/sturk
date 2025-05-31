@@ -11,6 +11,10 @@
 
 #define rb_deepest ub_rb_deepest
 
-#define rb_preorder ub_rb_preorder
+#define rb_deepest ub_rb_deepest
+
+#define rb_leftmost ub_rb_leftmost
+
+#define rb_next ub_rb_next
 
 #endif /* _UB_RBTREE_H */

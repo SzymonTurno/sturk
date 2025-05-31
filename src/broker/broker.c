@@ -1,9 +1,9 @@
 #include "message.h"
-#include "UB/misc.h"
+#include "ub/os/mem.h"
+#include "UB/str.h"
+#include "UB/arith.h"
 #include "UB/rbtree.h"
 #include "UB/logger/except.h"
-#include "ub/os/mem.h"
-#include <string.h>
 
 #define MSG_SIZE sizeof(struct Message)
 
@@ -43,7 +43,8 @@ static void dict_destroy(struct UBchan* dict)
 	for (struct UBrbnode *i = NULL, *p = NULL;;) {
 		i = rb_deepest(&dict_cast(dict)->node);
 		p = rb_parent(i);
-		chan_destroy(dict_cont(strnode_cont(i), UBchan));
+		chan_destroy(
+			container_of(strnode_from(i), UBchan, strnode));
 		if (!p)
 			break;
 
@@ -112,7 +113,7 @@ static UBload* load_init(UBscriber* scriber, struct UBinode* node)
 	scriber_release(scriber);
 	if (!node)
 		return NULL;
-	q = cirq_cont(node, struct Qentry);
+	q = cirq_from(node, struct Qentry);
 	scriber->msg = *cirq_data(q);
 	pool_free(scriber->pool, q);
 	return msg_getload(scriber->msg);

@@ -1,8 +1,10 @@
 #ifndef PUBSUB_H
 #define PUBSUB_H
 
-void single_thread_pubsub(void);
+#include "ub/str.h"
 
-void multi_thread_pubsub(void);
+struct CyStrq* single_thread_pubsub(void);
+
+struct CyStrbag* multi_thread_pubsub(void);
 
 #endif /* PUBSUB_H */

@@ -1,6 +1,9 @@
 #include "pubsub.h"
+#include "ub/os/mem.h"
+#include "ub/os/sys.h"
 #include "UB/logger/log.h"
 #include "UB/broker.h"
+#include "UB/str.h"
 
 struct Payload {
 	int new;
@@ -78,7 +81,7 @@ static void broadcast(UBchan** chans, struct Subscriber* subs, int* store,
 	} while (!done);
 }
 
-void single_thread_pubsub(void)
+static void app(void)
 {
 	UBroker* broker = broker_create(PAYLOAD);
 	UBchan* chans[] = {
@@ -102,4 +105,22 @@ void single_thread_pubsub(void)
 	broadcast(chans, subs, store, 7);
 	broadcast(chans, subs, store, 1);
 	broker_destroy(broker);
+}
+
+struct CyStrq* single_thread_pubsub(void)
+{
+	struct CyStrq* ret = NULL;
+	struct UBfstream* stream = ub_fopen("single_thread_pubsub.tmp", "w+");
+	char* buff = ub_malloc(256);
+
+	log_attach(INFO, stream);
+	app();
+	log_detach(INFO, stream);
+	ub_fseekset(stream, 0);
+	while (ub_fgets(buff, 256, stream))
+		ret = strq_ins(ret, newstr(buff));
+	ub_free(buff);
+	ub_fclose(stream);
+	ub_remove("single_thread_pubsub.tmp");
+	return ret;
 }

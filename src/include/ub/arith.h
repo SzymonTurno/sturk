@@ -1,5 +1,5 @@
-#ifndef UB_MISC_H
-#define UB_MISC_H
+#ifndef UB_ARITH_H
+#define UB_ARITH_H
 
 #include <stddef.h>
 
@@ -35,6 +35,4 @@
 	})
 #endif /* __STRICT_ANSI__ */
 
-char* ub_newstr(const char* str);
-
-#endif /* UB_MISC_H */
+#endif /* UB_ARITH_H */

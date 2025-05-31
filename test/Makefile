@@ -9,12 +9,13 @@ unity_objs += $(test_blddir)/unity_memory.o
 unity_incs := -I$(unity_dir)/src
 unity_incs += -I$(unity_dir)/extras/fixture/src
 unity_incs += -I$(unity_dir)/extras/memory/src
+ut-posix ?= off
 
 run-iso_tests:
-	make _run-tests cy-yamls="$(test_dir)/iso.yaml $(cy-yamls)"
+	make _run-tests cy-yamls="$(test_dir)/iso.yaml $(cy-yamls)" ut-posix="off"
 
 run-posix_tests:
-	make _run-tests cy-yamls="$(test_dir)/posix.yaml $(cy-yamls)"
+	make _run-tests cy-yamls="$(test_dir)/posix.yaml $(cy-yamls)" ut-posix="on"
 
 _run-tests: $(test_blddir)/app
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
@@ -26,6 +27,13 @@ $(test_blddir)/app: $(test_objs) $(sample_objs) $(unity_objs)
 	$(CC) -o $@ $(test_objs) $(sample_objs) $(unity_objs) \
 		build/$(cy-dir)/$(cy-lib) -lgcov --coverage
 
+ifeq ($(ut-posix),on)
+$(test_objs): CFLAGS += -DPOSIX_TESTS_ON=1
+else ifeq ($(ut-posix),off)
+$(test_objs): CFLAGS += -DPOSIX_TESTS_ON=0
+else
+$(error Unkown ut-posix value: $(ut-posix))
+endif
 $(test_objs): CFLAGS += -DEXPECTED_OUT="\"$(test_dir)/expected.out\""
 $(test_objs): CFLAGS += -DACTUAL_OUT="\"$(test_dir)/actual.out\""
 $(test_blddir)/%.o: $(test_dir)/%.c | $(test_blddir)

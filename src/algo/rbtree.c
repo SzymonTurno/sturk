@@ -1,9 +1,17 @@
-#include "ub/rbtree.h"
+#include "UB/rbtree.h"
 #include "ub/bits.h"
 #include "UB/logger/except.h"
 #include <stddef.h>
 
 #define COLOR_MASK ((intptr_t)UBit(0))
+
+#define RBNODE_ENSURE(node)                                                   \
+	do {                                                                   \
+		if (!node) {                                                   \
+			RAISE(ECODES.null_param);                              \
+			return NULL;                                           \
+		}                                                              \
+	} while (0)
 
 static void paint_red(struct UBrbnode* node)
 {
@@ -75,9 +83,44 @@ static struct UBrbnode* rot_right(struct UBrbnode* node, struct UBrbnode* root)
 	return root;
 }
 
+static struct UBrbnode* get_inordersucc(struct UBrbnode* node)
+{
+	struct UBrbnode* p = NULL;
+
+	if (node->right) {
+		p = rb_leftmost(node->right);
+	} else {
+		while ((p = get_parent(node)) && node == p->right)
+			node = p;
+	}
+	return p;
+}
+
+static struct UBrbnode* get_preordersucc(struct UBrbnode* node)
+{
+	struct UBrbnode* p = NULL;
+
+	if (node->left)
+		return node->left;
+
+	if (node->right)
+		return node->right;
+
+	while ((p = get_parent(node)) && (node == p->right || !p->right))
+		node = p;
+	return p ? p->right : NULL;
+}
+
+static struct UBrbnode* get_postordersucc(struct UBrbnode* node)
+{
+	(void) node;
+	RAISE(ECODES.not_supported);
+	return NULL;
+}
+
 struct UBrbnode* ub_rb_link(struct UBrbnode* node, struct UBrbnode* parent)
 {
-	ENSURE(node, ECODES.null_param);
+	RBNODE_ENSURE(node);
 	paint_red(node);
 	set_parent(node, parent);
 	node->left = NULL;
@@ -87,7 +130,7 @@ struct UBrbnode* ub_rb_link(struct UBrbnode* node, struct UBrbnode* parent)
 
 struct UBrbnode* ub_rb_insrebal(struct UBrbnode* root, struct UBrbnode* node)
 {
-	ENSURE(node, ECODES.null_param);
+	RBNODE_ENSURE(node);
 	for (struct UBrbnode *p = NULL, *g = NULL, *u = NULL;;) {
 		p = get_parent(node);
 		if (!painted_red(p)) {
@@ -171,13 +214,13 @@ struct UBrbnode* ub_rb_insrebal(struct UBrbnode* root, struct UBrbnode* node)
 
 struct UBrbnode* ub_rb_parent(struct UBrbnode* node)
 {
-	ENSURE(node, ECODES.null_param);
+	RBNODE_ENSURE(node);
 	return get_parent(node);
 }
 
 struct UBrbnode* ub_rb_deepest(struct UBrbnode* node)
 {
-	ENSURE(node, ECODES.null_param);
+	RBNODE_ENSURE(node);
 	for (;;) {
 		if (node->left)
 			node = node->left;
@@ -189,18 +232,24 @@ struct UBrbnode* ub_rb_deepest(struct UBrbnode* node)
 	return node;
 }
 
-struct UBrbnode* ub_rb_preorder(struct UBrbnode* node)
+struct UBrbnode* ub_rb_leftmost(struct UBrbnode* node)
 {
-	struct UBrbnode* p = NULL;
+	RBNODE_ENSURE(node);
+	while (node->left)
+		node = node->left;
+	return node;
+}
 
-	ENSURE(node, ECODES.null_param);
-	if (node->left)
-		return node->left;
-
-	if (node->right)
-		return node->right;
-
-	while ((p = get_parent(node)) && node == p->right)
-		node = p;
-	return p ? p->right : NULL;
+struct UBrbnode* ub_rb_next(struct UBrbnode* node, enum CyBstTrav trav)
+{
+	RBNODE_ENSURE(node);
+	switch (trav) {
+	case CY_BST_TRAV_PREORDER:
+		return get_preordersucc(node);
+	case CY_BST_TRAV_POSTORDER:
+		return get_postordersucc(node);
+	default:
+		break;
+	}
+	return get_inordersucc(node);
 }

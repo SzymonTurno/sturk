@@ -1,7 +1,7 @@
 #ifndef UB_CIRQ_H
 #define UB_CIRQ_H
 
-#include "ub/misc.h"
+#include "ub/arith.h"
 #include "ub/logger/except.h"
 
 struct UBinode {
@@ -23,7 +23,7 @@ struct UBinode* ub_binode_rem(struct UBinode** rootp, int pos);
 
 #define ub_cirq_data(cirq) (&(cirq)->data)
 
-#define ub_cirq_cont(ptr, type) ((type*)(ptr))
+#define ub_cirq_from(ptr, type) ((type*)(ptr))
 #else /* __STRICT_ANSI__ */
 #define ub_cirq_cast(cirq)                                                    \
 	({                                                                     \
@@ -41,7 +41,7 @@ struct UBinode* ub_binode_rem(struct UBinode** rootp, int pos);
 		&_cirq->data;                                                  \
 	})
 
-#define ub_cirq_cont(ptr, type) ub_container_of(ptr, type, node)
+#define ub_cirq_from(ptr, type) ub_container_of(ptr, type, node)
 #endif /* __STRICT_ANSI__ */
 
 #define ub_cirq_ins(cirq, ...) _UB_CIRQ_INS((cirq), __VA_ARGS__, -1,)
@@ -60,7 +60,7 @@ struct UBinode* ub_binode_rem(struct UBinode** rootp, int pos);
 		__typeof__(entry) _cirq = (cirq);                              \
 		__typeof__(entry) _entry = (entry);                            \
 									       \
-		ub_cirq_cont(                                                  \
+		ub_cirq_from(                                                  \
 			ub_binode_ins(_cirq ? &_cirq->node : NULL,             \
 				_entry ? &_entry->node : NULL, (pos)),         \
 			__typeof__(*entry));                                   \
@@ -71,11 +71,11 @@ struct UBinode* ub_binode_rem(struct UBinode** rootp, int pos);
 		__typeof__(cirqp) _cirqp = (cirqp);                            \
 		struct UBinode* _node = _cirqp ? &(*_cirqp)->node : NULL;      \
 		__typeof__(*cirqp) _ret =                                      \
-			ub_cirq_cont(                                          \
+			ub_cirq_from(                                          \
 				ub_binode_rem(&_node, (pos)),                  \
 				__typeof__(**_cirqp));                         \
 									       \
-		*_cirqp = ub_cirq_cont(_node, __typeof__(**_cirqp));           \
+		*_cirqp = ub_cirq_from(_node, __typeof__(**_cirqp));           \
 		_ret;                                                          \
 	})
 #endif /* __STRICT_ANSI__ */

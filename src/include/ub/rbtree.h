@@ -3,6 +3,12 @@
 
 #include <stdint.h>
 
+enum CyBstTrav {
+	CY_BST_TRAV_INORDER = 0,
+	CY_BST_TRAV_PREORDER,
+	CY_BST_TRAV_POSTORDER,
+};
+
 struct UBrbnode {
 	union {
 		intptr_t parcol;
@@ -20,6 +26,8 @@ struct UBrbnode* ub_rb_parent(struct UBrbnode* node);
 
 struct UBrbnode* ub_rb_deepest(struct UBrbnode* node);
 
-struct UBrbnode* ub_rb_preorder(struct UBrbnode* node);
+struct UBrbnode* ub_rb_leftmost(struct UBrbnode* node);
+
+struct UBrbnode* ub_rb_next(struct UBrbnode* node, enum CyBstTrav trav);
 
 #endif /* UB_RBTREE_H */

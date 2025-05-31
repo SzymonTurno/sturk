@@ -1,4 +1,6 @@
 #include "pubsub.h"
+#include "ub/os/mem.h"
+#include "ub/os/sys.h"
 #include "UB/broker.h"
 #include "UB/logger/log.h"
 #include <pthread.h>
@@ -142,7 +144,7 @@ static void join_thread(UBroker* broker, pthread_t* thid, int i)
 	free(res);
 }
 
-void multi_thread_pubsub(void)
+static void app(void)
 {
 	UBroker* broker = broker_create(PAYLOAD);
 	struct Publisher pub = {.broker = broker, .u.data = 0};
@@ -157,4 +159,22 @@ void multi_thread_pubsub(void)
 	join_thread(broker, thid, MULT_TH_ID);
 	join_thread(broker, thid, REP_TH_ID);
 	broker_destroy(broker);
+}
+
+struct CyStrbag* multi_thread_pubsub(void)
+{
+	struct CyStrbag* ret = NULL;
+	struct UBfstream* stream = ub_fopen("multi_thread_pubsub.tmp", "w+");
+	char* buff = ub_malloc(256);
+
+	log_attach(INFO, stream);
+	app();
+	log_detach(INFO, stream);
+	ub_fseekset(stream, 0);
+	while (ub_fgets(buff, 256, stream))
+		ret = cy_strbag_ins(ret, buff);
+	ub_free(buff);
+	ub_fclose(stream);
+	ub_remove("multi_thread_pubsub.tmp");
+	return ret;
 }
