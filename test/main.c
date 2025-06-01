@@ -1,8 +1,14 @@
-#include "unittest.h"
+#include "unity.h"
+#include "unity_fixture.h"
 #include "ub/os/mem.h"
+#include "UB/logger/log.h"
 #include "UB/str.h"
 #include "pubsub.h"
 #include <string.h>
+
+#define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
+
+#define LINE(str) str"\n",
 
 TEST_GROUP(list);
 TEST_SETUP(list) { return; }
@@ -125,8 +131,8 @@ static void run_all_tests(void)
 {
 	RUN_TEST_CASE(list, should_implement_lifo);
 	RUN_TEST_CASE(cirq, should_implement_fifo);
-	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
 	RUN_TEST_CASE(strbag, should_handle_all_rb_tree_insertion_cases);
+	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
 	if (POSIX_TESTS_ON)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
 }
