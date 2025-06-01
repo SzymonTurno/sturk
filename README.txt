@@ -7,6 +7,5 @@
 - ci
 - clang format
 
-- remove run-cmd (with valgrind)
-- single suite
-- list of tests
+- within Makefiles change "cn" prefix to "cantil"
+- build tests and sample with CMake ?
