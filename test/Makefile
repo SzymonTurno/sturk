@@ -36,7 +36,7 @@ $(error Unkown ut-posix value: $(ut-posix))
 endif
 $(test_objs): CFLAGS += -DEXPECTED_OUT="\"$(test_dir)/expected.out\""
 $(test_objs): CFLAGS += -DACTUAL_OUT="\"$(test_dir)/actual.out\""
-$(test_blddir)/%.o: $(test_dir)/%.c | $(test_blddir)
+$(test_blddir)/%.o: $(test_dir)/%.c | $(unity_objs)
 	$(CC) $(CFLAGS) $(unity_incs) $(sample_incs) -c -o $@ $<
 
 $(sample_objs): CFLAGS += $(cn-cflags)
