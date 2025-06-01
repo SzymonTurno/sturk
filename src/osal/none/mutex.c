@@ -1,38 +1,38 @@
-#include "UB/os/mutex.h"
-#include "ub/os/mem.h"
-#include "UB/logger/except.h"
-#include "UB/logger/log.h"
+#include "cantil/os/mutex.h"
+#include "cantil/logger/except.h"
+#include "cantil/logger/log.h"
+#include "cn/os/mem.h"
 #include <stddef.h>
 
-struct UBmutex {
+struct CnMutex {
 	int locked;
 	int recursive;
 };
 
-UBmutex* ub_mutex_create(UBits args)
+CnMutex* cn_mutex_create(CnBits args)
 {
-	UBmutex* self = ub_malloc(sizeof(*self));
+	CnMutex* self = cn_malloc(sizeof(*self));
 
 	self->locked = 0;
 	self->recursive = args & MUTEX_TYPE_RECURSIVE;
 	return self;
 }
 
-void ub_mutex_destroy(UBmutex* mutex)
+void cn_mutex_destroy(CnMutex* mutex)
 {
-	ub_free(mutex);
+	cn_free(mutex);
 }
 
-void ub_mutex_lock(UBmutex* mutex)
+void cn_mutex_lock(CnMutex* mutex)
 {
 	ENSURE(mutex, ECODES.null_param);
 	if (mutex->locked && !mutex->recursive)
-		LOG(WARNING, "ub-osal",
+		LOG(WARNING, "cantil",
 		       "Fake mutex does not support context switch.");
 	mutex->locked = 1;
 }
 
-bool ub_mutex_trylock(UBmutex* mutex)
+bool cn_mutex_trylock(CnMutex* mutex)
 {
 	ENSURE(mutex, ECODES.null_param);
 	if (mutex->locked && !mutex->recursive)
@@ -41,10 +41,10 @@ bool ub_mutex_trylock(UBmutex* mutex)
 	return true;
 }
 
-void ub_mutex_unlock(UBmutex* mutex)
+void cn_mutex_unlock(CnMutex* mutex)
 {
 	ENSURE(mutex, ECODES.null_param);
 	if (!mutex->locked)
-		LOG(WARNING, "ub-osal", "Unlocking an already unlocked mutex.");
+		LOG(WARNING, "cantil", "Unlocking an already unlocked mutex.");
 	mutex->locked = 0;
 }

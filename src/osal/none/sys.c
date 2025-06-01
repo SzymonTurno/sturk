@@ -1,9 +1,9 @@
-#include "ub/os/sys.h"
+#include "cn/os/sys.h"
 #include "osal_unistd.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-int ub_snprintf(char* buffer, size_t bufsz, const char* format, ...)
+int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...)
 {
 	va_list vlist;
 	int ret = 0;
@@ -14,22 +14,27 @@ int ub_snprintf(char* buffer, size_t bufsz, const char* format, ...)
 	return ret;
 }
 
-int ub_vsnprintf(char* buffer, size_t bufsz, const char* format, va_list vlist)
+int cn_vsnprintf(char* buffer, size_t bufsz, const char* format, va_list vlist)
 {
 	return vsnprintf(buffer, bufsz, format, vlist);
 }
 
-char* ub_getcwd(char* buf, size_t size)
+char* cn_getcwd(char* buf, size_t size)
 {
 	return getcwd(buf, size);
 }
 
-void ub_sysfail(void)
+void cn_sysfail(void)
 {
 	exit(EXIT_FAILURE);
 }
 
-int ub_remove(const char* name)
+bool cn_fexists(const char* filename)
+{
+	return access(filename, F_OK) == 0;
+}
+
+int cn_remove(const char* name)
 {
 	return remove(name);
 }

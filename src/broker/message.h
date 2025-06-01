@@ -2,44 +2,44 @@
 #define MESSAGE_H
 
 #include "types.h"
-#include "ub/os/mem.h"
+#include "cn/os/mem.h"
 
-static inline UBload* msg_getload(struct Message* msg)
+static inline CnLoad* msg_getload(struct Message* msg)
 {
-	return (UBload*)msg - dict_data(msg->chan)->offset;
+	return (CnLoad*)msg - dict_data(msg->channel)->offset;
 }
 
-static inline struct Message* msg_create(struct UBchan* chan, va_list args)
+static inline struct Message* msg_create(CnChannel* ch, va_list args)
 {
-	struct Chan* c = dict_data(chan);
-	UBload* load = pool_tryalloc(c->pool);
+	struct ChannelData* data = dict_data(ch);
+	CnLoad* load = pool_tryalloc(data->pool);
 	struct Message* self = NULL;
 
 	if (!load) {
-		load = pool_alloc(c->pool);
-		self = (struct Message*)&load[c->offset];
+		load = pool_alloc(data->pool);
+		self = (struct Message*)&load[data->offset];
 		self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	} else {
-		self = (struct Message*)&load[c->offset];
+		self = (struct Message*)&load[data->offset];
 	}
-	self->chan = chan;
+	self->channel = ch;
 	self->u.n_pending = 0;
-	c->vp->ctor(load, args);
+	data->vp->ctor(load, args);
 	return self;
 }
 
-static inline void msg_purge(struct UBchan* chan)
+static inline void msg_purge(CnChannel* ch)
 {
-	struct Chan* c = dict_data(chan);
-	UBload* load = NULL;
+	struct ChannelData* data = dict_data(ch);
+	CnLoad* load = NULL;
 	struct Message* msg = NULL;
 
-	while ((load = pool_tryalloc(c->pool))) {
-		msg = (struct Message*)&load[c->offset];
-		msg->chan = NULL;
+	while ((load = pool_tryalloc(data->pool))) {
+		msg = (struct Message*)&load[data->offset];
+		msg->channel = NULL;
 		mutex_destroy(msg->mutex);
 		msg->mutex = NULL;
-		ub_free(load);
+		cn_free(load);
 	}
 }
 
@@ -52,8 +52,8 @@ static inline void msg_release(struct Message* msg)
 		last = 1;
 	mutex_unlock(msg->mutex);
 	if (last) {
-		dict_data(msg->chan)->vp->dtor(msg_getload(msg));
-		pool_free(dict_data(msg->chan)->pool, msg_getload(msg));
+		dict_data(msg->channel)->vp->dtor(msg_getload(msg));
+		pool_free(dict_data(msg->channel)->pool, msg_getload(msg));
 	}
 }
 
@@ -67,7 +67,7 @@ static inline void msg_unlock(struct Message* msg, int n_pending)
 	msg->u.n_pending = n_pending;
 	mutex_unlock(msg->mutex);
 	if (!n_pending)
-		pool_free(dict_data(msg->chan)->pool, msg_getload(msg));
+		pool_free(dict_data(msg->channel)->pool, msg_getload(msg));
 }
 
 #endif /* MESSAGE_H */

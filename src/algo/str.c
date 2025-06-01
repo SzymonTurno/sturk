@@ -1,12 +1,15 @@
-#include "UB/str.h"
-#include "UB/arith.h"
-#include "UB/rbtree.h"
-#include "ub/os/mem.h"
+#include "cantil/str.h"
+#include "cantil/list.h"
+#include "cantil/cirq.h"
+#include "cantil/dict.h"
+#include "cantil/arith.h"
+#include "cantil/rbtree.h"
+#include "cn/os/mem.h"
 #include <string.h>
 
 static struct CnStrbag* bag_create(const char* str)
 {
-	struct CnStrbag* self = ub_malloc(sizeof(*self));
+	struct CnStrbag* self = cn_malloc(sizeof(*self));
 
 	dict_setk(self, newstr(str));
 	dict_data(self)->n = 0;
@@ -15,14 +18,14 @@ static struct CnStrbag* bag_create(const char* str)
 
 static void bag_destroy(struct CnStrbag* bag)
 {
-	ub_free(dict_getk(bag));
+	cn_free(dict_getk(bag));
 	dict_setk(bag, NULL);
-	ub_free(bag);
+	cn_free(bag);
 }
 
 struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
 {
-	struct CnStrlist* self = ub_malloc(sizeof(*self));
+	struct CnStrlist* self = cn_malloc(sizeof(*self));
 
 	*list_data(self) = str;
 	return list_ins(list, self);
@@ -30,7 +33,7 @@ struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
 
 char* cn_newstr(const char* str)
 {
-	return strcpy(ub_malloc(strlen(str) + 1), str);
+	return strcpy(cn_malloc(strlen(str) + 1), str);
 }
 
 char* cn_strlist_rem(struct CnStrlist** listp)
@@ -38,13 +41,13 @@ char* cn_strlist_rem(struct CnStrlist** listp)
 	struct CnStrlist* tmp = list_rem(listp);
 	char* ret = *list_data(tmp);
 
-	ub_free(tmp);
+	cn_free(tmp);
 	return ret;
 }
 
 struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str)
 {
-	struct CnStrq* self = ub_malloc(sizeof(*self));
+	struct CnStrq* self = cn_malloc(sizeof(*self));
 
 	*cirq_data(self) = str;
 	return cirq_ins(q, self);
@@ -55,7 +58,7 @@ char* cn_strq_rem(struct CnStrq** qp)
 	struct CnStrq* tmp = cirq_rem(qp);
 	char* ret = *cirq_data(tmp);
 
-	ub_free(tmp);
+	cn_free(tmp);
 	return ret;
 }
 
@@ -90,7 +93,7 @@ int cn_strbag_count(struct CnStrbag* bag)
 
 void cn_strbag_destroy(struct CnStrbag* bag)
 {
-	for (struct UBrbnode *i = NULL, *p = NULL;;) {
+	for (struct CnRbnode *i = NULL, *p = NULL;;) {
 		i = rb_deepest(&dict_cast(bag)->node);
 		p = rb_parent(i);
 		bag_destroy(

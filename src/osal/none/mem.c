@@ -1,8 +1,8 @@
-#include "ub/os/mem.h"
-#include "UB/logger/except.h"
+#include "cn/os/mem.h"
+#include "cantil/logger/except.h"
 #include <stdlib.h>
 
-void* ub_malloc(size_t size)
+void* cn_malloc(size_t size)
 {
 	void* ret = malloc(size);
 
@@ -10,7 +10,7 @@ void* ub_malloc(size_t size)
 	return ret;
 }
 
-void ub_free(void* ptr)
+void cn_free(void* ptr)
 {
 	free(ptr);
 }

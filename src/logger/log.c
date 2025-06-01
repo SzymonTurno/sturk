@@ -1,13 +1,13 @@
-#include "UB/logger/log.h"
-#include "UB/logger/sink.h"
-#include "UB/logger/except.h"
-#include "ub/os/mem.h"
+#include "cantil/logger/log.h"
+#include "cantil/logger/sink.h"
+#include "cantil/logger/except.h"
+#include "cn/os/mem.h"
 
 #define BUFF_MAX_SIZE 128
 
 static struct CnLogsink* logsink[N_LOG_LVLS];
 
-static const char* get_lvlstr(enum UBlogLvl lvl)
+static const char* get_lvlstr(enum CnLogLvl lvl)
 {
 	switch (lvl) {
 	case DEBUG:
@@ -19,45 +19,45 @@ static const char* get_lvlstr(enum UBlogLvl lvl)
 	case ERROR:
 		return "error";
 	default:
-		RAISE(ECODES.not_supported);
 		break;
 	}
+	RAISE(ECODES.not_supported);
 	return "UNKNOWN LOG LEVEL";
 }
 
-void ub_log_attach(enum UBlogLvl lvl, UBfstream* stream)
+void cn_log_attach(enum CnLogLvl lvl, CnFstream* stream)
 {
 	if (!logsink[lvl])
 		logsink[lvl] = logsink_create();
-	logsink_push(logsink[lvl], stream);
+	logsink_ins(logsink[lvl], stream);
 }
 
-void ub_log_detach(enum UBlogLvl lvl, UBfstream* stream)
+void cn_log_detach(enum CnLogLvl lvl, CnFstream* stream)
 {
-	logsink_pop(logsink[lvl], stream);
+	logsink_rem(logsink[lvl], stream);
 }
 
-void ub_log(enum UBlogLvl lvl, const char* tag, const char* format, ...)
+void cn_log(enum CnLogLvl lvl, const char* tag, const char* format, ...)
 {
 	va_list vlist;
 	char* buff = NULL;
 
 	if (!logsink[lvl])
 		return;
-	buff = ub_malloc(BUFF_MAX_SIZE);
+	buff = cn_malloc(BUFF_MAX_SIZE);
 	if (tag)
-		ub_snprintf(buff, BUFF_MAX_SIZE, "[%s][%s] %s\n",
+		cn_snprintf(buff, BUFF_MAX_SIZE, "[%s][%s] %s\n",
 			get_lvlstr(lvl), tag, format);
 	else
-		ub_snprintf(buff, BUFF_MAX_SIZE, "[%s] %s\n",
+		cn_snprintf(buff, BUFF_MAX_SIZE, "[%s] %s\n",
 			get_lvlstr(lvl), format);
 	va_start(vlist, format);
 	logsink_vprint(logsink[lvl], buff, vlist);
 	va_end(vlist);
-	ub_free(buff);
+	cn_free(buff);
 }
 
-void ub_log_cleanup(void)
+void cn_log_cleanup(void)
 {
 	for (int i = 0; i < N_LOG_LVLS; i++) {
 		logsink_destroy(logsink[i]);

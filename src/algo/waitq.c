@@ -1,23 +1,20 @@
-#ifndef WAITQ_H
-#define WAITQ_H
+#include "cn/waitq.h"
+#include "cn/os/mem.h"
+#include "cantil/cirq.h"
+#include "cantil/logger/except.h"
+#include "cantil/logger/log.h"
+#include "cantil/os/mutex.h"
+#include "cantil/os/sem.h"
 
-#include "ub/waitq.h"
-#include "UB/cirq.h"
-#include "UB/logger/except.h"
-#include "UB/logger/log.h"
-#include "ub/os/mem.h"
-#include "UB/os/mutex.h"
-#include "UB/os/sem.h"
-
-struct UBwaitQ {
-	UBmutex* mut;
-	UBsem* sem;
-	struct UBinode* q;
+struct CnWaitq {
+	CnMutex* mut;
+	CnSem* sem;
+	struct CnBinode* q;
 };
 
-UBwaitQ* ub_waitq_create(void)
+CnWaitq* cn_waitq_create(void)
 {
-	UBwaitQ* self = ub_malloc(sizeof(*self));
+	CnWaitq* self = cn_malloc(sizeof(*self));
 
 	self->mut = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->sem = sem_create(0);
@@ -25,21 +22,21 @@ UBwaitQ* ub_waitq_create(void)
 	return self;
 }
 
-void ub_waitq_destroy(UBwaitQ* waitq)
+void cn_waitq_destroy(CnWaitq* waitq)
 {
 	if (!waitq)
 		return;
 
 	if (waitq->q)
-		LOG(WARNING, "ub-waitq", "Data loss suspected.");
+		LOG(WARNING, "cantil", "Data loss suspected.");
 	sem_destroy(waitq->sem);
 	waitq->sem = NULL;
 	mutex_destroy(waitq->mut);
 	waitq->mut = NULL;
-	ub_free(waitq);
+	cn_free(waitq);
 }
 
-void ub_waitq_ins(UBwaitQ* waitq, struct UBinode* entry)
+void cn_waitq_ins(CnWaitq* waitq, struct CnBinode* entry)
 {
 	ENSURE(waitq, ECODES.null_param);
 	mutex_lock(waitq->mut);
@@ -48,9 +45,9 @@ void ub_waitq_ins(UBwaitQ* waitq, struct UBinode* entry)
 	mutex_unlock(waitq->mut);
 }
 
-struct UBinode* ub_waitq_rem(UBwaitQ* waitq)
+struct CnBinode* cn_waitq_rem(CnWaitq* waitq)
 {
-	struct UBinode* entry = NULL;
+	struct CnBinode* entry = NULL;
 
 	ENSURE(waitq, ECODES.null_param);
 	sem_wait(waitq->sem);
@@ -60,9 +57,9 @@ struct UBinode* ub_waitq_rem(UBwaitQ* waitq)
 	return entry;
 }
 
-struct UBinode* ub_waitq_tryrem(UBwaitQ* waitq)
+struct CnBinode* cn_waitq_tryrem(CnWaitq* waitq)
 {
-	struct UBinode* entry = NULL;
+	struct CnBinode* entry = NULL;
 
 	ENSURE(waitq, ECODES.null_param);
 	if (sem_trywait(waitq->sem)) {
@@ -72,5 +69,3 @@ struct UBinode* ub_waitq_tryrem(UBwaitQ* waitq)
 	}
 	return entry;
 }
-
-#endif /* WAIT_Q */

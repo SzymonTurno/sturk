@@ -1,7 +1,7 @@
-#include "UB/list.h"
-#include "UB/logger/except.h"
+#include "cantil/list.h"
+#include "cantil/logger/except.h"
 
-struct UBunnode** ub_unnode_hand(struct UBunnode** nodep, int pos)
+struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
 {
 	ENSURE(nodep, ECODES.null_param);
 	for (; *nodep && pos--; nodep = &(*nodep)->next)
@@ -9,10 +9,10 @@ struct UBunnode** ub_unnode_hand(struct UBunnode** nodep, int pos)
 	return nodep;
 }
 
-struct UBunnode* ub_unnode_ins(struct UBunnode* head, struct UBunnode* node,
+struct CnUnnode* cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node,
 	int pos)
 {
-	struct UBunnode** i = list_hand(&head, pos);
+	struct CnUnnode** i = list_hand(&head, pos);
 
 	ENSURE(node, ECODES.null_param);
 	node->next = *i;
@@ -20,10 +20,10 @@ struct UBunnode* ub_unnode_ins(struct UBunnode* head, struct UBunnode* node,
 	return head;
 }
 
-struct UBunnode* ub_unnode_rem(struct UBunnode** headp, int pos)
+struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos)
 {
-	struct UBunnode** i = list_hand(headp, pos);
-	struct UBunnode* ret = *i;
+	struct CnUnnode** i = list_hand(headp, pos);
+	struct CnUnnode* ret = *i;
 
 	*i = (*i)->next;
 	return ret;

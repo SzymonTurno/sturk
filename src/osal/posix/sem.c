@@ -1,46 +1,46 @@
-#include "ub/os/sem.h"
-#include "ub/os/mem.h"
-#include "UB/logger/except.h"
+#include "cn/os/sem.h"
+#include "cn/os/mem.h"
+#include "cantil/logger/except.h"
 #include <semaphore.h>
 
 #define OK 0
 
-struct UBsem {
+struct CnSem {
 	sem_t sem;
 };
 
-UBsem* ub_sem_create(UBits args)
+CnSem* cn_sem_create(CnBits args)
 {
-	struct UBsem* self = ub_malloc(sizeof(*self));
+	struct CnSem* self = cn_malloc(sizeof(*self));
 	(void) args;
 
 	if (sem_init(&self->sem, 0, 0) != OK) {
 		RAISE(ECODES.sem_fail);
-		ub_free(self);
+		cn_free(self);
 		return NULL;
 	}
 	return self;
 }
 
-void ub_sem_destroy(UBsem* sem)
+void cn_sem_destroy(CnSem* sem)
 {
 	if (sem_destroy(&sem->sem) != OK)
 		RAISE(ECODES.sem_fail);
-	ub_free(sem);
+	cn_free(sem);
 }
 
-void ub_sem_wait(UBsem* sem)
+void cn_sem_wait(CnSem* sem)
 {
 	if (sem_wait(&sem->sem) != OK)
 		RAISE(ECODES.sem_fail);
 }
 
-bool ub_sem_trywait(UBsem* sem)
+bool cn_sem_trywait(CnSem* sem)
 {
 	return sem_trywait(&sem->sem) == OK;
 }
 
-void ub_sem_post(UBsem* sem)
+void cn_sem_post(CnSem* sem)
 {
 	if (sem_post(&sem->sem) != OK)
 		RAISE(ECODES.sem_fail);

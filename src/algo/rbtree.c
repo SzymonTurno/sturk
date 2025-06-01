@@ -1,47 +1,47 @@
-#include "UB/rbtree.h"
-#include "ub/bits.h"
-#include "UB/logger/except.h"
+#include "cantil/rbtree.h"
+#include "cantil/bits.h"
+#include "cantil/logger/except.h"
 #include <stddef.h>
 
-#define COLOR_MASK ((intptr_t)UBit(0))
+#define COLOR_MASK ((intptr_t)BIT(0))
 
-#define RBNODE_ENSURE(node)                                                   \
+#define RBTREE_ENSURE_MEM(ptr)                                                \
 	do {                                                                   \
-		if (!node) {                                                   \
+		if ((ptr) == NULL) {                                           \
 			RAISE(ECODES.null_param);                              \
 			return NULL;                                           \
 		}                                                              \
 	} while (0)
 
-static void paint_red(struct UBrbnode* node)
+static void paint_red(struct CnRbnode* node)
 {
 	node->u.parcol |= COLOR_MASK;
 }
 
-static void paint_black(struct UBrbnode* node)
+static void paint_black(struct CnRbnode* node)
 {
 	node->u.parcol &= ~COLOR_MASK;
 }
 
-static int painted_red(struct UBrbnode* node)
+static int painted_red(struct CnRbnode* node)
 {
 	return (node && (node->u.parcol & COLOR_MASK));
 }
 
-static void set_parent(struct UBrbnode* node, struct UBrbnode* parent)
+static void set_parent(struct CnRbnode* node, struct CnRbnode* parent)
 {
 	node->u.parcol = ((intptr_t)parent) | (node->u.parcol & COLOR_MASK);
 }
 
-static struct UBrbnode* get_parent(struct UBrbnode* node)
+static struct CnRbnode* get_parent(struct CnRbnode* node)
 {
-	return (struct UBrbnode*)(node->u.parcol & ~COLOR_MASK);
+	return (struct CnRbnode*)(node->u.parcol & ~COLOR_MASK);
 }
 
-static struct UBrbnode* rot_left(struct UBrbnode* node, struct UBrbnode* root)
+static struct CnRbnode* rot_left(struct CnRbnode* node, struct CnRbnode* root)
 {
-	struct UBrbnode* p = get_parent(node);
-	struct UBrbnode* y = node->right;
+	struct CnRbnode* p = get_parent(node);
+	struct CnRbnode* y = node->right;
 
 	node->right = y->left;
 	if (node->right)
@@ -60,10 +60,10 @@ static struct UBrbnode* rot_left(struct UBrbnode* node, struct UBrbnode* root)
 	return root;
 }
 
-static struct UBrbnode* rot_right(struct UBrbnode* node, struct UBrbnode* root)
+static struct CnRbnode* rot_right(struct CnRbnode* node, struct CnRbnode* root)
 {
-	struct UBrbnode* p = get_parent(node);
-	struct UBrbnode* y = node->left;
+	struct CnRbnode* p = get_parent(node);
+	struct CnRbnode* y = node->left;
 
 	node->left = y->right;
 	if (node->left)
@@ -82,9 +82,9 @@ static struct UBrbnode* rot_right(struct UBrbnode* node, struct UBrbnode* root)
 	return root;
 }
 
-static struct UBrbnode* get_inordersucc(struct UBrbnode* node)
+static struct CnRbnode* get_inordersucc(struct CnRbnode* node)
 {
-	struct UBrbnode* p = NULL;
+	struct CnRbnode* p = NULL;
 
 	if (node->right) {
 		p = rb_leftmost(node->right);
@@ -95,9 +95,9 @@ static struct UBrbnode* get_inordersucc(struct UBrbnode* node)
 	return p;
 }
 
-static struct UBrbnode* get_preordersucc(struct UBrbnode* node)
+static struct CnRbnode* get_preordersucc(struct CnRbnode* node)
 {
-	struct UBrbnode* p = NULL;
+	struct CnRbnode* p = NULL;
 
 	if (node->left)
 		return node->left;
@@ -110,16 +110,16 @@ static struct UBrbnode* get_preordersucc(struct UBrbnode* node)
 	return p ? p->right : NULL;
 }
 
-static struct UBrbnode* get_postordersucc(struct UBrbnode* node)
+static struct CnRbnode* get_postordersucc(struct CnRbnode* node)
 {
 	(void) node;
 	RAISE(ECODES.not_supported);
 	return NULL;
 }
 
-struct UBrbnode* ub_rb_link(struct UBrbnode* node, struct UBrbnode* parent)
+struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent)
 {
-	RBNODE_ENSURE(node);
+	RBTREE_ENSURE_MEM(node);
 	paint_red(node);
 	set_parent(node, parent);
 	node->left = NULL;
@@ -127,10 +127,10 @@ struct UBrbnode* ub_rb_link(struct UBrbnode* node, struct UBrbnode* parent)
 	return node;
 }
 
-struct UBrbnode* ub_rb_insrebal(struct UBrbnode* root, struct UBrbnode* node)
+struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
 {
-	RBNODE_ENSURE(node);
-	for (struct UBrbnode *p = NULL, *g = NULL, *u = NULL;;) {
+	RBTREE_ENSURE_MEM(node);
+	for (struct CnRbnode *p = NULL, *g = NULL, *u = NULL;;) {
 		p = get_parent(node);
 		if (!painted_red(p)) {
 			/* Case 0: done. */
@@ -211,15 +211,15 @@ struct UBrbnode* ub_rb_insrebal(struct UBrbnode* root, struct UBrbnode* node)
 	return root;
 }
 
-struct UBrbnode* ub_rb_parent(struct UBrbnode* node)
+struct CnRbnode* cn_rb_parent(struct CnRbnode* node)
 {
-	RBNODE_ENSURE(node);
+	RBTREE_ENSURE_MEM(node);
 	return get_parent(node);
 }
 
-struct UBrbnode* ub_rb_deepest(struct UBrbnode* node)
+struct CnRbnode* cn_rb_deepest(struct CnRbnode* node)
 {
-	RBNODE_ENSURE(node);
+	RBTREE_ENSURE_MEM(node);
 	for (;;) {
 		if (node->left)
 			node = node->left;
@@ -231,17 +231,17 @@ struct UBrbnode* ub_rb_deepest(struct UBrbnode* node)
 	return node;
 }
 
-struct UBrbnode* ub_rb_leftmost(struct UBrbnode* node)
+struct CnRbnode* cn_rb_leftmost(struct CnRbnode* node)
 {
-	RBNODE_ENSURE(node);
+	RBTREE_ENSURE_MEM(node);
 	while (node->left)
 		node = node->left;
 	return node;
 }
 
-struct UBrbnode* ub_rb_next(struct UBrbnode* node, enum CnBstTrav trav)
+struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstTrav trav)
 {
-	RBNODE_ENSURE(node);
+	RBTREE_ENSURE_MEM(node);
 	switch (trav) {
 	case CN_BST_TRAV_PREORDER:
 		return get_preordersucc(node);

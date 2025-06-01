@@ -1,63 +1,58 @@
-#include "ub/os/fstream.h"
+#include "cn/os/fstream.h"
 #include "osal_unistd.h"
 #include <stdio.h>
 
-bool ub_fexists(const char* filename)
+CnFstream* cn_fopen(const char* filename, const char* mode)
 {
-	return access(filename, F_OK) == 0;
+	return (CnFstream*)fopen(filename, mode);
 }
 
-UBfstream* ub_fopen(const char* filename, const char* mode)
-{
-	return (UBfstream*)fopen(filename, mode);
-}
-
-void ub_fclose(UBfstream* stream)
+void cn_fclose(CnFstream* stream)
 {
 	fclose((FILE*)stream);
 }
 
-int ub_fgetc(UBfstream* stream)
+int cn_fgetc(CnFstream* stream)
 {
 	return fgetc((FILE*)stream);
 }
 
-char* ub_fgets(char* str, int size, UBfstream* stream)
+char* cn_fgets(char* str, int size, CnFstream* stream)
 {
 	return fgets(str, size, (FILE*)stream);
 }
 
-int ub_fputs(const char* str, UBfstream* stream)
+int cn_fputs(const char* str, CnFstream* stream)
 {
 	return fputs(str, (FILE*)stream);
 }
 
-int ub_fseekset(UBfstream* stream, long int offset)
+int cn_fseekset(CnFstream* stream, long int offset)
 {
 	return fseek((FILE*)stream, offset, SEEK_SET);
 }
 
-int ub_fseekcur(UBfstream* stream, long int offset)
+int cn_fseekcur(CnFstream* stream, long int offset)
 {
 	return fseek((FILE*)stream, offset, SEEK_CUR);
 }
 
-int ub_fseekend(UBfstream* stream, long int offset)
+int cn_fseekend(CnFstream* stream, long int offset)
 {
 	return fseek((FILE*)stream, offset, SEEK_END);
 }
 
-UBfstream* ub_stdout(void)
+CnFstream* cn_stdout(void)
 {
-	return (UBfstream*)stdout;
+	return (CnFstream*)stdout;
 }
 
-UBfstream* ub_stderr(void)
+CnFstream* cn_stderr(void)
 {
-	return (UBfstream*)stderr;
+	return (CnFstream*)stderr;
 }
 
-int ub_fvprintf(UBfstream* stream, const char* format, va_list vlist)
+int cn_fvprintf(CnFstream* stream, const char* format, va_list vlist)
 {
 	return vfprintf((FILE*)stream, format, vlist);
 }

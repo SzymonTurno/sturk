@@ -1,8 +1,9 @@
 #include "unity.h"
 #include "unity_fixture.h"
-#include "ub/os/mem.h"
-#include "UB/logger/log.h"
-#include "UB/str.h"
+#include "cn/os/mem.h"
+#include "cantil/str.h"
+#include "cantil/dict.h"
+#include "cantil/logger/log.h"
 #include "pubsub.h"
 #include <string.h>
 
@@ -69,7 +70,7 @@ TEST(broker, should_support_single_thread_pubsub)
 	for (int i = 0; i < ARRAY_SIZE(expected); i++) {
 		const char* tmp = strq_rem(&q);
 		TEST_ASSERT_EQUAL_STRING(expected[i], tmp);
-		ub_free((char*)tmp);
+		cn_free((char*)tmp);
 	}
 	TEST_ASSERT_EQUAL(NULL, q);
 }
@@ -139,9 +140,9 @@ static void run_all_tests(void)
 
 int main(int argc, const char **argv)
 {
-	log_attach(DEBUG, ub_stdout());
-	log_attach(WARNING, ub_stderr());
-	log_attach(ERROR, ub_stderr());
+	log_attach(DEBUG, cn_stdout());
+	log_attach(WARNING, cn_stderr());
+	log_attach(ERROR, cn_stderr());
 	UnityMain(argc, argv, run_all_tests);
 	log_cleanup();
 	return 0;

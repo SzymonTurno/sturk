@@ -1,50 +1,58 @@
 #include "message.h"
-#include "ub/os/mem.h"
-#include "UB/str.h"
-#include "UB/arith.h"
-#include "UB/rbtree.h"
-#include "UB/logger/except.h"
+#include "cantil/str.h"
+#include "cantil/arith.h"
+#include "cantil/rbtree.h"
+#include "cantil/logger/except.h"
+#include "cn/os/mem.h"
 
 #define MSG_SIZE sizeof(struct Message)
 
-static struct UBchan* chan_create(const char* topic, const struct UBloadVt* vp)
+#define BROKER_ENSURE_MEM(ptr)                                                \
+	do {                                                                   \
+		if ((ptr) == NULL) {                                           \
+			RAISE(ECODES.null_param);                              \
+			return NULL;                                           \
+		}                                                              \
+	} while (0)
+
+static CnChannel* channel_create(const char* topic, const struct CnLoadVt* vp)
 {
-	struct UBchan* self = ub_malloc(sizeof(*self));
-	struct Chan* c = dict_data(self);
+	CnChannel* self = cn_malloc(sizeof(*self));
+	struct ChannelData* data = dict_data(self);
 
 	dict_setk(self, newstr(topic));
-	c->vp = vp;
-	c->list = NULL;
-	c->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	c->offset = (vp->size() / MSG_SIZE + 1) * MSG_SIZE;
-	c->pool = pool_create(c->offset + MSG_SIZE);
+	data->vp = vp;
+	data->list = NULL;
+	data->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
+	data->offset = (vp->size() / MSG_SIZE + 1) * MSG_SIZE;
+	data->pool = pool_create(data->offset + MSG_SIZE);
 	return self;
 }
 
-static void chan_destroy(struct UBchan* chan)
+static void channel_destroy(CnChannel* ch)
 {
-	struct Chan* c = dict_data(chan);
+	struct ChannelData* data = dict_data(ch);
 
-	msg_purge(chan);
-	pool_destroy(c->pool);
-	c->pool = NULL;
-	mutex_destroy(c->mutex);
-	c->mutex = NULL;
-	while (c->list)
-		ub_free(list_rem(&c->list));
-	c->vp = NULL;
-	ub_free(dict_getk(chan));
-	dict_setk(chan, NULL);
-	ub_free(chan);
+	msg_purge(ch);
+	pool_destroy(data->pool);
+	data->pool = NULL;
+	mutex_destroy(data->mutex);
+	data->mutex = NULL;
+	while (data->list)
+		cn_free(list_rem(&data->list));
+	data->vp = NULL;
+	cn_free(dict_getk(ch));
+	dict_setk(ch, NULL);
+	cn_free(ch);
 }
 
-static void dict_destroy(struct UBchan* dict)
+static void dict_destroy(CnChannel* dict)
 {
-	for (struct UBrbnode *i = NULL, *p = NULL;;) {
+	for (struct CnRbnode *i = NULL, *p = NULL;;) {
 		i = rb_deepest(&dict_cast(dict)->node);
 		p = rb_parent(i);
-		chan_destroy(
-			container_of(strnode_from(i), UBchan, strnode));
+		channel_destroy(
+			container_of(strnode_from(i), CnChannel, strnode));
 		if (!p)
 			break;
 
@@ -55,76 +63,79 @@ static void dict_destroy(struct UBchan* dict)
 	}
 }
 
-static struct ChanList* clist_create(struct UBchan* chan)
+static struct ChannelList* clist_create(CnChannel* ch)
 {
-	struct ChanList* self = ub_malloc(sizeof(*self));
+	struct ChannelList* self = cn_malloc(sizeof(*self));
 
-	*list_data(self) = chan;
+	*list_data(self) = ch;
 	return self;
 }
 
-static struct ScriberList* slist_create(struct UBscriber* scriber)
+static struct SubscriberList* slist_create(struct CnSubscriber* sber)
 {
-	struct ScriberList* self = ub_malloc(sizeof(*self));
+	struct SubscriberList* self = cn_malloc(sizeof(*self));
 
-	*list_data(self) = scriber;
+	*list_data(self) = sber;
 	return self;
 }
 
-static void ins_msg(struct UBscriber* scriber, struct Message* msg)
+static void ins_msg(CnSubscriber* sber, struct Message* msg)
 {
-	struct Qentry* entry = pool_alloc(scriber->pool);
+	struct Qentry* entry = pool_alloc(sber->pool);
 
 	*cirq_data(entry) = msg;
-	waitq_ins(scriber->q, cirq_cast(entry));
+	waitq_ins(sber->q, cirq_cast(entry));
 }
 
-static void notify(struct Chan* chan, struct Message* msg)
+static void notify(struct ChannelData* data, struct Message* msg)
 {
 	int n = 0;
 
-	mutex_lock(chan->mutex);
+	mutex_lock(data->mutex);
 	msg_lock(msg);
-	for (LIST_ITER(struct ScriberList, i, &chan->list)) {
+	for (LIST_ITER(struct SubscriberList, i, &data->list)) {
 		ins_msg(*list_data(*i), msg);
 		++n;
 	}
 	msg_unlock(msg, n);
-	mutex_unlock(chan->mutex);
+	mutex_unlock(data->mutex);
 }
 
-static void unscribe(struct UBchan* chan, UBscriber* scriber)
+static void unsubscribe(CnChannel* ch, CnSubscriber* sber)
 {
-	struct Chan* c = dict_data(chan);
+	struct ChannelData* data = dict_data(ch);
 
-	mutex_lock(c->mutex);
-	for (LIST_ITER(struct ScriberList, i, &c->list))
-		if (*list_data(*i) == scriber) {
-			ub_free(list_rem(i));
+	mutex_lock(data->mutex);
+	for (LIST_ITER(struct SubscriberList, i, &data->list))
+		if (*list_data(*i) == sber) {
+			cn_free(list_rem(i));
 			break;
 		}
-	mutex_unlock(c->mutex);
+	mutex_unlock(data->mutex);
 }
 
-static UBload* load_init(UBscriber* scriber, struct UBinode* node)
+static CnLoad* load_init(CnSubscriber* sber, struct CnBinode* node)
 {
 	struct Qentry* q = NULL;
 
-	scriber_release(scriber);
+	subscriber_release(sber);
 	if (!node)
 		return NULL;
 	q = cirq_from(node, struct Qentry);
-	scriber->msg = *cirq_data(q);
-	pool_free(scriber->pool, q);
-	return msg_getload(scriber->msg);
+	sber->msg = *cirq_data(q);
+	pool_free(sber->pool, q);
+	return msg_getload(sber->msg);
 }
 
-UBroker* ub_broker_create(const struct UBloadVt* vp)
+CnBroker* cn_broker_create(const struct CnLoadVt* vp)
 {
-	struct UBroker* self = NULL;
+	struct CnBroker* self = NULL;
 
-	ENSURE(vp && vp->size && vp->ctor && vp->dtor, ECODES.null_param);
-	self = ub_malloc(sizeof(*self));
+	BROKER_ENSURE_MEM(vp);
+	BROKER_ENSURE_MEM(vp->size);
+	BROKER_ENSURE_MEM(vp->ctor);
+	BROKER_ENSURE_MEM(vp->dtor);
+	self = cn_malloc(sizeof(*self));
 	self->vp = vp;
 	self->dict = NULL;
 	self->list = NULL;
@@ -132,43 +143,43 @@ UBroker* ub_broker_create(const struct UBloadVt* vp)
 	return self;
 }
 
-void ub_broker_destroy(UBroker* broker)
+void cn_broker_destroy(CnBroker* broker)
 {
 	if (!broker)
 		return;
 
 	while (broker->list)
-		scriber_destroy(*list_data(broker->list));
+		subscriber_destroy(*list_data(broker->list));
 	mutex_destroy(broker->mutex);
 	broker->mutex = NULL;
 	if (broker->dict)
 		dict_destroy(broker->dict);
 	broker->dict = NULL;
 	broker->vp = NULL;
-	ub_free(broker);
+	cn_free(broker);
 }
 
-UBchan* ub_broker_search(UBroker* broker, const char* topic)
+CnChannel* cn_broker_search(CnBroker* broker, const char* topic)
 {
-	struct UBchan* c = NULL;
+	struct CnChannel* ch = NULL;
 
-	ENSURE(broker, ECODES.null_param);
+	BROKER_ENSURE_MEM(broker);
 	mutex_lock(broker->mutex);
-	c = dict_find(broker->dict, topic);
-	if (!c) {
-		c = chan_create(topic, broker->vp);
-		broker->dict = dict_ins(broker->dict, c);
+	ch = dict_find(broker->dict, topic);
+	if (!ch) {
+		ch = channel_create(topic, broker->vp);
+		broker->dict = dict_ins(broker->dict, ch);
 	}
 	mutex_unlock(broker->mutex);
-	return c;
+	return ch;
 }
 
-UBscriber* ub_scriber_create(UBroker* broker)
+CnSubscriber* cn_subscriber_create(CnBroker* broker)
 {
-	UBscriber* self = NULL;
+	CnSubscriber* self = NULL;
 
-	ENSURE(broker, ECODES.null_param);
-	self = ub_malloc(sizeof(*self));
+	BROKER_ENSURE_MEM(broker);
+	self = cn_malloc(sizeof(*self));
 	self->broker = broker;
 	mutex_lock(broker->mutex);
 	broker->list = list_ins(broker->list, slist_create(self));
@@ -180,89 +191,89 @@ UBscriber* ub_scriber_create(UBroker* broker)
 	return self;
 }
 
-void ub_scriber_destroy(UBscriber* scriber)
+void cn_subscriber_destroy(CnSubscriber* sber)
 {
-	if (!scriber)
+	if (!sber)
 		return;
 
-	while (scriber->list) {
-		unscribe(*list_data(scriber->list), scriber);
-		ub_free(list_rem(&scriber->list));
+	while (sber->list) {
+		unsubscribe(*list_data(sber->list), sber);
+		cn_free(list_rem(&sber->list));
 	}
 
-	while ((load_init(scriber, waitq_tryrem(scriber->q))))
+	while ((load_init(sber, waitq_tryrem(sber->q))))
 		;
-	waitq_destroy(scriber->q);
-	scriber->q = NULL;
-	pool_destroy(scriber->pool);
-	scriber->pool = NULL;
-	mutex_lock(scriber->broker->mutex);
-	for (LIST_ITER(struct ScriberList, i, &scriber->broker->list))
-		if (*list_data(*i) == scriber) {
-			ub_free(list_rem(i));
+	waitq_destroy(sber->q);
+	sber->q = NULL;
+	pool_destroy(sber->pool);
+	sber->pool = NULL;
+	mutex_lock(sber->broker->mutex);
+	for (LIST_ITER(struct SubscriberList, i, &sber->broker->list))
+		if (*list_data(*i) == sber) {
+			cn_free(list_rem(i));
 			break;
 		}
-	mutex_unlock(scriber->broker->mutex);
-	scriber->broker = NULL;
-	ub_free(scriber);
+	mutex_unlock(sber->broker->mutex);
+	sber->broker = NULL;
+	cn_free(sber);
 }
 
-UBload* ub_scriber_await(UBscriber* scriber, UBchan** chan)
+CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch)
 {
-	UBload* ret = NULL;
+	CnLoad* ret = NULL;
 
-	ENSURE(scriber, ECODES.null_param);
-	ret = load_init(scriber, waitq_rem(scriber->q));
-	if (chan)
-		*chan = scriber->msg->chan;
+	BROKER_ENSURE_MEM(sber);
+	ret = load_init(sber, waitq_rem(sber->q));
+	if (ch)
+		*ch = sber->msg->channel;
 	return ret;
 }
 
-UBload* ub_scriber_poll(UBscriber* scriber, UBchan** chan)
+CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
 {
-	UBload* ret = NULL;
+	CnLoad* ret = NULL;
 
-	ENSURE(scriber, ECODES.null_param);
-	ret = load_init(scriber, waitq_tryrem(scriber->q));
-	if (chan)
-		*chan = scriber->msg ? scriber->msg->chan : NULL;
+	BROKER_ENSURE_MEM(sber);
+	ret = load_init(sber, waitq_tryrem(sber->q));
+	if (ch && sber->msg)
+		*ch = sber->msg->channel;
 	return ret;
 }
 
-void ub_scriber_release(UBscriber* scriber)
+void cn_subscriber_release(CnSubscriber* sber)
 {
-	ENSURE(scriber, ECODES.null_param);
-	if (scriber->msg)
-		msg_release(scriber->msg);
-	scriber->msg = NULL;
+	ENSURE(sber, ECODES.null_param);
+	if (sber->msg)
+		msg_release(sber->msg);
+	sber->msg = NULL;
 }
 
-const char* ub_get_topic(UBchan* chan)
+const char* cn_get_topic(CnChannel* ch)
 {
-	return dict_getk(chan);
+	return dict_getk(ch);
 }
 
-void ub_lish(UBchan* chan, ...)
+void cn_publish(CnChannel* ch, ...)
 {
 	struct Message* msg = NULL;
 	va_list args;
 
-	va_start(args, chan);
-	msg = msg_create(chan, args);
+	va_start(args, ch);
+	msg = msg_create(ch, args);
 	va_end(args);
-	notify(dict_data(chan), msg);
+	notify(dict_data(ch), msg);
 }
 
-void ub_scribe(UBscriber* scriber, const char* topic)
+void cn_subscribe(CnSubscriber* sber, const char* topic)
 {
-	struct UBchan* chan = NULL;
-	struct Chan* c = NULL;
+	struct CnChannel* ch = NULL;
+	struct ChannelData* data = NULL;
 
-	ENSURE(scriber, ECODES.null_param);
-	chan = broker_search(scriber->broker, topic);
-	c = dict_data(chan);
-	scriber->list = list_ins(scriber->list, clist_create(chan));
-	mutex_lock(c->mutex);
-	c->list = list_ins(c->list, slist_create(scriber));
-	mutex_unlock(c->mutex);
+	ENSURE(sber, ECODES.null_param);
+	ch = broker_search(sber->broker, topic);
+	data = dict_data(ch);
+	sber->list = list_ins(sber->list, clist_create(ch));
+	mutex_lock(data->mutex);
+	data->list = list_ins(data->list, slist_create(sber));
+	mutex_unlock(data->mutex);
 }

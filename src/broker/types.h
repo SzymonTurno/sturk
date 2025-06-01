@@ -1,52 +1,52 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#include "UB/broker.h"
-#include "UB/pool.h"
-#include "UB/list.h"
-#include "UB/dict.h"
-#include "UB/cirq.h"
-#include "UB/waitq.h"
-#include "UB/os/mutex.h"
+#include "cantil/broker.h"
+#include "cantil/pool.h"
+#include "cantil/list.h"
+#include "cantil/dict.h"
+#include "cantil/cirq.h"
+#include "cantil/waitq.h"
+#include "cantil/os/mutex.h"
 
-LIST(struct ScriberList, struct UBscriber*);
+LIST(struct SubscriberList, CnSubscriber*);
 
-struct Chan {
-	const struct UBloadVt* vp;
-	struct ScriberList* list;
-	UBmutex* mutex;
-	UBpool* pool;
+struct ChannelData {
+	const struct CnLoadVt* vp;
+	struct SubscriberList* list;
+	CnMutex* mutex;
+	CnPool* pool;
 	size_t offset;
 };
 
-DICT(struct UBchan, struct Chan);
+DICT(struct CnChannel, struct ChannelData);
 
-struct UBroker {
-	const struct UBloadVt* vp;
-	struct UBchan* dict;
-	struct ScriberList* list;
-	UBmutex* mutex;
+struct CnBroker {
+	const struct CnLoadVt* vp;
+	CnChannel* dict;
+	struct SubscriberList* list;
+	CnMutex* mutex;
 };
 
 struct Message {
-	struct UBchan* chan;
-	UBmutex* mutex;
+	CnChannel* channel;
+	CnMutex* mutex;
 	union {
 		int n_pending;
 		void* align;
 	} u;
 };
 
-LIST(struct ChanList, struct UBchan*);
+LIST(struct ChannelList, CnChannel*);
 
 CIRQ(struct Qentry, struct Message*);
 
-struct UBscriber {
-	struct UBroker* broker;
-	struct ChanList* list;
+struct CnSubscriber {
+	CnBroker* broker;
+	struct ChannelList* list;
 	struct Message* msg;
-	UBpool* pool;
-	UBwaitQ* q;
+	CnPool* pool;
+	CnWaitq* q;
 };
 
 #endif /* TYPES_H */

@@ -1,7 +1,7 @@
 #ifndef PUBSUB_H
 #define PUBSUB_H
 
-#include "ub/str.h"
+#include "cn/str.h"
 
 struct CnStrq* single_thread_pubsub(void);
 

@@ -1,8 +1,8 @@
 #include "pubsub.h"
-#include "ub/os/mem.h"
-#include "ub/os/sys.h"
-#include "UB/broker.h"
-#include "UB/logger/log.h"
+#include "cn/os/mem.h"
+#include "cn/os/sys.h"
+#include "cantil/broker.h"
+#include "cantil/logger/log.h"
 #include <pthread.h>
 #include <string.h>
 #include <stdlib.h>
@@ -17,7 +17,7 @@ struct Payload {
 };
 
 struct Publisher {
-	UBroker* broker;
+	CnBroker* broker;
 	union {
 		int data;
 		void* align;
@@ -25,9 +25,9 @@ struct Publisher {
 };
 
 struct Subscriber {
-	UBscriber* scriber;
+	CnSubscriber* sber;
 	struct Payload* pl;
-	UBchan* chan;
+	CnChannel* channel;
 };
 
 static size_t size(void)
@@ -35,18 +35,18 @@ static size_t size(void)
 	return sizeof(struct Payload);
 }
 
-static void init(UBload* load, va_list vlist)
+static void init(CnLoad* load, va_list vlist)
 {
 	((struct Payload*)load)->new = va_arg(vlist, int);
 	((struct Payload*)load)->old = va_arg(vlist, int);
 }
 
-static void deinit(UBload* load)
+static void deinit(CnLoad* load)
 {
 	(void)load;
 }
 
-const struct UBloadVt PAYLOAD[] = {{
+const struct CnLoadVt PAYLOAD[] = {{
 	.size = size,
 	.ctor = init,
 	.dtor = deinit
@@ -54,74 +54,74 @@ const struct UBloadVt PAYLOAD[] = {{
 
 static int receive(struct Subscriber* sub)
 {
-	sub->pl = (struct Payload*)scriber_await(sub->scriber, &sub->chan);
+	sub->pl = (struct Payload*)subscriber_await(sub->sber, &sub->channel);
 	return 1;
 }
 
-static void publish(struct Publisher* pub, const char* topic, int data)
+static void sample_publish(struct Publisher* pub, const char* topic, int data)
 {
-	UBchan* chan = broker_search(pub->broker, topic);
+	CnChannel* ch = broker_search(pub->broker, topic);
 
-	lish(chan, data, pub->u.data);
+	publish(ch, data, pub->u.data);
 	pub->u.data = data;
 }
 
 static int join_requested(struct Subscriber* sub, int i)
 {
-	if (strcmp(get_topic(sub->chan), "join"))
+	if (strcmp(get_topic(sub->channel), "join"))
 		return 0;
 	return sub->pl->new == i;
 }
 
 static void* multiply(void* arg)
 {
-	UBroker* broker = arg;
+	CnBroker* broker = arg;
 	struct Publisher pub = {.broker = broker, .u.data = 0};
-	struct Subscriber sub = {scriber_create(broker), NULL, NULL};
+	struct Subscriber sub = {subscriber_create(broker), NULL, NULL};
 
-	scribe(sub.scriber, "input");
-	scribe(sub.scriber, "join");
-	publish(&pub, "ready", MULT_TH_ID);
+	subscribe(sub.sber, "input");
+	subscribe(sub.sber, "join");
+	sample_publish(&pub, "ready", MULT_TH_ID);
 	while (receive(&sub)) {
 		if (join_requested(&sub, MULT_TH_ID)) {
-			scriber_destroy(sub.scriber);
+			subscriber_destroy(sub.sber);
 			break;
 		}
-		publish(&pub, "result", sub.pl->new * sub.pl->old);
+		sample_publish(&pub, "result", sub.pl->new * sub.pl->old);
 	}
-	publish(&pub, "done", MULT_TH_ID);
+	sample_publish(&pub, "done", MULT_TH_ID);
 	return NULL;
 }
 
 static void* report(void* arg)
 {
-	UBroker* broker = arg;
+	CnBroker* broker = arg;
 	struct Publisher pub = {.broker = broker, .u.data = 0};
-	struct Subscriber sub = {scriber_create(broker), NULL, NULL};
+	struct Subscriber sub = {subscriber_create(broker), NULL, NULL};
 
-	scribe(sub.scriber, "input");
-	scribe(sub.scriber, "result");
-	scribe(sub.scriber, "join");
-	publish(&pub, "ready", REP_TH_ID);
+	subscribe(sub.sber, "input");
+	subscribe(sub.sber, "result");
+	subscribe(sub.sber, "join");
+	sample_publish(&pub, "ready", REP_TH_ID);
 	while (receive(&sub)) {
 		if (join_requested(&sub, REP_TH_ID)) {
-			scriber_destroy(sub.scriber);
+			subscriber_destroy(sub.sber);
 			break;
 		}
 		log(INFO, NULL, "message: new = %d, old = %d",
 		       sub.pl->new, sub.pl->old);
 	}
-	publish(&pub, "done", REP_TH_ID);
+	sample_publish(&pub, "done", REP_TH_ID);
 	return NULL;
 }
 
 static void
-start_thread(UBroker* broker, pthread_t* thid, int i, void* (*cb)(void*))
+start_thread(CnBroker* broker, pthread_t* thid, int i, void* (*cb)(void*))
 {
-	struct Subscriber sub = {scriber_create(broker), NULL, NULL};
+	struct Subscriber sub = {subscriber_create(broker), NULL, NULL};
 	pthread_attr_t attr;
 
-	scribe(sub.scriber, "ready");
+	subscribe(sub.sber, "ready");
 	pthread_attr_init(&attr);
 	pthread_attr_setstacksize(&attr, 512);
 	pthread_create(&thid[i], &attr, cb, broker);
@@ -130,14 +130,14 @@ start_thread(UBroker* broker, pthread_t* thid, int i, void* (*cb)(void*))
 		;
 }
 
-static void join_thread(UBroker* broker, pthread_t* thid, int i)
+static void join_thread(CnBroker* broker, pthread_t* thid, int i)
 {
 	struct Publisher pub = {.broker = broker, .u.data = 0};
-	struct Subscriber sub = {scriber_create(broker), NULL, NULL};
+	struct Subscriber sub = {subscriber_create(broker), NULL, NULL};
 	void* res = NULL;
 
-	scribe(sub.scriber, "done");
-	publish(&pub, "join", i);
+	subscribe(sub.sber, "done");
+	sample_publish(&pub, "join", i);
 	while (receive(&sub) && sub.pl->new != i)
 		;
 	pthread_join(thid[i], &res);
@@ -146,16 +146,16 @@ static void join_thread(UBroker* broker, pthread_t* thid, int i)
 
 static void app(void)
 {
-	UBroker* broker = broker_create(PAYLOAD);
+	CnBroker* broker = broker_create(PAYLOAD);
 	struct Publisher pub = {.broker = broker, .u.data = 0};
 	pthread_t thid[DELIM_TH_ID] = {0};
 
 	start_thread(broker, thid, REP_TH_ID, report);
 	start_thread(broker, thid, MULT_TH_ID, multiply);
-	publish(&pub, "input", -3);
-	publish(&pub, "input", -13);
-	publish(&pub, "input", 7);
-	publish(&pub, "input", 1);
+	sample_publish(&pub, "input", -3);
+	sample_publish(&pub, "input", -13);
+	sample_publish(&pub, "input", 7);
+	sample_publish(&pub, "input", 1);
 	join_thread(broker, thid, MULT_TH_ID);
 	join_thread(broker, thid, REP_TH_ID);
 	broker_destroy(broker);
@@ -164,17 +164,17 @@ static void app(void)
 struct CnStrbag* multi_thread_pubsub(void)
 {
 	struct CnStrbag* ret = NULL;
-	struct UBfstream* stream = ub_fopen("multi_thread_pubsub.tmp", "w+");
-	char* buff = ub_malloc(256);
+	struct CnFstream* stream = cn_fopen("multi_thread_pubsub.tmp", "w+");
+	char* buff = cn_malloc(256);
 
 	log_attach(INFO, stream);
 	app();
 	log_detach(INFO, stream);
-	ub_fseekset(stream, 0);
-	while (ub_fgets(buff, 256, stream))
+	cn_fseekset(stream, 0);
+	while (cn_fgets(buff, 256, stream))
 		ret = cn_strbag_ins(ret, buff);
-	ub_free(buff);
-	ub_fclose(stream);
-	ub_remove("multi_thread_pubsub.tmp");
+	cn_free(buff);
+	cn_fclose(stream);
+	cn_remove("multi_thread_pubsub.tmp");
 	return ret;
 }

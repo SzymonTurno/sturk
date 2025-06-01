@@ -1,37 +1,37 @@
-#include "ub/os/sem.h"
-#include "ub/os/mem.h"
-#include "UB/logger/except.h"
-#include "UB/logger/log.h"
+#include "cn/os/sem.h"
+#include "cn/os/mem.h"
+#include "cantil/logger/except.h"
+#include "cantil/logger/log.h"
 #include <stddef.h>
 
-struct UBsem {
+struct CnSem {
 	int n;
 };
 
-UBsem* ub_sem_create(UBits args)
+CnSem* cn_sem_create(CnBits args)
 {
-	UBsem* self = ub_malloc(sizeof(*self));
+	CnSem* self = cn_malloc(sizeof(*self));
 
 	(void)args;
 	self->n = 0;
 	return self;
 }
 
-void ub_sem_destroy(UBsem* sem)
+void cn_sem_destroy(CnSem* sem)
 {
-	ub_free(sem);
+	cn_free(sem);
 }
 
-void ub_sem_wait(UBsem* sem)
+void cn_sem_wait(CnSem* sem)
 {
 	ENSURE(sem, ECODES.null_param);
 	if (!sem->n)
-		LOG(WARNING, "ub-osal",
+		LOG(WARNING, "cantil",
 		       "Fake semaphore does not support context switch.");
 	--sem->n;
 }
 
-bool ub_sem_trywait(UBsem* sem)
+bool cn_sem_trywait(CnSem* sem)
 {
 	ENSURE(sem, ECODES.null_param);
 	if (sem->n) {
@@ -41,7 +41,7 @@ bool ub_sem_trywait(UBsem* sem)
 	return false;
 }
 
-void ub_sem_post(UBsem* sem)
+void cn_sem_post(CnSem* sem)
 {
 	ENSURE(sem, ECODES.null_param);
 	++sem->n;

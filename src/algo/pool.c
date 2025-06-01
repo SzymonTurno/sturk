@@ -1,21 +1,21 @@
-#include "ub/pool.h"
-#include "UB/list.h"
-#include "UB/arith.h"
-#include "UB/logger/except.h"
-#include "ub/os/mem.h"
-#include "UB/os/mutex.h"
+#include "cn/pool.h"
+#include "cn/os/mem.h"
+#include "cantil/list.h"
+#include "cantil/arith.h"
+#include "cantil/logger/except.h"
+#include "cantil/os/mutex.h"
 
 LIST(union FreeList, void*);
 
-struct UBpool {
+struct CnPool {
 	size_t blk_size;
 	union FreeList* list;
-	UBmutex* mutex;
+	CnMutex* mutex;
 };
 
-UBpool* ub_pool_create(size_t blk_size)
+CnPool* cn_pool_create(size_t blk_size)
 {
-	UBpool* self = ub_malloc(sizeof(*self));
+	CnPool* self = cn_malloc(sizeof(*self));
 
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->blk_size = max(blk_size, sizeof(*self->list));
@@ -23,20 +23,20 @@ UBpool* ub_pool_create(size_t blk_size)
 	return self;
 }
 
-void ub_pool_destroy(UBpool* pool)
+void cn_pool_destroy(CnPool* pool)
 {
 	if (!pool)
 		return;
 	mutex_lock(pool->mutex);
 	while (pool->list)
-		ub_free(list_rem(&pool->list));
+		cn_free(list_rem(&pool->list));
 	mutex_unlock(pool->mutex);
 	mutex_destroy(pool->mutex);
 	pool->mutex = NULL;
-	ub_free(pool);
+	cn_free(pool);
 }
 
-void* ub_pool_alloc(UBpool* pool)
+void* cn_pool_alloc(CnPool* pool)
 {
 	void* ret = NULL;
 
@@ -45,10 +45,10 @@ void* ub_pool_alloc(UBpool* pool)
 	if (pool->list)
 		ret = list_rem(&pool->list);
 	mutex_unlock(pool->mutex);
-	return ret ? ret : ub_malloc(pool->blk_size);
+	return ret ? ret : cn_malloc(pool->blk_size);
 }
 
-void* ub_pool_tryalloc(UBpool* pool)
+void* cn_pool_tryalloc(CnPool* pool)
 {
 	void* ret = NULL;
 
@@ -60,7 +60,7 @@ void* ub_pool_tryalloc(UBpool* pool)
 	return ret;
 }
 
-void ub_pool_free(UBpool* pool, void* blk)
+void cn_pool_free(CnPool* pool, void* blk)
 {
 	ENSURE(pool, ECODES.null_param);
 	mutex_lock(pool->mutex);

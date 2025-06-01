@@ -1,5 +1,5 @@
-#ifndef UB_OSAL_UNISTD_H
-#define UB_OSAL_UNISTD_H
+#ifndef OSAL_UNISTD_H
+#define OSAL_UNISTD_H
 
 #ifdef WIN32
 #include <io.h>
@@ -11,4 +11,4 @@
 #include <unistd.h>
 #endif
 
-#endif /* UB_OSAL_UNISTD_H */
+#endif /* OSAL_UNISTD_H */
