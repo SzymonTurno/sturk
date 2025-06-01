@@ -3,8 +3,8 @@
 
 #include "ub/str.h"
 
-struct CyStrq* single_thread_pubsub(void);
+struct CnStrq* single_thread_pubsub(void);
 
-struct CyStrbag* multi_thread_pubsub(void);
+struct CnStrbag* multi_thread_pubsub(void);
 
 #endif /* PUBSUB_H */

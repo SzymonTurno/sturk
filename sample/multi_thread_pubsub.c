@@ -161,9 +161,9 @@ static void app(void)
 	broker_destroy(broker);
 }
 
-struct CyStrbag* multi_thread_pubsub(void)
+struct CnStrbag* multi_thread_pubsub(void)
 {
-	struct CyStrbag* ret = NULL;
+	struct CnStrbag* ret = NULL;
 	struct UBfstream* stream = ub_fopen("multi_thread_pubsub.tmp", "w+");
 	char* buff = ub_malloc(256);
 
@@ -172,7 +172,7 @@ struct CyStrbag* multi_thread_pubsub(void)
 	log_detach(INFO, stream);
 	ub_fseekset(stream, 0);
 	while (ub_fgets(buff, 256, stream))
-		ret = cy_strbag_ins(ret, buff);
+		ret = cn_strbag_ins(ret, buff);
 	ub_free(buff);
 	ub_fclose(stream);
 	ub_remove("multi_thread_pubsub.tmp");

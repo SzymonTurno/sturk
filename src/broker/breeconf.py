@@ -1,8 +1,8 @@
 import os
-from cydiom.cycfg import Cynode
+from cantil.cncfg import Canode
 
 def create(params):
-    node = Cynode(params)
+    node = Canode(params)
 
     node.objs.append('broker.o')
     return node

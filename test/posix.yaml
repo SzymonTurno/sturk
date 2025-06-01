@@ -1,5 +1,5 @@
 ---
-  cydiom:
+  cantil:
     cver: "gnu"
     build_type: "coverage"
     osal:

@@ -1,11 +1,11 @@
 #include "UB/logger/log.h"
-#include "UB/logger/logsink.h"
+#include "UB/logger/sink.h"
 #include "UB/logger/except.h"
 #include "ub/os/mem.h"
 
 #define BUFF_MAX_SIZE 128
 
-static struct CyLogsink* logsink[N_LOG_LVLS];
+static struct CnLogsink* logsink[N_LOG_LVLS];
 
 static const char* get_lvlstr(enum UBlogLvl lvl)
 {

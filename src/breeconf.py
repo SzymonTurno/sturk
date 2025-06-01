@@ -3,12 +3,12 @@ import sys
 
 sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), 'scripts'))
 
-from cydiom import breeck
-from cydiom import cycfg
+from cantil import breeck
+from cantil import cncfg
 
 def create(params):
-    node = cycfg.Cynode(params)
-    settings = node.settings()['cydiom']
+    node = cncfg.Canode(params)
+    settings = node.settings()['cantil']
 
     if settings['cver'] == 'gnu':
         node.cflags.append('-std=gnu11')
@@ -27,8 +27,8 @@ def create(params):
         node.fail('Unknown build type: ' + settings['build_type'] + '.')
 
     node.append_constraint(
-        ['cydiom', 'cver', 'iso'],
-        ['cydiom', 'osal', 'mutex', 'posix']
+        ['cantil', 'cver', 'iso'],
+        ['cantil', 'osal', 'mutex', 'posix']
     )
     node.include('algo')
     node.include('broker')
@@ -39,7 +39,7 @@ def create(params):
 def main():
     srcdir = os.path.dirname(sys.argv[0])
     root = create(breeck.Params(srcdir, sys.argv[1:]))
-    bldpath = root.settings()['cydiom']['build_path']
+    bldpath = root.settings()['cantil']['build_path']
     blddir = os.path.join(bldpath, srcdir)
     objs = set()
     blddirs = set()
@@ -57,10 +57,10 @@ def main():
         for cflag in i.cflags:
             cflags.add(cflag)
 
-    bldvars.append(cycfg.bldvar('cy-blddir', blddir))
-    bldvars.append(cycfg.bldvar('cy-blddirs', ' '.join(blddirs)))
-    bldvars.append(cycfg.bldvar('cy-objs', ' '.join(objs)))
-    bldvars.append(cycfg.bldvar('cy-extra-cflags', ' '.join(cflags)))
+    bldvars.append(cncfg.bldvar('cn-blddir', blddir))
+    bldvars.append(cncfg.bldvar('cn-blddirs', ' '.join(blddirs)))
+    bldvars.append(cncfg.bldvar('cn-objs', ' '.join(objs)))
+    bldvars.append(cncfg.bldvar('cn-extra-cflags', ' '.join(cflags)))
     print(' '.join(bldvars))
 
 if __name__ == "__main__":

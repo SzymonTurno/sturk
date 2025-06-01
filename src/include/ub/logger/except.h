@@ -1,5 +1,5 @@
-#ifndef UB_EXCEPT_H
-#define UB_EXCEPT_H
+#ifndef UB_LOGGER_EXCEPT_H
+#define UB_LOGGER_EXCEPT_H
 
 #include "ub/logger/log.h"
 #include "ub/os/sys.h"
@@ -38,4 +38,4 @@ static const struct {
 
 #define UB_RAISE(ecode) UB_ENSURE(0, ecode)
 
-#endif /* UB_EXCEPT_H */
+#endif /* UB_LOGGER_EXCEPT_H */

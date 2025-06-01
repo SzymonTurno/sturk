@@ -1,6 +1,6 @@
-from cydiom import breeck
+from cantil import breeck
 
-class Cynode(breeck.Dirnode):
+class Canode(breeck.Dirnode):
     def __init__(self, path):
         breeck.Dirnode.__init__(self, path)
         self.objs = []

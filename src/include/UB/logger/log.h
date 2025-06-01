@@ -1,5 +1,5 @@
-#ifndef _UB_LOG_H
-#define _UB_LOG_H
+#ifndef _UB_LOGGER_LOG_H
+#define _UB_LOGGER_LOG_H
 
 #include "ub/logger/log.h"
 
@@ -23,10 +23,6 @@
 
 #define log_cleanup ub_log_cleanup
 
-#define listener_create cy_listener_create
-
-#define listener_destroy cy_listener_destroy
-
 #define LOG UB_LOG
 
-#endif /* _UB_LOG_H */
+#endif /* _UB_LOGGER_LOG_H */

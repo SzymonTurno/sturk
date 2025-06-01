@@ -1,32 +1,32 @@
-#ifndef CY_STR_H
-#define CY_STR_H
+#ifndef CN_STR_H
+#define CN_STR_H
 
 #include "UB/list.h"
 #include "UB/cirq.h"
 #include "UB/dict.h"
 
-LIST(struct CyStrlist, char*);
+LIST(struct CnStrlist, char*);
 
-CIRQ(struct CyStrq, char*);
+CIRQ(struct CnStrq, char*);
 
-DICT(struct CyStrbag, union { int n; void* align; });
+DICT(struct CnStrbag, union { int n; void* align; });
 
-char* cy_newstr(const char* str);
+char* cn_newstr(const char* str);
 
-struct CyStrlist* cy_strlist_ins(struct CyStrlist* list, char* str);
+struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str);
 
-char* cy_strlist_rem(struct CyStrlist** listp);
+char* cn_strlist_rem(struct CnStrlist** listp);
 
-struct CyStrq* cy_strq_ins(struct CyStrq* q, char* str);
+struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str);
 
-char* cy_strq_rem(struct CyStrq** qp);
+char* cn_strq_rem(struct CnStrq** qp);
 
-struct CyStrbag* cy_strbag_ins(struct CyStrbag* bag, const char* str);
+struct CnStrbag* cn_strbag_ins(struct CnStrbag* bag, const char* str);
 
-struct CyStrbag* cy_strbag_rem(struct CyStrbag* bag, const char* str);
+struct CnStrbag* cn_strbag_rem(struct CnStrbag* bag, const char* str);
 
-int cy_strbag_count(struct CyStrbag* bag);
+int cn_strbag_count(struct CnStrbag* bag);
 
-void cy_strbag_destroy(struct CyStrbag* bag);
+void cn_strbag_destroy(struct CnStrbag* bag);
 
-#endif /* CY_STR_H */
+#endif /* CN_STR_H */

@@ -10,7 +10,7 @@ TEST_TEAR_DOWN(list) { return; }
 
 TEST(list, should_implement_lifo)
 {
-	struct CyStrlist* list = NULL;
+	struct CnStrlist* list = NULL;
 
 	list = strlist_ins(NULL, "One");
 	list = strlist_ins(list, "Two");
@@ -27,7 +27,7 @@ TEST_TEAR_DOWN(cirq) { return; }
 
 TEST(cirq, should_implement_fifo)
 {
-	struct CyStrq* q = NULL;
+	struct CnStrq* q = NULL;
 
 	q = strq_ins(NULL, "One");
 	q = strq_ins(q, "Two");
@@ -58,7 +58,7 @@ TEST(broker, should_support_single_thread_pubsub)
 		LINE("[info] message: new = 1, old = 7")
 		LINE("[info] message: new = 7, old = -91")
 	};
-	struct CyStrq* q = single_thread_pubsub();
+	struct CnStrq* q = single_thread_pubsub();
 
 	for (int i = 0; i < ARRAY_SIZE(expected); i++) {
 		const char* tmp = strq_rem(&q);
@@ -70,10 +70,10 @@ TEST(broker, should_support_single_thread_pubsub)
 
 TEST(broker, should_support_multi_thread_pubsub)
 {
-	struct CyStrbag* actual = multi_thread_pubsub();
-	struct CyStrbag* tmp_a = actual;
-	struct CyStrbag* expected = NULL;
-	struct CyStrbag* tmp_e = NULL;
+	struct CnStrbag* actual = multi_thread_pubsub();
+	struct CnStrbag* tmp_a = actual;
+	struct CnStrbag* expected = NULL;
+	struct CnStrbag* tmp_e = NULL;
 
 	expected = strbag_ins(expected, "[info] message: new = -3, old = 0\n");
 	expected = strbag_ins(expected, "[info] message: new = -13, old = -3\n");
@@ -107,7 +107,7 @@ TEST_TEAR_DOWN(strbag) { return; }
 
 TEST(strbag, should_fill_up)
 {
-	struct CyStrbag* expected = NULL;
+	struct CnStrbag* expected = NULL;
 
 	expected = strbag_ins(expected, "[info] message: new = -3, old = 0\n");
 	expected = strbag_ins(expected, "[info] message: new = -13, old = -3\n");

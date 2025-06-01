@@ -3,10 +3,10 @@
 
 #include <stdint.h>
 
-enum CyBstTrav {
-	CY_BST_TRAV_INORDER = 0,
-	CY_BST_TRAV_PREORDER,
-	CY_BST_TRAV_POSTORDER,
+enum CnBstTrav {
+	CN_BST_TRAV_INORDER = 0,
+	CN_BST_TRAV_PREORDER,
+	CN_BST_TRAV_POSTORDER,
 };
 
 struct UBrbnode {
@@ -28,6 +28,6 @@ struct UBrbnode* ub_rb_deepest(struct UBrbnode* node);
 
 struct UBrbnode* ub_rb_leftmost(struct UBrbnode* node);
 
-struct UBrbnode* ub_rb_next(struct UBrbnode* node, enum CyBstTrav trav);
+struct UBrbnode* ub_rb_next(struct UBrbnode* node, enum CnBstTrav trav);
 
 #endif /* UB_RBTREE_H */

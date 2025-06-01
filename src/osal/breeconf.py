@@ -1,9 +1,9 @@
 import os
-from cydiom.cycfg import Cynode
+from cantil.cncfg import Canode
 
 def create(params):
-    node = Cynode(params)
-    osal = node.settings()['cydiom']['osal']
+    node = Canode(params)
+    osal = node.settings()['cantil']['osal']
 
     node.objs.append(os.path.join(osal['mem'], 'mem.o'))
     node.objs.append(os.path.join(osal['mutex'], 'mutex.o'))

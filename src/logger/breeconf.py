@@ -1,9 +1,9 @@
 import os
-from cydiom.cycfg import Cynode
+from cantil.cncfg import Canode
 
 def create(params):
-    node = Cynode(params)
-    settings = node.settings()['cydiom']['logger']
+    node = Canode(params)
+    settings = node.settings()['cantil']['logger']
 
     if settings['log'] == 'on':
         node.cflags.append('-DUB_LOG_EN=1')
@@ -20,5 +20,5 @@ def create(params):
         node.fail('Unknown exceptions mode: ' + settings['exceptions'] + '.')
 
     node.objs.append('log.o')
-    node.objs.append('logsink.o')
+    node.objs.append('sink.o')
     return node

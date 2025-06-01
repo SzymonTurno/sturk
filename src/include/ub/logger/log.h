@@ -1,5 +1,5 @@
-#ifndef UB_LOG_H
-#define UB_LOG_H
+#ifndef UB_LOGGER_LOG_H
+#define UB_LOGGER_LOG_H
 
 #include "ub/os/fstream.h"
 
@@ -26,4 +26,4 @@ void ub_log_cleanup(void);
 			ub_log(lvl, tag, __VA_ARGS__);                         \
 	} while (0)
 
-#endif /* UB_LOG_H */
+#endif /* UB_LOGGER_LOG_H */

@@ -1,4 +1,4 @@
-#include "UB/logger/logsink.h"
+#include "UB/logger/sink.h"
 #include "UB/logger/except.h"
 #include "UB/list.h"
 #include "UB/os/mutex.h"
@@ -6,7 +6,7 @@
 
 LIST(struct StreamList, UBfstream*);
 
-struct CyLogsink {
+struct CnLogsink {
 	struct StreamList* head;
 	UBmutex* mutex;
 };
@@ -23,16 +23,16 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 	}
 }
 
-CyLogsink* cy_logsink_create(void)
+CnLogsink* cn_logsink_create(void)
 {
-	CyLogsink* self = ub_malloc(sizeof(*self));
+	CnLogsink* self = ub_malloc(sizeof(*self));
 
 	self->head = NULL;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	return self;
 }
 
-void cy_logsink_push(CyLogsink* list, UBfstream* stream)
+void cn_logsink_push(CnLogsink* list, UBfstream* stream)
 {
 	struct StreamList* entry = ub_malloc(sizeof(*entry));
 
@@ -43,7 +43,7 @@ void cy_logsink_push(CyLogsink* list, UBfstream* stream)
 	mutex_unlock(list->mutex);
 }
 
-void cy_logsink_pop(CyLogsink* list, UBfstream* stream)
+void cn_logsink_pop(CnLogsink* list, UBfstream* stream)
 {
 	ENSURE(list, ECODES.null_param);
 	for (LIST_ITER(struct StreamList, i, &list->head))
@@ -55,7 +55,7 @@ void cy_logsink_pop(CyLogsink* list, UBfstream* stream)
 		}
 }
 
-void cy_logsink_vprint(CyLogsink* list, const char* format, va_list vlist)
+void cn_logsink_vprint(CnLogsink* list, const char* format, va_list vlist)
 {
 	ENSURE(list, ECODES.null_param);
 	mutex_lock(list->mutex);
@@ -63,7 +63,7 @@ void cy_logsink_vprint(CyLogsink* list, const char* format, va_list vlist)
 	mutex_unlock(list->mutex);
 }
 
-void cy_logsink_print(CyLogsink* list, const char* format, ...)
+void cn_logsink_print(CnLogsink* list, const char* format, ...)
 {
 	va_list vlist;
 
@@ -72,7 +72,7 @@ void cy_logsink_print(CyLogsink* list, const char* format, ...)
 	va_end(vlist);
 }
 
-void cy_logsink_destroy(CyLogsink* list)
+void cn_logsink_destroy(CnLogsink* list)
 {
 	if (!list)
 		return;

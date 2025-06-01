@@ -1,39 +1,39 @@
-cy-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-cy-incs := -I$(cy-dir)/include
-cy-lib := libcydiom.a
-cy-breeconf := python -B $(cy-dir)/breeconf.py $(cy-yamls)
+cn-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+cn-incs := -I$(cn-dir)/include
+cn-lib := libcantil.a
+cn-breeconf := python -B $(cn-dir)/breeconf.py $(cn-yamls)
 
-cy-cflags := -Wall
-cy-cflags += -Wcast-align
-cy-cflags += -Wconversion
-cy-cflags += -Wdisabled-optimization
-cy-cflags += -Wextra
-cy-cflags += -Wlogical-op
-cy-cflags += -Wmissing-prototypes
-cy-cflags += -Wnested-externs
-cy-cflags += -Wpadded
-cy-cflags += -Wredundant-decls
-cy-cflags += -Wshadow
-cy-cflags += -Wstrict-prototypes
-cy-cflags += -Wswitch-default
-cy-cflags += -Wwrite-strings
+cn-cflags := -Wall
+cn-cflags += -Wcast-align
+cn-cflags += -Wconversion
+cn-cflags += -Wdisabled-optimization
+cn-cflags += -Wextra
+cn-cflags += -Wlogical-op
+cn-cflags += -Wmissing-prototypes
+cn-cflags += -Wnested-externs
+cn-cflags += -Wpadded
+cn-cflags += -Wredundant-decls
+cn-cflags += -Wshadow
+cn-cflags += -Wstrict-prototypes
+cn-cflags += -Wswitch-default
+cn-cflags += -Wwrite-strings
 
-all-cy:
-ifeq "$(shell $(cy-breeconf))" ""
+all-cn:
+ifeq "$(shell $(cn-breeconf))" ""
 	$(error "Breeck failure.")
 endif
-	make _all-cy $(shell $(cy-breeconf))
+	make _all-cn $(shell $(cn-breeconf))
 
-_all-cy: $(cy-blddir)/$(cy-lib)
+_all-cn: $(cn-blddir)/$(cn-lib)
 
-$(cy-blddir)/$(cy-lib): $(cy-objs) $(cy-blddir)
-	ar rcs $@ $(cy-objs)
+$(cn-blddir)/$(cn-lib): $(cn-objs) $(cn-blddir)
+	ar rcs $@ $(cn-objs)
 
-$(cy-objs): CFLAGS ?= $(cy-cflags) $(cy-extra-cflags)
-$(cy-blddir)/%.o: $(cy-dir)/%.c | $(cy-blddirs)
-	$(CC) $(CFLAGS) $(cy-incs) -c -o $@ $<
+$(cn-objs): CFLAGS ?= $(cn-cflags) $(cn-extra-cflags)
+$(cn-blddir)/%.o: $(cn-dir)/%.c | $(cn-blddirs)
+	$(CC) $(CFLAGS) $(cn-incs) -c -o $@ $<
 
-$(cy-blddirs):
+$(cn-blddirs):
 	mkdir -p $@
 
-.PHONY: all-cy _all-cy
+.PHONY: all-cn _all-cn

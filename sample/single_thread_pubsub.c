@@ -107,9 +107,9 @@ static void app(void)
 	broker_destroy(broker);
 }
 
-struct CyStrq* single_thread_pubsub(void)
+struct CnStrq* single_thread_pubsub(void)
 {
-	struct CyStrq* ret = NULL;
+	struct CnStrq* ret = NULL;
 	struct UBfstream* stream = ub_fopen("single_thread_pubsub.tmp", "w+");
 	char* buff = ub_malloc(256);
 

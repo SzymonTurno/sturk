@@ -1,5 +1,5 @@
-#ifndef _UB_EXCEPT_H
-#define _UB_EXCEPT_H
+#ifndef _UB_LOGGER_EXCEPT_H
+#define _UB_LOGGER_EXCEPT_H
 
 #include "ub/logger/except.h"
 
@@ -11,4 +11,4 @@
 
 #define RAISE UB_RAISE
 
-#endif /* _UB_EXCEPT_H */
+#endif /* _UB_LOGGER_EXCEPT_H */

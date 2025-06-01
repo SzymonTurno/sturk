@@ -1,5 +1,5 @@
 ---
-  cydiom:
+  cantil:
     logger:
       log: "on"
       exceptions: "on"

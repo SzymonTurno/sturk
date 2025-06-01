@@ -1,5 +1,5 @@
 ---
-  cydiom:
+  cantil:
     osal:
       mem: "none"
       mutex: "none"

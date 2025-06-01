@@ -240,13 +240,13 @@ struct UBrbnode* ub_rb_leftmost(struct UBrbnode* node)
 	return node;
 }
 
-struct UBrbnode* ub_rb_next(struct UBrbnode* node, enum CyBstTrav trav)
+struct UBrbnode* ub_rb_next(struct UBrbnode* node, enum CnBstTrav trav)
 {
 	RBNODE_ENSURE(node);
 	switch (trav) {
-	case CY_BST_TRAV_PREORDER:
+	case CN_BST_TRAV_PREORDER:
 		return get_preordersucc(node);
-	case CY_BST_TRAV_POSTORDER:
+	case CN_BST_TRAV_POSTORDER:
 		return get_postordersucc(node);
 	default:
 		break;
