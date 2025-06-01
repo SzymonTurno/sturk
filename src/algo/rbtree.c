@@ -43,7 +43,6 @@ static struct UBrbnode* rot_left(struct UBrbnode* node, struct UBrbnode* root)
 	struct UBrbnode* p = get_parent(node);
 	struct UBrbnode* y = node->right;
 
-
 	node->right = y->left;
 	if (node->right)
 		set_parent(node->right, node);
@@ -190,7 +189,7 @@ struct UBrbnode* ub_rb_insrebal(struct UBrbnode* root, struct UBrbnode* node)
 				 * N is inner grandchild of G.
 				 * Step 2.1.0: right-left.
 				 */
-				root = rot_left(p, root);
+				root = rot_right(p, root);
 				node = p;
 				p = get_parent(node);
 				/* Go to step 2.1.1. */

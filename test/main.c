@@ -105,20 +105,20 @@ TEST_GROUP(strbag);
 TEST_SETUP(strbag) { return; }
 TEST_TEAR_DOWN(strbag) { return; }
 
-TEST(strbag, should_fill_up)
+TEST(strbag, should_handle_all_rb_tree_insertion_cases)
 {
-	struct CnStrbag* expected = NULL;
+	struct CnStrbag* bag = NULL;
+	char str[sizeof(int) + 1] = {0};
 
-	expected = strbag_ins(expected, "[info] message: new = -3, old = 0\n");
-	expected = strbag_ins(expected, "[info] message: new = -13, old = -3\n");
-	expected = strbag_ins(expected, "[info] message: new = 1, old = 7\n");
-	expected = strbag_ins(expected, "[info] message: new = 39, old = 0\n");
-	expected = strbag_ins(expected, "[info] message: new = 0, old = 0\n");
-	expected = strbag_ins(expected, "[info] message: new = 0, old = 0\n");
-	expected = strbag_ins(expected, "[ino] message: new = 7, old = -13\n");
-	expected = strbag_ins(expected, "[info] message: new = -91, old = 39\n");
-	expected = strbag_ins(expected, "[info] message: new = 7, old = -91\n");
-	strbag_destroy(expected);
+	srand(1);
+	for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1000; i++) {
+			*((int*)str) = rand();
+			bag = strbag_ins(bag, str);
+		}
+		strbag_destroy(bag);
+		bag = NULL;
+	}
 }
 
 static void run_all_tests(void)
@@ -126,16 +126,9 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(list, should_implement_lifo);
 	RUN_TEST_CASE(cirq, should_implement_fifo);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
+	RUN_TEST_CASE(strbag, should_handle_all_rb_tree_insertion_cases);
 	if (POSIX_TESTS_ON)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
-	/* TODO: fix segfaults. */
-	/* if (POSIX_TESTS_ON) */
-	/* 	printf("\n"); */
-	/* 	for (int i = 0; i < 1000; i++) { */
-	/* 		printf("Ran %d times.\n", i); */
-	/* 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub); */
-	/* 	} */
-	/* RUN_TEST_CASE(strbag, should_fill_up); */
 }
 
 int main(int argc, const char **argv)
