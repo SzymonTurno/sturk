@@ -14,9 +14,11 @@ unity_OBJS += $(unity_BLDDIR)/extras/memory/src/unity_memory.o
 $(unity_BLDDIR)/%.o: $(unity_DIR)/%.c | $(unity_BLDDIRS)
 	$(CC) $(unity_INCS) -c -o $@ $<
 
-$(unity_DIR)/%.c:
+$(unity_DIR)/%.c: $(unity_DIR)
+	cd $(unity_DIR) && git reset --hard v2.6.1
+
+$(unity_DIR):
 	git clone https://github.com/ThrowTheSwitch/Unity.git
-	cd $(unity_DIR) && git checkout v2.6.1
 
 $(unity_BLDDIRS):
 	mkdir -p $@
