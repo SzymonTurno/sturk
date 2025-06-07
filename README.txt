@@ -9,3 +9,4 @@
 
 - within Makefiles change "cn" prefix to "cantil"
 - build tests and sample with CMake ?
+- rename breeck to olgite

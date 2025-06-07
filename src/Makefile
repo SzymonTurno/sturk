@@ -1,39 +1,38 @@
-cn-dir := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-cn-incs := -I$(cn-dir)/include
-cn-lib := libcantil.a
-cn-breeconf := python -B $(cn-dir)/breeconf.py $(cn-yamls)
+cantil_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+cantil_INC := -I$(cantil_DIR)/include
+cantil_LIB := libcantil.a
 
-cn-cflags := -Wall
-cn-cflags += -Wcast-align
-cn-cflags += -Wconversion
-cn-cflags += -Wdisabled-optimization
-cn-cflags += -Wextra
-cn-cflags += -Wlogical-op
-cn-cflags += -Wmissing-prototypes
-cn-cflags += -Wnested-externs
-cn-cflags += -Wpadded
-cn-cflags += -Wredundant-decls
-cn-cflags += -Wshadow
-cn-cflags += -Wstrict-prototypes
-cn-cflags += -Wswitch-default
-cn-cflags += -Wwrite-strings
+cantil_CFLAGS := -Wall
+cantil_CFLAGS += -Wcast-align
+cantil_CFLAGS += -Wconversion
+cantil_CFLAGS += -Wdisabled-optimization
+cantil_CFLAGS += -Wextra
+cantil_CFLAGS += -Wlogical-op
+cantil_CFLAGS += -Wmissing-prototypes
+cantil_CFLAGS += -Wnested-externs
+cantil_CFLAGS += -Wpadded
+cantil_CFLAGS += -Wredundant-decls
+cantil_CFLAGS += -Wshadow
+cantil_CFLAGS += -Wstrict-prototypes
+cantil_CFLAGS += -Wswitch-default
+cantil_CFLAGS += -Wwrite-strings
 
-all-cn:
-ifeq "$(shell $(cn-breeconf))" ""
+all-cantil:
+ifeq "$(shell python -B $(cantil_DIR)/breeconf.py $(cantil_YAMLS))" ""
 	$(error "Breeck failure.")
 endif
-	make _all-cn $(shell $(cn-breeconf))
+	make _all-cantil $(shell python -B $(cantil_DIR)/breeconf.py $(cantil_YAMLS))
 
-_all-cn: $(cn-blddir)/$(cn-lib)
+_all-cantil: $(cantil_BLDDIR)/$(cantil_LIB)
 
-$(cn-blddir)/$(cn-lib): $(cn-objs) $(cn-blddir)
-	ar rcs $@ $(cn-objs)
+$(cantil_BLDDIR)/$(cantil_LIB): $(cantil_OBJS) $(cantil_BLDDIR)
+	ar rcs $@ $(cantil_OBJS)
 
-$(cn-objs): CFLAGS ?= $(cn-cflags) $(cn-extra-cflags)
-$(cn-blddir)/%.o: $(cn-dir)/%.c | $(cn-blddirs)
-	$(CC) $(CFLAGS) $(cn-incs) -c -o $@ $<
+$(cantil_OBJS): CFLAGS ?= $(cantil_CFLAGS) $(cantil_EXTRA_CFLAGS)
+$(cantil_BLDDIR)/%.o: $(cantil_DIR)/%.c | $(cantil_BLDDIRS)
+	$(CC) $(CFLAGS) $(cantil_INC) -c -o $@ $<
 
-$(cn-blddirs):
+$(cantil_BLDDIRS):
 	mkdir -p $@
 
-.PHONY: all-cn _all-cn
+.PHONY: all-cantil _all-cantil

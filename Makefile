@@ -1,20 +1,13 @@
 CC := gcc
-blddir := build
-rptdir := $(blddir)/src/analysis.d
+sample_DIR := sample
 
 usage:
-	@echo Usage: make run-* ub-yamls="path/to/optional.yaml"
-
-coverage: $(rptdir)/coverage.d
-
-$(rptdir)/coverage.d: $(rptdir)/coverage.info
-	genhtml $(rptdir)/coverage.info --show-details --output-directory $@
-
-$(rptdir)/coverage.info: $(rptdir)
-	lcov --capture --directory ./$(blddir) --output-file $@
+	@echo Usage:
+	@echo "make run-*";
+	@echo "make coverage-*";
+	@echo "rm -rf build-*".
 
 include src/Makefile
-include sample/Makefile
 include test/Makefile
 
-.PHONY: usage coverage
+.PHONY: usage

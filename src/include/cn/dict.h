@@ -122,7 +122,8 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 									       \
 		cn_container_of(                                               \
 			cn_strnode_from(                                       \
-				cn_rb_next(&dict_cast(_root)->node, 0)),       \
+				cn_rb_next(&dict_cast(_root)->node,            \
+					CN_BST_TRAV_INORDER)),                 \
 			__typeof__(*root),                                     \
 			strnode);                                              \
 	})

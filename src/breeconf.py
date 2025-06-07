@@ -57,10 +57,10 @@ def main():
         for cflag in i.cflags:
             cflags.add(cflag)
 
-    bldvars.append(cncfg.bldvar('cn-blddir', blddir))
-    bldvars.append(cncfg.bldvar('cn-blddirs', ' '.join(blddirs)))
-    bldvars.append(cncfg.bldvar('cn-objs', ' '.join(objs)))
-    bldvars.append(cncfg.bldvar('cn-extra-cflags', ' '.join(cflags)))
+    bldvars.append(cncfg.bldvar('cantil_BLDDIR', blddir))
+    bldvars.append(cncfg.bldvar('cantil_BLDDIRS', ' '.join(blddirs)))
+    bldvars.append(cncfg.bldvar('cantil_OBJS', ' '.join(objs)))
+    bldvars.append(cncfg.bldvar('cantil_EXTRA_CFLAGS', ' '.join(cflags)))
     print(' '.join(bldvars))
 
 if __name__ == "__main__":
