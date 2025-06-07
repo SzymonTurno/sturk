@@ -9,8 +9,8 @@ struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
 	return nodep;
 }
 
-struct CnUnnode* cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node,
-	int pos)
+struct CnUnnode*
+cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos)
 {
 	struct CnUnnode** i = list_hand(&head, pos);
 

@@ -1,15 +1,15 @@
+#include "cantil/dict.h"
+#include "cantil/logger/trace.h"
+#include "cantil/str.h"
+#include "cn/os/mem.h"
+#include "pubsub.h"
 #include "unity.h"
 #include "unity_fixture.h"
-#include "cn/os/mem.h"
-#include "cantil/str.h"
-#include "cantil/dict.h"
-#include "cantil/logger/log.h"
-#include "pubsub.h"
 #include <string.h>
 
 #define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
 
-#define LINE(str) str"\n"
+#define LINE(str) str "\n"
 
 TEST_GROUP(list);
 TEST_SETUP(list) { return; }
@@ -63,8 +63,7 @@ TEST(broker, should_support_single_thread_pubsub)
 		LINE("[info] message: new = -91, old = 39"),
 		LINE("[info] broadcast 1"),
 		LINE("[info] message: new = 1, old = 7"),
-		LINE("[info] message: new = 7, old = -91")
-	};
+		LINE("[info] message: new = 7, old = -91")};
 	struct CnStrq* q = single_thread_pubsub();
 
 	for (int i = 0; i < ARRAY_SIZE(expected); i++) {
@@ -83,22 +82,23 @@ TEST(broker, should_support_multi_thread_pubsub)
 	struct CnStrbag* tmp_e = NULL;
 
 	expected = strbag_ins(expected, "[info] message: new = -3, old = 0\n");
-	expected = strbag_ins(expected, "[info] message: new = -13, old = -3\n");
+	expected =
+		strbag_ins(expected, "[info] message: new = -13, old = -3\n");
 	expected = strbag_ins(expected, "[info] message: new = 1, old = 7\n");
 	expected = strbag_ins(expected, "[info] message: new = 39, old = 0\n");
 	expected = strbag_ins(expected, "[info] message: new = 0, old = 0\n");
 	expected = strbag_ins(expected, "[info] message: new = 0, old = 0\n");
 	expected = strbag_ins(expected, "[info] message: new = 7, old = -13\n");
-	expected = strbag_ins(expected, "[info] message: new = -91, old = 39\n");
+	expected =
+		strbag_ins(expected, "[info] message: new = -91, old = 39\n");
 	expected = strbag_ins(expected, "[info] message: new = 7, old = -91\n");
 	tmp_e = expected;
 	expected = dict_leftmost(expected);
 	actual = dict_leftmost(actual);
 	while (expected && actual) {
-		TEST_ASSERT_EQUAL_STRING(dict_getk(expected),
-			dict_getk(actual));
-		TEST_ASSERT_EQUAL(strbag_count(expected),
-			strbag_count(actual));
+		TEST_ASSERT_EQUAL_STRING(
+			dict_getk(expected), dict_getk(actual));
+		TEST_ASSERT_EQUAL(strbag_count(expected), strbag_count(actual));
 		expected = dict_next(expected);
 		actual = dict_next(actual);
 	}
@@ -138,12 +138,12 @@ static void run_all_tests(void)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
 }
 
-int main(int argc, const char **argv)
+int main(int argc, const char** argv)
 {
-	log_attach(DEBUG, cn_stdout());
-	log_attach(WARNING, cn_stderr());
-	log_attach(ERROR, cn_stderr());
+	logger_attach(DEBUG, cn_stdout());
+	logger_attach(WARNING, cn_stderr());
+	logger_attach(ERROR, cn_stderr());
 	UnityMain(argc, argv, run_all_tests);
-	log_cleanup();
+	logger_cleanup();
 	return 0;
 }

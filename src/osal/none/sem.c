@@ -1,7 +1,7 @@
 #include "cn/os/sem.h"
-#include "cn/os/mem.h"
 #include "cantil/logger/except.h"
-#include "cantil/logger/log.h"
+#include "cantil/logger/trace.h"
+#include "cn/os/mem.h"
 #include <stddef.h>
 
 struct CnSem {
@@ -17,17 +17,14 @@ CnSem* cn_sem_create(CnBits args)
 	return self;
 }
 
-void cn_sem_destroy(CnSem* sem)
-{
-	cn_free(sem);
-}
+void cn_sem_destroy(CnSem* sem) { cn_free(sem); }
 
 void cn_sem_wait(CnSem* sem)
 {
 	ENSURE(sem, ECODES.null_param);
 	if (!sem->n)
-		LOG(WARNING, "cantil",
-		       "Fake semaphore does not support context switch.");
+		TRACE(WARNING, "cantil",
+		      "Fake semaphore does not support context switch.");
 	--sem->n;
 }
 

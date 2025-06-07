@@ -1,8 +1,8 @@
 #ifndef CN_BROKER_H
 #define CN_BROKER_H
 
-#include <stddef.h>
 #include <stdarg.h>
+#include <stddef.h>
 
 typedef char CnLoad;
 

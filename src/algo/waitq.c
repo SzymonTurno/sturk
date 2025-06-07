@@ -1,10 +1,10 @@
 #include "cn/waitq.h"
-#include "cn/os/mem.h"
 #include "cantil/cirq.h"
 #include "cantil/logger/except.h"
-#include "cantil/logger/log.h"
+#include "cantil/logger/trace.h"
 #include "cantil/os/mutex.h"
 #include "cantil/os/sem.h"
+#include "cn/os/mem.h"
 
 struct CnWaitq {
 	CnMutex* mut;
@@ -28,7 +28,7 @@ void cn_waitq_destroy(CnWaitq* waitq)
 		return;
 
 	if (waitq->q)
-		LOG(WARNING, "cantil", "Data loss suspected.");
+		TRACE(WARNING, "cantil", "Data loss suspected.");
 	sem_destroy(waitq->sem);
 	waitq->sem = NULL;
 	mutex_destroy(waitq->mut);

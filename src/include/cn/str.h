@@ -1,15 +1,17 @@
 #ifndef CN_STR_H
 #define CN_STR_H
 
-#include "cn/list.h"
 #include "cn/cirq.h"
 #include "cn/dict.h"
+#include "cn/list.h"
 
 CN_LIST(struct CnStrlist, char*);
 
 CN_CIRQ(struct CnStrq, char*);
 
-CN_DICT(struct CnStrbag, union { int n; void* align; });
+/* clang-format off */
+CN_DICT(struct CnStrbag, union {int n; void* align;});
+/* clang-format on */
 
 char* cn_newstr(const char* str);
 

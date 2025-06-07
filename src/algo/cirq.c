@@ -15,8 +15,8 @@ struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos)
 	return node;
 }
 
-struct CnBinode* cn_binode_ins(struct CnBinode* root, struct CnBinode* entry,
-	int pos)
+struct CnBinode*
+cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos)
 {
 	ENSURE(entry, ECODES.null_param);
 	if (root) {

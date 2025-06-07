@@ -1,6 +1,6 @@
 #include "cn/os/sem.h"
-#include "cn/os/mem.h"
 #include "cantil/logger/except.h"
+#include "cn/os/mem.h"
 #include <semaphore.h>
 
 #define OK 0
@@ -12,7 +12,7 @@ struct CnSem {
 CnSem* cn_sem_create(CnBits args)
 {
 	struct CnSem* self = cn_malloc(sizeof(*self));
-	(void) args;
+	(void)args;
 
 	if (sem_init(&self->sem, 0, 0) != OK) {
 		RAISE(ECODES.sem_fail);
@@ -35,10 +35,7 @@ void cn_sem_wait(CnSem* sem)
 		RAISE(ECODES.sem_fail);
 }
 
-bool cn_sem_trywait(CnSem* sem)
-{
-	return sem_trywait(&sem->sem) == OK;
-}
+bool cn_sem_trywait(CnSem* sem) { return sem_trywait(&sem->sem) == OK; }
 
 void cn_sem_post(CnSem* sem)
 {

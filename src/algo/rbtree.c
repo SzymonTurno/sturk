@@ -5,7 +5,7 @@
 
 #define COLOR_MASK ((intptr_t)BIT(0))
 
-#define RBTREE_ENSURE_MEM(ptr)                                                \
+#define RBTREE_ENSURE_MEM(ptr)                                                 \
 	do {                                                                   \
 		if ((ptr) == NULL) {                                           \
 			RAISE(ECODES.null_param);                              \
@@ -13,10 +13,7 @@
 		}                                                              \
 	} while (0)
 
-static void paint_red(struct CnRbnode* node)
-{
-	node->u.parcol |= COLOR_MASK;
-}
+static void paint_red(struct CnRbnode* node) { node->u.parcol |= COLOR_MASK; }
 
 static void paint_black(struct CnRbnode* node)
 {
@@ -112,7 +109,7 @@ static struct CnRbnode* get_preordersucc(struct CnRbnode* node)
 
 static struct CnRbnode* get_postordersucc(struct CnRbnode* node)
 {
-	(void) node;
+	(void)node;
 	RAISE(ECODES.not_supported);
 	return NULL;
 }

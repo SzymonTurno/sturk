@@ -2,12 +2,12 @@
 #define TYPES_H
 
 #include "cantil/broker.h"
-#include "cantil/pool.h"
-#include "cantil/list.h"
-#include "cantil/dict.h"
 #include "cantil/cirq.h"
-#include "cantil/waitq.h"
+#include "cantil/dict.h"
+#include "cantil/list.h"
 #include "cantil/os/mutex.h"
+#include "cantil/pool.h"
+#include "cantil/waitq.h"
 
 LIST(struct SubscriberList, CnSubscriber*);
 

@@ -7,15 +7,9 @@ CnFstream* cn_fopen(const char* filename, const char* mode)
 	return (CnFstream*)fopen(filename, mode);
 }
 
-void cn_fclose(CnFstream* stream)
-{
-	fclose((FILE*)stream);
-}
+void cn_fclose(CnFstream* stream) { fclose((FILE*)stream); }
 
-int cn_fgetc(CnFstream* stream)
-{
-	return fgetc((FILE*)stream);
-}
+int cn_fgetc(CnFstream* stream) { return fgetc((FILE*)stream); }
 
 char* cn_fgets(char* str, int size, CnFstream* stream)
 {
@@ -42,15 +36,9 @@ int cn_fseekend(CnFstream* stream, long int offset)
 	return fseek((FILE*)stream, offset, SEEK_END);
 }
 
-CnFstream* cn_stdout(void)
-{
-	return (CnFstream*)stdout;
-}
+CnFstream* cn_stdout(void) { return (CnFstream*)stdout; }
 
-CnFstream* cn_stderr(void)
-{
-	return (CnFstream*)stderr;
-}
+CnFstream* cn_stderr(void) { return (CnFstream*)stderr; }
 
 int cn_fvprintf(CnFstream* stream, const char* format, va_list vlist)
 {

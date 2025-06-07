@@ -1,9 +1,9 @@
 #include "cn/pool.h"
-#include "cn/os/mem.h"
-#include "cantil/list.h"
 #include "cantil/arith.h"
+#include "cantil/list.h"
 #include "cantil/logger/except.h"
 #include "cantil/os/mutex.h"
+#include "cn/os/mem.h"
 
 LIST(union FreeList, void*);
 

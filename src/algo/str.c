@@ -1,8 +1,8 @@
 #include "cantil/str.h"
-#include "cantil/list.h"
+#include "cantil/arith.h"
 #include "cantil/cirq.h"
 #include "cantil/dict.h"
-#include "cantil/arith.h"
+#include "cantil/list.h"
 #include "cantil/rbtree.h"
 #include "cn/os/mem.h"
 #include <string.h>
@@ -96,9 +96,8 @@ void cn_strbag_destroy(struct CnStrbag* bag)
 	for (struct CnRbnode *i = NULL, *p = NULL;;) {
 		i = rb_deepest(&dict_cast(bag)->node);
 		p = rb_parent(i);
-		bag_destroy(
-			container_of(strnode_from(i), struct CnStrbag,
-				strnode));
+		bag_destroy(container_of(
+			strnode_from(i), struct CnStrbag, strnode));
 		if (!p)
 			break;
 

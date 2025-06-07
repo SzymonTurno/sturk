@@ -1,9 +1,9 @@
-#include "pubsub.h"
+#include "cantil/broker.h"
+#include "cantil/logger/trace.h"
+#include "cantil/str.h"
 #include "cn/os/mem.h"
 #include "cn/os/sys.h"
-#include "cantil/logger/log.h"
-#include "cantil/broker.h"
-#include "cantil/str.h"
+#include "pubsub.h"
 
 struct Payload {
 	int new;
@@ -16,10 +16,7 @@ struct Subscriber {
 	CnChannel* channel;
 };
 
-static size_t size(void)
-{
-	return sizeof(struct Payload);
-}
+static size_t size(void) { return sizeof(struct Payload); }
 
 static void init(CnLoad* load, va_list vlist)
 {
@@ -27,29 +24,23 @@ static void init(CnLoad* load, va_list vlist)
 	((struct Payload*)load)->old = va_arg(vlist, int);
 }
 
-static void deinit(CnLoad* load)
-{
-	(void)load;
-}
+static void deinit(CnLoad* load) { (void)load; }
 
-static const struct CnLoadVt PAYLOAD[] = {{
-	.size = size,
-	.ctor = init,
-	.dtor = deinit
-}};
+static const struct CnLoadVt PAYLOAD[] = {
+	{.size = size, .ctor = init, .dtor = deinit}};
 
 static void receive(struct Subscriber* sub)
 {
 	sub->pl = (struct Payload*)subscriber_poll(sub->sber, &sub->channel);
 }
 
-static void broadcast(CnChannel** ch, struct Subscriber* subs, int* store,
-	int val)
+static void
+broadcast(CnChannel** ch, struct Subscriber* subs, int* store, int val)
 {
 	struct Payload* pl = NULL;
 	int done = 0;
 
-	log(INFO, NULL, "broadcast %d", val);
+	trace(INFO, NULL, "broadcast %d", val);
 	publish(ch[0], val, store[0]);
 	do {
 		receive(&subs[0]);
@@ -75,8 +66,8 @@ static void broadcast(CnChannel** ch, struct Subscriber* subs, int* store,
 
 		if (subs[2].pl) {
 			pl = subs[2].pl;
-			log(INFO, NULL, "message: new = %d, old = %d", pl->new,
-				pl->old);
+			trace(INFO, NULL, "message: new = %d, old = %d",
+			      pl->new, pl->old);
 		}
 	} while (!done);
 }
@@ -86,13 +77,11 @@ static void app(void)
 	CnBroker* broker = broker_create(PAYLOAD);
 	CnChannel* ch[] = {
 		broker_search(broker, "input"),
-		broker_search(broker, "result")
-	};
+		broker_search(broker, "result")};
 	struct Subscriber subs[] = {
-		{ subscriber_create(broker), NULL, NULL },
-		{ subscriber_create(broker), NULL, NULL },
-		{ subscriber_create(broker), NULL, NULL }
-	};
+		{subscriber_create(broker), NULL, NULL},
+		{subscriber_create(broker), NULL, NULL},
+		{subscriber_create(broker), NULL, NULL}};
 	int store[2] = {0};
 
 	subscribe(subs[0].sber, "input");
@@ -113,9 +102,9 @@ struct CnStrq* single_thread_pubsub(void)
 	struct CnFstream* stream = cn_fopen("single_thread_pubsub.tmp", "w+");
 	char* buff = cn_malloc(256);
 
-	log_attach(INFO, stream);
+	logger_attach(INFO, stream);
 	app();
-	log_detach(INFO, stream);
+	logger_detach(INFO, stream);
 	cn_fseekset(stream, 0);
 	while (cn_fgets(buff, 256, stream))
 		ret = strq_ins(ret, newstr(buff));

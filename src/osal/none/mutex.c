@@ -1,6 +1,6 @@
 #include "cantil/os/mutex.h"
 #include "cantil/logger/except.h"
-#include "cantil/logger/log.h"
+#include "cantil/logger/trace.h"
 #include "cn/os/mem.h"
 #include <stddef.h>
 
@@ -18,17 +18,14 @@ CnMutex* cn_mutex_create(CnBits args)
 	return self;
 }
 
-void cn_mutex_destroy(CnMutex* mutex)
-{
-	cn_free(mutex);
-}
+void cn_mutex_destroy(CnMutex* mutex) { cn_free(mutex); }
 
 void cn_mutex_lock(CnMutex* mutex)
 {
 	ENSURE(mutex, ECODES.null_param);
 	if (mutex->locked && !mutex->recursive)
-		LOG(WARNING, "cantil",
-		       "Fake mutex does not support context switch.");
+		TRACE(WARNING, "cantil",
+		      "Fake mutex does not support context switch.");
 	mutex->locked = 1;
 }
 
@@ -45,6 +42,7 @@ void cn_mutex_unlock(CnMutex* mutex)
 {
 	ENSURE(mutex, ECODES.null_param);
 	if (!mutex->locked)
-		LOG(WARNING, "cantil", "Unlocking an already unlocked mutex.");
+		TRACE(WARNING, "cantil",
+		      "Unlocking an already unlocked mutex.");
 	mutex->locked = 0;
 }

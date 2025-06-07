@@ -1,5 +1,5 @@
 ---
   cantil:
     logger:
-      log: "on"
+      trace: "on"
       exceptions: "on"

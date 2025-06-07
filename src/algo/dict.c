@@ -14,8 +14,7 @@ static struct CnStrnode* trycont(struct CnRbnode* ptr)
 	return ptr ? cont(ptr) : NULL;
 }
 
-struct CnStrnode*
-cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node)
+struct CnStrnode* cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node)
 {
 	struct CnRbnode* tmp = root ? &root->node : NULL;
 	struct CnRbnode** i = &tmp;

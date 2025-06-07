@@ -1,13 +1,13 @@
-#include "message.h"
-#include "cantil/str.h"
 #include "cantil/arith.h"
-#include "cantil/rbtree.h"
 #include "cantil/logger/except.h"
+#include "cantil/rbtree.h"
+#include "cantil/str.h"
 #include "cn/os/mem.h"
+#include "message.h"
 
 #define MSG_SIZE sizeof(struct Message)
 
-#define BROKER_ENSURE_MEM(ptr)                                                \
+#define BROKER_ENSURE_MEM(ptr)                                                 \
 	do {                                                                   \
 		if ((ptr) == NULL) {                                           \
 			RAISE(ECODES.null_param);                              \
@@ -248,10 +248,7 @@ void cn_subscriber_release(CnSubscriber* sber)
 	sber->msg = NULL;
 }
 
-const char* cn_get_topic(CnChannel* ch)
-{
-	return dict_getk(ch);
-}
+const char* cn_get_topic(CnChannel* ch) { return dict_getk(ch); }
 
 void cn_publish(CnChannel* ch, ...)
 {

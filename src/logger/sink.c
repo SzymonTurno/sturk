@@ -1,6 +1,6 @@
 #include "cantil/logger/sink.h"
-#include "cantil/logger/except.h"
 #include "cantil/list.h"
+#include "cantil/logger/except.h"
 #include "cantil/os/mutex.h"
 #include "cn/os/mem.h"
 

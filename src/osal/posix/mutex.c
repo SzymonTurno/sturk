@@ -3,21 +3,21 @@
 #include "cn/os/mem.h"
 #include <pthread.h>
 
-#define OK 0
+#define OK   0
 #define FAIL 1
 
 struct CnMutex {
 	pthread_mutex_t pmut;
 };
 
-static int setprotocol(pthread_mutexattr_t *attr, CnBits args)
+static int setprotocol(pthread_mutexattr_t* attr, CnBits args)
 {
 	switch (args & MUTEX_POLICY_MASK) {
 	case MUTEX_POLICY_NONE:
 		return OK;
 	case MUTEX_POLICY_PRIO_INHERIT:
-		return pthread_mutexattr_setprotocol(attr,
-			PTHREAD_PRIO_INHERIT);
+		return pthread_mutexattr_setprotocol(
+			attr, PTHREAD_PRIO_INHERIT);
 	default:
 		RAISE(ECODES.not_supported);
 		break;
@@ -25,7 +25,7 @@ static int setprotocol(pthread_mutexattr_t *attr, CnBits args)
 	return FAIL;
 }
 
-static int settype(pthread_mutexattr_t *attr, CnBits args)
+static int settype(pthread_mutexattr_t* attr, CnBits args)
 {
 	switch (args & MUTEX_TYPE_MASK) {
 	case MUTEX_TYPE_NONE:

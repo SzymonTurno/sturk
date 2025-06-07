@@ -6,7 +6,7 @@
 
 typedef struct CnFstream CnFstream;
 
-CnFstream* cn_fopen(const char *filename, const char *mode);
+CnFstream* cn_fopen(const char* filename, const char* mode);
 
 void cn_fclose(CnFstream* stream);
 
