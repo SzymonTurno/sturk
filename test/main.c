@@ -9,7 +9,7 @@
 
 #define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
 
-#define LINE(str) str"\n",
+#define LINE(str) str"\n"
 
 TEST_GROUP(list);
 TEST_SETUP(list) { return; }
@@ -52,17 +52,17 @@ TEST_TEAR_DOWN(broker) { return; }
 TEST(broker, should_support_single_thread_pubsub)
 {
 	const char* const expected[] = {
-		LINE("[info] broadcast -3")
-		LINE("[info] message: new = -3, old = 0")
-		LINE("[info] message: new = 0, old = 0")
-		LINE("[info] broadcast -13")
-		LINE("[info] message: new = -13, old = -3")
-		LINE("[info] message: new = 39, old = 0")
-		LINE("[info] broadcast 7")
-		LINE("[info] message: new = 7, old = -13")
-		LINE("[info] message: new = -91, old = 39")
-		LINE("[info] broadcast 1")
-		LINE("[info] message: new = 1, old = 7")
+		LINE("[info] broadcast -3"),
+		LINE("[info] message: new = -3, old = 0"),
+		LINE("[info] message: new = 0, old = 0"),
+		LINE("[info] broadcast -13"),
+		LINE("[info] message: new = -13, old = -3"),
+		LINE("[info] message: new = 39, old = 0"),
+		LINE("[info] broadcast 7"),
+		LINE("[info] message: new = 7, old = -13"),
+		LINE("[info] message: new = -91, old = 39"),
+		LINE("[info] broadcast 1"),
+		LINE("[info] message: new = 1, old = 7"),
 		LINE("[info] message: new = 7, old = -91")
 	};
 	struct CnStrq* q = single_thread_pubsub();
