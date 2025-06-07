@@ -3,7 +3,7 @@ import sys
 
 sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), 'scripts'))
 
-from cantil import breeck
+from cantil import olgite
 from cantil import cncfg
 
 def create(params):
@@ -38,7 +38,7 @@ def create(params):
 
 def main():
     srcdir = os.path.dirname(sys.argv[0])
-    root = create(breeck.Params(srcdir, sys.argv[1:]))
+    root = create(olgite.Params(srcdir, sys.argv[1:]))
     bldpath = root.settings()['cantil']['build_path']
     blddir = os.path.join(bldpath, srcdir)
     objs = set()

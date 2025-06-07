@@ -1,8 +1,8 @@
-from cantil import breeck
+from cantil import olgite
 
-class Canode(breeck.Dirnode):
+class Canode(olgite.Dirnode):
     def __init__(self, path):
-        breeck.Dirnode.__init__(self, path)
+        olgite.Dirnode.__init__(self, path)
         self.objs = []
         self.cflags = []
 

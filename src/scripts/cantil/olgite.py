@@ -20,7 +20,7 @@ def fail(e):
     sys.exit(1)
 
 def assert_settings(settings: dict, constraints: list) -> None:
-    hdr = '\nBreeck configuration not supported, '
+    hdr = '\nOlgite configuration not supported, '
     hdr += 'violated following constraints:'
     e = ''
 
@@ -51,7 +51,7 @@ class Params:
         self.update(yamls)
 
     def update(self, yamls: list):
-        yamls.append(os.path.join(self.path, 'breeconf.yaml'))
+        yamls.append(os.path.join(self.path, 'olconf.yaml'))
         for yaml_path in yamls:
             if os.path.isfile(yaml_path):
                 with open(yaml_path, 'r') as f:
@@ -73,8 +73,8 @@ class Dirnode:
 
     def include(self, subdir: str) -> None:
         path = os.path.join(self.__path, subdir)
-        breeck_path = os.path.join(path, 'breeconf.py')
-        spec = importlib.util.spec_from_file_location('breeconf', breeck_path)
+        olgite_path = os.path.join(path, 'olconf.py')
+        spec = importlib.util.spec_from_file_location('olconf', olgite_path)
         module = importlib.util.module_from_spec(spec)
         params = Params(path, [])
 

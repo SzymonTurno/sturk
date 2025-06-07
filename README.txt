@@ -1,6 +1,5 @@
 # TODO
 
-- rename breeck to olgite
 - clang format
 - ci
 - 100% coverage

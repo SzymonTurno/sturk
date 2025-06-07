@@ -17,10 +17,10 @@ cantil_CFLAGS += -Wswitch-default
 cantil_CFLAGS += -Wwrite-strings
 
 all-cantil:
-ifeq "$(shell python -B $(cantil_DIR)/breeconf.py $(cantil_YAMLS))" ""
-	$(error "Breeck failure.")
+ifeq "$(shell python -B $(cantil_DIR)/olconf.py $(cantil_YAMLS))" ""
+	$(error "Olgite failure.")
 endif
-	make _all-cantil $(shell python -B $(cantil_DIR)/breeconf.py $(cantil_YAMLS))
+	make _all-cantil $(shell python -B $(cantil_DIR)/olconf.py $(cantil_YAMLS))
 
 _all-cantil: $(cantil_BLDDIR)/$(cantil_LIB)
 
