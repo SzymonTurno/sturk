@@ -8,6 +8,9 @@ usage:
 	@echo "3. \`cat build-*/src/analysis.d/valgrind.info\`,"
 	@echo "4. \`rm -rf build-*\`."
 
+format:
+	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i
+
 include src/Makefile
 include test/Makefile
 
