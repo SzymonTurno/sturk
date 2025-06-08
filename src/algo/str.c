@@ -1,4 +1,5 @@
 #include "cantil/str.h"
+#include "cantil/logger/except.h"
 #include "cantil/arith.h"
 #include "cantil/cirq.h"
 #include "cantil/dict.h"
@@ -21,6 +22,15 @@ static void bag_destroy(struct CnStrbag* bag)
 	cn_free(dict_getk(bag));
 	dict_setk(bag, NULL);
 	cn_free(bag);
+}
+
+static struct CnStrbag* bag_root(struct CnStrbag* bag)
+{
+	struct CnRbnode* i = &dict_cast(bag)->node;
+
+	while (cn_rb_parent(i))
+		i = cn_rb_parent(i);
+	return container_of(strnode_from(i), struct CnStrbag, strnode);
 }
 
 struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
@@ -93,6 +103,9 @@ int cn_strbag_count(struct CnStrbag* bag)
 
 void cn_strbag_destroy(struct CnStrbag* bag)
 {
+	if (!bag)
+		return;
+	bag = bag_root(bag);
 	for (struct CnRbnode *i = NULL, *p = NULL;;) {
 		i = rb_deepest(&dict_cast(bag)->node);
 		p = rb_parent(i);

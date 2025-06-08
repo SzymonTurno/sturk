@@ -7,7 +7,7 @@
 
 #define MSG_SIZE sizeof(struct Message)
 
-#define BROKER_ENSURE_MEM(ptr)                                                 \
+#define MODULE_ENSURE_MEM(ptr)                                                 \
 	do {                                                                   \
 		if ((ptr) == NULL) {                                           \
 			RAISE(ECODES.null_param);                              \
@@ -131,10 +131,10 @@ CnBroker* cn_broker_create(const struct CnLoadVt* vp)
 {
 	struct CnBroker* self = NULL;
 
-	BROKER_ENSURE_MEM(vp);
-	BROKER_ENSURE_MEM(vp->size);
-	BROKER_ENSURE_MEM(vp->ctor);
-	BROKER_ENSURE_MEM(vp->dtor);
+	MODULE_ENSURE_MEM(vp);
+	MODULE_ENSURE_MEM(vp->size);
+	MODULE_ENSURE_MEM(vp->ctor);
+	MODULE_ENSURE_MEM(vp->dtor);
 	self = cn_malloc(sizeof(*self));
 	self->vp = vp;
 	self->dict = NULL;
@@ -163,7 +163,7 @@ CnChannel* cn_broker_search(CnBroker* broker, const char* topic)
 {
 	struct CnChannel* ch = NULL;
 
-	BROKER_ENSURE_MEM(broker);
+	MODULE_ENSURE_MEM(broker);
 	mutex_lock(broker->mutex);
 	ch = dict_find(broker->dict, topic);
 	if (!ch) {
@@ -178,7 +178,7 @@ CnSubscriber* cn_subscriber_create(CnBroker* broker)
 {
 	CnSubscriber* self = NULL;
 
-	BROKER_ENSURE_MEM(broker);
+	MODULE_ENSURE_MEM(broker);
 	self = cn_malloc(sizeof(*self));
 	self->broker = broker;
 	mutex_lock(broker->mutex);
@@ -222,7 +222,7 @@ CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch)
 {
 	CnLoad* ret = NULL;
 
-	BROKER_ENSURE_MEM(sber);
+	MODULE_ENSURE_MEM(sber);
 	ret = load_init(sber, waitq_rem(sber->q));
 	if (ch)
 		*ch = sber->msg->channel;
@@ -233,7 +233,7 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
 {
 	CnLoad* ret = NULL;
 
-	BROKER_ENSURE_MEM(sber);
+	MODULE_ENSURE_MEM(sber);
 	ret = load_init(sber, waitq_tryrem(sber->q));
 	if (ch && sber->msg)
 		*ch = sber->msg->channel;
