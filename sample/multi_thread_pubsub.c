@@ -30,7 +30,10 @@ struct Subscriber {
 	CnChannel* channel;
 };
 
-static size_t size(void) { return sizeof(struct Payload); }
+static size_t size(void)
+{
+	return sizeof(struct Payload);
+}
 
 static void init(CnLoad* load, va_list vlist)
 {
@@ -38,7 +41,10 @@ static void init(CnLoad* load, va_list vlist)
 	((struct Payload*)load)->old = va_arg(vlist, int);
 }
 
-static void deinit(CnLoad* load) { (void)load; }
+static void deinit(CnLoad* load)
+{
+	(void)load;
+}
 
 const struct CnLoadVt PAYLOAD[] = {
 	{.size = size, .ctor = init, .dtor = deinit}};

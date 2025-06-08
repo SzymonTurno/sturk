@@ -13,7 +13,10 @@
 		}                                                              \
 	} while (0)
 
-static void paint_red(struct CnRbnode* node) { node->u.parcol |= COLOR_MASK; }
+static void paint_red(struct CnRbnode* node)
+{
+	node->u.parcol |= COLOR_MASK;
+}
 
 static void paint_black(struct CnRbnode* node)
 {

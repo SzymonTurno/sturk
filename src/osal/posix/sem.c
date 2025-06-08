@@ -35,7 +35,10 @@ void cn_sem_wait(CnSem* sem)
 		RAISE(ECODES.sem_fail);
 }
 
-bool cn_sem_trywait(CnSem* sem) { return sem_trywait(&sem->sem) == OK; }
+bool cn_sem_trywait(CnSem* sem)
+{
+	return sem_trywait(&sem->sem) == OK;
+}
 
 void cn_sem_post(CnSem* sem)
 {

@@ -18,7 +18,10 @@ CnMutex* cn_mutex_create(CnBits args)
 	return self;
 }
 
-void cn_mutex_destroy(CnMutex* mutex) { cn_free(mutex); }
+void cn_mutex_destroy(CnMutex* mutex)
+{
+	cn_free(mutex);
+}
 
 void cn_mutex_lock(CnMutex* mutex)
 {

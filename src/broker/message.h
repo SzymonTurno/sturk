@@ -57,7 +57,10 @@ static inline void msg_release(struct Message* msg)
 	}
 }
 
-static inline void msg_lock(struct Message* msg) { mutex_lock(msg->mutex); }
+static inline void msg_lock(struct Message* msg)
+{
+	mutex_lock(msg->mutex);
+}
 
 static inline void msg_unlock(struct Message* msg, int n_pending)
 {

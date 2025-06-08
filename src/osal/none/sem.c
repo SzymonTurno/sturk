@@ -17,7 +17,10 @@ CnSem* cn_sem_create(CnBits args)
 	return self;
 }
 
-void cn_sem_destroy(CnSem* sem) { cn_free(sem); }
+void cn_sem_destroy(CnSem* sem)
+{
+	cn_free(sem);
+}
 
 void cn_sem_wait(CnSem* sem)
 {

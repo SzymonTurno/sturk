@@ -8,6 +8,7 @@ AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
 BinPackArguments: true
 BinPackParameters: true
 BreakBeforeBraces: Linux

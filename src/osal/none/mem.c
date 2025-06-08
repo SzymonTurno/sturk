@@ -10,4 +10,7 @@ void* cn_malloc(size_t size)
 	return ret;
 }
 
-void cn_free(void* ptr) { free(ptr); }
+void cn_free(void* ptr)
+{
+	free(ptr);
+}

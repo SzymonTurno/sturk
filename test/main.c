@@ -11,9 +11,21 @@
 
 #define LINE(str) str "\n"
 
-TEST_GROUP(list);
-TEST_SETUP(list) { return; }
-TEST_TEAR_DOWN(list) { return; }
+#define SIMPLE_TEST_GROUP(group)                                               \
+	TEST_SETUP(group)                                                      \
+	{                                                                      \
+		return;                                                        \
+	}                                                                      \
+	TEST_TEAR_DOWN(group)                                                  \
+	{                                                                      \
+		return;                                                        \
+	}                                                                      \
+	TEST_GROUP(group)
+
+SIMPLE_TEST_GROUP(list);
+SIMPLE_TEST_GROUP(cirq);
+SIMPLE_TEST_GROUP(strbag);
+SIMPLE_TEST_GROUP(broker);
 
 TEST(list, should_implement_lifo)
 {
@@ -28,10 +40,6 @@ TEST(list, should_implement_lifo)
 	TEST_ASSERT_EQUAL(NULL, list);
 }
 
-TEST_GROUP(cirq);
-TEST_SETUP(cirq) { return; }
-TEST_TEAR_DOWN(cirq) { return; }
-
 TEST(cirq, should_implement_fifo)
 {
 	struct CnStrq* q = NULL;
@@ -45,9 +53,21 @@ TEST(cirq, should_implement_fifo)
 	TEST_ASSERT_EQUAL(NULL, q);
 }
 
-TEST_GROUP(broker);
-TEST_SETUP(broker) { return; }
-TEST_TEAR_DOWN(broker) { return; }
+TEST(strbag, should_handle_all_rb_tree_insertion_cases)
+{
+	struct CnStrbag* bag = NULL;
+	char str[sizeof(int) + 1] = {0};
+
+	srand(1);
+	for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1000; i++) {
+			*((int*)str) = rand();
+			bag = strbag_ins(bag, str);
+		}
+		strbag_destroy(bag);
+		bag = NULL;
+	}
+}
 
 TEST(broker, should_support_single_thread_pubsub)
 {
@@ -106,26 +126,6 @@ TEST(broker, should_support_multi_thread_pubsub)
 	TEST_ASSERT_EQUAL(NULL, actual);
 	strbag_destroy(tmp_e);
 	strbag_destroy(tmp_a);
-}
-
-TEST_GROUP(strbag);
-TEST_SETUP(strbag) { return; }
-TEST_TEAR_DOWN(strbag) { return; }
-
-TEST(strbag, should_handle_all_rb_tree_insertion_cases)
-{
-	struct CnStrbag* bag = NULL;
-	char str[sizeof(int) + 1] = {0};
-
-	srand(1);
-	for (int i = 0; i < 10; i++) {
-		for (int i = 0; i < 1000; i++) {
-			*((int*)str) = rand();
-			bag = strbag_ins(bag, str);
-		}
-		strbag_destroy(bag);
-		bag = NULL;
-	}
 }
 
 static void run_all_tests(void)
