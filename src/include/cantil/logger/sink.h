@@ -11,8 +11,6 @@
 
 #define logsink_vprint cn_logsink_vprint
 
-#define logsink_print cn_logsink_print
-
 #define logsink_destroy cn_logsink_destroy
 
 #endif /* CANTIL_LOGGER_SINK_H */

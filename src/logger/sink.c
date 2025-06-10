@@ -63,15 +63,6 @@ void cn_logsink_vprint(CnLogsink* list, const char* format, va_list vlist)
 	mutex_unlock(list->mutex);
 }
 
-void cn_logsink_print(CnLogsink* list, const char* format, ...)
-{
-	va_list vlist;
-
-	va_start(vlist, format);
-	logsink_vprint(list, format, vlist);
-	va_end(vlist);
-}
-
 void cn_logsink_destroy(CnLogsink* list)
 {
 	if (!list)

@@ -6,7 +6,6 @@
 #include <io.h>
 #define F_OK   0
 #define access _access
-#define getcwd _getcwd
 #else
 #include <unistd.h>
 #endif

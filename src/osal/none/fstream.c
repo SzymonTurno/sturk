@@ -12,19 +12,9 @@ void cn_fclose(CnFstream* stream)
 	fclose((FILE*)stream);
 }
 
-int cn_fgetc(CnFstream* stream)
-{
-	return fgetc((FILE*)stream);
-}
-
 char* cn_fgets(char* str, int size, CnFstream* stream)
 {
 	return fgets(str, size, (FILE*)stream);
-}
-
-int cn_fputs(const char* str, CnFstream* stream)
-{
-	return fputs(str, (FILE*)stream);
 }
 
 int cn_fseekset(CnFstream* stream, long int offset)

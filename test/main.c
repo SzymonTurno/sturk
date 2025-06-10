@@ -1,5 +1,7 @@
 #include "cantil/dict.h"
 #include "cantil/logger/trace.h"
+#include "cantil/os/mutex.h"
+#include "cantil/os/sem.h"
 #include "cantil/str.h"
 #include "cn/os/mem.h"
 #include "pubsub.h"
@@ -25,6 +27,8 @@
 SIMPLE_TEST_GROUP(list);
 SIMPLE_TEST_GROUP(cirq);
 SIMPLE_TEST_GROUP(strbag);
+SIMPLE_TEST_GROUP(mutex);
+SIMPLE_TEST_GROUP(sem);
 SIMPLE_TEST_GROUP(broker);
 
 TEST(list, should_implement_lifo)
@@ -69,6 +73,50 @@ TEST(strbag, should_handle_all_rb_tree_insertion_cases)
 	}
 }
 
+TEST(strbag, should_sort)
+{
+	struct CnStrbag* bag = NULL;
+
+	bag = strbag_ins(NULL, "q");
+	bag = strbag_ins(bag, "w");
+	bag = strbag_ins(bag, "e");
+	bag = strbag_ins(bag, "r");
+	bag = strbag_ins(bag, "t");
+	bag = strbag_ins(bag, "y");
+	bag = dict_leftmost(bag);
+	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("q", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("r", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("t", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("w", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("y", dict_getk(bag));
+	strbag_destroy(bag);
+}
+
+TEST(mutex, should_not_block_on_trylock)
+{
+	CnMutex* mutex = mutex_create(0);
+
+	TEST_ASSERT_EQUAL(true, mutex_trylock(mutex));
+	TEST_ASSERT_EQUAL(false, mutex_trylock(mutex));
+	mutex_unlock(mutex);
+	mutex_destroy(mutex);
+}
+
+TEST(sem, should_not_block_if_posted)
+{
+	CnSem* sem = sem_create(0);
+
+	sem_post(sem);
+	sem_wait(sem);
+	sem_destroy(sem);
+}
+
 TEST(broker, should_support_single_thread_pubsub)
 {
 	const char* const expected[] = {
@@ -97,9 +145,7 @@ TEST(broker, should_support_single_thread_pubsub)
 TEST(broker, should_support_multi_thread_pubsub)
 {
 	struct CnStrbag* actual = multi_thread_pubsub();
-	struct CnStrbag* tmp_a = actual;
 	struct CnStrbag* expected = NULL;
-	struct CnStrbag* tmp_e = NULL;
 
 	expected = strbag_ins(expected, "[info] message: new = -3, old = 0\n");
 	expected =
@@ -112,20 +158,21 @@ TEST(broker, should_support_multi_thread_pubsub)
 	expected =
 		strbag_ins(expected, "[info] message: new = -91, old = 39\n");
 	expected = strbag_ins(expected, "[info] message: new = 7, old = -91\n");
-	tmp_e = expected;
 	expected = dict_leftmost(expected);
 	actual = dict_leftmost(actual);
-	while (expected && actual) {
+	for (;;) {
 		TEST_ASSERT_EQUAL_STRING(
 			dict_getk(expected), dict_getk(actual));
 		TEST_ASSERT_EQUAL(strbag_count(expected), strbag_count(actual));
+		if (!dict_next(expected) || !dict_next(actual))
+			break;
 		expected = dict_next(expected);
 		actual = dict_next(actual);
 	}
-	TEST_ASSERT_EQUAL(NULL, expected);
-	TEST_ASSERT_EQUAL(NULL, actual);
-	strbag_destroy(tmp_e);
-	strbag_destroy(tmp_a);
+	TEST_ASSERT_EQUAL(NULL, dict_next(expected));
+	TEST_ASSERT_EQUAL(NULL, dict_next(actual));
+	strbag_destroy(expected);
+	strbag_destroy(actual);
 }
 
 static void run_all_tests(void)
@@ -133,6 +180,9 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(list, should_implement_lifo);
 	RUN_TEST_CASE(cirq, should_implement_fifo);
 	RUN_TEST_CASE(strbag, should_handle_all_rb_tree_insertion_cases);
+	RUN_TEST_CASE(strbag, should_sort);
+	RUN_TEST_CASE(mutex, should_not_block_on_trylock);
+	RUN_TEST_CASE(sem, should_not_block_if_posted);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
 	if (POSIX_TESTS_ON)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);

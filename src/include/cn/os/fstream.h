@@ -10,11 +10,7 @@ CnFstream* cn_fopen(const char* filename, const char* mode);
 
 void cn_fclose(CnFstream* stream);
 
-int cn_fgetc(CnFstream* stream);
-
 char* cn_fgets(char* str, int size, CnFstream* stream);
-
-int cn_fputs(const char* str, CnFstream* stream);
 
 int cn_fseekset(CnFstream* stream, long int offset);
 

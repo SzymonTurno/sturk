@@ -14,24 +14,9 @@ int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...)
 	return ret;
 }
 
-int cn_vsnprintf(char* buffer, size_t bufsz, const char* format, va_list vlist)
-{
-	return vsnprintf(buffer, bufsz, format, vlist);
-}
-
-char* cn_getcwd(char* buf, size_t size)
-{
-	return getcwd(buf, size);
-}
-
 void cn_sysfail(void)
 {
 	exit(EXIT_FAILURE);
-}
-
-bool cn_fexists(const char* filename)
-{
-	return access(filename, F_OK) == 0;
 }
 
 int cn_remove(const char* name)
