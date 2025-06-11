@@ -1,7 +1,7 @@
 test_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 test_BLDDIR := $(BLDDIR)/$(test_DIR)
 test_OBJS := $(test_BLDDIR)/main.o
-test_POSIX_EN ?= false
+test_MULTITHREADING_EN ?= false
 test_RPTDIR := $(BLDDIR)/src/analysis.d
 
 include $(test_DIR)/unity.mk
@@ -19,12 +19,12 @@ $(test_BLDDIR)/app: $(test_OBJS) $(sample_OBJS) $(unity_OBJS)
 	$(CC) -o $@ $(test_OBJS) $(sample_OBJS) $(unity_OBJS) \
 		$(BLDDIR)/$(cantil_DIR)/$(cantil_LIB) -lgcov --coverage
 
-ifeq ($(test_POSIX_EN),true)
-$(test_OBJS): CFLAGS += -DPOSIX_TESTS_ON=1
-else ifeq ($(test_POSIX_EN),false)
-$(test_OBJS): CFLAGS += -DPOSIX_TESTS_ON=0
+ifeq ($(test_MULTITHREADING_EN),true)
+$(test_OBJS): CFLAGS += -DMULTITHREADING_EN=1
+else ifeq ($(test_MULTITHREADING_EN),false)
+$(test_OBJS): CFLAGS += -DMULTITHREADING_EN=0
 else
-$(error Unknown test_POSIX_EN value: $(test_POSIX_EN))
+$(error Unknown test_MULTITHREADING_EN value: $(test_MULTITHREADING_EN))
 endif
 $(test_BLDDIR)/%.o: $(test_DIR)/%.c | $(test_BLDDIR) $(unity_OBJS)
 	$(CC) $(CFLAGS) $(unity_INCS) $(sample_INCS) -c -o $@ $<

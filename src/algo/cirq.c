@@ -3,12 +3,14 @@
 
 struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos)
 {
-	while (pos > 0 && node) {
+	while (pos > 0) {
+		ENSURE(node, ECODES.null_param);
 		node = node->next;
 		--pos;
 	}
 
-	while (pos < 0 && node) {
+	while (pos < 0) {
+		ENSURE(node, ECODES.null_param);
 		node = node->prev;
 		++pos;
 	}
@@ -18,15 +20,20 @@ struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos)
 struct CnBinode*
 cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos)
 {
+	struct CnBinode* p = NULL;
+
 	ENSURE(entry, ECODES.null_param);
 	if (root) {
 		if (pos > 0)
-			root = binode_sibl(root, pos);
+			p = binode_sibl(root, pos);
 		else if (pos < -1)
-			root = binode_sibl(root, pos + 1);
-		entry->next = root;
-		entry->prev = root->prev;
-		root->prev = entry;
+			p = binode_sibl(root, pos + 1);
+		else
+			p = root;
+		entry->next = p;
+		entry->prev = p->prev;
+		p->prev = entry;
+		ENSURE(entry->prev, ECODES.null_param);
 		entry->prev->next = entry;
 		if (!pos)
 			root = entry;

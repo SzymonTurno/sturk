@@ -1,8 +1,12 @@
+#include "cantil/broker.h"
+#include "cantil/cirq.h"
 #include "cantil/dict.h"
 #include "cantil/logger/trace.h"
 #include "cantil/os/mutex.h"
 #include "cantil/os/sem.h"
+#include "cantil/pool.h"
 #include "cantil/str.h"
+#include "cantil/waitq.h"
 #include "cn/os/mem.h"
 #include "pubsub.h"
 #include "unity.h"
@@ -24,12 +28,53 @@
 	}                                                                      \
 	TEST_GROUP(group)
 
+static struct CnFstream* test_stream;
+
+TEST_GROUP(logger);
+
+TEST_SETUP(logger)
+{
+	test_stream = cn_fopen("logger_traces.tmp", "w+");
+
+	logger_attach(INFO, test_stream);
+	logger_attach(DEBUG, test_stream);
+	logger_attach(WARNING, test_stream);
+	logger_attach(ERROR, test_stream);
+}
+
+TEST_TEAR_DOWN(logger)
+{
+	logger_cleanup();
+	cn_fclose(test_stream);
+	cn_remove("logger_traces.tmp");
+}
+
+static const char* gettrace(void)
+{
+	static char buff[256];
+
+	cn_fseekset(test_stream, 0);
+	return cn_fgets(buff, sizeof(buff), test_stream);
+}
+
+SIMPLE_TEST_GROUP(common);
 SIMPLE_TEST_GROUP(list);
 SIMPLE_TEST_GROUP(cirq);
 SIMPLE_TEST_GROUP(strbag);
 SIMPLE_TEST_GROUP(mutex);
 SIMPLE_TEST_GROUP(sem);
+SIMPLE_TEST_GROUP(waitq);
+SIMPLE_TEST_GROUP(binode);
 SIMPLE_TEST_GROUP(broker);
+
+TEST(common, should_destroy_null)
+{
+	pool_destroy(NULL);
+	strbag_destroy(NULL);
+	waitq_destroy(NULL);
+	broker_destroy(NULL);
+	subscriber_destroy(NULL);
+}
 
 TEST(list, should_implement_lifo)
 {
@@ -95,6 +140,15 @@ TEST(strbag, should_sort)
 	TEST_ASSERT_EQUAL_STRING("w", dict_getk(bag));
 	bag = dict_next(bag);
 	TEST_ASSERT_EQUAL_STRING("y", dict_getk(bag));
+	TEST_ASSERT_EQUAL(NULL, dict_next(bag));
+	strbag_destroy(bag);
+}
+
+TEST(strbag, should_allow_negative_count)
+{
+	struct CnStrbag* bag = strbag_rem(NULL, "");
+
+	TEST_ASSERT_EQUAL(-1, strbag_count(bag));
 	strbag_destroy(bag);
 }
 
@@ -117,6 +171,39 @@ TEST(sem, should_not_block_if_posted)
 	sem_destroy(sem);
 }
 
+TEST(waitq, should_not_block_after_insertion)
+{
+	struct CnBinode node = {0};
+	CnWaitq* waitq = waitq_create();
+
+	waitq_ins(waitq, &node);
+	TEST_ASSERT_EQUAL(&node, waitq_rem(waitq));
+	waitq_destroy(waitq);
+}
+
+TEST(binode, should_insert_at_any_position)
+{
+	struct CnBinode n[5] = {0};
+
+	/* -n0- */
+	TEST_ASSERT_EQUAL(&n[0], binode_ins(NULL, &n[0], 255));
+
+	/* -n1--n0- */
+	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[0], &n[1], 0));
+
+	/* -n1--n0--n2- */
+	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[1], &n[2], -1));
+	TEST_ASSERT_EQUAL(&n[2], n[1].prev);
+
+	/* -n1--n3--n0--n2- */
+	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[1], &n[3], 1));
+	TEST_ASSERT_EQUAL(&n[3], n[1].next);
+
+	/* -n1--n3--n0--n4--n2- */
+	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[1], &n[4], -2));
+	TEST_ASSERT_EQUAL(&n[4], n[0].next);
+}
+
 TEST(broker, should_support_single_thread_pubsub)
 {
 	const char* const expected[] = {
@@ -133,9 +220,10 @@ TEST(broker, should_support_single_thread_pubsub)
 		LINE("[info] message: new = 1, old = 7"),
 		LINE("[info] message: new = 7, old = -91")};
 	struct CnStrq* q = single_thread_pubsub();
+	const char* tmp = NULL;
 
 	for (int i = 0; i < ARRAY_SIZE(expected); i++) {
-		const char* tmp = strq_rem(&q);
+		tmp = strq_rem(&q);
 		TEST_ASSERT_EQUAL_STRING(expected[i], tmp);
 		cn_free((char*)tmp);
 	}
@@ -175,25 +263,41 @@ TEST(broker, should_support_multi_thread_pubsub)
 	strbag_destroy(actual);
 }
 
+TEST(logger, should_trace_waitq_dataloss)
+{
+	CnWaitq* q = waitq_create();
+	struct CnBinode node = {0};
+
+	waitq_ins(q, &node);
+	waitq_destroy(q);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][cantil] Data loss suspected.\n", gettrace());
+}
+
 static void run_all_tests(void)
 {
+	RUN_TEST_CASE(logger, should_trace_waitq_dataloss);
+	logger_attach(DEBUG, cn_stdout());
+	logger_attach(WARNING, cn_stderr());
+	logger_attach(ERROR, cn_stderr());
+	RUN_TEST_CASE(common, should_destroy_null);
 	RUN_TEST_CASE(list, should_implement_lifo);
 	RUN_TEST_CASE(cirq, should_implement_fifo);
 	RUN_TEST_CASE(strbag, should_handle_all_rb_tree_insertion_cases);
 	RUN_TEST_CASE(strbag, should_sort);
+	RUN_TEST_CASE(strbag, should_allow_negative_count);
 	RUN_TEST_CASE(mutex, should_not_block_on_trylock);
 	RUN_TEST_CASE(sem, should_not_block_if_posted);
+	RUN_TEST_CASE(waitq, should_not_block_after_insertion);
+	RUN_TEST_CASE(binode, should_insert_at_any_position);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
-	if (POSIX_TESTS_ON)
+	if (MULTITHREADING_EN)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
+	logger_cleanup();
 }
 
 int main(int argc, const char** argv)
 {
-	logger_attach(DEBUG, cn_stdout());
-	logger_attach(WARNING, cn_stderr());
-	logger_attach(ERROR, cn_stderr());
 	UnityMain(argc, argv, run_all_tests);
-	logger_cleanup();
 	return 0;
 }
