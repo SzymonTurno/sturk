@@ -3,7 +3,7 @@
 
 struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
 {
-	ENSURE(nodep, ECODES.null_param);
+	ENSURE(nodep, EXCEPT.NULL_PARAM);
 	for (; *nodep && pos--; nodep = &(*nodep)->next)
 		;
 	return nodep;
@@ -14,7 +14,7 @@ cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos)
 {
 	struct CnUnnode** i = list_hand(&head, pos);
 
-	ENSURE(node, ECODES.null_param);
+	ENSURE(node, EXCEPT.NULL_PARAM);
 	node->next = *i;
 	*i = node;
 	return head;

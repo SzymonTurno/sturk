@@ -24,7 +24,7 @@ void cn_sem_destroy(CnSem* sem)
 
 void cn_sem_wait(CnSem* sem)
 {
-	ENSURE(sem, ECODES.null_param);
+	ENSURE(sem, EXCEPT.NULL_PARAM);
 	if (!sem->n)
 		TRACE(WARNING, "cantil",
 		      "Fake semaphore does not support context switch.");
@@ -33,7 +33,7 @@ void cn_sem_wait(CnSem* sem)
 
 bool cn_sem_trywait(CnSem* sem)
 {
-	ENSURE(sem, ECODES.null_param);
+	ENSURE(sem, EXCEPT.NULL_PARAM);
 	if (sem->n) {
 		--sem->n;
 		return true;
@@ -43,6 +43,6 @@ bool cn_sem_trywait(CnSem* sem)
 
 void cn_sem_post(CnSem* sem)
 {
-	ENSURE(sem, ECODES.null_param);
+	ENSURE(sem, EXCEPT.NULL_PARAM);
 	++sem->n;
 }

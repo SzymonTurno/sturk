@@ -9,17 +9,17 @@ struct CnException {
 };
 
 static const struct {
-	struct CnException null_param[1];
-	struct CnException alloc_fail[1];
-	struct CnException sem_fail[1];
-	struct CnException mutex_fail[1];
-	struct CnException not_supported[1];
-} CN_ECODES = {
-	.null_param = {{"Null param."}},
-	.alloc_fail = {{"Memory allocation failed."}},
-	.sem_fail = {{"Semaphore failure."}},
-	.mutex_fail = {{"Mutex failure."}},
-	.not_supported = {{"Not supported."}}};
+	struct CnException NULL_PARAM[1];
+	struct CnException ALLOC_FAIL[1];
+	struct CnException SEM_FAIL[1];
+	struct CnException MUTEX_FAIL[1];
+	struct CnException NOT_SUPPORTED[1];
+} CN_EXCEPT = {
+	.NULL_PARAM = {{"Null param."}},
+	.ALLOC_FAIL = {{"Memory allocation failed."}},
+	.SEM_FAIL = {{"Semaphore failure."}},
+	.MUTEX_FAIL = {{"Mutex failure."}},
+	.NOT_SUPPORTED = {{"Not supported."}}};
 
 #ifdef CN_EXCEPTIONS_EN
 

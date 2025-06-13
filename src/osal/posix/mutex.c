@@ -19,7 +19,7 @@ static int setprotocol(pthread_mutexattr_t* attr, CnBits args)
 		return pthread_mutexattr_setprotocol(
 			attr, PTHREAD_PRIO_INHERIT);
 	default:
-		RAISE(ECODES.not_supported);
+		RAISE(EXCEPT.NOT_SUPPORTED);
 		break;
 	}
 	return FAIL;
@@ -33,7 +33,7 @@ static int settype(pthread_mutexattr_t* attr, CnBits args)
 	case MUTEX_TYPE_RECURSIVE:
 		return pthread_mutexattr_settype(attr, PTHREAD_MUTEX_RECURSIVE);
 	default:
-		RAISE(ECODES.not_supported);
+		RAISE(EXCEPT.NOT_SUPPORTED);
 		break;
 	}
 	return FAIL;
@@ -45,28 +45,28 @@ CnMutex* cn_mutex_create(CnBits args)
 	pthread_mutexattr_t attr;
 
 	if (pthread_mutexattr_init(&attr) != OK) {
-		RAISE(ECODES.mutex_fail);
+		RAISE(EXCEPT.MUTEX_FAIL);
 		return NULL;
 	}
 
 	if (setprotocol(&attr, args) != OK) {
-		RAISE(ECODES.mutex_fail);
+		RAISE(EXCEPT.MUTEX_FAIL);
 		return NULL;
 	}
 
 	if (settype(&attr, args) != OK) {
-		RAISE(ECODES.mutex_fail);
+		RAISE(EXCEPT.MUTEX_FAIL);
 		return NULL;
 	}
 	self = cn_malloc(sizeof(*self));
 	if (pthread_mutex_init(&self->pmut, &attr) != OK) {
-		RAISE(ECODES.mutex_fail);
+		RAISE(EXCEPT.MUTEX_FAIL);
 		cn_free(self);
 		return NULL;
 	}
 
 	if (pthread_mutexattr_destroy(&attr) != OK) {
-		RAISE(ECODES.mutex_fail);
+		RAISE(EXCEPT.MUTEX_FAIL);
 		cn_free(self);
 		return NULL;
 	}
@@ -76,14 +76,14 @@ CnMutex* cn_mutex_create(CnBits args)
 void cn_mutex_destroy(CnMutex* mutex)
 {
 	if (pthread_mutex_destroy(&mutex->pmut) != OK)
-		RAISE(ECODES.mutex_fail);
+		RAISE(EXCEPT.MUTEX_FAIL);
 	cn_free(mutex);
 }
 
 void cn_mutex_lock(CnMutex* mutex)
 {
 	if (pthread_mutex_lock(&mutex->pmut) != OK)
-		RAISE(ECODES.mutex_fail);
+		RAISE(EXCEPT.MUTEX_FAIL);
 }
 
 bool cn_mutex_trylock(CnMutex* mutex)
@@ -94,5 +94,5 @@ bool cn_mutex_trylock(CnMutex* mutex)
 void cn_mutex_unlock(CnMutex* mutex)
 {
 	if (pthread_mutex_unlock(&mutex->pmut) != OK)
-		RAISE(ECODES.mutex_fail);
+		RAISE(EXCEPT.MUTEX_FAIL);
 }

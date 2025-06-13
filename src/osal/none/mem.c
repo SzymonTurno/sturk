@@ -6,7 +6,7 @@ void* cn_malloc(size_t size)
 {
 	void* ret = malloc(size);
 
-	ENSURE(ret, ECODES.alloc_fail);
+	ENSURE(ret, EXCEPT.ALLOC_FAIL);
 	return ret;
 }
 

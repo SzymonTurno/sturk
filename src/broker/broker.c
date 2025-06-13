@@ -10,7 +10,7 @@
 #define MODULE_ENSURE_MEM(ptr)                                                 \
 	do {                                                                   \
 		if ((ptr) == NULL) {                                           \
-			RAISE(ECODES.null_param);                              \
+			RAISE(EXCEPT.NULL_PARAM);                              \
 			return NULL;                                           \
 		}                                                              \
 	} while (0)
@@ -242,7 +242,7 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
 
 void cn_subscriber_release(CnSubscriber* sber)
 {
-	ENSURE(sber, ECODES.null_param);
+	ENSURE(sber, EXCEPT.NULL_PARAM);
 	if (sber->msg)
 		msg_release(sber->msg);
 	sber->msg = NULL;
@@ -269,7 +269,7 @@ void cn_subscribe(CnSubscriber* sber, const char* topic)
 	struct CnChannel* ch = NULL;
 	struct ChannelData* data = NULL;
 
-	ENSURE(sber, ECODES.null_param);
+	ENSURE(sber, EXCEPT.NULL_PARAM);
 	ch = broker_search(sber->broker, topic);
 	data = dict_data(ch);
 	sber->list = list_ins(sber->list, clist_create(ch));

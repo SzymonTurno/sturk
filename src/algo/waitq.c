@@ -38,7 +38,7 @@ void cn_waitq_destroy(CnWaitq* waitq)
 
 void cn_waitq_ins(CnWaitq* waitq, struct CnBinode* entry)
 {
-	ENSURE(waitq, ECODES.null_param);
+	ENSURE(waitq, EXCEPT.NULL_PARAM);
 	mutex_lock(waitq->mut);
 	waitq->q = binode_ins(waitq->q, entry, -1);
 	sem_post(waitq->sem);
@@ -49,7 +49,7 @@ struct CnBinode* cn_waitq_rem(CnWaitq* waitq)
 {
 	struct CnBinode* entry = NULL;
 
-	ENSURE(waitq, ECODES.null_param);
+	ENSURE(waitq, EXCEPT.NULL_PARAM);
 	sem_wait(waitq->sem);
 	mutex_lock(waitq->mut);
 	entry = binode_rem(&waitq->q, 0);
@@ -61,7 +61,7 @@ struct CnBinode* cn_waitq_tryrem(CnWaitq* waitq)
 {
 	struct CnBinode* entry = NULL;
 
-	ENSURE(waitq, ECODES.null_param);
+	ENSURE(waitq, EXCEPT.NULL_PARAM);
 	if (sem_trywait(waitq->sem)) {
 		mutex_lock(waitq->mut);
 		entry = binode_rem(&waitq->q, 0);

@@ -40,7 +40,7 @@ void* cn_pool_alloc(CnPool* pool)
 {
 	void* ret = NULL;
 
-	ENSURE(pool, ECODES.null_param);
+	ENSURE(pool, EXCEPT.NULL_PARAM);
 	mutex_lock(pool->mutex);
 	if (pool->list)
 		ret = list_rem(&pool->list);
@@ -52,7 +52,7 @@ void* cn_pool_tryalloc(CnPool* pool)
 {
 	void* ret = NULL;
 
-	ENSURE(pool, ECODES.null_param);
+	ENSURE(pool, EXCEPT.NULL_PARAM);
 	mutex_lock(pool->mutex);
 	if (pool->list)
 		ret = list_rem(&pool->list);
@@ -62,7 +62,7 @@ void* cn_pool_tryalloc(CnPool* pool)
 
 void cn_pool_free(CnPool* pool, void* blk)
 {
-	ENSURE(pool, ECODES.null_param);
+	ENSURE(pool, EXCEPT.NULL_PARAM);
 	mutex_lock(pool->mutex);
 	pool->list = list_ins(pool->list, (union FreeList*)blk);
 	mutex_unlock(pool->mutex);

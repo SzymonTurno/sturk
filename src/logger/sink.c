@@ -36,7 +36,7 @@ void cn_logsink_ins(CnLogsink* list, CnFstream* stream)
 {
 	struct StreamList* entry = cn_malloc(sizeof(*entry));
 
-	ENSURE(list, ECODES.null_param);
+	ENSURE(list, EXCEPT.NULL_PARAM);
 	*list_data(entry) = stream;
 	mutex_lock(list->mutex);
 	list->head = list_ins(list->head, entry);
@@ -45,7 +45,7 @@ void cn_logsink_ins(CnLogsink* list, CnFstream* stream)
 
 void cn_logsink_rem(CnLogsink* list, CnFstream* stream)
 {
-	ENSURE(list, ECODES.null_param);
+	ENSURE(list, EXCEPT.NULL_PARAM);
 	for (LIST_ITER(struct StreamList, i, &list->head))
 		if (*list_data(*i) == stream) {
 			mutex_lock(list->mutex);
@@ -57,7 +57,7 @@ void cn_logsink_rem(CnLogsink* list, CnFstream* stream)
 
 void cn_logsink_vprint(CnLogsink* list, const char* format, va_list vlist)
 {
-	ENSURE(list, ECODES.null_param);
+	ENSURE(list, EXCEPT.NULL_PARAM);
 	mutex_lock(list->mutex);
 	list_print(list->head, format, vlist);
 	mutex_unlock(list->mutex);

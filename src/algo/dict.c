@@ -20,7 +20,7 @@ struct CnStrnode* cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node)
 	struct CnRbnode** i = &tmp;
 	struct CnStrnode* p = NULL;
 
-	ENSURE(node && node->str, ECODES.null_param);
+	ENSURE(node && node->str, EXCEPT.NULL_PARAM);
 	while (*i) {
 		p = cont(*i);
 		if (strcmp(node->str, p->str) < 0)
@@ -36,9 +36,9 @@ struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str)
 {
 	int tmp = 0;
 
-	ENSURE(str, ECODES.null_param);
+	ENSURE(str, EXCEPT.NULL_PARAM);
 	while (root) {
-		ENSURE(root->str, ECODES.null_param);
+		ENSURE(root->str, EXCEPT.NULL_PARAM);
 		tmp = strcmp(str, root->str);
 		if (tmp < 0)
 			root = trycont(root->node.left);

@@ -15,7 +15,7 @@ CnSem* cn_sem_create(CnBits args)
 	(void)args;
 
 	if (sem_init(&self->sem, 0, 0) != OK) {
-		RAISE(ECODES.sem_fail);
+		RAISE(EXCEPT.SEM_FAIL);
 		cn_free(self);
 		return NULL;
 	}
@@ -25,14 +25,14 @@ CnSem* cn_sem_create(CnBits args)
 void cn_sem_destroy(CnSem* sem)
 {
 	if (sem_destroy(&sem->sem) != OK)
-		RAISE(ECODES.sem_fail);
+		RAISE(EXCEPT.SEM_FAIL);
 	cn_free(sem);
 }
 
 void cn_sem_wait(CnSem* sem)
 {
 	if (sem_wait(&sem->sem) != OK)
-		RAISE(ECODES.sem_fail);
+		RAISE(EXCEPT.SEM_FAIL);
 }
 
 bool cn_sem_trywait(CnSem* sem)
@@ -43,5 +43,5 @@ bool cn_sem_trywait(CnSem* sem)
 void cn_sem_post(CnSem* sem)
 {
 	if (sem_post(&sem->sem) != OK)
-		RAISE(ECODES.sem_fail);
+		RAISE(EXCEPT.SEM_FAIL);
 }

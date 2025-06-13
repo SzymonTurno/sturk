@@ -4,13 +4,13 @@
 struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos)
 {
 	while (pos > 0) {
-		ENSURE(node, ECODES.null_param);
+		ENSURE(node, EXCEPT.NULL_PARAM);
 		node = node->next;
 		--pos;
 	}
 
 	while (pos < 0) {
-		ENSURE(node, ECODES.null_param);
+		ENSURE(node, EXCEPT.NULL_PARAM);
 		node = node->prev;
 		++pos;
 	}
@@ -22,7 +22,7 @@ cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos)
 {
 	struct CnBinode* p = NULL;
 
-	ENSURE(entry, ECODES.null_param);
+	ENSURE(entry, EXCEPT.NULL_PARAM);
 	if (root) {
 		if (pos > 0)
 			p = binode_sibl(root, pos);
@@ -33,7 +33,7 @@ cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos)
 		entry->next = p;
 		entry->prev = p->prev;
 		p->prev = entry;
-		ENSURE(entry->prev, ECODES.null_param);
+		ENSURE(entry->prev, EXCEPT.NULL_PARAM);
 		entry->prev->next = entry;
 		if (!pos)
 			root = entry;
@@ -49,7 +49,7 @@ struct CnBinode* cn_binode_rem(struct CnBinode** nodep, int pos)
 {
 	struct CnBinode* ret = NULL;
 
-	ENSURE(nodep, ECODES.null_param);
+	ENSURE(nodep, EXCEPT.NULL_PARAM);
 	if (*nodep) {
 		ret = binode_sibl(*nodep, pos);
 		ret->next->prev = ret->prev;

@@ -21,7 +21,7 @@ static const char* get_lvlstr(enum CnTraceLvl lvl)
 	default:
 		break;
 	}
-	RAISE(ECODES.not_supported);
+	RAISE(EXCEPT.NOT_SUPPORTED);
 	return "UNKNOWN TRACE LEVEL";
 }
 

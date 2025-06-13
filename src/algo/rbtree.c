@@ -8,7 +8,7 @@
 #define MODULE_ENSURE_MEM(ptr)                                                 \
 	do {                                                                   \
 		if ((ptr) == NULL) {                                           \
-			RAISE(ECODES.null_param);                              \
+			RAISE(EXCEPT.NULL_PARAM);                              \
 			return NULL;                                           \
 		}                                                              \
 	} while (0)
@@ -113,7 +113,7 @@ static struct CnRbnode* get_preordersucc(struct CnRbnode* node)
 static struct CnRbnode* get_postordersucc(struct CnRbnode* node)
 {
 	(void)node;
-	RAISE(ECODES.not_supported);
+	RAISE(EXCEPT.NOT_SUPPORTED);
 	return NULL;
 }
 
