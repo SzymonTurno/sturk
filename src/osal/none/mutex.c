@@ -25,7 +25,7 @@ void cn_mutex_destroy(CnMutex* mutex)
 
 void cn_mutex_lock(CnMutex* mutex)
 {
-	ENSURE(mutex, EXCEPT.NULL_PARAM);
+	ENSURE(mutex, ERROR, null_param);
 	if (mutex->locked && !mutex->recursive)
 		TRACE(WARNING, "cantil",
 		      "Fake mutex does not support context switch.");
@@ -34,7 +34,7 @@ void cn_mutex_lock(CnMutex* mutex)
 
 bool cn_mutex_trylock(CnMutex* mutex)
 {
-	ENSURE(mutex, EXCEPT.NULL_PARAM);
+	ENSURE(mutex, ERROR, null_param);
 	if (mutex->locked && !mutex->recursive)
 		return false;
 	mutex->locked = 1;
@@ -43,7 +43,7 @@ bool cn_mutex_trylock(CnMutex* mutex)
 
 void cn_mutex_unlock(CnMutex* mutex)
 {
-	ENSURE(mutex, EXCEPT.NULL_PARAM);
+	ENSURE(mutex, ERROR, null_param);
 	if (!mutex->locked)
 		TRACE(WARNING, "cantil",
 		      "Unlocking an already unlocked mutex.");

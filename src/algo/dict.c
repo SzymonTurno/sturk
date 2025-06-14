@@ -1,6 +1,7 @@
 #include "cn/dict.h"
 #include "cantil/arith.h"
 #include "cantil/logger/except.h"
+#include "cantil/logger/trace.h"
 #include "cantil/rbtree.h"
 #include <string.h>
 
@@ -20,7 +21,7 @@ struct CnStrnode* cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node)
 	struct CnRbnode** i = &tmp;
 	struct CnStrnode* p = NULL;
 
-	ENSURE(node && node->str, EXCEPT.NULL_PARAM);
+	ENSURE(node && node->str, ERROR, null_param);
 	while (*i) {
 		p = cont(*i);
 		if (strcmp(node->str, p->str) < 0)
@@ -36,9 +37,9 @@ struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str)
 {
 	int tmp = 0;
 
-	ENSURE(str, EXCEPT.NULL_PARAM);
+	ENSURE(str, ERROR, null_param);
 	while (root) {
-		ENSURE(root->str, EXCEPT.NULL_PARAM);
+		ENSURE(root->str, ERROR, null_param);
 		tmp = strcmp(str, root->str);
 		if (tmp < 0)
 			root = trycont(root->node.left);

@@ -2,6 +2,7 @@
 #include "cantil/arith.h"
 #include "cantil/list.h"
 #include "cantil/logger/except.h"
+#include "cantil/logger/trace.h"
 #include "cantil/os/mutex.h"
 #include "cn/os/mem.h"
 
@@ -40,7 +41,7 @@ void* cn_pool_alloc(CnPool* pool)
 {
 	void* ret = NULL;
 
-	ENSURE(pool, EXCEPT.NULL_PARAM);
+	ENSURE(pool, ERROR, null_param);
 	mutex_lock(pool->mutex);
 	if (pool->list)
 		ret = list_rem(&pool->list);
@@ -52,7 +53,7 @@ void* cn_pool_tryalloc(CnPool* pool)
 {
 	void* ret = NULL;
 
-	ENSURE(pool, EXCEPT.NULL_PARAM);
+	ENSURE(pool, ERROR, null_param);
 	mutex_lock(pool->mutex);
 	if (pool->list)
 		ret = list_rem(&pool->list);
@@ -62,7 +63,7 @@ void* cn_pool_tryalloc(CnPool* pool)
 
 void cn_pool_free(CnPool* pool, void* blk)
 {
-	ENSURE(pool, EXCEPT.NULL_PARAM);
+	ENSURE(pool, ERROR, null_param);
 	mutex_lock(pool->mutex);
 	pool->list = list_ins(pool->list, (union FreeList*)blk);
 	mutex_unlock(pool->mutex);

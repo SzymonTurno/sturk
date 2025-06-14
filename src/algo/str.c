@@ -4,6 +4,7 @@
 #include "cantil/dict.h"
 #include "cantil/list.h"
 #include "cantil/logger/except.h"
+#include "cantil/logger/trace.h"
 #include "cantil/rbtree.h"
 #include "cn/os/mem.h"
 #include <string.h>

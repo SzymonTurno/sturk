@@ -1,9 +1,10 @@
 #include "cantil/list.h"
 #include "cantil/logger/except.h"
+#include "cantil/logger/trace.h"
 
 struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
 {
-	ENSURE(nodep, EXCEPT.NULL_PARAM);
+	ENSURE(nodep, ERROR, null_param);
 	for (; *nodep && pos--; nodep = &(*nodep)->next)
 		;
 	return nodep;
@@ -14,7 +15,7 @@ cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos)
 {
 	struct CnUnnode** i = list_hand(&head, pos);
 
-	ENSURE(node, EXCEPT.NULL_PARAM);
+	ENSURE(node, ERROR, null_param);
 	node->next = *i;
 	*i = node;
 	return head;

@@ -1,6 +1,7 @@
 #include "cantil/logger/sink.h"
 #include "cantil/list.h"
 #include "cantil/logger/except.h"
+#include "cantil/logger/trace.h"
 #include "cantil/os/mutex.h"
 #include "cn/os/mem.h"
 
@@ -36,7 +37,7 @@ void cn_logsink_ins(CnLogsink* list, CnFstream* stream)
 {
 	struct StreamList* entry = cn_malloc(sizeof(*entry));
 
-	ENSURE(list, EXCEPT.NULL_PARAM);
+	ENSURE(list, ERROR, null_param);
 	*list_data(entry) = stream;
 	mutex_lock(list->mutex);
 	list->head = list_ins(list->head, entry);
@@ -45,7 +46,7 @@ void cn_logsink_ins(CnLogsink* list, CnFstream* stream)
 
 void cn_logsink_rem(CnLogsink* list, CnFstream* stream)
 {
-	ENSURE(list, EXCEPT.NULL_PARAM);
+	ENSURE(list, ERROR, null_param);
 	for (LIST_ITER(struct StreamList, i, &list->head))
 		if (*list_data(*i) == stream) {
 			mutex_lock(list->mutex);
@@ -57,7 +58,7 @@ void cn_logsink_rem(CnLogsink* list, CnFstream* stream)
 
 void cn_logsink_vprint(CnLogsink* list, const char* format, va_list vlist)
 {
-	ENSURE(list, EXCEPT.NULL_PARAM);
+	ENSURE(list, ERROR, null_param);
 	mutex_lock(list->mutex);
 	list_print(list->head, format, vlist);
 	mutex_unlock(list->mutex);

@@ -21,8 +21,8 @@ static const char* get_lvlstr(enum CnTraceLvl lvl)
 	default:
 		break;
 	}
-	RAISE(EXCEPT.NOT_SUPPORTED);
-	return "UNKNOWN TRACE LEVEL";
+	RAISE(WARNING, not_supported);
+	return "unknown trace level";
 }
 
 void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)

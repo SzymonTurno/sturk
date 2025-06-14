@@ -1,5 +1,6 @@
 #include "cn/os/sem.h"
 #include "cantil/logger/except.h"
+#include "cantil/logger/trace.h"
 #include "cn/os/mem.h"
 #include <semaphore.h>
 
@@ -15,7 +16,7 @@ CnSem* cn_sem_create(CnBits args)
 	(void)args;
 
 	if (sem_init(&self->sem, 0, 0) != OK) {
-		RAISE(EXCEPT.SEM_FAIL);
+		RAISE(ERROR, sem_fail);
 		cn_free(self);
 		return NULL;
 	}
@@ -25,14 +26,14 @@ CnSem* cn_sem_create(CnBits args)
 void cn_sem_destroy(CnSem* sem)
 {
 	if (sem_destroy(&sem->sem) != OK)
-		RAISE(EXCEPT.SEM_FAIL);
+		RAISE(ERROR, sem_fail);
 	cn_free(sem);
 }
 
 void cn_sem_wait(CnSem* sem)
 {
 	if (sem_wait(&sem->sem) != OK)
-		RAISE(EXCEPT.SEM_FAIL);
+		RAISE(ERROR, sem_fail);
 }
 
 bool cn_sem_trywait(CnSem* sem)
@@ -43,5 +44,5 @@ bool cn_sem_trywait(CnSem* sem)
 void cn_sem_post(CnSem* sem)
 {
 	if (sem_post(&sem->sem) != OK)
-		RAISE(EXCEPT.SEM_FAIL);
+		RAISE(ERROR, sem_fail);
 }

@@ -1,16 +1,17 @@
 #include "cantil/cirq.h"
 #include "cantil/logger/except.h"
+#include "cantil/logger/trace.h"
 
 struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos)
 {
 	while (pos > 0) {
-		ENSURE(node, EXCEPT.NULL_PARAM);
+		ENSURE(node, ERROR, null_param);
 		node = node->next;
 		--pos;
 	}
 
 	while (pos < 0) {
-		ENSURE(node, EXCEPT.NULL_PARAM);
+		ENSURE(node, ERROR, null_param);
 		node = node->prev;
 		++pos;
 	}
@@ -22,7 +23,7 @@ cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos)
 {
 	struct CnBinode* p = NULL;
 
-	ENSURE(entry, EXCEPT.NULL_PARAM);
+	ENSURE(entry, ERROR, null_param);
 	if (root) {
 		if (pos > 0)
 			p = binode_sibl(root, pos);
@@ -33,7 +34,7 @@ cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos)
 		entry->next = p;
 		entry->prev = p->prev;
 		p->prev = entry;
-		ENSURE(entry->prev, EXCEPT.NULL_PARAM);
+		ENSURE(entry->prev, ERROR, null_param);
 		entry->prev->next = entry;
 		if (!pos)
 			root = entry;
@@ -49,7 +50,7 @@ struct CnBinode* cn_binode_rem(struct CnBinode** nodep, int pos)
 {
 	struct CnBinode* ret = NULL;
 
-	ENSURE(nodep, EXCEPT.NULL_PARAM);
+	ENSURE(nodep, ERROR, null_param);
 	if (*nodep) {
 		ret = binode_sibl(*nodep, pos);
 		ret->next->prev = ret->prev;

@@ -1,6 +1,7 @@
 #include "cantil/rbtree.h"
 #include "cantil/bits.h"
 #include "cantil/logger/except.h"
+#include "cantil/logger/trace.h"
 #include <stddef.h>
 
 #define COLOR_MASK ((intptr_t)BIT(0))
@@ -8,7 +9,7 @@
 #define MODULE_ENSURE_MEM(ptr)                                                 \
 	do {                                                                   \
 		if ((ptr) == NULL) {                                           \
-			RAISE(EXCEPT.NULL_PARAM);                              \
+			RAISE(ERROR, null_param);                              \
 			return NULL;                                           \
 		}                                                              \
 	} while (0)
@@ -112,7 +113,7 @@ static struct CnRbnode* get_preordersucc(struct CnRbnode* node)
 static struct CnRbnode* get_postordersucc(struct CnRbnode* node)
 {
 	(void)node;
-	RAISE(EXCEPT.NOT_SUPPORTED);
+	RAISE(WARNING, not_supported);
 	return NULL;
 }
 

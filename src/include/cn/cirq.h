@@ -37,7 +37,7 @@ struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
 	({                                                                     \
 		__typeof__(cirq) _cirq = (cirq);                               \
                                                                                \
-		CN_ENSURE(_cirq, CN_EXCEPT.NULL_PARAM);                        \
+		CN_ENSURE(_cirq, ERROR, null_param);                           \
 		&_cirq->node;                                                  \
 	})
 
@@ -45,7 +45,7 @@ struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
 	({                                                                     \
 		__typeof__(cirq) _cirq = (cirq);                               \
                                                                                \
-		CN_ENSURE(_cirq, CN_EXCEPT.NULL_PARAM);                        \
+		CN_ENSURE(_cirq, ERROR, null_param);                           \
 		&_cirq->data;                                                  \
 	})
 

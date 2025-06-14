@@ -52,7 +52,7 @@ struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
 	({                                                                     \
 		__typeof__(list) _list = (list);                               \
                                                                                \
-		CN_ENSURE(_list, CN_EXCEPT.NULL_PARAM);                        \
+		CN_ENSURE(_list, ERROR, null_param);                           \
 		&(_list)->data;                                                \
 	})
 
@@ -74,7 +74,7 @@ struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
 		__typeof__(listp) _listp = (listp);                            \
 		long long _pos = (pos);                                        \
                                                                                \
-		CN_ENSURE(_listp, CN_EXCEPT.NULL_PARAM);                       \
+		CN_ENSURE(_listp, ERROR, null_param);                          \
 		for (; *_listp && _pos--; _listp = &(*_listp)->next)           \
 			;                                                      \
 		_listp;                                                        \
@@ -101,7 +101,7 @@ struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
 		__typeof__(entry) _entry = (entry);                            \
 		__typeof__(&list) _i = cn_list_hand(&_list, (pos));            \
                                                                                \
-		CN_ENSURE(_entry, CN_EXCEPT.NULL_PARAM);                       \
+		CN_ENSURE(_entry, ERROR, null_param);                          \
 		_entry->next = *_i;                                            \
 		*_i = _entry;                                                  \
 		_list;                                                         \

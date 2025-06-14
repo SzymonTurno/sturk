@@ -1,5 +1,6 @@
 #include "cantil/arith.h"
 #include "cantil/logger/except.h"
+#include "cantil/logger/trace.h"
 #include "cantil/rbtree.h"
 #include "cantil/str.h"
 #include "cn/os/mem.h"
@@ -10,7 +11,7 @@
 #define MODULE_ENSURE_MEM(ptr)                                                 \
 	do {                                                                   \
 		if ((ptr) == NULL) {                                           \
-			RAISE(EXCEPT.NULL_PARAM);                              \
+			RAISE(ERROR, null_param);                              \
 			return NULL;                                           \
 		}                                                              \
 	} while (0)
@@ -242,7 +243,7 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
 
 void cn_subscriber_release(CnSubscriber* sber)
 {
-	ENSURE(sber, EXCEPT.NULL_PARAM);
+	ENSURE(sber, ERROR, null_param);
 	if (sber->msg)
 		msg_release(sber->msg);
 	sber->msg = NULL;
@@ -269,7 +270,7 @@ void cn_subscribe(CnSubscriber* sber, const char* topic)
 	struct CnChannel* ch = NULL;
 	struct ChannelData* data = NULL;
 
-	ENSURE(sber, EXCEPT.NULL_PARAM);
+	ENSURE(sber, ERROR, null_param);
 	ch = broker_search(sber->broker, topic);
 	data = dict_data(ch);
 	sber->list = list_ins(sber->list, clist_create(ch));
