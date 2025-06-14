@@ -80,7 +80,7 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 #define cn_dict_find(root, key)                                                \
 	((void*)cn_strnode_find(cn_dict_cast(root), (key)))
 
-#define cn_dict_leftmost(root)                                                 \
+#define cn_dict_first(root)                                                    \
 	((void*)(cn_strnode_from(cn_rb_leftmost(&dict_cast(dict)->node, 0)))
 
 #define cn_dict_next(root)                                                     \
@@ -107,7 +107,7 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 			__typeof__(*root), strnode);                           \
 	})
 
-#define cn_dict_leftmost(root)                                                 \
+#define cn_dict_first(root)                                                    \
 	({                                                                     \
 		__typeof__(root) _root = (root);                               \
                                                                                \

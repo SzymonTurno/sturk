@@ -23,7 +23,7 @@
 
 #define dict_find cn_dict_find
 
-#define dict_leftmost cn_dict_leftmost
+#define dict_first cn_dict_first
 
 #define dict_next cn_dict_next
 

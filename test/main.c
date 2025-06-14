@@ -128,7 +128,7 @@ TEST(strbag, should_sort)
 	bag = strbag_ins(bag, "r");
 	bag = strbag_ins(bag, "t");
 	bag = strbag_ins(bag, "y");
-	bag = dict_leftmost(bag);
+	bag = dict_first(bag);
 	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
 	bag = dict_next(bag);
 	TEST_ASSERT_EQUAL_STRING("q", dict_getk(bag));
@@ -273,8 +273,8 @@ TEST(broker, should_support_multi_thread_pubsub)
 	expected =
 		strbag_ins(expected, "[info] message: new = -91, old = 39\n");
 	expected = strbag_ins(expected, "[info] message: new = 7, old = -91\n");
-	expected = dict_leftmost(expected);
-	actual = dict_leftmost(actual);
+	expected = dict_first(expected);
+	actual = dict_first(actual);
 	for (;;) {
 		TEST_ASSERT_EQUAL_STRING(
 			dict_getk(expected), dict_getk(actual));
