@@ -86,12 +86,11 @@ static struct CnRbnode* get_inordersucc(struct CnRbnode* node)
 {
 	struct CnRbnode* p = NULL;
 
-	if (node->right) {
+	if (node->right)
 		p = rb_leftmost(node->right);
-	} else {
+	else
 		while ((p = get_parent(node)) && node == p->right)
 			node = p;
-	}
 	return p;
 }
 
