@@ -187,21 +187,48 @@ TEST(binode, should_insert_at_any_position)
 
 	/* -n0- */
 	TEST_ASSERT_EQUAL(&n[0], binode_ins(NULL, &n[0], 255));
+	TEST_ASSERT_EQUAL(n[0].prev, &n[0]);
+	TEST_ASSERT_EQUAL(n[0].next, &n[0]);
 
 	/* -n1--n0- */
 	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[0], &n[1], 0));
+	TEST_ASSERT_EQUAL(n[1].prev, &n[0]);
+	TEST_ASSERT_EQUAL(n[1].next, &n[0]);
+	TEST_ASSERT_EQUAL(n[0].prev, &n[1]);
+	TEST_ASSERT_EQUAL(n[0].next, &n[1]);
 
 	/* -n1--n0--n2- */
 	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[1], &n[2], -1));
-	TEST_ASSERT_EQUAL(&n[2], n[1].prev);
+	TEST_ASSERT_EQUAL(n[1].prev, &n[2]);
+	TEST_ASSERT_EQUAL(n[1].next, &n[0]);
+	TEST_ASSERT_EQUAL(n[0].prev, &n[1]);
+	TEST_ASSERT_EQUAL(n[0].next, &n[2]);
+	TEST_ASSERT_EQUAL(n[2].prev, &n[0]);
+	TEST_ASSERT_EQUAL(n[2].next, &n[1]);
 
 	/* -n1--n3--n0--n2- */
 	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[1], &n[3], 1));
-	TEST_ASSERT_EQUAL(&n[3], n[1].next);
+	TEST_ASSERT_EQUAL(n[1].prev, &n[2]);
+	TEST_ASSERT_EQUAL(n[1].next, &n[3]);
+	TEST_ASSERT_EQUAL(n[3].prev, &n[1]);
+	TEST_ASSERT_EQUAL(n[3].next, &n[0]);
+	TEST_ASSERT_EQUAL(n[0].prev, &n[3]);
+	TEST_ASSERT_EQUAL(n[0].next, &n[2]);
+	TEST_ASSERT_EQUAL(n[2].prev, &n[0]);
+	TEST_ASSERT_EQUAL(n[2].next, &n[1]);
 
 	/* -n1--n3--n0--n4--n2- */
 	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[1], &n[4], -2));
-	TEST_ASSERT_EQUAL(&n[4], n[0].next);
+	TEST_ASSERT_EQUAL(n[1].prev, &n[2]);
+	TEST_ASSERT_EQUAL(n[1].next, &n[3]);
+	TEST_ASSERT_EQUAL(n[3].prev, &n[1]);
+	TEST_ASSERT_EQUAL(n[3].next, &n[0]);
+	TEST_ASSERT_EQUAL(n[0].prev, &n[3]);
+	TEST_ASSERT_EQUAL(n[0].next, &n[4]);
+	TEST_ASSERT_EQUAL(n[4].prev, &n[0]);
+	TEST_ASSERT_EQUAL(n[4].next, &n[2]);
+	TEST_ASSERT_EQUAL(n[2].prev, &n[4]);
+	TEST_ASSERT_EQUAL(n[2].next, &n[1]);
 }
 
 TEST(broker, should_support_single_thread_pubsub)
