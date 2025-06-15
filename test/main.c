@@ -5,6 +5,7 @@
 #include "cantil/os/mutex.h"
 #include "cantil/os/sem.h"
 #include "cantil/pool.h"
+#include "cantil/rbtree.h"
 #include "cantil/str.h"
 #include "cantil/waitq.h"
 #include "cn/os/mem.h"
@@ -141,6 +142,46 @@ TEST(strbag, should_sort)
 	bag = dict_next(bag);
 	TEST_ASSERT_EQUAL_STRING("y", dict_getk(bag));
 	TEST_ASSERT_EQUAL(NULL, dict_next(bag));
+	strbag_destroy(bag);
+}
+
+TEST(strbag, should_allow_preorder_traversal)
+{
+	struct CnStrbag* bag = NULL;
+
+	bag = strbag_ins(NULL, "d");
+	bag = strbag_ins(bag, "b");
+	bag = strbag_ins(bag, "f");
+	bag = strbag_ins(bag, "a");
+	bag = strbag_ins(bag, "c");
+	bag = strbag_ins(bag, "e");
+	bag = strbag_ins(bag, "g");
+	/*
+	 *      _d_
+	 *     /   \
+	 *    b     f
+	 *   / \   / \
+	 *  a   c e   g
+	 */
+	TEST_ASSERT_EQUAL_STRING("d", dict_getk(bag));
+	bag = (struct CnStrbag*)rb_next(
+		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
+	bag = (struct CnStrbag*)rb_next(
+		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
+	bag = (struct CnStrbag*)rb_next(
+		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
+	bag = (struct CnStrbag*)rb_next(
+		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("f", dict_getk(bag));
+	bag = (struct CnStrbag*)rb_next(
+		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
+	bag = (struct CnStrbag*)rb_next(
+		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("g", dict_getk(bag));
 	strbag_destroy(bag);
 }
 
@@ -301,9 +342,18 @@ TEST(logger, should_trace_waitq_dataloss)
 		"[warning][cantil] Data loss suspected.\n", gettrace());
 }
 
+TEST(logger, should_trace_rbtree_postorder_not_supported)
+{
+	struct CnRbnode node = {0};
+
+	rb_next(&node, BST_TRAV_POSTORDER);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning] src/algo/rbtree.c:116: Not supported.\n",
+		gettrace());
+}
+
 static void run_all_tests(void)
 {
-	RUN_TEST_CASE(logger, should_trace_waitq_dataloss);
 	logger_attach(DEBUG, cn_stdout());
 	logger_attach(WARNING, cn_stderr());
 	logger_attach(ERROR, cn_stderr());
@@ -312,6 +362,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(cirq, should_implement_fifo);
 	RUN_TEST_CASE(strbag, should_handle_all_rb_tree_insertion_cases);
 	RUN_TEST_CASE(strbag, should_sort);
+	RUN_TEST_CASE(strbag, should_allow_preorder_traversal);
 	RUN_TEST_CASE(strbag, should_allow_negative_count);
 	RUN_TEST_CASE(mutex, should_not_block_on_trylock);
 	RUN_TEST_CASE(sem, should_not_block_if_posted);
@@ -321,6 +372,8 @@ static void run_all_tests(void)
 	if (MULTITHREADING_EN)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
 	logger_cleanup();
+	RUN_TEST_CASE(logger, should_trace_waitq_dataloss);
+	RUN_TEST_CASE(logger, should_trace_rbtree_postorder_not_supported)
 }
 
 int main(int argc, const char** argv)

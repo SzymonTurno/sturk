@@ -239,6 +239,25 @@ struct CnRbnode* cn_rb_leftmost(struct CnRbnode* node)
 	return node;
 }
 
+struct CnRbnode* cn_rb_smallest(struct CnRbnode* node)
+{
+	struct CnRbnode* p = NULL;
+
+	MODULE_ENSURE_MEM(node);
+	for (;;) {
+		if (node->left)
+			node = node->left;
+		else {
+			p = get_parent(node);
+			if (p && (p->right == node))
+				node = p;
+			else
+				break;
+		}
+	}
+	return node;
+}
+
 struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstTrav trav)
 {
 	MODULE_ENSURE_MEM(node);

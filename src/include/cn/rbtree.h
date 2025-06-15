@@ -28,6 +28,8 @@ struct CnRbnode* cn_rb_deepest(struct CnRbnode* node);
 
 struct CnRbnode* cn_rb_leftmost(struct CnRbnode* node);
 
+struct CnRbnode* cn_rb_smallest(struct CnRbnode* node);
+
 struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstTrav trav);
 
 #endif /* CN_RBTREE_H */
