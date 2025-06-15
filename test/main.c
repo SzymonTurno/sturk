@@ -151,17 +151,16 @@ TEST(strbag, should_allow_preorder_traversal)
 
 	bag = strbag_ins(NULL, "d");
 	bag = strbag_ins(bag, "b");
-	bag = strbag_ins(bag, "f");
+	bag = strbag_ins(bag, "e");
 	bag = strbag_ins(bag, "a");
 	bag = strbag_ins(bag, "c");
-	bag = strbag_ins(bag, "e");
-	bag = strbag_ins(bag, "g");
+	bag = strbag_ins(bag, "f");
 	/*
-	 *      _d_
-	 *     /   \
-	 *    b     f
-	 *   / \   / \
-	 *  a   c e   g
+	 *      d
+	 *     / \
+	 *    b   e
+	 *   / \   \
+	 *  a   c   f
 	 */
 	TEST_ASSERT_EQUAL_STRING("d", dict_getk(bag));
 	bag = (struct CnStrbag*)rb_next(
@@ -175,13 +174,10 @@ TEST(strbag, should_allow_preorder_traversal)
 	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
 	bag = (struct CnStrbag*)rb_next(
 		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
-	TEST_ASSERT_EQUAL_STRING("f", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next(
-		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
 	bag = (struct CnStrbag*)rb_next(
 		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
-	TEST_ASSERT_EQUAL_STRING("g", dict_getk(bag));
+	TEST_ASSERT_EQUAL_STRING("f", dict_getk(bag));
 	strbag_destroy(bag);
 }
 
