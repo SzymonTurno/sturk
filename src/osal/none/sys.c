@@ -14,10 +14,12 @@ int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...)
 	return ret;
 }
 
+/* LCOV_EXCL_START */
 void cn_sysfail(void)
 {
 	exit(EXIT_FAILURE);
 }
+/* LCOV_EXCL_STOP */
 
 int cn_remove(const char* name)
 {

@@ -5,6 +5,8 @@
 
 #define LOGGER_EN CN_LOGGER_EN
 
+#define UNKNOWN CN_UNKNOWN
+
 #define DEBUG CN_DEBUG
 
 #define INFO CN_INFO

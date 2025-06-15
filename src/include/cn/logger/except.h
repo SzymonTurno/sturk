@@ -14,7 +14,8 @@ static const struct CnException cn_except_alloc_fail = {
 static const struct CnException cn_except_sem_fail = {"Semaphore failure."};
 static const struct CnException cn_except_mutex_fail = {"Mutex failure."};
 static const struct CnException cn_except_not_supported = {"Not supported."};
-static const struct CnException cn_except_sanity_fail = {"Sanity check failed."};
+static const struct CnException cn_except_sanity_fail = {
+	"Sanity check failed."};
 
 #ifdef CN_EXCEPTIONS_EN
 
@@ -22,7 +23,7 @@ static const struct CnException cn_except_sanity_fail = {"Sanity check failed."}
 	do {                                                                   \
 		enum CnTraceLvl _lvl = (lvl);                                  \
                                                                                \
-		if (CN_EXCEPTIONS_EN && !cond) {                               \
+		if (CN_EXCEPTIONS_EN && !(cond)) {                             \
 			if (CN_ERROR == _lvl) {                                \
 				CN_TRACE(                                      \
 					CN_ERROR, NULL, "%s:%d: %s", __FILE__, \

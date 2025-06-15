@@ -37,7 +37,6 @@ TEST_SETUP(logger)
 {
 	test_stream = cn_fopen("logger_traces.tmp", "w+");
 
-	logger_attach(INFO, test_stream);
 	logger_attach(DEBUG, test_stream);
 	logger_attach(WARNING, test_stream);
 	logger_attach(ERROR, test_stream);
@@ -366,6 +365,47 @@ TEST(logger, should_trace_rbtree_postorder_not_supported)
 		gettrace());
 }
 
+TEST(logger, should_trace_debug)
+{
+	trace(DEBUG, NULL, "");
+	TEST_ASSERT_EQUAL_STRING("[debug] \n", gettrace());
+}
+
+TEST(logger, should_trace_error)
+{
+	trace(ERROR, NULL, "");
+	TEST_ASSERT_EQUAL_STRING("[error] \n", gettrace());
+}
+
+TEST(logger, should_do_nothing_if_not_initialized)
+{
+	trace(INFO, NULL, "");
+}
+
+TEST(logger, should_trace_mutex_double_lock_warning)
+{
+	CnMutex* mutex = mutex_create(0);
+
+	mutex_lock(mutex);
+	TEST_ASSERT_EQUAL_STRING(NULL, gettrace());
+	mutex_lock(mutex);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][cantil] Fake mutex does not support context "
+		"switch.\n",
+		gettrace());
+}
+
+TEST(logger, should_trace_mutex_double_unlock_warning)
+{
+	CnMutex* mutex = mutex_create(0);
+
+	TEST_ASSERT_EQUAL_STRING(NULL, gettrace());
+	mutex_unlock(mutex);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][cantil] Unlocking an already unlocked mutex.\n",
+		gettrace());
+}
+
 static void run_all_tests(void)
 {
 	logger_attach(DEBUG, cn_stdout());
@@ -388,7 +428,14 @@ static void run_all_tests(void)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
 	logger_cleanup();
 	RUN_TEST_CASE(logger, should_trace_waitq_dataloss);
-	RUN_TEST_CASE(logger, should_trace_rbtree_postorder_not_supported)
+	RUN_TEST_CASE(logger, should_trace_rbtree_postorder_not_supported);
+	RUN_TEST_CASE(logger, should_trace_debug);
+	RUN_TEST_CASE(logger, should_trace_error);
+	RUN_TEST_CASE(logger, should_do_nothing_if_not_initialized);
+	if (!MULTITHREADING_EN) {
+		RUN_TEST_CASE(logger, should_trace_mutex_double_lock_warning);
+		RUN_TEST_CASE(logger, should_trace_mutex_double_unlock_warning);
+	}
 }
 
 int main(int argc, const char** argv)

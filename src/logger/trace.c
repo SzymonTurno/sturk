@@ -18,11 +18,13 @@ static const char* get_lvlstr(enum CnTraceLvl lvl)
 		return "warning";
 	case ERROR:
 		return "error";
+	/* LCOV_EXCL_START */
 	default:
 		break;
 	}
-	RAISE(WARNING, not_supported);
+	RAISE(ERROR, sanity_fail);
 	return "unknown trace level";
+	/* LCOV_EXCL_STOP */
 }
 
 void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
@@ -30,6 +32,7 @@ void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
 	va_list vlist;
 	char* buff = NULL;
 
+	ENSURE(lvl > UNKNOWN && lvl < N_TRACE_LVLS, ERROR, not_supported);
 	if (!logsink[lvl])
 		return;
 	buff = cn_malloc(BUFF_MAX_SIZE);
