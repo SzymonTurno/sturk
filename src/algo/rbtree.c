@@ -83,12 +83,19 @@ static struct CnRbnode* rot_right(struct CnRbnode* node, struct CnRbnode* root)
 	return root;
 }
 
+static struct CnRbnode* get_leftcorner(struct CnRbnode* node)
+{
+	while (node->left)
+		node = node->left;
+	return node;
+}
+
 static struct CnRbnode* get_inordersucc(struct CnRbnode* node)
 {
 	struct CnRbnode* p = NULL;
 
 	if (node->right)
-		p = rb_leftmost(node->right);
+		p = get_leftcorner(node->right);
 	else
 		while ((p = get_parent(node)) && node == p->right)
 			node = p;
@@ -228,14 +235,6 @@ struct CnRbnode* cn_rb_deepest(struct CnRbnode* node)
 		else
 			break;
 	}
-	return node;
-}
-
-struct CnRbnode* cn_rb_leftmost(struct CnRbnode* node)
-{
-	MODULE_ENSURE_MEM(node);
-	while (node->left)
-		node = node->left;
 	return node;
 }
 

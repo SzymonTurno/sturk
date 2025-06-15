@@ -17,8 +17,6 @@
 
 #define rb_deepest cn_rb_deepest
 
-#define rb_leftmost cn_rb_leftmost
-
 #define rb_smallest cn_rb_smallest
 
 #define rb_next cn_rb_next

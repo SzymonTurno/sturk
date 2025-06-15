@@ -348,7 +348,7 @@ TEST(logger, should_trace_rbtree_postorder_not_supported)
 
 	rb_next(&node, BST_TRAV_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning] src/algo/rbtree.c:116: Not supported.\n",
+		"[warning] src/algo/rbtree.c:123: Not supported.\n",
 		gettrace());
 }
 

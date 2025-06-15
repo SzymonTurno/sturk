@@ -81,7 +81,7 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 	((void*)cn_strnode_find(cn_dict_cast(root), (key)))
 
 #define cn_dict_first(root)                                                    \
-	((void*)(cn_strnode_from(cn_rb_leftmost(&dict_cast(dict)->node, 0)))
+	((void*)(cn_strnode_from(cn_rb_smallest(&dict_cast(dict)->node, 0)))
 
 #define cn_dict_next(root)                                                     \
 	((void*)(cn_strnode_from(cn_rb_next(&dict_cast(dict)->node, 0)))
