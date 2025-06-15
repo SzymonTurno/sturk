@@ -14,6 +14,7 @@ static const struct CnException cn_except_alloc_fail = {
 static const struct CnException cn_except_sem_fail = {"Semaphore failure."};
 static const struct CnException cn_except_mutex_fail = {"Mutex failure."};
 static const struct CnException cn_except_not_supported = {"Not supported."};
+static const struct CnException cn_except_sanity_fail = {"Sanity check failed."};
 
 #ifdef CN_EXCEPTIONS_EN
 

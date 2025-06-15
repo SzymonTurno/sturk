@@ -34,13 +34,12 @@ static void channel_destroy(CnChannel* ch)
 {
 	struct ChannelData* data = dict_data(ch);
 
+	ENSURE(!data->list, ERROR, sanity_fail);
 	msg_purge(ch);
 	pool_destroy(data->pool);
 	data->pool = NULL;
 	mutex_destroy(data->mutex);
 	data->mutex = NULL;
-	while (data->list)
-		cn_free(list_rem(&data->list));
 	data->vp = NULL;
 	cn_free(dict_getk(ch));
 	dict_setk(ch, NULL);

@@ -181,6 +181,24 @@ TEST(strbag, should_allow_preorder_traversal)
 	strbag_destroy(bag);
 }
 
+TEST(strbag, should_find_smallest)
+{
+	struct CnStrbag* bag = NULL;
+
+	bag = strbag_ins(NULL, "b");
+	bag = strbag_ins(bag, "a");
+	bag = strbag_ins(bag, "c");
+	/*
+	 *    b
+	 *   / \
+	 *  a   c
+	 */
+	bag = (struct CnStrbag*)((struct CnRbnode*)bag)->right;
+	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
+	bag = (struct CnStrbag*)rb_smallest((struct CnRbnode*)bag);
+	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
+}
+
 TEST(strbag, should_allow_negative_count)
 {
 	struct CnStrbag* bag = strbag_rem(NULL, "");
@@ -359,6 +377,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(strbag, should_handle_all_rb_tree_insertion_cases);
 	RUN_TEST_CASE(strbag, should_sort);
 	RUN_TEST_CASE(strbag, should_allow_preorder_traversal);
+	RUN_TEST_CASE(strbag, should_find_smallest);
 	RUN_TEST_CASE(strbag, should_allow_negative_count);
 	RUN_TEST_CASE(mutex, should_not_block_on_trylock);
 	RUN_TEST_CASE(sem, should_not_block_if_posted);
