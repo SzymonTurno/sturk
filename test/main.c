@@ -449,6 +449,19 @@ TEST(logger, should_trace_mutex_double_unlock_warning)
 	mutex_destroy(mutex);
 }
 
+TEST(logger, should_trace_fake_semaphore_warning)
+{
+	CnSem* sem = sem_create(0);
+
+	TEST_ASSERT_EQUAL_STRING(NULL, gettrace());
+	sem_wait(sem);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][cantil] Fake semaphore does not support context "
+		"switch.\n",
+		gettrace());
+	sem_destroy(sem);
+}
+
 static void run_all_tests(void)
 {
 	logger_attach(DEBUG, cn_stdout());
@@ -481,6 +494,7 @@ static void run_all_tests(void)
 	if (!MULTITHREADING_EN) {
 		RUN_TEST_CASE(logger, should_trace_mutex_double_lock_warning);
 		RUN_TEST_CASE(logger, should_trace_mutex_double_unlock_warning);
+		RUN_TEST_CASE(logger, should_trace_fake_semaphore_warning);
 	}
 }
 
