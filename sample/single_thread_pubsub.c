@@ -5,6 +5,21 @@
 #include "cn/os/sys.h"
 #include "pubsub.h"
 
+#define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
+
+enum TopicId {
+	INPUT_ID = 0,
+	RESULT_ID,
+	N_TOPICS
+};
+
+enum Event {
+	STORAGE_EVENT = 0,
+	MULTIPLY_EVENT,
+	TRACE_EVENT,
+	N_EVENTS
+};
+
 struct Payload {
 	int new;
 	int old;
@@ -12,7 +27,7 @@ struct Payload {
 
 struct Subscriber {
 	CnSubscriber* sber;
-	struct Payload* pl;
+	struct Payload* pload;
 	CnChannel* channel;
 };
 
@@ -37,43 +52,44 @@ static const struct CnLoadVt PAYLOAD[] = {
 
 static void receive(struct Subscriber* sub)
 {
-	sub->pl = (struct Payload*)subscriber_poll(sub->sber, &sub->channel);
+	sub->pload = (struct Payload*)subscriber_poll(sub->sber, &sub->channel);
 }
 
 static void
 broadcast(CnChannel** ch, struct Subscriber* subs, int* store, int val)
 {
-	struct Payload* pl = NULL;
+	struct Payload* pload = NULL;
 	int done = 0;
 
 	trace(INFO, NULL, "broadcast %d", val);
-	publish(ch[0], val, store[0]);
+	publish(ch[INPUT_ID], val, store[INPUT_ID]);
 	do {
-		receive(&subs[0]);
-		receive(&subs[1]);
-		receive(&subs[2]);
-		if (subs[0].pl) {
-			pl = subs[0].pl;
-			if (subs[0].channel == ch[0]) {
-				pl->old = store[0];
-				store[0] = pl->new;
+		receive(&subs[STORAGE_EVENT]);
+		receive(&subs[MULTIPLY_EVENT]);
+		receive(&subs[TRACE_EVENT]);
+		if (subs[STORAGE_EVENT].pload) {
+			pload = subs[STORAGE_EVENT].pload;
+			if (subs[STORAGE_EVENT].channel == ch[STORAGE_EVENT]) {
+				pload->old = store[INPUT_ID];
+				store[INPUT_ID] = pload->new;
 			} else {
-				pl->old = store[1];
-				store[1] = pl->new;
+				pload->old = store[RESULT_ID];
+				store[RESULT_ID] = pload->new;
 			}
 		}
 
 		done = 1;
-		if (subs[1].pl) {
-			pl = subs[1].pl;
-			publish(ch[1], pl->new * pl->old, store[1]);
+		if (subs[MULTIPLY_EVENT].pload) {
+			pload = subs[MULTIPLY_EVENT].pload;
+			publish(ch[RESULT_ID], pload->new * pload->old,
+			        store[RESULT_ID]);
 			done = 0;
 		}
 
-		if (subs[2].pl) {
-			pl = subs[2].pl;
+		if (subs[TRACE_EVENT].pload) {
+			pload = subs[TRACE_EVENT].pload;
 			trace(INFO, NULL, "message: new = %d, old = %d",
-			      pl->new, pl->old);
+			      pload->new, pload->old);
 		}
 	} while (!done);
 }
@@ -88,13 +104,13 @@ static void app(void)
 		{subscriber_create(broker), NULL, NULL},
 		{subscriber_create(broker), NULL, NULL},
 		{subscriber_create(broker), NULL, NULL}};
-	int store[2] = {0};
+	int store[ARRAY_SIZE(ch)] = {0};
 
-	subscribe(subs[0].sber, "input");
-	subscribe(subs[0].sber, "result");
-	subscribe(subs[1].sber, "input");
-	subscribe(subs[2].sber, "input");
-	subscribe(subs[2].sber, "result");
+	subscribe(subs[STORAGE_EVENT].sber, "input");
+	subscribe(subs[STORAGE_EVENT].sber, "result");
+	subscribe(subs[MULTIPLY_EVENT].sber, "input");
+	subscribe(subs[TRACE_EVENT].sber, "input");
+	subscribe(subs[TRACE_EVENT].sber, "result");
 	broadcast(ch, subs, store, -3);
 	broadcast(ch, subs, store, -13);
 	broadcast(ch, subs, store, 7);
