@@ -196,6 +196,7 @@ TEST(strbag, should_find_smallest)
 	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
 	bag = (struct CnStrbag*)rb_smallest((struct CnRbnode*)bag);
 	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
+	strbag_destroy(bag);
 }
 
 TEST(strbag, should_allow_negative_count)
@@ -393,6 +394,7 @@ TEST(logger, should_trace_mutex_double_lock_warning)
 		"[warning][cantil] Fake mutex does not support context "
 		"switch.\n",
 		gettrace());
+	mutex_destroy(mutex);
 }
 
 TEST(logger, should_trace_mutex_double_unlock_warning)
@@ -404,6 +406,7 @@ TEST(logger, should_trace_mutex_double_unlock_warning)
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][cantil] Unlocking an already unlocked mutex.\n",
 		gettrace());
+	mutex_destroy(mutex);
 }
 
 static void run_all_tests(void)
