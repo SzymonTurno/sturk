@@ -13,31 +13,40 @@ struct CnMutex {
 
 static int setprotocol(pthread_mutexattr_t* attr, CnBits args)
 {
+	int ret = FAIL;
+
 	switch (args & MUTEX_POLICY_MASK) {
 	case MUTEX_POLICY_NONE:
-		return OK;
+		ret = OK;
+		break;
 	case MUTEX_POLICY_PRIO_INHERIT:
-		return pthread_mutexattr_setprotocol(
-			attr, PTHREAD_PRIO_INHERIT);
+		ret = pthread_mutexattr_setprotocol(attr, PTHREAD_PRIO_INHERIT);
+		ENSURE(ret == OK, ERROR, mutex_fail);
+		break;
 	default:
 		RAISE(WARNING, not_supported);
 		break;
 	}
-	return FAIL;
+	return ret;
 }
 
 static int settype(pthread_mutexattr_t* attr, CnBits args)
 {
+	int ret = FAIL;
+
 	switch (args & MUTEX_TYPE_MASK) {
 	case MUTEX_TYPE_NONE:
-		return OK;
+		ret = OK;
+		break;
 	case MUTEX_TYPE_RECURSIVE:
-		return pthread_mutexattr_settype(attr, PTHREAD_MUTEX_RECURSIVE);
+		ret = pthread_mutexattr_settype(attr, PTHREAD_MUTEX_RECURSIVE);
+		ENSURE(ret == OK, ERROR, mutex_fail);
+		break;
 	default:
 		RAISE(WARNING, not_supported);
 		break;
 	}
-	return FAIL;
+	return ret;
 }
 
 CnMutex* cn_mutex_create(CnBits args)
@@ -46,30 +55,37 @@ CnMutex* cn_mutex_create(CnBits args)
 	pthread_mutexattr_t attr;
 
 	if (pthread_mutexattr_init(&attr) != OK) {
+		/* LCOV_EXCL_START */
 		RAISE(ERROR, mutex_fail);
 		return NULL;
+		/* LCOV_EXCL_STOP */
 	}
 
 	if (setprotocol(&attr, args) != OK) {
-		RAISE(ERROR, mutex_fail);
+		RAISE(WARNING, mutex_fail);
 		return NULL;
 	}
 
 	if (settype(&attr, args) != OK) {
-		RAISE(ERROR, mutex_fail);
-		return NULL;
-	}
-	self = cn_malloc(sizeof(*self));
-	if (pthread_mutex_init(&self->pmut, &attr) != OK) {
-		RAISE(ERROR, mutex_fail);
-		cn_free(self);
+		RAISE(WARNING, mutex_fail);
 		return NULL;
 	}
 
-	if (pthread_mutexattr_destroy(&attr) != OK) {
+	self = cn_malloc(sizeof(*self));
+	if (pthread_mutex_init(&self->pmut, &attr) != OK) {
+		/* LCOV_EXCL_START */
 		RAISE(ERROR, mutex_fail);
 		cn_free(self);
 		return NULL;
+		/* LCOV_EXCL_STOP */
+	}
+
+	if (pthread_mutexattr_destroy(&attr) != OK) {
+		/* LCOV_EXCL_START */
+		RAISE(ERROR, mutex_fail);
+		cn_free(self);
+		return NULL;
+		/* LCOV_EXCL_STOP */
 	}
 	return self;
 }
@@ -77,14 +93,14 @@ CnMutex* cn_mutex_create(CnBits args)
 void cn_mutex_destroy(CnMutex* mutex)
 {
 	if (pthread_mutex_destroy(&mutex->pmut) != OK)
-		RAISE(ERROR, mutex_fail);
+		RAISE(ERROR, mutex_fail); /* LCOV_EXCL_LINE */
 	cn_free(mutex);
 }
 
 void cn_mutex_lock(CnMutex* mutex)
 {
 	if (pthread_mutex_lock(&mutex->pmut) != OK)
-		RAISE(ERROR, mutex_fail);
+		RAISE(ERROR, mutex_fail); /* LCOV_EXCL_LINE */
 }
 
 bool cn_mutex_trylock(CnMutex* mutex)
@@ -95,5 +111,5 @@ bool cn_mutex_trylock(CnMutex* mutex)
 void cn_mutex_unlock(CnMutex* mutex)
 {
 	if (pthread_mutex_unlock(&mutex->pmut) != OK)
-		RAISE(ERROR, mutex_fail);
+		RAISE(ERROR, mutex_fail); /* LCOV_EXCL_LINE */
 }
