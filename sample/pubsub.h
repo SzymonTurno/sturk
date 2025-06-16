@@ -2,8 +2,8 @@
 #define PUBSUB_H
 
 #include "cn/str.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 static size_t default_size(void)
 {
