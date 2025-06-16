@@ -14,10 +14,6 @@ char* cn_fgets(char* str, int size, CnFstream* stream);
 
 int cn_fseekset(CnFstream* stream, long int offset);
 
-int cn_fseekcur(CnFstream* stream, long int offset);
-
-int cn_fseekend(CnFstream* stream, long int offset);
-
 CnFstream* cn_stdout(void);
 
 CnFstream* cn_stderr(void);

@@ -22,16 +22,6 @@ int cn_fseekset(CnFstream* stream, long int offset)
 	return fseek((FILE*)stream, offset, SEEK_SET);
 }
 
-int cn_fseekcur(CnFstream* stream, long int offset)
-{
-	return fseek((FILE*)stream, offset, SEEK_CUR);
-}
-
-int cn_fseekend(CnFstream* stream, long int offset)
-{
-	return fseek((FILE*)stream, offset, SEEK_END);
-}
-
 CnFstream* cn_stdout(void)
 {
 	return (CnFstream*)stdout;
