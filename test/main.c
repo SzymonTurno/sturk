@@ -286,6 +286,15 @@ TEST(binode, should_insert_at_any_position)
 	TEST_ASSERT_EQUAL(n[2].next, &n[1]);
 }
 
+TEST(broker, should_allow_zero_subscribers)
+{
+	CnBroker* broker = broker_create(DEFAULT_LOAD_VP);
+	CnChannel* ch = broker_search(broker, "empty");
+
+	publish(ch, "%d", 123);
+	broker_destroy(broker);
+}
+
 TEST(broker, should_support_single_thread_pubsub)
 {
 	const char* const expected[] = {
@@ -426,6 +435,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(sem, should_not_block_if_posted);
 	RUN_TEST_CASE(waitq, should_not_block_after_insertion);
 	RUN_TEST_CASE(binode, should_insert_at_any_position);
+	RUN_TEST_CASE(broker, should_allow_zero_subscribers)
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
 	if (MULTITHREADING_EN)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);

@@ -2,6 +2,29 @@
 #define PUBSUB_H
 
 #include "cn/str.h"
+#include <stdlib.h>
+#include <stdio.h>
+
+static size_t default_size(void)
+{
+	return sizeof(char**);
+}
+
+static void default_init(CnLoad* load, va_list vlist)
+{
+	char* buff = malloc(256);
+
+	vsnprintf(buff, 256, va_arg(vlist, char*), vlist);
+	*(char**)load = buff;
+}
+
+static void default_deinit(CnLoad* load)
+{
+	free(*(char**)load);
+}
+
+static const struct CnLoadVt DEFAULT_LOAD_VP[] = {
+	{.size = default_size, .ctor = default_init, .dtor = default_deinit}};
 
 struct CnStrq* single_thread_pubsub(void);
 

@@ -28,6 +28,12 @@ static inline struct Message* msg_create(CnChannel* ch, va_list args)
 	return self;
 }
 
+static inline void msg_destroy(struct Message* msg)
+{
+	dict_data(msg->channel)->vp->dtor(msg_getload(msg));
+	pool_free(dict_data(msg->channel)->pool, msg_getload(msg));
+}
+
 static inline void msg_purge(CnChannel* ch)
 {
 	struct ChannelData* data = dict_data(ch);
@@ -51,10 +57,8 @@ static inline void msg_release(struct Message* msg)
 	if (!--msg->u.n_pending)
 		last = 1;
 	mutex_unlock(msg->mutex);
-	if (last) {
-		dict_data(msg->channel)->vp->dtor(msg_getload(msg));
-		pool_free(dict_data(msg->channel)->pool, msg_getload(msg));
-	}
+	if (last)
+		msg_destroy(msg);
 }
 
 static inline void msg_lock(struct Message* msg)
@@ -67,7 +71,7 @@ static inline void msg_unlock(struct Message* msg, int n_pending)
 	msg->u.n_pending = n_pending;
 	mutex_unlock(msg->mutex);
 	if (!n_pending)
-		pool_free(dict_data(msg->channel)->pool, msg_getload(msg));
+		msg_destroy(msg);
 }
 
 #endif /* MESSAGE_H */
