@@ -49,11 +49,13 @@ TEST_TEAR_DOWN(logger)
 	cn_remove("logger_traces.tmp");
 }
 
-static const char* gettrace(void)
+static const char* gettrace(int index)
 {
 	static char buff[256];
 
 	cn_fseekset(test_stream, 0);
+	while (index--)
+		cn_fgets(buff, sizeof(buff), test_stream);
 	return cn_fgets(buff, sizeof(buff), test_stream);
 }
 
@@ -393,7 +395,7 @@ TEST(logger, should_trace_waitq_dataloss)
 	waitq_ins(q, &node);
 	waitq_destroy(q);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning][cantil] Data loss suspected.\n", gettrace());
+		"[warning][cantil] Data loss suspected.\n", gettrace(0));
 }
 
 TEST(logger, should_trace_rbtree_postorder_not_supported)
@@ -403,19 +405,19 @@ TEST(logger, should_trace_rbtree_postorder_not_supported)
 	rb_next(&node, BST_TRAV_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning] src/algo/rbtree.c:123: Not supported.\n",
-		gettrace());
+		gettrace(0));
 }
 
 TEST(logger, should_trace_debug)
 {
 	trace(DEBUG, NULL, "");
-	TEST_ASSERT_EQUAL_STRING("[debug] \n", gettrace());
+	TEST_ASSERT_EQUAL_STRING("[debug] \n", gettrace(0));
 }
 
 TEST(logger, should_trace_error)
 {
 	trace(ERROR, NULL, "");
-	TEST_ASSERT_EQUAL_STRING("[error] \n", gettrace());
+	TEST_ASSERT_EQUAL_STRING("[error] \n", gettrace(0));
 }
 
 TEST(logger, should_do_nothing_if_not_initialized)
@@ -428,12 +430,12 @@ TEST(logger, should_trace_mutex_double_lock_warning)
 	CnMutex* mutex = mutex_create(0);
 
 	mutex_lock(mutex);
-	TEST_ASSERT_EQUAL_STRING(NULL, gettrace());
+	TEST_ASSERT_EQUAL_STRING(NULL, gettrace(0));
 	mutex_lock(mutex);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][cantil] Fake mutex does not support context "
 		"switch.\n",
-		gettrace());
+		gettrace(0));
 	mutex_destroy(mutex);
 }
 
@@ -441,11 +443,11 @@ TEST(logger, should_trace_mutex_double_unlock_warning)
 {
 	CnMutex* mutex = mutex_create(0);
 
-	TEST_ASSERT_EQUAL_STRING(NULL, gettrace());
+	TEST_ASSERT_EQUAL_STRING(NULL, gettrace(0));
 	mutex_unlock(mutex);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][cantil] Unlocking an already unlocked mutex.\n",
-		gettrace());
+		gettrace(0));
 	mutex_destroy(mutex);
 }
 
@@ -453,13 +455,37 @@ TEST(logger, should_trace_fake_semaphore_warning)
 {
 	CnSem* sem = sem_create(0);
 
-	TEST_ASSERT_EQUAL_STRING(NULL, gettrace());
+	TEST_ASSERT_EQUAL_STRING(NULL, gettrace(0));
 	sem_wait(sem);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][cantil] Fake semaphore does not support context "
 		"switch.\n",
-		gettrace());
+		gettrace(0));
 	sem_destroy(sem);
+}
+
+TEST(logger, should_trace_not_supported_mutex_policy)
+{
+	CnMutex* mutex = mutex_create(CN_MUTEX_BF(POLICY, 7));
+
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning] src/osal/posix/mutex.c:27: Not supported.\n",
+		gettrace(0));
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning] src/osal/posix/mutex.c:65: Mutex failure.\n",
+		gettrace(1));
+}
+
+TEST(logger, should_trace_not_supported_mutex_type)
+{
+	CnMutex* mutex = mutex_create(CN_MUTEX_BF(TYPE, 15));
+
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning] src/osal/posix/mutex.c:46: Not supported.\n",
+		gettrace(0));
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning] src/osal/posix/mutex.c:70: Mutex failure.\n",
+		gettrace(1));
 }
 
 static void run_all_tests(void)
@@ -491,7 +517,10 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(logger, should_trace_debug);
 	RUN_TEST_CASE(logger, should_trace_error);
 	RUN_TEST_CASE(logger, should_do_nothing_if_not_initialized);
-	if (!MULTITHREADING_EN) {
+	if (MULTITHREADING_EN) {
+		RUN_TEST_CASE(logger, should_trace_not_supported_mutex_policy);
+		RUN_TEST_CASE(logger, should_trace_not_supported_mutex_type);
+	} else {
 		RUN_TEST_CASE(logger, should_trace_mutex_double_lock_warning);
 		RUN_TEST_CASE(logger, should_trace_mutex_double_unlock_warning);
 		RUN_TEST_CASE(logger, should_trace_fake_semaphore_warning);
