@@ -220,6 +220,21 @@ TEST(mutex, should_not_block_on_trylock)
 	mutex_destroy(mutex);
 }
 
+TEST(mutex, should_lock_twice_if_recursive)
+{
+	CnMutex* mutex = mutex_create(MUTEX_TYPE_RECURSIVE);
+
+	mutex_lock(mutex);
+	mutex_lock(mutex);
+	TEST_ASSERT_EQUAL(true, mutex_trylock(mutex));
+	TEST_ASSERT_EQUAL(true, mutex_trylock(mutex));
+	mutex_unlock(mutex);
+	mutex_unlock(mutex);
+	mutex_unlock(mutex);
+	mutex_unlock(mutex);
+	mutex_destroy(mutex);
+}
+
 TEST(sem, should_not_block_if_posted)
 {
 	CnSem* sem = sem_create(0);
@@ -508,8 +523,10 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
 	RUN_TEST_CASE(broker, should_allow_many_topics);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
-	if (MULTITHREADING_EN)
+	if (MULTITHREADING_EN) {
+		RUN_TEST_CASE(mutex, should_lock_twice_if_recursive);
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
+	}
 	RUN_TEST_CASE(subscriber, should_not_wait_after_publishing);
 	logger_cleanup();
 	RUN_TEST_CASE(logger, should_trace_waitq_dataloss);
