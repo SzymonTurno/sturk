@@ -66,6 +66,7 @@ SIMPLE_TEST_GROUP(sem);
 SIMPLE_TEST_GROUP(waitq);
 SIMPLE_TEST_GROUP(binode);
 SIMPLE_TEST_GROUP(broker);
+SIMPLE_TEST_GROUP(subscriber);
 
 TEST(common, should_destroy_null)
 {
@@ -289,7 +290,7 @@ TEST(binode, should_insert_at_any_position)
 TEST(broker, should_allow_zero_subscribers)
 {
 	CnBroker* broker = broker_create(DEFAULT_LOAD_VP);
-	CnChannel* ch = broker_search(broker, "empty");
+	CnChannel* ch = broker_search(broker, "test");
 
 	publish(ch, "%d", 123);
 	broker_destroy(broker);
@@ -369,6 +370,19 @@ TEST(broker, should_support_multi_thread_pubsub)
 	TEST_ASSERT_EQUAL(NULL, dict_next(actual));
 	strbag_destroy(expected);
 	strbag_destroy(actual);
+}
+
+TEST(subscriber, should_not_wait_after_publishing)
+{
+	CnBroker* broker = broker_create(DEFAULT_LOAD_VP);
+	CnSubscriber* sber = subscriber_create(broker);
+	CnChannel* ch = NULL;
+
+	subscribe(sber, "test");
+	publish(broker_search(broker, "test"), "%d", 321);
+	TEST_ASSERT_EQUAL_STRING("321", *(char**)subscriber_await(sber, &ch));
+	TEST_ASSERT_EQUAL_STRING("test", get_topic(ch));
+	broker_destroy(broker);
 }
 
 TEST(logger, should_trace_waitq_dataloss)
@@ -457,6 +471,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
 	if (MULTITHREADING_EN)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
+	RUN_TEST_CASE(subscriber, should_not_wait_after_publishing);
 	logger_cleanup();
 	RUN_TEST_CASE(logger, should_trace_waitq_dataloss);
 	RUN_TEST_CASE(logger, should_trace_rbtree_postorder_not_supported);
