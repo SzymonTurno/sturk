@@ -102,7 +102,7 @@ TEST(cirq, should_implement_fifo)
 	TEST_ASSERT_EQUAL(NULL, q);
 }
 
-TEST(strbag, should_handle_all_rb_tree_insertion_cases)
+TEST(strbag, should_allow_many_entries)
 {
 	struct CnStrbag* bag = NULL;
 	char str[sizeof(int) + 1] = {0};
@@ -295,6 +295,23 @@ TEST(broker, should_allow_zero_subscribers)
 	broker_destroy(broker);
 }
 
+TEST(broker, should_allow_many_topics)
+{
+	CnBroker* broker = NULL;
+	char str[sizeof(int) + 1] = {0};
+
+	srand(1);
+	for (int i = 0; i < 10; i++) {
+		broker = broker_create(DEFAULT_LOAD_VP);
+		for (int i = 0; i < 1000; i++) {
+			*((int*)str) = rand();
+			broker_search(broker, str);
+		}
+		broker_destroy(broker);
+		broker = NULL;
+	}
+}
+
 TEST(broker, should_support_single_thread_pubsub)
 {
 	const char* const expected[] = {
@@ -426,7 +443,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(common, should_destroy_null);
 	RUN_TEST_CASE(list, should_implement_lifo);
 	RUN_TEST_CASE(cirq, should_implement_fifo);
-	RUN_TEST_CASE(strbag, should_handle_all_rb_tree_insertion_cases);
+	RUN_TEST_CASE(strbag, should_allow_many_entries);
 	RUN_TEST_CASE(strbag, should_sort);
 	RUN_TEST_CASE(strbag, should_allow_preorder_traversal);
 	RUN_TEST_CASE(strbag, should_find_smallest);
@@ -435,7 +452,8 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(sem, should_not_block_if_posted);
 	RUN_TEST_CASE(waitq, should_not_block_after_insertion);
 	RUN_TEST_CASE(binode, should_insert_at_any_position);
-	RUN_TEST_CASE(broker, should_allow_zero_subscribers)
+	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
+	RUN_TEST_CASE(broker, should_allow_many_topics);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
 	if (MULTITHREADING_EN)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
