@@ -16,9 +16,11 @@ CnSem* cn_sem_create(CnBits args)
 	(void)args;
 
 	if (sem_init(&self->sem, 0, 0) != OK) {
+		/* LCOV_EXCL_START */
 		RAISE(ERROR, sem_fail);
 		cn_free(self);
 		return NULL;
+		/* LCOV_EXCL_STOP */
 	}
 	return self;
 }
@@ -26,14 +28,14 @@ CnSem* cn_sem_create(CnBits args)
 void cn_sem_destroy(CnSem* sem)
 {
 	if (sem_destroy(&sem->sem) != OK)
-		RAISE(ERROR, sem_fail);
+		RAISE(ERROR, sem_fail); /* LCOV_EXCL_LINE */
 	cn_free(sem);
 }
 
 void cn_sem_wait(CnSem* sem)
 {
 	if (sem_wait(&sem->sem) != OK)
-		RAISE(ERROR, sem_fail);
+		RAISE(ERROR, sem_fail); /* LCOV_EXCL_LINE */
 }
 
 bool cn_sem_trywait(CnSem* sem)
@@ -44,5 +46,5 @@ bool cn_sem_trywait(CnSem* sem)
 void cn_sem_post(CnSem* sem)
 {
 	if (sem_post(&sem->sem) != OK)
-		RAISE(ERROR, sem_fail);
+		RAISE(ERROR, sem_fail); /* LCOV_EXCL_LINE */
 }
