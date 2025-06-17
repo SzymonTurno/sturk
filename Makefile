@@ -14,4 +14,4 @@ format:
 include src/Makefile
 include test/Makefile
 
-.PHONY: usage
+.PHONY: usage format
