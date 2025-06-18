@@ -224,8 +224,10 @@ CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch)
 
 	MODULE_ENSURE_MEM(sber);
 	ret = load_init(sber, waitq_rem(sber->q));
-	if (ch)
+	if (ch) {
+		ENSURE(sber->msg, ERROR, null_param);
 		*ch = sber->msg->channel;
+	}
 	return ret;
 }
 
@@ -270,6 +272,7 @@ void cn_subscribe(CnSubscriber* sber, const char* topic)
 	struct ChannelData* data = NULL;
 
 	ENSURE(sber, ERROR, null_param);
+	ENSURE(sber->broker, ERROR, null_param);
 	ch = broker_search(sber->broker, topic);
 	data = dict_data(ch);
 	sber->list = list_ins(sber->list, clist_create(ch));

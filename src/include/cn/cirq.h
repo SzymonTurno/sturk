@@ -82,7 +82,8 @@ struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
 #define _CN_CIRQ_REM(cirqp, pos, ...)                                          \
 	({                                                                     \
 		__typeof__(cirqp) _cirqp = (cirqp);                            \
-		struct CnBinode* _node = _cirqp ? &(*_cirqp)->node : NULL;     \
+		struct CnBinode* _node =                                       \
+			(_cirqp && *_cirqp) ? &(*_cirqp)->node : NULL;         \
 		__typeof__(*cirqp) _ret = cn_cirq_from(                        \
 			cn_binode_rem(&_node, (pos)), __typeof__(**_cirqp));   \
                                                                                \

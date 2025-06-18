@@ -1,7 +1,8 @@
 cantil_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 cantil_INC := -I$(cantil_DIR)/include
 cantil_LIB := libcantil.a
-cantil_CFLAGS := -Wall
+cantil_CFLAGS := -fanalyzer
+cantil_CFLAGS += -Wall
 cantil_CFLAGS += -Wcast-align
 cantil_CFLAGS += -Wconversion
 cantil_CFLAGS += -Wdisabled-optimization
