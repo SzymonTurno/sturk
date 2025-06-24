@@ -1,17 +1,19 @@
-CC := gcc
-sample_DIR := sample
+MAKE:=make
+MKDIR:=mkdir -p
+PYTHON:=python -B
 
-usage:
-	@echo Usage:
-	@echo "1. \`make run-*\`,"
-	@echo "2. \`make coverage-*\`,"
-	@echo "3. \`cat build-*/src/analysis.d/valgrind.info\`,"
-	@echo "4. \`rm -rf build-*\`."
+all:
+	$(MAKE) all-default
 
 format:
 	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i
 
-include src/Makefile
-include test/Makefile
+configure:
+	$(PYTHON) ./tools/olgite.py ./olconf.py | grep "_OLCONF" > mk/olconf.mk
 
-.PHONY: usage format
+include mk/olconf.mk
+include mk/default/rules.mk
+include mk/iso/rules.mk
+include mk/posix/rules.mk
+
+.PHONY: all format configure

@@ -523,7 +523,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
 	RUN_TEST_CASE(broker, should_allow_many_topics);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
-	if (MULTITHREADING_EN) {
+	if (THREADS_EN) {
 		RUN_TEST_CASE(mutex, should_lock_twice_if_recursive);
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
 	}
@@ -534,7 +534,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(logger, should_trace_debug);
 	RUN_TEST_CASE(logger, should_trace_error);
 	RUN_TEST_CASE(logger, should_do_nothing_if_not_initialized);
-	if (MULTITHREADING_EN) {
+	if (THREADS_EN) {
 		RUN_TEST_CASE(logger, should_trace_not_supported_mutex_policy);
 		RUN_TEST_CASE(logger, should_trace_not_supported_mutex_type);
 	} else {

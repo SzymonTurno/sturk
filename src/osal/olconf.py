@@ -1,13 +1,36 @@
 import os
-from cantil.cncfg import Canode
 
-def create(params):
-    node = Canode(params)
-    osal = node.settings()['cantil']['osal']
+CONSTRAINTS = [
+    (
+        ['cver', 'iso'],
+        ['osal', 'mutex', 'posix']
+    ),
+    (
+        ['cver', 'iso'],
+        ['osal', 'sem', 'posix']
+    )
+]
 
-    node.objs.append(os.path.join(osal['mem'], 'mem.o'))
-    node.objs.append(os.path.join(osal['mutex'], 'mutex.o'))
-    node.objs.append(os.path.join(osal['sem'], 'sem.o'))
-    node.objs.append(os.path.join(osal['sys'], 'sys.o'))
-    node.objs.append(os.path.join(osal['fstream'], 'fstream.o'))
-    return node
+def join(olvars):
+    settings = olvars.settings()
+    blddir = os.path.join(settings['build_path'], olvars.cwd())
+
+    olvars.append('cantil_OLCONF', olvars.path())
+    olvars.append('cantil_BLDDIRS', blddir)
+    olvars.append('cantil_BLDDIRS', os.path.join(blddir, 'none'))
+    olvars.append('cantil_BLDDIRS', os.path.join(blddir, 'posix'))
+    olvars.append(
+        'cantil_OBJS',
+        os.path.join(blddir, settings['osal']['mem'], 'mem.o'))
+    olvars.append(
+        'cantil_OBJS',
+        os.path.join(blddir, settings['osal']['mutex'], 'mutex.o'))
+    olvars.append(
+        'cantil_OBJS',
+        os.path.join(blddir, settings['osal']['sem'], 'sem.o'))
+    olvars.append(
+        'cantil_OBJS',
+        os.path.join(blddir, settings['osal']['sys'], 'sys.o'))
+    olvars.append(
+        'cantil_OBJS',
+        os.path.join(blddir, settings['osal']['fstream'], 'fstream.o'))

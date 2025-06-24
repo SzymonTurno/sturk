@@ -1,8 +1,0 @@
----
-  cantil:
-    cver: "gnu"
-    build_type: "coverage"
-    build_path: "build-posix_tests"
-    osal:
-      mutex: "posix"
-      sem: "posix"

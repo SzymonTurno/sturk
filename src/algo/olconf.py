@@ -1,14 +1,15 @@
 import os
-from cantil.cncfg import Canode
 
-def create(params):
-    node = Canode(params)
+def join(olvars):
+    settings = olvars.settings()
+    blddir = os.path.join(settings['build_path'], olvars.cwd())
 
-    node.objs.append('cirq.o')
-    node.objs.append('dict.o')
-    node.objs.append('list.o')
-    node.objs.append('pool.o')
-    node.objs.append('rbtree.o')
-    node.objs.append('str.o')
-    node.objs.append('waitq.o')
-    return node
+    olvars.append('cantil_OLCONF', olvars.path())
+    olvars.append('cantil_BLDDIRS', blddir)
+    olvars.append('cantil_OBJS', os.path.join(blddir, 'cirq.o'))
+    olvars.append('cantil_OBJS', os.path.join(blddir, 'dict.o'))
+    olvars.append('cantil_OBJS', os.path.join(blddir, 'list.o'))
+    olvars.append('cantil_OBJS', os.path.join(blddir, 'pool.o'))
+    olvars.append('cantil_OBJS', os.path.join(blddir, 'rbtree.o'))
+    olvars.append('cantil_OBJS', os.path.join(blddir, 'str.o'))
+    olvars.append('cantil_OBJS', os.path.join(blddir, 'waitq.o'))

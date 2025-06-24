@@ -1,8 +1,7 @@
 ---
-  cantil:
-    osal:
-      mem: "none"
-      mutex: "none"
-      sem: "none"
-      sys: "none"
-      fstream: "none"
+  osal:
+    mem: "none"
+    mutex: "none"
+    sem: "none"
+    sys: "none"
+    fstream: "none"

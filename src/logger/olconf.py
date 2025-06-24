@@ -1,24 +1,25 @@
 import os
-from cantil.cncfg import Canode
 
-def create(params):
-    node = Canode(params)
-    settings = node.settings()['cantil']['logger']
+def join(olvars):
+    settings = olvars.settings()
+    blddir = os.path.join(settings['build_path'], olvars.cwd())
 
-    if settings['trace'] == 'on':
-        node.cflags.append('-DCN_LOGGER_EN=1')
-    elif settings['trace'] == 'off':
-        node.cflags.append('-DCN_LOGGER_EN=0')
+    if settings['logger']['trace'] == 'on':
+        olvars.append('cantil_EXTRA_CFLAGS', '-DCN_LOGGER_EN=1')
+    elif settings['logger']['trace'] == 'off':
+        olvars.append('cantil_EXTRA_CFLAGS', '-DCN_LOGGER_EN=0')
     else:
-        node.fail('Unknown trace mode: ' + settings['trace'] + '.')
+        node.fail('Unknown trace mode: ' + settings['logger']['trace'] + '.')
 
-    if settings['exceptions'] == 'on':
-        node.cflags.append('-DCN_EXCEPTIONS_EN=1')
-    elif settings['exceptions'] == 'off':
-        node.cflags.append('-DCN_EXCEPTIONS_EN=0')
+    if settings['logger']['exceptions'] == 'on':
+        olvars.append('cantil_EXTRA_CFLAGS', '-DCN_EXCEPTIONS_EN=1')
+    elif settings['logger']['exceptions'] == 'off':
+        olvars.append('cantil_EXTRA_CFLAGS', '-DCN_EXCEPTIONS_EN=0')
     else:
-        node.fail('Unknown exceptions mode: ' + settings['exceptions'] + '.')
+        olvars.fail(
+            'Unknown exceptions mode: ' + settings['logger']['exceptions'] + '.')
 
-    node.objs.append('trace.o')
-    node.objs.append('sink.o')
-    return node
+    olvars.append('cantil_OLCONF', olvars.path())
+    olvars.append('cantil_BLDDIRS', blddir)
+    olvars.append('cantil_OBJS', os.path.join(blddir, 'trace.o'))
+    olvars.append('cantil_OBJS', os.path.join(blddir, 'sink.o'))

@@ -1,67 +1,48 @@
 import os
-import sys
 
-sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), 'scripts'))
+def join(olvars):
+    settings = olvars.settings()
+    blddir = os.path.join(settings['build_path'], olvars.cwd())
 
-from cantil import olgite
-from cantil import cncfg
-
-def create(params):
-    node = cncfg.Canode(params)
-    settings = node.settings()['cantil']
+    olvars.append('cantil_OLCONF', olvars.path())
+    olvars.append('cantil_DIR', olvars.cwd())
+    olvars.append('cantil_CFLAGS', '-fanalyzer')
+    olvars.append('cantil_CFLAGS', '-Wall')
+    olvars.append('cantil_CFLAGS', '-Wcast-align')
+    olvars.append('cantil_CFLAGS', '-Wconversion')
+    olvars.append('cantil_CFLAGS', '-Wdisabled-optimization')
+    olvars.append('cantil_CFLAGS', '-Wextra')
+    olvars.append('cantil_CFLAGS', '-Wlogical-op')
+    olvars.append('cantil_CFLAGS', '-Wmissing-prototypes')
+    olvars.append('cantil_CFLAGS', '-Wnested-externs')
+    olvars.append('cantil_CFLAGS', '-Wpadded')
+    olvars.append('cantil_CFLAGS', '-Wredundant-decls')
+    olvars.append('cantil_CFLAGS', '-Wshadow')
+    olvars.append('cantil_CFLAGS', '-Wstrict-prototypes')
+    olvars.append('cantil_CFLAGS', '-Wswitch-default')
+    olvars.append('cantil_CFLAGS', '-Wwrite-strings')
+    olvars.append('cantil_BLDDIR', blddir)
 
     if settings['cver'] == 'gnu':
-        node.cflags.append('-std=gnu11')
+        olvars.append('cantil_EXTRA_CFLAGS', '-std=gnu11')
     elif settings['cver'] == 'iso':
-        node.cflags.append('-std=c99 -pedantic')
+        olvars.append('cantil_EXTRA_CFLAGS', '-std=c99')
+        olvars.append('cantil_EXTRA_CFLAGS', '-pedantic')
     else:
-        node.fail('Unknown cver: ' + settings['cver'] + '.')
+        olvars.fail('Unknown cver: ' + settings['cver'] + '.')
 
     if settings['build_type'] == 'release':
-        node.cflags.append('-O3')
+        olvars.append('cantil_EXTRA_CFLAGS', '-O3')
     elif settings['build_type'] == 'debug':
-        node.cflags.append('-g')
+        olvars.append('cantil_EXTRA_CFLAGS', '-g')
     elif settings['build_type'] == 'coverage':
-        node.cflags.append('-g -fprofile-arcs -ftest-coverage')
+        olvars.append('cantil_EXTRA_CFLAGS', '-g')
+        olvars.append('cantil_EXTRA_CFLAGS', '-fprofile-arcs')
+        olvars.append('cantil_EXTRA_CFLAGS', '-ftest-coverage')
     else:
-        node.fail('Unknown build type: ' + settings['build_type'] + '.')
+        olvars.fail('Unknown build type: ' + settings['build_type'] + '.')
 
-    node.append_constraint(
-        ['cantil', 'cver', 'iso'],
-        ['cantil', 'osal', 'mutex', 'posix']
-    )
-    node.include('algo')
-    node.include('broker')
-    node.include('logger')
-    node.include('osal')
-    return node
-
-def main():
-    srcdir = os.path.dirname(sys.argv[0])
-    root = create(olgite.Params(srcdir, sys.argv[1:]))
-    bldpath = root.settings()['cantil']['build_path']
-    blddir = os.path.join(bldpath, srcdir)
-    objs = set()
-    blddirs = set()
-    cflags = set()
-    bldvars = []
-
-    blddirs.add(os.path.join(blddir, 'analysis.d'))
-    for i in root.postorder():
-        path = os.path.join(bldpath, i.path())
-
-        for obj in i.objs:
-            objs.add(os.path.join(path, obj))
-            blddirs.add(os.path.dirname(os.path.join(path, obj)))
-
-        for cflag in i.cflags:
-            cflags.add(cflag)
-
-    bldvars.append(cncfg.bldvar('cantil_BLDDIR', blddir))
-    bldvars.append(cncfg.bldvar('cantil_BLDDIRS', ' '.join(blddirs)))
-    bldvars.append(cncfg.bldvar('cantil_OBJS', ' '.join(objs)))
-    bldvars.append(cncfg.bldvar('cantil_EXTRA_CFLAGS', ' '.join(cflags)))
-    print(' '.join(bldvars))
-
-if __name__ == "__main__":
-    main()
+    olvars.include('algo')
+    olvars.include('broker')
+    olvars.include('logger')
+    olvars.include('osal')
