@@ -26,6 +26,7 @@ struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos)
 	struct CnUnnode** i = list_hand(headp, pos);
 	struct CnUnnode* ret = *i;
 
+	ENSURE(*i, ERROR, null_param);
 	*i = (*i)->next;
 	return ret;
 }

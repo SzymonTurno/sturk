@@ -67,8 +67,8 @@ SIMPLE_TEST_GROUP(mutex);
 SIMPLE_TEST_GROUP(sem);
 SIMPLE_TEST_GROUP(waitq);
 SIMPLE_TEST_GROUP(binode);
-SIMPLE_TEST_GROUP(broker);
 SIMPLE_TEST_GROUP(subscriber);
+SIMPLE_TEST_GROUP(broker);
 
 TEST(common, should_destroy_null)
 {
@@ -89,7 +89,7 @@ TEST(list, should_implement_lifo)
 	TEST_ASSERT_EQUAL_STRING("Three", strlist_rem(&list));
 	TEST_ASSERT_EQUAL_STRING("Two", strlist_rem(&list));
 	TEST_ASSERT_EQUAL_STRING("One", strlist_rem(&list));
-	TEST_ASSERT_EQUAL(NULL, list);
+	TEST_ASSERT_NULL(list);
 }
 
 TEST(cirq, should_implement_fifo)
@@ -102,7 +102,7 @@ TEST(cirq, should_implement_fifo)
 	TEST_ASSERT_EQUAL_STRING("One", strq_rem(&q));
 	TEST_ASSERT_EQUAL_STRING("Two", strq_rem(&q));
 	TEST_ASSERT_EQUAL_STRING("Three", strq_rem(&q));
-	TEST_ASSERT_EQUAL(NULL, q);
+	TEST_ASSERT_NULL(q);
 }
 
 TEST(strbag, should_allow_many_entries)
@@ -143,7 +143,7 @@ TEST(strbag, should_sort)
 	TEST_ASSERT_EQUAL_STRING("w", dict_getk(bag));
 	bag = dict_next(bag);
 	TEST_ASSERT_EQUAL_STRING("y", dict_getk(bag));
-	TEST_ASSERT_EQUAL(NULL, dict_next(bag));
+	TEST_ASSERT_NULL(dict_next(bag));
 	strbag_destroy(bag);
 }
 
@@ -206,7 +206,7 @@ TEST(strbag, should_allow_negative_count)
 {
 	struct CnStrbag* bag = strbag_rem(NULL, "");
 
-	TEST_ASSERT_EQUAL(-1, strbag_count(bag));
+	TEST_ASSERT_EQUAL_INT(-1, strbag_count(bag));
 	strbag_destroy(bag);
 }
 
@@ -214,8 +214,8 @@ TEST(mutex, should_not_block_on_trylock)
 {
 	CnMutex* mutex = mutex_create(0);
 
-	TEST_ASSERT_EQUAL(true, mutex_trylock(mutex));
-	TEST_ASSERT_EQUAL(false, mutex_trylock(mutex));
+	TEST_ASSERT_TRUE(mutex_trylock(mutex));
+	TEST_ASSERT_FALSE(mutex_trylock(mutex));
 	mutex_unlock(mutex);
 	mutex_destroy(mutex);
 }
@@ -226,8 +226,8 @@ TEST(mutex, should_lock_twice_if_recursive)
 
 	mutex_lock(mutex);
 	mutex_lock(mutex);
-	TEST_ASSERT_EQUAL(true, mutex_trylock(mutex));
-	TEST_ASSERT_EQUAL(true, mutex_trylock(mutex));
+	TEST_ASSERT_TRUE(mutex_trylock(mutex));
+	TEST_ASSERT_TRUE(mutex_trylock(mutex));
 	mutex_unlock(mutex);
 	mutex_unlock(mutex);
 	mutex_unlock(mutex);
@@ -250,7 +250,7 @@ TEST(waitq, should_not_block_after_insertion)
 	CnWaitq* waitq = waitq_create();
 
 	waitq_ins(waitq, &node);
-	TEST_ASSERT_EQUAL(&node, waitq_rem(waitq));
+	TEST_ASSERT_EQUAL_PTR(&node, waitq_rem(waitq));
 	waitq_destroy(waitq);
 }
 
@@ -259,49 +259,62 @@ TEST(binode, should_insert_at_any_position)
 	struct CnBinode n[5] = {0};
 
 	/* -n0- */
-	TEST_ASSERT_EQUAL(&n[0], binode_ins(NULL, &n[0], 255));
-	TEST_ASSERT_EQUAL(n[0].prev, &n[0]);
-	TEST_ASSERT_EQUAL(n[0].next, &n[0]);
+	TEST_ASSERT_EQUAL_PTR(&n[0], binode_ins(NULL, &n[0], 255));
+	TEST_ASSERT_EQUAL_PTR(n[0].prev, &n[0]);
+	TEST_ASSERT_EQUAL_PTR(n[0].next, &n[0]);
 
 	/* -n1--n0- */
-	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[0], &n[1], 0));
-	TEST_ASSERT_EQUAL(n[1].prev, &n[0]);
-	TEST_ASSERT_EQUAL(n[1].next, &n[0]);
-	TEST_ASSERT_EQUAL(n[0].prev, &n[1]);
-	TEST_ASSERT_EQUAL(n[0].next, &n[1]);
+	TEST_ASSERT_EQUAL_PTR(&n[1], binode_ins(&n[0], &n[1], 0));
+	TEST_ASSERT_EQUAL_PTR(n[1].prev, &n[0]);
+	TEST_ASSERT_EQUAL_PTR(n[1].next, &n[0]);
+	TEST_ASSERT_EQUAL_PTR(n[0].prev, &n[1]);
+	TEST_ASSERT_EQUAL_PTR(n[0].next, &n[1]);
 
 	/* -n1--n0--n2- */
-	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[1], &n[2], -1));
-	TEST_ASSERT_EQUAL(n[1].prev, &n[2]);
-	TEST_ASSERT_EQUAL(n[1].next, &n[0]);
-	TEST_ASSERT_EQUAL(n[0].prev, &n[1]);
-	TEST_ASSERT_EQUAL(n[0].next, &n[2]);
-	TEST_ASSERT_EQUAL(n[2].prev, &n[0]);
-	TEST_ASSERT_EQUAL(n[2].next, &n[1]);
+	TEST_ASSERT_EQUAL_PTR(&n[1], binode_ins(&n[1], &n[2], -1));
+	TEST_ASSERT_EQUAL_PTR(n[1].prev, &n[2]);
+	TEST_ASSERT_EQUAL_PTR(n[1].next, &n[0]);
+	TEST_ASSERT_EQUAL_PTR(n[0].prev, &n[1]);
+	TEST_ASSERT_EQUAL_PTR(n[0].next, &n[2]);
+	TEST_ASSERT_EQUAL_PTR(n[2].prev, &n[0]);
+	TEST_ASSERT_EQUAL_PTR(n[2].next, &n[1]);
 
-	/* -n1--n3--n0--n2- */
-	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[1], &n[3], 1));
-	TEST_ASSERT_EQUAL(n[1].prev, &n[2]);
-	TEST_ASSERT_EQUAL(n[1].next, &n[3]);
-	TEST_ASSERT_EQUAL(n[3].prev, &n[1]);
-	TEST_ASSERT_EQUAL(n[3].next, &n[0]);
-	TEST_ASSERT_EQUAL(n[0].prev, &n[3]);
-	TEST_ASSERT_EQUAL(n[0].next, &n[2]);
-	TEST_ASSERT_EQUAL(n[2].prev, &n[0]);
-	TEST_ASSERT_EQUAL(n[2].next, &n[1]);
+	/* -n1--n3--n0--n- */
+	TEST_ASSERT_EQUAL_PTR(&n[1], binode_ins(&n[1], &n[3], 1));
+	TEST_ASSERT_EQUAL_PTR(n[1].prev, &n[2]);
+	TEST_ASSERT_EQUAL_PTR(n[1].next, &n[3]);
+	TEST_ASSERT_EQUAL_PTR(n[3].prev, &n[1]);
+	TEST_ASSERT_EQUAL_PTR(n[3].next, &n[0]);
+	TEST_ASSERT_EQUAL_PTR(n[0].prev, &n[3]);
+	TEST_ASSERT_EQUAL_PTR(n[0].next, &n[2]);
+	TEST_ASSERT_EQUAL_PTR(n[2].prev, &n[0]);
+	TEST_ASSERT_EQUAL_PTR(n[2].next, &n[1]);
 
-	/* -n1--n3--n0--n4--n2- */
-	TEST_ASSERT_EQUAL(&n[1], binode_ins(&n[1], &n[4], -2));
-	TEST_ASSERT_EQUAL(n[1].prev, &n[2]);
-	TEST_ASSERT_EQUAL(n[1].next, &n[3]);
-	TEST_ASSERT_EQUAL(n[3].prev, &n[1]);
-	TEST_ASSERT_EQUAL(n[3].next, &n[0]);
-	TEST_ASSERT_EQUAL(n[0].prev, &n[3]);
-	TEST_ASSERT_EQUAL(n[0].next, &n[4]);
-	TEST_ASSERT_EQUAL(n[4].prev, &n[0]);
-	TEST_ASSERT_EQUAL(n[4].next, &n[2]);
-	TEST_ASSERT_EQUAL(n[2].prev, &n[4]);
-	TEST_ASSERT_EQUAL(n[2].next, &n[1]);
+	/* -n1--n3--n0--n--n2- */
+	TEST_ASSERT_EQUAL_PTR(&n[1], binode_ins(&n[1], &n[4], -2));
+	TEST_ASSERT_EQUAL_PTR(n[1].prev, &n[2]);
+	TEST_ASSERT_EQUAL_PTR(n[1].next, &n[3]);
+	TEST_ASSERT_EQUAL_PTR(n[3].prev, &n[1]);
+	TEST_ASSERT_EQUAL_PTR(n[3].next, &n[0]);
+	TEST_ASSERT_EQUAL_PTR(n[0].prev, &n[3]);
+	TEST_ASSERT_EQUAL_PTR(n[0].next, &n[4]);
+	TEST_ASSERT_EQUAL_PTR(n[4].prev, &n[0]);
+	TEST_ASSERT_EQUAL_PTR(n[4].next, &n[2]);
+	TEST_ASSERT_EQUAL_PTR(n[2].prev, &n[4]);
+	TEST_ASSERT_EQUAL_PTR(n[2].next, &n[1]);
+}
+
+TEST(subscriber, should_not_wait_after_publishing)
+{
+	CnBroker* broker = broker_create(DEFAULT_LOAD_VP);
+	CnSubscriber* sber = subscriber_create(broker);
+	CnChannel* ch = NULL;
+
+	subscribe(sber, "test");
+	publish(broker_search(broker, "test"), "%d", 321);
+	TEST_ASSERT_EQUAL_STRING("321", *(char**)subscriber_await(sber, &ch));
+	TEST_ASSERT_EQUAL_STRING("test", get_topic(ch));
+	broker_destroy(broker);
 }
 
 TEST(broker, should_allow_zero_subscribers)
@@ -353,7 +366,7 @@ TEST(broker, should_support_single_thread_pubsub)
 		TEST_ASSERT_EQUAL_STRING(expected[i], tmp);
 		cn_free((char*)tmp);
 	}
-	TEST_ASSERT_EQUAL(NULL, q);
+	TEST_ASSERT_NULL(q);
 }
 
 TEST(broker, should_support_multi_thread_pubsub)
@@ -377,29 +390,17 @@ TEST(broker, should_support_multi_thread_pubsub)
 	for (;;) {
 		TEST_ASSERT_EQUAL_STRING(
 			dict_getk(expected), dict_getk(actual));
-		TEST_ASSERT_EQUAL(strbag_count(expected), strbag_count(actual));
+		TEST_ASSERT_EQUAL_INT(
+			strbag_count(expected), strbag_count(actual));
 		if (!dict_next(expected) || !dict_next(actual))
 			break;
 		expected = dict_next(expected);
 		actual = dict_next(actual);
 	}
-	TEST_ASSERT_EQUAL(NULL, dict_next(expected));
-	TEST_ASSERT_EQUAL(NULL, dict_next(actual));
+	TEST_ASSERT_NULL(dict_next(expected));
+	TEST_ASSERT_NULL(dict_next(actual));
 	strbag_destroy(expected);
 	strbag_destroy(actual);
-}
-
-TEST(subscriber, should_not_wait_after_publishing)
-{
-	CnBroker* broker = broker_create(DEFAULT_LOAD_VP);
-	CnSubscriber* sber = subscriber_create(broker);
-	CnChannel* ch = NULL;
-
-	subscribe(sber, "test");
-	publish(broker_search(broker, "test"), "%d", 321);
-	TEST_ASSERT_EQUAL_STRING("321", *(char**)subscriber_await(sber, &ch));
-	TEST_ASSERT_EQUAL_STRING("test", get_topic(ch));
-	broker_destroy(broker);
 }
 
 TEST(logger, should_trace_waitq_dataloss)
@@ -419,7 +420,7 @@ TEST(logger, should_trace_rbtree_postorder_not_supported)
 
 	rb_next(&node, BST_TRAV_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning] src/algo/rbtree.c:123: Not supported.\n",
+		"[warning] src/algo/rbtree.c:115: Not supported.\n",
 		gettrace(0));
 }
 
@@ -440,12 +441,27 @@ TEST(logger, should_do_nothing_if_not_initialized)
 	trace(INFO, NULL, "");
 }
 
+TEST(logger, should_trace_null_params)
+{
+	CnSubscriber* tmp = calloc(sizeof(char), 256);
+
+	subscribe(NULL, NULL);
+	subscribe(tmp, NULL);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning] src/broker/broker.c:273: Null param.\n",
+		gettrace(0));
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning] src/broker/broker.c:278: Null param.\n",
+		gettrace(1));
+	free(tmp);
+}
+
 TEST(logger, should_trace_mutex_double_lock_warning)
 {
 	CnMutex* mutex = mutex_create(0);
 
 	mutex_lock(mutex);
-	TEST_ASSERT_EQUAL_STRING(NULL, gettrace(0));
+	TEST_ASSERT_NULL(gettrace(0));
 	mutex_lock(mutex);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][cantil] Fake mutex does not support context "
@@ -458,7 +474,7 @@ TEST(logger, should_trace_mutex_double_unlock_warning)
 {
 	CnMutex* mutex = mutex_create(0);
 
-	TEST_ASSERT_EQUAL_STRING(NULL, gettrace(0));
+	TEST_ASSERT_NULL(gettrace(0));
 	mutex_unlock(mutex);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][cantil] Unlocking an already unlocked mutex.\n",
@@ -470,7 +486,7 @@ TEST(logger, should_trace_fake_semaphore_warning)
 {
 	CnSem* sem = sem_create(0);
 
-	TEST_ASSERT_EQUAL_STRING(NULL, gettrace(0));
+	TEST_ASSERT_NULL(gettrace(0));
 	sem_wait(sem);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][cantil] Fake semaphore does not support context "
@@ -520,6 +536,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(sem, should_not_block_if_posted);
 	RUN_TEST_CASE(waitq, should_not_block_after_insertion);
 	RUN_TEST_CASE(binode, should_insert_at_any_position);
+	RUN_TEST_CASE(subscriber, should_not_wait_after_publishing);
 	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
 	RUN_TEST_CASE(broker, should_allow_many_topics);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
@@ -527,13 +544,13 @@ static void run_all_tests(void)
 		RUN_TEST_CASE(mutex, should_lock_twice_if_recursive);
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
 	}
-	RUN_TEST_CASE(subscriber, should_not_wait_after_publishing);
 	logger_cleanup();
 	RUN_TEST_CASE(logger, should_trace_waitq_dataloss);
 	RUN_TEST_CASE(logger, should_trace_rbtree_postorder_not_supported);
 	RUN_TEST_CASE(logger, should_trace_debug);
 	RUN_TEST_CASE(logger, should_trace_error);
 	RUN_TEST_CASE(logger, should_do_nothing_if_not_initialized);
+	RUN_TEST_CASE(logger, should_trace_null_params)
 	if (THREADS_EN) {
 		RUN_TEST_CASE(logger, should_trace_not_supported_mutex_policy);
 		RUN_TEST_CASE(logger, should_trace_not_supported_mutex_type);

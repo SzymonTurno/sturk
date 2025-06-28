@@ -50,7 +50,7 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
-		CN_ENSURE(_dict, ERROR, null_param);                           \
+		CN_ENSURE(_dict, CN_ERROR, null_param);                        \
 		_dict->strnode.str = (key);                                    \
 	})
 
@@ -58,7 +58,7 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
-		CN_ENSURE(_dict, ERROR, null_param);                           \
+		CN_ENSURE(_dict, CN_ERROR, null_param);                        \
 		_dict->strnode.str;                                            \
 	})
 
@@ -66,7 +66,7 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
-		CN_ENSURE(_dict, ERROR, null_param);                           \
+		CN_ENSURE(_dict, CN_ERROR, null_param);                        \
 		&_dict->data;                                                  \
 	})
 

@@ -52,4 +52,12 @@ static const struct CnException cn_except_sanity_fail = {
 
 #define CN_RAISE(lvl, e) CN_ENSURE(0, lvl, e)
 
+#define CN_ENSURE_MEMORY(ptr)                                                  \
+	do {                                                                   \
+		if ((ptr) == NULL) {                                           \
+			RAISE(ERROR, null_param);                              \
+			return NULL;                                           \
+		}                                                              \
+	} while (0)
+
 #endif /* CN_LOGGER_EXCEPT_H */
