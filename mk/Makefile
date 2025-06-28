@@ -17,7 +17,7 @@ $(test_BLDDIR)/analysis.d:
 $(test_BLDDIR)/app: $(test_DEPS)
 	$(CC) -o $@ $(test_DEPS) -lgcov --coverage
 
-$(test_BLDDIR)/%.o: $(test_DIR)/%.c | $(test_BLDDIR)
+$(test_BLDDIR)/%.o: $(test_DIR)/%.c | $(test_BLDDIR) $(unity_DIR)
 	$(CC) $(test_CFLAGS) $(unity_INCS) $(sample_INC) $(cantil_INC) -c -o $@ $<
 
 $(test_BLDDIR):
