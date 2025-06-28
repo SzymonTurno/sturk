@@ -3,7 +3,7 @@ all-default: build/olconf.mk
 
 test-default: build/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build \
-		build/test/analysis.d/valgrind.info
+		build/test/reports.d/valgrind.info
 
 build/olconf.mk: $(cantil_OLCONF)
 ifneq ($(wildcard build/.*),)

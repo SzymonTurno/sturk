@@ -1,17 +1,17 @@
 include $(BLDDIR)/olconf.mk
 
-$(test_BLDDIR)/analysis.d/coverage.d: $(test_BLDDIR)/analysis.d/coverage.info
-	genhtml $(test_BLDDIR)/analysis.d/coverage.info --show-details \
+$(test_BLDDIR)/reports.d/coverage.d: $(test_BLDDIR)/reports.d/coverage.info
+	genhtml $(test_BLDDIR)/reports.d/coverage.info --show-details \
 		--output-directory $@
 
-$(test_BLDDIR)/analysis.d/coverage.info: $(test_BLDDIR)/analysis.d/valgrind.info
+$(test_BLDDIR)/reports.d/coverage.info: $(test_BLDDIR)/reports.d/valgrind.info
 	lcov --capture --directory ./$(cantil_BLDDIR) --output-file $@
 
-$(test_BLDDIR)/analysis.d/valgrind.info: $(test_BLDDIR)/app $(test_BLDDIR)/analysis.d
+$(test_BLDDIR)/reports.d/valgrind.info: $(test_BLDDIR)/app $(test_BLDDIR)/reports.d
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
 		--log-file="$@" ./$(test_BLDDIR)/app
 
-$(test_BLDDIR)/analysis.d:
+$(test_BLDDIR)/reports.d:
 	$(MKDIR) $@
 
 $(test_BLDDIR)/app: $(test_DEPS)
