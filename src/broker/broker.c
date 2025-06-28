@@ -75,12 +75,12 @@ static void ins_msg(CnSubscriber* sber, struct Message* msg)
 {
 	struct Qentry* entry = pool_alloc(sber->pool);
 
-	/* LCOV_EXCL_START */
 	if (!entry) {
+		/* LCOV_EXCL_START */
 		RAISE(ERROR, null_param);
 		return;
+		/* LCOV_EXCL_STOP */
 	}
-	/* LCOV_EXCL_STOP */
 	*cirq_data(entry) = msg;
 	waitq_ins(sber->q, cirq_cast(entry));
 }
