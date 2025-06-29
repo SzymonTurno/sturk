@@ -1,5 +1,5 @@
 # Cantil
-Subroutines for designing portable middleware solutions.
+Subroutines for designing portable middleware.
 Based on the publish-subscribe pattern.
 
 ## 1. Build
