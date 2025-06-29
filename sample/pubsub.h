@@ -5,12 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static size_t default_size(void)
+static size_t sample_loadsize(void)
 {
 	return sizeof(char**);
 }
 
-static void default_init(CnLoad* load, va_list vlist)
+static void sample_loadinit(CnLoad* load, va_list vlist)
 {
 	char* buff = malloc(256);
 
@@ -18,13 +18,13 @@ static void default_init(CnLoad* load, va_list vlist)
 	*(char**)load = buff;
 }
 
-static void default_deinit(CnLoad* load)
+static void sample_loaddeinit(CnLoad* load)
 {
 	free(*(char**)load);
 }
 
-static const struct CnLoadVt DEFAULT_LOAD_VP[] = {
-	{.size = default_size, .ctor = default_init, .dtor = default_deinit}};
+static const struct CnLoadVt SAMPLE_LOAD_API[] = {
+	{.size = sample_loadsize, .ctor = sample_loadinit, .dtor = sample_loaddeinit}};
 
 struct CnStrq* single_thread_pubsub(void);
 

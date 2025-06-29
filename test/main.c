@@ -304,22 +304,23 @@ TEST(binode, should_insert_at_any_position)
 	TEST_ASSERT_EQUAL_PTR(n[2].next, &n[1]);
 }
 
-TEST(subscriber, should_not_wait_after_publishing)
+TEST(subscriber, should_receive_enqueued_message)
 {
-	CnBroker* broker = broker_create(DEFAULT_LOAD_VP);
+	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
 	CnSubscriber* sber = subscriber_create(broker);
 	CnChannel* ch = NULL;
 
 	subscribe(sber, "test");
-	publish(broker_search(broker, "test"), "%d", 321);
-	TEST_ASSERT_EQUAL_STRING("321", *(char**)subscriber_await(sber, &ch));
+	publish(broker_search(broker, "test"), "%d", 3212);
+	TEST_ASSERT_NULL(get_topic(ch));
+	TEST_ASSERT_EQUAL_STRING("3212", *(char**)subscriber_await(sber, &ch));
 	TEST_ASSERT_EQUAL_STRING("test", get_topic(ch));
 	broker_destroy(broker);
 }
 
 TEST(broker, should_allow_zero_subscribers)
 {
-	CnBroker* broker = broker_create(DEFAULT_LOAD_VP);
+	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
 	CnChannel* ch = broker_search(broker, "test");
 
 	publish(ch, "%d", 123);
@@ -333,7 +334,7 @@ TEST(broker, should_allow_many_topics)
 
 	srand(1);
 	for (int i = 0; i < 10; i++) {
-		broker = broker_create(DEFAULT_LOAD_VP);
+		broker = broker_create(SAMPLE_LOAD_API);
 		for (int i = 0; i < 1000; i++) {
 			*((int*)str) = rand();
 			broker_search(broker, str);
@@ -536,7 +537,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(sem, should_not_block_if_posted);
 	RUN_TEST_CASE(waitq, should_not_block_after_insertion);
 	RUN_TEST_CASE(binode, should_insert_at_any_position);
-	RUN_TEST_CASE(subscriber, should_not_wait_after_publishing);
+	RUN_TEST_CASE(subscriber, should_receive_enqueued_message);
 	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
 	RUN_TEST_CASE(broker, should_allow_many_topics);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);

@@ -46,7 +46,7 @@ static void deinit(CnLoad* load)
 	(void)load;
 }
 
-const struct CnLoadVt PAYLOAD[] = {
+const struct CnLoadVt PAYLOAD_API[] = {
 	{.size = size, .ctor = init, .dtor = deinit}};
 
 static int receive(struct Subscriber* sub)
@@ -145,7 +145,7 @@ static void join_thread(CnBroker* broker, pthread_t* thid, int i)
 
 static void app(void)
 {
-	CnBroker* broker = broker_create(PAYLOAD);
+	CnBroker* broker = broker_create(PAYLOAD_API);
 	struct Publisher pub = {.broker = broker, .u.data = 0};
 	pthread_t thid[DELIM_TH_ID] = {0};
 

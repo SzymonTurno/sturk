@@ -47,7 +47,7 @@ static void deinit(CnLoad* load)
 	(void)load;
 }
 
-static const struct CnLoadVt PAYLOAD[] = {
+static const struct CnLoadVt PAYLOAD_API[] = {
 	{.size = size, .ctor = init, .dtor = deinit}};
 
 static void receive(struct Subscriber* sub)
@@ -96,7 +96,7 @@ broadcast(CnChannel** ch, struct Subscriber* subs, int* store, int val)
 
 static void app(void)
 {
-	CnBroker* broker = broker_create(PAYLOAD);
+	CnBroker* broker = broker_create(PAYLOAD_API);
 	CnChannel* ch[] = {
 		broker_search(broker, "input"),
 		broker_search(broker, "result")};

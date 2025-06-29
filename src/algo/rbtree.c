@@ -118,7 +118,7 @@ static struct CnRbnode* get_postordersucc(struct CnRbnode* node)
 
 struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent)
 {
-	ENSURE_MEMORY(node);
+	ENSURE_MEMORY(ERROR, node);
 	paint_red(node);
 	set_parent(node, parent);
 	node->left = NULL;
@@ -128,7 +128,7 @@ struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent)
 
 struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
 {
-	ENSURE_MEMORY(node);
+	ENSURE_MEMORY(ERROR, node);
 	for (struct CnRbnode *p = NULL, *g = NULL, *u = NULL;;) {
 		p = get_parent(node);
 		if (!painted_red(p)) {
@@ -212,13 +212,13 @@ struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
 
 struct CnRbnode* cn_rb_parent(struct CnRbnode* node)
 {
-	ENSURE_MEMORY(node);
+	ENSURE_MEMORY(ERROR, node);
 	return get_parent(node);
 }
 
 struct CnRbnode* cn_rb_deepest(struct CnRbnode* node)
 {
-	ENSURE_MEMORY(node);
+	ENSURE_MEMORY(ERROR, node);
 	for (;;) {
 		if (node->left)
 			node = node->left;
@@ -234,7 +234,7 @@ struct CnRbnode* cn_rb_smallest(struct CnRbnode* node)
 {
 	struct CnRbnode* p = NULL;
 
-	ENSURE_MEMORY(node);
+	ENSURE_MEMORY(ERROR, node);
 	for (;;) {
 		if (node->left)
 			node = node->left;
@@ -251,7 +251,7 @@ struct CnRbnode* cn_rb_smallest(struct CnRbnode* node)
 
 struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstTrav trav)
 {
-	ENSURE_MEMORY(node);
+	ENSURE_MEMORY(ERROR, node);
 	switch (trav) {
 	case CN_BST_TRAV_PREORDER:
 		return get_preordersucc(node);
