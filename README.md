@@ -2,6 +2,8 @@
 Subroutines for designing portable middleware.
 Based on the publish-subscribe pattern.
 
+NOTE: this is "work in progress" library.
+
 ## 1. Build
 ```sh
 cd /path/to/cantil && make
