@@ -2,13 +2,14 @@
 Subroutines for designing portable middleware solutions.
 Based on the publish-subscribe pattern.
 
-## Build
+## 1. Build
 ```sh
 cd /path/to/cantil && make
 ```
 
-## Usage
-1. Design the API for your messages.
+## 2. Usage
+
+### 2.1. Design the API for your messages.
 ```c
 static size_t size(void)
 {
@@ -31,7 +32,8 @@ static void deinit(CnLoad* load)
 const struct CnLoadVt SAMPLE_LOAD_API[] = {
 	{.size = size, .ctor = init, .dtor = deinit}};
 ```
-2. Initialize publish-subscribe with your API; send and receive messages.
+
+### 2.2. Initialize publish-subscribe with your API; send and receive messages.
 ```c
 TEST(subscriber, should_receive_enqueued_message)
 {
@@ -40,19 +42,19 @@ TEST(subscriber, should_receive_enqueued_message)
 	CnChannel* ch = NULL;
 
 	subscribe(sber, "test");
-	publish(broker_search(broker, "test"), "%d", 3212);
-	TEST_ASSERT_NULL(get_topic(ch));
-	TEST_ASSERT_EQUAL_STRING("3212", *(char**)subscriber_await(sber, &ch));
-	TEST_ASSERT_EQUAL_STRING("test", get_topic(ch));
+	publish(broker_search(broker, "test"), "%X", 0xF00D);
+	TEST_ASSERT_NULL(channel_gettopic(ch));
+	TEST_ASSERT_EQUAL_STRING("F00D", *(char**)subscriber_await(sber, &ch));
+	TEST_ASSERT_EQUAL_STRING("test", channel_gettopic(ch));
 	broker_destroy(broker);
 }
 ```
 
-## Portability
+## 3. Portability
 - osal (operating system abstraction layer)
-- c99 support
+- c99 support ("`gcc -std=c99 -pedantic ...` ")
 
-## Ideas for future development
+## 4. Ideas for future development
 - custom heap (free list allocator)
 - red-black tree deletion
-- open memory as stream for c99 (fmemopen())
+- using memory as stream ("`fmemopen()`" for c99)

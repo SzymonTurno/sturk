@@ -311,10 +311,10 @@ TEST(subscriber, should_receive_enqueued_message)
 	CnChannel* ch = NULL;
 
 	subscribe(sber, "test");
-	publish(broker_search(broker, "test"), "%d", 3212);
-	TEST_ASSERT_NULL(get_topic(ch));
-	TEST_ASSERT_EQUAL_STRING("3212", *(char**)subscriber_await(sber, &ch));
-	TEST_ASSERT_EQUAL_STRING("test", get_topic(ch));
+	publish(broker_search(broker, "test"), "%X", 0xF00D);
+	TEST_ASSERT_NULL(channel_gettopic(ch));
+	TEST_ASSERT_EQUAL_STRING("F00D", *(char**)subscriber_await(sber, &ch));
+	TEST_ASSERT_EQUAL_STRING("test", channel_gettopic(ch));
 	broker_destroy(broker);
 }
 

@@ -65,7 +65,7 @@ static void sample_publish(struct Publisher* pub, const char* topic, int data)
 
 static int join_requested(struct Subscriber* sub, int i)
 {
-	if (strcmp(get_topic(sub->channel), "join"))
+	if (strcmp(channel_gettopic(sub->channel), "join"))
 		return 0;
 	return sub->pl->new == i;
 }

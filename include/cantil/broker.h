@@ -19,7 +19,7 @@
 
 #define subscriber_release cn_subscriber_release
 
-#define get_topic cn_get_topic
+#define channel_gettopic cn_channel_gettopic
 
 #define publish cn_publish
 

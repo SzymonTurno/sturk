@@ -34,7 +34,7 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch);
 
 void cn_subscriber_release(CnSubscriber* sber);
 
-const char* cn_get_topic(CnChannel* ch);
+const char* cn_channel_gettopic(CnChannel* ch);
 
 void cn_publish(CnChannel* ch, ...);
 

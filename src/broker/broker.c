@@ -248,7 +248,7 @@ void cn_subscriber_release(CnSubscriber* sber)
 	sber->msg = NULL;
 }
 
-const char* cn_get_topic(CnChannel* ch)
+const char* cn_channel_gettopic(CnChannel* ch)
 {
 	return ch ? dict_getk(ch) : NULL;
 }
