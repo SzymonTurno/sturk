@@ -10,3 +10,4 @@ def join(olvars):
     olvars.append('sample_INC', '-I' + olvars.cwd())
     olvars.append('sample_OBJS', os.path.join(blddir, 'single_thread_pubsub.o'))
     olvars.append('sample_OBJS', os.path.join(blddir, 'multi_thread_pubsub.o'))
+    olvars.append('sample_OBJS', os.path.join(blddir, 'load_api.o'))
