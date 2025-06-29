@@ -12,8 +12,8 @@ configure:
 	$(PYTHON) ./tools/olgite.py ./olconf.py | grep "_OLCONF" > mk/olconf.mk
 
 include mk/olconf.mk
-include mk/default/rules.mk
-include mk/iso/rules.mk
-include mk/posix/rules.mk
+include mk/default/phony.mk
+include mk/iso/phony.mk
+include mk/posix/phony.mk
 
 .PHONY: all format configure
