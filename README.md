@@ -20,9 +20,10 @@ static size_t size(void)
 
 static void init(CnLoad* load, va_list vlist)
 {
+	const char* format = va_arg(vlist, char*);
 	char* buff = malloc(256);
 
-	vsnprintf(buff, 256, va_arg(vlist, char*), vlist);
+	vsnprintf(buff, 256, format, vlist);
 	*(char**)load = buff;
 }
 
