@@ -9,6 +9,9 @@ on:
 jobs:
   build-posix:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest]
     steps:
     - uses: actions/checkout@v4
     - name: make all-posix
