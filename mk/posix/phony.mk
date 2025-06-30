@@ -13,7 +13,7 @@ build-posix/olconf.mk: $(cantil_OLCONF)
 ifneq ($(wildcard build-posix/.*),)
 	$(error configuration changed, to rebuild: remove "build-posix/")
 endif
-	$(MKDIR) build-posix
+	$(call MKDIR, build-posix)
 	$(PYTHON) ./tools/olgite.py ./olconf.py ./mk/posix/olconf.yaml > $@
 
 .PHONY: all-posix test-posix coverage-posix

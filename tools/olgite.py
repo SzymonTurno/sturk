@@ -82,9 +82,15 @@ class Olvars:
 
     def __generate(self):
         for key, values in self.__variables.items():
-            print(key + ':=' + values[0])
+            print(key + ' = ' + values[0])
             for value in values[1:]:
-                print(key + '+=' + value)
+                print(key + ' += ' + value)
+
+    def unix(self, path: str) -> str:
+        return path.replace('\\', '/')
+
+    def unixjoin(self, path, *paths) -> str:
+        return os.path.join(path, *paths).replace('\\', '/')
 
     def root(self) -> str:
         return os.path.normpath(self.__root)
@@ -93,7 +99,7 @@ class Olvars:
         return os.path.normpath(self.__cwd)
 
     def path(self) -> str:
-        return os.path.join(self.cwd(), 'olconf.py')
+        return os.path.normpath(os.path.join(self.cwd(), 'olconf.py'))
 
     def settings(self) -> dict:
         return dict(self.__settings)

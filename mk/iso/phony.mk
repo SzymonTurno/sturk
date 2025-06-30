@@ -13,7 +13,7 @@ build-iso/olconf.mk: $(cantil_OLCONF)
 ifneq ($(wildcard build-iso/.*),)
 	$(error configuration changed, to rebuild: remove "build-iso/")
 endif
-	$(MKDIR) build-iso
+	$(call MKDIR, build-iso)
 	$(PYTHON) ./tools/olgite.py ./olconf.py ./mk/iso/olconf.yaml > $@
 
 .PHONY: all-iso test-iso coverage-iso

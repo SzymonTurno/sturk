@@ -1,6 +1,10 @@
-MAKE:=make
-MKDIR:=mkdir -p
-PYTHON:=python -B
+MAKE := make
+ifeq ($(OS),Windows_NT)
+	MKDIR = mkdir $(subst /,\,$(1))
+else
+	MKDIR = mkdir -p $(1)
+endif
+PYTHON := python -B
 
 all:
 	$(MAKE) all-default
