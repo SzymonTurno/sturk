@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: check
-      run:
+      run: |
         sudo apt update
         sudo apt-get install valgrind
         make check-posix
