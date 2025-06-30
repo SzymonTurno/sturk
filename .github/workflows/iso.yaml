@@ -18,7 +18,7 @@ jobs:
       run:
         sudo apt update
         sudo apt-get install valgrind
-	make check-iso
+        make check-iso
 
   iso-win32:
     runs-on: windows-latest
@@ -26,4 +26,4 @@ jobs:
     - uses: actions/checkout@v4
     - name: check
       run:
-	make check-iso
+        make check-iso
