@@ -1,7 +1,7 @@
 all-iso: build-iso/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build-iso build-iso/src/libcantil.a
 
-test-iso: build-iso/olconf.mk
+check-iso: build-iso/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build-iso \
 		build-iso/tests/reports.d/valgrind.info
 
@@ -16,4 +16,4 @@ endif
 	$(call MKDIR, build-iso)
 	$(PYTHON) ./tools/olgite.py ./olconf.py ./mk/iso/olconf.yaml > $@
 
-.PHONY: all-iso test-iso coverage-iso
+.PHONY: all-iso check-iso coverage-iso

@@ -21,7 +21,7 @@ ifeq ($(OS),Windows_NT)
 	echo No memchecks for Windows. > $@
 else
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-		--log-file="$@" ./$(test_BLDDIR)/app
+		--error-exitcode=1 --log-file="$@" ./$(test_BLDDIR)/app
 endif
 
 $(test_BLDDIR)/reports.d:

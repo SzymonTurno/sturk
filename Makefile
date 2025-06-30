@@ -6,8 +6,9 @@ else
 endif
 PYTHON := python -B
 
-all:
-	$(MAKE) all-default
+all: all-default
+
+check: check-default
 
 format:
 	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i

@@ -14,5 +14,15 @@ jobs:
         platform: [ubuntu-latest, macos-latest]
     steps:
     - uses: actions/checkout@v4
-    - name: make all-posix
+    - name: Run tests - POSIX
       run: make all-posix
+
+  test-posix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run tests - POSIX
+      run: make check-posix

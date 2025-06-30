@@ -14,5 +14,15 @@ jobs:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     steps:
     - uses: actions/checkout@v4
-    - name: make all-iso
+    - name: Build library - ISO
       run: make all-iso
+
+  test-iso:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run tests - ISO
+      run: make check-iso

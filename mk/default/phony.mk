@@ -1,7 +1,7 @@
 all-default: build/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build build/src/libcantil.a
 
-test-default: build/olconf.mk
+check-default: build/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build \
 		build/tests/reports.d/valgrind.info
 
@@ -12,4 +12,4 @@ endif
 	$(call MKDIR, build)
 	$(PYTHON) ./tools/olgite.py ./olconf.py > $@
 
-.PHONY: all-default test-default
+.PHONY: all-default check-default

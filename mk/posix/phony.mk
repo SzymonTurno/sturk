@@ -1,7 +1,7 @@
 all-posix: build-posix/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build-posix build-posix/src/libcantil.a
 
-test-posix: build-posix/olconf.mk
+check-posix: build-posix/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build-posix \
 		build-posix/tests/reports.d/valgrind.info
 
@@ -16,4 +16,4 @@ endif
 	$(call MKDIR, build-posix)
 	$(PYTHON) ./tools/olgite.py ./olconf.py ./mk/posix/olconf.yaml > $@
 
-.PHONY: all-posix test-posix coverage-posix
+.PHONY: all-posix check-posix coverage-posix
