@@ -8,10 +8,10 @@ CONSTRAINTS = [
 ]
 
 def fixture_dir():
-    return os.path.join('Unity', 'extras', 'fixture', 'src')
+    return os.path.join('Unity', 'extras', 'fixture')
 
 def memory_dir():
-    return os.path.join('Unity', 'extras', 'memory', 'src')
+    return os.path.join('Unity', 'extras', 'memory')
 
 def join(olvars):
     settings = olvars.settings()
@@ -29,8 +29,11 @@ def join(olvars):
     olvars.append('unity_BLDDIR', olvars.unixjoin(blddir, 'Unity'))
     olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, 'Unity'))
     olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, 'Unity', 'src'))
+    olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, 'Unity', 'extras'))
     olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, fixture_dir()))
+    olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, fixture_dir(), 'src'))
     olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, memory_dir()))
+    olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, memory_dir(), 'src'))
     olvars.append('unity_INCS', '-I' + olvars.unixjoin('Unity', 'src'))
     olvars.append('unity_INCS', '-I' + fixture_dir())
     olvars.append('unity_INCS', '-I' + memory_dir())
