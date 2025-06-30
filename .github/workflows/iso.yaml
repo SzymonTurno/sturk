@@ -1,0 +1,15 @@
+name: ISO CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-iso:
+    runs-on: [ 'ubuntu-latest', 'windows-latest' ]
+    steps:
+    - uses: actions/checkout@v4
+    - name: make all-iso
+      run: make all-iso
