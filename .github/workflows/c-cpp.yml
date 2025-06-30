@@ -8,27 +8,21 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    runs-on: [ 'ubuntu-latest', 'windows-latest' ]
     steps:
     - uses: actions/checkout@v4
     - name: make
       run: make
 
   build-iso:
-
-    runs-on: ubuntu-latest
-
+    runs-on: [ 'ubuntu-latest', 'windows-latest' ]
     steps:
     - uses: actions/checkout@v4
     - name: make all-iso
       run: make all-iso
 
   build-posix:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: make all-posix
