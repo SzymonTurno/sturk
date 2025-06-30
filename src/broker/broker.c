@@ -91,7 +91,7 @@ static void notify(struct ChannelData* data, struct Message* msg)
 
 	mutex_lock(data->mutex);
 	msg_lock(msg);
-	for (LIST_ITER(struct SubscriberList, i, &data->list)) {
+	list_iter (i, &data->list) {
 		ins_msg(*list_data(*i), msg);
 		++n;
 	}
@@ -104,7 +104,7 @@ static void unsubscribe(CnChannel* ch, CnSubscriber* sber)
 	struct ChannelData* data = dict_data(ch);
 
 	mutex_lock(data->mutex);
-	for (LIST_ITER(struct SubscriberList, i, &data->list))
+	list_iter (i, &data->list)
 		if (*list_data(*i) == sber) {
 			cn_free(list_rem(i));
 			break;
@@ -206,7 +206,7 @@ void cn_subscriber_destroy(CnSubscriber* sber)
 	pool_destroy(sber->pool);
 	sber->pool = NULL;
 	mutex_lock(sber->broker->mutex);
-	for (LIST_ITER(struct SubscriberList, i, &sber->broker->list))
+	list_iter (i, &sber->broker->list)
 		if (*list_data(*i) == sber) {
 			cn_free(list_rem(i));
 			break;

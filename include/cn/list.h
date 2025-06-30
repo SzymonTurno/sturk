@@ -9,6 +9,14 @@ struct CnUnnode {
 
 #ifdef __STRICT_ANSI__
 
+struct _CnVoidList {
+	union {
+		struct _CnVoidList* next;
+		struct CnUnnode node;
+	} u;
+	void* data;
+};
+
 #define CN_LIST(name, type)                                                    \
 	name                                                                   \
 	{                                                                      \
@@ -33,7 +41,7 @@ struct CnUnnode {
 
 #endif /* __STRICT_ANSI__ */
 
-#define CN_LIST_ITER(type, i, ...) _CN_LIST_ITER(type, (i), __VA_ARGS__, 1, )
+#define cn_list_iter(i, ...) _cn_list_iter ((i), __VA_ARGS__, 1, )
 
 struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos);
 
@@ -67,6 +75,10 @@ struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
 #define cn_list_hand(listp, pos)                                               \
 	((void*)cn_unnode_hand((struct CnUnnode**)listp, pos))
 
+#define _cn_list_iter(_i, listp, pos, ...)                                     \
+	for (struct _CnVoidList** _i = (struct _CnVoidList**)(listp); *_i;     \
+	     _i = cn_list_hand(_i, (pos)))
+
 #else /* __STRICT_ANSI__ */
 
 #define cn_list_hand(listp, pos)                                               \
@@ -80,12 +92,10 @@ struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
 		_listp;                                                        \
 	})
 
-#endif /* __STRICT_ANSI__ */
+#define _cn_list_iter(_i, listp, pos, ...)                                     \
+	for (__typeof__(listp) _i = (listp); *_i; _i = cn_list_hand(_i, (pos)))
 
-#define _CN_LIST_ITER(type, _i, listp, pos, ...)                               \
-	type** _i = (listp);                                                   \
-	*_i;                                                                   \
-	_i = cn_list_hand(_i, (pos))
+#endif /* __STRICT_ANSI__ */
 
 #ifdef __STRICT_ANSI__
 

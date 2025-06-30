@@ -14,6 +14,10 @@ BinPackParameters: true
 BreakBeforeBraces: Linux
 ColumnLimit: 80
 ContinuationIndentWidth: 8
+ForEachMacros:
+  - _cn_list_iter
+  - cn_list_iter
+  - list_iter
 IndentWidth: 8
 PointerAlignment: Left
 TabWidth: 8

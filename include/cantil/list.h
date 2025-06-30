@@ -5,7 +5,7 @@
 
 #define LIST CN_LIST
 
-#define LIST_ITER CN_LIST_ITER
+#define list_iter cn_list_iter
 
 #define unnode_hand cn_unnode_hand
 
