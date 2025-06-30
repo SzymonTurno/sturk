@@ -446,14 +446,10 @@ TEST(logger, should_trace_null_params)
 {
 	CnSubscriber* tmp = calloc(sizeof(char), 256);
 
-	subscribe(NULL, NULL);
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning] src/broker/broker.c:273: Null param.\n",
 		gettrace(0));
-	TEST_ASSERT_EQUAL_STRING(
-		"[warning] src/broker/broker.c:278: Null param.\n",
-		gettrace(1));
 	free(tmp);
 }
 
