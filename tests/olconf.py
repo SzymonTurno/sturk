@@ -35,11 +35,13 @@ def join(olvars):
     olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, memory_dir()))
     olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, memory_dir(), 'src'))
     olvars.append('unity_INCS', '-I' + olvars.unixjoin('Unity', 'src'))
-    olvars.append('unity_INCS', '-I' + fixture_dir())
-    olvars.append('unity_INCS', '-I' + memory_dir())
+    olvars.append('unity_INCS', '-I' + olvars.unixjoin(fixture_dir(), 'src'))
+    olvars.append('unity_INCS', '-I' + olvars.unixjoin(memory_dir(), 'src'))
     olvars.append('unity_OBJS', olvars.unixjoin(blddir, 'Unity', 'src', 'unity.o'))
-    olvars.append('unity_OBJS', olvars.unixjoin(blddir, fixture_dir(), 'unity_fixture.o'))
-    olvars.append('unity_OBJS', olvars.unixjoin(blddir, memory_dir(), 'unity_memory.o'))
+    olvars.append('unity_OBJS',
+                  olvars.unixjoin(blddir, fixture_dir(), 'src', 'unity_fixture.o'))
+    olvars.append('unity_OBJS',
+                  olvars.unixjoin(blddir, memory_dir(), 'src', 'unity_memory.o'))
     olvars.append('test_DIR', olvars.unix(olvars.cwd()))
     olvars.append('test_BLDDIR', olvars.unix(blddir))
     olvars.append('test_OBJS', olvars.unixjoin(blddir, 'main.o'))
