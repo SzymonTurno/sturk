@@ -3,11 +3,11 @@ all-posix: build-posix/olconf.mk
 
 test-posix: build-posix/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build-posix \
-		build-posix/test/reports.d/valgrind.info
+		build-posix/tests/reports.d/valgrind.info
 
 coverage-posix: build-posix/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build-posix \
-		build-posix/test/reports.d/coverage.d
+		build-posix/tests/reports.d/coverage.d
 
 build-posix/olconf.mk: $(cantil_OLCONF)
 ifneq ($(wildcard build-posix/.*),)

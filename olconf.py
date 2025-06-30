@@ -10,5 +10,5 @@ def join(olvars):
     olvars.append('cantil_OLCONF', olvars.unix(olvars.path()))
     olvars.append('cantil_INC', '-Iinclude')
     olvars.include('src')
-    olvars.include('sample')
-    olvars.include('test')
+    olvars.include('samples')
+    olvars.include('tests')

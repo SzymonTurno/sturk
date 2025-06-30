@@ -3,11 +3,11 @@ all-iso: build-iso/olconf.mk
 
 test-iso: build-iso/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build-iso \
-		build-iso/test/reports.d/valgrind.info
+		build-iso/tests/reports.d/valgrind.info
 
 coverage-iso: build-iso/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build-iso \
-		build-iso/test/reports.d/coverage.d
+		build-iso/tests/reports.d/coverage.d
 
 build-iso/olconf.mk: $(cantil_OLCONF)
 ifneq ($(wildcard build-iso/.*),)
