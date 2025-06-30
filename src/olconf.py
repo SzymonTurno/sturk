@@ -22,6 +22,7 @@ def join(olvars):
     olvars.append('cantil_CFLAGS', '-Wswitch-default')
     olvars.append('cantil_CFLAGS', '-Wwrite-strings')
     olvars.append('cantil_BLDDIR', olvars.unix(blddir))
+    olvars.append('cantil_BLDDIRS', olvars.unix(blddir))
 
     if settings['cver'] == 'gnu':
         olvars.append('cantil_EXTRA_CFLAGS', '-std=gnu11')
