@@ -9,8 +9,10 @@
 
 #define cn_min(x, y) (((x) < (y)) ? (x) : (y))
 
+/* clang-format off */
 #define cn_container_of(ptr, type, member)                                     \
-	((type*)((char*)(ptr) - offsetof(type, member)))
+	((type*)((char*)(ptr) - offsetof((type), (member))))
+/* clang-format on */
 
 #else /* __STRICT_ANSI__ */
 
