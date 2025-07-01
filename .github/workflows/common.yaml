@@ -1,0 +1,18 @@
+name: Clang Format Checker
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  clang-format-checking:
+    runs-on: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: RafikFarhad/clang-format-github-action@v3
+        with:
+          sources: "include/**/*.h,src/**/*.h,src/**/*.c,tests/**/*.h,"
+                   "tests/**/*.c,samples/**/*.h, samples/**/*.c"
+	file: .clang-format
