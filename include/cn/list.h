@@ -9,14 +9,6 @@ struct CnUnnode {
 
 #ifdef __STRICT_ANSI__
 
-struct _CnVoidList {
-	union {
-		struct _CnVoidList* next;
-		struct CnUnnode node;
-	} u;
-	void* data;
-};
-
 #define CN_LIST(name, type)                                                    \
 	name                                                                   \
 	{                                                                      \
@@ -38,6 +30,8 @@ struct _CnVoidList {
 		};                                                             \
 		type data;                                                     \
 	}
+
+CN_LIST(struct _CnVoidList, void*);
 
 #endif /* __STRICT_ANSI__ */
 
