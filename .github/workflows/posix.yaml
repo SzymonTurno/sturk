@@ -1,4 +1,4 @@
-name: POSIX CI
+name: POSIX
 
 on:
   push:
@@ -7,49 +7,29 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  verify:
+    name: Verify build
     runs-on: ubuntu-latest
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest]
     steps:
+    - name: Setup
     - uses: actions/checkout@v4
+      run: |
+        sudo apt update
+        sudo apt-get install valgrind
     - name: Build
-      run: |
-        make all-posix
-
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform: [ubuntu-latest, macos-latest]
-    steps:
-    - uses: actions/checkout@v4
+      run: make all-posix
     - name: Run tests
-      run: |
-        sudo apt update
-        sudo apt-get install valgrind
-        make check-posix
-
-  coverage:
-    needs: test
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform: [ubuntu-latest, macos-latest]
-    steps:
-    - uses: actions/checkout@v4
+      run: make check-posix
     - name: Checkout code
-      run: |
-        sudo apt update
-        sudo apt-get install valgrind
-        make coverage-posix
+      run: make coverage-posix
     - name: Setup LCOV
       uses: hrishikesh-kadam/setup-lcov@v1
     - name: Report code coverage
       uses: zgosalvez/github-actions-report-lcov@v4
       with:
-        coverage-files: build-posix/tests/reports.d/coverage.info
+        coverage-files: build-iso/tests/reports.d/coverage.info
         minimum-coverage: 100
         artifact-name: code-coverage-report
