@@ -8,7 +8,7 @@ on:
 
 jobs:
   clang-format-checking:
-    runs-on: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: RafikFarhad/clang-format-github-action@v3
