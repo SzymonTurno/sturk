@@ -31,9 +31,9 @@ struct CnUnnode {
 		type data;                                                     \
 	}
 
-CN_LIST(struct _CnVoidList, void*);
-
 #endif /* __STRICT_ANSI__ */
+
+CN_LIST(struct _CnVoidList, void*);
 
 #define cn_list_iter(i, ...) _cn_list_iter ((i), __VA_ARGS__, 1, )
 
