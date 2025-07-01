@@ -31,6 +31,6 @@ jobs:
     - name: Report code coverage
       uses: zgosalvez/github-actions-report-lcov@v4
       with:
-        coverage-files: build-iso/tests/reports.d/coverage.info
+        coverage-files: build-posix/tests/reports.d/coverage.info
         minimum-coverage: 100
-        artifact-name: code-coverage-report
+        artifact-name: code-coverage-report-posix
