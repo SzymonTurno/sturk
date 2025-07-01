@@ -15,4 +15,4 @@ jobs:
         with:
           sources: "include/**/*.h,src/**/*.h,src/**/*.c,tests/**/*.h,\
             tests/**/*.c,samples/**/*.h, samples/**/*.c"
-          file: .clang-format
+          style: file
