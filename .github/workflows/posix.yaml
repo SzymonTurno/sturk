@@ -33,4 +33,3 @@ jobs:
       with:
         coverage-files: build-posix/tests/reports.d/coverage.info
         minimum-coverage: 100
-        artifact-name: code-coverage-report-posix

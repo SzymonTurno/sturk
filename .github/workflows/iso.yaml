@@ -33,7 +33,6 @@ jobs:
       with:
         coverage-files: build-iso/tests/reports.d/coverage.info
         minimum-coverage: 100
-        artifact-name: code-coverage-report-iso
 
   verify-win32:
     name: Verify for windows

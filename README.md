@@ -57,6 +57,7 @@ TEST(subscriber, should_receive_enqueued_message)
 - c99 support ("`gcc -std=c99 -pedantic ...` ")
 
 ## 4. Ideas for future development
+- coverage html artifacts
 - custom heap (free list allocator)
 - red-black tree deletion
 - using memory as stream ("`fmemopen()`" for c99)
