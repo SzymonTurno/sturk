@@ -37,7 +37,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
-    - name: check
+    - name: Run tests
       run: |
         python -m pip install pyyaml
         make check-iso
