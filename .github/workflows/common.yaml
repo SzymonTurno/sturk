@@ -14,5 +14,5 @@ jobs:
       - uses: RafikFarhad/clang-format-github-action@v3
         with:
           sources: "include/**/*.h,src/**/*.h,src/**/*.c,tests/**/*.h,\
-	    tests/**/*.c,samples/**/*.h, samples/**/*.c"
+            tests/**/*.c,samples/**/*.h, samples/**/*.c"
           file: .clang-format
