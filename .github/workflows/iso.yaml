@@ -19,6 +19,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt-get install valgrind
+        sudo apt-get install lcov
     - name: Build
       run: make all-iso
     - name: Run tests
