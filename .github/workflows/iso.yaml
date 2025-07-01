@@ -8,7 +8,7 @@ on:
 
 jobs:
   verify-unix:
-    name: Verify
+    name: Verify for ubuntu/macos
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -35,7 +35,7 @@ jobs:
         artifact-name: code-coverage-report
 
   verify-win32:
-    name: Verify
+    name: Verify for windows
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4

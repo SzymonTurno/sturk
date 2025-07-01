@@ -8,7 +8,7 @@ on:
 
 jobs:
   verify:
-    name: Verify
+    name: Verify for ubuntu/macos
     runs-on: ubuntu-latest
     strategy:
       matrix:
