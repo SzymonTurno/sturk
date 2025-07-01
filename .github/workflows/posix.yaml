@@ -14,8 +14,8 @@ jobs:
       matrix:
         platform: [ubuntu-latest, macos-latest]
     steps:
-    - name: Setup
     - uses: actions/checkout@v4
+    - name: Setup
       run: |
         sudo apt update
         sudo apt-get install valgrind
