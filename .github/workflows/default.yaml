@@ -7,20 +7,33 @@ on:
     branches: [ "main" ]
 
 jobs:
-  default-unix:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: |
+        make all
+
+  test-unix:
+    needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest]
     steps:
     - uses: actions/checkout@v4
-    - name: check
+    - name: Run tests
       run: |
         sudo apt update
         sudo apt-get install valgrind
         make check
 
-  default-win32:
+  test-win32:
+    needs: build
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
