@@ -1,6 +1,6 @@
 # Cantil
 
-#### Subroutines for designing portable middleware.
+### Subroutines for designing portable middleware.
 
 This library implements publish-subscribe pattern with polymorphic API for message construction.
 
