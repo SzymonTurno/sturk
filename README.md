@@ -1,6 +1,8 @@
 # Cantil
 Subroutines for designing portable middleware.
 
+This library implements publish-subscribe pattern with polymorphic API for message construction.
+
 NOTE: this is "work in progress" library.
 
 ## 1. Build
@@ -10,7 +12,7 @@ cd /path/to/cantil && make
 
 ## 2. Usage
 
-### 2.1. Design the API for your messages.
+### 2.1. Define the API for your messages.
 ```c
 static size_t size(void)
 {
@@ -35,7 +37,12 @@ const struct CnLoadVt SAMPLE_LOAD_API[] = {
 	{.size = size, .ctor = init, .dtor = deinit}};
 ```
 
-### 2.2. Initialize publish-subscribe with your API; send and receive messages.
+### 2.2. Initialize message broker with your API.
+```
+	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
+```
+
+### 2.3. Exchange messages.
 ```c
 TEST(subscriber, should_receive_enqueued_message)
 {
@@ -56,7 +63,7 @@ TEST(subscriber, should_receive_enqueued_message)
 - osal (operating system abstraction layer)
 - c99 support ("`gcc -std=c99 -pedantic ...` ")
 
-## 4. Ideas for future development
+## 4. Ideas
 - coverage html artifacts
 - custom heap (free list allocator)
 - red-black tree deletion
