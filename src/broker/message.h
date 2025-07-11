@@ -6,42 +6,41 @@
 
 static inline CnLoad* msg_getload(struct Message* msg)
 {
-	return (CnLoad*)msg - dict_data(msg->channel)->offset;
+	return (CnLoad*)msg - dict_data(msg->channel)->broker->channels.offset;
 }
 
-static inline struct Message* msg_create(CnChannel* ch, va_list args)
+static inline struct Message* msg_create(CnBroker* broker, va_list args)
 {
-	struct ChannelData* data = dict_data(ch);
-	CnLoad* load = pool_tryalloc(data->pool);
+	CnLoad* load = pool_tryalloc(broker->channels.pool);
 	struct Message* self = NULL;
 
 	if (!load) {
-		load = pool_alloc(data->pool);
-		self = (struct Message*)&load[data->offset];
+		load = pool_alloc(broker->channels.pool);
+		self = (struct Message*)&load[broker->channels.offset];
 		self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	} else {
-		self = (struct Message*)&load[data->offset];
+		self = (struct Message*)&load[broker->channels.offset];
 	}
-	self->channel = ch;
 	self->u.n_pending = 0;
-	data->vp->ctor(load, args);
+	broker->vp->ctor(load, args);
 	return self;
 }
 
 static inline void msg_destroy(struct Message* msg)
 {
-	dict_data(msg->channel)->vp->dtor(msg_getload(msg));
-	pool_free(dict_data(msg->channel)->pool, msg_getload(msg));
+	CnBroker* broker = dict_data(msg->channel)->broker;
+
+	broker->vp->dtor(msg_getload(msg));
+	pool_free(broker->channels.pool, msg_getload(msg));
 }
 
-static inline void msg_purge(CnChannel* ch)
+static inline void msg_purge(CnBroker* broker)
 {
-	struct ChannelData* data = dict_data(ch);
 	CnLoad* load = NULL;
 	struct Message* msg = NULL;
 
-	while ((load = pool_tryalloc(data->pool))) {
-		msg = (struct Message*)&load[data->offset];
+	while ((load = pool_tryalloc(broker->channels.pool))) {
+		msg = (struct Message*)&load[broker->channels.offset];
 		msg->channel = NULL;
 		mutex_destroy(msg->mutex);
 		msg->mutex = NULL;

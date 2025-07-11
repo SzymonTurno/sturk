@@ -11,21 +11,28 @@
 
 LIST(struct SubscriberList, CnSubscriber*);
 
+CIRQ(struct Qentry, struct Message*);
+
 struct ChannelData {
-	const struct CnLoadVt* vp;
+	CnBroker* broker;
 	struct SubscriberList* list;
 	CnMutex* mutex;
-	CnPool* pool;
-	size_t offset;
 };
 
 DICT(struct CnChannel, struct ChannelData);
 
 struct CnBroker {
 	const struct CnLoadVt* vp;
-	CnChannel* dict;
-	struct SubscriberList* list;
 	CnMutex* mutex;
+	struct {
+		struct SubscriberList* list;
+		CnPool* pool;
+	} sbers;
+	struct {
+		CnChannel* dict;
+		CnPool* pool;
+		size_t offset;
+	} channels;
 };
 
 struct Message {
@@ -39,14 +46,11 @@ struct Message {
 
 LIST(struct ChannelList, CnChannel*);
 
-CIRQ(struct Qentry, struct Message*);
-
 struct CnSubscriber {
 	CnBroker* broker;
-	struct ChannelList* list;
-	struct Message* msg;
-	CnPool* pool;
 	CnWaitq* q;
+	struct Message* msg;
+	struct ChannelList* list;
 };
 
 #endif /* TYPES_H */
