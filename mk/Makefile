@@ -59,6 +59,7 @@ $(unity_DIR)/%.c: $(unity_DIR)
 
 $(unity_DIR):
 	git clone https://github.com/ThrowTheSwitch/Unity.git
+	cd $(unity_DIR) && git reset --hard v2.6.1
 
 $(unity_BLDDIRS):
 	$(call MKDIR, $@)
