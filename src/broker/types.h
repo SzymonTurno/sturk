@@ -24,10 +24,7 @@ DICT(struct CnChannel, struct ChannelData);
 struct CnBroker {
 	const struct CnLoadVt* vp;
 	CnMutex* mutex;
-	struct {
-		struct SubscriberList* list;
-		CnPool* pool;
-	} sbers;
+	struct SubscriberList* list;
 	struct {
 		CnChannel* dict;
 		CnPool* pool;

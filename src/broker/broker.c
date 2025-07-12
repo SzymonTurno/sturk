@@ -69,7 +69,7 @@ static struct SubscriberList* slist_create(struct CnSubscriber* sber)
 
 static void ins_msg(CnSubscriber* sber, struct Message* msg)
 {
-	struct Qentry* entry = pool_alloc(sber->broker->sbers.pool);
+	struct Qentry* entry = cn_malloc(sizeof(*entry));
 
 	if (!entry) {
 		/* LCOV_EXCL_START */
@@ -117,7 +117,7 @@ static CnLoad* load_init(CnSubscriber* sber, struct CnBinode* node)
 		return NULL;
 	q = cirq_from(node, struct Qentry);
 	sber->msg = *cirq_data(q);
-	pool_free(sber->broker->sbers.pool, q);
+	cn_free(q);
 	return msg_getload(sber->msg);
 }
 
@@ -135,8 +135,7 @@ CnBroker* cn_broker_create(const struct CnLoadVt* vp)
 	self->channels.offset = (vp->size() / MSG_SIZE + 1) * MSG_SIZE;
 	self->channels.pool = pool_create(self->channels.offset + MSG_SIZE);
 	self->channels.dict = NULL;
-	self->sbers.pool = pool_create(sizeof(struct Qentry));
-	self->sbers.list = NULL;
+	self->list = NULL;
 	return self;
 }
 
@@ -145,10 +144,8 @@ void cn_broker_destroy(CnBroker* broker)
 	if (!broker)
 		return;
 
-	while (broker->sbers.list)
-		subscriber_destroy(*list_data(broker->sbers.list));
-	pool_destroy(broker->sbers.pool);
-	broker->sbers.pool = NULL;
+	while (broker->list)
+		subscriber_destroy(*list_data(broker->list));
 	if (broker->channels.dict)
 		dict_destroy(broker->channels.dict);
 	broker->channels.dict = NULL;
@@ -186,7 +183,7 @@ CnSubscriber* cn_subscriber_create(CnBroker* broker)
 	self->msg = NULL;
 	self->list = NULL;
 	mutex_lock(broker->mutex);
-	broker->sbers.list = list_ins(broker->sbers.list, slist_create(self));
+	broker->list = list_ins(broker->list, slist_create(self));
 	mutex_unlock(broker->mutex);
 	return self;
 }
@@ -206,7 +203,7 @@ void cn_subscriber_destroy(CnSubscriber* sber)
 	waitq_destroy(sber->q);
 	sber->q = NULL;
 	mutex_lock(sber->broker->mutex);
-	list_iter (i, &sber->broker->sbers.list)
+	list_iter (i, &sber->broker->list)
 		if (*list_data(*i) == sber) {
 			cn_free(list_rem(i));
 			break;
