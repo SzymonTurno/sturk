@@ -5,21 +5,6 @@
 #include "cn/logger/except.h"
 #include "cn/rbtree.h"
 
-struct CnStrnode {
-	struct CnRbnode node;
-	char* str;
-};
-
-struct CnStrnode*
-cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node);
-
-struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str);
-
-static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
-{
-	return cn_container_of(ptr, struct CnStrnode, node);
-}
-
 #ifdef __STRICT_ANSI__
 
 #define cn_dict_cast(dict) ((struct CnStrnode*)(dict))
@@ -123,5 +108,20 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 		struct CnStrnode strnode;                                      \
 		type data;                                                     \
 	}
+
+struct CnStrnode {
+	struct CnRbnode node;
+	char* str;
+};
+
+struct CnStrnode*
+cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node);
+
+struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str);
+
+static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
+{
+	return cn_container_of(ptr, struct CnStrnode, node);
+}
 
 #endif /* CN_DICT_H */

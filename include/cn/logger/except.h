@@ -5,21 +5,10 @@
 #include "cn/os/sys.h"
 
 #ifndef CN_EXCEPTIONS_EN
+
 #define CN_EXCEPTIONS_EN 0
+
 #endif /* CN_EXCEPTIONS_EN */
-
-struct CnException {
-	const char* reason;
-};
-
-static const struct CnException cn_except_null_param = {"Null param."};
-static const struct CnException cn_except_alloc_fail = {
-	"Memory allocation failed."};
-static const struct CnException cn_except_sem_fail = {"Semaphore failure."};
-static const struct CnException cn_except_mutex_fail = {"Mutex failure."};
-static const struct CnException cn_except_not_supported = {"Not supported."};
-static const struct CnException cn_except_sanity_fail = {
-	"Sanity check failed."};
 
 #define CN_ENSURE(cond, lvl, e)                                                \
 	do {                                                                   \
@@ -55,5 +44,18 @@ static const struct CnException cn_except_sanity_fail = {
 			return NULL;                                           \
 		}                                                              \
 	} while (0)
+
+struct CnException {
+	const char* reason;
+};
+
+static const struct CnException cn_except_null_param = {"Null param."};
+static const struct CnException cn_except_alloc_fail = {
+	"Memory allocation failed."};
+static const struct CnException cn_except_sem_fail = {"Semaphore failure."};
+static const struct CnException cn_except_mutex_fail = {"Mutex failure."};
+static const struct CnException cn_except_not_supported = {"Not supported."};
+static const struct CnException cn_except_sanity_fail = {
+	"Sanity check failed."};
 
 #endif /* CN_LOGGER_EXCEPT_H */

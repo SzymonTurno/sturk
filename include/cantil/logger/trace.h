@@ -5,6 +5,8 @@
 
 #define LOGGER_EN CN_LOGGER_EN
 
+#define TRACE CN_TRACE
+
 #define UNKNOWN CN_UNKNOWN
 
 #define DEBUG CN_DEBUG
@@ -24,7 +26,5 @@
 #define logger_detach cn_logger_detach
 
 #define logger_cleanup cn_logger_cleanup
-
-#define TRACE CN_TRACE
 
 #endif /* CANTIL_LOGGER_TRACE_H */

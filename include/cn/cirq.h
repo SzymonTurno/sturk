@@ -4,18 +4,6 @@
 #include "cn/arith.h"
 #include "cn/logger/except.h"
 
-struct CnBinode {
-	struct CnBinode* next;
-	struct CnBinode* prev;
-};
-
-struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos);
-
-struct CnBinode*
-cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos);
-
-struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
-
 #ifdef __STRICT_ANSI__
 
 #define cn_cirq_cast(cirq) (&(cirq)->node)
@@ -76,6 +64,10 @@ struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
 
 #endif /* __STRICT_ANSI__ */
 
+#define cn_cirq_ins(cirq, ...) _CN_CIRQ_INS((cirq), __VA_ARGS__, -1, )
+
+#define cn_cirq_rem(...) _CN_CIRQ_REM(__VA_ARGS__, 0, )
+
 #define CN_CIRQ(name, type)                                                    \
 	name                                                                   \
 	{                                                                      \
@@ -83,8 +75,16 @@ struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
 		type data;                                                     \
 	}
 
-#define cn_cirq_ins(cirq, ...) _CN_CIRQ_INS((cirq), __VA_ARGS__, -1, )
+struct CnBinode {
+	struct CnBinode* next;
+	struct CnBinode* prev;
+};
 
-#define cn_cirq_rem(...) _CN_CIRQ_REM(__VA_ARGS__, 0, )
+struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos);
+
+struct CnBinode*
+cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos);
+
+struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
 
 #endif /* CN_CIRQ_H */

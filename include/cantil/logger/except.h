@@ -5,8 +5,6 @@
 
 #define EXCEPTIONS_EN CN_EXCEPTIONS_EN
 
-#define EXCEPT CN_EXCEPT
-
 #define ENSURE CN_ENSURE
 
 #define RAISE CN_RAISE

@@ -33,6 +33,17 @@ CnLogsink* cn_logsink_create(void)
 	return self;
 }
 
+void cn_logsink_destroy(CnLogsink* list)
+{
+	if (!list)
+		return;
+	mutex_destroy(list->mutex);
+	list->mutex = NULL;
+	while (list->head)
+		cn_free(list_rem(&list->head));
+	cn_free(list);
+}
+
 void cn_logsink_ins(CnLogsink* list, CnFstream* stream)
 {
 	struct StreamList* entry = cn_malloc(sizeof(*entry));
@@ -62,15 +73,4 @@ void cn_logsink_vprint(CnLogsink* list, const char* format, va_list vlist)
 	mutex_lock(list->mutex);
 	list_print(list->head, format, vlist);
 	mutex_unlock(list->mutex);
-}
-
-void cn_logsink_destroy(CnLogsink* list)
-{
-	if (!list)
-		return;
-	mutex_destroy(list->mutex);
-	list->mutex = NULL;
-	while (list->head)
-		cn_free(list_rem(&list->head));
-	cn_free(list);
 }

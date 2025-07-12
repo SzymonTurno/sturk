@@ -3,21 +3,11 @@
 
 #include "cn/logger/except.h"
 
-struct CnUnnode {
-	struct CnUnnode* next;
-};
-
-struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos);
-
-struct CnUnnode*
-cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos);
-
-struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
-
 #ifdef __STRICT_ANSI__
 
 #define CN_LIST(name, type)                                                    \
-	name {                                                                 \
+	name                                                                   \
+	{                                                                      \
 		union {                                                        \
 			name* next;                                            \
 			struct CnUnnode node;                                  \
@@ -44,7 +34,8 @@ struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
 #else /* not defined: __STRICT_ANSI__ */
 
 #define CN_LIST(name, type)                                                    \
-	name {                                                                 \
+	name                                                                   \
+	{                                                                      \
 		union {                                                        \
 			name* next;                                            \
 			struct CnUnnode node;                                  \
@@ -97,12 +88,23 @@ struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
 
 #endif /* __STRICT_ANSI__ */
 
-CN_LIST(struct _CnVoidList, void*);
-
 #define cn_list_iter(i, ...) _cn_list_iter ((i), __VA_ARGS__, 1, )
 
 #define cn_list_ins(list, ...) _CN_LIST_INS((list), __VA_ARGS__, 0, )
 
 #define cn_list_rem(...) _CN_LIST_REM(__VA_ARGS__, 0, )
+
+struct CnUnnode {
+	struct CnUnnode* next;
+};
+
+CN_LIST(struct _CnVoidList, void*);
+
+struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos);
+
+struct CnUnnode*
+cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos);
+
+struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
 
 #endif /* CN_LIST_H */
