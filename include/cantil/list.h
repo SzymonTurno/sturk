@@ -9,7 +9,7 @@
 
 #define list_hand cn_list_hand
 
-#define list_iter cn_list_iter
+#define list_foreach cn_list_foreach
 
 #define list_ins cn_list_ins
 

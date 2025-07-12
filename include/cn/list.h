@@ -20,9 +20,9 @@
 #define cn_list_hand(listp, pos)                                               \
 	((void*)cn_unnode_hand((struct CnUnnode**)listp, pos))
 
-#define _cn_list_iter(_i, listp, pos, ...)                                     \
+#define cn_list_foreach(_i, listp)                                             \
 	for (struct _CnVoidList** _i = (struct _CnVoidList**)(listp); *_i;     \
-	     _i = cn_list_hand(_i, (pos)))
+	     _i = cn_list_hand(_i, 1))
 
 #define _CN_LIST_INS(list, entry, pos, ...)                                    \
 	((void*)cn_unnode_ins(                                                 \
@@ -62,8 +62,8 @@
 		_listp;                                                        \
 	})
 
-#define _cn_list_iter(_i, listp, pos, ...)                                     \
-	for (__typeof__(listp) _i = (listp); *_i; _i = cn_list_hand(_i, (pos)))
+#define cn_list_foreach(_i, listp)                                             \
+	for (__typeof__(listp) _i = (listp); *_i; _i = cn_list_hand(_i, 1))
 
 #define _CN_LIST_INS(list, entry, pos, ...)                                    \
 	({                                                                     \
@@ -87,8 +87,6 @@
 	})
 
 #endif /* __STRICT_ANSI__ */
-
-#define cn_list_iter(i, ...) _cn_list_iter ((i), __VA_ARGS__, 1, )
 
 #define cn_list_ins(list, ...) _CN_LIST_INS((list), __VA_ARGS__, 0, )
 
