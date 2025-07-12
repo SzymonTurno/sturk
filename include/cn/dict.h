@@ -10,13 +10,6 @@ struct CnStrnode {
 	char* str;
 };
 
-#define CN_DICT(name, type)                                                    \
-	name                                                                   \
-	{                                                                      \
-		struct CnStrnode strnode;                                      \
-		type data;                                                     \
-	}
-
 struct CnStrnode*
 cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node);
 
@@ -37,7 +30,19 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 
 #define cn_dict_data(dict) (&(dict)->data)
 
-#else /* __STRICT_ANSI__ */
+#define cn_dict_ins(root, node)                                                \
+	((void*)cn_strnode_ins(cn_dict_cast(root), cn_dict_cast(node)))
+
+#define cn_dict_find(root, key)                                                \
+	((void*)cn_strnode_find(cn_dict_cast(root), (key)))
+
+#define cn_dict_first(root)                                                    \
+	((void*)(cn_strnode_from(cn_rb_smallest(&dict_cast(dict)->node, 0)))
+
+#define cn_dict_next(root)                                                     \
+	((void*)(cn_strnode_from(cn_rb_next(&dict_cast(dict)->node, 0)))
+
+#else /* not defined: __STRICT_ANSI__ */
 
 #define cn_dict_cast(dict)                                                     \
 	({                                                                     \
@@ -69,24 +74,6 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 		CN_ENSURE(_dict, CN_ERROR, null_param);                        \
 		&_dict->data;                                                  \
 	})
-
-#endif /* __STRICT_ANSI__ */
-
-#ifdef __STRICT_ANSI__
-
-#define cn_dict_ins(root, node)                                                \
-	((void*)cn_strnode_ins(cn_dict_cast(root), cn_dict_cast(node)))
-
-#define cn_dict_find(root, key)                                                \
-	((void*)cn_strnode_find(cn_dict_cast(root), (key)))
-
-#define cn_dict_first(root)                                                    \
-	((void*)(cn_strnode_from(cn_rb_smallest(&dict_cast(dict)->node, 0)))
-
-#define cn_dict_next(root)                                                     \
-	((void*)(cn_strnode_from(cn_rb_next(&dict_cast(dict)->node, 0)))
-
-#else /* __STRICT_ANSI__ */
 
 #define cn_dict_ins(root, node)                                                \
 	({                                                                     \
@@ -129,5 +116,12 @@ static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 	})
 
 #endif /* __STRICT_ANSI__ */
+
+#define CN_DICT(name, type)                                                    \
+	name                                                                   \
+	{                                                                      \
+		struct CnStrnode strnode;                                      \
+		type data;                                                     \
+	}
 
 #endif /* CN_DICT_H */

@@ -3,6 +3,10 @@
 
 #include "cn/os/fstream.h"
 
+#ifndef CN_LOGGER_EN
+#define CN_LOGGER_EN 0
+#endif /* CN_LOGGER_EN */
+
 enum CnTraceLvl {
 	CN_UNKNOWN = 0,
 	CN_DEBUG,

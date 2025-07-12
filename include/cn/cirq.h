@@ -9,13 +9,6 @@ struct CnBinode {
 	struct CnBinode* prev;
 };
 
-#define CN_CIRQ(name, type)                                                    \
-	name                                                                   \
-	{                                                                      \
-		struct CnBinode node;                                          \
-		type data;                                                     \
-	}
-
 struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos);
 
 struct CnBinode*
@@ -31,7 +24,13 @@ struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
 
 #define cn_cirq_from(ptr, type) ((type*)(ptr))
 
-#else /* __STRICT_ANSI__ */
+#define _CN_CIRQ_INS(cirq, entry, pos, ...)                                    \
+	((void*)cn_binode_ins((struct CnBinode*)(cirq), &(entry)->node, pos))
+
+#define _CN_CIRQ_REM(cirqp, pos, ...)                                          \
+	((void*)cn_binode_rem((struct CnBinode**)(cirqp), pos))
+
+#else /* not defined: __STRICT_ANSI__ */
 
 #define cn_cirq_cast(cirq)                                                     \
 	({                                                                     \
@@ -50,22 +49,6 @@ struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
 	})
 
 #define cn_cirq_from(ptr, type) cn_container_of(ptr, type, node)
-
-#endif /* __STRICT_ANSI__ */
-
-#define cn_cirq_ins(cirq, ...) _CN_CIRQ_INS((cirq), __VA_ARGS__, -1, )
-
-#define cn_cirq_rem(...) _CN_CIRQ_REM(__VA_ARGS__, 0, )
-
-#ifdef __STRICT_ANSI__
-
-#define _CN_CIRQ_INS(cirq, entry, pos, ...)                                    \
-	((void*)cn_binode_ins((struct CnBinode*)(cirq), &(entry)->node, pos))
-
-#define _CN_CIRQ_REM(cirqp, pos, ...)                                          \
-	((void*)cn_binode_rem((struct CnBinode**)(cirqp), pos))
-
-#else /* __STRICT_ANSI__ */
 
 #define _CN_CIRQ_INS(cirq, entry, pos, ...)                                    \
 	({                                                                     \
@@ -92,5 +75,16 @@ struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
 	})
 
 #endif /* __STRICT_ANSI__ */
+
+#define CN_CIRQ(name, type)                                                    \
+	name                                                                   \
+	{                                                                      \
+		struct CnBinode node;                                          \
+		type data;                                                     \
+	}
+
+#define cn_cirq_ins(cirq, ...) _CN_CIRQ_INS((cirq), __VA_ARGS__, -1, )
+
+#define cn_cirq_rem(...) _CN_CIRQ_REM(__VA_ARGS__, 0, )
 
 #endif /* CN_CIRQ_H */

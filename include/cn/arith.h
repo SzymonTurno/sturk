@@ -14,7 +14,7 @@
 	((type*)((char*)(ptr) - offsetof(type, member)))
 /* clang-format on */
 
-#else /* __STRICT_ANSI__ */
+#else /* not defined: __STRICT_ANSI__ */
 
 #define cn_max(x, y)                                                           \
 	({                                                                     \
