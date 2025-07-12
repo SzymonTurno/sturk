@@ -36,7 +36,10 @@ static void channel_destroy(CnChannel* ch)
 
 static void dict_destroy(CnChannel* dict)
 {
-	for (struct CnRbnode *i = NULL, *p = NULL;;) {
+	struct CnRbnode* i = NULL;
+	struct CnRbnode* p = NULL;
+
+	for (;;) {
 		i = rb_deepest(&dict_cast(dict)->node);
 		p = rb_parent(i);
 		channel_destroy(

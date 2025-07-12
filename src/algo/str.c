@@ -109,10 +109,13 @@ int cn_strbag_count(struct CnStrbag* bag)
 
 void cn_strbag_destroy(struct CnStrbag* bag)
 {
+	struct CnRbnode* i = NULL;
+	struct CnRbnode* p = NULL;
+
 	if (!bag)
 		return;
 	bag = bag_root(bag);
-	for (struct CnRbnode *i = NULL, *p = NULL;;) {
+	for (;;) {
 		i = rb_deepest(&dict_cast(bag)->node);
 		p = rb_parent(i);
 		bag_destroy(container_of(

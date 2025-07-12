@@ -9,11 +9,19 @@
 
 #endif /* CN_LOGGER_EN */
 
+#if __STDC_VERSION__ < 199901L
+
+#define CN_TRACE cn_trace
+
+#else /* not: __STDC_VERSION__ < 199901L */
+
 #define CN_TRACE(lvl, tag, ...)                                                \
 	do {                                                                   \
 		if (CN_LOGGER_EN)                                              \
 			cn_trace(lvl, tag, __VA_ARGS__);                       \
 	} while (0)
+
+#endif /*  __STDC_VERSION__ < 199901L */
 
 enum CnTraceLvl {
 	CN_UNKNOWN = 0,

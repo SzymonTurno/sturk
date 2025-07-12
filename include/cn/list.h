@@ -20,9 +20,20 @@
 #define cn_list_hand(listp, pos)                                               \
 	((void*)cn_unnode_hand((struct CnUnnode**)listp, pos))
 
+#if __STDC_VERSION__ < 199901L
+
+#define _cn_list_iter(_i, listp, pos, ...)                                     \
+	struct _CnVoidList** _i;                                               \
+	for (_i = (struct _CnVoidList**)(listp); *_i;                          \
+	     _i = cn_list_hand(_i, (pos)))
+
+#else /* not: __STDC_VERSION__ < 199901L */
+
 #define _cn_list_iter(_i, listp, pos, ...)                                     \
 	for (struct _CnVoidList** _i = (struct _CnVoidList**)(listp); *_i;     \
 	     _i = cn_list_hand(_i, (pos)))
+
+#endif /* __STDC_VERSION__ < 199901L */
 
 #define _CN_LIST_INS(list, entry, pos, ...)                                    \
 	((void*)cn_unnode_ins(                                                 \

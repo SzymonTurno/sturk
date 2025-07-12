@@ -1,0 +1,4 @@
+---
+  cver: "ansi"
+  build_type: "coverage"
+  build_path: "build-ansi"

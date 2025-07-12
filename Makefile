@@ -20,5 +20,6 @@ include mk/olconf.mk
 include mk/default/phony.mk
 include mk/iso/phony.mk
 include mk/posix/phony.mk
+include mk/ansi/phony.mk
 
 .PHONY: all format configure

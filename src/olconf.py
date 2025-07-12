@@ -6,7 +6,6 @@ def join(olvars):
 
     olvars.append('cantil_OLCONF', olvars.unix(olvars.path()))
     olvars.append('cantil_DIR', olvars.unix(olvars.cwd()))
-    olvars.append('cantil_CFLAGS', '-fanalyzer')
     olvars.append('cantil_CFLAGS', '-Wall')
     olvars.append('cantil_CFLAGS', '-Wcast-align')
     olvars.append('cantil_CFLAGS', '-Wconversion')
@@ -25,9 +24,14 @@ def join(olvars):
     olvars.append('cantil_BLDDIRS', olvars.unix(blddir))
 
     if settings['cver'] == 'gnu':
+        olvars.append('cantil_CFLAGS', '-fanalyzer')
         olvars.append('cantil_EXTRA_CFLAGS', '-std=gnu11')
     elif settings['cver'] == 'iso':
+        olvars.append('cantil_CFLAGS', '-fanalyzer')
         olvars.append('cantil_EXTRA_CFLAGS', '-std=c99')
+        olvars.append('cantil_EXTRA_CFLAGS', '-pedantic')
+    elif settings['cver'] == 'ansi':
+        olvars.append('cantil_EXTRA_CFLAGS', '-std=c89')
         olvars.append('cantil_EXTRA_CFLAGS', '-pedantic')
     else:
         olvars.fail('Unknown cver: ' + settings['cver'] + '.')

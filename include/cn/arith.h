@@ -3,6 +3,16 @@
 
 #include <stddef.h>
 
+#if __STDC_VERSION__ < 199901L
+
+#define INLINE
+
+#else /* not: __STDC_VERSION__ < 199901L */
+
+#define INLINE inline
+
+#endif /* __STDC_VERSION__ < 199901L */
+
 #ifdef __STRICT_ANSI__
 
 #define cn_max(x, y) (((x) > (y)) ? (x) : (y))

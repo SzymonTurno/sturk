@@ -119,7 +119,7 @@ cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node);
 
 struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str);
 
-static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
+static INLINE struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 {
 	return cn_container_of(ptr, struct CnStrnode, node);
 }

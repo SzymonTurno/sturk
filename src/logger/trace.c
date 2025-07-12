@@ -64,7 +64,9 @@ void cn_logger_detach(enum CnTraceLvl lvl, CnFstream* stream)
 
 void cn_logger_cleanup(void)
 {
-	for (int i = 0; i < N_TRACE_LVLS; i++) {
+	int i = 0;
+
+	for (; i < N_TRACE_LVLS; i++) {
 		logsink_destroy(logsink[i]);
 		logsink[i] = NULL;
 	}

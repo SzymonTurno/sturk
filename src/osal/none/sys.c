@@ -9,7 +9,12 @@ int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...)
 	int ret = 0;
 
 	va_start(vlist, format);
+#if __STDC_VERSION__ < 199901L
+	(void)bufsz;
+	ret = vsprintf(buffer, format, vlist);
+#else  /* __STDC_VERSION__ < 199901L */
 	ret = vsnprintf(buffer, bufsz, format, vlist);
+#endif /* __STDC_VERSION__ < 199901L */
 	va_end(vlist);
 	return ret;
 }

@@ -4,12 +4,12 @@
 #include "cn/os/mem.h"
 #include "types.h"
 
-static inline CnLoad* msg_getload(struct Message* msg)
+static INLINE CnLoad* msg_getload(struct Message* msg)
 {
 	return (CnLoad*)msg - dict_data(msg->channel)->broker->channels.offset;
 }
 
-static inline struct Message* msg_create(CnBroker* broker, va_list args)
+static INLINE struct Message* msg_create(CnBroker* broker, va_list args)
 {
 	CnLoad* load = pool_tryalloc(broker->channels.pool);
 	struct Message* self = NULL;
@@ -26,7 +26,7 @@ static inline struct Message* msg_create(CnBroker* broker, va_list args)
 	return self;
 }
 
-static inline void msg_destroy(struct Message* msg)
+static INLINE void msg_destroy(struct Message* msg)
 {
 	CnBroker* broker = dict_data(msg->channel)->broker;
 
@@ -34,7 +34,7 @@ static inline void msg_destroy(struct Message* msg)
 	pool_free(broker->channels.pool, msg_getload(msg));
 }
 
-static inline void msg_purge(CnBroker* broker)
+static INLINE void msg_purge(CnBroker* broker)
 {
 	CnLoad* load = NULL;
 	struct Message* msg = NULL;
@@ -48,7 +48,7 @@ static inline void msg_purge(CnBroker* broker)
 	}
 }
 
-static inline void msg_release(struct Message* msg)
+static INLINE void msg_release(struct Message* msg)
 {
 	int last = 0;
 
@@ -60,12 +60,12 @@ static inline void msg_release(struct Message* msg)
 		msg_destroy(msg);
 }
 
-static inline void msg_lock(struct Message* msg)
+static INLINE void msg_lock(struct Message* msg)
 {
 	mutex_lock(msg->mutex);
 }
 
-static inline void msg_unlock(struct Message* msg, int n_pending)
+static INLINE void msg_unlock(struct Message* msg, int n_pending)
 {
 	msg->u.n_pending = n_pending;
 	mutex_unlock(msg->mutex);

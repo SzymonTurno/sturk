@@ -128,8 +128,12 @@ struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent)
 
 struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
 {
+	struct CnRbnode* p = NULL;
+	struct CnRbnode* g = NULL;
+	struct CnRbnode* u = NULL;
+
 	ENSURE_MEMORY(ERROR, node);
-	for (struct CnRbnode *p = NULL, *g = NULL, *u = NULL;;) {
+	for (;;) {
 		p = get_parent(node);
 		if (!painted_red(p)) {
 			/* Case 0: done. */
