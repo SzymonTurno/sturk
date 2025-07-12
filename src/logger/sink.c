@@ -17,7 +17,7 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 {
 	va_list vcopy;
 
-	list_foreach (i, &head) {
+	list_iter (i, &head) {
 		va_copy(vcopy, vlist);
 		cn_fvprintf(*list_data(*i), format, vlist);
 		va_end(vcopy);
@@ -58,7 +58,7 @@ void cn_logsink_ins(CnLogsink* list, CnFstream* stream)
 void cn_logsink_rem(CnLogsink* list, CnFstream* stream)
 {
 	ENSURE(list, ERROR, null_param);
-	list_foreach (i, &list->head)
+	list_iter (i, &list->head)
 		if (*list_data(*i) == stream) {
 			mutex_lock(list->mutex);
 			cn_free(list_rem(i));
