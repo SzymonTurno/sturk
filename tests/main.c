@@ -67,6 +67,7 @@ SIMPLE_TEST_GROUP(mutex);
 SIMPLE_TEST_GROUP(sem);
 SIMPLE_TEST_GROUP(waitq);
 SIMPLE_TEST_GROUP(binode);
+SIMPLE_TEST_GROUP(pool);
 SIMPLE_TEST_GROUP(subscriber);
 SIMPLE_TEST_GROUP(broker);
 
@@ -304,6 +305,17 @@ TEST(binode, should_insert_at_any_position)
 	TEST_ASSERT_EQUAL_PTR(n[2].next, &n[1]);
 }
 
+TEST(pool, should_return_freed_pointer)
+{
+	CnPool* pool = pool_create(1);
+	void* mem = pool_alloc(pool);
+
+	pool_free(pool, mem);
+	TEST_ASSERT_EQUAL_PTR(mem, pool_alloc(pool));
+	pool_free(pool, mem);
+	pool_destroy(pool);
+}
+
 TEST(subscriber, should_receive_enqueued_message)
 {
 	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
@@ -533,6 +545,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(sem, should_not_block_if_posted);
 	RUN_TEST_CASE(waitq, should_not_block_after_insertion);
 	RUN_TEST_CASE(binode, should_insert_at_any_position);
+	RUN_TEST_CASE(pool, should_return_freed_pointer)
 	RUN_TEST_CASE(subscriber, should_receive_enqueued_message);
 	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
 	RUN_TEST_CASE(broker, should_allow_many_topics);
