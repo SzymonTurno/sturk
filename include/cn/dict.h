@@ -41,7 +41,7 @@
 /**
  * \def cn_dict_cast(dict)
  * \brief *** todo ***.
- * \param[in] dict.
+ * \param[in] dict Input.
  * \returns *** todo ***.
  *
  * No type check for \a dict with __STRICT_ANSI__ build.
@@ -56,8 +56,8 @@
 /**
  * \def cn_dict_setk(dict, key)
  * \brief *** todo ***.
- * \param[in/out] dict.
- * \param[in] key.
+ * \param[in,out] dict Input/output.
+ * \param[in] key Input.
  *
  * No type check for \a dict with __STRICT_ANSI__ build.
  */
@@ -72,7 +72,7 @@
 /**
  * \def cn_dict_getk(dict)
  * \brief *** todo ***.
- * \param[in] dict.
+ * \param[in] dict Input.
  * \returns *** todo ***.
  *
  * No type check for \a dict with __STRICT_ANSI__ build.
@@ -88,7 +88,7 @@
 /**
  * \def cn_dict_data(dict)
  * \brief *** todo ***.
- * \param[in] dict.
+ * \param[in] dict Input.
  * \returns *** todo ***.
  *
  * No type check for \a dict with __STRICT_ANSI__ build.
@@ -104,8 +104,8 @@
 /**
  * \def cn_dict_ins(dict, node)
  * \brief *** todo ***.
- * \param[in/out] dict.
- * \param[in/out] node.
+ * \param[in,out] dict Input/output.
+ * \param[in,out] node Input/output.
  * \returns *** todo ***.
  *
  * No type check for \a dict with __STRICT_ANSI__ build.
@@ -123,8 +123,8 @@
 /**
  * \def cn_dict_find(dict, key)
  * \brief *** todo ***.
- * \param[in] dict.
- * \param[in] key.
+ * \param[in] dict Input.
+ * \param[in] key Input.
  * \returns *** todo ***.
  *
  * No type check for \a dict with __STRICT_ANSI__ build.
@@ -141,7 +141,7 @@
 /**
  * \def cn_dict_first(dict)
  * \brief *** todo ***.
- * \param[in] dict.
+ * \param[in] dict Input.
  * \returns *** todo ***.
  *
  * No type check for \a dict with __STRICT_ANSI__ build.
@@ -159,7 +159,7 @@
 /**
  * \def cn_dict_next(dict)
  * \brief *** todo ***.
- * \param[in] dict.
+ * \param[in] dict Input.
  * \returns *** todo ***.
  *
  * No type check for \a dict with __STRICT_ANSI__ build.
@@ -180,8 +180,8 @@
 /**
  * \def CN_DICT(name, type)
  * \brief *** todo ***.
- * \param[in] name.
- * \param[in] type.
+ * \param[in] name Input.
+ * \param[in] type Input.
  * \returns *** todo ***.
  */
 #define CN_DICT(name, type)                                                    \
@@ -214,22 +214,20 @@ struct CnStrnode {
 };
 
 /**
- * \fn struct CnStrnode*
- *  cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node)
+ * \fn struct CnStrnode* cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node)
  * \brief *** todo ***.
- * \param[in/out] root.
- * \param[in/out] node.
+ * \param[in,out] root Input/output.
+ * \param[in,out] node Input/output.
  * \returns *** todo ***.
  */
 struct CnStrnode*
 cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node);
 
 /**
- * \fn
- *  struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str)
+ * \fn struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str)
  * \brief *** todo ***.
- * \param[in/out] root.
- * \param[in] str.
+ * \param[in,out] root Input/output.
+ * \param[in] str Input.
  * \returns *** todo ***.
  */
 struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str);
@@ -237,7 +235,7 @@ struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str);
 /**
  * \fn static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
  * \brief *** todo ***.
- * \param[in] ptr.
+ * \param[in] ptr Input.
  * \returns *** todo ***.
  */
 static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)

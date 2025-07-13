@@ -13,8 +13,8 @@
 /**
  * \def cn_max(x, y)
  * \brief Computes the maximum of \a x and \a y.
- * \param[in] x.
- * \param[in] y.
+ * \param[in] x Input.
+ * \param[in] y Input.
  * \returns maximum of \a x and \a y.
  *
  * Side effects: \a x and \a y evaluated twice.
@@ -24,8 +24,8 @@
 /**
  * \def cn_min(x, y)
  * \brief Computes the minimum of \a x and \a y.
- * \param[in] x.
- * \param[in] y.
+ * \param[in] x Input.
+ * \param[in] y Input.
  * \returns minimum of \a and \a y.
  *
  * Side effects: \a x and \a y evaluated twice.
@@ -44,9 +44,9 @@
 /**
  * \def cn_container_of(ptr, type, member)
  * \brief Computes container's address from \a ptr of container's \a member.
- * \param[in] ptr.
- * \param[in] type.
- * \param[in] member.
+ * \param[in] ptr Input.
+ * \param[in] type Input.
+ * \param[in] member Input.
  * \returns pointer to the container instance of type \a type.
  *
  * No type check for \a ptr with __STRICT_ANSI__ build.

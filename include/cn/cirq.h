@@ -30,7 +30,7 @@
 /**
  * \def cn_cirq_cast(cirq)
  * \brief *** todo ***.
- * \param[in] cirq.
+ * \param[in] cirq Input.
  * \returns *** todo ***.
  *
  * No type check for \a cirq with __STRICT_ANSI__ build.
@@ -46,7 +46,7 @@
 /**
  * \def cn_cirq_data(cirq)
  * \brief *** todo ***.
- * \param[in] cirq.
+ * \param[in] cirq Input.
  * \returns *** todo ***.
  *
  * No type check for \a cirq with __STRICT_ANSI__ build.
@@ -62,8 +62,8 @@
 /**
  * \def cn_cirq_from(ptr, type)
  * \brief *** todo ***.
- * \param[in] ptr.
- * \param[in] type.
+ * \param[in] ptr Input.
+ * \param[in] type Input.
  * \returns *** todo ***.
  */
 #define cn_cirq_from(ptr, type) cn_container_of(ptr, type, node)
@@ -95,11 +95,11 @@
 #endif /* __STRICT_ANSI__ */
 
 /**
- * \def cn_cirq_ins(cirq, entry, (optional) pos)
+ * \def cn_cirq_ins(cirq, entry, pos (optional))
  * \brief *** todo ***.
- * \param[in/out] cirq.
- * \param[in/out] entry.
- * \param[in] (optional) pos, -1 by default.
+ * \param[in,out] cirq Input/output.
+ * \param[in,out] entry Input/output.
+ * \param[in] pos Optional input, -1 by default.
  * \returns *** todo ***.
  *
  * No type check for \a cirq with __STRICT_ANSI__ build.
@@ -107,10 +107,10 @@
 #define cn_cirq_ins(cirq, ...) _CN_CIRQ_INS((cirq), __VA_ARGS__, -1, )
 
 /**
- * \def cn_cirq_rem(cirqp, (optional) pos)
+ * \def cn_cirq_rem(cirqp, pos (optional))
  * \brief *** todo ***.
- * \param[in/out] cirqp.
- * \param[in] (optional) pos, 0 by default.
+ * \param[in,out] cirqp Input/output.
+ * \param[in] pos Optional input, 0 by default.
  * \returns *** todo ***.
  *
  * No type check for \a cirqp with __STRICT_ANSI__ build.
@@ -120,8 +120,8 @@
 /**
  * \def CN_CIRQ(name, type)
  * \brief *** todo ***.
- * \param[in] name.
- * \param[in] type.
+ * \param[in] name Input.
+ * \param[in] type Input.
  * \returns *** todo ***.
  */
 #define CN_CIRQ(name, type)                                                    \
@@ -156,19 +156,18 @@ struct CnBinode {
 /**
  * \fn struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos)
  * \brief *** todo ***.
- * \param[in/out] node.
- * \param[in] pos.
+ * \param[in,out] node Input/output.
+ * \param[in] pos Input.
  * \returns *** todo ***.
  */
 struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos);
 
 /**
- * \fn struct CnBinode*
- *  cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos)
+ * \fn struct CnBinode* cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos)
  * \brief *** todo ***.
- * \param[in/out] root.
- * \param[in/out] entry.
- * \param[in] pos.
+ * \param[in,out] root Input/output.
+ * \param[in,out] entry Input/output.
+ * \param[in] pos Input.
  * \returns *** todo ***.
  */
 struct CnBinode*
@@ -177,8 +176,8 @@ cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos);
 /**
  * \fn struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos)
  * \brief *** todo ***.
- * \param[in/out] rootp.
- * \param[in] pos.
+ * \param[in,out] rootp Input/output.
+ * \param[in] pos Input.
  * \returns *** todo ***.
  */
 struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
