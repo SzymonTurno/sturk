@@ -16,6 +16,9 @@ format:
 configure:
 	$(PYTHON) ./tools/olgite.py ./olconf.py | grep "_OLCONF" > mk/olconf.mk
 
+docs:
+	doxygen Doxyfile
+
 include mk/olconf.mk
 include mk/default/phony.mk
 include mk/iso/phony.mk
