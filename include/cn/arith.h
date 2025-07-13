@@ -1,13 +1,38 @@
+/**
+ * \file cn/arith.h
+ * \brief Header file for basic airthmetic operations.
+ *
+ * Compile without __STRICT_ANSI__ for additional type checks.
+ */
+
 #ifndef CN_ARITH_H
 #define CN_ARITH_H
 
 #include <stddef.h>
 
-#ifdef __STRICT_ANSI__
-
+/**
+ * \def cn_max(x, y)
+ * \brief Computes the maximum of \a x and \a y.
+ * \param[in] x.
+ * \param[in] y.
+ * \returns maximum of \a x and \a y.
+ *
+ * Side effects: \a x and \a y evaluated twice.
+ */
 #define cn_max(x, y) (((x) > (y)) ? (x) : (y))
 
+/**
+ * \def cn_min(x, y)
+ * \brief Computes the minimum of \a x and \a y.
+ * \param[in] x.
+ * \param[in] y.
+ * \returns minimum of \a and \a y.
+ *
+ * Side effects: \a x and \a y evaluated twice.
+ */
 #define cn_min(x, y) (((x) < (y)) ? (x) : (y))
+
+#ifdef __STRICT_ANSI__
 
 /* clang-format off */
 #define cn_container_of(ptr, type, member)                                     \
@@ -16,22 +41,16 @@
 
 #else /* not defined: __STRICT_ANSI__ */
 
-#define cn_max(x, y)                                                           \
-	({                                                                     \
-		__typeof__(x) _x = (x);                                        \
-		__typeof__(y) _y = (y);                                        \
-                                                                               \
-		(_x > _y) ? _x : _y;                                           \
-	})
-
-#define cn_min(x, y)                                                           \
-	({                                                                     \
-		__typeof__(x) _x = (x);                                        \
-		__typeof__(y) _y = (y);                                        \
-                                                                               \
-		(_x < _y) ? _x : _y;                                           \
-	})
-
+/**
+ * \def cn_container_of(ptr, type, member)
+ * \brief Computes container's address from \a ptr of container's \a member.
+ * \param[in] ptr.
+ * \param[in] type.
+ * \param[in] member.
+ * \returns pointer to the container instance of type \a type.
+ *
+ * No type check for \a ptr with __STRICT_ANSI__ build.
+ */
 #define cn_container_of(ptr, type, member)                                     \
 	({                                                                     \
 		const __typeof__(((type*)0)->member)* _ptr = (ptr);            \

@@ -1,3 +1,12 @@
+/**
+ * \file cn/dict.h
+ * \brief Header file for dictionary.
+ *
+ * This dictionary is key-value data structure where key is always a sequence of
+ * characters (ie. string, char array). Compile without __STRICT_ANSI__ for
+ * additional type checks.
+ */
+
 #ifndef CN_DICT_H
 #define CN_DICT_H
 
@@ -15,27 +24,43 @@
 
 #define cn_dict_data(dict) (&(dict)->data)
 
-#define cn_dict_ins(root, node)                                                \
-	((void*)cn_strnode_ins(cn_dict_cast(root), cn_dict_cast(node)))
+#define cn_dict_ins(dict, node)                                                \
+	((void*)cn_strnode_ins(cn_dict_cast(dict), cn_dict_cast(node)))
 
-#define cn_dict_find(root, key)                                                \
-	((void*)cn_strnode_find(cn_dict_cast(root), (key)))
+#define cn_dict_find(dict, key)                                                \
+	((void*)cn_strnode_find(cn_dict_cast(dict), (key)))
 
-#define cn_dict_first(root)                                                    \
+#define cn_dict_first(dict)                                                    \
 	((void*)(cn_strnode_from(cn_rb_smallest(&dict_cast(dict)->node, 0)))
 
-#define cn_dict_next(root)                                                     \
+#define cn_dict_next(dict)                                                     \
 	((void*)(cn_strnode_from(cn_rb_next(&dict_cast(dict)->node, 0)))
 
 #else /* not defined: __STRICT_ANSI__ */
 
+/**
+ * \def cn_dict_cast(dict)
+ * \brief *** todo ***.
+ * \param[in] dict.
+ * \returns *** todo ***.
+ *
+ * No type check for \a dict with __STRICT_ANSI__ build.
+ */
 #define cn_dict_cast(dict)                                                     \
 	({                                                                     \
-		__typeof__(dict) _dict = (dict);                               \
+		__typeof__(dict) _dict2 = (dict);                              \
                                                                                \
-		_dict ? &_dict->strnode : NULL;                                \
+		_dict2 ? &_dict2->strnode : NULL;                              \
 	})
 
+/**
+ * \def cn_dict_setk(dict, key)
+ * \brief *** todo ***.
+ * \param[in/out] dict.
+ * \param[in] key.
+ *
+ * No type check for \a dict with __STRICT_ANSI__ build.
+ */
 #define cn_dict_setk(dict, key)                                                \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
@@ -44,6 +69,14 @@
 		_dict->strnode.str = (key);                                    \
 	})
 
+/**
+ * \def cn_dict_getk(dict)
+ * \brief *** todo ***.
+ * \param[in] dict.
+ * \returns *** todo ***.
+ *
+ * No type check for \a dict with __STRICT_ANSI__ build.
+ */
 #define cn_dict_getk(dict)                                                     \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
@@ -52,6 +85,14 @@
 		_dict->strnode.str;                                            \
 	})
 
+/**
+ * \def cn_dict_data(dict)
+ * \brief *** todo ***.
+ * \param[in] dict.
+ * \returns *** todo ***.
+ *
+ * No type check for \a dict with __STRICT_ANSI__ build.
+ */
 #define cn_dict_data(dict)                                                     \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
@@ -60,48 +101,89 @@
 		&_dict->data;                                                  \
 	})
 
-#define cn_dict_ins(root, node)                                                \
+/**
+ * \def cn_dict_ins(dict, node)
+ * \brief *** todo ***.
+ * \param[in/out] dict.
+ * \param[in/out] node.
+ * \returns *** todo ***.
+ *
+ * No type check for \a dict with __STRICT_ANSI__ build.
+ */
+#define cn_dict_ins(dict, node)                                                \
 	({                                                                     \
-		__typeof__(root) _root = (root);                               \
+		__typeof__(dict) _dict = (dict);                               \
                                                                                \
 		cn_container_of(                                               \
 			cn_strnode_ins(                                        \
-				cn_dict_cast(_root), cn_dict_cast(node)),      \
-			__typeof__(*root), strnode);                           \
+				cn_dict_cast(_dict), cn_dict_cast(node)),      \
+			__typeof__(*dict), strnode);                           \
 	})
 
-#define cn_dict_find(root, key)                                                \
+/**
+ * \def cn_dict_find(dict, key)
+ * \brief *** todo ***.
+ * \param[in] dict.
+ * \param[in] key.
+ * \returns *** todo ***.
+ *
+ * No type check for \a dict with __STRICT_ANSI__ build.
+ */
+#define cn_dict_find(dict, key)                                                \
 	({                                                                     \
-		__typeof__(root) _root = (root);                               \
+		__typeof__(dict) _dict = (dict);                               \
                                                                                \
 		cn_container_of(                                               \
-			cn_strnode_find(cn_dict_cast(_root), (key)),           \
-			__typeof__(*root), strnode);                           \
+			cn_strnode_find(cn_dict_cast(_dict), (key)),           \
+			__typeof__(*dict), strnode);                           \
 	})
 
-#define cn_dict_first(root)                                                    \
+/**
+ * \def cn_dict_first(dict)
+ * \brief *** todo ***.
+ * \param[in] dict.
+ * \returns *** todo ***.
+ *
+ * No type check for \a dict with __STRICT_ANSI__ build.
+ */
+#define cn_dict_first(dict)                                                    \
 	({                                                                     \
-		__typeof__(root) _root = (root);                               \
+		__typeof__(dict) _dict = (dict);                               \
                                                                                \
 		cn_container_of(                                               \
 			cn_strnode_from(                                       \
-				cn_rb_smallest(&dict_cast(_root)->node)),      \
-			__typeof__(*root), strnode);                           \
+				cn_rb_smallest(&dict_cast(_dict)->node)),      \
+			__typeof__(*dict), strnode);                           \
 	})
 
-#define cn_dict_next(root)                                                     \
+/**
+ * \def cn_dict_next(dict)
+ * \brief *** todo ***.
+ * \param[in] dict.
+ * \returns *** todo ***.
+ *
+ * No type check for \a dict with __STRICT_ANSI__ build.
+ */
+#define cn_dict_next(dict)                                                     \
 	({                                                                     \
-		__typeof__(root) _root = (root);                               \
+		__typeof__(dict) _dict = (dict);                               \
                                                                                \
 		cn_container_of(                                               \
 			cn_strnode_from(cn_rb_next(                            \
-				&dict_cast(_root)->node,                       \
+				&dict_cast(_dict)->node,                       \
 				CN_BST_TRAV_INORDER)),                         \
-			__typeof__(*root), strnode);                           \
+			__typeof__(*dict), strnode);                           \
 	})
 
 #endif /* __STRICT_ANSI__ */
 
+/**
+ * \def CN_DICT(name, type)
+ * \brief *** todo ***.
+ * \param[in] name.
+ * \param[in] type.
+ * \returns *** todo ***.
+ */
 #define CN_DICT(name, type)                                                    \
 	name                                                                   \
 	{                                                                      \
@@ -109,16 +191,55 @@
 		type data;                                                     \
 	}
 
+/**
+ * \struct CnStrnode
+ * \brief *** todo ***.
+ *
+ * Members:
+ * - node,
+ * - str.
+ */
 struct CnStrnode {
+	/**
+	 * \var struct CnRbnode node
+	 * \brief *** todo ***.
+	 */
 	struct CnRbnode node;
+
+	/**
+	 * \var char* str
+	 * \brief *** todo ***.
+	 */
 	char* str;
 };
 
+/**
+ * \fn struct CnStrnode*
+ *  cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node)
+ * \brief *** todo ***.
+ * \param[in/out] root.
+ * \param[in/out] node.
+ * \returns *** todo ***.
+ */
 struct CnStrnode*
 cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node);
 
+/**
+ * \fn
+ *  struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str)
+ * \brief *** todo ***.
+ * \param[in/out] root.
+ * \param[in] str.
+ * \returns *** todo ***.
+ */
 struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str);
 
+/**
+ * \fn static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
+ * \brief *** todo ***.
+ * \param[in] ptr.
+ * \returns *** todo ***.
+ */
 static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
 {
 	return cn_container_of(ptr, struct CnStrnode, node);
