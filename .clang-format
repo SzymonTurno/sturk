@@ -13,6 +13,7 @@ BinPackArguments: true
 BinPackParameters: true
 BreakBeforeBraces: Linux
 ColumnLimit: 80
+CommentPragmas: '^\\.+'
 ContinuationIndentWidth: 8
 ForEachMacros:
   - _cn_list_iter
