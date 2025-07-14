@@ -21,22 +21,22 @@ def join(olvars):
 
     if platform == 'win32' and settings['osal']['sem'] == 'posix':
         olvars.fail('POSIX threads are unavailable on win32.')
-    olvars.append('cantil_OLCONF', olvars.unix(olvars.path()))
-    olvars.append('cantil_BLDDIRS', olvars.unix(blddir))
-    olvars.append('cantil_BLDDIRS', olvars.unixjoin(blddir, 'none'))
-    olvars.append('cantil_BLDDIRS', olvars.unixjoin(blddir, 'posix'))
+    olvars.append('cantil_OLCONF', olvars.slashify(olvars.path()))
+    olvars.append('cantil_BLDDIRS', olvars.slashify(blddir))
+    olvars.append('cantil_BLDDIRS', olvars.slashify(blddir, 'none'))
+    olvars.append('cantil_BLDDIRS', olvars.slashify(blddir, 'posix'))
     olvars.append(
         'cantil_OBJS',
-        olvars.unixjoin(blddir, settings['osal']['mem'], 'mem.o'))
+        olvars.slashify(blddir, settings['osal']['mem'], 'mem.o'))
     olvars.append(
         'cantil_OBJS',
-        olvars.unixjoin(blddir, settings['osal']['mutex'], 'mutex.o'))
+        olvars.slashify(blddir, settings['osal']['mutex'], 'mutex.o'))
     olvars.append(
         'cantil_OBJS',
-        olvars.unixjoin(blddir, settings['osal']['sem'], 'sem.o'))
+        olvars.slashify(blddir, settings['osal']['sem'], 'sem.o'))
     olvars.append(
         'cantil_OBJS',
-        olvars.unixjoin(blddir, settings['osal']['sys'], 'sys.o'))
+        olvars.slashify(blddir, settings['osal']['sys'], 'sys.o'))
     olvars.append(
         'cantil_OBJS',
-        olvars.unixjoin(blddir, settings['osal']['fstream'], 'fstream.o'))
+        olvars.slashify(blddir, settings['osal']['fstream'], 'fstream.o'))

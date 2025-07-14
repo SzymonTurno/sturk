@@ -24,28 +24,33 @@ def join(olvars):
     else:
         node.fail('Unknown threads mode: ' + settings['test']['threads'] + '.')
 
-    olvars.append('cantil_OLCONF', olvars.unix(olvars.path()))
+    olvars.append('cantil_OLCONF', olvars.slashify(olvars.path()))
     olvars.append('unity_DIR', 'Unity')
-    olvars.append('unity_BLDDIR', olvars.unixjoin(blddir, 'Unity'))
-    olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, 'Unity'))
-    olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, 'Unity', 'src'))
-    olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, 'Unity', 'extras'))
-    olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, fixture_dir()))
-    olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, fixture_dir(), 'src'))
-    olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, memory_dir()))
-    olvars.append('unity_BLDDIRS', olvars.unixjoin(blddir, memory_dir(), 'src'))
-    olvars.append('unity_INCS', '-I' + olvars.unixjoin('Unity', 'src'))
-    olvars.append('unity_INCS', '-I' + olvars.unixjoin(fixture_dir(), 'src'))
-    olvars.append('unity_INCS', '-I' + olvars.unixjoin(memory_dir(), 'src'))
-    olvars.append('unity_OBJS', olvars.unixjoin(blddir, 'Unity', 'src', 'unity.o'))
-    olvars.append('unity_OBJS',
-                  olvars.unixjoin(blddir, fixture_dir(), 'src', 'unity_fixture.o'))
-    olvars.append('unity_OBJS',
-                  olvars.unixjoin(blddir, memory_dir(), 'src', 'unity_memory.o'))
-    olvars.append('test_DIR', olvars.unix(olvars.cwd()))
-    olvars.append('test_BLDDIR', olvars.unix(blddir))
-    olvars.append('test_OBJS', olvars.unixjoin(blddir, 'main.o'))
+    olvars.append('unity_BLDDIR', olvars.slashify(blddir, 'Unity'))
+    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, 'Unity'))
+    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, 'Unity', 'src'))
+    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, 'Unity', 'extras'))
+    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, fixture_dir()))
+    olvars.append(
+        'unity_BLDDIRS', olvars.slashify(blddir, fixture_dir(), 'src'))
+    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, memory_dir()))
+    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, memory_dir(), 'src'))
+    olvars.append('unity_INCS', '-I' + olvars.slashify('Unity', 'src'))
+    olvars.append('unity_INCS', '-I' + olvars.slashify(fixture_dir(), 'src'))
+    olvars.append('unity_INCS', '-I' + olvars.slashify(memory_dir(), 'src'))
+    olvars.append(
+        'unity_OBJS', olvars.slashify(blddir, 'Unity', 'src', 'unity.o'))
+    olvars.append(
+        'unity_OBJS',
+        olvars.slashify(blddir, fixture_dir(), 'src', 'unity_fixture.o'))
+    olvars.append(
+        'unity_OBJS',
+        olvars.slashify(blddir, memory_dir(), 'src', 'unity_memory.o'))
+    olvars.append('test_DIR', olvars.slashify(olvars.cwd()))
+    olvars.append('test_BLDDIR', olvars.slashify(blddir))
+    olvars.append('test_OBJS', olvars.slashify(blddir, 'main.o'))
     olvars.append('test_DEPS', '$(test_OBJS)')
     olvars.append('test_DEPS', '$(unity_OBJS)')
     olvars.append('test_DEPS', '$(sample_OBJS)')
-    olvars.append('test_DEPS', olvars.unixjoin('$(cantil_BLDDIR)', 'libcantil.a'))
+    olvars.append(
+        'test_DEPS', olvars.slashify('$(cantil_BLDDIR)', 'libcantil.a'))

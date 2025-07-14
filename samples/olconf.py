@@ -4,10 +4,12 @@ def join(olvars):
     settings = olvars.settings()
     blddir = os.path.join(settings['build_path'], olvars.cwd())
 
-    olvars.append('cantil_OLCONF', olvars.unix(olvars.path()))
-    olvars.append('sample_DIR', olvars.unix(olvars.cwd()))
-    olvars.append('sample_BLDDIR', olvars.unix(blddir))
+    olvars.append('cantil_OLCONF', olvars.slashify(olvars.path()))
+    olvars.append('sample_DIR', olvars.slashify(olvars.cwd()))
+    olvars.append('sample_BLDDIR', olvars.slashify(blddir))
     olvars.append('sample_INC', '-I' + olvars.cwd())
-    olvars.append('sample_OBJS', olvars.unixjoin(blddir, 'single_thread_pubsub.o'))
-    olvars.append('sample_OBJS', olvars.unixjoin(blddir, 'multi_thread_pubsub.o'))
-    olvars.append('sample_OBJS', olvars.unixjoin(blddir, 'load_api.o'))
+    olvars.append(
+        'sample_OBJS', olvars.slashify(blddir, 'single_thread_pubsub.o'))
+    olvars.append(
+        'sample_OBJS', olvars.slashify(blddir, 'multi_thread_pubsub.o'))
+    olvars.append('sample_OBJS', olvars.slashify(blddir, 'load_api.o'))

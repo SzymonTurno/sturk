@@ -86,11 +86,8 @@ class Olvars:
             for value in values[1:]:
                 print(key + ' += ' + value)
 
-    def unix(self, path: str) -> str:
-        return path.replace('\\', '/')
-
-    def unixjoin(self, path, *paths) -> str:
-        return os.path.join(path, *paths).replace('\\', '/')
+    def slashify(self, *paths) -> str:
+        return os.path.join(*paths).replace('\\', '/')
 
     def root(self) -> str:
         return os.path.normpath(self.__root)

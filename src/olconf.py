@@ -4,8 +4,8 @@ def join(olvars):
     settings = olvars.settings()
     blddir = os.path.join(settings['build_path'], olvars.cwd())
 
-    olvars.append('cantil_OLCONF', olvars.unix(olvars.path()))
-    olvars.append('cantil_DIR', olvars.unix(olvars.cwd()))
+    olvars.append('cantil_OLCONF', olvars.slashify(olvars.path()))
+    olvars.append('cantil_DIR', olvars.slashify(olvars.cwd()))
     olvars.append('cantil_CFLAGS', '-fanalyzer')
     olvars.append('cantil_CFLAGS', '-Wall')
     olvars.append('cantil_CFLAGS', '-Wcast-align')
@@ -21,8 +21,8 @@ def join(olvars):
     olvars.append('cantil_CFLAGS', '-Wstrict-prototypes')
     olvars.append('cantil_CFLAGS', '-Wswitch-default')
     olvars.append('cantil_CFLAGS', '-Wwrite-strings')
-    olvars.append('cantil_BLDDIR', olvars.unix(blddir))
-    olvars.append('cantil_BLDDIRS', olvars.unix(blddir))
+    olvars.append('cantil_BLDDIR', olvars.slashify(blddir))
+    olvars.append('cantil_BLDDIRS', olvars.slashify(blddir))
 
     if settings['cver'] == 'gnu':
         olvars.append('cantil_EXTRA_CFLAGS', '-std=gnu11')
