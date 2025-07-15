@@ -73,7 +73,7 @@ static void ins_msg(CnSubscriber* sber, struct Message* msg)
 
 	if (!entry) {
 		/* LCOV_EXCL_START */
-		RAISE(ERROR, null_param);
+		RAISE(ERROR, alloc_fail);
 		return;
 		/* LCOV_EXCL_STOP */
 	}
