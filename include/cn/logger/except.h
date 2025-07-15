@@ -13,6 +13,10 @@
 
 #ifndef CN_EXCEPTIONS_EN
 
+/**
+ * \def CN_EXCEPTIONS_EN
+ * \brief *** todo ***.
+ */
 #define CN_EXCEPTIONS_EN 0
 
 #endif /* CN_EXCEPTIONS_EN */

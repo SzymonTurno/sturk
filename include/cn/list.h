@@ -93,9 +93,11 @@
 		_listp;                                                        \
 	})
 
+/** Private. */
 #define _cn_list_iter(_i, listp, pos, ...)                                     \
 	for (__typeof__(listp) _i = (listp); *_i; _i = cn_list_hand(_i, (pos)))
 
+/** Private. */
 #define _CN_LIST_INS(list, entry, pos, ...)                                    \
 	({                                                                     \
 		__typeof__(entry) _list = (list);                              \
@@ -108,6 +110,7 @@
 		_list;                                                         \
 	})
 
+/** Private. */
 #define _CN_LIST_REM(listp, pos, ...)                                          \
 	({                                                                     \
 		__typeof__(listp) _tmp = cn_list_hand((listp), (pos));         \
@@ -120,11 +123,10 @@
 #endif /* __STRICT_ANSI__ */
 
 /**
- * \def cn_list_iter(i, listp, (optional) pos)
+ * \def cn_list_iter(i, ...)
  * \brief *** todo ***.
  * \param[in] i Input.
- * \param[in] listp Input.
- * \param[in] pos Optional input, 1 by default.
+ * \param[in] ... (1) listp input; (2) pos (optional) input, 1 by default.
  * \returns *** todo ***.
  *
  * No type check for \a listp with __STRICT_ANSI__ build.
@@ -132,11 +134,10 @@
 #define cn_list_iter(i, ...) _cn_list_iter ((i), __VA_ARGS__, 1, )
 
 /**
- * \def cn_list_ins(list, entry, (optional) pos)
+ * \def cn_list_ins(list, ...)
  * \brief *** todo ***.
- * \param[in,out] list.
- * \param[in,out] entry.
- * \param[in] pos Optional input, 0 by default.
+ * \param[in,out] list Input/output.
+ * \param[in,out] ... (1) entry input/output; (2) pos (optional) input, 0 by default.
  * \returns *** todo ***.
  *
  * No type check for \a list with __STRICT_ANSI__ build.
@@ -144,10 +145,9 @@
 #define cn_list_ins(list, ...) _CN_LIST_INS((list), __VA_ARGS__, 0, )
 
 /**
- * \def cn_list_rem(listp, (optional) pos)
+ * \def cn_list_rem(...)
  * \brief *** todo ***.
- * \param[in,out] listp Input/output.
- * \param[in] pos Optional input, 0 by default.
+ * \param[in,out] ... (1) listp input/output; (2) pos (optional) input, 0 by default.
  * \returns *** todo ***.
  *
  * No type check for \a listp with __STRICT_ANSI__ build.

@@ -80,7 +80,7 @@ typedef struct CnChannel CnChannel;
  * \fn void cn_publish(CnChannel* ch, ...)
  * \brief *** todo ***.
  * \param[in,out] ch Input/output.
- * \param[in] list of arguments used by CnLoadVt.
+ * \param[in] ... list of arguments used by CnLoadVt.
  * \see CnLoadVt::ctor
  */
 void cn_publish(CnChannel* ch, ...);

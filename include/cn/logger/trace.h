@@ -12,6 +12,10 @@
 
 #ifndef CN_LOGGER_EN
 
+/**
+ * \def CN_LOGGER_EN
+ * \brief *** todo ***.
+ */
 #define CN_LOGGER_EN 0
 
 #endif /* CN_LOGGER_EN */

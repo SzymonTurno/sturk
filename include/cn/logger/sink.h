@@ -47,10 +47,10 @@ void cn_logsink_ins(CnLogsink* sink, CnFstream* stream);
 void cn_logsink_rem(CnLogsink* sink, CnFstream* stream);
 
 /**
- * \fn void cn_logsink_rem(CnLogsink* sink, CnFstream* stream)
+ * \fn void cn_logsink_vprint(CnLogsink* sink, const char* format, va_list vlist)
  * \brief *** todo ***.
  * \param[in,out] sink Input/output.
- * \param[in] stream Input.
+ * \param[in] format Input.
  * \param[in] vlist Input.
  */
 void cn_logsink_vprint(CnLogsink* sink, const char* format, va_list vlist);

@@ -68,6 +68,7 @@
  */
 #define cn_cirq_from(ptr, type) cn_container_of(ptr, type, node)
 
+/** Private. */
 #define _CN_CIRQ_INS(cirq, entry, pos, ...)                                    \
 	({                                                                     \
 		__typeof__(entry) _cirq = (cirq);                              \
@@ -80,6 +81,7 @@
 			__typeof__(*entry));                                   \
 	})
 
+/** Private. */
 #define _CN_CIRQ_REM(cirqp, pos, ...)                                          \
 	({                                                                     \
 		__typeof__(cirqp) _cirqp = (cirqp);                            \
@@ -95,11 +97,10 @@
 #endif /* __STRICT_ANSI__ */
 
 /**
- * \def cn_cirq_ins(cirq, entry, pos (optional))
+ * \def cn_cirq_ins(cirq, ...)
  * \brief *** todo ***.
  * \param[in,out] cirq Input/output.
- * \param[in,out] entry Input/output.
- * \param[in] pos Optional input, -1 by default.
+ * \param[in,out] ... (1) entry input/output; (2) pos (optional) input, -1 by default.
  * \returns *** todo ***.
  *
  * No type check for \a cirq with __STRICT_ANSI__ build.
@@ -107,10 +108,9 @@
 #define cn_cirq_ins(cirq, ...) _CN_CIRQ_INS((cirq), __VA_ARGS__, -1, )
 
 /**
- * \def cn_cirq_rem(cirqp, pos (optional))
+ * \def cn_cirq_rem(...)
  * \brief *** todo ***.
- * \param[in,out] cirqp Input/output.
- * \param[in] pos Optional input, 0 by default.
+ * \param[in,out] ... (1) cirqp input/output; (2) pos (optional) input, 0 by default.
  * \returns *** todo ***.
  *
  * No type check for \a cirqp with __STRICT_ANSI__ build.
