@@ -1,7 +1,7 @@
 #include "cn/os/sem.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
-#include "cn/os/mem.h"
+#include "cantil/os/mem.h"
 #include <semaphore.h>
 
 #define OK 0
@@ -12,7 +12,7 @@ struct CnSem {
 
 CnSem* cn_sem_create(CnBits args)
 {
-	struct CnSem* self = cn_malloc(sizeof(*self));
+	struct CnSem* self = new(struct CnSem);
 	(void)args;
 
 	if (sem_init(&self->sem, 0, 0) != OK) {

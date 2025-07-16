@@ -1,7 +1,7 @@
 #include "cantil/os/mutex.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
-#include "cn/os/mem.h"
+#include "cantil/os/mem.h"
 #include <stddef.h>
 
 struct CnMutex {
@@ -11,7 +11,7 @@ struct CnMutex {
 
 CnMutex* cn_mutex_create(CnBits args)
 {
-	CnMutex* self = cn_malloc(sizeof(*self));
+	CnMutex* self = new(CnMutex);
 
 	self->locked = 0;
 	self->recursive = args & MUTEX_TYPE_RECURSIVE;

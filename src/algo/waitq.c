@@ -4,7 +4,7 @@
 #include "cantil/logger/trace.h"
 #include "cantil/os/mutex.h"
 #include "cantil/os/sem.h"
-#include "cn/os/mem.h"
+#include "cantil/os/mem.h"
 
 struct CnWaitq {
 	CnMutex* mut;
@@ -14,7 +14,7 @@ struct CnWaitq {
 
 CnWaitq* cn_waitq_create(void)
 {
-	CnWaitq* self = cn_malloc(sizeof(*self));
+	CnWaitq* self = new(CnWaitq);
 
 	self->mut = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->sem = sem_create(0);

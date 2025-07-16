@@ -10,6 +10,10 @@
 
 #include <stddef.h>
 
+#define _cn_new(type, n, ...) ((type*)cn_malloc(sizeof(type) * n))
+
+#define cn_new(...) _cn_new(__VA_ARGS__, 1, )
+
 void* cn_malloc(size_t size);
 
 void cn_free(void* ptr);

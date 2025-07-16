@@ -1,7 +1,7 @@
 #include "cantil/os/mutex.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
-#include "cn/os/mem.h"
+#include "cantil/os/mem.h"
 #include <pthread.h>
 
 #define OK   0
@@ -71,7 +71,7 @@ CnMutex* cn_mutex_create(CnBits args)
 		return NULL;
 	}
 
-	self = cn_malloc(sizeof(*self));
+	self = new(struct CnMutex);
 	if (pthread_mutex_init(&self->pmut, &attr) != OK) {
 		/* LCOV_EXCL_START */
 		RAISE(ERROR, mutex_fail);

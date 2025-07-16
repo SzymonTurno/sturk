@@ -4,7 +4,7 @@
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
 #include "cantil/os/mutex.h"
-#include "cn/os/mem.h"
+#include "cantil/os/mem.h"
 
 LIST(union FreeList, void*);
 
@@ -16,7 +16,7 @@ struct CnPool {
 
 CnPool* cn_pool_create(size_t blk_size)
 {
-	CnPool* self = cn_malloc(sizeof(*self));
+	CnPool* self = new(CnPool);
 
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->blk_size = max(blk_size, sizeof(*self->list));

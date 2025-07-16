@@ -6,12 +6,12 @@
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
 #include "cantil/rbtree.h"
-#include "cn/os/mem.h"
+#include "cantil/os/mem.h"
 #include <string.h>
 
 static struct CnStrbag* bag_create(const char* str)
 {
-	struct CnStrbag* self = cn_malloc(sizeof(*self));
+	struct CnStrbag* self = new(struct CnStrbag);
 
 	dict_setk(self, newstr(str));
 	dict_data(self)->n = 0;
@@ -36,7 +36,7 @@ static struct CnStrbag* bag_root(struct CnStrbag* bag)
 
 struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
 {
-	struct CnStrlist* self = cn_malloc(sizeof(*self));
+	struct CnStrlist* self = new(struct CnStrlist);
 
 	ENSURE_MEMORY(ERROR, self);
 	*list_data(self) = str;
@@ -45,7 +45,7 @@ struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
 
 char* cn_newstr(const char* str)
 {
-	return strcpy(cn_malloc(strlen(str) + 1), str);
+	return strcpy(new(char, strlen(str) + 1), str);
 }
 
 char* cn_strlist_rem(struct CnStrlist** listp)
@@ -59,7 +59,7 @@ char* cn_strlist_rem(struct CnStrlist** listp)
 
 struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str)
 {
-	struct CnStrq* self = cn_malloc(sizeof(*self));
+	struct CnStrq* self = new(struct CnStrq);
 
 	ENSURE_MEMORY(ERROR, self);
 	*cirq_data(self) = str;

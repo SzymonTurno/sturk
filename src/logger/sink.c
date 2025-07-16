@@ -3,7 +3,7 @@
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
 #include "cantil/os/mutex.h"
-#include "cn/os/mem.h"
+#include "cantil/os/mem.h"
 
 LIST(struct StreamList, CnFstream*);
 
@@ -26,7 +26,7 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 
 CnLogsink* cn_logsink_create(void)
 {
-	CnLogsink* self = cn_malloc(sizeof(*self));
+	CnLogsink* self = new(CnLogsink);
 
 	self->head = NULL;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
@@ -46,7 +46,7 @@ void cn_logsink_destroy(CnLogsink* list)
 
 void cn_logsink_ins(CnLogsink* list, CnFstream* stream)
 {
-	struct StreamList* entry = cn_malloc(sizeof(*entry));
+	struct StreamList* entry = new(struct StreamList);
 
 	ENSURE(list, ERROR, null_param);
 	*list_data(entry) = stream;

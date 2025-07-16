@@ -3,14 +3,14 @@
 #include "cantil/logger/trace.h"
 #include "cantil/rbtree.h"
 #include "cantil/str.h"
-#include "cn/os/mem.h"
+#include "cantil/os/mem.h"
 #include "message.h"
 
 #define MSG_SIZE sizeof(struct Message)
 
 static CnChannel* channel_create(CnBroker* broker, const char* topic)
 {
-	CnChannel* self = cn_malloc(sizeof(*self));
+	CnChannel* self = new(CnChannel);
 	struct ChannelData* data = dict_data(self);
 
 	dict_setk(self, newstr(topic));
@@ -53,7 +53,7 @@ static void dict_destroy(CnChannel* dict)
 
 static struct ChannelList* clist_create(CnChannel* ch)
 {
-	struct ChannelList* self = cn_malloc(sizeof(*self));
+	struct ChannelList* self = new(struct ChannelList);
 
 	*list_data(self) = ch;
 	return self;
@@ -61,7 +61,7 @@ static struct ChannelList* clist_create(CnChannel* ch)
 
 static struct SubscriberList* slist_create(struct CnSubscriber* sber)
 {
-	struct SubscriberList* self = cn_malloc(sizeof(*self));
+	struct SubscriberList* self = new(struct SubscriberList);
 
 	*list_data(self) = sber;
 	return self;
@@ -69,7 +69,7 @@ static struct SubscriberList* slist_create(struct CnSubscriber* sber)
 
 static void ins_msg(CnSubscriber* sber, struct Message* msg)
 {
-	struct Qentry* entry = cn_malloc(sizeof(*entry));
+	struct Qentry* entry = new(struct Qentry);
 
 	if (!entry) {
 		/* LCOV_EXCL_START */
@@ -129,7 +129,7 @@ CnBroker* cn_broker_create(const struct CnLoadVt* vp)
 	ENSURE_MEMORY(ERROR, vp->size);
 	ENSURE_MEMORY(ERROR, vp->ctor);
 	ENSURE_MEMORY(ERROR, vp->dtor);
-	self = cn_malloc(sizeof(*self));
+	self = new(struct CnBroker);
 	self->vp = vp;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->channels.offset = (vp->size() / MSG_SIZE + 1) * MSG_SIZE;
@@ -177,7 +177,7 @@ CnSubscriber* cn_subscriber_create(CnBroker* broker)
 	CnSubscriber* self = NULL;
 
 	ENSURE_MEMORY(ERROR, broker);
-	self = cn_malloc(sizeof(*self));
+	self = new(CnSubscriber);
 	self->broker = broker;
 	self->q = waitq_create();
 	self->msg = NULL;

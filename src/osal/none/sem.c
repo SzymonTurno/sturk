@@ -1,7 +1,7 @@
 #include "cn/os/sem.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
-#include "cn/os/mem.h"
+#include "cantil/os/mem.h"
 #include <stddef.h>
 
 struct CnSem {
@@ -10,7 +10,7 @@ struct CnSem {
 
 CnSem* cn_sem_create(CnBits args)
 {
-	CnSem* self = cn_malloc(sizeof(*self));
+	CnSem* self = new(CnSem);
 
 	(void)args;
 	self->n = 0;

@@ -1,7 +1,7 @@
 #include "cantil/broker.h"
 #include "cantil/logger/trace.h"
 #include "cantil/str.h"
-#include "cn/os/mem.h"
+#include "cantil/os/mem.h"
 #include "cn/os/sys.h"
 #include "pubsub.h"
 
@@ -122,7 +122,7 @@ struct CnStrq* single_thread_pubsub(void)
 {
 	struct CnStrq* ret = NULL;
 	struct CnFstream* stream = cn_fopen("single_thread_pubsub.tmp", "w+");
-	char* buff = cn_malloc(256);
+	char* buff = new(char, 256);
 
 	logger_attach(INFO, stream);
 	app();
