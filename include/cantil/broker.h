@@ -1,3 +1,8 @@
+/**
+ * \file cantil/broker.h
+ * \see cn/broker.h.
+ */
+
 #ifndef CANTIL_BROKER_H
 #define CANTIL_BROKER_H
 

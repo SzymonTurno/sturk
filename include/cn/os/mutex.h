@@ -1,3 +1,10 @@
+/**
+ * \file cn/os/mutex.h
+ * \brief Header file for mutex.
+ *
+ * *** todo ***.
+ */
+
 #ifndef CN_OS_MUTEX_H
 #define CN_OS_MUTEX_H
 

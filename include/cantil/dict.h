@@ -1,3 +1,8 @@
+/**
+ * \file cantil/dict.h
+ * \see cn/dict.h.
+ */
+
 #ifndef CANTIL_DICT_H
 #define CANTIL_DICT_H
 

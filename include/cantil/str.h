@@ -1,3 +1,8 @@
+/**
+ * \file cantil/str.h
+ * \see cn/str.h.
+ */
+
 #ifndef CANTIL_STR_H
 #define CANTIL_STR_H
 

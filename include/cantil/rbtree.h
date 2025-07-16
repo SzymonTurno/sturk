@@ -1,3 +1,8 @@
+/**
+ * \file cantil/rbtree.h
+ * \see cn/rbtree.h.
+ */
+
 #ifndef CANTIL_RBTREE_H
 #define CANTIL_RBTREE_H
 

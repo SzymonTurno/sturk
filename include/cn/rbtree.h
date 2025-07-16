@@ -1,3 +1,10 @@
+/**
+ * \file cn/rbtree.h
+ * \brief Header file for red-black tree.
+ *
+ * *** todo ***.
+ */
+
 #ifndef CN_RBTREE_H
 #define CN_RBTREE_H
 

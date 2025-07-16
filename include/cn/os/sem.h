@@ -1,3 +1,10 @@
+/**
+ * \file cn/os/sem.h
+ * \brief Header file for semaphore.
+ *
+ * *** todo ***.
+ */
+
 #ifndef CN_OS_SEM_H
 #define CN_OS_SEM_H
 

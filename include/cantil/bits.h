@@ -1,3 +1,8 @@
+/**
+ * \file cantil/bits.h
+ * \see cn/bits.h.
+ */
+
 #ifndef CANTIL_BITS_H
 #define CANTIL_BITS_H
 

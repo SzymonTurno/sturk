@@ -1,3 +1,10 @@
+/**
+ * \file cn/os/sys.h
+ * \brief Header file for system procedures.
+ *
+ * *** todo ***.
+ */
+
 #ifndef CN_SYS_H
 #define CN_SYS_H
 

@@ -1,3 +1,10 @@
+/**
+ * \file cn/pool.h
+ * \brief Header file for memory pool.
+ *
+ * *** todo ***.
+ */
+
 #ifndef CN_POOL_H
 #define CN_POOL_H
 

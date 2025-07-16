@@ -1,3 +1,10 @@
+/**
+ * \file cn/str.h
+ * \brief Header file for string data structures.
+ *
+ * *** todo ***.
+ */
+
 #ifndef CN_STR_H
 #define CN_STR_H
 

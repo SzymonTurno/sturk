@@ -1,3 +1,8 @@
+/**
+ * \file cantil/arith.h
+ * \see cn/arith.h.
+ */
+
 #ifndef CANTIL_ARITH_H
 #define CANTIL_ARITH_H
 

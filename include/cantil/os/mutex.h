@@ -1,3 +1,8 @@
+/**
+ * \file cantil/os/mutex.h
+ * \see cn/os/mutex.h.
+ */
+
 #ifndef CANTIL_OS_MUTEX_H
 #define CANTIL_OS_MUTEX_H
 

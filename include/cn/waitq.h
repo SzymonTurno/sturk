@@ -1,3 +1,10 @@
+/**
+ * \file cn/waitq.h
+ * \brief Header file for waiting queue.
+ *
+ * *** todo ***.
+ */
+
 #ifndef CN_WAITQ_H
 #define CN_WAITQ_H
 

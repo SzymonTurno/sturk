@@ -1,3 +1,10 @@
+/**
+ * \file cn/os/mem.h
+ * \brief Header file for memory allocator.
+ *
+ * *** todo ***.
+ */
+
 #ifndef CN_OS_MEM_H
 #define CN_OS_MEM_H
 

@@ -1,3 +1,8 @@
+/**
+ * \file cantil/waitq.h
+ * \see cn/waitq.h.
+ */
+
 #ifndef CANTIL_WAITQ_H
 #define CANTIL_WAITQ_H
 

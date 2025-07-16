@@ -1,3 +1,8 @@
+/**
+ * \file cantil/list.h
+ * \see cn/list.h.
+ */
+
 #ifndef CANTIL_LIST_H
 #define CANTIL_LIST_H
 

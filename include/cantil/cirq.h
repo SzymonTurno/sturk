@@ -1,3 +1,8 @@
+/**
+ * \file cantil/cirq.h
+ * \see cn/cirq.h.
+ */
+
 #ifndef CANTIL_CIRQ_H
 #define CANTIL_CIRQ_H
 
