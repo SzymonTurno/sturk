@@ -8,10 +8,13 @@
 
 #include "cn/arith.h"
 
+/** \see cn_max() */
 #define max cn_max
 
+/** \see cn_min() */
 #define min cn_min
 
+/** \see cn_container_of() */
 #define container_of cn_container_of
 
 #endif /* CANTIL_ARITH_H */
