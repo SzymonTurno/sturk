@@ -8,6 +8,7 @@
 
 #include "cn/os/mem.h"
 
+/** @see CN_NEW */
 #define NEW CN_NEW
 
 #endif /* CANTIL_OS_MEM_H */
