@@ -9,12 +9,10 @@ on:
 jobs:
   verify:
     name: Verify for ubuntu/macos
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os:
-          - 'ubuntu-latest'
-          - 'macos-latest'
+        platform: [ubuntu-latest, macos-latest]
     steps:
     - uses: actions/checkout@v4
     - name: Setup
@@ -41,5 +39,5 @@ jobs:
         minimum-coverage: 100
     - uses: actions/upload-artifact@v4
       with:
-        name: posix-${{ runner.os }}-reports
+        name: posix-${{ matrux.platform }}-reports
         path: build-posix/tests/reports.d/
