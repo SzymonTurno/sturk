@@ -58,7 +58,3 @@ jobs:
       run: tools/picky.sh make all-iso
     - name: Run tests
       run: tools/picky.sh make check-iso
-    - uses: actions/upload-artifact@v4
-      with:
-        name: iso-${{ matrix.platform }}-reports
-        path: build-iso/tests/reports.d/
