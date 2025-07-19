@@ -39,5 +39,5 @@ jobs:
         minimum-coverage: 100
     - uses: actions/upload-artifact@v4
       with:
-        name: posix-${{ matrux.platform }}-reports
+        name: posix-${{ matrix.platform }}-reports
         path: build-posix/tests/reports.d/
