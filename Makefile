@@ -27,4 +27,4 @@ include mk/default/phony.mk
 include mk/iso/phony.mk
 include mk/posix/phony.mk
 
-.PHONY: all check format configure docs
+.PHONY: all check configure format
