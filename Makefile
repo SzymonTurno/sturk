@@ -6,15 +6,15 @@ else
 endif
 PYTHON := python -B
 
-all: all-default
+all: cantil-default
 
 check: check-default
 
-format:
-	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i
-
 configure:
 	$(PYTHON) ./tools/olgite.py ./olconf.py | grep "_OLCONF" > mk/olconf.mk
+
+format:
+	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i
 
 docs:
 	doxygen Doxyfile
@@ -24,4 +24,4 @@ include mk/default/phony.mk
 include mk/iso/phony.mk
 include mk/posix/phony.mk
 
-.PHONY: all format configure
+.PHONY: all check format configure docs

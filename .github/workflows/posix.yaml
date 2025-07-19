@@ -20,7 +20,9 @@ jobs:
         sudo apt update
         sudo apt-get install valgrind
         sudo apt-get install lcov
-    - name: Build
+    - name: Build cantil
+      run: tools/picky.sh make cantil-posix
+    - name: Build tests
       run: tools/picky.sh make all-posix
     - name: Run tests
       run: make check-posix

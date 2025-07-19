@@ -1,5 +1,8 @@
-all-default: build/olconf.mk
+cantil-default: build/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build build/src/libcantil.a
+
+all-default: build/olconf.mk
+	$(MAKE) -f ./mk/Makefile BLDDIR=build build/tests/app
 
 check-default: build/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build \
@@ -12,4 +15,4 @@ endif
 	$(call MKDIR, build)
 	$(PYTHON) ./tools/olgite.py ./olconf.py > $@
 
-.PHONY: all-default check-default
+.PHONY: cantil-default all-default check-default
