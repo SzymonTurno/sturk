@@ -38,12 +38,12 @@
  * @brief *** todo ***.
  */
 enum CnTraceLvl {
-	CN_UNKNOWN = 0, /**< @brief Unknown trace level.    */
-	CN_DEBUG,       /**< @brief Debug trace level.      */
-	CN_INFO,        /**< @brief Info trace level.       */
-	CN_WARNING,     /**< @brief Warning trace level.    */
-	CN_ERROR,       /**< @brief Error trace level.      */
-	CN_N_TRACE_LVLS /**< @brief Number of trace levels. */
+	CN_UNKNOWN = 0, /**< unknown trace level.    */
+	CN_DEBUG,       /**< debug trace level.      */
+	CN_INFO,        /**< info trace level.       */
+	CN_WARNING,     /**< warning trace level.    */
+	CN_ERROR,       /**< error trace level.      */
+	CN_N_TRACE_LVLS /**< number of trace levels. */
 };
 
 /**

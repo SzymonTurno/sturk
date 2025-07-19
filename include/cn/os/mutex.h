@@ -11,10 +11,6 @@
 #include "cn/bits.h"
 #include <stdbool.h>
 
-#define CN_MUTEX_POLICY_MASK CN_BITMASK(2, 0)  /**< @brief Mutex policy setting bits. */
-#define CN_MUTEX_TYPE_MASK   CN_BITMASK(6, 3)  /**< @brief Mutex type setting bits. */
-#define CN_MUTEX_UNUSED_MASK CN_BITMASK(31, 7) /**< @brief Mutex settings unused bits. */
-
 /**
  * @def CN_MUTEX_BF(opt, val)
  * @brief *** todo ***.
@@ -24,13 +20,19 @@
  */
 #define CN_MUTEX_BF(opt, val) CN_BITFIELD(CN_MUTEX_##opt##_MASK, (val))
 
-#define CN_MUTEX_POLICY_NONE         CN_MUTEX_BF(POLICY, 0) /**< @brief Mutex policy none. */
-#define CN_MUTEX_POLICY_PRIO_INHERIT CN_MUTEX_BF(POLICY, 1) /**< @brief Mutex policy priority inherit. */
-#define CN_MUTEX_POLICY_DELIM        CN_MUTEX_BF(POLICY, 8) /**< @brief Mutex policy deliminator. */
+/* clang-format off */
+#define CN_MUTEX_POLICY_MASK CN_BITMASK(2, 0)  /**< mutex policy setting bits. */
+#define CN_MUTEX_TYPE_MASK   CN_BITMASK(6, 3)  /**< mutex type setting bits. */
+#define CN_MUTEX_UNUSED_MASK CN_BITMASK(31, 7) /**< mutex settings unused bits. */
 
-#define CN_MUTEX_TYPE_NONE      CN_MUTEX_BF(TYPE, 0)  /**< @brief Mutex type none. */
-#define CN_MUTEX_TYPE_RECURSIVE CN_MUTEX_BF(TYPE, 1)  /**< @brief Mutex type recursive. */
-#define CN_MUTEX_TYPE_DELIM     CN_MUTEX_BF(TYPE, 16) /**< @brief Mutex type deliminator. */
+#define CN_MUTEX_POLICY_NONE         CN_MUTEX_BF(POLICY, 0) /**< mutex policy none. */
+#define CN_MUTEX_POLICY_PRIO_INHERIT CN_MUTEX_BF(POLICY, 1) /**< mutex policy priority inherit. */
+#define CN_MUTEX_POLICY_DELIM        CN_MUTEX_BF(POLICY, 8) /**< mutex policy deliminator. */
+
+#define CN_MUTEX_TYPE_NONE      CN_MUTEX_BF(TYPE, 0)  /**< mutex type none. */
+#define CN_MUTEX_TYPE_RECURSIVE CN_MUTEX_BF(TYPE, 1)  /**< mutex type recursive. */
+#define CN_MUTEX_TYPE_DELIM     CN_MUTEX_BF(TYPE, 16) /**< mutex type deliminator. */
+/* clang-format on */
 
 /**
  * @var typedef struct CnMutex CnMutex

@@ -172,7 +172,7 @@ struct CnUnnode {
  * @struct _CnVoidList
  * @brief *** todo ***.
  */
-CN_LIST(struct _CnVoidList, void*); /**< @brief CN_LIST(struct _CnVoidList, void*) */
+CN_LIST(struct _CnVoidList, void*); /**< CN_LIST(struct _CnVoidList, void*) */
 
 /**
  * @fn struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
