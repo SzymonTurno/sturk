@@ -37,6 +37,10 @@ jobs:
       with:
         coverage-files: build-iso/tests/reports.d/coverage.info
         minimum-coverage: 100
+    - uses: actions/upload-artifact@v4
+      with:
+        name: iso-${{ matrix.platform }}-reports
+        path: build-iso/tests/reports.d/
 
   verify-win32:
     name: Verify for windows
@@ -54,3 +58,7 @@ jobs:
       run: tools/picky.sh make all-iso
     - name: Run tests
       run: tools/picky.sh make check-iso
+    - uses: actions/upload-artifact@v4
+      with:
+        name: iso-${{ matrix.platform }}-reports
+        path: build-iso/tests/reports.d/
