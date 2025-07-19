@@ -21,11 +21,11 @@ jobs:
         sudo apt-get install valgrind
         sudo apt-get install lcov
     - name: Build
-      run: make all-posix
+      run: picky.sh make all-posix
     - name: Run tests
-      run: make check-posix
+      run: picky.sh make check-posix
     - name: Checkout code
-      run: make coverage-posix
+      run: picky.sh make coverage-posix
     - name: Setup LCOV
       uses: hrishikesh-kadam/setup-lcov@v1
     - name: Report code coverage

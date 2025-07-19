@@ -20,9 +20,9 @@ jobs:
         sudo apt update
         sudo apt-get install valgrind
     - name: Build
-      run: make all
+      run: picky.sh make all
     - name: Run tests
-      run: make check
+      run: picky.sh make check
 
   verify-win32:
     name: Verify for windows
@@ -33,6 +33,6 @@ jobs:
       run: |
         python -m pip install pyyaml
     - name: Build
-      run: make all
+      run: picky.sh make all
     - name: Run tests
-      run: make check
+      run: picky.sh make check
