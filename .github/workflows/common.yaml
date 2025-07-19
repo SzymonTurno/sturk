@@ -20,9 +20,7 @@ jobs:
   doxygen-output:
     runs-on: ubuntu-latest
     steps:
-    - name: Check
-      run: ls
-    - name: Generate
-      uses: mattnotmitt/doxygen-action@v1.9.5
+    - uses: actions/checkout@v4
+    - uses: mattnotmitt/doxygen-action@v1.9.5
       with:
         working-directory: '/github/workspace'
