@@ -37,3 +37,7 @@ jobs:
       with:
         coverage-files: build-posix/tests/reports.d/coverage.info
         minimum-coverage: 100
+    - uses: actions/upload-artifact@v4
+      with:
+        name: posix-${{ RUNNER_OS }}-reports
+        path: build-posix/tests/reports.d/
