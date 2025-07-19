@@ -19,6 +19,9 @@ format:
 docs:
 	doxygen Doxyfile
 
+Unity:
+	$(MAKE) -f ./mk/Makefile Unity
+
 include mk/olconf.mk
 include mk/default/phony.mk
 include mk/iso/phony.mk

@@ -21,10 +21,12 @@ jobs:
         sudo apt-get install valgrind
     - name: Build cantil
       run: tools/picky.sh make cantil-default
+    - name: Clone Unity
+      run: make Unity
     - name: Build tests
       run: tools/picky.sh make all-default
     - name: Run tests
-      run: make check-default
+      run: tools/picky.sh make check-default
 
   verify-win32:
     name: Verify for windows

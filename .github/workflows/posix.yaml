@@ -22,10 +22,12 @@ jobs:
         sudo apt-get install lcov
     - name: Build cantil
       run: tools/picky.sh make cantil-posix
+    - name: Clone Unity
+      run: make Unity
     - name: Build tests
       run: tools/picky.sh make all-posix
     - name: Run tests
-      run: make check-posix
+      run: tools/picky.sh make check-posix
     - name: Checkout code
       run: tools/picky.sh make coverage-posix
     - name: Setup LCOV

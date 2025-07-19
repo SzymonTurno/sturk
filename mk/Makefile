@@ -1,4 +1,8 @@
+ifeq (,$(BLDDIR))
+unity_DIR := Unity
+else
 include $(BLDDIR)/olconf.mk
+endif
 
 $(test_BLDDIR)/reports.d/coverage.d: $(test_BLDDIR)/reports.d/coverage.info
 ifeq ($(OS),Windows_NT)
