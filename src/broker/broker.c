@@ -71,12 +71,12 @@ static void ins_msg(CnSubscriber* sber, struct Message* msg)
 {
 	struct Qentry* entry = pool_alloc(sber->broker->sbers.pool);
 
-	if (!entry) {
-		/* LCOV_EXCL_START */
-		RAISE(ERROR, alloc_fail);
-		return;
-		/* LCOV_EXCL_STOP */
-	}
+	/* if (!entry) { */
+	/* 	/\* LCOV_EXCL_START *\/ */
+	/* 	RAISE(ERROR, alloc_fail); */
+	/* 	return; */
+	/* 	/\* LCOV_EXCL_STOP *\/ */
+	/* } */
 	*cirq_data(entry) = msg;
 	waitq_ins(sber->q, cirq_cast(entry));
 }
@@ -270,10 +270,10 @@ void cn_subscribe(CnSubscriber* sber, const char* topic)
 	struct CnChannel* ch = NULL;
 	struct ChannelData* data = NULL;
 
-	/* if (!sber->broker) { */
-	/* 	RAISE(WARNING, null_param); */
-	/* 	return; */
-	/* } */
+	if (!sber->broker) {
+		RAISE(WARNING, null_param);
+		return;
+	}
 	ch = broker_search(sber->broker, topic);
 	data = dict_data(ch);
 	sber->list = list_ins(sber->list, clist_create(ch));
