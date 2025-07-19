@@ -10,7 +10,7 @@ struct CnSem {
 
 CnSem* cn_sem_create(CnBits args)
 {
-	CnSem* self = new(CnSem);
+	CnSem* self = NEW(CnSem);
 
 	(void)args;
 	self->n = 0;

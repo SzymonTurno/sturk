@@ -26,7 +26,7 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 
 CnLogsink* cn_logsink_create(void)
 {
-	CnLogsink* self = new(CnLogsink);
+	CnLogsink* self = NEW(CnLogsink);
 
 	self->head = NULL;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
@@ -46,7 +46,7 @@ void cn_logsink_destroy(CnLogsink* list)
 
 void cn_logsink_ins(CnLogsink* list, CnFstream* stream)
 {
-	struct StreamList* entry = new(struct StreamList);
+	struct StreamList* entry = NEW(struct StreamList);
 
 	ENSURE(list, ERROR, null_param);
 	*list_data(entry) = stream;

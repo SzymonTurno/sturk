@@ -164,7 +164,7 @@ struct CnStrbag* multi_thread_pubsub(void)
 {
 	struct CnStrbag* ret = NULL;
 	struct CnFstream* stream = cn_fopen("multi_thread_pubsub.tmp", "w+");
-	char* buff = new(char, 256);
+	char* buff = NEW(char, 256);
 
 	logger_attach(INFO, stream);
 	app();

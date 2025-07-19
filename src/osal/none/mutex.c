@@ -11,7 +11,7 @@ struct CnMutex {
 
 CnMutex* cn_mutex_create(CnBits args)
 {
-	CnMutex* self = new(CnMutex);
+	CnMutex* self = NEW(CnMutex);
 
 	self->locked = 0;
 	self->recursive = args & MUTEX_TYPE_RECURSIVE;

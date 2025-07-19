@@ -11,7 +11,7 @@
 
 static struct CnStrbag* bag_create(const char* str)
 {
-	struct CnStrbag* self = new(struct CnStrbag);
+	struct CnStrbag* self = NEW(struct CnStrbag);
 
 	dict_setk(self, newstr(str));
 	dict_data(self)->n = 0;
@@ -36,7 +36,7 @@ static struct CnStrbag* bag_root(struct CnStrbag* bag)
 
 struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
 {
-	struct CnStrlist* self = new(struct CnStrlist);
+	struct CnStrlist* self = NEW(struct CnStrlist);
 
 	ENSURE_MEMORY(ERROR, self);
 	*list_data(self) = str;
@@ -45,7 +45,7 @@ struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
 
 char* cn_newstr(const char* str)
 {
-	return strcpy(new(char, strlen(str) + 1), str);
+	return strcpy(NEW(char, strlen(str) + 1), str);
 }
 
 char* cn_strlist_rem(struct CnStrlist** listp)
@@ -59,7 +59,7 @@ char* cn_strlist_rem(struct CnStrlist** listp)
 
 struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str)
 {
-	struct CnStrq* self = new(struct CnStrq);
+	struct CnStrq* self = NEW(struct CnStrq);
 
 	ENSURE_MEMORY(ERROR, self);
 	*cirq_data(self) = str;

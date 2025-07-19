@@ -71,7 +71,7 @@ CnMutex* cn_mutex_create(CnBits args)
 		return NULL;
 	}
 
-	self = new(struct CnMutex);
+	self = NEW(struct CnMutex);
 	if (pthread_mutex_init(&self->pmut, &attr) != OK) {
 		/* LCOV_EXCL_START */
 		RAISE(ERROR, mutex_fail);

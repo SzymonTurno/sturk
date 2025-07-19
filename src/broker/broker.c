@@ -10,7 +10,7 @@
 
 static CnChannel* channel_create(CnBroker* broker, const char* topic)
 {
-	CnChannel* self = new(CnChannel);
+	CnChannel* self = NEW(CnChannel);
 	struct ChannelData* data = dict_data(self);
 
 	dict_setk(self, newstr(topic));
@@ -53,7 +53,7 @@ static void dict_destroy(CnChannel* dict)
 
 static struct ChannelList* clist_create(CnChannel* ch)
 {
-	struct ChannelList* self = new(struct ChannelList);
+	struct ChannelList* self = NEW(struct ChannelList);
 
 	*list_data(self) = ch;
 	return self;
@@ -61,7 +61,7 @@ static struct ChannelList* clist_create(CnChannel* ch)
 
 static struct SubscriberList* slist_create(struct CnSubscriber* sber)
 {
-	struct SubscriberList* self = new(struct SubscriberList);
+	struct SubscriberList* self = NEW(struct SubscriberList);
 
 	*list_data(self) = sber;
 	return self;
@@ -69,7 +69,7 @@ static struct SubscriberList* slist_create(struct CnSubscriber* sber)
 
 static void ins_msg(CnSubscriber* sber, struct Message* msg)
 {
-	struct Qentry* entry = new(struct Qentry);
+	struct Qentry* entry = NEW(struct Qentry);
 
 	if (!entry) {
 		/* LCOV_EXCL_START */
@@ -129,7 +129,7 @@ CnBroker* cn_broker_create(const struct CnLoadVt* vp)
 	ENSURE_MEMORY(ERROR, vp->size);
 	ENSURE_MEMORY(ERROR, vp->ctor);
 	ENSURE_MEMORY(ERROR, vp->dtor);
-	self = new(struct CnBroker);
+	self = NEW(struct CnBroker);
 	self->vp = vp;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->channels.offset = (vp->size() / MSG_SIZE + 1) * MSG_SIZE;
@@ -177,7 +177,7 @@ CnSubscriber* cn_subscriber_create(CnBroker* broker)
 	CnSubscriber* self = NULL;
 
 	ENSURE_MEMORY(ERROR, broker);
-	self = new(CnSubscriber);
+	self = NEW(CnSubscriber);
 	self->broker = broker;
 	self->q = waitq_create();
 	self->msg = NULL;

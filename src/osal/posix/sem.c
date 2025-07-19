@@ -12,7 +12,7 @@ struct CnSem {
 
 CnSem* cn_sem_create(CnBits args)
 {
-	struct CnSem* self = new(struct CnSem);
+	struct CnSem* self = NEW(struct CnSem);
 	(void)args;
 
 	if (sem_init(&self->sem, 0, 0) != OK) {

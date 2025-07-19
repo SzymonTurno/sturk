@@ -16,7 +16,7 @@ struct CnPool {
 
 CnPool* cn_pool_create(size_t blk_size)
 {
-	CnPool* self = new(CnPool);
+	CnPool* self = NEW(CnPool);
 
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->blk_size = max(blk_size, sizeof(*self->list));

@@ -35,7 +35,7 @@ void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
 	ENSURE(lvl > UNKNOWN && lvl < N_TRACE_LVLS, ERROR, not_supported);
 	if (!logsink[lvl])
 		return;
-	buff = new(char, BUFF_MAX_SIZE);
+	buff = NEW(char, BUFF_MAX_SIZE);
 	if (tag)
 		cn_snprintf(
 			buff, BUFF_MAX_SIZE, "[%s][%s] %s\n", get_lvlstr(lvl),

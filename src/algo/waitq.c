@@ -14,7 +14,7 @@ struct CnWaitq {
 
 CnWaitq* cn_waitq_create(void)
 {
-	CnWaitq* self = new(CnWaitq);
+	CnWaitq* self = NEW(CnWaitq);
 
 	self->mut = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->sem = sem_create(0);
