@@ -460,7 +460,7 @@ TEST(logger, should_trace_null_params)
 
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning] src/broker/broker.c:271: Null param.\n",
+		"[warning] src/broker/broker.c:274: Null param.\n",
 		gettrace(0));
 	free(tmp);
 }
