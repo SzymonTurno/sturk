@@ -1,6 +1,6 @@
 /**
- * \file cantil/arith.h
- * \see cn/arith.h.
+ * @file cantil/arith.h
+ * @see cn/arith.h.
  */
 
 #ifndef CANTIL_ARITH_H
@@ -8,13 +8,13 @@
 
 #include "cn/arith.h"
 
-/** \see cn_max() */
+/** @see cn_max() */
 #define max cn_max
 
-/** \see cn_min() */
+/** @see cn_min() */
 #define min cn_min
 
-/** \see cn_container_of() */
+/** @see cn_container_of() */
 #define container_of cn_container_of
 
 #endif /* CANTIL_ARITH_H */

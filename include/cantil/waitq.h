@@ -1,6 +1,6 @@
 /**
- * \file cantil/waitq.h
- * \see cn/waitq.h.
+ * @file cantil/waitq.h
+ * @see cn/waitq.h.
  */
 
 #ifndef CANTIL_WAITQ_H

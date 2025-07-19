@@ -1,6 +1,6 @@
 /**
- * \file cn/logger/trace.h
- * \brief Header file for logging procedures.
+ * @file cn/logger/trace.h
+ * @brief Header file for logging procedures.
  *
  * *** todo ***.
  */
@@ -13,19 +13,19 @@
 #ifndef CN_LOGGER_EN
 
 /**
- * \def CN_LOGGER_EN
- * \brief *** todo ***.
+ * @def CN_LOGGER_EN
+ * @brief *** todo ***.
  */
 #define CN_LOGGER_EN 0
 
 #endif /* CN_LOGGER_EN */
 
 /**
- * \def CN_TRACE(lvl, tag, ...)
- * \brief *** todo ***.
- * \param[in] lvl Input.
- * \param[in] tag Input.
- * \param[in] ... Input.
+ * @def CN_TRACE(lvl, tag, ...)
+ * @brief *** todo ***.
+ * @param[in] lvl Input.
+ * @param[in] tag Input.
+ * @param[in] ... Input.
  */
 #define CN_TRACE(lvl, tag, ...)                                                \
 	do {                                                                   \
@@ -34,8 +34,8 @@
 	} while (0)
 
 /**
- * \enum CnTraceLvl
- * \brief *** todo ***.
+ * @enum CnTraceLvl
+ * @brief *** todo ***.
  */
 enum CnTraceLvl {
 	CN_UNKNOWN = 0, /**< unknown trace level.    */
@@ -47,34 +47,34 @@ enum CnTraceLvl {
 };
 
 /**
- * \fn void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
- * \brief *** todo ***.
- * \param[in] lvl Input.
- * \param[in] tag Input.
- * \param[in] format Input.
- * \param[in] ... Input.
+ * @fn void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
+ * @brief *** todo ***.
+ * @param[in] lvl Input.
+ * @param[in] tag Input.
+ * @param[in] format Input.
+ * @param[in] ... Input.
  */
 void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...);
 
 /**
- * \fn void cn_logger_attach(enum CnTraceLvl lvl, CnFstream* stream)
- * \brief *** todo ***.
- * \param[in] lvl Input.
- * \param[in,out] stream Input/output.
+ * @fn void cn_logger_attach(enum CnTraceLvl lvl, CnFstream* stream)
+ * @brief *** todo ***.
+ * @param[in] lvl Input.
+ * @param[in,out] stream Input/output.
  */
 void cn_logger_attach(enum CnTraceLvl lvl, CnFstream* stream);
 
 /**
- * \fn void cn_logger_detach(enum CnTraceLvl lvl, CnFstream* stream)
- * \brief *** todo ***.
- * \param[in] lvl Input.
- * \param[in,out] stream Input/output.
+ * @fn void cn_logger_detach(enum CnTraceLvl lvl, CnFstream* stream)
+ * @brief *** todo ***.
+ * @param[in] lvl Input.
+ * @param[in,out] stream Input/output.
  */
 void cn_logger_detach(enum CnTraceLvl lvl, CnFstream* stream);
 
 /**
- * \fn void cn_logger_cleanup(void)
- * \brief *** todo ***.
+ * @fn void cn_logger_cleanup(void)
+ * @brief *** todo ***.
  */
 void cn_logger_cleanup(void);
 

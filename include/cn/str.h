@@ -1,6 +1,6 @@
 /**
- * \file cn/str.h
- * \brief Header file for string data structures.
+ * @file cn/str.h
+ * @brief Header file for string data structures.
  *
  * *** todo ***.
  */

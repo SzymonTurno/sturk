@@ -1,6 +1,6 @@
 /**
- * \file cn/os/mem.h
- * \brief Header file for memory allocator.
+ * @file cn/os/mem.h
+ * @brief Header file for memory allocator.
  *
  * *** todo ***.
  */

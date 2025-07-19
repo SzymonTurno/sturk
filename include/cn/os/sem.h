@@ -1,6 +1,6 @@
 /**
- * \file cn/os/sem.h
- * \brief Header file for semaphore.
+ * @file cn/os/sem.h
+ * @brief Header file for semaphore.
  *
  * *** todo ***.
  */

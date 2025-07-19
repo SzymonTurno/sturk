@@ -1,6 +1,6 @@
 /**
- * \file cn/os/mutex.h
- * \brief Header file for mutex.
+ * @file cn/os/mutex.h
+ * @brief Header file for mutex.
  *
  * *** todo ***.
  */

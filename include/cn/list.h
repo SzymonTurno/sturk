@@ -1,6 +1,6 @@
 /**
- * \file cn/list.h
- * \brief Header file for singly linked list.
+ * @file cn/list.h
+ * @brief Header file for singly linked list.
  *
  * Compile without __STRICT_ANSI__ for additional type checks.
  */
@@ -41,11 +41,11 @@
 #else /* not defined: __STRICT_ANSI__ */
 
 /**
- * \def CN_LIST(name, type)
- * \brief *** todo ***.
- * \param[in] name Input.
- * \param[in] type Input.
- * \returns *** todo ***.
+ * @def CN_LIST(name, type)
+ * @brief *** todo ***.
+ * @param[in] name Input.
+ * @param[in] type Input.
+ * @returns *** todo ***.
  */
 #define CN_LIST(name, type)                                                    \
 	name                                                                   \
@@ -58,12 +58,12 @@
 	}
 
 /**
- * \def cn_list_data(list)
- * \brief *** todo ***.
- * \param[in] list Input.
- * \returns *** todo ***.
+ * @def cn_list_data(list)
+ * @brief *** todo ***.
+ * @param[in] list Input.
+ * @returns *** todo ***.
  *
- * No type check for \a list with __STRICT_ANSI__ build.
+ * No type check for @a list with __STRICT_ANSI__ build.
  */
 #define cn_list_data(list)                                                     \
 	({                                                                     \
@@ -74,13 +74,13 @@
 	})
 
 /**
- * \def cn_list_hand(listp, pos)
- * \brief *** todo ***.
- * \param[in] listp Input.
- * \param[in] pos Input.
- * \returns *** todo ***.
+ * @def cn_list_hand(listp, pos)
+ * @brief *** todo ***.
+ * @param[in] listp Input.
+ * @param[in] pos Input.
+ * @returns *** todo ***.
  *
- * No type check for \a listp with __STRICT_ANSI__ build.
+ * No type check for @a listp with __STRICT_ANSI__ build.
  */
 #define cn_list_hand(listp, pos)                                               \
 	({                                                                     \
@@ -123,84 +123,84 @@
 #endif /* __STRICT_ANSI__ */
 
 /**
- * \def cn_list_iter(i, ...)
- * \brief *** todo ***.
- * \param[in] i Input.
- * \param[in] ... (1) listp input; (2) pos (optional) input, 1 by default.
- * \returns *** todo ***.
+ * @def cn_list_iter(i, ...)
+ * @brief *** todo ***.
+ * @param[in] i Input.
+ * @param[in] ... (1) listp input; (2) pos (optional) input, 1 by default.
+ * @returns *** todo ***.
  *
- * No type check for \a listp with __STRICT_ANSI__ build.
+ * No type check for @a listp with __STRICT_ANSI__ build.
  */
 #define cn_list_iter(i, ...) _cn_list_iter ((i), __VA_ARGS__, 1, )
 
 /**
- * \def cn_list_ins(list, ...)
- * \brief *** todo ***.
- * \param[in,out] list Input/output.
- * \param[in,out] ... (1) entry input/output; (2) pos (optional) input, 0 by default.
- * \returns *** todo ***.
+ * @def cn_list_ins(list, ...)
+ * @brief *** todo ***.
+ * @param[in,out] list Input/output.
+ * @param[in,out] ... (1) entry input/output; (2) pos (optional) input, 0 by default.
+ * @returns *** todo ***.
  *
- * No type check for \a list with __STRICT_ANSI__ build.
+ * No type check for @a list with __STRICT_ANSI__ build.
  */
 #define cn_list_ins(list, ...) _CN_LIST_INS((list), __VA_ARGS__, 0, )
 
 /**
- * \def cn_list_rem(...)
- * \brief *** todo ***.
- * \param[in,out] ... (1) listp input/output; (2) pos (optional) input, 0 by default.
- * \returns *** todo ***.
+ * @def cn_list_rem(...)
+ * @brief *** todo ***.
+ * @param[in,out] ... (1) listp input/output; (2) pos (optional) input, 0 by default.
+ * @returns *** todo ***.
  *
- * No type check for \a listp with __STRICT_ANSI__ build.
+ * No type check for @a listp with __STRICT_ANSI__ build.
  */
 #define cn_list_rem(...) _CN_LIST_REM(__VA_ARGS__, 0, )
 
 /**
- * \struct CnUnnode
- * \brief *** todo ***.
+ * @struct CnUnnode
+ * @brief *** todo ***.
  *
  * Members:
  * - next.
  */
 struct CnUnnode {
 	/**
-	 * \var struct CnUnnode* next
-	 * \brief *** todo ***.
+	 * @var struct CnUnnode* next
+	 * @brief *** todo ***.
 	 */
 	struct CnUnnode* next;
 };
 
 /**
- * \struct _CnVoidList
- * \brief *** todo ***.
+ * @struct _CnVoidList
+ * @brief *** todo ***.
  */
 CN_LIST(struct _CnVoidList, void*); /**< CN_LIST(struct _CnVoidList, void*) */
 
 /**
- * \fn struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
- * \brief *** todo ***.
- * \param[in] nodep Input.
- * \param[in] pos Input.
- * \returns *** todo ***.
+ * @fn struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
+ * @brief *** todo ***.
+ * @param[in] nodep Input.
+ * @param[in] pos Input.
+ * @returns *** todo ***.
  */
 struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos);
 
 /**
- * \fn struct CnUnnode* cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos)
- * \brief *** todo ***.
- * \param[in,out] head Input/output.
- * \param[in,out] node Input/output.
- * \param[in] pos Input.
- * \returns *** todo ***.
+ * @fn struct CnUnnode* cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos)
+ * @brief *** todo ***.
+ * @param[in,out] head Input/output.
+ * @param[in,out] node Input/output.
+ * @param[in] pos Input.
+ * @returns *** todo ***.
  */
 struct CnUnnode*
 cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos);
 
 /**
- * \fn struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos)
- * \brief *** todo ***.
- * \param[in,out] headp Input/output.
- * \param[in] pos Input.
- * \returns *** todo ***.
+ * @fn struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos)
+ * @brief *** todo ***.
+ * @param[in,out] headp Input/output.
+ * @param[in] pos Input.
+ * @returns *** todo ***.
  */
 struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
 

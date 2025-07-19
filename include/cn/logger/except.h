@@ -1,6 +1,6 @@
 /**
- * \file cn/logger/except.h
- * \brief Header file for exceptions.
+ * @file cn/logger/except.h
+ * @brief Header file for exceptions.
  *
  * *** todo ***.
  */
@@ -14,19 +14,19 @@
 #ifndef CN_EXCEPTIONS_EN
 
 /**
- * \def CN_EXCEPTIONS_EN
- * \brief *** todo ***.
+ * @def CN_EXCEPTIONS_EN
+ * @brief *** todo ***.
  */
 #define CN_EXCEPTIONS_EN 0
 
 #endif /* CN_EXCEPTIONS_EN */
 
 /**
- * \def CN_ENSURE(lvl, e)
- * \brief *** todo ***.
- * \param[in] cond Input.
- * \param[in] lvl Input.
- * \param[in] e Input.
+ * @def CN_ENSURE(lvl, e)
+ * @brief *** todo ***.
+ * @param[in] cond Input.
+ * @param[in] lvl Input.
+ * @param[in] e Input.
  */
 #define CN_ENSURE(cond, lvl, e)                                                \
 	do {                                                                   \
@@ -54,19 +54,19 @@
 	} while (0)
 
 /**
- * \def CN_RAISE(lvl, e)
- * \brief *** todo ***.
- * \param[in] lvl Input.
- * \param[in] e Input.
+ * @def CN_RAISE(lvl, e)
+ * @brief *** todo ***.
+ * @param[in] lvl Input.
+ * @param[in] e Input.
  */
 #define CN_RAISE(lvl, e) CN_ENSURE(0, lvl, e)
 
 /**
- * \def CN_ENSURE_MEMORY(lvl, ptr)
- * \brief *** todo ***.
- * \param[in] lvl Input.
- * \param[in] ptr Input.
- * \returns *** todo ***.
+ * @def CN_ENSURE_MEMORY(lvl, ptr)
+ * @brief *** todo ***.
+ * @param[in] lvl Input.
+ * @param[in] ptr Input.
+ * @returns *** todo ***.
  */
 #define CN_ENSURE_MEMORY(lvl, ptr)                                             \
 	do {                                                                   \
@@ -77,16 +77,16 @@
 	} while (0)
 
 /**
- * \struct CnException
- * \brief *** todo ***.
+ * @struct CnException
+ * @brief *** todo ***.
  *
  * Members:
  * - reason.
  */
 struct CnException {
 	/**
-	 * \var const char* reason
-	 * \brief *** todo ***.
+	 * @var const char* reason
+	 * @brief *** todo ***.
 	 */
 	const char* reason;
 };

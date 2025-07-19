@@ -1,6 +1,6 @@
 /**
- * \file cantil/logger/except.h
- * \see cn/logger/except.h.
+ * @file cantil/logger/except.h
+ * @see cn/logger/except.h.
  */
 
 #ifndef CANTIL_LOGGER_EXCEPT_H

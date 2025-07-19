@@ -1,6 +1,6 @@
 /**
- * \file cn/pool.h
- * \brief Header file for memory pool.
+ * @file cn/pool.h
+ * @brief Header file for memory pool.
  *
  * *** todo ***.
  */

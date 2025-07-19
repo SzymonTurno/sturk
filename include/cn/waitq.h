@@ -1,6 +1,6 @@
 /**
- * \file cn/waitq.h
- * \brief Header file for waiting queue.
+ * @file cn/waitq.h
+ * @brief Header file for waiting queue.
  *
  * *** todo ***.
  */

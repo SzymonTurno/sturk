@@ -1,6 +1,6 @@
 /**
- * \file cantil/logger/sink.h
- * \see cn/logger/sink.h.
+ * @file cantil/logger/sink.h
+ * @see cn/logger/sink.h.
  */
 
 #ifndef CANTIL_LOGGER_SINK_H

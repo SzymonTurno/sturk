@@ -1,6 +1,6 @@
 /**
- * \file cn/os/sys.h
- * \brief Header file for system procedures.
+ * @file cn/os/sys.h
+ * @brief Header file for system procedures.
  *
  * *** todo ***.
  */

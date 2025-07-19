@@ -1,6 +1,6 @@
 /**
- * \file cn/rbtree.h
- * \brief Header file for red-black tree.
+ * @file cn/rbtree.h
+ * @brief Header file for red-black tree.
  *
  * *** todo ***.
  */
@@ -10,10 +10,14 @@
 
 #include <stdint.h>
 
+/**
+ * @enum CnBstTrav
+ * @brief *** todo ***.
+ */
 enum CnBstTrav {
-	CN_BST_TRAV_INORDER = 0,
-	CN_BST_TRAV_PREORDER,
-	CN_BST_TRAV_POSTORDER,
+	CN_BST_TRAV_INORDER = 0, /**< BST inorder traversal.   */
+	CN_BST_TRAV_PREORDER,    /**< BST preorder traversal.  */
+	CN_BST_TRAV_POSTORDER,   /**< BST postorder traversal. */
 };
 
 struct CnRbnode {

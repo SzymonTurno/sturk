@@ -1,6 +1,6 @@
 /**
- * \file cantil/pool.h
- * \see cn/pool.h.
+ * @file cantil/pool.h
+ * @see cn/pool.h.
  */
 
 #ifndef CANTIL_POOL_H

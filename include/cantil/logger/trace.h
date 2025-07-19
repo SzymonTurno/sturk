@@ -1,6 +1,6 @@
 /**
- * \file cantil/logger/trace.h
- * \see cn/logger/trace.h.
+ * @file cantil/logger/trace.h
+ * @see cn/logger/trace.h.
  */
 
 #ifndef CANTIL_LOGGER_TRACE_H
