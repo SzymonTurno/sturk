@@ -38,6 +38,8 @@ jobs:
         python -m pip install pyyaml
     - name: Build cantil
       run: tools/picky.sh make cantil-default
+    - name: Clone Unity
+      run: make Unity
     - name: Build tests
       run: tools/picky.sh make all-default
     - name: Run tests
