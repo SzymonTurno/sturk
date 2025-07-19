@@ -22,4 +22,4 @@ jobs:
     steps:
       - uses: mattnotmitt/doxygen-action@v1.9.5
         with:
-          working-directory: '/home/runner/work/cantil/cantil'
+          working-directory: '/github/workspace'
