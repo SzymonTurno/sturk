@@ -270,10 +270,10 @@ void cn_subscribe(CnSubscriber* sber, const char* topic)
 	struct CnChannel* ch = NULL;
 	struct ChannelData* data = NULL;
 
-	if (!sber->broker) {
-		RAISE(WARNING, null_param);
-		return;
-	}
+	/* if (!sber->broker) { */
+	/* 	RAISE(WARNING, null_param); */
+	/* 	return; */
+	/* } */
 	ch = broker_search(sber->broker, topic);
 	data = dict_data(ch);
 	sber->list = list_ins(sber->list, clist_create(ch));
