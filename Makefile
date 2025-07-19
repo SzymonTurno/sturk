@@ -16,9 +16,6 @@ configure:
 format:
 	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i
 
-docs:
-	doxygen Doxyfile
-
 Unity:
 	$(MAKE) -f ./mk/Makefile Unity
 
