@@ -71,12 +71,12 @@ static void ins_msg(CnSubscriber* sber, struct Message* msg)
 {
 	struct Qentry* entry = pool_alloc(sber->broker->sbers.pool);
 
-	/* if (!entry) { */
-	/* 	/\* LCOV_EXCL_START *\/ */
-	/* 	RAISE(ERROR, alloc_fail); */
-	/* 	return; */
-	/* 	/\* LCOV_EXCL_STOP *\/ */
-	/* } */
+	if (!entry) {
+		/* LCOV_EXCL_START */
+		RAISE(ERROR, alloc_fail);
+		return;
+		/* LCOV_EXCL_STOP */
+	}
 	*cirq_data(entry) = msg;
 	waitq_ins(sber->q, cirq_cast(entry));
 }
