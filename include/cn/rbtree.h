@@ -15,9 +15,9 @@
  * @brief *** todo ***.
  */
 enum CnBstTrav {
-	CN_BST_TRAV_INORDER = 0, /**< BST inorder traversal.   */
-	CN_BST_TRAV_PREORDER,    /**< BST preorder traversal.  */
-	CN_BST_TRAV_POSTORDER,   /**< BST postorder traversal. */
+	CN_BST_TRAV_INORDER = 0, /**< @brief BST inorder traversal.   */
+	CN_BST_TRAV_PREORDER,    /**< @brief BST preorder traversal.  */
+	CN_BST_TRAV_POSTORDER,   /**< @brief BST postorder traversal. */
 };
 
 /**

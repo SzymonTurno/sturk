@@ -68,7 +68,7 @@
  */
 #define cn_cirq_from(ptr, type) cn_container_of(ptr, type, node)
 
-/** Private. */
+/* @cond */
 #define _CN_CIRQ_INS(cirq, entry, pos, ...)                                    \
 	({                                                                     \
 		__typeof__(entry) _cirq = (cirq);                              \
@@ -81,7 +81,6 @@
 			__typeof__(*entry));                                   \
 	})
 
-/** Private. */
 #define _CN_CIRQ_REM(cirqp, pos, ...)                                          \
 	({                                                                     \
 		__typeof__(cirqp) _cirqp = (cirqp);                            \
@@ -93,6 +92,7 @@
 		*_cirqp = cn_cirq_from(_node, __typeof__(**_cirqp));           \
 		_ret;                                                          \
 	})
+/* @endcond */
 
 #endif /* __STRICT_ANSI__ */
 

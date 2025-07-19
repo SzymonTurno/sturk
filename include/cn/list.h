@@ -93,11 +93,10 @@
 		_listp;                                                        \
 	})
 
-/** Private. */
+/* @cond */
 #define _cn_list_iter(_i, listp, pos, ...)                                     \
 	for (__typeof__(listp) _i = (listp); *_i; _i = cn_list_hand(_i, (pos)))
 
-/** Private. */
 #define _CN_LIST_INS(list, entry, pos, ...)                                    \
 	({                                                                     \
 		__typeof__(entry) _list = (list);                              \
@@ -110,7 +109,6 @@
 		_list;                                                         \
 	})
 
-/** Private. */
 #define _CN_LIST_REM(listp, pos, ...)                                          \
 	({                                                                     \
 		__typeof__(listp) _tmp = cn_list_hand((listp), (pos));         \
@@ -119,6 +117,7 @@
 		*_tmp = (*_tmp)->next;                                         \
 		_ret;                                                          \
 	})
+/* @endcond */
 
 #endif /* __STRICT_ANSI__ */
 
@@ -173,7 +172,7 @@ struct CnUnnode {
  * @struct _CnVoidList
  * @brief *** todo ***.
  */
-CN_LIST(struct _CnVoidList, void*); /**< CN_LIST(struct _CnVoidList, void*) */
+CN_LIST(struct _CnVoidList, void*); /**< @brief CN_LIST(struct _CnVoidList, void*) */
 
 /**
  * @fn struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
