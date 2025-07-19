@@ -39,5 +39,5 @@ jobs:
         minimum-coverage: 100
     - uses: actions/upload-artifact@v4
       with:
-        name: posix-${{ RUNNER_OS }}-reports
+        name: posix-${{ runner.os }}-reports
         path: build-posix/tests/reports.d/
