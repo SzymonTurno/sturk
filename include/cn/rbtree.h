@@ -31,6 +31,10 @@ enum CnBstTrav {
  * - right.
  */
 struct CnRbnode {
+	/**
+	 * @var u
+	 * @brief *** todo ***.
+	 */
 	union {
 		/**
 		 * @var intptr_t parcol

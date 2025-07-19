@@ -102,7 +102,7 @@ struct CnStrbag* cn_strbag_rem(struct CnStrbag* bag, const char* str)
 	return bag;
 }
 
-int cn_strbag_count(struct CnStrbag* bag)
+int cn_strbag_count(const struct CnStrbag* bag)
 {
 	return bag ? dict_data(bag)->n : 0;
 }
