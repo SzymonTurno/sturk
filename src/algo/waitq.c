@@ -2,9 +2,9 @@
 #include "cantil/cirq.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
+#include "cantil/os/mem.h"
 #include "cantil/os/mutex.h"
 #include "cantil/os/sem.h"
-#include "cantil/os/mem.h"
 
 struct CnWaitq {
 	CnMutex* mut;

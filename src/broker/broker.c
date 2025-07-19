@@ -1,9 +1,9 @@
 #include "cantil/arith.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
+#include "cantil/os/mem.h"
 #include "cantil/rbtree.h"
 #include "cantil/str.h"
-#include "cantil/os/mem.h"
 #include "message.h"
 
 #define MSG_SIZE sizeof(struct Message)

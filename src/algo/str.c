@@ -5,8 +5,8 @@
 #include "cantil/list.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
-#include "cantil/rbtree.h"
 #include "cantil/os/mem.h"
+#include "cantil/rbtree.h"
 #include <string.h>
 
 static struct CnStrbag* bag_create(const char* str)

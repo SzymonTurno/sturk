@@ -2,8 +2,8 @@
 #include "cantil/list.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
-#include "cantil/os/mutex.h"
 #include "cantil/os/mem.h"
+#include "cantil/os/mutex.h"
 
 LIST(struct StreamList, CnFstream*);
 

@@ -1,7 +1,7 @@
 #include "cantil/broker.h"
 #include "cantil/logger/trace.h"
-#include "cantil/str.h"
 #include "cantil/os/mem.h"
+#include "cantil/str.h"
 #include "cn/os/sys.h"
 #include "pubsub.h"
 
