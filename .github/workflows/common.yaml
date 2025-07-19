@@ -22,6 +22,6 @@ jobs:
     steps:
       - uses: mattnotmitt/doxygen-action@v1.9.5
         with:
-	  working-directory: '.'
-	  doxyfile-path: 'docs/Doxyfile'
+          working-directory: '.'
+          doxyfile-path: 'docs/Doxyfile'
           enable-latex: true
