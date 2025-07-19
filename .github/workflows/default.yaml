@@ -22,7 +22,7 @@ jobs:
     - name: Build
       run: tools/picky.sh make all
     - name: Run tests
-      run: tools/picky.sh make check
+      run: make check
 
   verify-win32:
     name: Verify for windows

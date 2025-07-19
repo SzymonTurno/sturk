@@ -23,7 +23,7 @@ jobs:
     - name: Build
       run: tools/picky.sh make all-iso
     - name: Run tests
-      run: tools/picky.sh make check-iso
+      run: make check-iso
     - name: Checkout code
       run: tools/picky.sh make coverage-iso
     - name: Setup LCOV
