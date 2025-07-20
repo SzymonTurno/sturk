@@ -4,38 +4,10 @@
  * @brief Message broker.
  *
  * This file defines data types and functions that implement the
- * publish-subscribe messaging pattern. Design choices of using:
- * 1. BST - as oppose to hash table - for implementing topics dictionary,
+ * publish-subscribe messaging pattern. The design choices:
+ * 1. BST - as oppose to hash table - for implementing channels dictionary,
  * 2. memory pools for messages and queue entries,
- * attempt to make this suitable for memory constrained systems.
- *
- * The memory for each message is allocated by the broker in two ways:
- * 1. directly - always, let's call memory allocated this way "static space";
- * 2. indirectly - optional, let's call memory allocated this way "dynamic space".
- *
- * The "static space" is kept within a memory pool. The size of the static space
- * is constant for all messages and it is computed from the value returned by
- * the size callback - CnLoadVt::size. Static space cannot be 0 even if the size
- * callback returns 0 as the message contains also metadata needed for thread
- * synchronization and a reference to the channel source of the message. Static
- * space contains also empty bytes for alignment - size of the static space is
- * always a multiple of the size of the metadata.
- *
- * STATIC SPACE
- * +----------+------+ <-- The load pointer (CnLoad*) points here.
- * | msg[0]   |      |     @see CnLoadVt::ctor
- * +----------+      |     @see CnLoadVt::dtor
- * | ...      | load |     @see cn_subscriber_await()
- * +----------+      |     @see cn_subscriber_poll()
- * | msg[n-1] |      |
- * +----------+------+
- * | msg[n]   | meta |
- * +----------+------+
- *
- * The "dynamic space" is anything allocated by the contructor - CnLoadVt::ctor.
- * Must be freed by the destructor - CnLoadVt::dtor. This space is optional, if
- * the constructor only initializes the message (fills the load) and does not
- * allocate memory or access global resources, destructor can be empty.
+ * attempt to make this implementation suitable for memory constrained systems.
  */
 
 #ifndef CN_BROKER_H
@@ -47,7 +19,35 @@
 /**
  * @var typedef char CnLoad
  *
- * @brief Opaque type for the load.
+ * @brief Opaque data type that represents the load.
+ *
+ * The memory for each message has two contexts:
+ * 1. direct - allocated from the memory pool;
+ * 2. indirect - optional, allocated within CnLoadVt::ctor.
+ *
+ * It is for the user to decide how to use those contexts by defining the
+ * message constructor (@see CnLoadVt::ctor).
+ *
+ * Direct context is a contiguous memory block allocated from fixed-size memory
+ * pool (@see CnPool) and its size is constant for all messages. The size of the
+ * block is a multiple of the size of the metadata, big enough to hold one
+ * instance of the metadata and one instance of the user defined load. The size
+ * of the load for the direct context is defined with CnLoadVt::size callback.
+ *
+ * DIRECT CONTEXT
+ * ----------+------+ <-- The load pointer (CnLoad*) always points here.
+ *  msg[0]   |      |     @see CnLoadVt::ctor
+ * ----------|      |     @see CnLoadVt::dtor
+ *  ...      | load |     @see cn_subscriber_await()
+ * ----------|      |     @see cn_subscriber_poll()
+ *  msg[n-1] |      |
+ * ----------+------+
+ *  msg[n]   | meta |
+ * ----------+------+
+ *
+ * The indirect context is optional and it is everything that is allocated by
+ * the contructor callback - CnLoadVt::ctor and that is accessible through
+ * pointers placed somewhere in the direct context.
  */
 typedef char CnLoad;
 
@@ -75,11 +75,11 @@ struct CnLoadVt {
 	 * @brief Constructor callback for the message.
 	 *
 	 * Should allocate additional memory for the message, if needed (see
-	 * "dynamic space") and initialize the message - read arguments from
+	 * "indirect context") and initialize the message - read arguments from
 	 * va_list and fill the load passed through CnLoad pointer.
 	 *
 	 * @note The input va_list will hold all values passed to cn_publish()
-	 * after the channel argument.
+	 * after the CnChannel argument.
 	 * @see cn_publish()
 	 */
 	void (*ctor)(CnLoad*, va_list);
@@ -96,36 +96,50 @@ struct CnLoadVt {
 
 /**
  * @var typedef struct CnBroker CnBroker
- * @brief *** todo ***.
+ *
+ * @brief The message broker.
+ *
+ * CnBroker holds the list of all subscribers (@see CnSubscriber) in usage and
+ * a dictionary of channels (@see CnChannels). All the messaging done through
+ * channels created by the same broker will also use the same API for message
+ * construction (@see CnLoadVt).
  */
 typedef struct CnBroker CnBroker;
 
 /**
  * @var typedef struct CnSubscriber CnSubscriber
- * @brief *** todo ***.
+ *
+ * @brief The subscriber.
  */
 typedef struct CnSubscriber CnSubscriber;
 
 /**
  * @var typedef struct CnChannel CnChannel
- * @brief *** todo ***.
+ *
+ * @brief The channel for messages.
+ *
+ * @note Channel is related to the topic through the dictionary owned by the
+ * message broker (@see cn_broker_search()).
  */
 typedef struct CnChannel CnChannel;
 
 /**
  * @fn void cn_publish(CnChannel* ch, ...)
- * @brief *** todo ***.
- * @param[in,out] ch Input/output.
+ *
+ * @brief Broadcast the message.
+ *
+ * @param[in,out] ch The channel to which the message is sent.
  * @param[in] ... list of arguments used by CnLoadVt::ctor.
- * @see CnLoadVt::ctor
  */
 void cn_publish(CnChannel* ch, ...);
 
 /**
  * @fn void cn_subscribe(CnSubscriber* sber, const char* topic)
- * @brief *** todo ***.
- * @param[in,out] sber Input/output.
- * @param[in] topic Input.
+ *
+ * @brief Subscribe to topic.
+ *.
+ * @param[in,out] sber The subscriber that expresses the interest in the topic.
+ * @param[in] topic The topic to which subscription will be made.
  */
 void cn_subscribe(CnSubscriber* sber, const char* topic);
 
