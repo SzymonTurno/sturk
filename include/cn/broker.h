@@ -137,7 +137,7 @@ void cn_publish(CnChannel* ch, ...);
  * @fn void cn_subscribe(CnSubscriber* sber, const char* topic)
  *
  * @brief Subscribe to topic.
- *.
+ *
  * @param[in,out] sber The subscriber that expresses the interest in the topic.
  * @param[in] topic The topic to which subscription will be made.
  */

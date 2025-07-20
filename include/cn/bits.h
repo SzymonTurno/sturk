@@ -37,7 +37,7 @@
  *
  * @return New value of the word.
  */
-#define cn_bf_set(bits, mask, val) (((bits) & ~(mask)) | (val))
+#define cn_bf_set(word, mask, val) (((word) & ~(mask)) | (val))
 
 /**
  * @def CN_BIT(pos)
