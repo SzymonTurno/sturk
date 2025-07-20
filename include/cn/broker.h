@@ -1,8 +1,41 @@
 /**
  * @file cn/broker.h
- * @brief Header file for message broker.
  *
- * *** todo ***.
+ * @brief Message broker.
+ *
+ * This file defines data types and functions that implement the
+ * publish-subscribe messaging pattern. Design choices of using:
+ * 1. BST - as oppose to hash table - for implementing topics dictionary,
+ * 2. memory pools for messages and queue entries,
+ * attempt to make this suitable for memory constrained systems.
+ *
+ * The memory for each message is allocated by the broker in two ways:
+ * 1. directly - always, let's call memory allocated this way "static space";
+ * 2. indirectly - optional, let's call memory allocated this way "dynamic space".
+ *
+ * The "static space" is kept within a memory pool. The size of the static space
+ * is constant for all messages and it is computed from the value returned by
+ * the size callback - CnLoadVt::size. Static space cannot be 0 even if the size
+ * callback returns 0 as the message contains also metadata needed for thread
+ * synchronization and a reference to the channel source of the message. Static
+ * space contains also empty bytes for alignment - size of the static space is
+ * always a multiple of the size of the metadata.
+ *
+ * STATIC SPACE
+ * +----------+------+ <-- The load pointer (CnLoad*) points here.
+ * | msg[0]   |      |     @see CnLoadVt::ctor
+ * +----------+      |     @see CnLoadVt::dtor
+ * | ...      | load |     @see cn_subscriber_await()
+ * +----------+      |     @see cn_subscriber_poll()
+ * | msg[n-1] |      |
+ * +----------+------+
+ * | msg[n]   | meta |
+ * +----------+------+
+ *
+ * The "dynamic space" is anything allocated by the contructor - CnLoadVt::ctor.
+ * Must be freed by the destructor - CnLoadVt::dtor. This space is optional, if
+ * the constructor only initializes the message (fills the load) and does not
+ * allocate memory or access global resources, destructor can be empty.
  */
 
 #ifndef CN_BROKER_H
@@ -13,47 +46,50 @@
 
 /**
  * @var typedef char CnLoad
- * @brief Payload.
+ *
+ * @brief Opaque type for the load.
  */
 typedef char CnLoad;
 
 /**
  * @struct CnLoadVt
- * @brief Vtable for payload construction.
  *
- * Members:
- * - size,
- * - ctor,
- * - dtor.
+ * @brief Vtable for message construction.
  */
 struct CnLoadVt {
 	/**
-	 * @fn size_t (*size)(void)
-	 * @brief Callback for obtaining the size.
+	 * @var size_t (*size)(void)
 	 *
-	 * @returns number of bytes required to allocate the payload.
-	 * @see cn_broker_create()
+	 * @brief Callback for obtaining the size of the load.
 	 *
-	 * Callback for computing memory space required to allocate the
-	 * payload. It is called only once - when invoking cn_broker_create().
+	 * Should return the size of the load in bytes.
+	 *
+	 * @note It is called only once - when creating the broker with
+	 * cn_broker_create().
 	 */
 	size_t (*size)(void);
 
 	/**
-	 * @fn void (*ctor)(CnLoad*, va_list)
-	 * @brief Constructor callback of the payload.
+	 * @var void (*ctor)(CnLoad*, va_list)
 	 *
-	 * @param[in,out] payload pointer.
-	 * @param[in] list of arguments (except the first argument) passed to cn_publish().
+	 * @brief Constructor callback for the message.
+	 *
+	 * Should allocate additional memory for the message, if needed (see
+	 * "dynamic space") and initialize the message - read arguments from
+	 * va_list and fill the load passed through CnLoad pointer.
+	 *
+	 * @note The input va_list will hold all values passed to cn_publish()
+	 * after the channel argument.
 	 * @see cn_publish()
 	 */
 	void (*ctor)(CnLoad*, va_list);
 
 	/**
-	 * @fn void (*dtor)(CnLoad*)
-	 * @brief Destructor callback of the payload.
+	 * @var void (*dtor)(CnLoad*)
 	 *
-	 * @param[in,out] payload pointer.
+	 * @brief Destructor callback for the message.
+	 *
+	 * Should free all the memory allocated by CnLoadVt::ctor.
 	 */
 	void (*dtor)(CnLoad*);
 };
