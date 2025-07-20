@@ -8,9 +8,6 @@
 
 #include "cn/bits.h"
 
-/** @see cn_bf_lsb() */
-#define bf_lsb cn_bf_lsb
-
 /** @see cn_bf_set() */
 #define bf_set cn_bf_set
 

@@ -1,8 +1,9 @@
 /**
  * @file cn/arith.h
- * @brief Header file for basic airthmetic operations.
  *
- * Compile without __STRICT_ANSI__ for additional type checks.
+ * @brief Macros for basic airthmetic operations.
+ *
+ * @note Compile without __STRICT_ANSI__ for additional type checks.
  */
 
 #ifndef CN_ARITH_H
@@ -12,23 +13,27 @@
 
 /**
  * @def cn_max(x, y)
- * @brief Computes the maximum of @a x and @a y.
- * @param[in] x Input.
- * @param[in] y Input.
- * @returns maximum of @a x and @a y.
  *
- * Side effects: @a x and @a y evaluated twice.
+ * @brief Compute the maximum of two values.
+ *
+ * This macro returns the maximum of @a x and @a y.
+ *
+ * @return maximum of @a x and @a y.
+ *
+ * @note Side effects: @a x and @a y evaluated twice.
  */
 #define cn_max(x, y) (((x) > (y)) ? (x) : (y))
 
 /**
  * @def cn_min(x, y)
- * @brief Computes the minimum of @a x and @a y.
- * @param[in] x Input.
- * @param[in] y Input.
- * @returns minimum of @a and @a y.
  *
- * Side effects: @a x and @a y evaluated twice.
+ * @brief Compute the minimum of two values.
+ *
+ * This macro returns the minimum of @a x and @a y.
+ *
+ * @return minimum of @a x and @a y.
+ *
+ * @note Side effects: @a x and @a y evaluated twice.
  */
 #define cn_min(x, y) (((x) < (y)) ? (x) : (y))
 
@@ -43,13 +48,16 @@
 
 /**
  * @def cn_container_of(ptr, type, member)
- * @brief Computes container's address from @a ptr of container's @a member.
- * @param[in] ptr Input.
- * @param[in] type Input.
- * @param[in] member Input.
- * @returns pointer to the container instance of type @a type.
  *
- * No type check for @a ptr with __STRICT_ANSI__ build.
+ * @brief Cast a member of a structure out to the containing structure.
+ *
+ * @param[in] ptr The pointer to the member.
+ * @param[in] type The type of the container struct this is embedded in.
+ * @param[in] member The name of the member within the struct.
+ *
+ * @return Pointer to the member's container.
+ *
+ * @note No type check for @a ptr with __STRICT_ANSI__ build.
  */
 #define cn_container_of(ptr, type, member)                                     \
 	({                                                                     \
