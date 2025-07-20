@@ -38,8 +38,9 @@
  * of the load for the direct context is defined with CnLoadVt::size callback.
  * @see CnPool
  *
+ * @code
  * | DIRECT CONTEXT  |
- * | ---------|------|
+ * |-----------------| <-- The load pointer (CnLoad*) always points here.
  * | msg[0]   |      |
  * |----------|      |
  * | ...      | load |
@@ -47,6 +48,7 @@
  * | msg[n-1] |      |
  * |----------|------|
  * | msg[n]   | meta |
+ * @endcode
  *
  * The indirect context is optional and it is everything that is allocated by
  * the contructor callback - CnLoadVt::ctor and that is accessible through
