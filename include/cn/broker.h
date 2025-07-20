@@ -4,9 +4,12 @@
  * @brief Message broker.
  *
  * This file defines data types and functions that implement the
- * publish-subscribe messaging pattern. The design choices:
+ * publish-subscribe messaging pattern.
+ *
+ * The design choices:
  * 1. BST - as oppose to hash table - for implementing channels dictionary,
  * 2. memory pools for messages and queue entries,
+ *
  * attempt to make this implementation suitable for memory constrained systems.
  */
 
