@@ -38,16 +38,15 @@
  * of the load for the direct context is defined with CnLoadVt::size callback.
  * @see CnPool
  *
- * DIRECT CONTEXT
- * ----------+------+ <-- The load pointer (CnLoad*) always points here.
- *  msg[0]   |      |
- * ----------|      |
- *  ...      | load |
- * ----------|      |
- *  msg[n-1] |      |
- * ----------+------+
- *  msg[n]   | meta |
- * ----------+------+
+ * | DIRECT CONTEXT  |
+ * | ---------|------|
+ * | msg[0]   |      |
+ * |----------|      |
+ * | ...      | load |
+ * |----------|      |
+ * | msg[n-1] |      |
+ * |----------|------|
+ * | msg[n]   | meta |
  *
  * The indirect context is optional and it is everything that is allocated by
  * the contructor callback - CnLoadVt::ctor and that is accessible through
@@ -104,7 +103,7 @@ struct CnLoadVt {
  * @brief The message broker.
  *
  * CnBroker holds the list of all subscribers (CnSubscriber) in usage and
- * a dictionary of channels (CnChannels). All the messaging done through
+ * a dictionary of channels (CnChannel). All the messaging done through
  * channels created by the same broker will also use the same API for message
  * construction (CnLoadVt).
  */
