@@ -29,20 +29,21 @@
  * 2. indirect - optional, allocated within CnLoadVt::ctor.
  *
  * It is for the user to decide how to use those contexts by defining the
- * message constructor (@see CnLoadVt::ctor).
+ * message constructor (CnLoadVt::ctor).
  *
  * Direct context is a contiguous memory block allocated from fixed-size memory
- * pool (@see CnPool) and its size is constant for all messages. The size of the
+ * pool and its size is constant for all messages. The size of the
  * block is a multiple of the size of the metadata, big enough to hold one
  * instance of the metadata and one instance of the user defined load. The size
  * of the load for the direct context is defined with CnLoadVt::size callback.
+ * @see CnPool
  *
  * DIRECT CONTEXT
  * ----------+------+ <-- The load pointer (CnLoad*) always points here.
- *  msg[0]   |      |     @see CnLoadVt::ctor
- * ----------|      |     @see CnLoadVt::dtor
- *  ...      | load |     @see cn_subscriber_await()
- * ----------|      |     @see cn_subscriber_poll()
+ *  msg[0]   |      |
+ * ----------|      |
+ *  ...      | load |
+ * ----------|      |
  *  msg[n-1] |      |
  * ----------+------+
  *  msg[n]   | meta |
@@ -102,10 +103,10 @@ struct CnLoadVt {
  *
  * @brief The message broker.
  *
- * CnBroker holds the list of all subscribers (@see CnSubscriber) in usage and
- * a dictionary of channels (@see CnChannels). All the messaging done through
+ * CnBroker holds the list of all subscribers (CnSubscriber) in usage and
+ * a dictionary of channels (CnChannels). All the messaging done through
  * channels created by the same broker will also use the same API for message
- * construction (@see CnLoadVt).
+ * construction (CnLoadVt).
  */
 typedef struct CnBroker CnBroker;
 
@@ -122,7 +123,8 @@ typedef struct CnSubscriber CnSubscriber;
  * @brief The channel for messages.
  *
  * @note Channel is related to the topic through the dictionary owned by the
- * message broker (@see cn_broker_search()).
+ * message broker.
+ * @see cn_broker_search()
  */
 typedef struct CnChannel CnChannel;
 
