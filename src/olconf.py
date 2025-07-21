@@ -2,7 +2,7 @@ import os
 
 def join(olvars):
     settings = olvars.settings()
-    blddir = os.path.join(settings['build_path'], olvars.cwd())
+    blddir = os.path.join(settings['build_path'], 'src')
 
     olvars.append('cantil_OLCONF', olvars.slashify(olvars.path()))
     olvars.append('cantil_DIR', olvars.slashify(olvars.cwd()))

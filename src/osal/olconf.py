@@ -14,7 +14,7 @@ CONSTRAINTS = [
 
 def join(olvars):
     settings = olvars.settings()
-    blddir = os.path.join(settings['build_path'], olvars.cwd())
+    blddir = os.path.join(settings['build_path'], 'src', 'osal')
 
     if platform == 'win32' and settings['osal']['mutex'] == 'posix':
         olvars.fail('POSIX threads are unavailable on win32.')

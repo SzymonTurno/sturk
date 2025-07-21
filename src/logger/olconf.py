@@ -2,7 +2,7 @@ import os
 
 def join(olvars):
     settings = olvars.settings()
-    blddir = os.path.join(settings['build_path'], olvars.cwd())
+    blddir = os.path.join(settings['build_path'], 'src', 'logger')
 
     if settings['logger']['trace'] == 'on':
         olvars.append('cantil_EXTRA_CFLAGS', '-DCN_LOGGER_EN=1')
