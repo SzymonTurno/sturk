@@ -1,8 +1,16 @@
-ifeq (,$(BLDDIR))
-unity_DIR := Unity
-else
+ifneq (,$(BLDDIR))
 include $(BLDDIR)/olconf.mk
 endif
+
+ifeq ($(OS),Windows_NT)
+	MKDIR = mkdir $(subst /,\,$(1))
+else
+	MKDIR = mkdir -p $(1)
+endif
+
+unity_DIR := Unity
+
+all: $(cantil_BLDDIR)/libcantil.a
 
 $(test_BLDDIR)/reports.d/coverage.d: $(test_BLDDIR)/reports.d/coverage.info
 ifeq ($(OS),Windows_NT)
@@ -31,6 +39,10 @@ endif
 $(test_BLDDIR)/reports.d:
 	$(call MKDIR, $@)
 
+test_DEPS:=$(test_OBJS)
+test_DEPS+=$(unity_OBJS)
+test_DEPS+=$(sample_OBJS)
+test_DEPS+=$(cantil_BLDDIR)/libcantil.a
 $(test_BLDDIR)/app: $(test_DEPS)
 	$(CC) -o $@ $(test_DEPS) -lgcov --coverage
 
@@ -67,3 +79,5 @@ $(unity_DIR):
 
 $(unity_BLDDIRS):
 	$(call MKDIR, $@)
+
+.PHONY: all

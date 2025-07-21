@@ -49,8 +49,3 @@ def join(olvars):
     olvars.append('test_DIR', olvars.slashify(olvars.cwd()))
     olvars.append('test_BLDDIR', olvars.slashify(blddir))
     olvars.append('test_OBJS', olvars.slashify(blddir, 'main.o'))
-    olvars.append('test_DEPS', '$(test_OBJS)')
-    olvars.append('test_DEPS', '$(unity_OBJS)')
-    olvars.append('test_DEPS', '$(sample_OBJS)')
-    olvars.append(
-        'test_DEPS', olvars.slashify('$(cantil_BLDDIR)', 'libcantil.a'))

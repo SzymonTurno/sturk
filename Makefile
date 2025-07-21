@@ -6,6 +6,20 @@ else
 endif
 PYTHON := python -B
 
+ifneq ($(lastword $(MAKEFILE_LIST)),Makefile)
+
+	MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+	CURRENT_DIR := $(notdir $(patsubst %/,%,$(dir $(MKFILE_PATH))))
+
+all:
+	make -f $(CURRENT_DIR)/mk/Makefile \
+		$(shell $(PYTHON) $(CURRENT_DIR)/tools/olgite.py \
+			$(CURRENT_DIR)/olconf.py $(cantil_YAMLS))
+
+.PHONY: all
+
+else
+
 all: cantil-default
 
 check: check-default
@@ -25,3 +39,5 @@ include mk/iso/phony.mk
 include mk/posix/phony.mk
 
 .PHONY: all check configure format
+
+endif
