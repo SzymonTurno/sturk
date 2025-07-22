@@ -30,9 +30,9 @@ format:
 Unity:
 	$(MAKE) -f ./mk/Makefile Unity
 
-include mk/default/phony.mk
-include mk/iso/phony.mk
-include mk/posix/phony.mk
+include mk/default/actions.mk
+include mk/iso/actions.mk
+include mk/posix/actions.mk
 
 .PHONY: all check format
 
