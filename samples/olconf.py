@@ -4,7 +4,6 @@ def join(olvars):
     settings = olvars.settings()
     blddir = os.path.join(settings['build_path'], olvars.cwd())
 
-    olvars.append('cantil_OLCONF', olvars.slashify(olvars.path()))
     olvars.append('sample_DIR', olvars.slashify(olvars.cwd()))
     olvars.append('sample_BLDDIR', olvars.slashify(blddir))
     olvars.append('sample_INC', '-I' + olvars.cwd())

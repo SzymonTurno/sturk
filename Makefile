@@ -24,20 +24,16 @@ all: cantil-default
 
 check: check-default
 
-configure:
-	$(PYTHON) ./tools/olgite.py ./olconf.py | grep "_OLCONF" > mk/olconf.mk
-
 format:
 	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i
 
 Unity:
 	$(MAKE) -f ./mk/Makefile Unity
 
-include mk/olconf.mk
 include mk/default/phony.mk
 include mk/iso/phony.mk
 include mk/posix/phony.mk
 
-.PHONY: all check configure format
+.PHONY: all check format
 
 endif

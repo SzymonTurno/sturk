@@ -21,7 +21,6 @@ def join(olvars):
 
     if platform == 'win32' and settings['osal']['sem'] == 'posix':
         olvars.fail('POSIX threads are unavailable on win32.')
-    olvars.append('cantil_OLCONF', olvars.slashify(olvars.path()))
     olvars.append('cantil_BLDDIRS', olvars.slashify(blddir))
     olvars.append('cantil_BLDDIRS', olvars.slashify(blddir, 'none'))
     olvars.append('cantil_BLDDIRS', olvars.slashify(blddir, 'posix'))

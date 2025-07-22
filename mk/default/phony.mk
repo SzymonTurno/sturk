@@ -8,11 +8,10 @@ check-default: build/olconf.mk
 	$(MAKE) -f ./mk/Makefile BLDDIR=build \
 		build/tests/reports.d/valgrind.info
 
-build/olconf.mk: $(cantil_OLCONF)
-ifneq ($(wildcard build/.*),)
-	$(error configuration changed, to rebuild: remove "build/")
-endif
-	$(call MKDIR, build)
+build/olconf.mk: build
 	$(PYTHON) ./tools/olgite.py ./olconf.py > $@
+
+build:
+	$(call MKDIR, build)
 
 .PHONY: cantil-default all-default check-default

@@ -4,7 +4,6 @@ def join(olvars):
     settings = olvars.settings()
     blddir = os.path.join(settings['build_path'], 'src', 'algo')
 
-    olvars.append('cantil_OLCONF', olvars.slashify(olvars.path()))
     olvars.append('cantil_BLDDIRS', olvars.slashify(blddir))
     olvars.append('cantil_OBJS', olvars.slashify(blddir, 'cirq.o'))
     olvars.append('cantil_OBJS', olvars.slashify(blddir, 'dict.o'))

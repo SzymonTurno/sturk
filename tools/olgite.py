@@ -82,7 +82,7 @@ class Olvars:
 
     def __generate(self):
         for key, values in self.__variables.items():
-            print(key + '=' + values[0])
+            print(key + ':=' + values[0])
             for value in values[1:]:
                 print(key + '+=' + value)
 

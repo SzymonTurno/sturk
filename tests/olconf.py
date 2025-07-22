@@ -24,7 +24,6 @@ def join(olvars):
     else:
         node.fail('Unknown threads mode: ' + settings['test']['threads'] + '.')
 
-    olvars.append('cantil_OLCONF', olvars.slashify(olvars.path()))
     olvars.append('unity_DIR', 'Unity')
     olvars.append('unity_BLDDIR', olvars.slashify(blddir, 'Unity'))
     olvars.append('unity_BLDDIRS', olvars.slashify(blddir, 'Unity'))
