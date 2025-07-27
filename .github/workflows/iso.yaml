@@ -48,8 +48,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Setup
-      run: |
-        python -m pip install pyyaml
+      run: python -m pip install pyyaml
     - name: Build cantil
       run: tools/picky.sh make cantil-iso
     - name: Clone Unity
