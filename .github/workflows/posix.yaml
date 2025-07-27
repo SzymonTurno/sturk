@@ -7,12 +7,26 @@ on:
     branches: [ "main" ]
 
 jobs:
-  verify:
-    name: Verify for ubuntu/macos
+  build-posix-on-unix:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-latest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build cantil
+      run: tools/picky.sh make cantil-posix
+    - uses: actions/upload-artifact@v4
+      with:
+        name: build-posix-on-${{ matrix.platform }}-output
+        path: build-posix/
+
+  check-posix-on-unix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest]
+    needs: build-posix-on-unix
     steps:
     - uses: actions/checkout@v4
     - name: Setup
@@ -20,8 +34,6 @@ jobs:
         sudo apt update
         sudo apt-get install valgrind
         sudo apt-get install lcov
-    - name: Build cantil
-      run: tools/picky.sh make cantil-posix
     - name: Clone Unity
       run: make unity-posix
     - name: Build tests
@@ -30,6 +42,23 @@ jobs:
       run: tools/picky.sh make check-posix
     - name: Checkout code
       run: tools/picky.sh make coverage-posix
+    - uses: actions/upload-artifact@v4
+      with:
+        name: check-posix-on-${{ matrix.platform }}-output
+        path: build-posix/
+
+  coverage-posix-on-unix:
+    runs-on: ubuntu-latest
+    needs: check-posix-on-unix
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@v4
+      with:
+        name: check-posix-on-${{ matrix.platform }}-output
+        path: build-posix/
     - name: Setup LCOV
       uses: hrishikesh-kadam/setup-lcov@v1
     - name: Report code coverage
@@ -37,7 +66,3 @@ jobs:
       with:
         coverage-files: build-posix/tests/reports.d/coverage.info
         minimum-coverage: 100
-    - uses: actions/upload-artifact@v4
-      with:
-        name: posix-${{ matrix.platform }}-reports
-        path: build-posix/tests/reports.d/

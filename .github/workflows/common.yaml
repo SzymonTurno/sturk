@@ -25,7 +25,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt-get install doxygen
-	sudo apt-get install graphviz
+        sudo apt-get install graphviz
     - name: Generate docs
       run: tools/picky.sh make docs
     - uses: actions/upload-artifact@v4
