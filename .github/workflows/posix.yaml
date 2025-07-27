@@ -23,7 +23,7 @@ jobs:
     - name: Build cantil
       run: tools/picky.sh make cantil-posix
     - name: Clone Unity
-      run: make Unity
+      run: make unity-posix
     - name: Build tests
       run: tools/picky.sh make all-posix
     - name: Run tests

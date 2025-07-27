@@ -1,7 +1,6 @@
 ---
   cver: "gnu"
   build_type: "coverage"
-  build_path: "build-posix"
   osal:
     mutex: "posix"
     sem: "posix"

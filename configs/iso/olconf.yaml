@@ -1,4 +1,3 @@
 ---
   cver: "iso"
   build_type: "coverage"
-  build_path: "build-iso"

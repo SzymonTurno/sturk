@@ -1,14 +1,11 @@
 import os
 
 def join(olvars):
-    settings = olvars.settings()
-    blddir = os.path.join(settings['build_path'], 'src', 'algo')
-
-    olvars.append('cantil_BLDDIRS', olvars.slashify(blddir))
-    olvars.append('cantil_OBJS', olvars.slashify(blddir, 'cirq.o'))
-    olvars.append('cantil_OBJS', olvars.slashify(blddir, 'dict.o'))
-    olvars.append('cantil_OBJS', olvars.slashify(blddir, 'list.o'))
-    olvars.append('cantil_OBJS', olvars.slashify(blddir, 'pool.o'))
-    olvars.append('cantil_OBJS', olvars.slashify(blddir, 'rbtree.o'))
-    olvars.append('cantil_OBJS', olvars.slashify(blddir, 'str.o'))
-    olvars.append('cantil_OBJS', olvars.slashify(blddir, 'waitq.o'))
+    olvars.append('cantil_BLDDIRS', olvars.slashify(olvars.cwd()))
+    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'cirq.o'))
+    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'dict.o'))
+    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'list.o'))
+    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'pool.o'))
+    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'rbtree.o'))
+    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'str.o'))
+    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'waitq.o'))

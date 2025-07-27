@@ -1,4 +1,3 @@
 ---
   cver: "gnu"
   build_type: "release"
-  build_path: "build"
