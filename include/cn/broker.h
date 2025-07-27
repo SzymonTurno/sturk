@@ -136,6 +136,9 @@ typedef struct CnChannel CnChannel;
  *
  * @param[in,out] ch The channel to which the message is sent.
  * @param[in] ... list of arguments used by CnLoadVt::ctor.
+ *
+ * Channels without any subscribers are allowed. Publishing to such channel is
+ * safe and it does not have any meaningful behaviour.
  */
 void cn_publish(CnChannel* ch, ...);
 
@@ -151,57 +154,96 @@ void cn_subscribe(CnSubscriber* sber, const char* topic);
 
 /**
  * @fn CnBroker* cn_broker_create(const struct CnLoadVt* vp)
- * @brief *** todo ***.
- * @param[in] vp Input.
- * @returns pointer to CnBroker instance.
+ *
+ * @brief Create the message broker.
+ *
+ * @param[in] vp The pointer to the vtable for the CnLoad.
+ *
+ * The chosen vtable will influence the behaviour of the functions that are
+ * responsible for constructing and receiving the messages:
+ * - cn_publish(),
+ * - cn_subscriber_await(),
+ * - cn_subscriber_poll().
+ * @see cn_publish()
+ * @see cn_subscriber_await()
+ * @see cn_subscriber_poll()
+ *
+ * @returns The pointer to the new broker.
  */
 CnBroker* cn_broker_create(const struct CnLoadVt* vp);
 
 /**
  * @fn void cn_broker_destroy(CnBroker* broker)
- * @brief *** todo ***.
- * @param[in] broker Input.
+ *
+ * @brief Destroy the message broker.
+ *
+ * @param[in] broker The pointer to the broker.
  */
 void cn_broker_destroy(CnBroker* broker);
 
 /**
  * @fn CnChannel* cn_broker_search(CnBroker* broker, const char* topic)
- * @brief *** todo ***.
- * @param[in,out] broker Input/output.
- * @param[in] topic Input.
- * @returns pointer to CnChannel instance.
+ *
+ * @brief Find the channel that is assigned to the given topic.
+ *
+ * @param[in,out] broker The message broker.
+ * @param[in] topic The topic. It is also used as the key for the channel's dictionary.
+ *
+ * This function also creates the channel if none is found.
+ *
+ * @returns The pointer to the channel or NULL if NULL topic was passed.
  */
 CnChannel* cn_broker_search(CnBroker* broker, const char* topic);
 
 /**
  * @fn const char* cn_channel_gettopic(const CnChannel* ch)
- * @brief *** todo ***.
- * @param[in] ch Input.
- * @returns string representation of the topic.
+ *
+ * @brief Get the topic for the given channel.
+ *
+ * @param[in] ch The channel.
+ *
+ * @returns The topic (named channel).
  */
 const char* cn_channel_gettopic(const CnChannel* ch);
 
 /**
  * @fn CnSubscriber* cn_subscriber_create(CnBroker* broker)
- * @brief *** todo ***.
- * @param[in,out] broker Input/output.
- * @returns pointer to CnSubscriber instance.
+ *
+ * @brief Create the subscriber.
+ *
+ * @param[in,out] broker The message broker.
+ *
+ * @returns The pointer to the new subscriber.
  */
 CnSubscriber* cn_subscriber_create(CnBroker* broker);
 
 /**
  * @fn void cn_subscriber_destroy(CnSubscriber* sber)
- * @brief *** todo ***.
- * @param[in,out] sber Input/output.
+ *
+ * @brief Destroy the subscriber.
+ *
+ * @param[in,out] sber The pointer to the subscriber.
  */
 void cn_subscriber_destroy(CnSubscriber* sber);
 
 /**
  * @fn CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch)
- * @brief *** todo ***.
- * @param[in,out] sber Input/output.
- * @param[in,out] ch Input/output.
- * @returns payload.
+ *
+ * @brief Wait for the messages that are wanted by the subscriber.
+ *
+ * @param[in,out] sber The pointer to the subscriber.
+ * @param[in,out] ch The pointer to the channel reference.
+ *
+ * This function will receive the message immediately, if the subscriber's
+ * message queue is not empty. Otherwise, with multithreading enabled, this will
+ * block the thread that has called this function until some other thread
+ * publishes to topic that the given subscriber is interested in. With a single
+ * thread application, the blocking is not supported.
+ *
+ * If the pointer to the channel reference is not NULL, the message's source
+ * channel will be assigned to it.
+ *
+ * @returns The load.
  */
 CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch);
 
