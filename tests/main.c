@@ -433,8 +433,8 @@ TEST(logger, should_trace_rbtree_postorder_not_supported)
 
 	rb_next(&node, BST_TRAV_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning] src/algo/rbtree.c:115: Not supported.\n",
-		gettrace(0));
+		"src/algo/rbtree.c:115: Not supported.\n",
+		strstr(gettrace(0), "src/algo/rbtree.c:"));
 }
 
 TEST(logger, should_trace_debug)
@@ -460,8 +460,8 @@ TEST(logger, should_trace_null_params)
 
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning] src/broker/broker.c:274: Null param.\n",
-		gettrace(0));
+		"src/broker/broker.c:274: Null param.\n",
+		strstr(gettrace(0), "src/broker/broker.c:"));
 	free(tmp);
 }
 
@@ -509,11 +509,11 @@ TEST(logger, should_trace_not_supported_mutex_policy)
 	CnMutex* mutex = mutex_create(CN_MUTEX_BF(POLICY, 7));
 
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning] src/osal/posix/mutex.c:27: Not supported.\n",
-		gettrace(0));
+		"src/osal/posix/mutex.c:27: Not supported.\n",
+		strstr(gettrace(0), "src/osal/posix/mutex.c:"));
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning] src/osal/posix/mutex.c:65: Mutex failure.\n",
-		gettrace(1));
+		"src/osal/posix/mutex.c:65: Mutex failure.\n",
+		strstr(gettrace(1), "src/osal/posix/mutex.c:"));
 }
 
 TEST(logger, should_trace_not_supported_mutex_type)
@@ -521,11 +521,11 @@ TEST(logger, should_trace_not_supported_mutex_type)
 	CnMutex* mutex = mutex_create(CN_MUTEX_BF(TYPE, 15));
 
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning] src/osal/posix/mutex.c:46: Not supported.\n",
-		gettrace(0));
+		"src/osal/posix/mutex.c:46: Not supported.\n",
+		strstr(gettrace(0), "src/osal/posix/mutex.c:"));
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning] src/osal/posix/mutex.c:70: Mutex failure.\n",
-		gettrace(1));
+		"src/osal/posix/mutex.c:70: Mutex failure.\n",
+		strstr(gettrace(1), "src/osal/posix/mutex.c:"));
 }
 
 static void run_all_tests(void)

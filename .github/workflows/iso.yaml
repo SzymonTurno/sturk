@@ -23,7 +23,7 @@ jobs:
     - name: Build cantil
       run: tools/picky.sh make cantil-iso
     - name: Clone Unity
-      run: make Unity
+      run: make unity-iso
     - name: Build tests
       run: tools/picky.sh make all-iso
     - name: Run tests
@@ -53,7 +53,7 @@ jobs:
     - name: Build cantil
       run: tools/picky.sh make cantil-iso
     - name: Clone Unity
-      run: make Unity
+      run: make unity-default
     - name: Build tests
       run: tools/picky.sh make all-iso
     - name: Run tests

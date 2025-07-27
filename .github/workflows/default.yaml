@@ -22,7 +22,7 @@ jobs:
     - name: Build cantil
       run: tools/picky.sh make cantil-default
     - name: Clone Unity
-      run: make Unity
+      run: make unity-default
     - name: Build tests
       run: tools/picky.sh make all-default
     - name: Run tests
@@ -39,7 +39,7 @@ jobs:
     - name: Build cantil
       run: tools/picky.sh make cantil-default
     - name: Clone Unity
-      run: make Unity
+      run: make unity-default
     - name: Build tests
       run: tools/picky.sh make all-default
     - name: Run tests

@@ -45,7 +45,7 @@ def combine_into(d: dict, combined: dict) -> None:
 class Olvars:
     def __init__(self, root: str, yamls: list):
         self.__root = os.path.normpath(os.path.dirname(root))
-        self.__cwd = os.path.normpath(os.path.dirname(root))
+        self.__cwd = '.'
         self.__constraints = []
         self.__settings = {}
         self.__variables = {}
@@ -56,7 +56,7 @@ class Olvars:
         self.__generate()
 
     def __prepare(self) -> None:
-        path = os.path.join(self.__cwd, 'olconf.py')
+        path = os.path.join(self.acwd(), 'olconf.py')
         spec = importlib.util.spec_from_file_location('olconf', path)
         module = importlib.util.module_from_spec(spec)
 
@@ -65,7 +65,7 @@ class Olvars:
             self.__constraints = self.__constraints + module.CONSTRAINTS
 
     def __update(self, yamls: list) -> None:
-        yamls.append(os.path.join(self.__cwd, 'olconf.yaml'))
+        yamls.append(os.path.join(self.acwd(), 'olconf.yaml'))
         for yaml_path in yamls:
             if os.path.isfile(yaml_path):
                 with open(yaml_path, 'r') as f:
@@ -73,7 +73,7 @@ class Olvars:
                     assert_settings(self.__settings, self.__constraints)
 
     def __join(self) -> None:
-        path = os.path.join(self.__cwd, 'olconf.py')
+        path = os.path.join(self.acwd(), 'olconf.py')
         spec = importlib.util.spec_from_file_location('olconf', path)
         module = importlib.util.module_from_spec(spec)
 
@@ -95,8 +95,8 @@ class Olvars:
     def cwd(self) -> str:
         return os.path.normpath(self.__cwd)
 
-    def path(self) -> str:
-        return os.path.normpath(os.path.join(self.cwd(), 'olconf.py'))
+    def acwd(self) -> str:
+        return os.path.normpath(os.path.join(self.root(), self.cwd()))
 
     def settings(self) -> dict:
         return dict(self.__settings)

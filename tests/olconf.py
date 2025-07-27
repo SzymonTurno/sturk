@@ -15,7 +15,6 @@ def memory_dir():
 
 def join(olvars):
     settings = olvars.settings()
-    blddir = os.path.join(settings['build_path'], olvars.cwd())
 
     if settings['test']['threads'] == 'on':
         olvars.append('test_CFLAGS', '-DTHREADS_EN=1')
@@ -25,26 +24,16 @@ def join(olvars):
         node.fail('Unknown threads mode: ' + settings['test']['threads'] + '.')
 
     olvars.append('unity_DIR', 'Unity')
-    olvars.append('unity_BLDDIR', olvars.slashify(blddir, 'Unity'))
-    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, 'Unity'))
-    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, 'Unity', 'src'))
-    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, 'Unity', 'extras'))
-    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, fixture_dir()))
-    olvars.append(
-        'unity_BLDDIRS', olvars.slashify(blddir, fixture_dir(), 'src'))
-    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, memory_dir()))
-    olvars.append('unity_BLDDIRS', olvars.slashify(blddir, memory_dir(), 'src'))
     olvars.append('unity_INCS', '-I' + olvars.slashify('Unity', 'src'))
     olvars.append('unity_INCS', '-I' + olvars.slashify(fixture_dir(), 'src'))
     olvars.append('unity_INCS', '-I' + olvars.slashify(memory_dir(), 'src'))
-    olvars.append(
-        'unity_OBJS', olvars.slashify(blddir, 'Unity', 'src', 'unity.o'))
-    olvars.append(
-        'unity_OBJS',
-        olvars.slashify(blddir, fixture_dir(), 'src', 'unity_fixture.o'))
+    olvars.append('unity_OBJS', olvars.slashify('Unity', 'src', 'unity.o'))
     olvars.append(
         'unity_OBJS',
-        olvars.slashify(blddir, memory_dir(), 'src', 'unity_memory.o'))
-    olvars.append('test_DIR', olvars.slashify(olvars.cwd()))
-    olvars.append('test_BLDDIR', olvars.slashify(blddir))
-    olvars.append('test_OBJS', olvars.slashify(blddir, 'main.o'))
+        olvars.slashify(fixture_dir(), 'src', 'unity_fixture.o'))
+    olvars.append(
+        'unity_OBJS',
+        olvars.slashify(memory_dir(), 'src', 'unity_memory.o'))
+    olvars.append('test_DIR', olvars.slashify(olvars.acwd()))
+    olvars.append('test_BLDDIR', olvars.cwd())
+    olvars.append('test_OBJS', olvars.slashify(olvars.cwd(), 'main.o'))

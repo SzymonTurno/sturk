@@ -1,14 +1,8 @@
-ifneq (,$(BLDDIR))
-include $(BLDDIR)/olconf.mk
-endif
-
 ifeq ($(OS),Windows_NT)
 	MKDIR = mkdir $(subst /,\,$(1))
 else
 	MKDIR = mkdir -p $(1)
 endif
-
-unity_DIR := Unity
 
 all: $(cantil_BLDDIR)/libcantil.a
 
@@ -67,7 +61,7 @@ $(cantil_BLDDIR)/%.o: $(cantil_DIR)/%.c | $(cantil_BLDDIRS)
 $(cantil_BLDDIRS):
 	$(call MKDIR, $@)
 
-$(unity_BLDDIR)/%.o: $(unity_DIR)/%.c | $(unity_BLDDIRS)
+$(unity_DIR)/%.o: $(unity_DIR)/%.c
 	$(CC) $(unity_INCS) -c -o $@ $<
 
 $(unity_DIR)/%.c: $(unity_DIR)
@@ -76,8 +70,5 @@ $(unity_DIR)/%.c: $(unity_DIR)
 $(unity_DIR):
 	git clone https://github.com/ThrowTheSwitch/Unity.git
 	cd $(unity_DIR) && git reset --hard v2.6.1
-
-$(unity_BLDDIRS):
-	$(call MKDIR, $@)
 
 .PHONY: all
