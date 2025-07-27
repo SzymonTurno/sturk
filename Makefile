@@ -13,6 +13,9 @@ check: check-default
 format:
 	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i
 
+docs:
+	doxygen Doxyfile
+
 include configs/default/actions.mk
 include configs/iso/actions.mk
 include configs/posix/actions.mk
