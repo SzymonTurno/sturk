@@ -38,17 +38,14 @@
  * of the load for the direct context is defined with CnLoadVt::size callback.
  * @see CnPool
  *
- * @code
- * | DIRECT CONTEXT  |
- * |-----------------| <-- The load pointer (CnLoad*) always points here.
- * | msg[0]   |      |
- * |----------|      |
- * | ...      | load |
- * |----------|      |
- * | msg[n-1] |      |
- * |----------|------|
- * | msg[n]   | meta |
- * @endcode
+ * <table>
+ * <caption id="direct_context">Direct context</caption>
+ * <tr><th>Array <th>Load (CnLoad*) + meta
+ * <tr><td>0     <td rowspan="3">load
+ * <tr><td>...
+ * <tr><td>n-1
+ * <tr><td>n     <td>meta
+ * </table>
  *
  * The indirect context is optional and it is everything that is allocated by
  * the contructor callback - CnLoadVt::ctor and that is accessible through
@@ -136,6 +133,9 @@ typedef struct CnChannel CnChannel;
  *
  * @param[in,out] ch The channel to which the message is sent.
  * @param[in] ... list of arguments used by CnLoadVt::ctor.
+ *
+ * Channels without any subscribers are allowed. Publishing to such channel is
+ * safe and it does not have any meaningful behaviour.
  */
 void cn_publish(CnChannel* ch, ...);
 
@@ -151,73 +151,128 @@ void cn_subscribe(CnSubscriber* sber, const char* topic);
 
 /**
  * @fn CnBroker* cn_broker_create(const struct CnLoadVt* vp)
- * @brief *** todo ***.
- * @param[in] vp Input.
- * @returns pointer to CnBroker instance.
+ *
+ * @brief Create the message broker.
+ *
+ * @param[in] vp The pointer to the vtable for the CnLoad.
+ *
+ * The chosen vtable will influence the behaviour of the functions that are
+ * responsible for constructing and receiving the messages:
+ * - cn_publish(),
+ * - cn_subscriber_await(),
+ * - cn_subscriber_poll().
+ *
+ * @returns The pointer to the new broker.
  */
 CnBroker* cn_broker_create(const struct CnLoadVt* vp);
 
 /**
  * @fn void cn_broker_destroy(CnBroker* broker)
- * @brief *** todo ***.
- * @param[in] broker Input.
+ *
+ * @brief Destroy the message broker.
+ *
+ * @param[in] broker The pointer to the broker.
  */
 void cn_broker_destroy(CnBroker* broker);
 
 /**
  * @fn CnChannel* cn_broker_search(CnBroker* broker, const char* topic)
- * @brief *** todo ***.
- * @param[in,out] broker Input/output.
- * @param[in] topic Input.
- * @returns pointer to CnChannel instance.
+ *
+ * @brief Find the channel that is assigned to the given topic.
+ *
+ * @param[in,out] broker The message broker.
+ * @param[in] topic The topic. It is also used as the key for the channel's dictionary.
+ *
+ * This function also creates the channel if none is found.
+ *
+ * @returns The pointer to the channel or NULL if NULL topic was passed.
  */
 CnChannel* cn_broker_search(CnBroker* broker, const char* topic);
 
 /**
  * @fn const char* cn_channel_gettopic(const CnChannel* ch)
- * @brief *** todo ***.
- * @param[in] ch Input.
- * @returns string representation of the topic.
+ *
+ * @brief Get the topic for the given channel.
+ *
+ * @param[in] ch The channel.
+ *
+ * @returns The topic (named channel).
  */
 const char* cn_channel_gettopic(const CnChannel* ch);
 
 /**
  * @fn CnSubscriber* cn_subscriber_create(CnBroker* broker)
- * @brief *** todo ***.
- * @param[in,out] broker Input/output.
- * @returns pointer to CnSubscriber instance.
+ *
+ * @brief Create the subscriber.
+ *
+ * @param[in,out] broker The message broker.
+ *
+ * @returns The pointer to the new subscriber.
  */
 CnSubscriber* cn_subscriber_create(CnBroker* broker);
 
 /**
  * @fn void cn_subscriber_destroy(CnSubscriber* sber)
- * @brief *** todo ***.
- * @param[in,out] sber Input/output.
+ *
+ * @brief Destroy the subscriber.
+ *
+ * @param[in,out] sber The pointer to the subscriber.
  */
 void cn_subscriber_destroy(CnSubscriber* sber);
 
 /**
  * @fn CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch)
- * @brief *** todo ***.
- * @param[in,out] sber Input/output.
- * @param[in,out] ch Input/output.
- * @returns payload.
+ *
+ * @brief Wait for the messages that are wanted by the subscriber.
+ *
+ * @param[in,out] sber The pointer to the subscriber.
+ * @param[in,out] ch The pointer to the channel reference.
+ *
+ * This function will receive the message immediately and return the load, if
+ * the subscriber's message queue is not empty. Otherwise, with multithreading
+ * enabled, this will block the thread that has called this function until some
+ * other thread publishes to topic that the given subscriber is interested in.
+ * With a single thread application, the blocking is not supported.
+ *
+ * If the pointer to the channel reference is not NULL, the message's source
+ * channel will be returned through it.
+ *
+ * @returns The load.
  */
 CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch);
 
 /**
  * @fn CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
- * @brief *** todo ***.
- * @param[in,out] sber Input/output.
- * @param[in,out] ch Input/output.
- * @returns payload.
+ *
+ * @brief Poll for the messages that are wanted by the subscriber.
+ *
+ * @param[in,out] sber The pointer to the subscriber.
+ * @param[in,out] ch The pointer to the channel reference.
+ *
+ * This function will receive the message and return the load, if the
+ * subscriber's message queue is not empty. Otherwise, it will return NULL.
+ *
+ * If the pointer to the channel reference is not NULL, the message's source
+ * channel will be returned through it.
+ *
+ * @returns The load.
  */
 CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch);
 
 /**
  * @fn void cn_subscriber_release(CnSubscriber* sber)
- * @brief *** todo ***.
- * @param[in,out] sber Input/output.
+ *
+ * @brief Inform the broker that the message can be released for the given subscriber.
+ *
+ * @param[in,out] sber The pointer to the subscriber.
+ *
+ * Inform the message broker that the subscriber has finished reading the
+ * message. When this function is called for the last subscriber that has
+ * expressed the interest in the message, the message is returned to the memory
+ * pool.
+ *
+ * This function is also called by cn_subscriber_await() and
+ * cn_subscriber_poll().
  */
 void cn_subscriber_release(CnSubscriber* sber);
 
