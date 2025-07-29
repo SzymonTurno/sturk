@@ -19,46 +19,46 @@ struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos)
 }
 
 struct CnBinode*
-cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos)
+cn_binode_ins(struct CnBinode* cirq, struct CnBinode* entry, int pos)
 {
 	struct CnBinode* p = NULL;
 
 	ENSURE(entry, ERROR, null_param);
-	if (root) {
+	if (cirq) {
 		if (pos > 0)
-			p = binode_sibl(root, pos);
+			p = binode_sibl(cirq, pos);
 		else if (pos < -1)
-			p = binode_sibl(root, pos + 1);
+			p = binode_sibl(cirq, pos + 1);
 		else
-			p = root;
+			p = cirq;
 		entry->next = p;
 		entry->prev = p->prev;
 		p->prev = entry;
 		ENSURE(entry->prev, ERROR, null_param);
 		entry->prev->next = entry;
 		if (!pos)
-			root = entry;
+			cirq = entry;
 	} else {
 		entry->next = entry;
 		entry->prev = entry;
 		root = entry;
 	}
-	return root;
+	return cirq;
 }
 
-struct CnBinode* cn_binode_rem(struct CnBinode** nodep, int pos)
+struct CnBinode* cn_binode_rem(struct CnBinode** cirqp, int pos)
 {
 	struct CnBinode* ret = NULL;
 
-	ENSURE(nodep, ERROR, null_param);
-	if (*nodep) {
-		ret = binode_sibl(*nodep, pos);
+	ENSURE(cirqp, ERROR, null_param);
+	if (*cirqp) {
+		ret = binode_sibl(*cirqp, pos);
 		ret->next->prev = ret->prev;
 		ret->prev->next = ret->next;
 		if (ret == ret->next)
-			*nodep = NULL;
-		else if (ret == *nodep)
-			*nodep = ret->next;
+			*cirqp = NULL;
+		else if (ret == *cirqp)
+			*cirqp = ret->next;
 	}
 	return ret;
 }

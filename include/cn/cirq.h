@@ -6,20 +6,27 @@
  * This header file provides data types, functions and macros that define and
  * operate on doubly linked circular lists.
  *
- * @anchor r-cirq_gloss
- * <h4> Glossary </h4>
+ *
+ * Glossary
+ * --------
+ *
  * | Term | Description                 |
  * | ---- | --------------------------- |
  * | cirq | doubly linked circular list |
  *
- * <h4> Usage </h4>
+ *
+ * Usage
+ * -----
+ *
  * @code
  * typedef SomeData MyData;
  *
  * CN_CIRQ(struct MyCirq, MyData);
  *
- * void init_and_push(struct MyCirq** headp, struct MyCirq* entry, MyData data)
+ * void push(struct MyCirq** headp, MyData data)
  * {
+ *     struct MyCirq* entry = malloc(sizeof(*entry));
+ *
  *     *cn_cirq_data(entry) = data;
  *     *headp = cn_cirq_ins(*headp, entry);
  * }
@@ -51,13 +58,13 @@
 /**
  * @def cn_cirq_cast(cirq)
  *
- * @brief Get the pointer to the CnBinode member of the @ref r-cirq_gloss "cirq" entry.
+ * @brief Get the pointer to the CnBinode member of the *cirq* entry.
  *
- * @param[in] cirq The @ref r-cirq_gloss "cirq" entry pointer.
+ * @param[in] cirq The *cirq* entry pointer.
  *
  * @return A pointer to the CnBinode.
  *
- * @note Remove __STRICT_ANSI__ to enable type check for @a cirq.
+ * @note Compile with the GNU extension to enable a type check for the @a cirq.
  */
 #define cn_cirq_cast(cirq)                                                     \
 	({                                                                     \
@@ -70,13 +77,13 @@
 /**
  * @def cn_cirq_data(cirq)
  *
- * @brief Get the pointer to the data member of the @ref r-cirq_gloss "cirq" entry.
+ * @brief Get the pointer to the data member of the *cirq* entry.
  *
- * @param[in] cirq The @ref r-cirq_gloss "cirq" entry pointer.
+ * @param[in] cirq The *cirq* entry pointer.
  *
  * @return A pointer to the data.
  *
- * @note Remove __STRICT_ANSI__ to enable type check for @a cirq.
+ * @note Compile with the GNU extension to enable a type check for the @a cirq.
  */
 #define cn_cirq_data(cirq)                                                     \
 	({                                                                     \
@@ -89,12 +96,12 @@
 /**
  * @def cn_cirq_from(ptr, type)
  *
- * @brief Cast a CnBinode member out to the containing @ref r-cirq_gloss "cirq" entry.
+ * @brief Cast a CnBinode member out to the containing *cirq* entry.
  *
- * @param[in] ptr Input.
- * @param[in] type Input.
+ * @param[in] ptr The pointer to the CnBinode member.
+ * @param[in] type The type of the *cirq*.
  *
- * @return A pointer to the @ref r-cirq_gloss "cirq" entry.
+ * @return A pointer to the *cirq* entry.
  */
 #define cn_cirq_from(ptr, type) cn_container_of(ptr, type, node)
 
@@ -129,38 +136,45 @@
 /**
  * @def cn_cirq_ins(cirq, ...)
  *
- * @brief *** todo ***.
+ * @brief Insert an entry into the *cirq* at the given position.
  *
- * @param[in,out] cirq Input/output.
- * @param[in,out] ... (1) entry input/output; (2) pos (optional) input, -1 by default.
+ * A call cn_cirq_ins(cirq, entry, pos) will insert the @a entry into the @a
+ * cirq at the @a pos. To insert at the head use 0 for the @a pos and to insert
+ * at the tail use -1 for the @a pos. The argument @a pos is optional and by
+ * default it equals -1.
  *
- * @return *** todo ***.
+ * @return The new head.
  *
- * No type check for @a cirq with __STRICT_ANSI__ build.
+ * @note Compile with the GNU extension to enable a type check for the @a cirq.
  */
 #define cn_cirq_ins(cirq, ...) _CN_CIRQ_INS((cirq), __VA_ARGS__, -1, )
 
 /**
  * @def cn_cirq_rem(...)
- * @brief *** todo ***.
- * @param[in,out] ... (1) cirqp input/output; (2) pos (optional) input, 0 by default.
- * @returns *** todo ***.
  *
- * No type check for \a cirqp with __STRICT_ANSI__ build.
+ * @brief Remove, at the given position, an entry from the *cirq*.
+ *
+ * A call cn_cirq_rem(cirqp, pos) will remove an entry from the @a cirqp at the
+ * @a pos and will return the removed entry. To remove from the head use 0 for
+ * the @a pos and to remove from the tail use -1 for the @a pos. The argument
+ * @a pos is optional and by default it equals 0.
+ *
+ * @return The removed entry.
+ *
+ * @note Compile with the GNU extension to enable a type check for the @a cirqp.
  */
 #define cn_cirq_rem(...) _CN_CIRQ_REM(__VA_ARGS__, 0, )
 
 /**
  * @def CN_CIRQ(name, type)
  *
- * @brief Define the @ref r-cirq_gloss "cirq".
+ * @brief Define the *cirq*.
  *
- * @param[in] name The name of the type used for @ref r-cirq_gloss "cirq".
+ * @param[in] name The name of the type used for *cirq*.
  * @param[in] type The type of the data held by @a name.
  *
  * This macro will define a compound type (must be struct or union) @a name,
- * a type for a @ref r-cirq_gloss "cirq" entry that holds the data of the type
- * @a type.
+ * a type for a *cirq* entry that holds the data of the type @a type.
  */
 #define CN_CIRQ(name, type)                                                    \
 	name                                                                   \
@@ -171,53 +185,67 @@
 
 /**
  * @struct CnBinode
- * @brief *** todo ***.
  *
- * Members:
- * - next,
- * - prev.
+ * @brief Doubly linked list node.
  */
 struct CnBinode {
 	/**
 	 * @var struct CnBinode* next
-	 * @brief *** todo ***.
+	 *
+	 * @brief The pointer to the next entry in the doubly linked list.
 	 */
 	struct CnBinode* next;
 
 	/**
 	 * @var struct CnBinode* prev
-	 * @brief *** todo ***.
+	 *
+	 * @brief The pointer to the previous entry in the doubly linked list.
 	 */
 	struct CnBinode* prev;
 };
 
 /**
  * @fn struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos)
- * @brief *** todo ***.
- * @param[in,out] node Input/output.
- * @param[in] pos Input.
- * @returns *** todo ***.
+ *
+ * @brief Gets the entry at the given position in a doubly linked list.
+ *
+ * @param[in,out] node The reference entry.
+ * @param[in] pos The offset from the reference entry.
+ *
+ * For positive values of @a pos this will iterate over the @a next pointers and
+ * for negative values of @a pos this will iterate over the @b prev pointers.
+ * For 0 @a pos, this will return the reference entry.
+ *
+ * @return The entry at the position @a pos away from the reference entry.
  */
 struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos);
 
 /**
- * @fn struct CnBinode* cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos)
- * @brief *** todo ***.
- * @param[in,out] root Input/output.
- * @param[in,out] entry Input/output.
- * @param[in] pos Input.
- * @returns *** todo ***.
+ * @fn struct CnBinode* cn_binode_ins(struct CnBinode* cirq, struct CnBinode* entry, int pos)
+ *
+ * @brief Insert an entry into the *cirq* at the given position.
+ *
+ * @param[in,out] cirq The head of the *cirq*.
+ * @param[in,out] entry The new entry.
+ * @param[in] pos The position at which the new entry is inserted.
+ *
+ * This function assumes that the list on which it operates is a circular list.
+ *
+ * @return The new head.
  */
 struct CnBinode*
-cn_binode_ins(struct CnBinode* root, struct CnBinode* entry, int pos);
+cn_binode_ins(struct CnBinode* cirq, struct CnBinode* entry, int pos);
 
 /**
  * @fn struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos)
- * @brief *** todo ***.
- * @param[in,out] rootp Input/output.
- * @param[in] pos Input.
- * @returns *** todo ***.
+ *
+ * @brief Remove, at the given position, an entry from the *cirq*.
+ *
+ * @param[in,out] cirqp The pointer to the head of the *cirq*.
+ * @param[in] pos The position of the entry that is removed.
+ *
+ * @return The removed entry.
  */
-struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos);
+struct CnBinode* cn_binode_rem(struct CnBinode** cirqp, int pos);
 
 #endif /* CN_CIRQ_H */
