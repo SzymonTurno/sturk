@@ -1,10 +1,9 @@
 /**
  * @file cn/dict.h
- * @brief Header file for dictionary.
+ * @brief Dictionary.
  *
- * This dictionary is key-value data structure where key is always a sequence of
- * characters (ie. string, char array). Compile without __STRICT_ANSI__ for
- * additional type checks.
+ * This dictionary is a key-value data structure where the key is always a
+ * sequence of characters (ie. string, char array).
  */
 
 #ifndef CN_DICT_H

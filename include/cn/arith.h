@@ -10,7 +10,7 @@
 #include <stddef.h>
 
 /**
- * @def cn_max(x, y)
+ * @def CN_MAX(x, y)
  *
  * @brief Compute the maximum of two values.
  *
@@ -20,10 +20,10 @@
  *
  * @note Side effects: @a x and @a y evaluated twice.
  */
-#define cn_max(x, y) (((x) > (y)) ? (x) : (y))
+#define CN_MAX(x, y) (((x) > (y)) ? (x) : (y))
 
 /**
- * @def cn_min(x, y)
+ * @def CN_MIN(x, y)
  *
  * @brief Compute the minimum of two values.
  *
@@ -33,7 +33,7 @@
  *
  * @note Side effects: @a x and @a y evaluated twice.
  */
-#define cn_min(x, y) (((x) < (y)) ? (x) : (y))
+#define CN_MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 #ifdef __STRICT_ANSI__
 
@@ -55,7 +55,7 @@
  *
  * @return Pointer to the member's container.
  *
- * @note Remove __STRICT_ANSI__ to enable type check for @a ptr.
+ * @note Compile with the GNU extension to enable a type check for the @a ptr.
  */
 #define cn_container_of(ptr, type, member)                                     \
 	({                                                                     \

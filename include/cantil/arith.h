@@ -8,11 +8,11 @@
 
 #include "cn/arith.h"
 
-/** @see cn_max() */
-#define max cn_max
+/** @see CN_MAX() */
+#define MAX CN_MAX
 
-/** @see cn_min() */
-#define min cn_min
+/** @see CN_MIN() */
+#define MIN CN_MIN
 
 /** @see cn_container_of() */
 #define container_of cn_container_of

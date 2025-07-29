@@ -22,7 +22,7 @@
 /**
  * @var typedef char CnLoad
  *
- * @brief Opaque data type that represents the load.
+ * @brief Opaque data type that represents the message load.
  *
  * The memory for each message has two contexts:
  * 1. direct - allocated from the memory pool;
@@ -35,7 +35,8 @@
  * pool and its size is constant for all messages. The size of the
  * block is a multiple of the size of the metadata, big enough to hold one
  * instance of the metadata and one instance of the user defined load. The size
- * of the load for the direct context is defined with CnLoadVt::size callback.
+ * of the load for the direct context is defined with the CnLoadVt::size
+ * callback.
  * @see CnPool
  *
  * <table>
@@ -78,7 +79,7 @@ struct CnLoadVt {
 	 *
 	 * Should allocate additional memory for the message, if needed (see
 	 * "indirect context") and initialize the message - read arguments from
-	 * va_list and fill the load passed through CnLoad pointer.
+	 * the va_list and fill the load passed through the CnLoad pointer.
 	 *
 	 * @note The input va_list will hold all values passed to cn_publish()
 	 * after the CnChannel argument.
@@ -91,7 +92,7 @@ struct CnLoadVt {
 	 *
 	 * @brief Destructor callback for the message.
 	 *
-	 * Should free all the memory allocated by CnLoadVt::ctor.
+	 * Should free all the memory allocated by the CnLoadVt::ctor.
 	 */
 	void (*dtor)(CnLoad*);
 };
@@ -132,7 +133,7 @@ typedef struct CnChannel CnChannel;
  * @brief Broadcast the message.
  *
  * @param[in,out] ch The channel to which the message is sent.
- * @param[in] ... list of arguments used by CnLoadVt::ctor.
+ * @param[in] ... The list of arguments used by the CnLoadVt::ctor.
  *
  * Channels without any subscribers are allowed. Publishing to such channel is
  * safe and it does not have any meaningful behaviour.
@@ -142,10 +143,10 @@ void cn_publish(CnChannel* ch, ...);
 /**
  * @fn void cn_subscribe(CnSubscriber* sber, const char* topic)
  *
- * @brief Subscribe to topic.
+ * @brief Subscribe to a topic.
  *
  * @param[in,out] sber The subscriber that expresses the interest in the topic.
- * @param[in] topic The topic to which subscription will be made.
+ * @param[in] topic The topic to which the subscription will be made.
  */
 void cn_subscribe(CnSubscriber* sber, const char* topic);
 
