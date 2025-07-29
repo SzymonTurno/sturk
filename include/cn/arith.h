@@ -1,9 +1,7 @@
 /**
  * @file cn/arith.h
  *
- * @brief Macros for basic airthmetic operations.
- *
- * @note Compile without __STRICT_ANSI__ for additional type checks.
+ * @brief Basic arithmetic operations.
  */
 
 #ifndef CN_ARITH_H
@@ -57,7 +55,7 @@
  *
  * @return Pointer to the member's container.
  *
- * @note No type check for @a ptr with __STRICT_ANSI__ build.
+ * @note Remove __STRICT_ANSI__ to enable type check for @a ptr.
  */
 #define cn_container_of(ptr, type, member)                                     \
 	({                                                                     \
