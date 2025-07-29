@@ -325,7 +325,7 @@ TEST(subscriber, should_receive_enqueued_message)
 	subscribe(sber, "test");
 	publish(broker_search(broker, "test"), "%X", 0xF00D);
 	TEST_ASSERT_NULL(channel_gettopic(ch));
-	TEST_ASSERT_EQUAL_STRING("F00D", *(char**)subscriber_await(sber, &ch));
+	TEST_ASSERT_EQUAL_STRING("F00D", subscriber_await(sber, &ch));
 	TEST_ASSERT_EQUAL_STRING("test", channel_gettopic(ch));
 	broker_destroy(broker);
 }
