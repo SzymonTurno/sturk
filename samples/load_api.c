@@ -4,21 +4,19 @@
 
 static size_t size(void)
 {
-	return sizeof(char**);
+	return sizeof(char[8]);
 }
 
 static void init(CnLoad* load, va_list vlist)
 {
 	const char* format = va_arg(vlist, char*);
-	char* buff = malloc(256);
 
-	vsnprintf(buff, 256, format, vlist);
-	*(char**)load = buff;
+	vsnprintf(load, 8, format, vlist);
 }
 
 static void deinit(CnLoad* load)
 {
-	free(*(char**)load);
+	(void)load;
 }
 
 const struct CnLoadVt SAMPLE_LOAD_API[] = {
