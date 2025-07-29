@@ -1,8 +1,29 @@
 /**
  * @file cn/cirq.h
- * @brief Header file for circular linked list.
  *
- * Compile without __STRICT_ANSI__ for additional type checks.
+ * @brief Doubly linked circular list.
+ *
+ * This header file provides data types, functions and macros that define and
+ * operate on doubly linked circular lists.
+ *
+ * @anchor r-cirq_gloss
+ * <h4> Glossary </h4>
+ * | Term | Description                 |
+ * | ---- | --------------------------- |
+ * | cirq | doubly linked circular list |
+ *
+ * <h4> Usage </h4>
+ * @code
+ * typedef SomeData MyData;
+ *
+ * CN_CIRQ(struct MyCirq, MyData);
+ *
+ * void init_and_push(struct MyCirq** headp, struct MyCirq* entry, MyData data)
+ * {
+ *     *cn_cirq_data(entry) = data;
+ *     *headp = cn_cirq_ins(*headp, entry);
+ * }
+ * @endcode
  */
 
 #ifndef CN_CIRQ_H
@@ -29,11 +50,14 @@
 
 /**
  * @def cn_cirq_cast(cirq)
- * @brief *** todo ***.
- * @param[in] cirq Input.
- * @returns *** todo ***.
  *
- * No type check for \a cirq with __STRICT_ANSI__ build.
+ * @brief Get the pointer to the CnBinode member of the @ref r-cirq_gloss "cirq" entry.
+ *
+ * @param[in] cirq The @ref r-cirq_gloss "cirq" entry pointer.
+ *
+ * @return A pointer to the CnBinode.
+ *
+ * @note Remove __STRICT_ANSI__ to enable type check for @a cirq.
  */
 #define cn_cirq_cast(cirq)                                                     \
 	({                                                                     \
@@ -45,11 +69,14 @@
 
 /**
  * @def cn_cirq_data(cirq)
- * @brief *** todo ***.
- * @param[in] cirq Input.
- * @returns *** todo ***.
  *
- * No type check for \a cirq with __STRICT_ANSI__ build.
+ * @brief Get the pointer to the data member of the @ref r-cirq_gloss "cirq" entry.
+ *
+ * @param[in] cirq The @ref r-cirq_gloss "cirq" entry pointer.
+ *
+ * @return A pointer to the data.
+ *
+ * @note Remove __STRICT_ANSI__ to enable type check for @a cirq.
  */
 #define cn_cirq_data(cirq)                                                     \
 	({                                                                     \
@@ -61,10 +88,13 @@
 
 /**
  * @def cn_cirq_from(ptr, type)
- * @brief *** todo ***.
+ *
+ * @brief Cast a CnBinode member out to the containing @ref r-cirq_gloss "cirq" entry.
+ *
  * @param[in] ptr Input.
  * @param[in] type Input.
- * @returns *** todo ***.
+ *
+ * @return A pointer to the @ref r-cirq_gloss "cirq" entry.
  */
 #define cn_cirq_from(ptr, type) cn_container_of(ptr, type, node)
 
@@ -98,12 +128,15 @@
 
 /**
  * @def cn_cirq_ins(cirq, ...)
+ *
  * @brief *** todo ***.
+ *
  * @param[in,out] cirq Input/output.
  * @param[in,out] ... (1) entry input/output; (2) pos (optional) input, -1 by default.
- * @returns *** todo ***.
  *
- * No type check for \a cirq with __STRICT_ANSI__ build.
+ * @return *** todo ***.
+ *
+ * No type check for @a cirq with __STRICT_ANSI__ build.
  */
 #define cn_cirq_ins(cirq, ...) _CN_CIRQ_INS((cirq), __VA_ARGS__, -1, )
 
@@ -119,10 +152,15 @@
 
 /**
  * @def CN_CIRQ(name, type)
- * @brief *** todo ***.
- * @param[in] name Input.
- * @param[in] type Input.
- * @returns *** todo ***.
+ *
+ * @brief Define the @ref r-cirq_gloss "cirq".
+ *
+ * @param[in] name The name of the type used for @ref r-cirq_gloss "cirq".
+ * @param[in] type The type of the data held by @a name.
+ *
+ * This macro will define a compound type (must be struct or union) @a name,
+ * a type for a @ref r-cirq_gloss "cirq" entry that holds the data of the type
+ * @a type.
  */
 #define CN_CIRQ(name, type)                                                    \
 	name                                                                   \

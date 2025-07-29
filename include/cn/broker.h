@@ -3,7 +3,7 @@
  *
  * @brief Message broker.
  *
- * This file defines data types and functions that implement the
+ * This header file provides data types and functions that implement the
  * publish-subscribe messaging pattern.
  *
  * The design choices:

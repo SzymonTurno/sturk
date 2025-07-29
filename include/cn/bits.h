@@ -1,8 +1,9 @@
 /**
  * @file cn/bits.h
  *
- * @brief Macros for bits and bitfields.
+ * @brief Bits and bitfields.
  *
+ * This header file provides macros for operating with bits and bitfields.
  * Use CnBits data type for bitwise operations as it avoids many issues related
  * to integral promotion, which is a common source of bugs when doing bit
  * manipulations.
