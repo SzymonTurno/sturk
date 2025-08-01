@@ -19,7 +19,7 @@ CnPool* cn_pool_create(size_t blk_size)
 	CnPool* self = NEW(CnPool);
 
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	self->blk_size = max(blk_size, sizeof(*self->list));
+	self->blk_size = MAX(blk_size, sizeof(*self->list));
 	self->list = NULL;
 	return self;
 }

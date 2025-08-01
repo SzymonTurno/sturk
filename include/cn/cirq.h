@@ -243,7 +243,7 @@ struct CnBinode*
 cn_binode_ins(struct CnBinode* cirq, struct CnBinode* entry, int pos);
 
 /**
- * @fn struct CnBinode* cn_binode_rem(struct CnBinode** rootp, int pos)
+ * @fn struct CnBinode* cn_binode_rem(struct CnBinode** cirqp, int pos)
  *
  * @brief Remove, at the given position, an entry from the *cirq*.
  *
