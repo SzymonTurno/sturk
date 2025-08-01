@@ -101,3 +101,7 @@ jobs:
       run: make all-iso
     - name: Run tests
       run: make check-iso
+
+  all-good-iso:
+    needs: coverage-iso-on-unix
+    needs: check-iso-on-win32

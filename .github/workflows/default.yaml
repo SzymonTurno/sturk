@@ -78,3 +78,7 @@ jobs:
       run: make all-default
     - name: Run tests
       run: make check-default
+
+  all-good-default:
+    needs: check-default-on-unix
+    needs: check-default-on-win32

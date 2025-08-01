@@ -32,3 +32,10 @@ jobs:
       with:
         name: doxygen-output
         path: docs/
+
+  all-good:
+    needs: clang-format-checking
+    needs: doxygen-run
+    needs: all-good-default
+    needs: all-good-iso
+    needs: coverage-posix-on-unix
