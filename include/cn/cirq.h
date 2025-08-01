@@ -7,6 +7,12 @@
  * operate on doubly linked circular lists.
  *
  *
+ * Features
+ * --------
+ *
+ * - Intrusive.
+ *
+ *
  * Glossary
  * --------
  *
@@ -209,7 +215,7 @@ struct CnBinode {
  *
  * @brief Gets the entry at the given position in a doubly linked list.
  *
- * @param[in,out] node The reference entry.
+ * @param[in] node The reference entry.
  * @param[in] pos The offset from the reference entry.
  *
  * For positive values of @a pos this will iterate over the @a next pointers and
