@@ -41,7 +41,7 @@ cn_binode_ins(struct CnBinode* cirq, struct CnBinode* entry, int pos)
 	} else {
 		entry->next = entry;
 		entry->prev = entry;
-		root = entry;
+		cirq = entry;
 	}
 	return cirq;
 }
