@@ -125,10 +125,10 @@ CnBroker* cn_broker_create(const struct CnLoadVt* vp)
 {
 	struct CnBroker* self = NULL;
 
-	ENSURE_MEMORY(ERROR, vp);
-	ENSURE_MEMORY(ERROR, vp->size);
-	ENSURE_MEMORY(ERROR, vp->ctor);
-	ENSURE_MEMORY(ERROR, vp->dtor);
+	ENSURE_MEMORY(vp, ERROR);
+	ENSURE_MEMORY(vp->size, ERROR);
+	ENSURE_MEMORY(vp->ctor, ERROR);
+	ENSURE_MEMORY(vp->dtor, ERROR);
 	self = NEW(struct CnBroker);
 	self->vp = vp;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
@@ -164,7 +164,7 @@ CnChannel* cn_broker_search(CnBroker* broker, const char* topic)
 {
 	struct CnChannel* ch = NULL;
 
-	ENSURE_MEMORY(ERROR, broker);
+	ENSURE_MEMORY(broker, ERROR);
 	mutex_lock(broker->mutex);
 	ch = dict_find(broker->channels.dict, topic);
 	if (!ch) {
@@ -179,7 +179,7 @@ CnSubscriber* cn_subscriber_create(CnBroker* broker)
 {
 	CnSubscriber* self = NULL;
 
-	ENSURE_MEMORY(ERROR, broker);
+	ENSURE_MEMORY(broker, ERROR);
 	self = NEW(CnSubscriber);
 	self->broker = broker;
 	self->q = waitq_create();
@@ -220,7 +220,7 @@ CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch)
 {
 	CnLoad* ret = NULL;
 
-	ENSURE_MEMORY(ERROR, sber);
+	ENSURE_MEMORY(sber, ERROR);
 	ret = load_init(sber, waitq_rem(sber->q));
 	if (ch) {
 		ENSURE(sber->msg, ERROR, null_param);
@@ -233,7 +233,7 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
 {
 	CnLoad* ret = NULL;
 
-	ENSURE_MEMORY(ERROR, sber);
+	ENSURE_MEMORY(sber, ERROR);
 	ret = load_init(sber, waitq_tryrem(sber->q));
 	if (ch && sber->msg)
 		*ch = sber->msg->channel;

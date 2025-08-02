@@ -1,8 +1,7 @@
 /**
  * @file cn/logger/except.h
- * @brief Header file for exceptions.
  *
- * *** todo ***.
+ * @brief Exceptions.
  */
 
 #ifndef CN_LOGGER_EXCEPT_H
@@ -15,18 +14,21 @@
 
 /**
  * @def CN_EXCEPTIONS_EN
- * @brief *** todo ***.
+ *
+ * @brief Exceptions enabled.
  */
 #define CN_EXCEPTIONS_EN 0
 
 #endif /* CN_EXCEPTIONS_EN */
 
 /**
- * @def CN_ENSURE(lvl, e)
- * @brief *** todo ***.
- * @param[in] cond Input.
- * @param[in] lvl Input.
- * @param[in] e Input.
+ * @def CN_ENSURE(cond, lvl, e)
+ *
+ * @brief Raise an exception if the condition is not met.
+ *
+ * @param[in] cond The condition.
+ * @param[in] lvl The exception level (WARNING or ERROR).
+ * @param[in] e The exception.
  */
 #define CN_ENSURE(cond, lvl, e)                                                \
 	do {                                                                   \
@@ -55,20 +57,23 @@
 
 /**
  * @def CN_RAISE(lvl, e)
- * @brief *** todo ***.
- * @param[in] lvl Input.
- * @param[in] e Input.
+ *
+ * @brief Raise an exception.
+ *
+ * @param[in] lvl The exception level (WARNING or ERROR).
+ * @param[in] e The exception.
  */
 #define CN_RAISE(lvl, e) CN_ENSURE(0, lvl, e)
 
 /**
  * @def CN_ENSURE_MEMORY(lvl, ptr)
- * @brief *** todo ***.
- * @param[in] lvl Input.
- * @param[in] ptr Input.
- * @returns *** todo ***.
+ *
+ * @brief Raise an exception and return NULL if the pointer is NULL.
+ *
+ * @param[in] ptr The pointer.
+ * @param[in] lvl Exception level.
  */
-#define CN_ENSURE_MEMORY(lvl, ptr)                                             \
+#define CN_ENSURE_MEMORY(ptr, lvl)                                             \
 	do {                                                                   \
 		if ((ptr) == NULL) {                                           \
 			RAISE(lvl, null_param);                                \
@@ -78,15 +83,14 @@
 
 /**
  * @struct CnException
- * @brief *** todo ***.
  *
- * Members:
- * - reason.
+ * @brief Exception.
  */
 struct CnException {
 	/**
 	 * @var const char* reason
-	 * @brief *** todo ***.
+	 *
+	 * @brief The reason that caused the exception.
 	 */
 	const char* reason;
 };

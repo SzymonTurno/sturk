@@ -38,7 +38,7 @@ struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
 {
 	struct CnStrlist* self = NEW(struct CnStrlist);
 
-	ENSURE_MEMORY(ERROR, self);
+	ENSURE_MEMORY(self, ERROR);
 	*list_data(self) = str;
 	return list_ins(list, self);
 }
@@ -61,7 +61,7 @@ struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str)
 {
 	struct CnStrq* self = NEW(struct CnStrq);
 
-	ENSURE_MEMORY(ERROR, self);
+	ENSURE_MEMORY(self, ERROR);
 	*cirq_data(self) = str;
 	return cirq_ins(q, self);
 }
@@ -71,7 +71,7 @@ char* cn_strq_rem(struct CnStrq** qp)
 	struct CnStrq* tmp = NULL;
 	char* ret = NULL;
 
-	ENSURE_MEMORY(ERROR, qp);
+	ENSURE_MEMORY(qp, ERROR);
 	tmp = cirq_rem(qp);
 	ret = *cirq_data(tmp);
 	cn_free(tmp);
