@@ -1,8 +1,7 @@
 /**
  * @file cn/logger/trace.h
- * @brief Header file for logging procedures.
  *
- * *** todo ***.
+ * @brief Trace.
  */
 
 #ifndef CN_LOGGER_TRACE_H
@@ -14,7 +13,8 @@
 
 /**
  * @def CN_LOGGER_EN
- * @brief *** todo ***.
+ *
+ * @brief Logger enabled.
  */
 #define CN_LOGGER_EN 0
 
@@ -22,10 +22,13 @@
 
 /**
  * @def CN_TRACE(lvl, tag, ...)
- * @brief *** todo ***.
- * @param[in] lvl Input.
- * @param[in] tag Input.
- * @param[in] ... Input.
+ *
+ * @brief Log to the streams that are attached to the logger.
+ *
+ * This is almost the same as cn_trace(). The main difference is that it will
+ * not compile if the CN_LOGGER_EN is 0.
+ *
+ * @see cn_trace()
  */
 #define CN_TRACE(lvl, tag, ...)                                                \
 	do {                                                                   \
@@ -48,33 +51,40 @@ enum CnTraceLvl {
 
 /**
  * @fn void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
- * @brief *** todo ***.
- * @param[in] lvl Input.
- * @param[in] tag Input.
- * @param[in] format Input.
- * @param[in] ... Input.
+ *
+ * @brief Log to the streams that are attached to the logger.
+ *
+ * @param[in] lvl The log level.
+ * @param[in] tag The tag string.
+ * @param[in] format The format string.
+ * @param[in] ... The list of arguments.
  */
 void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...);
 
 /**
  * @fn void cn_logger_attach(enum CnTraceLvl lvl, CnFstream* stream)
- * @brief *** todo ***.
- * @param[in] lvl Input.
- * @param[in,out] stream Input/output.
+ *
+ * @brief Attach a stream to the logger.
+ *
+ * @param[in] lvl The log level.
+ * @param[in,out] stream The stream.
  */
 void cn_logger_attach(enum CnTraceLvl lvl, CnFstream* stream);
 
 /**
  * @fn void cn_logger_detach(enum CnTraceLvl lvl, CnFstream* stream)
- * @brief *** todo ***.
- * @param[in] lvl Input.
- * @param[in,out] stream Input/output.
+ *
+ * @brief Detach a stream from the logger.
+ *
+ * @param[in] lvl The log level.
+ * @param[in,out] stream The stream.
  */
 void cn_logger_detach(enum CnTraceLvl lvl, CnFstream* stream);
 
 /**
  * @fn void cn_logger_cleanup(void)
- * @brief *** todo ***.
+ *
+ * @brief Detach all streams and free all the memory allocated by the logger.
  */
 void cn_logger_cleanup(void);
 

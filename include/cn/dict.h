@@ -85,10 +85,10 @@
 /**
  * @def cn_dict_setk(dict, key)
  *
- * @brief Set a string key for a dictionary entry.
+ * @brief Set a key string for a dictionary entry.
  *
  * @param[in] dict The entry.
- * @param[in] key The string key.
+ * @param[in] key The key string.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
@@ -103,11 +103,11 @@
 /**
  * @def cn_dict_getk(dict)
  *
- * @brief Get the string key from a dictionary entry.
+ * @brief Get the key string from a dictionary entry.
  *
  * @param[in] dict The entry.
  *
- * @return A string key.
+ * @return A key string.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
@@ -166,7 +166,7 @@
  * @brief In a dictionary, find the entry with the given key.
  *
  * @param[in] dict The root.
- * @param[in] key The string key.
+ * @param[in] key The key string.
  *
  * @return The found entry or NULL if none found.
  *
@@ -266,7 +266,7 @@ struct CnStrnode {
 	/**
 	 * @var char* str
 	 *
-	 * @brief The string key.
+	 * @brief The key string.
 	 */
 	char* str;
 };
@@ -290,7 +290,7 @@ cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* entry);
  * @brief In a dictionary, find the entry with the given key.
  *
  * @param[in] root The root.
- * @param[in] str The string key.
+ * @param[in] str The key string.
  *
  * @return The found entry or NULL if none found.
  */
