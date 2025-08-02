@@ -29,7 +29,7 @@ CnStreambag* cn_streambag_create(void);
  * @fn void cn_streambag_destroy(CnStreambag* bag)
  *
  * @brief Destroy a bag of streams
- *.
+ *
  * @param[in,out] bag The bag.
  */
 void cn_streambag_destroy(CnStreambag* bag);
