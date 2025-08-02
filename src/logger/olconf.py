@@ -20,4 +20,4 @@ def join(olvars):
 
     olvars.append('cantil_BLDDIRS', olvars.slashify(olvars.cwd()))
     olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'trace.o'))
-    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'sink.o'))
+    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'streambag.o'))
