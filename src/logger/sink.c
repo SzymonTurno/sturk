@@ -7,7 +7,7 @@
 
 LIST(struct StreamList, CnFstream*);
 
-struct CnLogsink {
+struct CnStreambag {
 	struct StreamList* head;
 	CnMutex* mutex;
 };
@@ -24,53 +24,53 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 	}
 }
 
-CnLogsink* cn_logsink_create(void)
+CnStreambag* cn_streambag_create(void)
 {
-	CnLogsink* self = NEW(CnLogsink);
+	CnStreambag* self = NEW(CnStreambag);
 
 	self->head = NULL;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	return self;
 }
 
-void cn_logsink_destroy(CnLogsink* list)
+void cn_streambag_destroy(CnStreambag* bag)
 {
-	if (!list)
+	if (!bag)
 		return;
-	mutex_destroy(list->mutex);
-	list->mutex = NULL;
-	while (list->head)
-		cn_free(list_rem(&list->head));
-	cn_free(list);
+	mutex_destroy(bag->mutex);
+	bag->mutex = NULL;
+	while (bag->head)
+		cn_free(list_rem(&bag->head));
+	cn_free(bag);
 }
 
-void cn_logsink_ins(CnLogsink* list, CnFstream* stream)
+void cn_streambag_ins(CnStreambag* bag, CnFstream* stream)
 {
 	struct StreamList* entry = NEW(struct StreamList);
 
-	ENSURE(list, ERROR, null_param);
+	ENSURE(bag, ERROR, null_param);
 	*list_data(entry) = stream;
-	mutex_lock(list->mutex);
-	list->head = list_ins(list->head, entry);
-	mutex_unlock(list->mutex);
+	mutex_lock(bag->mutex);
+	bag->head = list_ins(bag->head, entry);
+	mutex_unlock(bag->mutex);
 }
 
-void cn_logsink_rem(CnLogsink* list, CnFstream* stream)
+void cn_streambag_rem(CnStreambag* bag, CnFstream* stream)
 {
-	ENSURE(list, ERROR, null_param);
-	list_iter (i, &list->head)
+	ENSURE(bag, ERROR, null_param);
+	list_iter (i, &bag->head)
 		if (*list_data(*i) == stream) {
-			mutex_lock(list->mutex);
+			mutex_lock(bag->mutex);
 			cn_free(list_rem(i));
-			mutex_unlock(list->mutex);
+			mutex_unlock(bag->mutex);
 			break;
 		}
 }
 
-void cn_logsink_vprint(CnLogsink* list, const char* format, va_list vlist)
+void cn_streambag_vprint(CnStreambag* bag, const char* format, va_list vlist)
 {
-	ENSURE(list, ERROR, null_param);
-	mutex_lock(list->mutex);
-	list_print(list->head, format, vlist);
-	mutex_unlock(list->mutex);
+	ENSURE(bag, ERROR, null_param);
+	mutex_lock(bag->mutex);
+	list_print(bag->head, format, vlist);
+	mutex_unlock(bag->mutex);
 }

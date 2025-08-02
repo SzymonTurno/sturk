@@ -3,24 +3,24 @@
  * @see cn/logger/sink.h.
  */
 
-#ifndef CANTIL_LOGGER_SINK_H
-#define CANTIL_LOGGER_SINK_H
+#ifndef CANTIL_LOGGER_STREAMBAG_H
+#define CANTIL_LOGGER_STREAMBAG_H
 
 #include "cn/logger/sink.h"
 
-/** @see cn_logsink_create() */
-#define logsink_create cn_logsink_create
+/** @see cn_streambag_create() */
+#define streambag_create cn_streambag_create
 
-/** @see cn_logsink_destroy() */
-#define logsink_destroy cn_logsink_destroy
+/** @see cn_streambag_destroy() */
+#define streambag_destroy cn_streambag_destroy
 
-/** @see cn_logsink_ins() */
-#define logsink_ins cn_logsink_ins
+/** @see cn_streambag_ins() */
+#define streambag_ins cn_streambag_ins
 
-/** @see cn_logsink_rem() */
-#define logsink_rem cn_logsink_rem
+/** @see cn_streambag_rem() */
+#define streambag_rem cn_streambag_rem
 
-/** @see cn_logsink_vprint() */
-#define logsink_vprint cn_logsink_vprint
+/** @see cn_streambag_vprint() */
+#define streambag_vprint cn_streambag_vprint
 
-#endif /* CANTIL_LOGGER_SINK_H */
+#endif /* CANTIL_LOGGER_STREAMBAG_H */

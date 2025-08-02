@@ -1,58 +1,68 @@
 /**
- * @file cn/logger/sink.h
- * @brief Header file with helper data structure for logger utility.
+ * @file cn/logger/streambag.h
  *
- * *** todo ***.
+ * @brief Bag of streams.
  */
 
-#ifndef CN_LOGGER_SINK_H
-#define CN_LOGGER_SINK_H
+#ifndef CN_LOGGER_STREAMBAG_H
+#define CN_LOGGER_STREAMBAG_H
 
 #include "cn/os/fstream.h"
 
 /**
- * @var typedef struct CnLogsink CnLogsink
- * @brief *** todo ***.
+ * @var typedef struct CnStreambag CnStreambag
+ *
+ * @brief A bag of streams.
  */
-typedef struct CnLogsink CnLogsink;
+typedef struct CnStreambag CnStreambag;
 
 /**
- * @fn CnLogsink* cn_logsink_create(void)
- * @brief *** todo ***.
- * @returns *** todo ***.
+ * @fn CnStreambag* cn_streambag_create(void)
+ *
+ * @brief Create a new empty bag of streams.
+ *
+ * @return An empty bag of streams.
  */
-CnLogsink* cn_logsink_create(void);
+CnStreambag* cn_streambag_create(void);
 
 /**
- * @fn void cn_logsink_destroy(CnLogsink* sink)
- * @brief *** todo ***.
- * @param[in,out] sink Input/output.
+ * @fn void cn_streambag_destroy(CnStreambag* bag)
+ *
+ * @brief Destroy a bag of streams
+ *.
+ * @param[in,out] bag The bag.
  */
-void cn_logsink_destroy(CnLogsink* sink);
+void cn_streambag_destroy(CnStreambag* bag);
 
 /**
- * @fn void cn_logsink_ins(CnLogsink* sink, CnFstream* stream)
- * @brief *** todo ***.
- * @param[in,out] sink Input/output.
- * @param[in,out] stream Input/output.
+ * @fn void cn_streambag_ins(CnStreambag* bag, CnFstream* stream)
+ *
+ * @brief Insert a stream into a bag.
+ *
+ * @param[in,out] bag The bag.
+ * @param[in] stream The stream.
  */
-void cn_logsink_ins(CnLogsink* sink, CnFstream* stream);
+void cn_streambag_ins(CnStreambag* bag, CnFstream* stream);
 
 /**
- * @fn void cn_logsink_rem(CnLogsink* sink, CnFstream* stream)
- * @brief *** todo ***.
- * @param[in,out] sink Input/output.
- * @param[in,out] stream Input/output.
+ * @fn void cn_streambag_rem(CnStreambag* bag, CnFstream* stream)
+ *
+ * @brief Remove a stream from a bag.
+ *
+ * @param[in,out] bag The bag.
+ * @param[in] stream The stream.
  */
-void cn_logsink_rem(CnLogsink* sink, CnFstream* stream);
+void cn_streambag_rem(CnStreambag* bag, CnFstream* stream);
 
 /**
- * @fn void cn_logsink_vprint(CnLogsink* sink, const char* format, va_list vlist)
- * @brief *** todo ***.
- * @param[in,out] sink Input/output.
- * @param[in] format Input.
- * @param[in] vlist Input.
+ * @fn void cn_streambag_vprint(CnStreambag* bag, const char* format, va_list vlist)
+ *
+ * @brief Print to all streams from a bag.
+ *
+ * @param[in,out] bag The bag.
+ * @param[in] format The format string.
+ * @param[in] vlist The list of arguments.
  */
-void cn_logsink_vprint(CnLogsink* sink, const char* format, va_list vlist);
+void cn_streambag_vprint(CnStreambag* bag, const char* format, va_list vlist);
 
-#endif /* CN_LOGGER_SINK_H */
+#endif /* CN_LOGGER_STREAMBAG_H */
