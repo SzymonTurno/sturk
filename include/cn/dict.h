@@ -237,7 +237,7 @@
  *
  * @brief Define the dictionary.
  *
- * @param[in] name The name of the type used for dictionary.
+ * @param[in] name The name of the type used for the dictionary.
  * @param[in] type The type of the data held by @a name.
  *
  * This macro will define a compound type (must be struct or union) @a name,

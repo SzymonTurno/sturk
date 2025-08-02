@@ -142,7 +142,7 @@
 /**
  * @def cn_cirq_ins(cirq, ...)
  *
- * @brief Insert an entry into the *cirq* at the given position.
+ * @brief Insert, at the given position, an entry into the *cirq*.
  *
  * A call cn_cirq_ins(cirq, entry, pos) will insert the @a entry into the @a
  * cirq at the @a pos. To insert at the head use 0 for the @a pos and to insert
@@ -176,7 +176,7 @@
  *
  * @brief Define the *cirq*.
  *
- * @param[in] name The name of the type used for *cirq*.
+ * @param[in] name The name of the type used for the *cirq*.
  * @param[in] type The type of the data held by @a name.
  *
  * This macro will define a compound type (must be struct or union) @a name,
@@ -229,15 +229,15 @@ struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos);
 /**
  * @fn struct CnBinode* cn_binode_ins(struct CnBinode* cirq, struct CnBinode* entry, int pos)
  *
- * @brief Insert an entry into the *cirq* at the given position.
+ * @brief Insert, at the given position, an entry into the *cirq*.
  *
  * @param[in,out] cirq The head of the *cirq*.
  * @param[in,out] entry The new entry.
  * @param[in] pos The position at which the new entry is inserted.
  *
- * This function assumes that the list on which it operates is a circular list.
- *
  * @return The new head.
+ *
+ * @note This function assumes that the list on which it operates is a circular list.
  */
 struct CnBinode*
 cn_binode_ins(struct CnBinode* cirq, struct CnBinode* entry, int pos);
@@ -247,7 +247,7 @@ cn_binode_ins(struct CnBinode* cirq, struct CnBinode* entry, int pos);
  *
  * @brief Remove, at the given position, an entry from the *cirq*.
  *
- * @param[in,out] cirqp The pointer to the head of the *cirq*.
+ * @param[in,out] cirqp The double pointer to the head of the *cirq*.
  * @param[in] pos The position of the entry that is removed.
  *
  * @return The removed entry.

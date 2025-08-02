@@ -1,8 +1,34 @@
 /**
  * @file cn/list.h
- * @brief Header file for singly linked list.
  *
- * Compile without __STRICT_ANSI__ for additional type checks.
+ * @brief Singly linked list.
+ *
+ * This header file provides data types, functions and macros that define and
+ * operate on singly linked lists.
+ *
+ *
+ * Features
+ * --------
+ *
+ * - Intrusive.
+ *
+ *
+ * Usage
+ * -----
+ *
+ * @code
+ * typedef SomeData MyData;
+ *
+ * CN_LIST(struct MyList, MyData);
+ *
+ * void push(struct MyList** listp, MyData data)
+ * {
+ *     struct MyList* entry = malloc(sizeof(*entry));
+ *
+ *     *cn_list_data(entry) = data;
+ *     *listp = cn_list_ins(*listp, entry);
+ * }
+ * @endcode
  */
 
 #ifndef CN_LIST_H
@@ -42,10 +68,14 @@
 
 /**
  * @def CN_LIST(name, type)
- * @brief *** todo ***.
- * @param[in] name Input.
- * @param[in] type Input.
- * @returns *** todo ***.
+ *
+ * @brief Define the list.
+ *
+ * @param[in] name The name of the type used for the list.
+ * @param[in] type The type of the data held by @a name.
+ *
+ * This macro will define a compound type (must be struct or union) @a name,
+ * a type for a list entry that holds the data of the type @a type.
  */
 #define CN_LIST(name, type)                                                    \
 	name                                                                   \
@@ -59,11 +89,14 @@
 
 /**
  * @def cn_list_data(list)
- * @brief *** todo ***.
- * @param[in] list Input.
- * @returns *** todo ***.
  *
- * No type check for @a list with __STRICT_ANSI__ build.
+ * @brief Get the pointer to the data member of the list entry.
+ *
+ * @param[in] list The entry.
+ *
+ * @return A pointer to the data.
+ *
+ * @note Compile with the GNU extension to enable a type check for the @a list.
  */
 #define cn_list_data(list)                                                     \
 	({                                                                     \
@@ -75,12 +108,16 @@
 
 /**
  * @def cn_list_hand(listp, pos)
- * @brief *** todo ***.
- * @param[in] listp Input.
- * @param[in] pos Input.
- * @returns *** todo ***.
  *
- * No type check for @a listp with __STRICT_ANSI__ build.
+ * @brief Get a double pointer to the list entry at the given posistion.
+ *
+ * @param[in] listp The double pointer to the head.
+ * @param[in] pos The position.
+ *
+ * @return The double pointer to the list entry.
+ *
+ * @note The returned double pointer can be used to directly modify the list.
+ * @note Compile with the GNU extension to enable a type check for the @a listp.
  */
 #define cn_list_hand(listp, pos)                                               \
 	({                                                                     \
@@ -123,83 +160,102 @@
 
 /**
  * @def cn_list_iter(i, ...)
- * @brief *** todo ***.
- * @param[in] i Input.
- * @param[in] ... (1) listp input; (2) pos (optional) input, 1 by default.
- * @returns *** todo ***.
  *
- * No type check for @a listp with __STRICT_ANSI__ build.
+ * @brief Traverse the list.
+ *
+ * A call cn_list_iter(i, litsp, pos) will traverse the list referenced by @a
+ * listp in the forward direcion, assigning every @a pos entry in turn to @a
+ * i. The @a pos argument is optional and by default it equals 1.
+ *
+ * @note Compile with the GNU extension to enable a type check for the @a listp.
  */
 #define cn_list_iter(i, ...) _cn_list_iter ((i), __VA_ARGS__, 1, )
 
 /**
  * @def cn_list_ins(list, ...)
- * @brief *** todo ***.
- * @param[in,out] list Input/output.
- * @param[in,out] ... (1) entry input/output; (2) pos (optional) input, 0 by default.
- * @returns *** todo ***.
  *
- * No type check for @a list with __STRICT_ANSI__ build.
+ * @brief Insert, at the given position, an entry into the list.
+ *
+ * A call cn_list_ins(list, entry, pos) will insert the @a entry into the @a
+ * list at the @a pos. To insert at the head use 0 for the @a pos and to insert
+ * at the tail use -1 for the @a pos. The argument @a pos is optional and by
+ * default it equals 0.
+ *
+ * @note Compile with the GNU extension to enable a type check for the @a list.
  */
 #define cn_list_ins(list, ...) _CN_LIST_INS((list), __VA_ARGS__, 0, )
 
 /**
  * @def cn_list_rem(...)
- * @brief *** todo ***.
- * @param[in,out] ... (1) listp input/output; (2) pos (optional) input, 0 by default.
- * @returns *** todo ***.
  *
- * No type check for @a listp with __STRICT_ANSI__ build.
+ * @brief Remove, at the given position, an entry from the list.
+ *
+ * A call cn_list_rem(listp, pos) will remove an entry from the @a listp at the
+ * @a pos and will return the removed entry. To remove from the head use 0 for
+ * the @a pos and to remove from the tail use -1 for the @a pos. The argument
+ * @a pos is optional and by default it equals 0.
+ *
+ * @return The removed entry.
+ *
+ * @note Compile with the GNU extension to enable a type check for the @a listp.
  */
 #define cn_list_rem(...) _CN_LIST_REM(__VA_ARGS__, 0, )
 
 /**
  * @struct CnUnnode
- * @brief *** todo ***.
  *
- * Members:
- * - next.
+ * @brief Singly linked list node.
  */
 struct CnUnnode {
 	/**
 	 * @var struct CnUnnode* next
-	 * @brief *** todo ***.
+	 *
+	 * @brief The pointer to the next entry in the singly linked list.
 	 */
 	struct CnUnnode* next;
 };
 
-/**
- * @struct _CnVoidList
- * @brief *** todo ***.
- */
-CN_LIST(struct _CnVoidList, void*); /**< CN_LIST(struct _CnVoidList, void*) */
+/* @cond */
+CN_LIST(struct _CnVoidList, void*);
+/* @endcond */
 
 /**
  * @fn struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
- * @brief *** todo ***.
- * @param[in] nodep Input.
- * @param[in] pos Input.
- * @returns *** todo ***.
+ *
+ * @brief Get a double pointer to the list entry at the given posistion.
+ *
+ * @param[in] nodep The double pointer to the head.
+ * @param[in] pos The position.
+ *
+ * @return The double pointer to the list entry.
+ *
+ * @note The returned double pointer can be used to directly modify the list.
  */
 struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos);
 
 /**
  * @fn struct CnUnnode* cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos)
- * @brief *** todo ***.
- * @param[in,out] head Input/output.
- * @param[in,out] node Input/output.
- * @param[in] pos Input.
- * @returns *** todo ***.
+ *
+ * @brief Insert, at the given position, an entry into the list.
+ *
+ * @param[in,out] head The head of the list.
+ * @param[in,out] node The new entry.
+ * @param[in] pos The position at which the new entry is inserted.
+ *
+ * @return The new head.
  */
 struct CnUnnode*
 cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos);
 
 /**
  * @fn struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos)
- * @brief *** todo ***.
- * @param[in,out] headp Input/output.
- * @param[in] pos Input.
- * @returns *** todo ***.
+ *
+ * @brief Remove, at the given position, an entry from the list.
+ *
+ * @param[in,out] headp The double pointer to the head of the list.
+ * @param[in] pos The position of the entry that is removed.
+ *
+ * @return The removed entry.
  */
 struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos);
 
