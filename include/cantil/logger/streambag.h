@@ -1,12 +1,12 @@
 /**
- * @file cantil/logger/sink.h
- * @see cn/logger/sink.h.
+ * @file cantil/logger/streambag.h
+ * @see cn/logger/streambag.h.
  */
 
 #ifndef CANTIL_LOGGER_STREAMBAG_H
 #define CANTIL_LOGGER_STREAMBAG_H
 
-#include "cn/logger/sink.h"
+#include "cn/logger/streambag.h"
 
 /** @see cn_streambag_create() */
 #define streambag_create cn_streambag_create

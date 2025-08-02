@@ -1,6 +1,6 @@
 #include "cantil/logger/trace.h"
 #include "cantil/logger/except.h"
-#include "cantil/logger/sink.h"
+#include "cantil/logger/streambag.h"
 #include "cantil/os/mem.h"
 
 #define BUFF_MAX_SIZE 128

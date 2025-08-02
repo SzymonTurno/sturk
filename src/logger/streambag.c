@@ -1,4 +1,4 @@
-#include "cantil/logger/sink.h"
+#include "cantil/logger/streambag.h"
 #include "cantil/list.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
