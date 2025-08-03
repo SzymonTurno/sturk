@@ -1,8 +1,7 @@
 /**
  * @file cn/rbtree.h
- * @brief Header file for red-black tree.
  *
- * *** todo ***.
+ * @brief Red-black tree.
  */
 
 #ifndef CN_RBTREE_H
@@ -12,7 +11,8 @@
 
 /**
  * @enum CnBstTrav
- * @brief *** todo ***.
+ *
+ * @brief Traversal type for a binary search tree.
  */
 enum CnBstTrav {
 	CN_BST_TRAV_INORDER = 0, /**< BST inorder traversal.   */
@@ -22,42 +22,42 @@ enum CnBstTrav {
 
 /**
  * @struct CnRbnode
- * @brief *** todo ***.
  *
- * Members:
- * - u.parcol,
- * - u.align,
- * - left,
- * - right.
+ * @brief Red-black tree node.
  */
 struct CnRbnode {
 	/**
 	 * @var u
-	 * @brief *** todo ***.
+	 *
+	 * @brief The parent pointer and the node color.
 	 */
 	union {
 		/**
 		 * @var intptr_t parcol
-		 * @brief *** todo ***.
+		 *
+		 * @brief The parent pointer and the node color.
 		 */
 		intptr_t parcol;
 
 		/**
 		 * @var intptr_t align
-		 * @brief *** todo ***.
+		 *
+		 * @brief Alignment.
 		 */
 		int32_t align;
 	} u;
 
 	/**
 	 * @var struct CnRbnode* left
-	 * @brief *** todo ***.
+	 *
+	 * @brief The pointer to the left child.
 	 */
 	struct CnRbnode* left;
 
 	/**
 	 * @var struct CnRbnode* right
-	 * @brief *** todo ***.
+	 *
+	 * @brief The pointer to the right child.
 	 */
 	struct CnRbnode* right;
 };
@@ -67,7 +67,7 @@ struct CnRbnode {
  * @brief *** todo ***.
  * @param[in,out] node Input/output.
  * @param[in,out] parent Input/output.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent);
 
@@ -76,7 +76,7 @@ struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent);
  * @brief *** todo ***.
  * @param[in,out] root Input/output.
  * @param[in,out] node Input/output.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node);
 
@@ -84,7 +84,7 @@ struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node);
  * @fn struct CnRbnode* cn_rb_parent(struct CnRbnode* node)
  * @brief *** todo ***.
  * @param[in] node Input/output.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnRbnode* cn_rb_parent(struct CnRbnode* node);
 
@@ -92,7 +92,7 @@ struct CnRbnode* cn_rb_parent(struct CnRbnode* node);
  * @fn struct CnRbnode* cn_rb_deepest(struct CnRbnode* node)
  * @brief *** todo ***.
  * @param[in] node Input/output.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnRbnode* cn_rb_deepest(struct CnRbnode* node);
 
@@ -100,7 +100,7 @@ struct CnRbnode* cn_rb_deepest(struct CnRbnode* node);
  * @fn struct CnRbnode* cn_rb_smallest(struct CnRbnode* node)
  * @brief *** todo ***.
  * @param[in] node Input/output.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnRbnode* cn_rb_smallest(struct CnRbnode* node);
 
@@ -109,7 +109,7 @@ struct CnRbnode* cn_rb_smallest(struct CnRbnode* node);
  * @brief *** todo ***.
  * @param[in] node Input/output.
  * @param[in] trav Input/output.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstTrav trav);
 

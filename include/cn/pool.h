@@ -1,8 +1,14 @@
 /**
  * @file cn/pool.h
- * @brief Header file for memory pool.
  *
- * *** todo ***.
+ * @brief Memory pool.
+ *
+ * Glossary
+ * --------
+ *
+ * | Term | Description                   |
+ * | ---- | ----------------------------- |
+ * | pool | fixed-size blocks memory pool |
  */
 
 #ifndef CN_POOL_H
@@ -12,46 +18,64 @@
 
 /**
  * @var typedef struct CnPool CnPool
- * @brief *** todo ***.
+ *
+ * @brief *pool*.
  */
 typedef struct CnPool CnPool;
 
 /**
  * @fn CnPool* cn_pool_create(size_t blk_size)
- * @brief *** todo ***.
- * @param[in] blk_size Input.
- * @returns *** todo ***.
+ *
+ * @brief Create a *pool*.
+ *
+ * @param[in] blk_size The size of the blocks.
+ *
+ * @return A new *pool*.
  */
 CnPool* cn_pool_create(size_t blk_size);
 
 /**
  * @fn void cn_pool_destroy(CnPool* pool)
- * @brief *** todo ***.
- * @param[in,out] pool Input/output.
+ *
+ * @brief Destroy a *pool*.
+ *
+ * @param[in,out] pool The *pool*.
  */
 void cn_pool_destroy(CnPool* pool);
 
 /**
  * @fn void* cn_pool_alloc(CnPool* pool)
- * @brief *** todo ***.
- * @param[in,out] pool Input/output.
- * @returns *** todo ***.
+ *
+ * @brief Allocate a block from a *pool*.
+ *
+ * @param[in,out] pool The *pool*.
+ *
+ * If the *pool* is empty, allocates a new block from the system memory
+ * allocator.
+ * @see cn/os/mem.h
+ *
+ * @return The block.
  */
 void* cn_pool_alloc(CnPool* pool);
 
 /**
  * @fn void* cn_pool_tryalloc(CnPool* pool)
- * @brief *** todo ***.
- * @param[in,out] pool Input/output.
- * @returns *** todo ***.
+ *
+ * @brief Try to allocate a block from a *pool*.
+ *
+ * @param[in,out] pool The *pool*.
+ *
+ * @return The block, if the *pool* is not empty. Otherwise, NULL.
  */
 void* cn_pool_tryalloc(CnPool* pool);
 
 /**
  * @fn void cn_pool_free(CnPool* pool, void* blk)
- * @brief *** todo ***.
- * @param[in,out] pool Input/output.
- * @param[in,out] blk Input/output.
+ *
+ * @brief Return a block to a *pool*.
+ *
+ * @param[in,out] pool The *pool*.
+ * @param[in,out] blk The block.
  */
 void cn_pool_free(CnPool* pool, void* blk);
 
