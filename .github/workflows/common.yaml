@@ -5,6 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+permissions:
+  contents: write
 
 jobs:
   clang-format-checking:
@@ -20,6 +22,7 @@ jobs:
   doxygen-run:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
     - name: Setup
       run: |
@@ -33,9 +36,24 @@ jobs:
         name: doxygen-output
         path: docs/
 
-  all-good:
+  deploy:
+    runs-on: ubuntu-latest
     needs: clang-format-checking
     needs: doxygen-run
     needs: all-good-default
     needs: all-good-iso
     needs: coverage-posix-on-unix
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Download artifact
+    - uses: actions/download-artifact@v4
+      with:
+        name: doxygen-output
+        path: docs
+    - name: Deploy Doxygen Docs
+      uses: AgarwalSaurav/ghaction-doxygen-ghpages@release/v2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
+        folder: docs/html
