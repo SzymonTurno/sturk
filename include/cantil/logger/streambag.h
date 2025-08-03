@@ -1,7 +1,7 @@
 /**
  * @file cantil/logger/streambag.h
  *
- * @see cn/logger/streambag.h.
+ * @see cn/logger/streambag.h
  */
 
 #ifndef CANTIL_LOGGER_STREAMBAG_H

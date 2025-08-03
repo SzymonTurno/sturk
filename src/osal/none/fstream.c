@@ -32,7 +32,7 @@ CnFstream* cn_stderr(void)
 	return (CnFstream*)stderr;
 }
 
-int cn_fvprintf(CnFstream* stream, const char* format, va_list vlist)
+int cn_vfprintf(CnFstream* stream, const char* format, va_list vlist)
 {
 	return vfprintf((FILE*)stream, format, vlist);
 }

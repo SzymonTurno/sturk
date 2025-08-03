@@ -1,8 +1,7 @@
 /**
  * @file cn/os/fstream.h
- * @brief Header file for file stream.
  *
- * *** todo ***.
+ * @brief File stream.
  */
 
 #ifndef CN_FSTREAM_H
@@ -13,67 +12,66 @@
 
 /**
  * @var typedef struct CnFstream CnFstream
- * @brief *** todo ***.
+ *
+ * @brief File stream.
+ *
+ * @see FILE
  */
 typedef struct CnFstream CnFstream;
 
 /**
  * @fn CnFstream* cn_fopen(const char* filename, const char* mode)
- * @brief *** todo ***.
- * @param[in] filename Input.
- * @param[in] mode Input.
- * @returns *** todo ***.
+ *
+ * @see fopen()
  */
 CnFstream* cn_fopen(const char* filename, const char* mode);
 
 /**
  * @fn void cn_fclose(CnFstream* stream)
- * @brief *** todo ***.
- * @param[in,out] stream Input/output.
+ *
+ * @see fclose()
  */
 void cn_fclose(CnFstream* stream);
 
 /**
  * @fn char* cn_fgets(char* str, int size, CnFstream* stream)
- * @brief *** todo ***.
- * @param[in,out] str Input/output.
- * @param[in] size Input.
- * @param[in,out] stream Input/output.
- * @returns *** todo ***.
+ *
+ * @see fgets()
  */
 char* cn_fgets(char* str, int size, CnFstream* stream);
 
 /**
  * @fn int cn_fseekset(CnFstream* stream, long int offset)
- * @brief *** todo ***.
- * @param[in,out] stream Input/output.
- * @param[in] offset Input.
- * @returns *** todo ***.
+ *
+ * This is fseek() with mode set to SEEK_SET.
+ *
+ * @see fseek()
  */
 int cn_fseekset(CnFstream* stream, long int offset);
 
 /**
  * @fn CnFstream* cn_stdout(void)
- * @brief *** todo ***.
- * @returns *** todo ***.
+ *
+ * @return The stdout stream.
+ *
+ * @see stdout
  */
 CnFstream* cn_stdout(void);
 
 /**
  * @fn CnFstream* cn_stderr(void)
- * @brief *** todo ***.
- * @returns *** todo ***.
+ *
+ * @return The stderr stream.
+ *
+ * @see stderr
  */
 CnFstream* cn_stderr(void);
 
 /**
- * @fn int cn_fvprintf(CnFstream* stream, const char* format, va_list vlist)
- * @brief *** todo ***.
- * @param[in,out] stream Input/output.
- * @param[in] format Input.
- * @param[in] vlist Input.
- * @returns *** todo ***.
+ * @fn int cn_vfprintf(CnFstream* stream, const char* format, va_list vlist)
+ *
+ * @see vfprintf()
  */
-int cn_fvprintf(CnFstream* stream, const char* format, va_list vlist);
+int cn_vfprintf(CnFstream* stream, const char* format, va_list vlist);
 
 #endif /* CN_FSTREAM_H */

@@ -27,7 +27,7 @@
  * @brief Raise an exception if the condition is not met.
  *
  * @param[in] cond The condition.
- * @param[in] lvl The exception level (WARNING or ERROR).
+ * @param[in] lvl The exception level: WARNING or ERROR.
  * @param[in] e The exception.
  */
 #define CN_ENSURE(cond, lvl, e)                                                \

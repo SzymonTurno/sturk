@@ -1,7 +1,7 @@
 /**
  * @file cantil/os/sem.h
  *
- * @see cn/os/sem.h.
+ * @see cn/os/sem.h
  */
 
 #ifndef CANTIL_OS_SEM_H
