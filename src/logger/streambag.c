@@ -19,7 +19,7 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 
 	list_iter (i, &head) {
 		va_copy(vcopy, vlist);
-		cn_fvprintf(*list_data(*i), format, vlist);
+		cn_vfprintf(*list_data(*i), format, vlist);
 		va_end(vcopy);
 	}
 }

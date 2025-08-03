@@ -1,7 +1,7 @@
 /**
  * @file cantil/rbtree.h
  *
- * @see cn/rbtree.h.
+ * @see cn/rbtree.h
  */
 
 #ifndef CANTIL_RBTREE_H

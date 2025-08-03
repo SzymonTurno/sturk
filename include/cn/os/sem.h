@@ -1,8 +1,7 @@
 /**
  * @file cn/os/sem.h
- * @brief Header file for semaphore.
  *
- * *** todo ***.
+ * @brief Semaphore.
  */
 
 #ifndef CN_OS_SEM_H
@@ -13,44 +12,62 @@
 
 /**
  * @var typedef struct CnSem CnSem
- * @brief *** todo ***.
+ *
+ * @brief Semaphore.
  */
 typedef struct CnSem CnSem;
 
 /**
  * @fn CnSem* cn_sem_create(CnBits args)
- * @brief *** todo ***.
- * @param[in] args Input.
- * @returns *** todo ***.
+ *
+ * @brief Create a semaphore.
+ *
+ * @param[in] args The configuration arguments.
+ *
+ * @return The new semaphore.
  */
 CnSem* cn_sem_create(CnBits args);
 
 /**
  * @fn void cn_sem_destroy(CnSem* sem)
- * @brief *** todo ***.
- * @param[in,out] sem Input/output.
+ *
+ * @brief Destroy a semaphore.
+ *
+ * @param[in,out] sem The semaphore.
  */
 void cn_sem_destroy(CnSem* sem);
 
 /**
  * @fn void cn_sem_wait(CnSem* sem)
- * @brief *** todo ***.
- * @param[in,out] sem Input/output.
+ *
+ * @brief Wait on semaphore.
+ *
+ * Blocks the calling thread until the semaphore counter is 0. Decrement the
+ * counter.
+ *
+ * @param[in,out] sem The semaphore.
  */
 void cn_sem_wait(CnSem* sem);
 
 /**
  * @fn bool cn_sem_trywait(CnSem* sem)
- * @brief *** todo ***.
- * @param[in,out] sem Input/output.
- * @returns *** todo ***.
+ *
+ * @brief Decrement the semaphore counter if it is greater than 0.
+ *
+ * @param[in,out] sem The semaphore.
+ *
+ * Does not block the calling thread.
+ *
+ * @return True, if the counter has been successfully decremented.
  */
 bool cn_sem_trywait(CnSem* sem);
 
 /**
  * @fn void cn_sem_post(CnSem* sem)
- * @brief *** todo ***.
- * @param[in,out] sem Input/output.
+ *
+ * @brief Increment the semaphore counter.
+ *
+ * @param[in,out] sem The semaphore.
  */
 void cn_sem_post(CnSem* sem);
 

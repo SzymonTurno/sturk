@@ -1,10 +1,3 @@
-/**
- * \file pubsub.h
- * \brief Header file for pubsub sample code.
- *
- * *** todo ***.
- */
-
 #ifndef PUBSUB_H
 #define PUBSUB_H
 

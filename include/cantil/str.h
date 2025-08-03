@@ -1,7 +1,7 @@
 /**
  * @file cantil/str.h
  *
- * @see cn/str.h.
+ * @see cn/str.h
  */
 
 #ifndef CANTIL_STR_H

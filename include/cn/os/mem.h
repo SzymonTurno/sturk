@@ -1,8 +1,7 @@
 /**
  * @file cn/os/mem.h
- * @brief Header file for memory allocator.
  *
- * *** todo ***.
+ * @brief Memory allocator.
  */
 
 #ifndef CN_OS_MEM_H
@@ -16,24 +15,26 @@
 
 /**
  * @def CN_NEW(...)
- * @brief *** todo ***.
- * @param[in] ... (1) type input; (2) n (optional) input, 1 by default.
- * @returns *** todo ***.
+ *
+ * @brief Allocate memory for a data type.
+ *
+ * A call CN_NEW(type, n) will alocate contiguous memory region of the length
+ * that is equal to the multiple of @a n and the size of @a type. The @a n
+ * argument is optional and by default it equals 1.
  */
 #define CN_NEW(...) _CN_NEW(__VA_ARGS__, 1, )
 
 /**
  * @fn void* cn_malloc(size_t size)
- * @brief *** todo ***.
- * @param[in] size Input.
- * @returns *** todo ***.
+ *
+ * @see malloc()
  */
 void* cn_malloc(size_t size);
 
 /**
  * @fn void cn_free(void* ptr)
- * @brief *** todo ***.
- * @param[in,out] ptr Input.
+ *
+ * @see free()
  */
 void cn_free(void* ptr);
 

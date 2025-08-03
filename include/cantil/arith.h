@@ -1,7 +1,7 @@
 /**
  * @file cantil/arith.h
  *
- * @see cn/arith.h.
+ * @see cn/arith.h
  */
 
 #ifndef CANTIL_ARITH_H

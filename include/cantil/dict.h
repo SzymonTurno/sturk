@@ -1,7 +1,7 @@
 /**
  * @file cantil/dict.h
  *
- * @see cn/dict.h.
+ * @see cn/dict.h
  */
 
 #ifndef CANTIL_DICT_H

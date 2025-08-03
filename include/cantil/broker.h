@@ -1,7 +1,7 @@
 /**
  * @file cantil/broker.h
  *
- * @see cn/broker.h.
+ * @see cn/broker.h
  */
 
 #ifndef CANTIL_BROKER_H
