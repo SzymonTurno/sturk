@@ -19,7 +19,7 @@ typedef struct CnWaitq CnWaitq;
 /**
  * @fn CnWaitq* cn_waitq_create(void)
  * @brief *** todo ***.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 CnWaitq* cn_waitq_create(void);
 
@@ -42,7 +42,7 @@ void cn_waitq_ins(CnWaitq* waitq, struct CnBinode* entry);
  * @fn struct CnBinode* cn_waitq_rem(CnWaitq* waitq)
  * @brief *** todo ***.
  * @param[in,out] waitq Input/output.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnBinode* cn_waitq_rem(CnWaitq* waitq);
 
@@ -50,7 +50,7 @@ struct CnBinode* cn_waitq_rem(CnWaitq* waitq);
  * @fn struct CnBinode* cn_waitq_tryrem(CnWaitq* waitq)
  * @brief *** todo ***.
  * @param[in,out] waitq Input/output.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnBinode* cn_waitq_tryrem(CnWaitq* waitq);
 

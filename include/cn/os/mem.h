@@ -1,7 +1,7 @@
 /**
  * @file cn/os/mem.h
  *
- * @brief Memory allocator.
+ * @brief System memory allocator.
  */
 
 #ifndef CN_OS_MEM_H

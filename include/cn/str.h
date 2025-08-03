@@ -36,7 +36,7 @@ CN_DICT(struct CnStrbag, union {int n; void* align;}); /**< CN_DICT(struct CnStr
  * @fn char* cn_newstr(const char* str)
  * @brief *** todo ***.
  * @param[in] str Input.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 char* cn_newstr(const char* str);
 
@@ -45,7 +45,7 @@ char* cn_newstr(const char* str);
  * @brief *** todo ***.
  * @param[in,out] list Input/output.
  * @param[in] str Input.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str);
 
@@ -53,7 +53,7 @@ struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str);
  * @fn char* cn_strlist_rem(struct CnStrlist** listp)
  * @brief *** todo ***.
  * @param[in,out] listp Input/output.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 char* cn_strlist_rem(struct CnStrlist** listp);
 
@@ -62,7 +62,7 @@ char* cn_strlist_rem(struct CnStrlist** listp);
  * @brief *** todo ***.
  * @param[in,out] q Input/output.
  * @param[in] str Input.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str);
 
@@ -70,7 +70,7 @@ struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str);
  * @fn char* cn_strq_rem(struct CnStrq** qp)
  * @brief *** todo ***.
  * @param[in,out] qp Input/output.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 char* cn_strq_rem(struct CnStrq** qp);
 
@@ -79,7 +79,7 @@ char* cn_strq_rem(struct CnStrq** qp);
  * @brief *** todo ***.
  * @param[in,out] bag Input/output.
  * @param[in] str Input.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnStrbag* cn_strbag_ins(struct CnStrbag* bag, const char* str);
 
@@ -88,7 +88,7 @@ struct CnStrbag* cn_strbag_ins(struct CnStrbag* bag, const char* str);
  * @brief *** todo ***.
  * @param[in,out] bag Input/output.
  * @param[in] str Input.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 struct CnStrbag* cn_strbag_rem(struct CnStrbag* bag, const char* str);
 
@@ -96,7 +96,7 @@ struct CnStrbag* cn_strbag_rem(struct CnStrbag* bag, const char* str);
  * @fn int cn_strbag_count(const struct CnStrbag* bag)
  * @brief *** todo ***.
  * @param[in] bag Input.
- * @returns *** todo ***.
+ * @return *** todo ***.
  */
 int cn_strbag_count(const struct CnStrbag* bag);
 

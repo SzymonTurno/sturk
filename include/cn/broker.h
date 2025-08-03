@@ -163,7 +163,7 @@ void cn_subscribe(CnSubscriber* sber, const char* topic);
  * - cn_subscriber_await(),
  * - cn_subscriber_poll().
  *
- * @returns The pointer to the new broker.
+ * @return The pointer to the new broker.
  */
 CnBroker* cn_broker_create(const struct CnLoadVt* vp);
 
@@ -186,7 +186,7 @@ void cn_broker_destroy(CnBroker* broker);
  *
  * This function also creates the channel if none is found.
  *
- * @returns The pointer to the channel or NULL if NULL topic was passed.
+ * @return The pointer to the channel or NULL if NULL topic was passed.
  */
 CnChannel* cn_broker_search(CnBroker* broker, const char* topic);
 
@@ -197,7 +197,7 @@ CnChannel* cn_broker_search(CnBroker* broker, const char* topic);
  *
  * @param[in] ch The channel.
  *
- * @returns The topic (named channel).
+ * @return The topic (named channel).
  */
 const char* cn_channel_gettopic(const CnChannel* ch);
 
@@ -208,7 +208,7 @@ const char* cn_channel_gettopic(const CnChannel* ch);
  *
  * @param[in,out] broker The message broker.
  *
- * @returns The pointer to the new subscriber.
+ * @return The pointer to the new subscriber.
  */
 CnSubscriber* cn_subscriber_create(CnBroker* broker);
 
@@ -238,7 +238,7 @@ void cn_subscriber_destroy(CnSubscriber* sber);
  * If the pointer to the channel reference is not NULL, the message's source
  * channel will be returned through it.
  *
- * @returns The load.
+ * @return The load.
  */
 CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch);
 
@@ -256,7 +256,7 @@ CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch);
  * If the pointer to the channel reference is not NULL, the message's source
  * channel will be returned through it.
  *
- * @returns The load.
+ * @return The load.
  */
 CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch);
 
