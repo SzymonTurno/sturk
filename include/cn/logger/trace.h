@@ -38,7 +38,8 @@
 
 /**
  * @enum CnTraceLvl
- * @brief *** todo ***.
+ *
+ * @brief Trace level.
  */
 enum CnTraceLvl {
 	CN_UNKNOWN = 0, /**< unknown trace level.    */
@@ -52,9 +53,9 @@ enum CnTraceLvl {
 /**
  * @fn void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
  *
- * @brief Log to the streams that are attached to the logger.
+ * @brief Log to the file streams that are attached to the logger.
  *
- * @param[in] lvl The log level.
+ * @param[in] lvl The trace level.
  * @param[in] tag The tag string.
  * @param[in] format The format string.
  * @param[in] ... The list of arguments.
@@ -66,7 +67,7 @@ void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...);
  *
  * @brief Attach a stream to the logger.
  *
- * @param[in] lvl The log level.
+ * @param[in] lvl The trace level.
  * @param[in,out] stream The stream.
  */
 void cn_logger_attach(enum CnTraceLvl lvl, CnFstream* stream);
@@ -76,7 +77,7 @@ void cn_logger_attach(enum CnTraceLvl lvl, CnFstream* stream);
  *
  * @brief Detach a stream from the logger.
  *
- * @param[in] lvl The log level.
+ * @param[in] lvl The trace level.
  * @param[in,out] stream The stream.
  */
 void cn_logger_detach(enum CnTraceLvl lvl, CnFstream* stream);
