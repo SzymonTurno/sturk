@@ -184,22 +184,31 @@ TEST(strbag, should_allow_preorder_traversal)
 	strbag_destroy(bag);
 }
 
-TEST(strbag, should_find_smallest)
+TEST(strbag, should_find_first)
 {
 	struct CnStrbag* bag = NULL;
+	struct CnStrbag* tmp = NULL;
 
-	bag = strbag_ins(NULL, "b");
+	bag = strbag_ins(NULL, "c");
 	bag = strbag_ins(bag, "a");
-	bag = strbag_ins(bag, "c");
+	bag = strbag_ins(bag, "d");
+	bag = strbag_ins(bag, "b");
 	/*
+	 *     c
+	 *    / \
+	 *   /   \
+	 *  a     d
+	 *   \
 	 *    b
-	 *   / \
-	 *  a   c
 	 */
-	bag = (struct CnStrbag*)((struct CnRbnode*)bag)->right;
-	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_smallest((struct CnRbnode*)bag);
+	tmp = (struct CnStrbag*)((struct CnRbnode*)bag)->right;
+	TEST_ASSERT_EQUAL_STRING("d", dict_getk(tmp));
+	bag = (struct CnStrbag*)rb_first(
+		(struct CnRbnode*)tmp, BST_TRAV_INORDER);
 	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
+	bag = (struct CnStrbag*)rb_first(
+		(struct CnRbnode*)tmp, BST_TRAV_POSTORDER);
+	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
 	strbag_destroy(bag);
 }
 
@@ -427,14 +436,18 @@ TEST(logger, should_trace_waitq_dataloss)
 		"[warning][cantil] Data loss suspected.\n", gettrace(0));
 }
 
-TEST(logger, should_trace_rbtree_postorder_not_supported)
+TEST(logger, should_trace_rbtree_not_supported)
 {
 	struct CnRbnode node = {0};
 
 	rb_next(&node, BST_TRAV_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
-		"src/algo/rbtree.c:115: Not supported.\n",
+		"src/algo/rbtree.c:158: Not supported.\n",
 		strstr(gettrace(0), "src/algo/rbtree.c:"));
+	rb_first(&node, BST_TRAV_PREORDER);
+	TEST_ASSERT_EQUAL_STRING(
+		"src/algo/rbtree.c:119: Not supported.\n",
+		strstr(gettrace(1), "src/algo/rbtree.c:"));
 }
 
 TEST(logger, should_trace_debug)
@@ -539,7 +552,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(strbag, should_allow_many_entries);
 	RUN_TEST_CASE(strbag, should_sort);
 	RUN_TEST_CASE(strbag, should_allow_preorder_traversal);
-	RUN_TEST_CASE(strbag, should_find_smallest);
+	RUN_TEST_CASE(strbag, should_find_first);
 	RUN_TEST_CASE(strbag, should_allow_negative_count);
 	RUN_TEST_CASE(mutex, should_not_block_on_trylock);
 	RUN_TEST_CASE(sem, should_not_block_if_posted);
@@ -556,7 +569,7 @@ static void run_all_tests(void)
 	}
 	logger_cleanup();
 	RUN_TEST_CASE(logger, should_trace_waitq_dataloss);
-	RUN_TEST_CASE(logger, should_trace_rbtree_postorder_not_supported);
+	RUN_TEST_CASE(logger, should_trace_rbtree_not_supported);
 	RUN_TEST_CASE(logger, should_trace_debug);
 	RUN_TEST_CASE(logger, should_trace_error);
 	RUN_TEST_CASE(logger, should_do_nothing_if_not_initialized);
