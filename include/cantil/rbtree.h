@@ -9,14 +9,14 @@
 
 #include "cn/rbtree.h"
 
-/** @see CN_BST_TRAV_INORDER */
-#define BST_TRAV_INORDER CN_BST_TRAV_INORDER
+/** @see CN_BST_INORDER */
+#define BST_INORDER CN_BST_INORDER
 
-/** @see CN_BST_TRAV_PREORDER */
-#define BST_TRAV_PREORDER CN_BST_TRAV_PREORDER
+/** @see CN_BST_PREORDER */
+#define BST_PREORDER CN_BST_PREORDER
 
-/** @see CN_BST_TRAV_POSTORDER */
-#define BST_TRAV_POSTORDER CN_BST_TRAV_POSTORDER
+/** @see CN_BST_POSTORDER */
+#define BST_POSTORDER CN_BST_POSTORDER
 
 /** @see cn_rb_link() */
 #define rb_link cn_rb_link
