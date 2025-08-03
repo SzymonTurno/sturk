@@ -89,20 +89,13 @@ struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node);
 struct CnRbnode* cn_rb_parent(struct CnRbnode* node);
 
 /**
- * @fn struct CnRbnode* cn_rb_deepest(struct CnRbnode* node)
+ * @fn struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstTrav trav)
  * @brief *** todo ***.
  * @param[in] node Input/output.
+ * @param[in] trav Input/output.
  * @return *** todo ***.
  */
-struct CnRbnode* cn_rb_deepest(struct CnRbnode* node);
-
-/**
- * @fn struct CnRbnode* cn_rb_smallest(struct CnRbnode* node)
- * @brief *** todo ***.
- * @param[in] node Input/output.
- * @return *** todo ***.
- */
-struct CnRbnode* cn_rb_smallest(struct CnRbnode* node);
+struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstTrav trav);
 
 /**
  * @fn struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstTrav trav)

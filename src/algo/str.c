@@ -113,7 +113,7 @@ void cn_strbag_destroy(struct CnStrbag* bag)
 		return;
 	bag = bag_root(bag);
 	for (struct CnRbnode *i = NULL, *p = NULL;;) {
-		i = rb_deepest(&dict_cast(bag)->node);
+		i = rb_first(&dict_cast(bag)->node, BST_TRAV_POSTORDER);
 		p = rb_parent(i);
 		bag_destroy(container_of(
 			strnode_from(i), struct CnStrbag, strnode));

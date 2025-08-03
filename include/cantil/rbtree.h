@@ -27,11 +27,8 @@
 /** @see cn_rb_parent() */
 #define rb_parent cn_rb_parent
 
-/** @see cn_rb_deepest() */
-#define rb_deepest cn_rb_deepest
-
-/** @see cn_rb_smallest() */
-#define rb_smallest cn_rb_smallest
+/** @see cn_rb_first() */
+#define rb_first cn_rb_first
 
 /** @see cn_rb_next() */
 #define rb_next cn_rb_next

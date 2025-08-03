@@ -82,6 +82,25 @@ static struct CnRbnode* get_leftcorner(struct CnRbnode* node)
 	return node;
 }
 
+static struct CnRbnode* get_inorderfirst(struct CnRbnode* node)
+{
+	struct CnRbnode* p = NULL;
+
+	ENSURE_MEMORY(node, ERROR);
+	for (;;) {
+		if (node->left)
+			node = node->left;
+		else {
+			p = get_parent(node);
+			if (p && (p->right == node))
+				node = p;
+			else
+				break;
+		}
+	}
+	return node;
+}
+
 static struct CnRbnode* get_inordersucc(struct CnRbnode* node)
 {
 	struct CnRbnode* p = NULL;
@@ -92,6 +111,13 @@ static struct CnRbnode* get_inordersucc(struct CnRbnode* node)
 		while ((p = get_parent(node)) && node == p->right)
 			node = p;
 	return p;
+}
+
+static struct CnRbnode* get_preorderfirst(struct CnRbnode* node)
+{
+	(void)node;
+	RAISE(WARNING, not_supported);
+	return NULL;
 }
 
 static struct CnRbnode* get_preordersucc(struct CnRbnode* node)
@@ -107,6 +133,23 @@ static struct CnRbnode* get_preordersucc(struct CnRbnode* node)
 	while ((p = get_parent(node)) && (node == p->right || !p->right))
 		node = p;
 	return p ? p->right : NULL;
+}
+
+static struct CnRbnode* get_postorderfirst(struct CnRbnode* node)
+{
+	ENSURE_MEMORY(node, ERROR);
+	while (get_parent(node))
+		node = get_parent(node);
+
+	for (;;) {
+		if (node->left)
+			node = node->left;
+		else if (node->right)
+			node = node->right;
+		else
+			break;
+	}
+	return node;
 }
 
 static struct CnRbnode* get_postordersucc(struct CnRbnode* node)
@@ -216,37 +259,18 @@ struct CnRbnode* cn_rb_parent(struct CnRbnode* node)
 	return get_parent(node);
 }
 
-struct CnRbnode* cn_rb_deepest(struct CnRbnode* node)
+struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstTrav trav)
 {
 	ENSURE_MEMORY(node, ERROR);
-	for (;;) {
-		if (node->left)
-			node = node->left;
-		else if (node->right)
-			node = node->right;
-		else
-			break;
+	switch (trav) {
+	case CN_BST_TRAV_PREORDER:
+		return get_preorderfirst(node);
+	case CN_BST_TRAV_POSTORDER:
+		return get_postorderfirst(node);
+	default:
+		break;
 	}
-	return node;
-}
-
-struct CnRbnode* cn_rb_smallest(struct CnRbnode* node)
-{
-	struct CnRbnode* p = NULL;
-
-	ENSURE_MEMORY(node, ERROR);
-	for (;;) {
-		if (node->left)
-			node = node->left;
-		else {
-			p = get_parent(node);
-			if (p && (p->right == node))
-				node = p;
-			else
-				break;
-		}
-	}
-	return node;
+	return get_inorderfirst(node);
 }
 
 struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstTrav trav)
