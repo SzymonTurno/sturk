@@ -13,9 +13,11 @@ jobs:
       matrix:
         platform: [ubuntu-latest, macos-latest]
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
     - name: Build cantil
       run: tools/picky.sh make cantil-posix
+    - name: Upload artifact
     - uses: actions/upload-artifact@v4
       with:
         name: build-posix-on-${{ matrix.platform }}-output
@@ -28,6 +30,7 @@ jobs:
         platform: [ubuntu-latest, macos-latest]
     needs: build-posix-on-unix
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
     - name: Setup
       run: |
@@ -42,6 +45,7 @@ jobs:
       run: tools/picky.sh make check-posix
     - name: Checkout code
       run: tools/picky.sh make coverage-posix
+    - name: Upload artifact
     - uses: actions/upload-artifact@v4
       with:
         name: check-posix-on-${{ matrix.platform }}-output
@@ -54,7 +58,9 @@ jobs:
       matrix:
         platform: [ubuntu-latest, macos-latest]
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
+    - name: Download artifact
     - uses: actions/download-artifact@v4
       with:
         name: check-posix-on-${{ matrix.platform }}-output

@@ -13,9 +13,11 @@ jobs:
       matrix:
         platform: [ubuntu-latest, macos-latest]
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
     - name: Build cantil
       run: tools/picky.sh make cantil-default
+    - name: Upload artifact
     - uses: actions/upload-artifact@v4
       with:
         name: build-default-on-${{ matrix.platform }}-output
@@ -28,11 +30,13 @@ jobs:
         platform: [ubuntu-latest, macos-latest]
     needs: build-default-on-unix
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
     - name: Setup
       run: |
         sudo apt update
         sudo apt-get install valgrind
+    - name: Download artifact
     - uses: actions/download-artifact@v4
       with:
         name: build-default-on-${{ matrix.platform }}-output
@@ -43,6 +47,7 @@ jobs:
       run: tools/picky.sh make all-default
     - name: Run tests
       run: tools/picky.sh make check-default
+    - name: Upload artifact
     - uses: actions/upload-artifact@v4
       with:
         name: check-default-on-${{ matrix.platform }}-output
@@ -51,11 +56,13 @@ jobs:
   build-default-on-win32:
     runs-on: windows-latest
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
     - name: Setup
       run: python -m pip install pyyaml
     - name: Build cantil
       run: make cantil-default
+    - name: Upload artifact
     - uses: actions/upload-artifact@v4
       with:
         name: build-default-on-win32-output
@@ -65,9 +72,11 @@ jobs:
     runs-on: windows-latest
     needs: build-default-on-win32
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
     - name: Setup
       run: python -m pip install pyyaml
+    - name: Download artifact
     - uses: actions/download-artifact@v4
       with:
         name: build-default-on-win32-output
