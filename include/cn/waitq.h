@@ -1,8 +1,7 @@
 /**
  * @file cn/waitq.h
- * @brief Header file for waiting queue.
  *
- * *** todo ***.
+ * @brief Waiting queue.
  */
 
 #ifndef CN_WAITQ_H

@@ -259,13 +259,13 @@ struct CnRbnode* cn_rb_parent(struct CnRbnode* node)
 	return get_parent(node);
 }
 
-struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstTrav trav)
+struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstOrder order)
 {
 	ENSURE_MEMORY(node, ERROR);
-	switch (trav) {
-	case CN_BST_TRAV_PREORDER:
+	switch (order) {
+	case CN_BST_PREORDER:
 		return get_preorderfirst(node);
-	case CN_BST_TRAV_POSTORDER:
+	case CN_BST_POSTORDER:
 		return get_postorderfirst(node);
 	default:
 		break;
@@ -273,13 +273,13 @@ struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstTrav trav)
 	return get_inorderfirst(node);
 }
 
-struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstTrav trav)
+struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstOrder order)
 {
 	ENSURE_MEMORY(node, ERROR);
-	switch (trav) {
-	case CN_BST_TRAV_PREORDER:
+	switch (order) {
+	case CN_BST_PREORDER:
 		return get_preordersucc(node);
-	case CN_BST_TRAV_POSTORDER:
+	case CN_BST_POSTORDER:
 		return get_postordersucc(node);
 	default:
 		break;

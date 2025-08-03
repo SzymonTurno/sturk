@@ -37,7 +37,7 @@ static void channel_destroy(CnChannel* ch)
 static void dict_destroy(CnChannel* dict)
 {
 	for (struct CnRbnode *i = NULL, *p = NULL;;) {
-		i = rb_first(&dict_cast(dict)->node, BST_TRAV_POSTORDER);
+		i = rb_first(&dict_cast(dict)->node, BST_POSTORDER);
 		p = rb_parent(i);
 		channel_destroy(
 			container_of(strnode_from(i), CnChannel, strnode));

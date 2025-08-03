@@ -166,20 +166,15 @@ TEST(strbag, should_allow_preorder_traversal)
 	 *  a   c   f
 	 */
 	TEST_ASSERT_EQUAL_STRING("d", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next(
-		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	bag = (struct CnStrbag*)rb_next((struct CnRbnode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next(
-		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	bag = (struct CnStrbag*)rb_next((struct CnRbnode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next(
-		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	bag = (struct CnStrbag*)rb_next((struct CnRbnode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next(
-		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	bag = (struct CnStrbag*)rb_next((struct CnRbnode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next(
-		(struct CnRbnode*)bag, BST_TRAV_PREORDER);
+	bag = (struct CnStrbag*)rb_next((struct CnRbnode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("f", dict_getk(bag));
 	strbag_destroy(bag);
 }
@@ -203,11 +198,9 @@ TEST(strbag, should_find_first)
 	 */
 	tmp = (struct CnStrbag*)((struct CnRbnode*)bag)->right;
 	TEST_ASSERT_EQUAL_STRING("d", dict_getk(tmp));
-	bag = (struct CnStrbag*)rb_first(
-		(struct CnRbnode*)tmp, BST_TRAV_INORDER);
+	bag = (struct CnStrbag*)rb_first((struct CnRbnode*)tmp, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_first(
-		(struct CnRbnode*)tmp, BST_TRAV_POSTORDER);
+	bag = (struct CnStrbag*)rb_first((struct CnRbnode*)tmp, BST_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
 	strbag_destroy(bag);
 }
@@ -440,11 +433,11 @@ TEST(logger, should_trace_rbtree_not_supported)
 {
 	struct CnRbnode node = {0};
 
-	rb_next(&node, BST_TRAV_POSTORDER);
+	rb_next(&node, BST_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
 		"src/algo/rbtree.c:158: Not supported.\n",
 		strstr(gettrace(0), "src/algo/rbtree.c:"));
-	rb_first(&node, BST_TRAV_PREORDER);
+	rb_first(&node, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING(
 		"src/algo/rbtree.c:119: Not supported.\n",
 		strstr(gettrace(1), "src/algo/rbtree.c:"));

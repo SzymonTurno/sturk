@@ -57,10 +57,10 @@
 	((void*)cn_strnode_find(cn_dict_cast(dict), (key)))
 
 #define cn_dict_first(dict)                                                    \
-	((void*)(cn_strnode_from(cn_rb_first(&dict_cast(dict)->node, 0)))
+	((void*)(cn_strnode_from(cn_rb_first(&dict_cast(dict)->node, 0))))
 
 #define cn_dict_next(dict)                                                     \
-	((void*)(cn_strnode_from(cn_rb_next(&dict_cast(dict)->node, 0)))
+	((void*)(cn_strnode_from(cn_rb_next(&dict_cast(dict)->node, 0))))
 
 #else /* not defined: __STRICT_ANSI__ */
 
@@ -225,8 +225,7 @@
                                                                                \
 		cn_container_of(                                               \
 			cn_strnode_from(cn_rb_next(                            \
-				&dict_cast(_dict)->node,                       \
-				CN_BST_TRAV_INORDER)),                         \
+				&dict_cast(_dict)->node, CN_BST_INORDER)),     \
 			__typeof__(*dict), strnode);                           \
 	})
 

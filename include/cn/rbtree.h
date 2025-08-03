@@ -10,14 +10,14 @@
 #include <stdint.h>
 
 /**
- * @enum CnBstTrav
+ * @enum CnBstOrder
  *
- * @brief Traversal type for a binary search tree.
+ * @brief Nodes order for a binary search tree.
  */
-enum CnBstTrav {
-	CN_BST_TRAV_INORDER = 0, /**< BST inorder traversal.   */
-	CN_BST_TRAV_PREORDER,    /**< BST preorder traversal.  */
-	CN_BST_TRAV_POSTORDER,   /**< BST postorder traversal. */
+enum CnBstOrder {
+	CN_BST_INORDER = 0, /**< in-order.   */
+	CN_BST_PREORDER,    /**< pre-order.  */
+	CN_BST_POSTORDER,   /**< post-order. */
 };
 
 /**
@@ -64,46 +64,69 @@ struct CnRbnode {
 
 /**
  * @fn struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent)
- * @brief *** todo ***.
- * @param[in,out] node Input/output.
- * @param[in,out] parent Input/output.
- * @return *** todo ***.
+ *
+ * @brief Prepare a node for insertion in a red-black tree.
+ *
+ * @param[in,out] node The node prepared for insertion.
+ * @param[in] parent The parent node.
+ *
+ * This will paint @a node red and set its parent pointer to @a parent. This
+ * will also ensure that the left and right pointers of @a node are NULL. After
+ * preparing the node for insertion, insert it with cn_rb_insrebal().
+ * @see cn_rb_insrebal().
+ *
+ * @return The prepared node.
  */
 struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent);
 
 /**
  * @fn struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
- * @brief *** todo ***.
- * @param[in,out] root Input/output.
- * @param[in,out] node Input/output.
- * @return *** todo ***.
+ *
+ * @brief Insert a node in a red-black tree and rebalance the tree.
+ *
+ * @param[in,out] root The root of the red-black tree.
+ * @param[in,out] node The inserted node.
+ *
+ * @return The new root.
+ *
+ * @note Prepare @a node with cn_rb_link() before insertion.
+ * @see cn_rb_link().
  */
 struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node);
 
 /**
  * @fn struct CnRbnode* cn_rb_parent(struct CnRbnode* node)
- * @brief *** todo ***.
- * @param[in] node Input/output.
- * @return *** todo ***.
+ *
+ * @brief Get the parent of the red-black tree node.
+ *
+ * @param[in] node The red-black tree node.
+ *
+ * @return The parent.
  */
 struct CnRbnode* cn_rb_parent(struct CnRbnode* node);
 
 /**
- * @fn struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstTrav trav)
- * @brief *** todo ***.
- * @param[in] node Input/output.
- * @param[in] trav Input/output.
- * @return *** todo ***.
+ * @fn struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstOrder order)
+ *
+ * @brief Get the first node of the red-black tree for the given BST order.
+ *
+ * @param[in] node Any node from the red-black tree.
+ * @param[in] order The order: BST_INORDER, BST_PREORDER or BST_POSTORDER.
+ *
+ * @return The first node.
  */
-struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstTrav trav);
+struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstOrder order);
 
 /**
- * @fn struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstTrav trav)
- * @brief *** todo ***.
- * @param[in] node Input/output.
- * @param[in] trav Input/output.
- * @return *** todo ***.
+ * @fn struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstOrder order)
+ *
+ * @brief Get the next node for the current red-black tree node and the BST order.
+ *
+ * @param[in] node The current red-black tree node.
+ * @param[in] order The order: BST_INORDER, BST_PREORDER or BST_POSTORDER.
+ *
+ * @return The next node.
  */
-struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstTrav trav);
+struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstOrder order);
 
 #endif /* CN_RBTREE_H */

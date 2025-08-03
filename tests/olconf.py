@@ -16,6 +16,14 @@ def memory_dir():
 def join(olvars):
     settings = olvars.settings()
 
+    if settings['cver'] == 'gnu':
+        olvars.append('test_CFLAGS', '-std=gnu11')
+    elif settings['cver'] == 'iso':
+        olvars.append('test_CFLAGS', '-std=c99')
+        olvars.append('test_CFLAGS', '-pedantic')
+    else:
+        olvars.fail('Unknown cver: ' + settings['cver'] + '.')
+
     if settings['test']['threads'] == 'on':
         olvars.append('test_CFLAGS', '-DTHREADS_EN=1')
     elif settings['test']['threads'] == 'off':
