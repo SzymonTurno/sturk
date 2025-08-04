@@ -13,6 +13,7 @@ Scalable publish-subscribe implementation.
 - **Logger** with trace levels and exceptions.
 - **Common data structures**: list, queue, dictionary.
 - **Single-thread** implementation.
+- **Multi-thread** implementation.
 
 ## 2. Portability
 - **Platforms**: ubuntu, macos, windows.
