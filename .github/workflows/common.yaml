@@ -37,13 +37,14 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: clang-format-checking
-    needs: doxygen-run
-    needs: all-good-default
-    needs: all-good-iso
-    needs: coverage-posix-on-unix
+    needs: [
+      clang-format-checking,
+      doxygen-run,
+      all-good-default,
+      all-good-iso,
+      coverage-posix-on-unix
+    ]
     steps:
-    - name: Checkout
       uses: actions/checkout@v4
     - name: Download artifact
     - uses: actions/download-artifact@v4
