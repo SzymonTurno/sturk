@@ -10,6 +10,22 @@ permissions:
   contents: write
 
 jobs:
+  doxygen-run:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup
+      run: |
+        sudo apt update
+        sudo apt-get install doxygen
+        sudo apt-get install graphviz
+    - name: Generate docs
+      run: tools/picky.sh make docs
+    - uses: actions/upload-artifact@v4
+      with:
+        name: doxygen-output
+        path: docs/
+
   deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}

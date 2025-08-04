@@ -8,7 +8,7 @@ Scalable publish-subscribe implementation.
 
 ## 1. Features
 - **User-defined** message interface.
-- **Red-black tree** for channels dictionary.
+- **Red-black tree** for the channels dictionary.
 - **Memory pools** for messages and queues.
 - **Logger** with trace levels and exceptions.
 - **Common data structures**: list, queue, dictionary.
