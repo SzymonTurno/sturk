@@ -35,13 +35,15 @@ jobs:
         name: doxygen-output
         path: docs/
 
-  deploy:
+  deploy-documentation:
     runs-on: ubuntu-latest
     needs: [
       clang-format-checking,
       doxygen-run,
-      all-good-default,
-      all-good-iso,
+      check-default-on-unix,
+      check-default-on-win32,
+      coverage-iso-on-unix,
+      check-iso-on-win32,
       coverage-posix-on-unix
     ]
     steps:
