@@ -20,8 +20,7 @@ jobs:
         name: doxygen-output
         path: docs
     - name: Deploy Doxygen Docs
-      uses: AgarwalSaurav/ghaction-doxygen-ghpages@release/v2
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages
-        folder: docs/html
+        publish_dir: docs/html

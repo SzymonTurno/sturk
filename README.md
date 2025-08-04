@@ -21,6 +21,9 @@ Scalable publish-subscribe implementation.
 - **C99 support**: `gcc -std=c99 -pedantic ...`.
 
 ## 3. Build
+| Output file |
+| ----------- |
+| libcantil.a |
 ```sh
 # default build
 cd /path/to/cantil
