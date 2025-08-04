@@ -1,17 +1,10 @@
 name: Common
 
 on:
-  workflow_run:
-    workflows: ["Default", "ISO", "POSIX"]
-    branches: [main]
-    types: 
-      - completed
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-permissions:
-  contents: write
 
 jobs:
   clang-format-checking:
@@ -39,20 +32,3 @@ jobs:
       with:
         name: doxygen-output
         path: docs/
-
-  deploy:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    needs: [clang-format-checking, doxygen-run]
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/download-artifact@v4
-      with:
-        name: doxygen-output
-        path: docs
-    - name: Deploy Doxygen Docs
-      uses: AgarwalSaurav/ghaction-doxygen-ghpages@release/v2
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages
-        folder: docs/html

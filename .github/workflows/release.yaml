@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: ["Common", "Default", "ISO", "POSIX"]
+    branches: [main]
+    types:
+      - completed
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@v4
+      with:
+        name: doxygen-output
+        path: docs
+    - name: Deploy Doxygen Docs
+      uses: AgarwalSaurav/ghaction-doxygen-ghpages@release/v2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
+        folder: docs/html
