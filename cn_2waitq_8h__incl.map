@@ -1,0 +1,24 @@
+<map id="include/cn/waitq.h" name="include/cn/waitq.h">
+<area shape="rect" id="Node000001" title="Waiting queue." alt="" coords="42,5,182,31"/>
+<area shape="rect" id="Node000002" href="$cn_2cirq_8h.html" title="Doubly linked circular list." alt="" coords="73,79,151,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,31,115,65,109,65,109,31"/>
+<area shape="rect" id="Node000003" href="$cn_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="5,225,88,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="109,106,60,214,55,212,104,103"/>
+<area shape="rect" id="Node000005" href="$cn_2logger_2except_8h.html" title="Exceptions." alt="" coords="106,152,249,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="125,103,159,140,156,144,121,106"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="75,372,149,397"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="52,251,61,284,76,323,97,359,93,362,71,325,56,285,47,252"/>
+<area shape="rect" id="Node000006" href="$cn_2logger_2trace_8h.html" title="Trace." alt="" coords="112,225,243,251"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="180,178,180,212,175,212,175,178"/>
+<area shape="rect" id="Node000009" href="$sys_8h.html" title="System procedures." alt="" coords="233,299,327,324"/>
+<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="200,175,230,195,257,224,272,254,279,285,274,286,267,256,252,227,226,199,197,180"/>
+<area shape="rect" id="Node000007" href="$fstream_8h.html" title="File stream." alt="" coords="85,299,208,324"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="175,252,159,287,155,285,170,250"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="143,326,126,361,121,358,139,323"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="173,372,248,397"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="159,323,193,360,189,364,155,326"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="254,326,153,369,151,364,252,322"/>
+<area shape="poly" id="edge10_Node000009_Node000008" title=" " alt="" coords="270,326,233,364,229,360,267,322"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="272,372,355,397"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="288,323,305,359,300,361,283,325"/>
+</map>
