@@ -1,4 +1,4 @@
-name: POSIX
+name: POSIX Configuration
 
 on:
   push:
