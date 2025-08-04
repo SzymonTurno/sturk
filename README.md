@@ -1,19 +1,39 @@
 # Cantil
 
-### Subroutines for designing portable middleware.
+[Documentation](https://szymonturno.github.io/cantil)
 
-This library implements publish-subscribe pattern with polymorphic API for message construction.
+Scalable publish-subscribe implementation.
 
-Note: this is "work in progress" library.
+***Note, this project is under active development.***
 
-## 1. Build
+## 1. Features
+- **User-defined** message interface.
+- **Red-black tree** for channels dictionary.
+- **Memory pools** for messages and queues.
+- **Logger** with trace levels and exceptions.
+- **Common data structures**: list, queue, dictionary.
+- **Single-thread** implementation.
+
+## 2. Portability
+- **Platforms**: ubuntu, macos, windows.
+- **OSAL**: operating system abstraction layer.
+- **C99 support**: `gcc -std=c99 -pedantic ...`.
+
+## 3. Build
 ```sh
-cd /path/to/cantil && make
+# default build
+cd /path/to/cantil
+make
+
+# customized build
+cd /my/empty/dir
+/path/to/cantil/tools/configure.sh /path/to/config.yaml
+make
 ```
 
-## 2. Usage
+## 4. Message broker
 
-### 2.1. Define your API for message construction
+### 4.1. Define the message interface
 ```c
 static size_t size(void)
 {
@@ -36,12 +56,12 @@ const struct CnLoadVt SAMPLE_LOAD_API[] = {
 	{.size = size, .ctor = init, .dtor = deinit}};
 ```
 
-### 2.2. Initialize message broker with your API
+### 4.2. Initialize the message broker
 ```
 	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
 ```
 
-### 2.3. Exchange messages
+### 4.3. Exchange messages
 ```c
 TEST(subscriber, should_receive_enqueued_message)
 {
@@ -57,13 +77,3 @@ TEST(subscriber, should_receive_enqueued_message)
 	broker_destroy(broker);
 }
 ```
-
-## 3. Portability
-- osal (operating system abstraction layer)
-- c99 support ("`gcc -std=c99 -pedantic ...` ")
-
-## 4. Ideas
-- coverage html artifacts
-- custom heap (free list allocator)
-- red-black tree deletion
-- using memory as stream ("`fmemopen()`" for c99)
