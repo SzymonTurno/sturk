@@ -15,7 +15,6 @@ jobs:
     steps:
     - name: Checkout
     - uses: actions/checkout@v4
-    - uses: <owner>/<repo>@main
     - name: Build cantil
       run: tools/picky.sh make cantil-default
     - name: Upload artifact
@@ -33,7 +32,6 @@ jobs:
     steps:
     - name: Checkout
     - uses: actions/checkout@v4
-    - uses: <owner>/<repo>@main
     - name: Setup
       run: |
         sudo apt update
@@ -60,7 +58,6 @@ jobs:
     steps:
     - name: Checkout
     - uses: actions/checkout@v4
-    - uses: <owner>/<repo>@main
     - name: Setup
       run: python -m pip install pyyaml
     - name: Build cantil
@@ -77,7 +74,6 @@ jobs:
     steps:
     - name: Checkout
     - uses: actions/checkout@v4
-    - uses: <owner>/<repo>@main
     - name: Setup
       run: python -m pip install pyyaml
     - name: Download artifact
