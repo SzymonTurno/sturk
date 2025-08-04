@@ -38,7 +38,7 @@ void cn_waitq_destroy(CnWaitq* waitq);
  * @fn void cn_waitq_ins(CnWaitq* waitq, struct CnBinode* entry)
  *
  * @brief Insert an entry into a waiting queue
- *.
+ *
  * @param[in,out] waitq The waiting queue.
  * @param[in,out] entry The inserted entry.
  */
