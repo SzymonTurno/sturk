@@ -13,7 +13,6 @@ jobs:
       matrix:
         platform: [ubuntu-latest, macos-latest]
     steps:
-    - name: Checkout
     - uses: actions/checkout@v4
     - name: Build cantil
       run: tools/picky.sh make cantil-iso
