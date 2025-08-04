@@ -1,4 +1,4 @@
-name: POSIX Configuration
+name: POSIX configuration
 
 on:
   push:
@@ -15,7 +15,6 @@ jobs:
     steps:
     - name: Checkout
     - uses: actions/checkout@v4
-    - uses: <owner>/<repo>@main
     - name: Build cantil
       run: tools/picky.sh make cantil-posix
     - name: Upload artifact
@@ -33,7 +32,6 @@ jobs:
     steps:
     - name: Checkout
     - uses: actions/checkout@v4
-    - uses: <owner>/<repo>@main
     - name: Setup
       run: |
         sudo apt update
@@ -62,7 +60,6 @@ jobs:
     steps:
     - name: Checkout
     - uses: actions/checkout@v4
-    - uses: <owner>/<repo>@main
     - name: Download artifact
     - uses: actions/download-artifact@v4
       with:
