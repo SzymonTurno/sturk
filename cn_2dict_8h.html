@@ -202,10 +202,10 @@ Usage</h2>
 <div class="line">    *<a class="code hl_define" href="cn_2dict_8h.html#a121a92aeee6bb9fdf0d48126aeb39499">cn_dict_data</a>(entry) = val;</div>
 <div class="line">    *dictp = <a class="code hl_define" href="cn_2dict_8h.html#acd18b471ab46cfa0d4f1d5c372cdc8a3">cn_dict_ins</a>(*dictp, entry);</div>
 <div class="line">}</div>
-<div class="ttc" id="acn_2dict_8h_html_a0b898e15fdfb86009bbf3cb385242e2c"><div class="ttname"><a href="cn_2dict_8h.html#a0b898e15fdfb86009bbf3cb385242e2c">cn_dict_setk</a></div><div class="ttdeci">#define cn_dict_setk(dict, key)</div><div class="ttdoc">Set a key string for a dictionary entry.</div><div class="ttdef"><b>Definition</b> dict.h:95</div></div>
-<div class="ttc" id="acn_2dict_8h_html_a121a92aeee6bb9fdf0d48126aeb39499"><div class="ttname"><a href="cn_2dict_8h.html#a121a92aeee6bb9fdf0d48126aeb39499">cn_dict_data</a></div><div class="ttdeci">#define cn_dict_data(dict)</div><div class="ttdoc">Get the pointer to the data member of the dictionary entry.</div><div class="ttdef"><b>Definition</b> dict.h:133</div></div>
-<div class="ttc" id="acn_2dict_8h_html_ab36be7d28ad88984b38e04079c3b54cd"><div class="ttname"><a href="cn_2dict_8h.html#ab36be7d28ad88984b38e04079c3b54cd">CN_DICT</a></div><div class="ttdeci">#define CN_DICT(name, type)</div><div class="ttdoc">Define the dictionary.</div><div class="ttdef"><b>Definition</b> dict.h:245</div></div>
-<div class="ttc" id="acn_2dict_8h_html_acd18b471ab46cfa0d4f1d5c372cdc8a3"><div class="ttname"><a href="cn_2dict_8h.html#acd18b471ab46cfa0d4f1d5c372cdc8a3">cn_dict_ins</a></div><div class="ttdeci">#define cn_dict_ins(dict, entry)</div><div class="ttdoc">Insert an entry into the dictionary.</div><div class="ttdef"><b>Definition</b> dict.h:153</div></div>
+<div class="ttc" id="acn_2dict_8h_html_a0b898e15fdfb86009bbf3cb385242e2c"><div class="ttname"><a href="cn_2dict_8h.html#a0b898e15fdfb86009bbf3cb385242e2c">cn_dict_setk</a></div><div class="ttdeci">#define cn_dict_setk(dict, key)</div><div class="ttdoc">Set a key string for a dictionary entry.</div><div class="ttdef"><b>Definition</b> dict.h:126</div></div>
+<div class="ttc" id="acn_2dict_8h_html_a121a92aeee6bb9fdf0d48126aeb39499"><div class="ttname"><a href="cn_2dict_8h.html#a121a92aeee6bb9fdf0d48126aeb39499">cn_dict_data</a></div><div class="ttdeci">#define cn_dict_data(dict)</div><div class="ttdoc">Get the pointer to the data member of the dictionary entry.</div><div class="ttdef"><b>Definition</b> dict.h:164</div></div>
+<div class="ttc" id="acn_2dict_8h_html_ab36be7d28ad88984b38e04079c3b54cd"><div class="ttname"><a href="cn_2dict_8h.html#ab36be7d28ad88984b38e04079c3b54cd">CN_DICT</a></div><div class="ttdeci">#define CN_DICT(name, type)</div><div class="ttdoc">Define the dictionary.</div><div class="ttdef"><b>Definition</b> dict.h:276</div></div>
+<div class="ttc" id="acn_2dict_8h_html_acd18b471ab46cfa0d4f1d5c372cdc8a3"><div class="ttname"><a href="cn_2dict_8h.html#acd18b471ab46cfa0d4f1d5c372cdc8a3">cn_dict_ins</a></div><div class="ttdeci">#define cn_dict_ins(dict, entry)</div><div class="ttdoc">Insert an entry into the dictionary.</div><div class="ttdef"><b>Definition</b> dict.h:184</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ab36be7d28ad88984b38e04079c3b54cd" name="ab36be7d28ad88984b38e04079c3b54cd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab36be7d28ad88984b38e04079c3b54cd">&#9670;&#160;</a></span>CN_DICT</h2>
@@ -237,7 +237,7 @@ Usage</h2>
 <div class="line">                <span class="keyword">struct </span><a class="code hl_struct" href="structCnStrnode.html">CnStrnode</a> strnode;                                      \</div>
 <div class="line">                type data;                                                     \</div>
 <div class="line">        }</div>
-<div class="ttc" id="astructCnStrnode_html"><div class="ttname"><a href="structCnStrnode.html">CnStrnode</a></div><div class="ttdoc">Dictionary node.</div><div class="ttdef"><b>Definition</b> dict.h:257</div></div>
+<div class="ttc" id="astructCnStrnode_html"><div class="ttname"><a href="structCnStrnode.html">CnStrnode</a></div><div class="ttdoc">Dictionary node.</div><div class="ttdef"><b>Definition</b> dict.h:288</div></div>
 </div><!-- fragment -->
 <p>Define the dictionary. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -305,7 +305,7 @@ Usage</h2>
 <div class="line">                CN_ENSURE(_dict, <a class="code hl_enumvalue" href="cn_2logger_2trace_8h.html#a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f">CN_ERROR</a>, null_param);                        \</div>
 <div class="line">                &amp;_dict-&gt;data;                                                  \</div>
 <div class="line">        })</div>
-<div class="ttc" id="acn_2logger_2trace_8h_html_a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f"><div class="ttname"><a href="cn_2logger_2trace_8h.html#a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f">CN_ERROR</a></div><div class="ttdeci">@ CN_ERROR</div><div class="ttdoc">error trace level.</div><div class="ttdef"><b>Definition</b> trace.h:49</div></div>
+<div class="ttc" id="acn_2logger_2trace_8h_html_a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f"><div class="ttname"><a href="cn_2logger_2trace_8h.html#a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f">CN_ERROR</a></div><div class="ttdeci">@ CN_ERROR</div><div class="ttdoc">error trace level.</div><div class="ttdef"><b>Definition</b> trace.h:80</div></div>
 </div><!-- fragment -->
 <p>Get the pointer to the data member of the dictionary entry. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -352,7 +352,7 @@ Usage</h2>
 <div class="line">                        __typeof__(*dict), strnode);                           \</div>
 <div class="line">        })</div>
 <div class="ttc" id="acn_2dict_8h_html_a77ae4a060843e877e831a5a55ea032bf"><div class="ttname"><a href="cn_2dict_8h.html#a77ae4a060843e877e831a5a55ea032bf">cn_strnode_find</a></div><div class="ttdeci">struct CnStrnode * cn_strnode_find(struct CnStrnode *root, const char *str)</div><div class="ttdoc">In a dictionary, find the entry with the given key.</div></div>
-<div class="ttc" id="acn_2dict_8h_html_aacaabf27eee69a78c30be17c4b0b03d5"><div class="ttname"><a href="cn_2dict_8h.html#aacaabf27eee69a78c30be17c4b0b03d5">cn_dict_cast</a></div><div class="ttdeci">#define cn_dict_cast(dict)</div><div class="ttdoc">Get the pointer to the CnStrnode member of the dictionary entry.</div><div class="ttdef"><b>Definition</b> dict.h:78</div></div>
+<div class="ttc" id="acn_2dict_8h_html_aacaabf27eee69a78c30be17c4b0b03d5"><div class="ttname"><a href="cn_2dict_8h.html#aacaabf27eee69a78c30be17c4b0b03d5">cn_dict_cast</a></div><div class="ttdeci">#define cn_dict_cast(dict)</div><div class="ttdoc">Get the pointer to the CnStrnode member of the dictionary entry.</div><div class="ttdef"><b>Definition</b> dict.h:109</div></div>
 </div><!-- fragment -->
 <p>In a dictionary, find the entry with the given key. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -390,7 +390,7 @@ Usage</h2>
 <div class="line">                                <a class="code hl_function" href="cn_2rbtree_8h.html#ab18ca1d1da6a50d9773a2ad0121553fc">cn_rb_first</a>(&amp;<a class="code hl_define" href="cantil_2dict_8h.html#a33e4183c17f41934f54ff15c1815388f">dict_cast</a>(_dict)-&gt;node, 0)),      \</div>
 <div class="line">                        __typeof__(*dict), strnode);                           \</div>
 <div class="line">        })</div>
-<div class="ttc" id="acantil_2dict_8h_html_a33e4183c17f41934f54ff15c1815388f"><div class="ttname"><a href="cantil_2dict_8h.html#a33e4183c17f41934f54ff15c1815388f">dict_cast</a></div><div class="ttdeci">#define dict_cast</div><div class="ttdef"><b>Definition</b> dict.h:13</div></div>
+<div class="ttc" id="acantil_2dict_8h_html_a33e4183c17f41934f54ff15c1815388f"><div class="ttname"><a href="cantil_2dict_8h.html#a33e4183c17f41934f54ff15c1815388f">dict_cast</a></div><div class="ttdeci">#define dict_cast</div><div class="ttdef"><b>Definition</b> dict.h:44</div></div>
 <div class="ttc" id="acn_2rbtree_8h_html_ab18ca1d1da6a50d9773a2ad0121553fc"><div class="ttname"><a href="cn_2rbtree_8h.html#ab18ca1d1da6a50d9773a2ad0121553fc">cn_rb_first</a></div><div class="ttdeci">struct CnRbnode * cn_rb_first(struct CnRbnode *node, enum CnBstOrder order)</div><div class="ttdoc">Get the first node of the red-black tree for the given BST order.</div></div>
 </div><!-- fragment -->
 <p>Find the first entry of the dictionary traversal. </p>
@@ -512,7 +512,7 @@ Usage</h2>
 <div class="line">                        __typeof__(*dict), strnode);                           \</div>
 <div class="line">        })</div>
 <div class="ttc" id="acn_2rbtree_8h_html_ae95185bc3cfa523cccb2a52fe2f35242"><div class="ttname"><a href="cn_2rbtree_8h.html#ae95185bc3cfa523cccb2a52fe2f35242">cn_rb_next</a></div><div class="ttdeci">struct CnRbnode * cn_rb_next(struct CnRbnode *node, enum CnBstOrder order)</div><div class="ttdoc">Get the next node for the current red-black tree node and the BST order.</div></div>
-<div class="ttc" id="acn_2rbtree_8h_html_afd5241fc92cdaf38c429ef806fbea928a40e76d4cb39819c200f1fe530c7bca22"><div class="ttname"><a href="cn_2rbtree_8h.html#afd5241fc92cdaf38c429ef806fbea928a40e76d4cb39819c200f1fe530c7bca22">CN_BST_INORDER</a></div><div class="ttdeci">@ CN_BST_INORDER</div><div class="ttdoc">in-order.</div><div class="ttdef"><b>Definition</b> rbtree.h:18</div></div>
+<div class="ttc" id="acn_2rbtree_8h_html_afd5241fc92cdaf38c429ef806fbea928a40e76d4cb39819c200f1fe530c7bca22"><div class="ttname"><a href="cn_2rbtree_8h.html#afd5241fc92cdaf38c429ef806fbea928a40e76d4cb39819c200f1fe530c7bca22">CN_BST_INORDER</a></div><div class="ttdeci">@ CN_BST_INORDER</div><div class="ttdoc">in-order.</div><div class="ttdef"><b>Definition</b> rbtree.h:49</div></div>
 </div><!-- fragment -->
 <p>Find the next entry of the dictionary traversal. </p>
 <p>For the lexicographical order of the dictionary keys, find the entry with the next key.</p>

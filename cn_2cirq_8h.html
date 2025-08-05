@@ -202,9 +202,9 @@ Usage</h2>
 <div class="line">    *<a class="code hl_define" href="cn_2cirq_8h.html#a9bf078557d6febc76b571846f34bf431">cn_cirq_data</a>(entry) = data;</div>
 <div class="line">    *headp = <a class="code hl_define" href="cn_2cirq_8h.html#ac251198918253aa23a327a7776215d10">cn_cirq_ins</a>(*headp, entry);</div>
 <div class="line">}</div>
-<div class="ttc" id="acn_2cirq_8h_html_a9bf078557d6febc76b571846f34bf431"><div class="ttname"><a href="cn_2cirq_8h.html#a9bf078557d6febc76b571846f34bf431">cn_cirq_data</a></div><div class="ttdeci">#define cn_cirq_data(cirq)</div><div class="ttdoc">Get the pointer to the data member of the cirq entry.</div><div class="ttdef"><b>Definition</b> cirq.h:94</div></div>
-<div class="ttc" id="acn_2cirq_8h_html_ac251198918253aa23a327a7776215d10"><div class="ttname"><a href="cn_2cirq_8h.html#ac251198918253aa23a327a7776215d10">cn_cirq_ins</a></div><div class="ttdeci">#define cn_cirq_ins(cirq,...)</div><div class="ttdoc">Insert, at the given position, an entry into the cirq.</div><div class="ttdef"><b>Definition</b> cirq.h:156</div></div>
-<div class="ttc" id="acn_2cirq_8h_html_ada74d10c4b4f62eb6a0e52ade2581e4d"><div class="ttname"><a href="cn_2cirq_8h.html#ada74d10c4b4f62eb6a0e52ade2581e4d">CN_CIRQ</a></div><div class="ttdeci">#define CN_CIRQ(name, type)</div><div class="ttdoc">Define the cirq.</div><div class="ttdef"><b>Definition</b> cirq.h:185</div></div>
+<div class="ttc" id="acn_2cirq_8h_html_a9bf078557d6febc76b571846f34bf431"><div class="ttname"><a href="cn_2cirq_8h.html#a9bf078557d6febc76b571846f34bf431">cn_cirq_data</a></div><div class="ttdeci">#define cn_cirq_data(cirq)</div><div class="ttdoc">Get the pointer to the data member of the cirq entry.</div><div class="ttdef"><b>Definition</b> cirq.h:125</div></div>
+<div class="ttc" id="acn_2cirq_8h_html_ac251198918253aa23a327a7776215d10"><div class="ttname"><a href="cn_2cirq_8h.html#ac251198918253aa23a327a7776215d10">cn_cirq_ins</a></div><div class="ttdeci">#define cn_cirq_ins(cirq,...)</div><div class="ttdoc">Insert, at the given position, an entry into the cirq.</div><div class="ttdef"><b>Definition</b> cirq.h:187</div></div>
+<div class="ttc" id="acn_2cirq_8h_html_ada74d10c4b4f62eb6a0e52ade2581e4d"><div class="ttname"><a href="cn_2cirq_8h.html#ada74d10c4b4f62eb6a0e52ade2581e4d">CN_CIRQ</a></div><div class="ttdeci">#define CN_CIRQ(name, type)</div><div class="ttdoc">Define the cirq.</div><div class="ttdef"><b>Definition</b> cirq.h:216</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ada74d10c4b4f62eb6a0e52ade2581e4d" name="ada74d10c4b4f62eb6a0e52ade2581e4d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ada74d10c4b4f62eb6a0e52ade2581e4d">&#9670;&#160;</a></span>CN_CIRQ</h2>
@@ -236,7 +236,7 @@ Usage</h2>
 <div class="line">                <span class="keyword">struct </span><a class="code hl_struct" href="structCnBinode.html">CnBinode</a> node;                                          \</div>
 <div class="line">                type data;                                                     \</div>
 <div class="line">        }</div>
-<div class="ttc" id="astructCnBinode_html"><div class="ttname"><a href="structCnBinode.html">CnBinode</a></div><div class="ttdoc">Doubly linked list node.</div><div class="ttdef"><b>Definition</b> cirq.h:197</div></div>
+<div class="ttc" id="astructCnBinode_html"><div class="ttname"><a href="structCnBinode.html">CnBinode</a></div><div class="ttdoc">Doubly linked list node.</div><div class="ttdef"><b>Definition</b> cirq.h:228</div></div>
 </div><!-- fragment -->
 <p>Define the <em>cirq</em>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -271,7 +271,7 @@ Usage</h2>
 <div class="line">                CN_ENSURE(_cirq, <a class="code hl_enumvalue" href="cn_2logger_2trace_8h.html#a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f">CN_ERROR</a>, null_param);                        \</div>
 <div class="line">                &amp;_cirq-&gt;node;                                                  \</div>
 <div class="line">        })</div>
-<div class="ttc" id="acn_2logger_2trace_8h_html_a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f"><div class="ttname"><a href="cn_2logger_2trace_8h.html#a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f">CN_ERROR</a></div><div class="ttdeci">@ CN_ERROR</div><div class="ttdoc">error trace level.</div><div class="ttdef"><b>Definition</b> trace.h:49</div></div>
+<div class="ttc" id="acn_2logger_2trace_8h_html_a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f"><div class="ttname"><a href="cn_2logger_2trace_8h.html#a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f">CN_ERROR</a></div><div class="ttdeci">@ CN_ERROR</div><div class="ttdoc">error trace level.</div><div class="ttdef"><b>Definition</b> trace.h:80</div></div>
 </div><!-- fragment -->
 <p>Get the pointer to the <a class="el" href="structCnBinode.html" title="Doubly linked list node.">CnBinode</a> member of the <em>cirq</em> entry. </p>
 <dl class="params"><dt>Parameters</dt><dd>

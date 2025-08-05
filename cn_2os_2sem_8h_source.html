@@ -82,34 +82,64 @@ $(document).ready(function() { init_codefold(0); });
   <div class="headertitle"><div class="title">sem.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="cn_2os_2sem_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef CN_OS_SEM_H</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define CN_OS_SEM_H</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="cn_2bits_8h.html">cn/bits.h</a>&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">   18</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a> <a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#ae794ce50df29ae644550fb6f6d84a0c7">   29</a></span><a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>* <a class="code hl_function" href="cn_2os_2sem_8h.html#ae794ce50df29ae644550fb6f6d84a0c7">cn_sem_create</a>(<a class="code hl_typedef" href="cn_2bits_8h.html#ab63c7ea47b248e5e378ccf406394760b">CnBits</a> args);</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#a98ea64168f8532814e7cfe2e2392cd47">   38</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="cn_2os_2sem_8h.html#a98ea64168f8532814e7cfe2e2392cd47">cn_sem_destroy</a>(<a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>* sem);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#a873df43e7cce160930457cbf1cc43078">   50</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="cn_2os_2sem_8h.html#a873df43e7cce160930457cbf1cc43078">cn_sem_wait</a>(<a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>* sem);</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#ad1b2439b10db566e82c0cc289e7e372b">   63</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="cn_2os_2sem_8h.html#ad1b2439b10db566e82c0cc289e7e372b">cn_sem_trywait</a>(<a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>* sem);</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#a508493da0f3a7258e34c552f50c86f2e">   72</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="cn_2os_2sem_8h.html#a508493da0f3a7258e34c552f50c86f2e">cn_sem_post</a>(<a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>* sem);</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#endif </span><span class="comment">/* CN_OS_SEM_H */</span><span class="preprocessor"></span></div>
+<a href="cn_2os_2sem_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">BSD 3-Clause License</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"></span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">Copyright (c) 2025, Szymon Turno</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"></span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">Redistribution and use in source and binary forms, with or without</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">modification, are permitted provided that the following conditions are met:</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"></span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">1. Redistributions of source code must retain the above copyright notice, this</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">   list of conditions and the following disclaimer.</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"></span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">2. Redistributions in binary form must reproduce the above copyright notice,</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">   this list of conditions and the following disclaimer in the documentation</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">   and/or other materials provided with the distribution.</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"></span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">3. Neither the name of the copyright holder nor the names of its</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">   contributors may be used to endorse or promote products derived from</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">   this software without specific prior written permission.</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"></span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment">SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment">CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment">*/</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#ifndef CN_OS_SEM_H</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define CN_OS_SEM_H</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &quot;<a class="code" href="cn_2bits_8h.html">cn/bits.h</a>&quot;</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">   49</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a> <a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#ae794ce50df29ae644550fb6f6d84a0c7">   60</a></span><a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>* <a class="code hl_function" href="cn_2os_2sem_8h.html#ae794ce50df29ae644550fb6f6d84a0c7">cn_sem_create</a>(<a class="code hl_typedef" href="cn_2bits_8h.html#ab63c7ea47b248e5e378ccf406394760b">CnBits</a> args);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#a98ea64168f8532814e7cfe2e2392cd47">   69</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="cn_2os_2sem_8h.html#a98ea64168f8532814e7cfe2e2392cd47">cn_sem_destroy</a>(<a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>* sem);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#a873df43e7cce160930457cbf1cc43078">   81</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="cn_2os_2sem_8h.html#a873df43e7cce160930457cbf1cc43078">cn_sem_wait</a>(<a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>* sem);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#ad1b2439b10db566e82c0cc289e7e372b">   94</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="cn_2os_2sem_8h.html#ad1b2439b10db566e82c0cc289e7e372b">cn_sem_trywait</a>(<a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>* sem);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="cn_2os_2sem_8h.html#a508493da0f3a7258e34c552f50c86f2e">  103</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="cn_2os_2sem_8h.html#a508493da0f3a7258e34c552f50c86f2e">cn_sem_post</a>(<a class="code hl_typedef" href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a>* sem);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="preprocessor">#endif </span><span class="comment">/* CN_OS_SEM_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="acn_2bits_8h_html"><div class="ttname"><a href="cn_2bits_8h.html">bits.h</a></div><div class="ttdoc">Bits and bitfields.</div></div>
-<div class="ttc" id="acn_2bits_8h_html_ab63c7ea47b248e5e378ccf406394760b"><div class="ttname"><a href="cn_2bits_8h.html#ab63c7ea47b248e5e378ccf406394760b">CnBits</a></div><div class="ttdeci">int CnBits</div><div class="ttdoc">The data type for bitwise operations.</div><div class="ttdef"><b>Definition</b> bits.h:83</div></div>
+<div class="ttc" id="acn_2bits_8h_html_ab63c7ea47b248e5e378ccf406394760b"><div class="ttname"><a href="cn_2bits_8h.html#ab63c7ea47b248e5e378ccf406394760b">CnBits</a></div><div class="ttdeci">int CnBits</div><div class="ttdoc">The data type for bitwise operations.</div><div class="ttdef"><b>Definition</b> bits.h:114</div></div>
 <div class="ttc" id="acn_2os_2sem_8h_html_a508493da0f3a7258e34c552f50c86f2e"><div class="ttname"><a href="cn_2os_2sem_8h.html#a508493da0f3a7258e34c552f50c86f2e">cn_sem_post</a></div><div class="ttdeci">void cn_sem_post(CnSem *sem)</div><div class="ttdoc">Increment the semaphore counter.</div></div>
 <div class="ttc" id="acn_2os_2sem_8h_html_a873df43e7cce160930457cbf1cc43078"><div class="ttname"><a href="cn_2os_2sem_8h.html#a873df43e7cce160930457cbf1cc43078">cn_sem_wait</a></div><div class="ttdeci">void cn_sem_wait(CnSem *sem)</div><div class="ttdoc">Wait on semaphore.</div></div>
 <div class="ttc" id="acn_2os_2sem_8h_html_a98ea64168f8532814e7cfe2e2392cd47"><div class="ttname"><a href="cn_2os_2sem_8h.html#a98ea64168f8532814e7cfe2e2392cd47">cn_sem_destroy</a></div><div class="ttdeci">void cn_sem_destroy(CnSem *sem)</div><div class="ttdoc">Destroy a semaphore.</div></div>
 <div class="ttc" id="acn_2os_2sem_8h_html_ad1b2439b10db566e82c0cc289e7e372b"><div class="ttname"><a href="cn_2os_2sem_8h.html#ad1b2439b10db566e82c0cc289e7e372b">cn_sem_trywait</a></div><div class="ttdeci">bool cn_sem_trywait(CnSem *sem)</div><div class="ttdoc">Decrement the semaphore counter if it is greater than 0.</div></div>
 <div class="ttc" id="acn_2os_2sem_8h_html_ae794ce50df29ae644550fb6f6d84a0c7"><div class="ttname"><a href="cn_2os_2sem_8h.html#ae794ce50df29ae644550fb6f6d84a0c7">cn_sem_create</a></div><div class="ttdeci">CnSem * cn_sem_create(CnBits args)</div><div class="ttdoc">Create a semaphore.</div></div>
-<div class="ttc" id="acn_2os_2sem_8h_html_aedb15f06e2f43a59a05c0e6e9926e5dc"><div class="ttname"><a href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a></div><div class="ttdeci">struct CnSem CnSem</div><div class="ttdoc">Semaphore.</div><div class="ttdef"><b>Definition</b> sem.h:18</div></div>
+<div class="ttc" id="acn_2os_2sem_8h_html_aedb15f06e2f43a59a05c0e6e9926e5dc"><div class="ttname"><a href="cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc">CnSem</a></div><div class="ttdeci">struct CnSem CnSem</div><div class="ttdoc">Semaphore.</div><div class="ttdef"><b>Definition</b> sem.h:49</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
