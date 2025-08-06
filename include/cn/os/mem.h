@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stddef.h>
 
 /* @cond */
-#define _CN_NEW(type, n, ...) ((type*)cn_malloc(sizeof(type) * n))
+#define CN__NEW(type, n, ...) ((type*)cn_malloc(sizeof(type) * n))
 /* @endcond */
 
 /**
@@ -53,7 +53,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * that is equal to the multiple of @a n and the size of @a type. The @a n
  * argument is optional and by default it equals 1.
  */
-#define CN_NEW(...) _CN_NEW(__VA_ARGS__, 1, )
+#define CN_NEW(...) CN__NEW(__VA_ARGS__, 1, )
 
 /**
  * @fn void* cn_malloc(size_t size)

@@ -18,6 +18,7 @@ def join(olvars):
     olvars.append('cantil_CFLAGS', '-Wstrict-prototypes')
     olvars.append('cantil_CFLAGS', '-Wswitch-default')
     olvars.append('cantil_CFLAGS', '-Wwrite-strings')
+    olvars.append('cantil_CFLAGS', '-DVX_EXCEPT=cn_except')
     olvars.append('cantil_DIR', olvars.slashify(olvars.acwd()))
     olvars.append('cantil_BLDDIR', olvars.slashify(olvars.cwd()))
     olvars.append('cantil_BLDDIRS', olvars.slashify(olvars.cwd()))

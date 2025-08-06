@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "cantil/arith.h"
+#include "cantil/graph.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
 #include "cantil/os/mem.h"
@@ -75,10 +76,10 @@ static void dict_destroy(CnChannel* dict)
 		if (!p)
 			break;
 
-		if (i == p->left)
-			p->left = NULL;
+		if (i == rb_left(p))
+			graph_2vx(p)->nbor[RB_LEFT] = NULL;
 		else
-			p->right = NULL;
+			graph_2vx(p)->nbor[RB_RIGHT] = NULL;
 	}
 }
 
@@ -86,7 +87,7 @@ static struct ChannelList* clist_create(CnChannel* ch)
 {
 	struct ChannelList* self = NEW(struct ChannelList);
 
-	*list_data(self) = ch;
+	*graph_data(self) = ch;
 	return self;
 }
 
@@ -94,7 +95,7 @@ static struct SubscriberList* slist_create(struct CnSubscriber* sber)
 {
 	struct SubscriberList* self = NEW(struct SubscriberList);
 
-	*list_data(self) = sber;
+	*graph_data(self) = sber;
 	return self;
 }
 
@@ -108,8 +109,8 @@ static void ins_msg(CnSubscriber* sber, struct Message* msg)
 		return;
 		/* LCOV_EXCL_STOP */
 	}
-	*cirq_data(entry) = msg;
-	waitq_ins(sber->q, cirq_cast(entry));
+	*graph_data(entry) = msg;
+	waitq_ins(sber->q, graph_2vx(entry));
 }
 
 static void notify(struct ChannelData* data, struct Message* msg)
@@ -118,8 +119,8 @@ static void notify(struct ChannelData* data, struct Message* msg)
 
 	mutex_lock(data->mutex);
 	msg_lock(msg);
-	list_iter (i, &data->list) {
-		ins_msg(*list_data(*i), msg);
+	list_foreach (struct SubscriberList, i, &data->list) {
+		ins_msg(*graph_data(*i), msg);
 		++n;
 	}
 	msg_unlock(msg, n);
@@ -131,23 +132,23 @@ static void unsubscribe(CnChannel* ch, CnSubscriber* sber)
 	struct ChannelData* data = dict_data(ch);
 
 	mutex_lock(data->mutex);
-	list_iter (i, &data->list)
-		if (*list_data(*i) == sber) {
+	list_foreach (struct SubscriberList, i, &data->list)
+		if (*graph_data(*i) == sber) {
 			cn_free(list_rem(i));
 			break;
 		}
 	mutex_unlock(data->mutex);
 }
 
-static CnLoad* load_init(CnSubscriber* sber, struct CnBinode* node)
+static CnLoad* load_init(CnSubscriber* sber, struct Vertegs* node)
 {
 	struct Qentry* q = NULL;
 
 	subscriber_release(sber);
 	if (!node)
 		return NULL;
-	q = cirq_from(node, struct Qentry);
-	sber->msg = *cirq_data(q);
+	q = graph_4vx(node, q);
+	sber->msg = *graph_data(q);
 	pool_free(sber->broker->sbers.pool, q);
 	return msg_getload(sber->msg);
 }
@@ -156,10 +157,10 @@ CnBroker* cn_broker_create(const struct CnLoadVt* vp)
 {
 	struct CnBroker* self = NULL;
 
-	ENSURE_MEMORY(vp, ERROR);
-	ENSURE_MEMORY(vp->size, ERROR);
-	ENSURE_MEMORY(vp->ctor, ERROR);
-	ENSURE_MEMORY(vp->dtor, ERROR);
+	ENSURE_MEM(vp, ERROR);
+	ENSURE_MEM(vp->size, ERROR);
+	ENSURE_MEM(vp->ctor, ERROR);
+	ENSURE_MEM(vp->dtor, ERROR);
 	self = NEW(struct CnBroker);
 	self->vp = vp;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
@@ -177,7 +178,7 @@ void cn_broker_destroy(CnBroker* broker)
 		return;
 
 	while (broker->sbers.list)
-		subscriber_destroy(*list_data(broker->sbers.list));
+		subscriber_destroy(*graph_data(broker->sbers.list));
 	pool_destroy(broker->sbers.pool);
 	broker->sbers.pool = NULL;
 	if (broker->channels.dict)
@@ -195,7 +196,7 @@ CnChannel* cn_broker_search(CnBroker* broker, const char* topic)
 {
 	struct CnChannel* ch = NULL;
 
-	ENSURE_MEMORY(broker, ERROR);
+	ENSURE_MEM(broker, ERROR);
 	mutex_lock(broker->mutex);
 	ch = dict_find(broker->channels.dict, topic);
 	if (!ch) {
@@ -210,7 +211,7 @@ CnSubscriber* cn_subscriber_create(CnBroker* broker)
 {
 	CnSubscriber* self = NULL;
 
-	ENSURE_MEMORY(broker, ERROR);
+	ENSURE_MEM(broker, ERROR);
 	self = NEW(CnSubscriber);
 	self->broker = broker;
 	self->q = waitq_create();
@@ -228,7 +229,7 @@ void cn_subscriber_destroy(CnSubscriber* sber)
 		return;
 
 	while (sber->list) {
-		unsubscribe(*list_data(sber->list), sber);
+		unsubscribe(*graph_data(sber->list), sber);
 		cn_free(list_rem(&sber->list));
 	}
 
@@ -237,8 +238,8 @@ void cn_subscriber_destroy(CnSubscriber* sber)
 	waitq_destroy(sber->q);
 	sber->q = NULL;
 	mutex_lock(sber->broker->mutex);
-	list_iter (i, &sber->broker->sbers.list)
-		if (*list_data(*i) == sber) {
+	list_foreach (struct SubscriberList, i, &sber->broker->sbers.list)
+		if (*graph_data(*i) == sber) {
 			cn_free(list_rem(i));
 			break;
 		}
@@ -251,7 +252,7 @@ CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch)
 {
 	CnLoad* ret = NULL;
 
-	ENSURE_MEMORY(sber, ERROR);
+	ENSURE_MEM(sber, ERROR);
 	ret = load_init(sber, waitq_rem(sber->q));
 	if (ch) {
 		ENSURE(sber->msg, ERROR, null_param);
@@ -264,7 +265,7 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
 {
 	CnLoad* ret = NULL;
 
-	ENSURE_MEMORY(sber, ERROR);
+	ENSURE_MEM(sber, ERROR);
 	ret = load_init(sber, waitq_tryrem(sber->q));
 	if (ch && sber->msg)
 		*ch = sber->msg->channel;
@@ -274,6 +275,9 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
 void cn_subscriber_release(CnSubscriber* sber)
 {
 	ENSURE(sber, ERROR, null_param);
+	if (!sber)
+		return;
+
 	if (sber->msg)
 		msg_release(sber->msg);
 	sber->msg = NULL;

@@ -29,67 +29,44 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cantil/cirq.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
+/**
+ * @file vx/graph.h
+ *
+ * @brief Graph.
+ */
 
-struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos)
-{
-	while (pos > 0) {
-		ENSURE(node, ERROR, null_param);
-		node = node->next;
-		--pos;
+#ifndef VX_GRAPH_H
+#define VX_GRAPH_H
+
+#include "vx/vertegs.h"
+
+#ifdef __STRICT_ANSI__
+#define VX_TYPEOF(var) void*
+#else
+#define VX_TYPEOF(var) __typeof__(var)
+#endif
+
+#define VX_GRAPH(name, deg, type)                                              \
+	name                                                                   \
+	{                                                                      \
+		struct Vertegs* vx_graph_nbor[deg];                            \
+		type vx_graph_data;                                            \
 	}
 
-	while (pos < 0) {
-		ENSURE(node, ERROR, null_param);
-		node = node->prev;
-		++pos;
-	}
-	return node;
-}
+#define vx_graph_2vx(graph)                                                    \
+	(0 ? (struct Vertegs*)(graph)->vx_graph_nbor                           \
+	   : (struct Vertegs*)(graph))
 
-struct CnBinode*
-cn_binode_ins(struct CnBinode* cirq, struct CnBinode* entry, int pos)
-{
-	struct CnBinode* p = NULL;
+#define vx_graph_4vx(v, graph)                                                 \
+	(0 ? (VX_TYPEOF(graph))((graph)->vx_graph_nbor[0] = (v)->nbor[0])      \
+	   : ((VX_TYPEOF(graph))(v)))
 
-	ENSURE(entry, ERROR, null_param);
-	if (cirq) {
-		if (pos > 0)
-			p = binode_sibl(cirq, pos);
-		else if (pos < -1)
-			p = binode_sibl(cirq, pos + 1);
-		else
-			p = cirq;
-		entry->next = p;
-		entry->prev = p->prev;
-		p->prev = entry;
-		ENSURE(entry->prev, ERROR, null_param);
-		entry->prev->next = entry;
-		if (!pos)
-			cirq = entry;
-	} else {
-		entry->next = entry;
-		entry->prev = entry;
-		cirq = entry;
-	}
-	return cirq;
-}
+#define vx_graphp_2vxp(graphp)                                                 \
+	(0 ? (*(graphp))->vx_graph_nbor : (struct Vertegs**)(graphp))
 
-struct CnBinode* cn_binode_rem(struct CnBinode** cirqp, int pos)
-{
-	struct CnBinode* ret = NULL;
+#define vx_graph_data(graph) (&(graph)->vx_graph_data)
 
-	ENSURE(cirqp, ERROR, null_param);
-	if (*cirqp) {
-		ret = binode_sibl(*cirqp, pos);
-		ret->next->prev = ret->prev;
-		ret->prev->next = ret->next;
-		if (ret == ret->next)
-			*cirqp = NULL;
-		else if (ret == *cirqp)
-			*cirqp = ret->next;
-	}
-	return ret;
-}
+#define vx_graph_foredge(type, i, graphp, edge)                                \
+	for (type** i = graphp; *i; i = (type**)&(*i)->vx_graph_nbor[edge])
+
+#endif /* VX_GRAPH_H */

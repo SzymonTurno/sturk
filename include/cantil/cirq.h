@@ -32,39 +32,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file cantil/cirq.h
  *
- * @see cn/cirq.h
+ * @see vx/cirq.h
  */
 
 #ifndef CANTIL_CIRQ_H
 #define CANTIL_CIRQ_H
 
-#include "cn/cirq.h"
+#include "cn/os/sys.h"
+#include "vx/cirq.h"
 
-/** @see cn_cirq_cast() */
-#define cirq_cast cn_cirq_cast
+/** @see VX_CIRQ() */
+#define CIRQ VX_CIRQ
 
-/** @see cn_cirq_data() */
-#define cirq_data cn_cirq_data
+/** @see vx_cirq_ins() */
+#define cirq_ins vx_cirq_ins
 
-/** @see cn_cirq_from() */
-#define cirq_from cn_cirq_from
-
-/** @see cn_cirq_ins() */
-#define cirq_ins cn_cirq_ins
-
-/** @see cn_cirq_rem() */
-#define cirq_rem cn_cirq_rem
-
-/** @see CN_CIRQ() */
-#define CIRQ CN_CIRQ
-
-/** @see cn_binode_sibl() */
-#define binode_sibl cn_binode_sibl
-
-/** @see cn_binode_ins() */
-#define binode_ins cn_binode_ins
-
-/** @see cn_binode_rem() */
-#define binode_rem cn_binode_rem
+/** @see vx_cirq_rem() */
+#define cirq_rem vx_cirq_rem
 
 #endif /* CANTIL_CIRQ_H */
