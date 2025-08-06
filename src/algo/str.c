@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cantil/arith.h"
 #include "cantil/cirq.h"
 #include "cantil/dict.h"
+#include "cantil/graph.h"
 #include "cantil/list.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
@@ -69,8 +70,8 @@ struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
 {
 	struct CnStrlist* self = NEW(struct CnStrlist);
 
-	ENSURE_MEMORY(self, ERROR);
-	*list_data(self) = str;
+	ENSURE_MEM(self, ERROR);
+	*graph_data(self) = str;
 	return list_ins(list, self);
 }
 
@@ -81,9 +82,12 @@ char* cn_newstr(const char* str)
 
 char* cn_strlist_rem(struct CnStrlist** listp)
 {
-	struct CnStrlist* tmp = list_rem(listp);
-	char* ret = *list_data(tmp);
+	struct CnStrlist* tmp = NULL;
+	char* ret = NULL;
 
+	ENSURE_MEM(listp, ERROR);
+	tmp = list_rem(listp);
+	ret = *graph_data(tmp);
 	cn_free(tmp);
 	return ret;
 }
@@ -92,8 +96,8 @@ struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str)
 {
 	struct CnStrq* self = NEW(struct CnStrq);
 
-	ENSURE_MEMORY(self, ERROR);
-	*cirq_data(self) = str;
+	ENSURE_MEM(self, ERROR);
+	*graph_data(self) = str;
 	return cirq_ins(q, self);
 }
 
@@ -102,9 +106,10 @@ char* cn_strq_rem(struct CnStrq** qp)
 	struct CnStrq* tmp = NULL;
 	char* ret = NULL;
 
-	ENSURE_MEMORY(qp, ERROR);
+	ENSURE_MEM(qp, ERROR);
+	ENSURE_MEM(*qp, ERROR);
 	tmp = cirq_rem(qp);
-	ret = *cirq_data(tmp);
+	ret = *graph_data(tmp);
 	cn_free(tmp);
 	return ret;
 }
@@ -151,9 +156,9 @@ void cn_strbag_destroy(struct CnStrbag* bag)
 		if (!p)
 			break;
 
-		if (i == p->left)
-			p->left = NULL;
+		if (i == rb_left(p))
+			graph_2vx(p)->nbor[RB_LEFT] = NULL;
 		else
-			p->right = NULL;
+			graph_2vx(p)->nbor[RB_RIGHT] = NULL;
 	}
 }

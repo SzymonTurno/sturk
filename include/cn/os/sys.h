@@ -50,17 +50,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...);
 
 /**
- * @fn void cn_sysfail(void)
- *
- * @brief Call exit(EXIT_FAILURE).
- */
-void cn_sysfail(void);
-
-/**
  * @fn int cn_remove(const char* filename)
  *
  * @see remove()
  */
 int cn_remove(const char* filename);
+
+/**
+ * @fn void cn_except(const char* reason, const char* file, int line)
+ *
+ * @brief Log error reason and call exit(EXIT_FAILURE).
+ */
+void cn_except(const char* reason, const char* file, int line);
 
 #endif /* CN_SYS_H */

@@ -16,9 +16,9 @@ ColumnLimit: 80
 CommentPragmas: '^\@.+'
 ContinuationIndentWidth: 8
 ForEachMacros:
-  - _cn_list_iter
-  - cn_list_iter
-  - list_iter
+  - _cn_list_foreach
+  - cn_list_foreach
+  - list_foreach
 IndentWidth: 8
 PointerAlignment: Left
 TabWidth: 8

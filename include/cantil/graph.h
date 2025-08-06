@@ -29,35 +29,34 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cantil/list.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
+/**
+ * @file cantil/graph.h
+ *
+ * @see vx/graph.h
+ */
 
-struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
-{
-	ENSURE(nodep, ERROR, null_param);
-	for (; *nodep && pos--; nodep = &(*nodep)->next)
-		;
-	return nodep;
-}
+#ifndef CANTIL_GRAPH_H
+#define CANTIL_GRAPH_H
 
-struct CnUnnode*
-cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos)
-{
-	struct CnUnnode** i = list_hand(&head, pos);
+#include "cn/os/sys.h"
+#include "vx/graph.h"
 
-	ENSURE(node, ERROR, null_param);
-	node->next = *i;
-	*i = node;
-	return head;
-}
+/** @see VX_GRAPH() */
+#define GRAPH VX_GRAPH
 
-struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos)
-{
-	struct CnUnnode** i = list_hand(headp, pos);
-	struct CnUnnode* ret = *i;
+/** @see vx_graph_2vx() */
+#define graph_2vx vx_graph_2vx
 
-	ENSURE(*i, ERROR, null_param);
-	*i = (*i)->next;
-	return ret;
-}
+/** @see vx_graph_4vx() */
+#define graph_4vx vx_graph_4vx
+
+/** @see vx_graphp_2vxp() */
+#define graphp_2vxp vx_graphp_2vxp
+
+/** @see vx_graph_data() */
+#define graph_data vx_graph_data
+
+/** @see vx_graph_foredge() */
+#define graph_foredge vx_graph_foredge
+
+#endif /* CANTIL_GRAPH_H */
