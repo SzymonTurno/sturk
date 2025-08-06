@@ -36,7 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define BUFF_MAX_SIZE 128
 
-static struct CnStreambag* streambags[N_TRACE_LVLS];
+static struct CnStreamBag* streambags[N_TRACE_LVLS];
 
 static const char* get_lvlstr(enum CnTraceLvl lvl)
 {

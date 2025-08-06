@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 LIST(struct StreamList, CnFstream*);
 
-struct CnStreambag {
+struct CnStreamBag {
 	struct StreamList* head;
 	CnMutex* mutex;
 };
@@ -55,16 +55,16 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 	}
 }
 
-CnStreambag* cn_streambag_create(void)
+CnStreamBag* cn_streambag_create(void)
 {
-	CnStreambag* self = NEW(CnStreambag);
+	CnStreamBag* self = NEW(CnStreamBag);
 
 	self->head = NULL;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	return self;
 }
 
-void cn_streambag_destroy(CnStreambag* bag)
+void cn_streambag_destroy(CnStreamBag* bag)
 {
 	if (!bag)
 		return;
@@ -75,7 +75,7 @@ void cn_streambag_destroy(CnStreambag* bag)
 	cn_free(bag);
 }
 
-void cn_streambag_ins(CnStreambag* bag, CnFstream* stream)
+void cn_streambag_ins(CnStreamBag* bag, CnFstream* stream)
 {
 	struct StreamList* entry = NEW(struct StreamList);
 
@@ -86,7 +86,7 @@ void cn_streambag_ins(CnStreambag* bag, CnFstream* stream)
 	mutex_unlock(bag->mutex);
 }
 
-void cn_streambag_rem(CnStreambag* bag, CnFstream* stream)
+void cn_streambag_rem(CnStreamBag* bag, CnFstream* stream)
 {
 	ENSURE(bag, ERROR, null_param);
 	list_iter (i, &bag->head)
@@ -98,7 +98,7 @@ void cn_streambag_rem(CnStreambag* bag, CnFstream* stream)
 		}
 }
 
-void cn_streambag_vprint(CnStreambag* bag, const char* format, va_list vlist)
+void cn_streambag_vprint(CnStreamBag* bag, const char* format, va_list vlist)
 {
 	ENSURE(bag, ERROR, null_param);
 	mutex_lock(bag->mutex);
