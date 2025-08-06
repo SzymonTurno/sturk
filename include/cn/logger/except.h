@@ -53,6 +53,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif /* CN_EXCEPTIONS_EN */
 
 /**
+ * @def CN_RAISE(lvl, e)
+ *
+ * @brief Raise an exception.
+ *
+ * @param[in] lvl The exception level (WARNING or ERROR).
+ * @param[in] e The exception.
+ */
+#define CN_RAISE(lvl, e)                                                       \
+	do {                                                                   \
+		enum CnTraceLvl _lvl = (lvl);                                  \
+                                                                               \
+		if (CN_ERROR == _lvl) {                                        \
+			if (CN_EXCEPTIONS_EN)                                  \
+				cn_except(                                     \
+					cn_except_##e.reason, __FILE__,        \
+					__LINE__);                             \
+		} else if (CN_WARNING == _lvl) {                               \
+			CN_TRACE(                                              \
+				CN_WARNING, NULL, "%s:%d: %s", __FILE__,       \
+				__LINE__, cn_except_##e.reason);               \
+		} else {                                                       \
+			CN_TRACE(                                              \
+				CN_ERROR, NULL, "%s:%d: %s", __FILE__,         \
+				__LINE__, cn_except_not_supported.reason);     \
+		}                                                              \
+	} while (0)
+
+/**
  * @def CN_ENSURE(cond, lvl, e)
  *
  * @brief Raise an exception if the condition is not met.
@@ -63,51 +91,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define CN_ENSURE(cond, lvl, e)                                                \
 	do {                                                                   \
-		enum CnTraceLvl _lvl = (lvl);                                  \
-                                                                               \
-		if (CN_EXCEPTIONS_EN && !(cond)) {                             \
-			if (CN_ERROR == _lvl) {                                \
-				CN_TRACE(                                      \
-					CN_ERROR, NULL, "%s:%d: %s", __FILE__, \
-					__LINE__, cn_except_##e.reason);       \
-				cn_logger_cleanup();                           \
-				cn_sysfail();                                  \
-			} else if (CN_WARNING == _lvl) {                       \
-				CN_TRACE(                                      \
-					CN_WARNING, NULL, "%s:%d: %s",         \
-					__FILE__, __LINE__,                    \
-					cn_except_##e.reason);                 \
-			} else {                                               \
-				CN_TRACE(                                      \
-					CN_ERROR, NULL, "%s:%d: %s", __FILE__, \
-					__LINE__,                              \
-					cn_except_not_supported.reason);       \
-			}                                                      \
+		if (!(cond)) {                                                 \
+			CN_RAISE(lvl, e);                                      \
 		}                                                              \
 	} while (0)
 
 /**
- * @def CN_RAISE(lvl, e)
- *
- * @brief Raise an exception.
- *
- * @param[in] lvl The exception level (WARNING or ERROR).
- * @param[in] e The exception.
- */
-#define CN_RAISE(lvl, e) CN_ENSURE(0, lvl, e)
-
-/**
- * @def CN_ENSURE_MEMORY(lvl, ptr)
+ * @def CN_ENSURE_MEM(lvl, ptr)
  *
  * @brief Raise an exception and return NULL if the pointer is NULL.
  *
  * @param[in] ptr The pointer.
  * @param[in] lvl Exception level.
  */
-#define CN_ENSURE_MEMORY(ptr, lvl)                                             \
+#define CN_ENSURE_MEM(ptr, lvl)                                                \
 	do {                                                                   \
 		if ((ptr) == NULL) {                                           \
-			RAISE(lvl, null_param);                                \
+			CN_RAISE(lvl, null_param);                             \
 			return NULL;                                           \
 		}                                                              \
 	} while (0)

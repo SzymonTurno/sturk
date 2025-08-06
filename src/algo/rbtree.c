@@ -31,6 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "cantil/rbtree.h"
 #include "cantil/bits.h"
+#include "cantil/graph.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
 #include <stddef.h>
@@ -39,47 +40,58 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 static void paint_red(struct CnRbnode* node)
 {
-	node->u.parcol |= COLOR_MASK;
+	graph_data(node)->parcol |= COLOR_MASK;
 }
 
 static void paint_black(struct CnRbnode* node)
 {
-	node->u.parcol &= ~COLOR_MASK;
+	graph_data(node)->parcol &= ~COLOR_MASK;
 }
 
 static int painted_red(struct CnRbnode* node)
 {
-	return (node && (node->u.parcol & COLOR_MASK));
+	return (node && (graph_data(node)->parcol & COLOR_MASK));
 }
 
 static void set_parent(struct CnRbnode* node, struct CnRbnode* parent)
 {
-	node->u.parcol = ((intptr_t)parent) | (node->u.parcol & COLOR_MASK);
+	graph_data(node)->parcol =
+		((intptr_t)parent) | (graph_data(node)->parcol & COLOR_MASK);
 }
 
 static struct CnRbnode* get_parent(struct CnRbnode* node)
 {
-	return (struct CnRbnode*)(node->u.parcol & ~COLOR_MASK);
+	return (struct CnRbnode*)(graph_data(node)->parcol & ~COLOR_MASK);
+}
+
+static void set_left(struct CnRbnode* node, struct CnRbnode* child)
+{
+	vx_2adjyl(graph_2vx(node))[RB_LEFT] = graph_2vx(child);
+}
+
+static void set_right(struct CnRbnode* node, struct CnRbnode* child)
+{
+	vx_2adjyl(graph_2vx(node))[RB_RIGHT] = graph_2vx(child);
 }
 
 static struct CnRbnode* rot_left(struct CnRbnode* node, struct CnRbnode* root)
 {
 	struct CnRbnode* p = get_parent(node);
-	struct CnRbnode* y = node->right;
+	struct CnRbnode* y = rb_right(node);
 
-	node->right = y->left;
-	if (node->right)
-		set_parent(node->right, node);
+	set_right(node, rb_left(y));
+	if (rb_right(node))
+		set_parent(rb_right(node), node);
 
 	set_parent(y, p);
 	if (!p)
 		root = y;
-	else if (node == p->left)
-		p->left = y;
+	else if (node == rb_left(p))
+		set_left(p, y);
 	else
-		p->right = y;
+		set_right(p, y);
 
-	y->left = node;
+	set_left(y, node);
 	set_parent(node, y);
 	return root;
 }
@@ -87,43 +99,41 @@ static struct CnRbnode* rot_left(struct CnRbnode* node, struct CnRbnode* root)
 static struct CnRbnode* rot_right(struct CnRbnode* node, struct CnRbnode* root)
 {
 	struct CnRbnode* p = get_parent(node);
-	struct CnRbnode* y = node->left;
+	struct CnRbnode* y = rb_left(node);
 
-	node->left = y->right;
-	if (node->left)
-		set_parent(node->left, node);
+	set_left(node, rb_right(y));
+	if (rb_left(node))
+		set_parent(rb_left(node), node);
 
 	set_parent(y, p);
 	if (!p)
 		root = y;
-	else if (node == p->left)
-		p->left = y;
+	else if (node == rb_left(p))
+		set_left(p, y);
 	else
-		p->right = y;
+		set_right(p, y);
 
-	y->right = node;
+	set_right(y, node);
 	set_parent(node, y);
 	return root;
 }
 
 static struct CnRbnode* get_leftcorner(struct CnRbnode* node)
 {
-	while (node->left)
-		node = node->left;
-	return node;
+	return graph_4vx(vx_upto(graph_2vx(node), RB_LEFT, -1), node);
 }
 
 static struct CnRbnode* get_inorderfirst(struct CnRbnode* node)
 {
 	struct CnRbnode* p = NULL;
 
-	ENSURE_MEMORY(node, ERROR);
+	ENSURE_MEM(node, ERROR);
 	for (;;) {
-		if (node->left)
-			node = node->left;
+		if (rb_left(node))
+			node = rb_left(node);
 		else {
 			p = get_parent(node);
-			if (p && (p->right == node))
+			if (p && (rb_right(p) == node))
 				node = p;
 			else
 				break;
@@ -136,10 +146,10 @@ static struct CnRbnode* get_inordersucc(struct CnRbnode* node)
 {
 	struct CnRbnode* p = NULL;
 
-	if (node->right)
-		p = get_leftcorner(node->right);
+	if (rb_right(node))
+		p = get_leftcorner(rb_right(node));
 	else
-		while ((p = get_parent(node)) && node == p->right)
+		while ((p = get_parent(node)) && node == rb_right(p))
 			node = p;
 	return p;
 }
@@ -155,28 +165,28 @@ static struct CnRbnode* get_preordersucc(struct CnRbnode* node)
 {
 	struct CnRbnode* p = NULL;
 
-	if (node->left)
-		return node->left;
+	if (rb_left(node))
+		return rb_left(node);
 
-	if (node->right)
-		return node->right;
+	if (rb_right(node))
+		return rb_right(node);
 
-	while ((p = get_parent(node)) && (node == p->right || !p->right))
+	while ((p = get_parent(node)) && (node == rb_right(p) || !rb_right(p)))
 		node = p;
-	return p ? p->right : NULL;
+	return p ? rb_right(p) : NULL;
 }
 
 static struct CnRbnode* get_postorderfirst(struct CnRbnode* node)
 {
-	ENSURE_MEMORY(node, ERROR);
+	ENSURE_MEM(node, ERROR);
 	while (get_parent(node))
 		node = get_parent(node);
 
 	for (;;) {
-		if (node->left)
-			node = node->left;
-		else if (node->right)
-			node = node->right;
+		if (rb_left(node))
+			node = rb_left(node);
+		else if (rb_right(node))
+			node = rb_right(node);
 		else
 			break;
 	}
@@ -192,17 +202,17 @@ static struct CnRbnode* get_postordersucc(struct CnRbnode* node)
 
 struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent)
 {
-	ENSURE_MEMORY(node, ERROR);
+	ENSURE_MEM(node, ERROR);
 	paint_red(node);
 	set_parent(node, parent);
-	node->left = NULL;
-	node->right = NULL;
+	set_left(node, NULL);
+	set_right(node, NULL);
 	return node;
 }
 
 struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
 {
-	ENSURE_MEMORY(node, ERROR);
+	ENSURE_MEM(node, ERROR);
 	for (struct CnRbnode *p = NULL, *g = NULL, *u = NULL;;) {
 		p = get_parent(node);
 		if (!painted_red(p)) {
@@ -220,7 +230,7 @@ struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
 		 *     b) its parent (G) cannot be nil.
 		 */
 		g = get_parent(p);
-		u = (p == g->left) ? g->right : g->left;
+		u = (p == rb_left(g)) ? rb_right(g) : rb_left(g);
 		if (painted_red(u)) {
 			/* Case 1: recolor. */
 			paint_black(p);
@@ -234,12 +244,12 @@ struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
 		 * Case 2: rotate and recolor.
 		 * Go to step 2.0 or 2.1?
 		 */
-		if (p == g->left) {
+		if (p == rb_left(g)) {
 			/*
 			 * Step 2.0: left.
 			 * Is N inner grandchild of G?
 			 */
-			if (node == p->right) {
+			if (node == rb_right(p)) {
 				/*
 				 * N is inner grandchild of G.
 				 * Step 2.0.0: left-right.
@@ -257,7 +267,7 @@ struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
 			 * Step 2.1: right.
 			 * Is N inner grandchild of G?
 			 */
-			if (node == p->left) {
+			if (node == rb_left(p)) {
 				/*
 				 * N is inner grandchild of G.
 				 * Step 2.1.0: right-left.
@@ -281,18 +291,19 @@ struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
 		}
 		node = p;
 	}
+	ENSURE(root, ERROR, sanity_fail);
 	return root;
 }
 
 struct CnRbnode* cn_rb_parent(struct CnRbnode* node)
 {
-	ENSURE_MEMORY(node, ERROR);
+	ENSURE_MEM(node, ERROR);
 	return get_parent(node);
 }
 
 struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstOrder order)
 {
-	ENSURE_MEMORY(node, ERROR);
+	ENSURE_MEM(node, ERROR);
 	switch (order) {
 	case CN_BST_PREORDER:
 		return get_preorderfirst(node);
@@ -306,7 +317,7 @@ struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstOrder order)
 
 struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstOrder order)
 {
-	ENSURE_MEMORY(node, ERROR);
+	ENSURE_MEM(node, ERROR);
 	switch (order) {
 	case CN_BST_PREORDER:
 		return get_preordersucc(node);

@@ -29,67 +29,34 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cantil/cirq.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
+/**
+ * @file cantil/graph.h
+ *
+ * @see vx/graph.h
+ */
 
-struct CnBinode* cn_binode_sibl(struct CnBinode* node, int pos)
-{
-	while (pos > 0) {
-		ENSURE(node, ERROR, null_param);
-		node = node->next;
-		--pos;
-	}
+#ifndef CANTIL_GRAPH_H
+#define CANTIL_GRAPH_H
 
-	while (pos < 0) {
-		ENSURE(node, ERROR, null_param);
-		node = node->prev;
-		++pos;
-	}
-	return node;
-}
+#include "cn/os/sys.h"
+#include "vx/graph.h"
 
-struct CnBinode*
-cn_binode_ins(struct CnBinode* cirq, struct CnBinode* entry, int pos)
-{
-	struct CnBinode* p = NULL;
+/** @see VX_GRAPH() */
+#define GRAPH VX_GRAPH
 
-	ENSURE(entry, ERROR, null_param);
-	if (cirq) {
-		if (pos > 0)
-			p = binode_sibl(cirq, pos);
-		else if (pos < -1)
-			p = binode_sibl(cirq, pos + 1);
-		else
-			p = cirq;
-		entry->next = p;
-		entry->prev = p->prev;
-		p->prev = entry;
-		ENSURE(entry->prev, ERROR, null_param);
-		entry->prev->next = entry;
-		if (!pos)
-			cirq = entry;
-	} else {
-		entry->next = entry;
-		entry->prev = entry;
-		cirq = entry;
-	}
-	return cirq;
-}
+/** @see vx_graph_2vx() */
+#define graph_2vx vx_graph_2vx
 
-struct CnBinode* cn_binode_rem(struct CnBinode** cirqp, int pos)
-{
-	struct CnBinode* ret = NULL;
+/** @see vx_graph_4vx() */
+#define graph_4vx vx_graph_4vx
 
-	ENSURE(cirqp, ERROR, null_param);
-	if (*cirqp) {
-		ret = binode_sibl(*cirqp, pos);
-		ret->next->prev = ret->prev;
-		ret->prev->next = ret->next;
-		if (ret == ret->next)
-			*cirqp = NULL;
-		else if (ret == *cirqp)
-			*cirqp = ret->next;
-	}
-	return ret;
-}
+/** @see vx_graph_2adjyl() */
+#define graph_2adjyl vx_graph_2adjyl
+
+/** @see vx_graph_data() */
+#define graph_data vx_graph_data
+
+/** @see vx_graph_foredge() */
+#define graph_foredge vx_graph_foredge
+
+#endif /* CANTIL_GRAPH_H */

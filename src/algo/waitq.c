@@ -38,9 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cantil/os/sem.h"
 
 struct CnWaitq {
+	struct Vertegs* v;
 	CnMutex* mut;
 	CnSem* sem;
-	struct CnBinode* q;
 };
 
 CnWaitq* cn_waitq_create(void)
@@ -49,7 +49,7 @@ CnWaitq* cn_waitq_create(void)
 
 	self->mut = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->sem = sem_create(0);
-	self->q = NULL;
+	self->v = NULL;
 	return self;
 }
 
@@ -58,7 +58,7 @@ void cn_waitq_destroy(CnWaitq* waitq)
 	if (!waitq)
 		return;
 
-	if (waitq->q)
+	if (waitq->v)
 		TRACE(WARNING, "cantil", "Data loss suspected.");
 	sem_destroy(waitq->sem);
 	waitq->sem = NULL;
@@ -67,35 +67,35 @@ void cn_waitq_destroy(CnWaitq* waitq)
 	cn_free(waitq);
 }
 
-void cn_waitq_ins(CnWaitq* waitq, struct CnBinode* entry)
+void cn_waitq_ins(CnWaitq* waitq, struct Vertegs* entry)
 {
 	ENSURE(waitq, ERROR, null_param);
 	mutex_lock(waitq->mut);
-	waitq->q = binode_ins(waitq->q, entry, -1);
+	waitq->v = vx_inscirq(waitq->v, entry, -1);
 	sem_post(waitq->sem);
 	mutex_unlock(waitq->mut);
 }
 
-struct CnBinode* cn_waitq_rem(CnWaitq* waitq)
+struct Vertegs* cn_waitq_rem(CnWaitq* waitq)
 {
-	struct CnBinode* entry = NULL;
+	struct Vertegs* entry = NULL;
 
 	ENSURE(waitq, ERROR, null_param);
 	sem_wait(waitq->sem);
 	mutex_lock(waitq->mut);
-	entry = binode_rem(&waitq->q, 0);
+	entry = vx_remcirq(&waitq->v, 0);
 	mutex_unlock(waitq->mut);
 	return entry;
 }
 
-struct CnBinode* cn_waitq_tryrem(CnWaitq* waitq)
+struct Vertegs* cn_waitq_tryrem(CnWaitq* waitq)
 {
-	struct CnBinode* entry = NULL;
+	struct Vertegs* entry = NULL;
 
 	ENSURE(waitq, ERROR, null_param);
 	if (sem_trywait(waitq->sem)) {
 		mutex_lock(waitq->mut);
-		entry = binode_rem(&waitq->q, 0);
+		entry = vx_remcirq(&waitq->v, 0);
 		mutex_unlock(waitq->mut);
 	}
 	return entry;

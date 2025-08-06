@@ -38,9 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef CN_STR_H
 #define CN_STR_H
 
-#include "cn/cirq.h"
 #include "cn/dict.h"
-#include "cn/list.h"
+#include "vx/cirq.h"
+#include "vx/list.h"
 
 /**
  * @def CN_LIST(struct CnStrlist, char*)
@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @brief List of strings.
  */
-CN_LIST(struct CnStrlist, char*);
+VX_LIST(struct CnStrlist, char*);
 /**< This is a macro definition of the struct CnStrlist type. */
 
 /**
@@ -59,7 +59,7 @@ CN_LIST(struct CnStrlist, char*);
  *
  * @brief Queue of strings.
  */
-CN_CIRQ(struct CnStrq, char*);
+VX_CIRQ(struct CnStrq, char*);
 /**< This is a macro definition of the struct CnStrq type. */
 
 /* clang-format off */

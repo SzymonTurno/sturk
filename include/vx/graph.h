@@ -29,35 +29,44 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cantil/list.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
+/**
+ * @file vx/graph.h
+ *
+ * @brief Graph.
+ */
 
-struct CnUnnode** cn_unnode_hand(struct CnUnnode** nodep, int pos)
-{
-	ENSURE(nodep, ERROR, null_param);
-	for (; *nodep && pos--; nodep = &(*nodep)->next)
-		;
-	return nodep;
-}
+#ifndef VX_GRAPH_H
+#define VX_GRAPH_H
 
-struct CnUnnode*
-cn_unnode_ins(struct CnUnnode* head, struct CnUnnode* node, int pos)
-{
-	struct CnUnnode** i = list_hand(&head, pos);
+#include "vx/vertegs.h"
 
-	ENSURE(node, ERROR, null_param);
-	node->next = *i;
-	*i = node;
-	return head;
-}
+#ifdef __STRICT_ANSI__
+#define VX_TYPEOF(var) void*
+#else
+#define VX_TYPEOF(var) __typeof__(var)
+#endif
 
-struct CnUnnode* cn_unnode_rem(struct CnUnnode** headp, int pos)
-{
-	struct CnUnnode** i = list_hand(headp, pos);
-	struct CnUnnode* ret = *i;
+#define VX_GRAPH(name, deg, type)                                              \
+	name                                                                   \
+	{                                                                      \
+		struct Vertegs* vx_graph_adjyl[deg];                           \
+		type vx_graph_data;                                            \
+	}
 
-	ENSURE(*i, ERROR, null_param);
-	*i = (*i)->next;
-	return ret;
-}
+#define vx_graph_2vx(graph)                                                    \
+	(0 ? (struct Vertegs*)(graph)->vx_graph_adjyl                          \
+	   : (struct Vertegs*)(graph))
+
+#define vx_graph_4vx(v, graph)                                                 \
+	(0 ? (VX_TYPEOF(graph))((graph)->vx_graph_adjyl[0] = (v)->adjyl[0])    \
+	   : ((VX_TYPEOF(graph))(v)))
+
+#define vx_graph_2adjyl(graphp)                                                \
+	(0 ? (*(graphp))->vx_graph_adjyl : (struct Vertegs**)(graphp))
+
+#define vx_graph_data(graph) (&(graph)->vx_graph_data)
+
+#define vx_graph_foredge(type, i, graphp, edge)                                \
+	for (type** i = graphp; *i; i = (type**)&(*i)->vx_graph_adjyl[edge])
+
+#endif /* VX_GRAPH_H */

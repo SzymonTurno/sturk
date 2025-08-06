@@ -30,15 +30,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "cn/os/mem.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
+#include "cn/os/sys.h"
 #include <stdlib.h>
 
 void* cn_malloc(size_t size)
 {
 	void* ret = malloc(size);
 
-	ENSURE(ret, ERROR, alloc_fail);
+	if (!ret)
+		cn_except("Memory allocation failed.", __FILE__, __LINE__);
 	return ret;
 }
 

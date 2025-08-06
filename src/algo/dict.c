@@ -31,51 +31,65 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "cn/dict.h"
 #include "cantil/arith.h"
+#include "cantil/graph.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
 #include "cantil/rbtree.h"
 #include <string.h>
 
-static struct CnStrnode* cont(struct CnRbnode* ptr)
+static struct CnRbnode* rbnode_4adjyl(struct Vertegs** adjyl)
+{
+	struct CnRbnode* ptr = NULL;
+
+	ENSURE(adjyl, ERROR, sanity_fail);
+	ptr = graph_4vx(vx_4adjyl(adjyl), ptr);
+	return ptr;
+}
+
+static struct CnStrnode* rbnode_2strnode(struct CnRbnode* ptr)
 {
 	return container_of(ptr, struct CnStrnode, node);
 }
 
-static struct CnStrnode* trycont(struct CnRbnode* ptr)
+static struct CnStrnode* strnode_4adjyl(struct Vertegs** adjyl)
 {
-	return ptr ? cont(ptr) : NULL;
+	ENSURE(adjyl, ERROR, sanity_fail);
+	return rbnode_2strnode(rbnode_4adjyl(adjyl));
 }
 
 struct CnStrnode* cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node)
 {
-	struct CnRbnode* tmp = root ? &root->node : NULL;
-	struct CnRbnode** i = &tmp;
-	struct CnStrnode* p = NULL;
+	struct Vertegs* adjyl[] = {root ? graph_2vx(&root->node) : NULL};
+	struct Vertegs** p = adjyl;
+	size_t child = 0;
 
-	ENSURE(node && node->str, ERROR, null_param);
-	while (*i) {
-		p = cont(*i);
-		if (strcmp(node->str, p->str) < 0)
-			i = &p->node.left;
+	ENSURE_MEM(node, ERROR);
+	ENSURE_MEM(node->str, ERROR);
+	while (p[child]) {
+		p = vx_2adjyl(p[child]);
+		if (strcmp(node->str, strnode_4adjyl(p)->str) < 0)
+			child = RB_LEFT;
 		else
-			i = &p->node.right;
+			child = RB_RIGHT;
 	}
-	*i = rb_link(&node->node, p ? &p->node : NULL);
-	return cont(rb_insrebal(tmp, &node->node));
+	p[child] = graph_2vx(
+		rb_link(&node->node, (p == adjyl) ? NULL : rbnode_4adjyl(p)));
+	return rbnode_2strnode(
+		rb_insrebal(graph_4vx(adjyl[0], &node->node), &node->node));
 }
 
 struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str)
 {
 	int tmp = 0;
 
-	ENSURE(str, ERROR, null_param);
+	ENSURE_MEM(str, ERROR);
 	while (root) {
 		ENSURE(root->str, ERROR, null_param);
 		tmp = strcmp(str, root->str);
 		if (tmp < 0)
-			root = trycont(root->node.left);
+			root = rbnode_2strnode(rb_left(&root->node));
 		else if (tmp > 0)
-			root = trycont(root->node.right);
+			root = rbnode_2strnode(rb_right(&root->node));
 		else
 			break;
 	}

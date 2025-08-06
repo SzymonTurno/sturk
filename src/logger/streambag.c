@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "cantil/logger/streambag.h"
+#include "cantil/graph.h"
 #include "cantil/list.h"
 #include "cantil/logger/except.h"
 #include "cantil/logger/trace.h"
@@ -48,9 +49,9 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 {
 	va_list vcopy;
 
-	list_iter (i, &head) {
+	list_foreach (struct StreamList, i, &head) {
 		va_copy(vcopy, vlist);
-		cn_vfprintf(*list_data(*i), format, vlist);
+		cn_vfprintf(*graph_data(*i), format, vlist);
 		va_end(vcopy);
 	}
 }
@@ -80,7 +81,7 @@ void cn_streambag_ins(CnStreamBag* bag, CnFstream* stream)
 	struct StreamList* entry = NEW(struct StreamList);
 
 	ENSURE(bag, ERROR, null_param);
-	*list_data(entry) = stream;
+	*graph_data(entry) = stream;
 	mutex_lock(bag->mutex);
 	bag->head = list_ins(bag->head, entry);
 	mutex_unlock(bag->mutex);
@@ -89,8 +90,8 @@ void cn_streambag_ins(CnStreamBag* bag, CnFstream* stream)
 void cn_streambag_rem(CnStreamBag* bag, CnFstream* stream)
 {
 	ENSURE(bag, ERROR, null_param);
-	list_iter (i, &bag->head)
-		if (*list_data(*i) == stream) {
+	list_foreach (struct StreamList, i, &bag->head)
+		if (*graph_data(*i) == stream) {
 			mutex_lock(bag->mutex);
 			cn_free(list_rem(i));
 			mutex_unlock(bag->mutex);

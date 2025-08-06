@@ -30,9 +30,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "cn/os/sys.h"
+#include "cn/os/mem.h"
 #include "osal_unistd.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#define BUFF_MAX_SIZE 256
 
 int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...)
 {
@@ -45,14 +48,19 @@ int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...)
 	return ret;
 }
 
-/* LCOV_EXCL_START */
-void cn_sysfail(void)
-{
-	exit(EXIT_FAILURE);
-}
-/* LCOV_EXCL_STOP */
-
 int cn_remove(const char* name)
 {
 	return remove(name);
 }
+
+/* LCOV_EXCL_START */
+void cn_except(const char* reason, const char* file, int line)
+{
+	char* buff = CN_NEW(char, BUFF_MAX_SIZE);
+
+	cn_snprintf(buff, BUFF_MAX_SIZE, "%s:%d: %s", file, line, reason);
+	perror(buff);
+	cn_free(buff);
+	exit(EXIT_FAILURE);
+}
+/* LCOV_EXCL_STOP */
