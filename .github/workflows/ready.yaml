@@ -2,7 +2,7 @@ name: Ready
 
 on:
   workflow_run:
-    workflows: [ "Default", "ISO", "POSIX" ]
+    workflows: [ "POSIX" ]
     types:
       - completed
 
