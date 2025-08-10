@@ -2,13 +2,10 @@ name: Release
 
 on:
   workflow_run:
-    workflows: [ "Ready" ]
+    workflows: [ "Default", "ISO", "Ready" ]
     branches: [ "main" ]
     types:
       - completed
-
-env:
-  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 permissions:
   contents: write
@@ -23,7 +20,6 @@ jobs:
         workflow: ready.yaml
         name: doxygen-output
         path: docs
-        branch: ${BRANCH_NAME}
     - name: Deploy Doxygen Docs
       uses: peaceiris/actions-gh-pages@v4
       with:

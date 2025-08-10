@@ -3,8 +3,6 @@ name: Default
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build-default-on-unix:
