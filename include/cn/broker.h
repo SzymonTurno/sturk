@@ -127,7 +127,7 @@ struct CnLoadVt {
  *
  * @brief The message broker.
  *
- * CnBroker holds the list of all subscribers (CnSubscriber) in usage and
+ * The broker holds the list of all subscribers (CnSubscriber) in usage and
  * a dictionary of channels (CnChannel). All the messaging done through
  * channels created by the same broker will also use the same API for message
  * construction (CnLoadVt).
@@ -160,8 +160,9 @@ typedef struct CnChannel CnChannel;
  * @param[in,out] ch The channel to which the message is sent.
  * @param[in] ... The list of arguments used by the CnLoadVt::ctor.
  *
- * Channels without any subscribers are allowed. Publishing to such channel is
- * safe and it does not have any meaningful behaviour.
+ * @note Channels without any subscribers are allowed. Publishing to such
+ * channel is safe and it does not have any meaningful behaviour (it does
+ * "nothing").
  */
 void cn_publish(CnChannel* ch, ...);
 
@@ -260,8 +261,8 @@ void cn_subscriber_destroy(CnSubscriber* sber);
  * other thread publishes to topic that the given subscriber is interested in.
  * With a single thread application, the blocking is not supported.
  *
- * If the pointer to the channel reference is not NULL, the message's source
- * channel will be returned through it.
+ * If the pointer to the channel reference is not NULL, it will be set to the
+ * message's source channel.
  *
  * @return The load.
  */
@@ -278,8 +279,8 @@ CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch);
  * This function will receive the message and return the load, if the
  * subscriber's message queue is not empty. Otherwise, it will return NULL.
  *
- * If the pointer to the channel reference is not NULL, the message's source
- * channel will be returned through it.
+ * If the pointer to the channel reference is not NULL, it will be set to the
+ * message's source channel.
  *
  * @return The load.
  */
@@ -292,13 +293,13 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch);
  *
  * @param[in,out] sber The pointer to the subscriber.
  *
- * Inform the message broker that the subscriber has finished reading the
- * message. When this function is called for the last subscriber that has
- * expressed the interest in the message, the message is returned to the memory
- * pool.
+ * Release the last message received by the subscriber - decrement the
+ * subscribers counter for the message. When the counter hits 0, the message is
+ * returned to the memory pool.
  *
- * This function is also called by cn_subscriber_await() and
- * cn_subscriber_poll().
+ * @note The functions cn_subscriber_await() and cn_subscriber_poll() call this
+ * function automatically, there is no need to release the last received message
+ * if the subscriber attempts to receive another message.
  */
 void cn_subscriber_release(CnSubscriber* sber);
 
