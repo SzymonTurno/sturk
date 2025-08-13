@@ -36,30 +36,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This header file provides data types, functions and macros that define and
  * operate on singly linked lists.
- *
- *
- * Features
- * --------
- *
- * - Intrusive.
- *
- *
- * Usage
- * -----
- *
- * @code
- * typedef SomeData MyData;
- *
- * VX_LIST(struct MyList, MyData);
- *
- * void push(struct MyList** listp, MyData data)
- * {
- *     struct MyList* entry = malloc(sizeof(*entry));
- *
- *     *vx_graph_datap(entry) = data;
- *     *listp = vx_list_ins(*listp, entry);
- * }
- * @endcode
  */
 
 #ifndef VX_LIST_H
