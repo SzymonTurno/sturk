@@ -45,14 +45,14 @@ PROJECT_NUMBER         = 1.0.1
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "Scalable publish-subscribe implementation."
+PROJECT_BRIEF          = "Publish-subscribe C implementation."
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = docs
+OUTPUT_DIRECTORY       = public
 
 # This tag implements a quasi-intelligent brief description abbreviator that is
 # used to form the text in various listings. Each string in this list, if found
@@ -181,6 +181,47 @@ USE_MDFILE_AS_MAINPAGE = README.md
 IGNORE_PREFIX          = St st_ ST_ vx_ VX_
 
 #---------------------------------------------------------------------------
+# Configuration options related to the HTML output
+#---------------------------------------------------------------------------
+
+# The HTML_EXTRA_STYLESHEET tag can be used to specify additional user-defined
+# cascading style sheets that are included after the standard style sheets
+# created by Doxygen. Using this option one can overrule certain style aspects.
+# This is preferred over using HTML_STYLESHEET since it does not replace the
+# standard style sheet and is therefore more robust against future updates.
+# Doxygen will copy the style sheet files to the output directory.
+# Note: The order of the extra style sheet files is of importance (e.g. the last
+# style sheet in the list overrules the setting of the previous ones in the
+# list).
+# Note: Since the styling of scrollbars can currently not be overruled in
+# Webkit/Chromium, the styling will be left out of the default doxygen.css if
+# one or more extra stylesheets have been specified. So if scrollbar
+# customization is desired it has to be added explicitly. For an example see the
+# documentation.
+# This tag requires that the tag GENERATE_HTML is set to YES.
+
+HTML_EXTRA_STYLESHEET  = docs/doxygen-awesome.css \
+                         docs/doxygen-custom/custom.css \
+                         docs/doxygen-awesome-sidebar-only.css \
+                         docs/doxygen-awesome-sidebar-only-darkmode-toggle.css \
+                         docs/doxygen-custom/custom-alternative.css
+
+# The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
+# other source files which should be copied to the HTML output directory. Note
+# that these files will be copied to the base HTML output directory. Use the
+# $relpath^ marker in the HTML_HEADER and/or HTML_FOOTER files to load these
+# files. In the HTML_STYLESHEET file, use the file name only. Also note that the
+# files will be copied as-is; there are no commands or markers available.
+# This tag requires that the tag GENERATE_HTML is set to YES.
+
+HTML_EXTRA_FILES       = docs/doxygen-awesome-darkmode-toggle.js \
+                         docs/doxygen-awesome-fragment-copy-button.js \
+                         docs/doxygen-awesome-paragraph-link.js \
+                         docs/doxygen-custom/toggle-alternative-theme.js \
+                         docs/doxygen-awesome-interactive-toc.js \
+                         docs/doxygen-awesome-tabs.js
+
+#---------------------------------------------------------------------------
 # Configuration options related to the man page output
 #---------------------------------------------------------------------------
 
@@ -219,3 +260,9 @@ GENERATE_DOCBOOK       = YES
 # The default value is: NO.
 
 GENERATE_SQLITE3       = YES
+
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = NO
+HTML_COLORSTYLE        = LIGHT
+HTML_HEADER            = docs/header.html

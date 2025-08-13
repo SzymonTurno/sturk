@@ -66,11 +66,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * <table>
  * <caption id="direct_context">Direct context</caption>
- * <tr><th>Array <th>Load (StLoad*) + meta
- * <tr><td>0     <td rowspan="3">load
- * <tr><td>...
+ * <tr><th>Array <th>meta + load (StLoad*)
+ * <tr><td>0     <td>meta
+ * <tr><td>...   <td rowspan="3">load
  * <tr><td>n-1
- * <tr><td>n     <td>meta
+ * <tr><td>n
  * </table>
  *
  * The indirect context is optional and it is everything that is allocated by
