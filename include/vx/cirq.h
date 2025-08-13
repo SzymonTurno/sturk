@@ -36,38 +36,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This header file provides data types, functions and macros that define and
  * operate on doubly linked circular lists.
- *
- *
- * Features
- * --------
- *
- * - Intrusive.
- *
- *
- * Glossary
- * --------
- *
- * | Term | Description                 |
- * | ---- | --------------------------- |
- * | cirq | doubly linked circular list |
- *
- *
- * Usage
- * -----
- *
- * @code
- * typedef SomeData MyData;
- *
- * VX_CIRQ(struct MyCirq, MyData);
- *
- * void push(struct MyCirq** headp, MyData data)
- * {
- *     struct MyCirq* entry = malloc(sizeof(*entry));
- *
- *     *vx_graph_datap(entry) = data;
- *     *headp = vx_cirq_ins(*headp, entry);
- * }
- * @endcode
  */
 
 #ifndef VX_CIRQ_H
