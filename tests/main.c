@@ -20,56 +20,41 @@
 #define LINE(str) str "\n"
 
 #define SIMPLE_TEST_GROUP(group, name)                                         \
+	static struct CnFstream* test_stream_##group;                          \
 	TEST_SETUP(group)                                                      \
 	{                                                                      \
-		printf("\n");                                                  \
+		test_stream_##group = cn_fopen("test_traces_"name".tmp", "w+");\
+                                                                               \
 		logger_attach(INFO, cn_stdout());                              \
+		logger_attach(DEBUG, cn_stdout());                             \
+		logger_attach(WARNING, cn_stderr());                           \
+		logger_attach(ERROR, cn_stderr());                             \
+		printf("\n");                                                  \
 		trace(INFO, "ut", "Running test case for: %s.", name);         \
-		logger_detach(INFO, cn_stdout());                              \
-		return;                                                        \
+		logger_attach(INFO, test_stream_##group);                      \
+		logger_attach(DEBUG, test_stream_##group);                     \
+		logger_attach(WARNING, test_stream_##group);                   \
+		logger_attach(ERROR, test_stream_##group);                     \
 	}                                                                      \
 	TEST_TEAR_DOWN(group)                                                  \
 	{                                                                      \
-		logger_attach(INFO, cn_stdout());                              \
 		trace(INFO, "ut", "Done.");                                    \
-		logger_detach(INFO, cn_stdout());                              \
 		logger_cleanup();                                              \
-		return;                                                        \
+		cn_fclose(test_stream_##group);                                \
+		cn_remove("test_traces_"name".tmp");                           \
 	}                                                                      \
 	TEST_GROUP(group)
 
-static struct CnFstream* test_stream;
+#define GETTRACE(group, index) gettrace(test_stream_##group, index)
 
-TEST_GROUP(logger);
-
-TEST_SETUP(logger)
-{
-	test_stream = cn_fopen("logger_traces.tmp", "w+");
-
-	logger_attach(INFO, cn_stdout());
-	logger_attach(DEBUG, test_stream);
-	logger_attach(WARNING, test_stream);
-	logger_attach(ERROR, test_stream);
-	printf("\n");
-	trace(INFO, "ut", "Running test case for logger.");
-}
-
-TEST_TEAR_DOWN(logger)
-{
-	trace(INFO, "ut", "Done.");
-	logger_cleanup();
-	cn_fclose(test_stream);
-	cn_remove("logger_traces.tmp");
-}
-
-static const char* gettrace(int index)
+static const char* gettrace(struct CnFstream* stream, int index)
 {
 	static char buff[256];
 
-	cn_fseekset(test_stream, 0);
+	cn_fseekset(stream, 0);
 	while (index--)
-		cn_fgets(buff, sizeof(buff), test_stream);
-	return cn_fgets(buff, sizeof(buff), test_stream);
+		cn_fgets(buff, sizeof(buff), stream);
+	return cn_fgets(buff, sizeof(buff), stream);
 }
 
 SIMPLE_TEST_GROUP(common, "common");
@@ -79,12 +64,13 @@ SIMPLE_TEST_GROUP(rbnode, "rbnode");
 SIMPLE_TEST_GROUP(strnode, "strnode");
 SIMPLE_TEST_GROUP(strbag, "strbag");
 SIMPLE_TEST_GROUP(mutex, "mutex");
-SIMPLE_TEST_GROUP(sem, "sem");
+SIMPLE_TEST_GROUP(semaphore, "semaphore");
 SIMPLE_TEST_GROUP(waitq, "waitq");
-SIMPLE_TEST_GROUP(binode, "binode");
+SIMPLE_TEST_GROUP(vertegs, "vertegs");
 SIMPLE_TEST_GROUP(pool, "pool");
 SIMPLE_TEST_GROUP(subscriber, "subscriber");
 SIMPLE_TEST_GROUP(broker, "broker");
+SIMPLE_TEST_GROUP(logger, "logger");
 
 TEST(common, should_destroy_null)
 {
@@ -186,6 +172,21 @@ TEST(rbnode, should_insert_and_balance)
 	adjyl = vx_2adjyl((struct Vertegs*)&b);
 	TEST_ASSERT_EQUAL_PTR(&a, adjyl[0]);
 	TEST_ASSERT_EQUAL_PTR(&c, adjyl[1]);
+}
+
+TEST(rbnode, should_trace_not_supported_traversals)
+{
+	struct CnRbnode node = {0};
+
+	logger_detach(WARNING, cn_stderr());
+	rb_next(&node, BST_POSTORDER);
+	TEST_ASSERT_EQUAL_STRING(
+		"src/algo/rbtree.c:199: Not supported.\n",
+		strstr(GETTRACE(rbnode, 0), "src/algo/rbtree.c:"));
+	rb_first(&node, BST_PREORDER);
+	TEST_ASSERT_EQUAL_STRING(
+		"src/algo/rbtree.c:160: Not supported.\n",
+		strstr(GETTRACE(rbnode, 1), "src/algo/rbtree.c:"));
 }
 
 TEST(strnode, should_sort)
@@ -354,12 +355,78 @@ TEST(mutex, should_lock_twice_if_recursive)
 	mutex_destroy(mutex);
 }
 
-TEST(sem, should_not_block_if_posted)
+TEST(mutex, should_trace_double_lock_warning)
+{
+	CnMutex* mut = mutex_create(0);
+
+	logger_detach(WARNING, cn_stderr());
+	mutex_lock(mut);
+	TEST_ASSERT_NULL(GETTRACE(mutex, 0));
+	mutex_lock(mut);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][cantil] Fake mutex does not support context "
+		"switch.\n",
+		GETTRACE(mutex, 0));
+	mutex_destroy(mut);
+}
+
+TEST(mutex, should_trace_double_unlock_warning)
+{
+	CnMutex* mut = mutex_create(0);
+
+	logger_detach(WARNING, cn_stderr());
+	TEST_ASSERT_NULL(GETTRACE(mutex, 0));
+	mutex_unlock(mut);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][cantil] Unlocking an already unlocked mutex.\n",
+		GETTRACE(mutex, 0));
+	mutex_destroy(mut);
+}
+
+TEST(mutex, should_trace_not_supported_policy)
+{
+	logger_detach(WARNING, cn_stderr());
+	(void)mutex_create(CN_MUTEX_BF(POLICY, 7));
+	TEST_ASSERT_EQUAL_STRING(
+		"src/osal/posix/mutex.c:58: Not supported.\n",
+		strstr(GETTRACE(mutex, 0), "src/osal/posix/mutex.c:"));
+	TEST_ASSERT_EQUAL_STRING(
+		"src/osal/posix/mutex.c:96: Mutex failure.\n",
+		strstr(GETTRACE(mutex, 1), "src/osal/posix/mutex.c:"));
+}
+
+TEST(mutex, should_trace_not_supported_type)
+{
+	logger_detach(WARNING, cn_stderr());
+	(void)mutex_create(CN_MUTEX_BF(TYPE, 15));
+	TEST_ASSERT_EQUAL_STRING(
+		"src/osal/posix/mutex.c:77: Not supported.\n",
+		strstr(GETTRACE(mutex, 0), "src/osal/posix/mutex.c:"));
+	TEST_ASSERT_EQUAL_STRING(
+		"src/osal/posix/mutex.c:101: Mutex failure.\n",
+		strstr(GETTRACE(mutex, 1), "src/osal/posix/mutex.c:"));
+}
+
+TEST(semaphore, should_not_block_if_posted)
 {
 	CnSem* sem = sem_create(0);
 
 	sem_post(sem);
 	sem_wait(sem);
+	sem_destroy(sem);
+}
+
+TEST(semaphore, should_trace_fake_warning)
+{
+	CnSem* sem = sem_create(0);
+
+	logger_detach(WARNING, cn_stderr());
+	TEST_ASSERT_NULL(GETTRACE(semaphore, 0));
+	sem_wait(sem);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][cantil] Fake semaphore does not support context "
+		"switch.\n",
+		GETTRACE(semaphore, 0));
 	sem_destroy(sem);
 }
 
@@ -373,17 +440,29 @@ TEST(waitq, should_not_block_after_insertion)
 	waitq_destroy(waitq);
 }
 
-TEST(binode, should_insert_at_any_position)
+TEST(waitq, should_trace_dataloss)
 {
-	GRAPH(struct Binode, 2, void*);
+	struct Vertegs* adjyl[] = {NULL, NULL};
+	CnWaitq* q = waitq_create();
+
+	logger_detach(WARNING, cn_stderr());
+	waitq_ins(q, (struct Vertegs*)adjyl);
+	waitq_destroy(q);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][cantil] Data loss suspected.\n", GETTRACE(waitq, 0));
+}
+
+TEST(vertegs, should_implement_cirq)
+{
+	GRAPH(struct Cirq, 2, void*);
 
 	const size_t next = 0;
 	const size_t prev = 1;
-	struct Binode n[5] = {0};
+	struct Cirq n[5] = {0};
 
 	/* -n0- */
 	TEST_ASSERT_EQUAL_PTR(
-		&n[0], cirq_ins((struct Binode*)NULL, &n[0], 255));
+		&n[0], cirq_ins((struct Cirq*)NULL, &n[0], 255));
 	TEST_ASSERT_EQUAL_PTR(vx_2adjyl(graph_2vx(&n[0]))[prev], &n[0]);
 	TEST_ASSERT_EQUAL_PTR(vx_2adjyl(graph_2vx(&n[0]))[next], &n[0]);
 
@@ -539,122 +618,30 @@ TEST(broker, should_support_multi_thread_pubsub)
 	strbag_destroy(actual);
 }
 
-TEST(logger, should_trace_waitq_dataloss)
+TEST(broker, should_trace_null_param)
 {
-	struct Vertegs* adjyl[] = {NULL, NULL};
-	CnWaitq* q = waitq_create();
+	CnSubscriber* tmp = calloc(sizeof(char), 256);
 
-	waitq_ins(q, (struct Vertegs*)adjyl);
-	waitq_destroy(q);
+	logger_detach(WARNING, cn_stderr());
+	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning][cantil] Data loss suspected.\n", gettrace(0));
-}
-
-TEST(logger, should_trace_rbtree_not_supported)
-{
-	struct CnRbnode node = {0};
-
-	rb_next(&node, BST_POSTORDER);
-	TEST_ASSERT_EQUAL_STRING(
-		"src/algo/rbtree.c:199: Not supported.\n",
-		strstr(gettrace(0), "src/algo/rbtree.c:"));
-	rb_first(&node, BST_PREORDER);
-	TEST_ASSERT_EQUAL_STRING(
-		"src/algo/rbtree.c:160: Not supported.\n",
-		strstr(gettrace(1), "src/algo/rbtree.c:"));
+		"src/broker/broker.c:309: Null param.\n",
+		strstr(GETTRACE(broker, 0), "src/broker/broker.c:"));
+	free(tmp);
 }
 
 TEST(logger, should_trace_debug)
 {
+	logger_detach(DEBUG, cn_stdout());
 	trace(DEBUG, NULL, "");
-	TEST_ASSERT_EQUAL_STRING("[debug] \n", gettrace(0));
+	TEST_ASSERT_EQUAL_STRING("[debug] \n", GETTRACE(logger, 0));
 }
 
 TEST(logger, should_trace_error)
 {
+	logger_detach(ERROR, cn_stderr());
 	trace(ERROR, NULL, "");
-	TEST_ASSERT_EQUAL_STRING("[error] \n", gettrace(0));
-}
-
-TEST(logger, should_do_nothing_if_not_initialized)
-{
-	logger_detach(INFO, cn_stdout());
-	trace(INFO, NULL, "");
-	logger_attach(INFO, cn_stdout());
-}
-
-TEST(logger, should_trace_null_params)
-{
-	CnSubscriber* tmp = calloc(sizeof(char), 256);
-
-	subscribe(tmp, NULL);
-	TEST_ASSERT_EQUAL_STRING(
-		"src/broker/broker.c:309: Null param.\n",
-		strstr(gettrace(0), "src/broker/broker.c:"));
-	free(tmp);
-}
-
-TEST(logger, should_trace_mutex_double_lock_warning)
-{
-	CnMutex* mutex = mutex_create(0);
-
-	mutex_lock(mutex);
-	TEST_ASSERT_NULL(gettrace(0));
-	mutex_lock(mutex);
-	TEST_ASSERT_EQUAL_STRING(
-		"[warning][cantil] Fake mutex does not support context "
-		"switch.\n",
-		gettrace(0));
-	mutex_destroy(mutex);
-}
-
-TEST(logger, should_trace_mutex_double_unlock_warning)
-{
-	CnMutex* mutex = mutex_create(0);
-
-	TEST_ASSERT_NULL(gettrace(0));
-	mutex_unlock(mutex);
-	TEST_ASSERT_EQUAL_STRING(
-		"[warning][cantil] Unlocking an already unlocked mutex.\n",
-		gettrace(0));
-	mutex_destroy(mutex);
-}
-
-TEST(logger, should_trace_fake_semaphore_warning)
-{
-	CnSem* sem = sem_create(0);
-
-	TEST_ASSERT_NULL(gettrace(0));
-	sem_wait(sem);
-	TEST_ASSERT_EQUAL_STRING(
-		"[warning][cantil] Fake semaphore does not support context "
-		"switch.\n",
-		gettrace(0));
-	sem_destroy(sem);
-}
-
-TEST(logger, should_trace_not_supported_mutex_policy)
-{
-	CnMutex* mutex = mutex_create(CN_MUTEX_BF(POLICY, 7));
-
-	TEST_ASSERT_EQUAL_STRING(
-		"src/osal/posix/mutex.c:58: Not supported.\n",
-		strstr(gettrace(0), "src/osal/posix/mutex.c:"));
-	TEST_ASSERT_EQUAL_STRING(
-		"src/osal/posix/mutex.c:96: Mutex failure.\n",
-		strstr(gettrace(1), "src/osal/posix/mutex.c:"));
-}
-
-TEST(logger, should_trace_not_supported_mutex_type)
-{
-	CnMutex* mutex = mutex_create(CN_MUTEX_BF(TYPE, 15));
-
-	TEST_ASSERT_EQUAL_STRING(
-		"src/osal/posix/mutex.c:77: Not supported.\n",
-		strstr(gettrace(0), "src/osal/posix/mutex.c:"));
-	TEST_ASSERT_EQUAL_STRING(
-		"src/osal/posix/mutex.c:101: Mutex failure.\n",
-		strstr(gettrace(1), "src/osal/posix/mutex.c:"));
+	TEST_ASSERT_EQUAL_STRING("[error] \n", GETTRACE(logger, 0));
 }
 
 static void run_all_tests(void)
@@ -665,6 +652,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(rbnode, should_return_left_and_right);
 	RUN_TEST_CASE(rbnode, should_link_as_leaf);
 	RUN_TEST_CASE(rbnode, should_insert_and_balance);
+	RUN_TEST_CASE(rbnode, should_trace_not_supported_traversals);
 	RUN_TEST_CASE(strnode, should_sort);
 	RUN_TEST_CASE(strbag, should_allow_many_entries);
 	RUN_TEST_CASE(strbag, should_sort);
@@ -672,29 +660,27 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(strbag, should_find_first);
 	RUN_TEST_CASE(strbag, should_allow_negative_count);
 	RUN_TEST_CASE(mutex, should_not_block_on_trylock);
-	RUN_TEST_CASE(sem, should_not_block_if_posted);
+	RUN_TEST_CASE(semaphore, should_not_block_if_posted);
 	RUN_TEST_CASE(waitq, should_not_block_after_insertion);
-	RUN_TEST_CASE(binode, should_insert_at_any_position);
+	RUN_TEST_CASE(waitq, should_trace_dataloss);
+	RUN_TEST_CASE(vertegs, should_implement_cirq);
 	RUN_TEST_CASE(pool, should_return_freed_pointer)
 	RUN_TEST_CASE(subscriber, should_receive_enqueued_message);
 	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
 	RUN_TEST_CASE(broker, should_allow_many_topics);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
-	RUN_TEST_CASE(logger, should_trace_waitq_dataloss);
-	RUN_TEST_CASE(logger, should_trace_rbtree_not_supported);
+	RUN_TEST_CASE(broker, should_trace_null_param);
 	RUN_TEST_CASE(logger, should_trace_debug);
 	RUN_TEST_CASE(logger, should_trace_error);
-	RUN_TEST_CASE(logger, should_do_nothing_if_not_initialized);
-	RUN_TEST_CASE(logger, should_trace_null_params)
 	if (THREADS_EN) {
 		RUN_TEST_CASE(mutex, should_lock_twice_if_recursive);
+		RUN_TEST_CASE(mutex, should_trace_not_supported_policy);
+		RUN_TEST_CASE(mutex, should_trace_not_supported_type);
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
-		RUN_TEST_CASE(logger, should_trace_not_supported_mutex_policy);
-		RUN_TEST_CASE(logger, should_trace_not_supported_mutex_type);
 	} else {
-		RUN_TEST_CASE(logger, should_trace_mutex_double_lock_warning);
-		RUN_TEST_CASE(logger, should_trace_mutex_double_unlock_warning);
-		RUN_TEST_CASE(logger, should_trace_fake_semaphore_warning);
+		RUN_TEST_CASE(mutex, should_trace_double_lock_warning);
+		RUN_TEST_CASE(mutex, should_trace_double_unlock_warning);
+		RUN_TEST_CASE(semaphore, should_trace_fake_warning);
 	}
 }
 
