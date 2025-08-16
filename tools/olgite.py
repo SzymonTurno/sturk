@@ -71,6 +71,38 @@ def combine_into(d: dict, combined: dict) -> None:
         elif k not in combined:
             combined[k] = v
 
+class Olrule:
+    def __init__(self, target: str):
+        self.__target = target
+        self.__normal = []
+        self.__order = []
+        self.__steps = []
+
+    def text(self) -> str:
+        msg = self.__target + ':'
+
+        for norm in self.__normal:
+            msg = msg + ' ' + norm
+
+        if len(self.__order) > 0:
+            msg = msg + ' |'
+
+        for order in self.__order:
+            msg = msg + ' ' + order
+
+        for step in self.__steps:
+            msg = msg + '\n\t' + step
+        return msg + '\n'
+
+    def normal_depend(self, prerequisite: str) -> None:
+        self.__normal.append(prerequisite)
+
+    def order_depend(self, prerequisite: str) -> None:
+        self.__order.append(prerequisite)
+
+    def step(self, step: str) -> None:
+        self.__steps.append(step)
+
 class Olvars:
     def __init__(self, root: str, yamls: list):
         self.__root = os.path.normpath(os.path.dirname(root))
@@ -78,6 +110,8 @@ class Olvars:
         self.__constraints = []
         self.__settings = {}
         self.__variables = {}
+        self.__rules = {}
+        self.__funcs = ''
 
         self.__prepare()
         self.__update(yamls)
@@ -114,6 +148,19 @@ class Olvars:
             print(key + ':=' + values[0])
             for value in values[1:]:
                 print(key + '+=' + value)
+
+        print('')
+        print(self.__funcs)
+        for key, rule in self.__rules.items():
+            print(rule.text())
+
+    def rule(self, target: str) -> Olrule:
+        if target not in self.__rules:
+            self.__rules[target] = Olrule(target)
+        return self.__rules[target]
+
+    def func(self, name: str, cmd: str) -> None:
+        self.__funcs = self.__funcs + name + ' = ' + cmd + '\n'
 
     def slashify(self, *paths) -> str:
         return os.path.join(*paths).replace('\\', '/')

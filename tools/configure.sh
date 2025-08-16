@@ -5,5 +5,3 @@ CANTIL_DIR=${TOOLS_DIR%/tools}
 
 set -e
 python -B $TOOLS_DIR/olgite.py $CANTIL_DIR/olconf.py $1 > Makefile
-echo "" >> Makefile
-cat $CANTIL_DIR/rules.mk >> Makefile

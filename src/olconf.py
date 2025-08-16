@@ -1,5 +1,19 @@
 import os
 
+def append_rules(olvars):
+    rule = olvars.rule(olvars.slashify('$(cantil_BLDDIR)', 'libcantil.a'))
+
+    rule.normal_depend('$(cantil_OBJS)')
+    rule.step('ar rcs $@ $(cantil_OBJS)')
+
+    rule = olvars.rule(olvars.slashify('$(cantil_BLDDIR)', '%.o'))
+    rule.normal_depend(olvars.slashify('$(cantil_DIR)', '%.c'))
+    rule.order_depend('$(cantil_BLDDIRS)')
+    rule.step('$(CC) $(cantil_CFLAGS) $(cantil_EXTRA_CFLAGS) $(cantil_INC) -c -o $@ $<')
+
+    rule = olvars.rule('$(cantil_BLDDIRS)')
+    rule.step('$(call MKDIR, $@)')
+
 def join(olvars):
     settings = olvars.settings()
 
@@ -46,3 +60,4 @@ def join(olvars):
     olvars.include('broker')
     olvars.include('logger')
     olvars.include('osal')
+    append_rules(olvars)
