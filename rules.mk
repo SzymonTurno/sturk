@@ -23,11 +23,12 @@ endif
 
 $(test_BLDDIR)/reports.d/valgrind.info: $(test_BLDDIR)/app $(test_BLDDIR)/reports.d
 ifeq ($(OS),Windows_NT)
-	./$(test_BLDDIR)/app
+	$(tools_DIR)/picky.sh ./$(test_BLDDIR)/app
 	echo No memchecks for Windows. > $@
 else
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
-		--error-exitcode=1 --log-file="$@" ./$(test_BLDDIR)/app
+	$(tools_DIR)/picky.sh valgrind --leak-check=full --show-leak-kinds=all \
+		--track-origins=yes --error-exitcode=1 --log-file="$@" \
+		./$(test_BLDDIR)/app
 endif
 
 $(test_BLDDIR)/reports.d:
