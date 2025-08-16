@@ -65,10 +65,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		enum CnTraceLvl _lvl = (lvl);                                  \
                                                                                \
 		if (CN_ERROR == _lvl) {                                        \
-			if (CN_EXCEPTIONS_EN)                                  \
+			if (CN_EXCEPTIONS_EN) {                                \
+				CN_TRACE(                                      \
+					CN_ERROR, NULL, "%s:%d: %s", __FILE__, \
+					__LINE__, cn_except_##e.reason);       \
 				cn_except(                                     \
 					cn_except_##e.reason, __FILE__,        \
 					__LINE__);                             \
+			}                                                      \
 		} else if (CN_WARNING == _lvl) {                               \
 			CN_TRACE(                                              \
 				CN_WARNING, NULL, "%s:%d: %s", __FILE__,       \

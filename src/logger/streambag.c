@@ -51,7 +51,7 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 
 	list_foreach (struct StreamList, i, &head) {
 		va_copy(vcopy, vlist);
-		cn_vfprintf(*graph_data(*i), format, vlist);
+		cn_vfprintf(*graph_data(*i), format, vcopy);
 		va_end(vcopy);
 	}
 }
