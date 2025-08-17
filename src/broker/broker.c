@@ -274,7 +274,7 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
 
 void cn_subscriber_release(CnSubscriber* sber)
 {
-	ENSURE(sber, ERROR, null_param);
+	ENSURE(sber, WARNING, null_param);
 	if (!sber)
 		return;
 

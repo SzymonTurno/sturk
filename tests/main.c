@@ -19,19 +19,19 @@
 
 #define LINE(str) str "\n"
 
-#define SIMPLE_TEST_GROUP(group, name)                                         \
+#define SIMPLE_TEST_GROUP(group, label)                                        \
 	static struct CnFstream* test_stream_##group;                          \
 	TEST_SETUP(group)                                                      \
 	{                                                                      \
 		test_stream_##group =                                          \
-			cn_fopen("test_traces_" name ".tmp", "w+");            \
+			cn_fopen("test_traces_" label ".tmp", "w+");           \
                                                                                \
 		logger_attach(INFO, cn_stdout());                              \
 		logger_attach(DEBUG, cn_stdout());                             \
 		logger_attach(WARNING, cn_stderr());                           \
 		logger_attach(ERROR, cn_stderr());                             \
 		printf("\n");                                                  \
-		trace(INFO, "ut", "Running test case for: %s.", name);         \
+		trace(INFO, "ut", "Running test case for: %s.", label);        \
 		logger_attach(INFO, test_stream_##group);                      \
 		logger_attach(DEBUG, test_stream_##group);                     \
 		logger_attach(WARNING, test_stream_##group);                   \
@@ -42,9 +42,11 @@
 		trace(INFO, "ut", "Done.");                                    \
 		logger_cleanup();                                              \
 		cn_fclose(test_stream_##group);                                \
-		cn_remove("test_traces_" name ".tmp");                         \
+		cn_remove("test_traces_" label ".tmp");                        \
 	}                                                                      \
 	TEST_GROUP(group)
+
+#define TEST_LOGGER_DETACH(group, lvl) logger_detach((lvl), test_stream_##group)
 
 #define GETTRACE(group, index) gettrace(test_stream_##group, index)
 
@@ -58,6 +60,17 @@ static const char* gettrace(struct CnFstream* stream, int index)
 	return cn_fgets(buff, sizeof(buff), stream);
 }
 
+static void SimpleMain(int argc, const char** argv, void (*fn)(void))
+{
+	(void)argc;
+	(void)argv;
+	printf("Simple test run 1 of 1\n");
+	fn();
+	printf("\n\n-----------------------\nOK\n");
+}
+
+extern void run_vertegs_tests(void);
+
 SIMPLE_TEST_GROUP(common, "common");
 SIMPLE_TEST_GROUP(list, "list");
 SIMPLE_TEST_GROUP(cirq, "cirq");
@@ -67,7 +80,6 @@ SIMPLE_TEST_GROUP(strbag, "strbag");
 SIMPLE_TEST_GROUP(mutex, "mutex");
 SIMPLE_TEST_GROUP(semaphore, "semaphore");
 SIMPLE_TEST_GROUP(waitq, "waitq");
-SIMPLE_TEST_GROUP(vertegs, "vertegs");
 SIMPLE_TEST_GROUP(pool, "pool");
 SIMPLE_TEST_GROUP(subscriber, "subscriber");
 SIMPLE_TEST_GROUP(broker, "broker");
@@ -454,60 +466,6 @@ TEST(waitq, should_trace_dataloss)
 		"[warning][cantil] Data loss suspected.\n", GETTRACE(waitq, 0));
 }
 
-TEST(vertegs, should_implement_cirq)
-{
-	GRAPH(struct Cirq, 2, void*);
-
-	const size_t next = 0;
-	const size_t prev = 1;
-	struct Cirq n[5] = {0};
-
-	/* -n0- */
-	TEST_ASSERT_EQUAL_PTR(&n[0], cirq_ins((struct Cirq*)NULL, &n[0], 255));
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[prev], &n[0]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[next], &n[0]);
-
-	/* -n1--n0- */
-	TEST_ASSERT_EQUAL_PTR(&n[1], cirq_ins(&n[0], &n[1], 0));
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[1]))->nbor[prev], &n[0]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[1]))->nbor[next], &n[0]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[prev], &n[1]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[next], &n[1]);
-
-	/* -n1--n0--n2- */
-	TEST_ASSERT_EQUAL_PTR(&n[1], cirq_ins(&n[1], &n[2], -1));
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[1]))->nbor[prev], &n[2]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[1]))->nbor[next], &n[0]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[prev], &n[1]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[next], &n[2]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[2]))->nbor[prev], &n[0]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[2]))->nbor[next], &n[1]);
-
-	/* -n1--n3--n0--n- */
-	TEST_ASSERT_EQUAL_PTR(&n[1], cirq_ins(&n[1], &n[3], 1));
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[1]))->nbor[prev], &n[2]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[1]))->nbor[next], &n[3]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[3]))->nbor[prev], &n[1]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[3]))->nbor[next], &n[0]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[prev], &n[3]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[next], &n[2]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[2]))->nbor[prev], &n[0]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[2]))->nbor[next], &n[1]);
-
-	/* -n1--n3--n0--n--n2- */
-	TEST_ASSERT_EQUAL_PTR(&n[1], cirq_ins(&n[1], &n[4], -2));
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[1]))->nbor[prev], &n[2]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[1]))->nbor[next], &n[3]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[3]))->nbor[prev], &n[1]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[3]))->nbor[next], &n[0]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[prev], &n[3]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[next], &n[4]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[4]))->nbor[prev], &n[0]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[4]))->nbor[next], &n[2]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[2]))->nbor[prev], &n[4]);
-	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[2]))->nbor[next], &n[1]);
-}
-
 TEST(pool, should_return_freed_pointer)
 {
 	CnPool* pool = pool_create(1);
@@ -531,6 +489,15 @@ TEST(subscriber, should_receive_enqueued_message)
 	TEST_ASSERT_EQUAL_STRING("F00D", subscriber_await(sber, &ch));
 	TEST_ASSERT_EQUAL_STRING("test", channel_gettopic(ch));
 	broker_destroy(broker);
+}
+
+TEST(subscriber, should_trace_null_param)
+{
+	logger_detach(WARNING, cn_stderr());
+	subscriber_release(NULL);
+	TEST_ASSERT_EQUAL_STRING(
+		"src/broker/broker.c:277: Null param.\n",
+		strstr(GETTRACE(subscriber, 0), "src/broker/broker.c:"));
 }
 
 TEST(broker, should_allow_zero_subscribers)
@@ -645,7 +612,14 @@ TEST(logger, should_trace_error)
 	TEST_ASSERT_EQUAL_STRING("[error] \n", GETTRACE(logger, 0));
 }
 
-static void run_all_tests(void)
+TEST(logger, should_ignore_detached_trace_levels)
+{
+	logger_detach(ERROR, cn_stderr());
+	TEST_LOGGER_DETACH(logger, ERROR);
+	trace(ERROR, NULL, "");
+}
+
+static void run_other_tests(void)
 {
 	RUN_TEST_CASE(common, should_destroy_null);
 	RUN_TEST_CASE(list, should_implement_lifo);
@@ -664,15 +638,16 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(semaphore, should_not_block_if_posted);
 	RUN_TEST_CASE(waitq, should_not_block_after_insertion);
 	RUN_TEST_CASE(waitq, should_trace_dataloss);
-	RUN_TEST_CASE(vertegs, should_implement_cirq);
 	RUN_TEST_CASE(pool, should_return_freed_pointer)
 	RUN_TEST_CASE(subscriber, should_receive_enqueued_message);
+	RUN_TEST_CASE(subscriber, should_trace_null_param);
 	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
 	RUN_TEST_CASE(broker, should_allow_many_topics);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
 	RUN_TEST_CASE(broker, should_trace_null_param);
 	RUN_TEST_CASE(logger, should_trace_debug);
 	RUN_TEST_CASE(logger, should_trace_error);
+	RUN_TEST_CASE(logger, should_ignore_detached_trace_levels);
 	if (THREADS_EN) {
 		RUN_TEST_CASE(mutex, should_lock_twice_if_recursive);
 		RUN_TEST_CASE(mutex, should_trace_not_supported_policy);
@@ -687,6 +662,7 @@ static void run_all_tests(void)
 
 int main(int argc, const char** argv)
 {
-	UnityMain(argc, argv, run_all_tests);
+	SimpleMain(argc, argv, run_vertegs_tests);
+	UnityMain(argc, argv, run_other_tests);
 	return 0;
 }

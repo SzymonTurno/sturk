@@ -18,10 +18,10 @@ $(test_BLDDIR)/reports.d/coverage.info: $(test_BLDDIR)/reports.d/valgrind.info
 ifeq ($(OS),Windows_NT)
 	echo No coverage for Windows. > $@
 else
-	lcov --capture --directory ./$(cantil_BLDDIR) --output-file $@
+	lcov --capture --directory ./ --output-file $@
 endif
 
-$(test_BLDDIR)/reports.d/valgrind.info: $(test_BLDDIR)/app $(test_BLDDIR)/reports.d
+$(test_BLDDIR)/reports.d/valgrind.info: $(test_BLDDIR)/app | $(test_BLDDIR)/reports.d
 ifeq ($(OS),Windows_NT)
 	$(tools_DIR)/picky.sh ./$(test_BLDDIR)/app
 	echo No memchecks for Windows. > $@
@@ -35,6 +35,7 @@ $(test_BLDDIR)/reports.d:
 	$(call MKDIR, $@)
 
 test_DEPS:=$(test_OBJS)
+test_DEPS+=$(test_EXTRA_OBJS)
 test_DEPS+=$(unity_OBJS)
 test_DEPS+=$(sample_OBJS)
 test_DEPS+=$(cantil_BLDDIR)/libcantil.a
@@ -44,7 +45,13 @@ $(test_BLDDIR)/app: $(test_DEPS)
 $(test_BLDDIR)/%.o: $(test_DIR)/%.c | $(test_BLDDIR) $(unity_DIR)
 	$(CC) $(test_CFLAGS) $(unity_INCS) $(sample_INC) $(cantil_INC) -c -o $@ $<
 
+$(test_EXTRA_BLDDIR)/%.o: $(test_EXTRA_DIR)/%.c | $(test_EXTRA_BLDDIR) $(unity_DIR)
+	$(CC) $(test_CFLAGS) $(test_EXTRA_CFLAGS) $(unity_INCS) $(sample_INC) $(cantil_INC) -c -o $@ $<
+
 $(test_BLDDIR):
+	$(call MKDIR, $@)
+
+$(test_EXTRA_BLDDIR):
 	$(call MKDIR, $@)
 
 $(sample_BLDDIR)/%.o: $(sample_DIR)/%.c | $(sample_BLDDIR)

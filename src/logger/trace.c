@@ -64,7 +64,7 @@ void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
 	char* buff = NULL;
 
 	ENSURE(lvl > UNKNOWN && lvl < N_TRACE_LVLS, ERROR, not_supported);
-	if (!streambags[lvl])
+	if (!streambag_count(streambags[lvl]))
 		return;
 	buff = NEW(char, BUFF_MAX_SIZE);
 	if (tag)
