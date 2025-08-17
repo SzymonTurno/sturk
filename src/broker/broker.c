@@ -72,7 +72,7 @@ static void dict_destroy(CnChannel* dict)
 		i = rb_first(&dict_cast(dict)->node, BST_POSTORDER);
 		p = rb_parent(i);
 		channel_destroy(
-			container_of(strnode_from(i), CnChannel, strnode));
+			container_of(dictnode_from(i), CnChannel, dictnode));
 		if (!p)
 			break;
 

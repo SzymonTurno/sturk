@@ -46,18 +46,18 @@ static struct CnRbnode* rbnode_4adjyl(struct Vertegs** adjyl)
 	return ptr;
 }
 
-static struct CnStrnode* rbnode_2strnode(struct CnRbnode* ptr)
+static struct CnDictnode* rbnode_2dictnode(struct CnRbnode* ptr)
 {
-	return container_of(ptr, struct CnStrnode, node);
+	return container_of(ptr, struct CnDictnode, node);
 }
 
-static struct CnStrnode* strnode_4adjyl(struct Vertegs** adjyl)
+static struct CnDictnode* dictnode_4adjyl(struct Vertegs** adjyl)
 {
 	ENSURE(adjyl, ERROR, sanity_fail);
-	return rbnode_2strnode(rbnode_4adjyl(adjyl));
+	return rbnode_2dictnode(rbnode_4adjyl(adjyl));
 }
 
-struct CnStrnode* cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node)
+struct CnDictnode* cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* node)
 {
 	struct Vertegs* adjyl[] = {root ? graph_2vx(&root->node) : NULL};
 	struct Vertegs** p = adjyl;
@@ -67,18 +67,18 @@ struct CnStrnode* cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* node)
 	ENSURE_MEM(node->str, ERROR);
 	while (p[child]) {
 		p = vx_2adjyl(p[child]);
-		if (strcmp(node->str, strnode_4adjyl(p)->str) < 0)
+		if (strcmp(node->str, dictnode_4adjyl(p)->str) < 0)
 			child = RB_LEFT;
 		else
 			child = RB_RIGHT;
 	}
 	p[child] = graph_2vx(
 		rb_link(&node->node, (p == adjyl) ? NULL : rbnode_4adjyl(p)));
-	return rbnode_2strnode(
+	return rbnode_2dictnode(
 		rb_insrebal(graph_4vx(adjyl[0], &node->node), &node->node));
 }
 
-struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str)
+struct CnDictnode* cn_dictnode_find(struct CnDictnode* root, const char* str)
 {
 	int tmp = 0;
 
@@ -87,9 +87,9 @@ struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str)
 		ENSURE(root->str, ERROR, null_param);
 		tmp = strcmp(str, root->str);
 		if (tmp < 0)
-			root = rbnode_2strnode(rb_left(&root->node));
+			root = rbnode_2dictnode(rb_left(&root->node));
 		else if (tmp > 0)
-			root = rbnode_2strnode(rb_right(&root->node));
+			root = rbnode_2dictnode(rb_right(&root->node));
 		else
 			break;
 	}
