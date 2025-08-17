@@ -37,7 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 static inline CnLoad* msg_getload(struct Message* msg)
 {
-	return (CnLoad*)msg - dict_data(msg->channel)->broker->channels.offset;
+	return (CnLoad*)msg - dict_datap(msg->channel)->broker->channels.offset;
 }
 
 static inline struct Message* msg_create(CnBroker* broker, va_list args)
@@ -59,7 +59,7 @@ static inline struct Message* msg_create(CnBroker* broker, va_list args)
 
 static inline void msg_destroy(struct Message* msg)
 {
-	CnBroker* broker = dict_data(msg->channel)->broker;
+	CnBroker* broker = dict_datap(msg->channel)->broker;
 
 	broker->vp->dtor(msg_getload(msg));
 	pool_free(broker->channels.pool, msg_getload(msg));

@@ -23,7 +23,8 @@
 	static struct CnFstream* test_stream_##group;                          \
 	TEST_SETUP(group)                                                      \
 	{                                                                      \
-		test_stream_##group = cn_fopen("test_traces_"name".tmp", "w+");\
+		test_stream_##group =                                          \
+			cn_fopen("test_traces_" name ".tmp", "w+");            \
                                                                                \
 		logger_attach(INFO, cn_stdout());                              \
 		logger_attach(DEBUG, cn_stdout());                             \
@@ -41,7 +42,7 @@
 		trace(INFO, "ut", "Done.");                                    \
 		logger_cleanup();                                              \
 		cn_fclose(test_stream_##group);                                \
-		cn_remove("test_traces_"name".tmp");                           \
+		cn_remove("test_traces_" name ".tmp");                         \
 	}                                                                      \
 	TEST_GROUP(group)
 
@@ -127,7 +128,7 @@ TEST(rbnode, should_link_as_leaf)
 	memset(&n, 0xA, sizeof(n));
 	TEST_ASSERT_EQUAL_PTR(&n, rb_link(&n, &p));
 	/* Adding one ("+ 1") verifies that node is red. */
-	TEST_ASSERT_EQUAL_INT(((intptr_t)&p) + 1, graph_data(&n)->parcol);
+	TEST_ASSERT_EQUAL_INT(((intptr_t)&p) + 1, graph_datap(&n)->parcol);
 	TEST_ASSERT_NULL(rb_left(&n));
 	TEST_ASSERT_NULL(rb_right(&n));
 }
@@ -205,7 +206,8 @@ TEST(dictnode, should_sort)
 	root = dictnode_ins(root, &r);
 	root = dictnode_ins(root, &t);
 	root = dictnode_ins(root, &y);
-	root = (struct CnDictnode*)rb_first((struct CnRbnode*)root, BST_INORDER);
+	root = (struct CnDictnode*)rb_first(
+		(struct CnRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("e", root->str);
 	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("q", root->str);
@@ -461,8 +463,7 @@ TEST(vertegs, should_implement_cirq)
 	struct Cirq n[5] = {0};
 
 	/* -n0- */
-	TEST_ASSERT_EQUAL_PTR(
-		&n[0], cirq_ins((struct Cirq*)NULL, &n[0], 255));
+	TEST_ASSERT_EQUAL_PTR(&n[0], cirq_ins((struct Cirq*)NULL, &n[0], 255));
 	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[prev], &n[0]);
 	TEST_ASSERT_EQUAL_PTR((graph_2vx(&n[0]))->nbor[next], &n[0]);
 

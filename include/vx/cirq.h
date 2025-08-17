@@ -64,7 +64,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * {
  *     struct MyCirq* entry = malloc(sizeof(*entry));
  *
- *     *vx_graph_data(entry) = data;
+ *     *vx_graph_datap(entry) = data;
  *     *headp = vx_cirq_ins(*headp, entry);
  * }
  * @endcode
@@ -101,7 +101,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @def vx_cirq_ins(cirq, ...)
  *
- * @brief Insert, at the given position, an entry into the *cirq*.
+ * @brief Insert, at a given position, an entry into a *cirq*.
  *
  * A call vx_cirq_ins(cirq, entry, pos) will insert the @a entry into the @a
  * cirq at the @a pos. To insert at the head use 0 for the @a pos and to insert
@@ -109,15 +109,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * default it equals -1.
  *
  * @return The new head.
- *
- * @note Compile with the GNU extension to enable a type check for the @a cirq.
  */
 #define vx_cirq_ins(cirq, ...) VX__CIRQ_INS((cirq), __VA_ARGS__, -1, )
 
 /**
  * @def vx_cirq_rem(...)
  *
- * @brief Remove, at the given position, an entry from the *cirq*.
+ * @brief Remove, at a given position, an entry from a *cirq*.
  *
  * A call vx_cirq_rem(cirqp, pos) will remove an entry from the @a cirqp at the
  * @a pos and will return the removed entry. To remove from the head use 0 for
@@ -125,8 +123,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @a pos is optional and by default it equals 0.
  *
  * @return The removed entry.
- *
- * @note Compile with the GNU extension to enable a type check for the @a cirqp.
  */
 #define vx_cirq_rem(...) VX__CIRQ_REM(__VA_ARGS__, 0, )
 

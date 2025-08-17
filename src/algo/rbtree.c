@@ -40,38 +40,38 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 static void paint_red(struct CnRbnode* node)
 {
-	graph_data(node)->parcol |= COLOR_MASK;
+	graph_datap(node)->parcol |= COLOR_MASK;
 }
 
 static void paint_black(struct CnRbnode* node)
 {
-	graph_data(node)->parcol &= ~COLOR_MASK;
+	graph_datap(node)->parcol &= ~COLOR_MASK;
 }
 
 static int painted_red(struct CnRbnode* node)
 {
-	return (node && (graph_data(node)->parcol & COLOR_MASK));
+	return (node && (graph_datap(node)->parcol & COLOR_MASK));
 }
 
 static void set_parent(struct CnRbnode* node, struct CnRbnode* parent)
 {
-	graph_data(node)->parcol =
-		((intptr_t)parent) | (graph_data(node)->parcol & COLOR_MASK);
+	graph_datap(node)->parcol =
+		((intptr_t)parent) | (graph_datap(node)->parcol & COLOR_MASK);
 }
 
 static struct CnRbnode* get_parent(struct CnRbnode* node)
 {
-	return (struct CnRbnode*)(graph_data(node)->parcol & ~COLOR_MASK);
+	return (struct CnRbnode*)(graph_datap(node)->parcol & ~COLOR_MASK);
 }
 
 static void set_left(struct CnRbnode* node, struct CnRbnode* child)
 {
-	graph_2vx(node)->nbor[RB_LEFT] = graph_2vx(child);
+	graph_2vx(node)->nbor[BST_LEFT] = graph_2vx(child);
 }
 
 static void set_right(struct CnRbnode* node, struct CnRbnode* child)
 {
-	graph_2vx(node)->nbor[RB_RIGHT] = graph_2vx(child);
+	graph_2vx(node)->nbor[BST_RIGHT] = graph_2vx(child);
 }
 
 static struct CnRbnode* rot_left(struct CnRbnode* node, struct CnRbnode* root)
@@ -120,7 +120,7 @@ static struct CnRbnode* rot_right(struct CnRbnode* node, struct CnRbnode* root)
 
 static struct CnRbnode* get_leftcorner(struct CnRbnode* node)
 {
-	return graph_4vx(vx_upto(graph_2vx(node), RB_LEFT, -1), node);
+	return graph_4vx(vx_walk(graph_2vx(node), BST_LEFT, -1), node);
 }
 
 static struct CnRbnode* get_inorderfirst(struct CnRbnode* node)

@@ -53,8 +53,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see vx_graphp_2vxp() */
 #define graphp_2vxp vx_graphp_2vxp
 
-/** @see vx_graph_data() */
-#define graph_data vx_graph_data
+/** @see vx_graph_datap() */
+#define graph_datap vx_graph_datap
 
 /** @see vx_graph_foredge() */
 #define graph_foredge vx_graph_foredge

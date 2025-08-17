@@ -49,11 +49,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see CN_BST_POSTORDER */
 #define BST_POSTORDER CN_BST_POSTORDER
 
-/** @see CN_RB_LEFT */
-#define RB_LEFT CN_RB_LEFT
+/** @see CN_BST_LEFT */
+#define BST_LEFT CN_BST_LEFT
 
-/** @see CN_RB_RIGHT */
-#define RB_RIGHT CN_RB_RIGHT
+/** @see CN_BST_RIGHT */
+#define BST_RIGHT CN_BST_RIGHT
 
 /** @see cn_rb_link() */
 #define rb_link cn_rb_link
