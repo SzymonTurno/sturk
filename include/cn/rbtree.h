@@ -76,12 +76,30 @@ VX_GRAPH(struct CnRbnode, CN_BST_N_CHILDREN, union {intptr_t parcol; int32_t ali
 /**< This is a macro definition of the struct CnRbnode type. */
 /* clang-format on */
 
+/**
+ * @fn static inline struct CnRbnode* cn_rb_left(struct CnRbnode* node)
+ *
+ * @brief Get the left child of the given node.
+ *
+ * @param[in] node The node.
+ *
+ * @return The left child.
+ */
 static inline struct CnRbnode* cn_rb_left(struct CnRbnode* node)
 {
 	CN_ENSURE_MEM(node, CN_ERROR);
 	return vx_graph_4vx(vx_graph_2vx(node)->nbor[CN_BST_LEFT], node);
 }
 
+/**
+ * @fn static inline struct CnRbnode* cn_rb_right(struct CnRbnode* node)
+ *
+ * @brief Get the right child of the given node.
+ *
+ * @param[in] node The node.
+ *
+ * @return The right child.
+ */
 static inline struct CnRbnode* cn_rb_right(struct CnRbnode* node)
 {
 	CN_ENSURE_MEM(node, CN_ERROR);
