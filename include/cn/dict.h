@@ -73,36 +73,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef __STRICT_ANSI__
 
-#define cn_dict_cast(dict) ((struct CnStrnode*)(dict))
+#define cn_dict_cast(dict) ((struct CnDictnode*)(dict))
 
-#define cn_dict_setk(dict, key) ((dict)->strnode.str = (key))
+#define cn_dict_setk(dict, key) ((dict)->dictnode.str = (key))
 
-#define cn_dict_getk(dict) ((dict)->strnode.str)
+#define cn_dict_getk(dict) ((dict)->dictnode.str)
 
 #define cn_dict_data(dict) (&(dict)->data)
 
 #define cn_dict_ins(dict, node)                                                \
-	((void*)cn_strnode_ins(cn_dict_cast(dict), cn_dict_cast(node)))
+	((void*)cn_dictnode_ins(cn_dict_cast(dict), cn_dict_cast(node)))
 
 #define cn_dict_find(dict, key)                                                \
-	((void*)cn_strnode_find(cn_dict_cast(dict), (key)))
+	((void*)cn_dictnode_find(cn_dict_cast(dict), (key)))
 
 #define cn_dict_first(dict)                                                    \
-	((void*)(cn_strnode_from(cn_rb_first(&dict_cast(dict)->node, 0))))
+	((void*)(cn_dictnode_from(cn_rb_first(&dict_cast(dict)->node, 0))))
 
 #define cn_dict_next(dict)                                                     \
-	((void*)(cn_strnode_from(cn_rb_next(&dict_cast(dict)->node, 0))))
+	((void*)(cn_dictnode_from(cn_rb_next(&dict_cast(dict)->node, 0))))
 
 #else /* not defined: __STRICT_ANSI__ */
 
 /**
  * @def cn_dict_cast(dict)
  *
- * @brief Get the pointer to the CnStrnode member of the dictionary entry.
+ * @brief Get the pointer to the CnDictnode member of the dictionary entry.
  *
  * @param[in] dict The dictionary entry.
  *
- * @return A pointer to the CnStrnode.
+ * @return A pointer to the CnDictnode.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
@@ -110,7 +110,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	({                                                                     \
 		__typeof__(dict) _dict2 = (dict);                              \
                                                                                \
-		_dict2 ? &_dict2->strnode : NULL;                              \
+		_dict2 ? &_dict2->dictnode : NULL;                             \
 	})
 
 /**
@@ -128,7 +128,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
 		CN_ENSURE(_dict, CN_ERROR, null_param);                        \
-		_dict->strnode.str = (key);                                    \
+		_dict->dictnode.str = (key);                                   \
 	})
 
 /**
@@ -147,7 +147,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
 		CN_ENSURE(_dict, CN_ERROR, null_param);                        \
-		_dict->strnode.str;                                            \
+		_dict->dictnode.str;                                           \
 	})
 
 /**
@@ -186,9 +186,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
 		cn_container_of(                                               \
-			cn_strnode_ins(                                        \
+			cn_dictnode_ins(                                       \
 				cn_dict_cast(_dict), cn_dict_cast(entry)),     \
-			__typeof__(*dict), strnode);                           \
+			__typeof__(*dict), dictnode);                          \
 	})
 
 /**
@@ -208,8 +208,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
 		cn_container_of(                                               \
-			cn_strnode_find(cn_dict_cast(_dict), (key)),           \
-			__typeof__(*dict), strnode);                           \
+			cn_dictnode_find(cn_dict_cast(_dict), (key)),          \
+			__typeof__(*dict), dictnode);                          \
 	})
 
 /**
@@ -231,9 +231,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
 		cn_container_of(                                               \
-			cn_strnode_from(                                       \
+			cn_dictnode_from(                                      \
 				cn_rb_first(&dict_cast(_dict)->node, 0)),      \
-			__typeof__(*dict), strnode);                           \
+			__typeof__(*dict), dictnode);                          \
 	})
 
 /**
@@ -255,9 +255,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
 		cn_container_of(                                               \
-			cn_strnode_from(cn_rb_next(                            \
+			cn_dictnode_from(cn_rb_next(                           \
 				&dict_cast(_dict)->node, CN_BST_INORDER)),     \
-			__typeof__(*dict), strnode);                           \
+			__typeof__(*dict), dictnode);                          \
 	})
 
 #endif /* __STRICT_ANSI__ */
@@ -276,16 +276,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define CN_DICT(name, type)                                                    \
 	name                                                                   \
 	{                                                                      \
-		struct CnStrnode strnode;                                      \
+		struct CnDictnode dictnode;                                    \
 		type data;                                                     \
 	}
 
 /**
- * @struct CnStrnode
+ * @struct CnDictnode
  *
  * @brief Dictionary node.
  */
-struct CnStrnode {
+struct CnDictnode {
 	/**
 	 * @var struct CnRbnode node
 	 *
@@ -302,7 +302,7 @@ struct CnStrnode {
 };
 
 /**
- * @fn struct CnStrnode* cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* entry)
+ * @fn struct CnDictnode* cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* entry)
  *
  * @brief Insert an entry into the dictionary.
  *
@@ -311,11 +311,11 @@ struct CnStrnode {
  *
  * @return The new entry.
  */
-struct CnStrnode*
-cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* entry);
+struct CnDictnode*
+cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* entry);
 
 /**
- * @fn struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str)
+ * @fn struct CnDictnode* cn_dictnode_find(struct CnDictnode* root, const char* str)
  *
  * @brief In a dictionary, find the entry with the given key.
  *
@@ -324,20 +324,20 @@ cn_strnode_ins(struct CnStrnode* root, struct CnStrnode* entry);
  *
  * @return The found entry or NULL if none found.
  */
-struct CnStrnode* cn_strnode_find(struct CnStrnode* root, const char* str);
+struct CnDictnode* cn_dictnode_find(struct CnDictnode* root, const char* str);
 
 /**
- * @fn static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
+ * @fn static inline struct CnDictnode* cn_dictnode_from(struct CnRbnode* ptr)
  *
- * @brief Cast a CnRbnode member out to the containing CnStrnode structure.
+ * @brief Cast a CnRbnode member out to the containing CnDictnode structure.
  *
  * @param[in] ptr The pointer to the CnRbnode member.
  *
- * @return A pointer to the CnStrnode structure.
+ * @return A pointer to the CnDictnode structure.
  */
-static inline struct CnStrnode* cn_strnode_from(struct CnRbnode* ptr)
+static inline struct CnDictnode* cn_dictnode_from(struct CnRbnode* ptr)
 {
-	return cn_container_of(ptr, struct CnStrnode, node);
+	return cn_container_of(ptr, struct CnDictnode, node);
 }
 
 #endif /* CN_DICT_H */

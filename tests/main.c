@@ -61,7 +61,7 @@ SIMPLE_TEST_GROUP(common, "common");
 SIMPLE_TEST_GROUP(list, "list");
 SIMPLE_TEST_GROUP(cirq, "cirq");
 SIMPLE_TEST_GROUP(rbnode, "rbnode");
-SIMPLE_TEST_GROUP(strnode, "strnode");
+SIMPLE_TEST_GROUP(dictnode, "dictnode");
 SIMPLE_TEST_GROUP(strbag, "strbag");
 SIMPLE_TEST_GROUP(mutex, "mutex");
 SIMPLE_TEST_GROUP(semaphore, "semaphore");
@@ -189,33 +189,33 @@ TEST(rbnode, should_trace_not_supported_traversals)
 		strstr(GETTRACE(rbnode, 1), "src/algo/rbtree.c:"));
 }
 
-TEST(strnode, should_sort)
+TEST(dictnode, should_sort)
 {
-	struct CnStrnode q = {.node = {0}, .str = "q"};
-	struct CnStrnode w = {.node = {0}, .str = "w"};
-	struct CnStrnode e = {.node = {0}, .str = "e"};
-	struct CnStrnode r = {.node = {0}, .str = "r"};
-	struct CnStrnode t = {.node = {0}, .str = "t"};
-	struct CnStrnode y = {.node = {0}, .str = "y"};
-	struct CnStrnode* root = strnode_ins(NULL, &q);
+	struct CnDictnode q = {.node = {0}, .str = "q"};
+	struct CnDictnode w = {.node = {0}, .str = "w"};
+	struct CnDictnode e = {.node = {0}, .str = "e"};
+	struct CnDictnode r = {.node = {0}, .str = "r"};
+	struct CnDictnode t = {.node = {0}, .str = "t"};
+	struct CnDictnode y = {.node = {0}, .str = "y"};
+	struct CnDictnode* root = dictnode_ins(NULL, &q);
 
 	TEST_ASSERT_EQUAL_PTR(&q, root);
-	root = strnode_ins(root, &w);
-	root = strnode_ins(root, &e);
-	root = strnode_ins(root, &r);
-	root = strnode_ins(root, &t);
-	root = strnode_ins(root, &y);
-	root = (struct CnStrnode*)rb_first((struct CnRbnode*)root, BST_INORDER);
+	root = dictnode_ins(root, &w);
+	root = dictnode_ins(root, &e);
+	root = dictnode_ins(root, &r);
+	root = dictnode_ins(root, &t);
+	root = dictnode_ins(root, &y);
+	root = (struct CnDictnode*)rb_first((struct CnRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("e", root->str);
-	root = (struct CnStrnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
+	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("q", root->str);
-	root = (struct CnStrnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
+	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("r", root->str);
-	root = (struct CnStrnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
+	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("t", root->str);
-	root = (struct CnStrnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
+	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("w", root->str);
-	root = (struct CnStrnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
+	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("y", root->str);
 	TEST_ASSERT_NULL(rb_next((struct CnRbnode*)root, BST_INORDER));
 }
@@ -653,7 +653,7 @@ static void run_all_tests(void)
 	RUN_TEST_CASE(rbnode, should_link_as_leaf);
 	RUN_TEST_CASE(rbnode, should_insert_and_balance);
 	RUN_TEST_CASE(rbnode, should_trace_not_supported_traversals);
-	RUN_TEST_CASE(strnode, should_sort);
+	RUN_TEST_CASE(dictnode, should_sort);
 	RUN_TEST_CASE(strbag, should_allow_many_entries);
 	RUN_TEST_CASE(strbag, should_sort);
 	RUN_TEST_CASE(strbag, should_allow_preorder_traversal);
