@@ -67,13 +67,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see CN_DICT() */
 #define DICT CN_DICT
 
-/** @see cn_strnode_ins() */
-#define strnode_ins cn_strnode_ins
+/** @see cn_dictnode_ins() */
+#define dictnode_ins cn_dictnode_ins
 
-/** @see cn_strnode_find() */
-#define strnode_find cn_strnode_find
+/** @see cn_dictnode_find() */
+#define dictnode_find cn_dictnode_find
 
-/** @see cn_strnode_from() */
-#define strnode_from cn_strnode_from
+/** @see cn_dictnode_from() */
+#define dictnode_from cn_dictnode_from
 
 #endif /* CANTIL_DICT_H */

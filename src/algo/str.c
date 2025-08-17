@@ -63,7 +63,7 @@ static struct CnStrbag* bag_root(struct CnStrbag* bag)
 
 	while (cn_rb_parent(i))
 		i = cn_rb_parent(i);
-	return container_of(strnode_from(i), struct CnStrbag, strnode);
+	return container_of(dictnode_from(i), struct CnStrbag, dictnode);
 }
 
 struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
@@ -152,7 +152,7 @@ void cn_strbag_destroy(struct CnStrbag* bag)
 		i = rb_first(&dict_cast(bag)->node, BST_POSTORDER);
 		p = rb_parent(i);
 		bag_destroy(container_of(
-			strnode_from(i), struct CnStrbag, strnode));
+			dictnode_from(i), struct CnStrbag, dictnode));
 		if (!p)
 			break;
 
