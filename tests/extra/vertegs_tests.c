@@ -9,6 +9,7 @@
 	static int test_##group##_counter;                                     \
 	static const char* test_##group##_label = label
 
+/* clang-format off */
 #define RUN_TEST_CASE(group, case)                                             \
 	do {                                                                   \
 		printf(".\nRunning test case %d for: %s.\n",                   \
@@ -16,6 +17,7 @@
 		test_##group##_##case();                                       \
 		printf("Done\n");                                              \
 	} while (0)
+/* clang-format on */
 
 #define TEST_ASSERT_EQUAL_PTR(expected, actual)                                \
 	assert((void*)(expected) == (void*)(actual))
