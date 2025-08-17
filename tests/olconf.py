@@ -45,3 +45,4 @@ def join(olvars):
     olvars.append('test_DIR', olvars.slashify(olvars.acwd()))
     olvars.append('test_BLDDIR', olvars.cwd())
     olvars.append('test_OBJS', olvars.slashify(olvars.cwd(), 'main.o'))
+    olvars.include('extra')

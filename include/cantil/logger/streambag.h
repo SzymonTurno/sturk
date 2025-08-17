@@ -55,4 +55,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see cn_streambag_vprint() */
 #define streambag_vprint cn_streambag_vprint
 
+/** @see cn_streambag_count() */
+#define streambag_count cn_streambag_count
+
 #endif /* CANTIL_LOGGER_STREAMBAG_H */

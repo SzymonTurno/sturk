@@ -44,8 +44,8 @@ struct CnSem {
 CnSem* cn_sem_create(CnBits args)
 {
 	struct CnSem* self = NEW(struct CnSem);
-	(void)args;
 
+	(void)args;
 	if (sem_init(&self->sem, 0, 0) != OK) {
 		/* LCOV_EXCL_START */
 		RAISE(ERROR, sem_fail);

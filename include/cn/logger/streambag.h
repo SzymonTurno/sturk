@@ -96,4 +96,15 @@ void cn_streambag_rem(CnStreamBag* bag, CnFstream* stream);
  */
 void cn_streambag_vprint(CnStreamBag* bag, const char* format, va_list vlist);
 
+/**
+ * @fn int cn_streambag_count(const CnStreamBag* bag)
+ *
+ * @brief Get the number of streams in a bag.
+ *
+ * @param[in] bag The bag.
+ *
+ * @return The number of streams.
+ */
+int cn_streambag_count(const CnStreamBag* bag);
+
 #endif /* CN_LOGGER_STREAMBAG_H */

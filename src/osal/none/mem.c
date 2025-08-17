@@ -38,7 +38,8 @@ void* cn_malloc(size_t size)
 	void* ret = malloc(size);
 
 	if (!ret)
-		cn_except("Memory allocation failed.", __FILE__, __LINE__);
+		cn_except(/* LCOV_EXCL_LINE */
+		          "Memory allocation failed.", __FILE__, __LINE__);
 	return ret;
 }
 

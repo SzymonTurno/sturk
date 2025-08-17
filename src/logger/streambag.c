@@ -42,6 +42,10 @@ LIST(struct StreamList, CnFstream*);
 struct CnStreamBag {
 	struct StreamList* head;
 	CnMutex* mutex;
+	union {
+		int n_streams;
+		void* align;
+	} u;
 };
 
 static void
@@ -62,6 +66,7 @@ CnStreamBag* cn_streambag_create(void)
 
 	self->head = NULL;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
+	self->u.n_streams = 0;
 	return self;
 }
 
@@ -84,6 +89,7 @@ void cn_streambag_ins(CnStreamBag* bag, CnFstream* stream)
 	*graph_datap(entry) = stream;
 	mutex_lock(bag->mutex);
 	bag->head = list_ins(bag->head, entry);
+	++bag->u.n_streams;
 	mutex_unlock(bag->mutex);
 }
 
@@ -94,6 +100,7 @@ void cn_streambag_rem(CnStreamBag* bag, CnFstream* stream)
 		if (*graph_datap(*i) == stream) {
 			mutex_lock(bag->mutex);
 			cn_free(list_rem(i));
+			--bag->u.n_streams;
 			mutex_unlock(bag->mutex);
 			break;
 		}
@@ -105,4 +112,9 @@ void cn_streambag_vprint(CnStreamBag* bag, const char* format, va_list vlist)
 	mutex_lock(bag->mutex);
 	list_print(bag->head, format, vlist);
 	mutex_unlock(bag->mutex);
+}
+
+int cn_streambag_count(const CnStreamBag* bag)
+{
+	return bag ? bag->u.n_streams : 0;
 }
