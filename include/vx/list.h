@@ -56,7 +56,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * {
  *     struct MyList* entry = malloc(sizeof(*entry));
  *
- *     *vx_graph_data(entry) = data;
+ *     *vx_graph_datap(entry) = data;
  *     *listp = vx_list_ins(*listp, entry);
  * }
  * @endcode
@@ -93,17 +93,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @def vx_list_foreach(type, i, listp)
  *
- * @brief Traverse the list.
+ * @brief Traverse a list.
  *
  * Traverse the list of type @a type referenced by @a listp in the forward
  * direcion, assigning every entry in turn to @a i.
  */
-#define vx_list_foreach(type, i, listp) vx_graph_foredge(type, i, listp, 0)
+#define vx_list_foreach(type, i, listp) vx_graph_foredge (type, i, listp, 0)
 
 /**
  * @def vx_list_ins(list, ...)
  *
- * @brief Insert, at the given position, an entry into the list.
+ * @brief Insert, at a given position, an entry into a list.
  *
  * A call vx_list_ins(list, entry, pos) will insert the @a entry into the @a
  * list at the @a pos. To insert at the head use 0 for the @a pos and to insert
@@ -115,7 +115,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @def vx_list_rem(...)
  *
- * @brief Remove, at the given position, an entry from the list.
+ * @brief Remove, at a given position, an entry from a list.
  *
  * A call vx_list_rem(listp, pos) will remove an entry from the @a listp at the
  * @a pos and will return the removed entry. To remove from the head use 0 for

@@ -46,7 +46,7 @@ static struct CnStrbag* bag_create(const char* str)
 	struct CnStrbag* self = NEW(struct CnStrbag);
 
 	dict_setk(self, newstr(str));
-	dict_data(self)->n = 0;
+	dict_datap(self)->n = 0;
 	return self;
 }
 
@@ -71,7 +71,7 @@ struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
 	struct CnStrlist* self = NEW(struct CnStrlist);
 
 	ENSURE_MEM(self, ERROR);
-	*graph_data(self) = str;
+	*graph_datap(self) = str;
 	return list_ins(list, self);
 }
 
@@ -87,7 +87,7 @@ char* cn_strlist_rem(struct CnStrlist** listp)
 
 	ENSURE_MEM(listp, ERROR);
 	tmp = list_rem(listp);
-	ret = *graph_data(tmp);
+	ret = *graph_datap(tmp);
 	cn_free(tmp);
 	return ret;
 }
@@ -97,7 +97,7 @@ struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str)
 	struct CnStrq* self = NEW(struct CnStrq);
 
 	ENSURE_MEM(self, ERROR);
-	*graph_data(self) = str;
+	*graph_datap(self) = str;
 	return cirq_ins(q, self);
 }
 
@@ -109,7 +109,7 @@ char* cn_strq_rem(struct CnStrq** qp)
 	ENSURE_MEM(qp, ERROR);
 	ENSURE_MEM(*qp, ERROR);
 	tmp = cirq_rem(qp);
-	ret = *graph_data(tmp);
+	ret = *graph_datap(tmp);
 	cn_free(tmp);
 	return ret;
 }
@@ -122,7 +122,7 @@ struct CnStrbag* cn_strbag_ins(struct CnStrbag* bag, const char* str)
 		p = bag_create(str);
 		bag = dict_ins(bag, p);
 	}
-	++dict_data(p)->n;
+	++dict_datap(p)->n;
 	return bag;
 }
 
@@ -134,13 +134,13 @@ struct CnStrbag* cn_strbag_rem(struct CnStrbag* bag, const char* str)
 		p = bag_create(str);
 		bag = dict_ins(bag, p);
 	}
-	--dict_data(p)->n;
+	--dict_datap(p)->n;
 	return bag;
 }
 
 int cn_strbag_count(const struct CnStrbag* bag)
 {
-	return bag ? dict_data(bag)->n : 0;
+	return bag ? dict_datap(bag)->n : 0;
 }
 
 void cn_strbag_destroy(struct CnStrbag* bag)
@@ -157,8 +157,8 @@ void cn_strbag_destroy(struct CnStrbag* bag)
 			break;
 
 		if (i == rb_left(p))
-			graph_2vx(p)->nbor[RB_LEFT] = NULL;
+			graph_2vx(p)->nbor[BST_LEFT] = NULL;
 		else
-			graph_2vx(p)->nbor[RB_RIGHT] = NULL;
+			graph_2vx(p)->nbor[BST_RIGHT] = NULL;
 	}
 }

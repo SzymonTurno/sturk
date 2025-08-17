@@ -53,26 +53,39 @@ enum CnBstOrder {
 	CN_BST_POSTORDER,   /**< post-order. */
 };
 
-enum CnRbChild {
-	CN_RB_LEFT = 0,   /**< left child.   */
-	CN_RB_RIGHT,      /**< right child.  */
-	CN_RB_N_CHILDREN, /**< number of children. */
+/**
+ * @enum CnBstChild
+ *
+ * @brief Indices for children in a binary search tree.
+ */
+enum CnBstChild {
+	CN_BST_LEFT = 0,   /**< left child.   */
+	CN_BST_RIGHT,      /**< right child.  */
+	CN_BST_N_CHILDREN, /**< number of children. */
 };
 
 /* clang-format off */
-VX_GRAPH(struct CnRbnode, CN_RB_N_CHILDREN, union {intptr_t parcol; int32_t align;});
+/**
+ * @def VX_GRAPH(struct CnRbnode, CN_BST_N_CHILDREN, union {intptr_t parcol; int32_t align;})
+ *
+ * @struct CnRbNode
+ *
+ * @brief Node of a red-black tree.
+ */
+VX_GRAPH(struct CnRbnode, CN_BST_N_CHILDREN, union {intptr_t parcol; int32_t align;});
+/**< This is a macro definition of the struct CnRbnode type. */
 /* clang-format on */
 
 static inline struct CnRbnode* cn_rb_left(struct CnRbnode* node)
 {
 	CN_ENSURE_MEM(node, CN_ERROR);
-	return vx_graph_4vx(vx_graph_2vx(node)->nbor[CN_RB_LEFT], node);
+	return vx_graph_4vx(vx_graph_2vx(node)->nbor[CN_BST_LEFT], node);
 }
 
 static inline struct CnRbnode* cn_rb_right(struct CnRbnode* node)
 {
 	CN_ENSURE_MEM(node, CN_ERROR);
-	return vx_graph_4vx(vx_graph_2vx(node)->nbor[CN_RB_RIGHT], node);
+	return vx_graph_4vx(vx_graph_2vx(node)->nbor[CN_BST_RIGHT], node);
 }
 
 /**

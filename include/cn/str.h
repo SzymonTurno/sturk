@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "vx/list.h"
 
 /**
- * @def CN_LIST(struct CnStrlist, char*)
+ * @def VX_LIST(struct CnStrlist, char*)
  *
  * @struct CnStrlist
  *
@@ -53,7 +53,7 @@ VX_LIST(struct CnStrlist, char*);
 /**< This is a macro definition of the struct CnStrlist type. */
 
 /**
- * @def CN_CIRQ(struct CnStrq, char*)
+ * @def VX_CIRQ(struct CnStrq, char*)
  *
  * @struct CnStrq
  *

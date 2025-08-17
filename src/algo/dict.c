@@ -57,7 +57,8 @@ static struct CnDictnode* dictnode_4nbor(struct Vertegs** nbor)
 	return rbnode_2dictnode(rbnode_4nbor(nbor));
 }
 
-struct CnDictnode* cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* node)
+struct CnDictnode*
+cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* node)
 {
 	struct Vertegs* nbor[] = {root ? graph_2vx(&root->node) : NULL};
 	struct Vertegs** p = nbor;
@@ -68,9 +69,9 @@ struct CnDictnode* cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* n
 	while (p[child]) {
 		p = p[child]->nbor;
 		if (strcmp(node->str, dictnode_4nbor(p)->str) < 0)
-			child = RB_LEFT;
+			child = BST_LEFT;
 		else
-			child = RB_RIGHT;
+			child = BST_RIGHT;
 	}
 	p[child] = graph_2vx(
 		rb_link(&node->node, (p == nbor) ? NULL : rbnode_4nbor(p)));

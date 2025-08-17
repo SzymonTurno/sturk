@@ -14,7 +14,7 @@ format:
 	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i
 
 docs:
-	doxygen Doxyfile
+	$(mkfile_DIR)/tools/picky.sh doxygen Doxyfile
 
 include configs/default/actions.mk
 include configs/iso/actions.mk

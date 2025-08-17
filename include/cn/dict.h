@@ -79,7 +79,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define cn_dict_getk(dict) ((dict)->dictnode.str)
 
-#define cn_dict_data(dict) (&(dict)->data)
+#define cn_dict_datap(dict) (&(dict)->data)
 
 #define cn_dict_ins(dict, node)                                                \
 	((void*)cn_dictnode_ins(cn_dict_cast(dict), cn_dict_cast(node)))
@@ -151,17 +151,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	})
 
 /**
- * @def cn_dict_data(dict)
+ * @def cn_dict_datap(dict)
  *
- * @brief Get the pointer to the data member of the dictionary entry.
+ * @brief Get a pointer to the data member of a dictionary entry.
  *
  * @param[in] dict The entry.
  *
- * @return A pointer to the data.
+ * @return The pointer to the data.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define cn_dict_data(dict)                                                     \
+#define cn_dict_datap(dict)                                                    \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \

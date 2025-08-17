@@ -43,7 +43,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 static CnChannel* channel_create(CnBroker* broker, const char* topic)
 {
 	CnChannel* self = NEW(CnChannel);
-	struct ChannelData* data = dict_data(self);
+	struct ChannelData* data = dict_datap(self);
 
 	dict_setk(self, newstr(topic));
 	data->broker = broker;
@@ -54,7 +54,7 @@ static CnChannel* channel_create(CnBroker* broker, const char* topic)
 
 static void channel_destroy(CnChannel* ch)
 {
-	struct ChannelData* data = dict_data(ch);
+	struct ChannelData* data = dict_datap(ch);
 
 	ENSURE(!data->list, ERROR, sanity_fail);
 	msg_purge(data->broker);
@@ -77,9 +77,9 @@ static void dict_destroy(CnChannel* dict)
 			break;
 
 		if (i == rb_left(p))
-			graph_2vx(p)->nbor[RB_LEFT] = NULL;
+			graph_2vx(p)->nbor[BST_LEFT] = NULL;
 		else
-			graph_2vx(p)->nbor[RB_RIGHT] = NULL;
+			graph_2vx(p)->nbor[BST_RIGHT] = NULL;
 	}
 }
 
@@ -87,7 +87,7 @@ static struct ChannelList* clist_create(CnChannel* ch)
 {
 	struct ChannelList* self = NEW(struct ChannelList);
 
-	*graph_data(self) = ch;
+	*graph_datap(self) = ch;
 	return self;
 }
 
@@ -95,7 +95,7 @@ static struct SubscriberList* slist_create(struct CnSubscriber* sber)
 {
 	struct SubscriberList* self = NEW(struct SubscriberList);
 
-	*graph_data(self) = sber;
+	*graph_datap(self) = sber;
 	return self;
 }
 
@@ -109,7 +109,7 @@ static void ins_msg(CnSubscriber* sber, struct Message* msg)
 		return;
 		/* LCOV_EXCL_STOP */
 	}
-	*graph_data(entry) = msg;
+	*graph_datap(entry) = msg;
 	waitq_ins(sber->q, graph_2vx(entry));
 }
 
@@ -120,7 +120,7 @@ static void notify(struct ChannelData* data, struct Message* msg)
 	mutex_lock(data->mutex);
 	msg_lock(msg);
 	list_foreach (struct SubscriberList, i, &data->list) {
-		ins_msg(*graph_data(*i), msg);
+		ins_msg(*graph_datap(*i), msg);
 		++n;
 	}
 	msg_unlock(msg, n);
@@ -129,11 +129,11 @@ static void notify(struct ChannelData* data, struct Message* msg)
 
 static void unsubscribe(CnChannel* ch, CnSubscriber* sber)
 {
-	struct ChannelData* data = dict_data(ch);
+	struct ChannelData* data = dict_datap(ch);
 
 	mutex_lock(data->mutex);
 	list_foreach (struct SubscriberList, i, &data->list)
-		if (*graph_data(*i) == sber) {
+		if (*graph_datap(*i) == sber) {
 			cn_free(list_rem(i));
 			break;
 		}
@@ -148,7 +148,7 @@ static CnLoad* load_init(CnSubscriber* sber, struct Vertegs* node)
 	if (!node)
 		return NULL;
 	q = graph_4vx(node, q);
-	sber->msg = *graph_data(q);
+	sber->msg = *graph_datap(q);
 	pool_free(sber->broker->sbers.pool, q);
 	return msg_getload(sber->msg);
 }
@@ -178,7 +178,7 @@ void cn_broker_destroy(CnBroker* broker)
 		return;
 
 	while (broker->sbers.list)
-		subscriber_destroy(*graph_data(broker->sbers.list));
+		subscriber_destroy(*graph_datap(broker->sbers.list));
 	pool_destroy(broker->sbers.pool);
 	broker->sbers.pool = NULL;
 	if (broker->channels.dict)
@@ -229,7 +229,7 @@ void cn_subscriber_destroy(CnSubscriber* sber)
 		return;
 
 	while (sber->list) {
-		unsubscribe(*graph_data(sber->list), sber);
+		unsubscribe(*graph_datap(sber->list), sber);
 		cn_free(list_rem(&sber->list));
 	}
 
@@ -239,7 +239,7 @@ void cn_subscriber_destroy(CnSubscriber* sber)
 	sber->q = NULL;
 	mutex_lock(sber->broker->mutex);
 	list_foreach (struct SubscriberList, i, &sber->broker->sbers.list)
-		if (*graph_data(*i) == sber) {
+		if (*graph_datap(*i) == sber) {
 			cn_free(list_rem(i));
 			break;
 		}
@@ -294,10 +294,10 @@ void cn_publish(CnChannel* ch, ...)
 	va_list args;
 
 	va_start(args, ch);
-	msg = msg_create(dict_data(ch)->broker, args);
+	msg = msg_create(dict_datap(ch)->broker, args);
 	va_end(args);
 	msg->channel = ch;
-	notify(dict_data(ch), msg);
+	notify(dict_datap(ch), msg);
 }
 
 void cn_subscribe(CnSubscriber* sber, const char* topic)
@@ -310,7 +310,7 @@ void cn_subscribe(CnSubscriber* sber, const char* topic)
 		return;
 	}
 	ch = broker_search(sber->broker, topic);
-	data = dict_data(ch);
+	data = dict_datap(ch);
 	sber->list = list_ins(sber->list, clist_create(ch));
 	mutex_lock(data->mutex);
 	data->list = list_ins(data->list, slist_create(sber));

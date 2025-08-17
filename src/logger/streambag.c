@@ -51,7 +51,7 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 
 	list_foreach (struct StreamList, i, &head) {
 		va_copy(vcopy, vlist);
-		cn_vfprintf(*graph_data(*i), format, vcopy);
+		cn_vfprintf(*graph_datap(*i), format, vcopy);
 		va_end(vcopy);
 	}
 }
@@ -81,7 +81,7 @@ void cn_streambag_ins(CnStreamBag* bag, CnFstream* stream)
 	struct StreamList* entry = NEW(struct StreamList);
 
 	ENSURE(bag, ERROR, null_param);
-	*graph_data(entry) = stream;
+	*graph_datap(entry) = stream;
 	mutex_lock(bag->mutex);
 	bag->head = list_ins(bag->head, entry);
 	mutex_unlock(bag->mutex);
@@ -91,7 +91,7 @@ void cn_streambag_rem(CnStreamBag* bag, CnFstream* stream)
 {
 	ENSURE(bag, ERROR, null_param);
 	list_foreach (struct StreamList, i, &bag->head)
-		if (*graph_data(*i) == stream) {
+		if (*graph_datap(*i) == stream) {
 			mutex_lock(bag->mutex);
 			cn_free(list_rem(i));
 			mutex_unlock(bag->mutex);

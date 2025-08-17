@@ -114,7 +114,8 @@ INPUT                  = README.md \
 			 include/cn/os \
 			 include/cantil \
 			 include/cantil/logger \
-			 include/cantil/os
+			 include/cantil/os \
+			 include/vx
 
 # If the value of the INPUT tag contains directories, you can use the
 # FILE_PATTERNS tag to specify one or more wildcard patterns (like *.cpp and

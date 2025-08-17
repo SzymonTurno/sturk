@@ -45,13 +45,25 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef VX_EXCEPT
 
+/**
+ * @def VX_EXCEPT(reason, file, line)
+ *
+ * @brief Raise an exception.
+ */
 #define VX_EXCEPT(reason, file, line)
 
 #endif /* VX_EXCEPT */
 
-#define VX_ENSURE_MEM(v)                                                       \
+/**
+ * @def VX_ENSURE_MEM(ptr)
+ *
+ * @brief Raise an exception and return NULL if the pointer is NULL.
+ *
+ * @param[in] ptr The pointer.
+ */
+#define VX_ENSURE_MEM(ptr)                                                     \
 	do {                                                                   \
-		if ((v) == NULL) {                                             \
+		if ((ptr) == NULL) {                                           \
 			VX_EXCEPT("Null param.", __FILE__, __LINE__);          \
 			return NULL;                                           \
 		}                                                              \
@@ -74,7 +86,7 @@ struct Vertegs {
 /**
  * @fn static inline struct Vertegs* vx_4nbor(struct Vertegs** nbor)
  *
- * @brief Get a vertex from its neighbourhood.
+ * @brief Cast to vertex from its neighbourhood.
  *
  * @param[in] nbor The neighbourhood.
  *
@@ -86,30 +98,43 @@ static inline struct Vertegs* vx_4nbor(struct Vertegs** nbor)
 }
 
 /**
- * @fn static inline struct Vertegs* vx_upto(struct Vertegs* v, size_t edge, int pos)
+ * @fn static inline struct Vertegs* vx_walk(struct Vertegs* v, size_t edge, int len)
  *
- * @brief Travel a graph along an edge to a given position and return a vertex.
+ * @brief For a chain, in which all edges share the same index, find the other end.
  *
- * @param[in] v The first node of the traversal.
+ * @param[in] v The first end of the chain.
+ * @param[in] edge The index of all edges in the chain.
+ * @param[in] len The length of the chain - the number of edges.
  *
- * @return The vertex.
+ * @return The other end.
  */
-static inline struct Vertegs* vx_upto(struct Vertegs* v, size_t edge, int pos)
+static inline struct Vertegs* vx_walk(struct Vertegs* v, size_t edge, int len)
 {
 	struct Vertegs* p = NULL;
 
 	VX_ENSURE_MEM(v);
-	while (pos-- && (p = v->nbor[edge]))
+	while (len-- && (p = v->nbor[edge]))
 		v = p;
 	return v;
 }
 
+/**
+ * @fn static inline struct Vertegs* vx_inslist(struct Vertegs* list, struct Vertegs* entry, int pos)
+ *
+ * @brief Insert, at a given position, an entry into a list.
+ *
+ * @param[in] list The head of the list.
+ * @param[in] entry The new entry.
+ * @param[in] pos The position.
+ *
+ * @return The new head.
+ */
 static inline struct Vertegs*
 vx_inslist(struct Vertegs* list, struct Vertegs* entry, int pos)
 {
 	const size_t next = 0;
 	struct Vertegs* nbor[] = {list};
-	struct Vertegs* v = vx_upto(vx_4nbor(nbor), next, pos);
+	struct Vertegs* v = vx_walk(vx_4nbor(nbor), next, pos);
 
 	VX_ENSURE_MEM(entry);
 	entry->nbor[next] = v->nbor[next];
@@ -117,17 +142,38 @@ vx_inslist(struct Vertegs* list, struct Vertegs* entry, int pos)
 	return nbor[next];
 }
 
+/**
+ * @fn static inline struct Vertegs* vx_remlist(struct Vertegs** listp, int pos)
+ *
+ * @brief Remove, at a given position, an entry from a list.
+ *
+ * @param[in] listp The pointer to the head of the list.
+ * @param[in] pos The position.
+ *
+ * @return The removed entry.
+ */
 static inline struct Vertegs* vx_remlist(struct Vertegs** listp, int pos)
 {
 	const size_t next = 0;
 	struct Vertegs* ret = NULL;
-	struct Vertegs* v = vx_upto(vx_4nbor(listp), next, pos);
+	struct Vertegs* v = vx_walk(vx_4nbor(listp), next, pos);
 
 	ret = v->nbor[next];
 	v->nbor[next] = ret->nbor[next];
 	return ret;
 }
 
+/**
+ * @fn static inline struct Vertegs* vx_inscirq(struct Vertegs* cirq, struct Vertegs* entry, int pos)
+ *
+ * @brief Insert, at a given position, an entry into a *cirq*.
+ *
+ * @param[in] cirq The head of the *cirq*.
+ * @param[in] entry The new entry.
+ * @param[in] pos The position.
+ *
+ * @return The new head.
+ */
 static inline struct Vertegs*
 vx_inscirq(struct Vertegs* cirq, struct Vertegs* entry, int pos)
 {
@@ -143,9 +189,9 @@ vx_inscirq(struct Vertegs* cirq, struct Vertegs* entry, int pos)
 	}
 
 	if (pos > 0)
-		v = vx_upto(cirq, next, pos);
+		v = vx_walk(cirq, next, pos);
 	else if (pos < -1)
-		v = vx_upto(cirq, prev, -(pos + 1));
+		v = vx_walk(cirq, prev, -(pos + 1));
 	else
 		v = cirq;
 	entry->nbor[next] = v;
@@ -155,6 +201,16 @@ vx_inscirq(struct Vertegs* cirq, struct Vertegs* entry, int pos)
 	return pos ? cirq : entry;
 }
 
+/**
+ * @fn static inline struct Vertegs* vx_remcirq(struct Vertegs** cirqp, int pos)
+ *
+ * @brief Remove, at a given position, an entry from a *cirq*.
+ *
+ * @param[in] cirqp The pointer to the head of the *cirq*.
+ * @param[in] pos The position.
+ *
+ * @return The removed entry.
+ */
 static inline struct Vertegs* vx_remcirq(struct Vertegs** cirqp, int pos)
 {
 	const size_t next = 0;
@@ -164,9 +220,9 @@ static inline struct Vertegs* vx_remcirq(struct Vertegs** cirqp, int pos)
 	VX_ENSURE_MEM(cirqp);
 	ret = *cirqp;
 	if (pos > 0)
-		ret = vx_upto(ret, next, pos);
+		ret = vx_walk(ret, next, pos);
 	else if (pos < 0)
-		ret = vx_upto(ret, prev, -pos);
+		ret = vx_walk(ret, prev, -pos);
 	ret->nbor[next]->nbor[prev] = ret->nbor[prev];
 	ret->nbor[prev]->nbor[next] = ret->nbor[next];
 	if (ret == ret->nbor[next])

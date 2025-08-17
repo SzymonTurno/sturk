@@ -49,8 +49,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see cn_dict_getk() */
 #define dict_getk cn_dict_getk
 
-/** @see cn_dict_data() */
-#define dict_data cn_dict_data
+/** @see cn_dict_datap() */
+#define dict_datap cn_dict_datap
 
 /** @see cn_dict_ins() */
 #define dict_ins cn_dict_ins
