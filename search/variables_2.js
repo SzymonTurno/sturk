@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['left_0',['left',['../structCnRbnode.html#a0d5b860be192d55ae6a244637607953f',1,'CnRbnode']]]
+  ['nbor_0',['nbor',['../structVertegs.html#a015d7e34dca7bf8eee692ecd014b2613',1,'Vertegs']]],
+  ['node_1',['node',['../structCnDictnode.html#a0a5a2780f155534cd9a3332076bfdd4f',1,'CnDictnode']]]
 ];

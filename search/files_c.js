@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['waitq_2eh_0',['waitq.h',['../cantil_2waitq_8h.html',1,'(Global Namespace)'],['../cn_2waitq_8h.html',1,'(Global Namespace)']]]
+  ['trace_2eh_0',['trace.h',['../cantil_2logger_2trace_8h.html',1,'(Global Namespace)'],['../cn_2logger_2trace_8h.html',1,'(Global Namespace)']]]
 ];

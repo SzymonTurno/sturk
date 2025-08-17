@@ -7,6 +7,5 @@ var searchData=
   ['pool_5ffree_4',['pool_free',['../cantil_2pool_8h.html#a8e32e2d20746e80005258aa00ba0cce7',1,'pool.h']]],
   ['pool_5ftryalloc_5',['pool_tryalloc',['../cantil_2pool_8h.html#a370f1c4a70b38b5d0c71865e75b4dcdf',1,'pool.h']]],
   ['portability_6',['2. Portability',['../index.html#autotoc_md2',1,'']]],
-  ['prev_7',['prev',['../structCnBinode.html#a9f1f2e30cae73847c44baf7e3f9cb55c',1,'CnBinode']]],
-  ['publish_8',['publish',['../cantil_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7',1,'broker.h']]]
+  ['publish_7',['publish',['../cantil_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7',1,'broker.h']]]
 ];

@@ -122,25 +122,25 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#ifdef __STRICT_ANSI__</span></div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#define cn_dict_cast(dict) ((struct CnStrnode*)(dict))</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#define cn_dict_cast(dict) ((struct CnDictnode*)(dict))</span></div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#define cn_dict_setk(dict, key) ((dict)-&gt;strnode.str = (key))</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#define cn_dict_setk(dict, key) ((dict)-&gt;dictnode.str = (key))</span></div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#define cn_dict_getk(dict) ((dict)-&gt;strnode.str)</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#define cn_dict_getk(dict) ((dict)-&gt;dictnode.str)</span></div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#define cn_dict_data(dict) (&amp;(dict)-&gt;data)</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#define cn_dict_datap(dict) (&amp;(dict)-&gt;data)</span></div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#define cn_dict_ins(dict, node)                                                \</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">        ((void*)cn_strnode_ins(cn_dict_cast(dict), cn_dict_cast(node)))</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">        ((void*)cn_dictnode_ins(cn_dict_cast(dict), cn_dict_cast(node)))</span></div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">#define cn_dict_find(dict, key)                                                \</span></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">        ((void*)cn_strnode_find(cn_dict_cast(dict), (key)))</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">        ((void*)cn_dictnode_find(cn_dict_cast(dict), (key)))</span></div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#define cn_dict_first(dict)                                                    \</span></div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">        ((void*)(cn_strnode_from(cn_rb_first(&amp;dict_cast(dict)-&gt;node, 0))))</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">        ((void*)(cn_dictnode_from(cn_rb_first(&amp;dict_cast(dict)-&gt;node, 0))))</span></div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#define cn_dict_next(dict)                                                     \</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">        ((void*)(cn_strnode_from(cn_rb_next(&amp;dict_cast(dict)-&gt;node, 0))))</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">        ((void*)(cn_dictnode_from(cn_rb_next(&amp;dict_cast(dict)-&gt;node, 0))))</span></div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">#else </span><span class="comment">/* not defined: __STRICT_ANSI__ */</span><span class="preprocessor"></span></div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
@@ -149,7 +149,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">        ({                                                                     \</span></div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="preprocessor">                __typeof__(dict) _dict2 = (dict);                              \</span></div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">                                                                               \</span></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">                _dict2 ? &amp;_dict2-&gt;strnode : NULL;                              \</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">                _dict2 ? &amp;_dict2-&gt;dictnode : NULL;                             \</span></div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">        })</span></div>
 </div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
@@ -159,7 +159,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="preprocessor">                __typeof__(dict) _dict = (dict);                               \</span></div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">                                                                               \</span></div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="preprocessor">                CN_ENSURE(_dict, CN_ERROR, null_param);                        \</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">                _dict-&gt;strnode.str = (key);                                    \</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">                _dict-&gt;dictnode.str = (key);                                   \</span></div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">        })</span></div>
 </div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
@@ -169,12 +169,12 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="preprocessor">                __typeof__(dict) _dict = (dict);                               \</span></div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">                                                                               \</span></div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">                CN_ENSURE(_dict, CN_ERROR, null_param);                        \</span></div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">                _dict-&gt;strnode.str;                                            \</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">                _dict-&gt;dictnode.str;                                           \</span></div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">        })</span></div>
 </div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
 <div class="foldopen" id="foldopen00164" data-start="" data-end="">
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="cn_2dict_8h.html#a121a92aeee6bb9fdf0d48126aeb39499">  164</a></span><span class="preprocessor">#define cn_dict_data(dict)                                                     \</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="cn_2dict_8h.html#aeebf23fc234ad069f6b9a5511198baf8">  164</a></span><span class="preprocessor">#define cn_dict_datap(dict)                                                    \</span></div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="preprocessor">        ({                                                                     \</span></div>
 <div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="preprocessor">                __typeof__(dict) _dict = (dict);                               \</span></div>
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="preprocessor">                                                                               \</span></div>
@@ -189,9 +189,9 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="preprocessor">                __typeof__(dict) _dict = (dict);                               \</span></div>
 <div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="preprocessor">                                                                               \</span></div>
 <div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span><span class="preprocessor">                cn_container_of(                                               \</span></div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="preprocessor">                        cn_strnode_ins(                                        \</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="preprocessor">                        cn_dictnode_ins(                                       \</span></div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">                                cn_dict_cast(_dict), cn_dict_cast(entry)),     \</span></div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span><span class="preprocessor">                        __typeof__(*dict), strnode);                           \</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span><span class="preprocessor">                        __typeof__(*dict), dictnode);                          \</span></div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="preprocessor">        })</span></div>
 </div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
@@ -201,8 +201,8 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="preprocessor">                __typeof__(dict) _dict = (dict);                               \</span></div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="preprocessor">                                                                               \</span></div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="preprocessor">                cn_container_of(                                               \</span></div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="preprocessor">                        cn_strnode_find(cn_dict_cast(_dict), (key)),           \</span></div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="preprocessor">                        __typeof__(*dict), strnode);                           \</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="preprocessor">                        cn_dictnode_find(cn_dict_cast(_dict), (key)),          \</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="preprocessor">                        __typeof__(*dict), dictnode);                          \</span></div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="preprocessor">        })</span></div>
 </div>
 <div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
@@ -212,9 +212,9 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="preprocessor">                __typeof__(dict) _dict = (dict);                               \</span></div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="preprocessor">                                                                               \</span></div>
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="preprocessor">                cn_container_of(                                               \</span></div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">                        cn_strnode_from(                                       \</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">                        cn_dictnode_from(                                      \</span></div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="preprocessor">                                cn_rb_first(&amp;dict_cast(_dict)-&gt;node, 0)),      \</span></div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="preprocessor">                        __typeof__(*dict), strnode);                           \</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="preprocessor">                        __typeof__(*dict), dictnode);                          \</span></div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="preprocessor">        })</span></div>
 </div>
 <div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
@@ -224,9 +224,9 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="preprocessor">                __typeof__(dict) _dict = (dict);                               \</span></div>
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="preprocessor">                                                                               \</span></div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span><span class="preprocessor">                cn_container_of(                                               \</span></div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="preprocessor">                        cn_strnode_from(cn_rb_next(                            \</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="preprocessor">                        cn_dictnode_from(cn_rb_next(                           \</span></div>
 <div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span><span class="preprocessor">                                &amp;dict_cast(_dict)-&gt;node, CN_BST_INORDER)),     \</span></div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span><span class="preprocessor">                        __typeof__(*dict), strnode);                           \</span></div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span><span class="preprocessor">                        __typeof__(*dict), dictnode);                          \</span></div>
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span><span class="preprocessor">        })</span></div>
 </div>
 <div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
@@ -236,40 +236,39 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno"><a class="line" href="cn_2dict_8h.html#ab36be7d28ad88984b38e04079c3b54cd">  276</a></span><span class="preprocessor">#define CN_DICT(name, type)                                                    \</span></div>
 <div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="preprocessor">        name                                                                   \</span></div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><span class="preprocessor">        {                                                                      \</span></div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span><span class="preprocessor">                struct CnStrnode strnode;                                      \</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span><span class="preprocessor">                struct CnDictnode dictnode;                                    \</span></div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span><span class="preprocessor">                type data;                                                     \</span></div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="preprocessor">        }</span></div>
 </div>
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span> </div>
 <div class="foldopen" id="foldopen00288" data-start="{" data-end="};">
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno"><a class="line" href="structCnStrnode.html">  288</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structCnStrnode.html">CnStrnode</a> {</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno"><a class="line" href="structCnStrnode.html#a6f96cf5e1c83cf4195adb6224265eb74">  294</a></span>        <span class="keyword">struct </span><a class="code hl_struct" href="structCnRbnode.html">CnRbnode</a> <a class="code hl_variable" href="structCnStrnode.html#a6f96cf5e1c83cf4195adb6224265eb74">node</a>;</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno"><a class="line" href="structCnDictnode.html">  288</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structCnDictnode.html">CnDictnode</a> {</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno"><a class="line" href="structCnDictnode.html#a0a5a2780f155534cd9a3332076bfdd4f">  294</a></span>        <span class="keyword">struct </span>CnRbnode <a class="code hl_variable" href="structCnDictnode.html#a0a5a2780f155534cd9a3332076bfdd4f">node</a>;</div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span> </div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="structCnStrnode.html#a98285326e8894e49ece601d20e265b3a">  301</a></span>        <span class="keywordtype">char</span>* <a class="code hl_variable" href="structCnStrnode.html#a98285326e8894e49ece601d20e265b3a">str</a>;</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="structCnDictnode.html#a27db23f1185a38654dad6e772b053e9a">  301</a></span>        <span class="keywordtype">char</span>* <a class="code hl_variable" href="structCnDictnode.html#a27db23f1185a38654dad6e772b053e9a">str</a>;</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>};</div>
 </div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span><span class="keyword">struct </span><a class="code hl_struct" href="structCnStrnode.html">CnStrnode</a>*</div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="cn_2dict_8h.html#a1a49c0cfd5eef3bd283283ebb4522e6c">  315</a></span><a class="code hl_function" href="cn_2dict_8h.html#a1a49c0cfd5eef3bd283283ebb4522e6c">cn_strnode_ins</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structCnStrnode.html">CnStrnode</a>* root, <span class="keyword">struct</span> <a class="code hl_struct" href="structCnStrnode.html">CnStrnode</a>* entry);</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span><span class="keyword">struct </span><a class="code hl_struct" href="structCnDictnode.html">CnDictnode</a>*</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="cn_2dict_8h.html#a8cc2908614a7a8bef10b7fcdb0b9f46e">  315</a></span><a class="code hl_function" href="cn_2dict_8h.html#a8cc2908614a7a8bef10b7fcdb0b9f46e">cn_dictnode_ins</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structCnDictnode.html">CnDictnode</a>* root, <span class="keyword">struct</span> <a class="code hl_struct" href="structCnDictnode.html">CnDictnode</a>* entry);</div>
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span> </div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno"><a class="line" href="cn_2dict_8h.html#a77ae4a060843e877e831a5a55ea032bf">  327</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structCnStrnode.html">CnStrnode</a>* <a class="code hl_function" href="cn_2dict_8h.html#a77ae4a060843e877e831a5a55ea032bf">cn_strnode_find</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structCnStrnode.html">CnStrnode</a>* root, <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_variable" href="structCnStrnode.html#a98285326e8894e49ece601d20e265b3a">str</a>);</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno"><a class="line" href="cn_2dict_8h.html#a24c82f1dfe9585a52953ec7acc068d9b">  327</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structCnDictnode.html">CnDictnode</a>* <a class="code hl_function" href="cn_2dict_8h.html#a24c82f1dfe9585a52953ec7acc068d9b">cn_dictnode_find</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structCnDictnode.html">CnDictnode</a>* root, <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_variable" href="structCnDictnode.html#a27db23f1185a38654dad6e772b053e9a">str</a>);</div>
 <div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">struct </span><a class="code hl_struct" href="structCnStrnode.html">CnStrnode</a>* cn_strnode_from(<span class="keyword">struct</span> <a class="code hl_struct" href="structCnRbnode.html">CnRbnode</a>* ptr)</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">struct </span><a class="code hl_struct" href="structCnDictnode.html">CnDictnode</a>* cn_dictnode_from(<span class="keyword">struct</span> CnRbnode* ptr)</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>{</div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>        <span class="keywordflow">return</span> <a class="code hl_define" href="cn_2arith_8h.html#a83618de0a85ef63c01d2814811f6c035">cn_container_of</a>(ptr, <span class="keyword">struct</span> <a class="code hl_struct" href="structCnStrnode.html">CnStrnode</a>, <a class="code hl_variable" href="structCnStrnode.html#a6f96cf5e1c83cf4195adb6224265eb74">node</a>);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>        <span class="keywordflow">return</span> <a class="code hl_define" href="cn_2arith_8h.html#a83618de0a85ef63c01d2814811f6c035">cn_container_of</a>(ptr, <span class="keyword">struct</span> <a class="code hl_struct" href="structCnDictnode.html">CnDictnode</a>, <a class="code hl_variable" href="structCnDictnode.html#a0a5a2780f155534cd9a3332076bfdd4f">node</a>);</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>}</div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span><span class="preprocessor">#endif </span><span class="comment">/* CN_DICT_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="acn_2arith_8h_html"><div class="ttname"><a href="cn_2arith_8h.html">arith.h</a></div><div class="ttdoc">Basic arithmetic operations.</div></div>
 <div class="ttc" id="acn_2arith_8h_html_a83618de0a85ef63c01d2814811f6c035"><div class="ttname"><a href="cn_2arith_8h.html#a83618de0a85ef63c01d2814811f6c035">cn_container_of</a></div><div class="ttdeci">#define cn_container_of(ptr, type, member)</div><div class="ttdoc">Cast a member of a structure out to the containing structure.</div><div class="ttdef"><b>Definition</b> arith.h:91</div></div>
-<div class="ttc" id="acn_2dict_8h_html_a1a49c0cfd5eef3bd283283ebb4522e6c"><div class="ttname"><a href="cn_2dict_8h.html#a1a49c0cfd5eef3bd283283ebb4522e6c">cn_strnode_ins</a></div><div class="ttdeci">struct CnStrnode * cn_strnode_ins(struct CnStrnode *root, struct CnStrnode *entry)</div><div class="ttdoc">Insert an entry into the dictionary.</div></div>
-<div class="ttc" id="acn_2dict_8h_html_a77ae4a060843e877e831a5a55ea032bf"><div class="ttname"><a href="cn_2dict_8h.html#a77ae4a060843e877e831a5a55ea032bf">cn_strnode_find</a></div><div class="ttdeci">struct CnStrnode * cn_strnode_find(struct CnStrnode *root, const char *str)</div><div class="ttdoc">In a dictionary, find the entry with the given key.</div></div>
+<div class="ttc" id="acn_2dict_8h_html_a24c82f1dfe9585a52953ec7acc068d9b"><div class="ttname"><a href="cn_2dict_8h.html#a24c82f1dfe9585a52953ec7acc068d9b">cn_dictnode_find</a></div><div class="ttdeci">struct CnDictnode * cn_dictnode_find(struct CnDictnode *root, const char *str)</div><div class="ttdoc">In a dictionary, find the entry with the given key.</div></div>
+<div class="ttc" id="acn_2dict_8h_html_a8cc2908614a7a8bef10b7fcdb0b9f46e"><div class="ttname"><a href="cn_2dict_8h.html#a8cc2908614a7a8bef10b7fcdb0b9f46e">cn_dictnode_ins</a></div><div class="ttdeci">struct CnDictnode * cn_dictnode_ins(struct CnDictnode *root, struct CnDictnode *entry)</div><div class="ttdoc">Insert an entry into the dictionary.</div></div>
 <div class="ttc" id="acn_2logger_2except_8h_html"><div class="ttname"><a href="cn_2logger_2except_8h.html">except.h</a></div><div class="ttdoc">Exceptions.</div></div>
 <div class="ttc" id="acn_2rbtree_8h_html"><div class="ttname"><a href="cn_2rbtree_8h.html">rbtree.h</a></div><div class="ttdoc">Red-black tree.</div></div>
-<div class="ttc" id="astructCnRbnode_html"><div class="ttname"><a href="structCnRbnode.html">CnRbnode</a></div><div class="ttdoc">Red-black tree node.</div><div class="ttdef"><b>Definition</b> rbtree.h:59</div></div>
-<div class="ttc" id="astructCnStrnode_html"><div class="ttname"><a href="structCnStrnode.html">CnStrnode</a></div><div class="ttdoc">Dictionary node.</div><div class="ttdef"><b>Definition</b> dict.h:288</div></div>
-<div class="ttc" id="astructCnStrnode_html_a6f96cf5e1c83cf4195adb6224265eb74"><div class="ttname"><a href="structCnStrnode.html#a6f96cf5e1c83cf4195adb6224265eb74">CnStrnode::node</a></div><div class="ttdeci">struct CnRbnode node</div><div class="ttdoc">The red-black tree node.</div><div class="ttdef"><b>Definition</b> dict.h:294</div></div>
-<div class="ttc" id="astructCnStrnode_html_a98285326e8894e49ece601d20e265b3a"><div class="ttname"><a href="structCnStrnode.html#a98285326e8894e49ece601d20e265b3a">CnStrnode::str</a></div><div class="ttdeci">char * str</div><div class="ttdoc">The key string.</div><div class="ttdef"><b>Definition</b> dict.h:301</div></div>
+<div class="ttc" id="astructCnDictnode_html"><div class="ttname"><a href="structCnDictnode.html">CnDictnode</a></div><div class="ttdoc">Dictionary node.</div><div class="ttdef"><b>Definition</b> dict.h:288</div></div>
+<div class="ttc" id="astructCnDictnode_html_a0a5a2780f155534cd9a3332076bfdd4f"><div class="ttname"><a href="structCnDictnode.html#a0a5a2780f155534cd9a3332076bfdd4f">CnDictnode::node</a></div><div class="ttdeci">struct CnRbnode node</div><div class="ttdoc">The red-black tree node.</div><div class="ttdef"><b>Definition</b> dict.h:294</div></div>
+<div class="ttc" id="astructCnDictnode_html_a27db23f1185a38654dad6e772b053e9a"><div class="ttname"><a href="structCnDictnode.html#a27db23f1185a38654dad6e772b053e9a">CnDictnode::str</a></div><div class="ttdeci">char * str</div><div class="ttdoc">The key string.</div><div class="ttdef"><b>Definition</b> dict.h:301</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

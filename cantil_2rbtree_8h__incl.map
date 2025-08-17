@@ -1,7 +1,28 @@
 <map id="include/cantil/rbtree.h" name="include/cantil/rbtree.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,169,31"/>
-<area shape="rect" id="Node000002" href="$cn_2rbtree_8h.html" title="Red&#45;black tree." alt="" coords="41,79,133,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,31,90,65,85,65,85,31"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="52,152,123,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="90,104,90,138,85,138,85,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="116,5,280,31"/>
+<area shape="rect" id="Node000002" href="$cn_2rbtree_8h.html" title="Red&#45;black tree." alt="" coords="152,79,244,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,31,201,65,195,65,195,31"/>
+<area shape="rect" id="Node000003" href="$cn_2logger_2except_8h.html" title="Exceptions." alt="" coords="127,152,269,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="201,104,201,138,195,138,195,104"/>
+<area shape="rect" id="Node000010" href="$vx_2graph_8h.html" title="Graph." alt="" coords="11,152,102,177"/>
+<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="176,106,93,148,91,143,174,102"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="293,152,364,177"/>
+<area shape="poly" id="edge14_Node000002_Node000012" title=" " alt="" coords="220,102,297,143,294,148,218,106"/>
+<area shape="rect" id="Node000004" href="$cn_2logger_2trace_8h.html" title="Trace." alt="" coords="133,225,263,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="201,178,201,212,195,212,195,178"/>
+<area shape="rect" id="Node000008" href="$sys_8h.html" title="System procedures." alt="" coords="253,299,348,324"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="221,175,250,195,278,224,292,254,300,285,295,286,287,256,273,227,247,199,218,180"/>
+<area shape="rect" id="Node000005" href="$fstream_8h.html" title="File stream." alt="" coords="106,299,229,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="195,252,180,287,175,285,190,250"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="194,372,269,397"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="180,323,214,360,210,364,176,326"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="95,372,170,397"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="164,326,147,361,142,358,159,323"/>
+<area shape="poly" id="edge8_Node000008_Node000006" title=" " alt="" coords="291,326,254,364,250,360,287,322"/>
+<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="275,326,174,369,172,364,273,322"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="293,372,375,397"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="309,323,325,359,320,361,304,325"/>
+<area shape="rect" id="Node000011" href="$vertegs_8h.html" title="Vertex." alt="" coords="5,225,108,251"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="59,178,59,212,54,212,54,178"/>
+<area shape="poly" id="edge13_Node000011_Node000007" title=" " alt="" coords="64,250,96,323,119,359,114,362,92,325,59,252"/>
 </map>

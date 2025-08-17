@@ -75,7 +75,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">rbtree.h File Reference</div></div>
@@ -84,15 +83,38 @@ $(function() {
 
 <p>Red-black tree.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="cn_2logger_2except_8h_source.html">cn/logger/except.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="vx_2graph_8h_source.html">vx/graph.h</a>&quot;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for rbtree.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="cn_2rbtree_8h__incl.png" border="0" usemap="#ainclude_2cn_2rbtree_8h" alt=""/></div>
 <map name="ainclude_2cn_2rbtree_8h" id="ainclude_2cn_2rbtree_8h">
-<area shape="rect" title="Red&#45;black tree." alt="" coords="5,5,148,31"/>
-<area shape="rect" title=" " alt="" coords="41,79,112,104"/>
-<area shape="poly" title=" " alt="" coords="79,31,79,65,74,65,74,31"/>
+<area shape="rect" title="Red&#45;black tree." alt="" coords="127,5,269,31"/>
+<area shape="rect" href="cn_2logger_2except_8h.html" title="Exceptions." alt="" coords="127,79,269,104"/>
+<area shape="poly" title=" " alt="" coords="201,31,201,65,195,65,195,31"/>
+<area shape="rect" href="vx_2graph_8h.html" title="Graph." alt="" coords="11,79,102,104"/>
+<area shape="poly" title=" " alt="" coords="176,33,93,75,91,70,174,28"/>
+<area shape="rect" title=" " alt="" coords="293,79,364,104"/>
+<area shape="poly" title=" " alt="" coords="220,28,297,70,294,74,218,33"/>
+<area shape="rect" href="cn_2logger_2trace_8h.html" title="Trace." alt="" coords="133,152,263,177"/>
+<area shape="poly" title=" " alt="" coords="201,104,201,138,195,138,195,104"/>
+<area shape="rect" href="sys_8h.html" title="System procedures." alt="" coords="253,225,348,251"/>
+<area shape="poly" title=" " alt="" coords="221,102,250,122,278,150,292,181,300,211,295,213,287,183,273,154,247,126,218,106"/>
+<area shape="rect" href="fstream_8h.html" title="File stream." alt="" coords="106,225,229,251"/>
+<area shape="poly" title=" " alt="" coords="195,179,180,214,175,212,190,177"/>
+<area shape="rect" title=" " alt="" coords="194,299,269,324"/>
+<area shape="poly" title=" " alt="" coords="180,249,214,287,210,290,176,253"/>
+<area shape="rect" title=" " alt="" coords="95,299,170,324"/>
+<area shape="poly" title=" " alt="" coords="164,252,147,287,142,285,159,250"/>
+<area shape="poly" title=" " alt="" coords="291,253,254,291,250,287,287,249"/>
+<area shape="poly" title=" " alt="" coords="275,253,174,296,172,291,273,248"/>
+<area shape="rect" title=" " alt="" coords="293,299,375,324"/>
+<area shape="poly" title=" " alt="" coords="309,250,325,285,320,287,304,252"/>
+<area shape="rect" href="vertegs_8h.html" title="Vertex." alt="" coords="5,152,108,177"/>
+<area shape="poly" title=" " alt="" coords="59,104,59,138,54,138,54,104"/>
+<area shape="poly" title=" " alt="" coords="64,177,96,249,119,286,114,289,92,252,59,179"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -116,12 +138,6 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="cn_2rbtree_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCnRbnode.html">CnRbnode</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Red-black tree node.  <a href="structCnRbnode.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:afd5241fc92cdaf38c429ef806fbea928" id="r_afd5241fc92cdaf38c429ef806fbea928"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#afd5241fc92cdaf38c429ef806fbea928">CnBstOrder</a> { <a class="el" href="cn_2rbtree_8h.html#afd5241fc92cdaf38c429ef806fbea928a40e76d4cb39819c200f1fe530c7bca22">CN_BST_INORDER</a> = 0
@@ -130,28 +146,66 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:afd5241fc92cdaf38c429ef806fbea928"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nodes order for a binary search tree.  <a href="cn_2rbtree_8h.html#afd5241fc92cdaf38c429ef806fbea928">More...</a><br /></td></tr>
 <tr class="separator:afd5241fc92cdaf38c429ef806fbea928"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a02d53e1d8e3291af2237bd662826c1" id="r_a7a02d53e1d8e3291af2237bd662826c1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#a7a02d53e1d8e3291af2237bd662826c1">CnBstChild</a> { <a class="el" href="cn_2rbtree_8h.html#a7a02d53e1d8e3291af2237bd662826c1aec443bcb96890f6ffa835544392af6b8">CN_BST_LEFT</a> = 0
+, <a class="el" href="cn_2rbtree_8h.html#a7a02d53e1d8e3291af2237bd662826c1a486d6751a574798928bb19d5f653cc02">CN_BST_RIGHT</a>
+, <a class="el" href="cn_2rbtree_8h.html#a7a02d53e1d8e3291af2237bd662826c1af484e943c3b66f75a47482bfc6f021f4">CN_BST_N_CHILDREN</a>
+ }</td></tr>
+<tr class="memdesc:a7a02d53e1d8e3291af2237bd662826c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indices for children in a binary search tree.  <a href="cn_2rbtree_8h.html#a7a02d53e1d8e3291af2237bd662826c1">More...</a><br /></td></tr>
+<tr class="separator:a7a02d53e1d8e3291af2237bd662826c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a46b1a99b69506c38fc80b6c3d6b68b59" id="r_a46b1a99b69506c38fc80b6c3d6b68b59"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#a46b1a99b69506c38fc80b6c3d6b68b59">cn_rb_link</a> (struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *node, struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *parent)</td></tr>
+<tr class="memitem:ad1055f378caa1ca55bb6dc5f68ab72bc" id="r_ad1055f378caa1ca55bb6dc5f68ab72bc"><td class="memItemLeft" align="right" valign="top"><a id="ad1055f378caa1ca55bb6dc5f68ab72bc" name="ad1055f378caa1ca55bb6dc5f68ab72bc"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>VX_GRAPH</b> (struct CnRbnode, <a class="el" href="cn_2rbtree_8h.html#a7a02d53e1d8e3291af2237bd662826c1af484e943c3b66f75a47482bfc6f021f4">CN_BST_N_CHILDREN</a>, union {intptr_t parcol;int32_t align;})</td></tr>
+<tr class="memdesc:ad1055f378caa1ca55bb6dc5f68ab72bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is a macro definition of the struct CnRbnode type. <br /></td></tr>
+<tr class="separator:ad1055f378caa1ca55bb6dc5f68ab72bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46b1a99b69506c38fc80b6c3d6b68b59" id="r_a46b1a99b69506c38fc80b6c3d6b68b59"><td class="memItemLeft" align="right" valign="top">struct CnRbnode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#a46b1a99b69506c38fc80b6c3d6b68b59">cn_rb_link</a> (struct CnRbnode *node, struct CnRbnode *parent)</td></tr>
 <tr class="memdesc:a46b1a99b69506c38fc80b6c3d6b68b59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare a node for insertion in a red-black tree.  <br /></td></tr>
 <tr class="separator:a46b1a99b69506c38fc80b6c3d6b68b59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7f57df189b9d78534fb470eb261dc43" id="r_ad7f57df189b9d78534fb470eb261dc43"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#ad7f57df189b9d78534fb470eb261dc43">cn_rb_insrebal</a> (struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *root, struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *node)</td></tr>
+<tr class="memitem:ad7f57df189b9d78534fb470eb261dc43" id="r_ad7f57df189b9d78534fb470eb261dc43"><td class="memItemLeft" align="right" valign="top">struct CnRbnode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#ad7f57df189b9d78534fb470eb261dc43">cn_rb_insrebal</a> (struct CnRbnode *root, struct CnRbnode *node)</td></tr>
 <tr class="memdesc:ad7f57df189b9d78534fb470eb261dc43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a node in a red-black tree and rebalance the tree.  <br /></td></tr>
 <tr class="separator:ad7f57df189b9d78534fb470eb261dc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0152e7f850b27e0067dd273f4af9e7e5" id="r_a0152e7f850b27e0067dd273f4af9e7e5"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#a0152e7f850b27e0067dd273f4af9e7e5">cn_rb_parent</a> (struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *node)</td></tr>
+<tr class="memitem:a0152e7f850b27e0067dd273f4af9e7e5" id="r_a0152e7f850b27e0067dd273f4af9e7e5"><td class="memItemLeft" align="right" valign="top">struct CnRbnode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#a0152e7f850b27e0067dd273f4af9e7e5">cn_rb_parent</a> (struct CnRbnode *node)</td></tr>
 <tr class="memdesc:a0152e7f850b27e0067dd273f4af9e7e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the parent of the red-black tree node.  <br /></td></tr>
 <tr class="separator:a0152e7f850b27e0067dd273f4af9e7e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab18ca1d1da6a50d9773a2ad0121553fc" id="r_ab18ca1d1da6a50d9773a2ad0121553fc"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#ab18ca1d1da6a50d9773a2ad0121553fc">cn_rb_first</a> (struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *node, enum <a class="el" href="cn_2rbtree_8h.html#afd5241fc92cdaf38c429ef806fbea928">CnBstOrder</a> order)</td></tr>
+<tr class="memitem:ab18ca1d1da6a50d9773a2ad0121553fc" id="r_ab18ca1d1da6a50d9773a2ad0121553fc"><td class="memItemLeft" align="right" valign="top">struct CnRbnode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#ab18ca1d1da6a50d9773a2ad0121553fc">cn_rb_first</a> (struct CnRbnode *node, enum <a class="el" href="cn_2rbtree_8h.html#afd5241fc92cdaf38c429ef806fbea928">CnBstOrder</a> order)</td></tr>
 <tr class="memdesc:ab18ca1d1da6a50d9773a2ad0121553fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first node of the red-black tree for the given BST order.  <br /></td></tr>
 <tr class="separator:ab18ca1d1da6a50d9773a2ad0121553fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae95185bc3cfa523cccb2a52fe2f35242" id="r_ae95185bc3cfa523cccb2a52fe2f35242"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#ae95185bc3cfa523cccb2a52fe2f35242">cn_rb_next</a> (struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *node, enum <a class="el" href="cn_2rbtree_8h.html#afd5241fc92cdaf38c429ef806fbea928">CnBstOrder</a> order)</td></tr>
+<tr class="memitem:ae95185bc3cfa523cccb2a52fe2f35242" id="r_ae95185bc3cfa523cccb2a52fe2f35242"><td class="memItemLeft" align="right" valign="top">struct CnRbnode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#ae95185bc3cfa523cccb2a52fe2f35242">cn_rb_next</a> (struct CnRbnode *node, enum <a class="el" href="cn_2rbtree_8h.html#afd5241fc92cdaf38c429ef806fbea928">CnBstOrder</a> order)</td></tr>
 <tr class="memdesc:ae95185bc3cfa523cccb2a52fe2f35242"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next node for the current red-black tree node and the BST order.  <br /></td></tr>
 <tr class="separator:ae95185bc3cfa523cccb2a52fe2f35242"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Red-black tree. </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a7a02d53e1d8e3291af2237bd662826c1" name="a7a02d53e1d8e3291af2237bd662826c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a02d53e1d8e3291af2237bd662826c1">&#9670;&#160;</a></span>CnBstChild</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="cn_2rbtree_8h.html#a7a02d53e1d8e3291af2237bd662826c1">CnBstChild</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Indices for children in a binary search tree. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7a02d53e1d8e3291af2237bd662826c1aec443bcb96890f6ffa835544392af6b8" name="a7a02d53e1d8e3291af2237bd662826c1aec443bcb96890f6ffa835544392af6b8"></a>CN_BST_LEFT&#160;</td><td class="fielddoc"><p>left child. </p>
+<p><br  />
+ </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a02d53e1d8e3291af2237bd662826c1a486d6751a574798928bb19d5f653cc02" name="a7a02d53e1d8e3291af2237bd662826c1a486d6751a574798928bb19d5f653cc02"></a>CN_BST_RIGHT&#160;</td><td class="fielddoc"><p>right child. </p>
+<p><br  />
+ </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a02d53e1d8e3291af2237bd662826c1af484e943c3b66f75a47482bfc6f021f4" name="a7a02d53e1d8e3291af2237bd662826c1af484e943c3b66f75a47482bfc6f021f4"></a>CN_BST_N_CHILDREN&#160;</td><td class="fielddoc"><p>number of children. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="afd5241fc92cdaf38c429ef806fbea928" name="afd5241fc92cdaf38c429ef806fbea928"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afd5241fc92cdaf38c429ef806fbea928">&#9670;&#160;</a></span>CnBstOrder</h2>
 
@@ -188,9 +242,9 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> * cn_rb_first </td>
+          <td class="memname">struct CnRbnode * cn_rb_first </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td>
+          <td class="paramtype">struct CnRbnode *&#160;</td>
           <td class="paramname"><em>node</em>, </td>
         </tr>
         <tr>
@@ -226,15 +280,15 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> * cn_rb_insrebal </td>
+          <td class="memname">struct CnRbnode * cn_rb_insrebal </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td>
+          <td class="paramtype">struct CnRbnode *&#160;</td>
           <td class="paramname"><em>root</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td>
+          <td class="paramtype">struct CnRbnode *&#160;</td>
           <td class="paramname"><em>node</em>&#160;</td>
         </tr>
         <tr>
@@ -266,15 +320,15 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> * cn_rb_link </td>
+          <td class="memname">struct CnRbnode * cn_rb_link </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td>
+          <td class="paramtype">struct CnRbnode *&#160;</td>
           <td class="paramname"><em>node</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td>
+          <td class="paramtype">struct CnRbnode *&#160;</td>
           <td class="paramname"><em>parent</em>&#160;</td>
         </tr>
         <tr>
@@ -305,9 +359,9 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> * cn_rb_next </td>
+          <td class="memname">struct CnRbnode * cn_rb_next </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td>
+          <td class="paramtype">struct CnRbnode *&#160;</td>
           <td class="paramname"><em>node</em>, </td>
         </tr>
         <tr>
@@ -343,9 +397,9 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> * cn_rb_parent </td>
+          <td class="memname">struct CnRbnode * cn_rb_parent </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structCnRbnode.html">CnRbnode</a> *&#160;</td>
+          <td class="paramtype">struct CnRbnode *&#160;</td>
           <td class="paramname"><em>node</em></td><td>)</td>
           <td></td>
         </tr>

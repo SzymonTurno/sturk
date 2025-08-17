@@ -1,31 +1,22 @@
 <map id="include/cn/logger/trace.h" name="include/cn/logger/trace.h">
-<area shape="rect" id="Node000001" title="Trace." alt="" coords="165,5,348,31"/>
-<area shape="rect" id="Node000002" href="$cantil_2logger_2trace_8h.html" title=" " alt="" coords="81,79,235,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,41,183,81,180,76,230,37"/>
-<area shape="rect" id="Node000003" href="$cn_2logger_2except_8h.html" title="Exceptions." alt="" coords="260,86,453,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="284,37,343,84,340,88,281,41"/>
-<area shape="rect" id="Node000004" href="$cantil_2logger_2except_8h.html" title=" " alt="" coords="38,167,193,207"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="312,119,169,169,168,164,310,114"/>
-<area shape="rect" id="Node000005" href="$cn_2cirq_8h.html" title="Doubly linked circular list." alt="" coords="217,174,345,199"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="339,124,293,175,289,172,335,120"/>
-<area shape="rect" id="Node000011" href="$cn_2dict_8h.html" title="Dictionary." alt="" coords="369,174,497,199"/>
-<area shape="poly" id="edge10_Node000003_Node000011" title=" " alt="" coords="378,120,424,172,420,175,374,124"/>
-<area shape="rect" id="Node000013" href="$cn_2list_8h.html" title="Singly linked list." alt="" coords="525,174,649,199"/>
-<area shape="poly" id="edge13_Node000003_Node000013" title=" " alt="" coords="401,114,557,171,555,176,400,119"/>
-<area shape="rect" id="Node000006" href="$cantil_2cirq_8h.html" title=" " alt="" coords="181,255,330,280"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="275,213,262,255,257,254,270,211"/>
-<area shape="rect" id="Node000007" href="$cn_2str_8h.html" title="String utilities." alt="" coords="527,255,647,280"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="339,200,543,252,542,257,338,205"/>
-<area shape="rect" id="Node000009" href="$cn_2waitq_8h.html" title="Waiting queue." alt="" coords="16,255,156,280"/>
-<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="241,207,115,257,113,252,239,202"/>
-<area shape="rect" id="Node000008" href="$cantil_2str_8h.html" title=" " alt="" coords="517,328,658,353"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="590,294,590,328,585,328,585,294"/>
-<area shape="rect" id="Node000010" href="$cantil_2waitq_8h.html" title=" " alt="" coords="5,328,167,353"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="89,294,89,328,83,328,83,294"/>
-<area shape="poly" id="edge12_Node000011_Node000007" title=" " alt="" coords="469,203,566,252,563,257,467,208"/>
-<area shape="rect" id="Node000012" href="$cantil_2dict_8h.html" title=" " alt="" coords="354,255,503,280"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="434,213,432,255,427,254,429,213"/>
-<area shape="poly" id="edge15_Node000013_Node000007" title=" " alt="" coords="590,213,590,254,585,254,585,213"/>
-<area shape="rect" id="Node000014" href="$cantil_2list_8h.html" title=" " alt="" coords="672,255,817,280"/>
-<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="624,203,723,252,721,257,621,208"/>
+<area shape="rect" id="Node000001" title="Trace." alt="" coords="90,5,273,31"/>
+<area shape="rect" id="Node000002" href="$cantil_2logger_2trace_8h.html" title=" " alt="" coords="5,79,160,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,41,108,81,105,76,154,37"/>
+<area shape="rect" id="Node000003" href="$cn_2logger_2except_8h.html" title="Exceptions." alt="" coords="185,86,378,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,37,268,84,265,88,205,41"/>
+<area shape="rect" id="Node000004" href="$cantil_2logger_2except_8h.html" title=" " alt="" coords="89,167,244,207"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="257,122,194,169,190,164,253,117"/>
+<area shape="rect" id="Node000005" href="$cn_2dict_8h.html" title="Dictionary." alt="" coords="217,255,345,280"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="284,125,284,255,279,255,279,125"/>
+<area shape="rect" id="Node000009" href="$cn_2rbtree_8h.html" title="Red&#45;black tree." alt="" coords="319,174,462,199"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="309,118,377,172,374,176,305,122"/>
+<area shape="rect" id="Node000006" href="$cantil_2dict_8h.html" title=" " alt="" coords="128,328,277,353"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="260,291,217,330,214,326,257,287"/>
+<area shape="rect" id="Node000007" href="$cn_2str_8h.html" title="String utilities." alt="" coords="301,328,421,353"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="306,287,350,326,346,330,302,291"/>
+<area shape="rect" id="Node000008" href="$cantil_2str_8h.html" title=" " alt="" coords="291,401,432,427"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="364,367,364,401,359,401,359,367"/>
+<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="365,210,299,257,296,252,362,205"/>
+<area shape="rect" id="Node000010" href="$cantil_2rbtree_8h.html" title=" " alt="" coords="370,255,534,280"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="410,208,445,253,441,256,406,212"/>
 </map>

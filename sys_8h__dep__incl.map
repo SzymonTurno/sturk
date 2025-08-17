@@ -1,29 +1,30 @@
 <map id="include/cn/os/sys.h" name="include/cn/os/sys.h">
-<area shape="rect" id="Node000001" title="System procedures." alt="" coords="284,5,429,31"/>
-<area shape="rect" id="Node000002" href="$cn_2logger_2except_8h.html" title="Exceptions." alt="" coords="260,79,453,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="359,44,359,79,354,79,354,44"/>
-<area shape="rect" id="Node000003" href="$cantil_2logger_2except_8h.html" title=" " alt="" coords="38,152,193,192"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="309,111,174,154,173,149,308,106"/>
-<area shape="rect" id="Node000004" href="$cn_2cirq_8h.html" title="Doubly linked circular list." alt="" coords="217,159,345,185"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="338,116,294,161,290,157,334,112"/>
-<area shape="rect" id="Node000010" href="$cn_2dict_8h.html" title="Dictionary." alt="" coords="369,159,497,185"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="379,112,423,157,419,161,375,116"/>
-<area shape="rect" id="Node000012" href="$cn_2list_8h.html" title="Singly linked list." alt="" coords="525,159,649,185"/>
-<area shape="poly" id="edge12_Node000002_Node000012" title=" " alt="" coords="404,106,555,157,553,162,402,111"/>
-<area shape="rect" id="Node000005" href="$cantil_2cirq_8h.html" title=" " alt="" coords="181,240,330,265"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="275,198,262,241,257,239,270,197"/>
-<area shape="rect" id="Node000006" href="$cn_2str_8h.html" title="String utilities." alt="" coords="527,240,647,265"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="339,185,543,237,542,243,338,191"/>
-<area shape="rect" id="Node000008" href="$cn_2waitq_8h.html" title="Waiting queue." alt="" coords="16,240,156,265"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="241,192,115,242,113,238,239,187"/>
-<area shape="rect" id="Node000007" href="$cantil_2str_8h.html" title=" " alt="" coords="517,313,658,339"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="590,279,590,313,585,313,585,279"/>
-<area shape="rect" id="Node000009" href="$cantil_2waitq_8h.html" title=" " alt="" coords="5,313,167,339"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="89,279,89,313,83,313,83,279"/>
-<area shape="poly" id="edge11_Node000010_Node000006" title=" " alt="" coords="469,189,566,237,563,242,467,193"/>
-<area shape="rect" id="Node000011" href="$cantil_2dict_8h.html" title=" " alt="" coords="354,240,503,265"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="434,199,432,240,427,240,429,198"/>
-<area shape="poly" id="edge14_Node000012_Node000006" title=" " alt="" coords="590,198,590,240,585,240,585,198"/>
-<area shape="rect" id="Node000013" href="$cantil_2list_8h.html" title=" " alt="" coords="672,240,817,265"/>
-<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="624,188,723,238,721,242,621,193"/>
+<area shape="rect" id="Node000001" title="System procedures." alt="" coords="366,5,511,31"/>
+<area shape="rect" id="Node000002" href="$cantil_2cirq_8h.html" title=" " alt="" coords="5,79,155,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="368,36,139,81,138,76,367,31"/>
+<area shape="rect" id="Node000003" href="$cantil_2graph_8h.html" title=" " alt="" coords="179,79,341,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="398,38,290,81,288,76,397,33"/>
+<area shape="rect" id="Node000004" href="$cantil_2list_8h.html" title=" " alt="" coords="366,79,511,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="441,44,441,79,436,79,436,44"/>
+<area shape="rect" id="Node000005" href="$cn_2logger_2except_8h.html" title="Exceptions." alt="" coords="535,79,729,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="483,33,601,76,599,81,481,38"/>
+<area shape="rect" id="Node000013" href="$cn_2waitq_8h.html" title="Waiting queue." alt="" coords="799,79,939,104"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="522,30,800,76,800,81,521,36"/>
+<area shape="rect" id="Node000006" href="$cantil_2logger_2except_8h.html" title=" " alt="" coords="416,152,571,192"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="601,113,528,154,525,150,598,109"/>
+<area shape="rect" id="Node000007" href="$cn_2dict_8h.html" title="Dictionary." alt="" coords="544,240,672,265"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="631,118,612,240,607,239,626,117"/>
+<area shape="rect" id="Node000011" href="$cn_2rbtree_8h.html" title="Red&#45;black tree." alt="" coords="646,159,789,185"/>
+<area shape="poly" id="edge10_Node000005_Node000011" title=" " alt="" coords="657,111,706,157,703,161,653,115"/>
+<area shape="rect" id="Node000008" href="$cantil_2dict_8h.html" title=" " alt="" coords="455,313,604,339"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="587,277,544,315,540,311,583,273"/>
+<area shape="rect" id="Node000009" href="$cn_2str_8h.html" title="String utilities." alt="" coords="628,313,748,339"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="633,272,677,311,673,315,629,276"/>
+<area shape="rect" id="Node000010" href="$cantil_2str_8h.html" title=" " alt="" coords="617,387,759,412"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="691,352,691,387,685,387,685,352"/>
+<area shape="poly" id="edge12_Node000011_Node000007" title=" " alt="" coords="691,195,626,242,623,238,688,191"/>
+<area shape="rect" id="Node000012" href="$cantil_2rbtree_8h.html" title=" " alt="" coords="697,240,861,265"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="737,194,772,238,767,241,733,197"/>
+<area shape="rect" id="Node000014" href="$cantil_2waitq_8h.html" title=" " alt="" coords="813,159,974,185"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="879,117,892,158,887,160,874,118"/>
 </map>

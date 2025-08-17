@@ -8,7 +8,7 @@ var searchData=
   ['cnmutex_5',['CnMutex',['../cn_2os_2mutex_8h.html#a9339b9848145ad4f3d18f8d703ea2118',1,'mutex.h']]],
   ['cnpool_6',['CnPool',['../cn_2pool_8h.html#a44cc996b1dc74988ab3a5de329120ff7',1,'pool.h']]],
   ['cnsem_7',['CnSem',['../cn_2os_2sem_8h.html#aedb15f06e2f43a59a05c0e6e9926e5dc',1,'sem.h']]],
-  ['cnstreambag_8',['CnStreambag',['../cn_2logger_2streambag_8h.html#ae7e008a2c2229939f71640cadf7f31de',1,'streambag.h']]],
+  ['cnstreambag_8',['CnStreamBag',['../cn_2logger_2streambag_8h.html#a4bb41fc39970ff8f6a40e56812d4c462',1,'streambag.h']]],
   ['cnsubscriber_9',['CnSubscriber',['../cn_2broker_8h.html#a070ea82c82ee7d183aee382a68dd642a',1,'broker.h']]],
   ['cnwaitq_10',['CnWaitq',['../cn_2waitq_8h.html#aa5ac9fa62ac5970fcd8fc82264db8991',1,'waitq.h']]]
 ];

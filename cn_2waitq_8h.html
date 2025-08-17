@@ -83,34 +83,25 @@ $(function() {
 
 <p>Waiting queue.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="cn_2cirq_8h_source.html">cn/cirq.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="sys_8h_source.html">cn/os/sys.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="vertegs_8h_source.html">vx/vertegs.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for waitq.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="cn_2waitq_8h__incl.png" border="0" usemap="#ainclude_2cn_2waitq_8h" alt=""/></div>
 <map name="ainclude_2cn_2waitq_8h" id="ainclude_2cn_2waitq_8h">
-<area shape="rect" title="Waiting queue." alt="" coords="42,5,182,31"/>
-<area shape="rect" href="cn_2cirq_8h.html" title="Doubly linked circular list." alt="" coords="73,79,151,104"/>
-<area shape="poly" title=" " alt="" coords="115,31,115,65,109,65,109,31"/>
-<area shape="rect" href="cn_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="5,225,88,251"/>
-<area shape="poly" title=" " alt="" coords="109,106,60,214,55,212,104,103"/>
-<area shape="rect" href="cn_2logger_2except_8h.html" title="Exceptions." alt="" coords="106,152,249,177"/>
-<area shape="poly" title=" " alt="" coords="125,103,159,140,156,144,121,106"/>
-<area shape="rect" title=" " alt="" coords="75,372,149,397"/>
-<area shape="poly" title=" " alt="" coords="52,251,61,284,76,323,97,359,93,362,71,325,56,285,47,252"/>
-<area shape="rect" href="cn_2logger_2trace_8h.html" title="Trace." alt="" coords="112,225,243,251"/>
-<area shape="poly" title=" " alt="" coords="180,178,180,212,175,212,175,178"/>
-<area shape="rect" href="sys_8h.html" title="System procedures." alt="" coords="233,299,327,324"/>
-<area shape="poly" title=" " alt="" coords="200,175,230,195,257,224,272,254,279,285,274,286,267,256,252,227,226,199,197,180"/>
-<area shape="rect" href="fstream_8h.html" title="File stream." alt="" coords="85,299,208,324"/>
-<area shape="poly" title=" " alt="" coords="175,252,159,287,155,285,170,250"/>
-<area shape="poly" title=" " alt="" coords="143,326,126,361,121,358,139,323"/>
-<area shape="rect" title=" " alt="" coords="173,372,248,397"/>
-<area shape="poly" title=" " alt="" coords="159,323,193,360,189,364,155,326"/>
-<area shape="poly" title=" " alt="" coords="254,326,153,369,151,364,252,322"/>
-<area shape="poly" title=" " alt="" coords="270,326,233,364,229,360,267,322"/>
-<area shape="rect" title=" " alt="" coords="272,372,355,397"/>
-<area shape="poly" title=" " alt="" coords="288,323,305,359,300,361,283,325"/>
+<area shape="rect" title="Waiting queue." alt="" coords="131,5,271,31"/>
+<area shape="rect" href="sys_8h.html" title="System procedures." alt="" coords="93,79,187,104"/>
+<area shape="poly" title=" " alt="" coords="193,33,161,70,157,66,189,29"/>
+<area shape="rect" href="vertegs_8h.html" title="Vertex." alt="" coords="211,79,314,104"/>
+<area shape="poly" title=" " alt="" coords="213,29,246,66,242,70,209,33"/>
+<area shape="rect" title=" " alt="" coords="5,152,80,177"/>
+<area shape="poly" title=" " alt="" coords="126,106,71,146,68,141,123,102"/>
+<area shape="rect" title=" " alt="" coords="104,152,187,177"/>
+<area shape="poly" title=" " alt="" coords="144,104,146,138,141,139,138,105"/>
+<area shape="rect" title=" " alt="" coords="216,152,291,177"/>
+<area shape="poly" title=" " alt="" coords="160,102,225,142,222,147,157,106"/>
+<area shape="poly" title=" " alt="" coords="264,105,259,139,254,138,258,104"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -141,15 +132,15 @@ Functions</h2></td></tr>
 <tr class="memitem:aa53165d394803be59b268a7a9f14b4fe" id="r_aa53165d394803be59b268a7a9f14b4fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2waitq_8h.html#aa53165d394803be59b268a7a9f14b4fe">cn_waitq_destroy</a> (<a class="el" href="cn_2waitq_8h.html#aa5ac9fa62ac5970fcd8fc82264db8991">CnWaitq</a> *waitq)</td></tr>
 <tr class="memdesc:aa53165d394803be59b268a7a9f14b4fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy a waiting queue.  <br /></td></tr>
 <tr class="separator:aa53165d394803be59b268a7a9f14b4fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8bbabc8162aa4e66b8c580af55327a9" id="r_af8bbabc8162aa4e66b8c580af55327a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2waitq_8h.html#af8bbabc8162aa4e66b8c580af55327a9">cn_waitq_ins</a> (<a class="el" href="cn_2waitq_8h.html#aa5ac9fa62ac5970fcd8fc82264db8991">CnWaitq</a> *waitq, struct <a class="el" href="structCnBinode.html">CnBinode</a> *entry)</td></tr>
-<tr class="memdesc:af8bbabc8162aa4e66b8c580af55327a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an entry into a waiting queue.  <br /></td></tr>
-<tr class="separator:af8bbabc8162aa4e66b8c580af55327a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac69d80c3af5176b50df397442693f350" id="r_ac69d80c3af5176b50df397442693f350"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structCnBinode.html">CnBinode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2waitq_8h.html#ac69d80c3af5176b50df397442693f350">cn_waitq_rem</a> (<a class="el" href="cn_2waitq_8h.html#aa5ac9fa62ac5970fcd8fc82264db8991">CnWaitq</a> *waitq)</td></tr>
-<tr class="memdesc:ac69d80c3af5176b50df397442693f350"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an entry from the front of the queue.  <br /></td></tr>
-<tr class="separator:ac69d80c3af5176b50df397442693f350"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a521dca6179d08d7d8541b0ce2285bee4" id="r_a521dca6179d08d7d8541b0ce2285bee4"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structCnBinode.html">CnBinode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2waitq_8h.html#a521dca6179d08d7d8541b0ce2285bee4">cn_waitq_tryrem</a> (<a class="el" href="cn_2waitq_8h.html#aa5ac9fa62ac5970fcd8fc82264db8991">CnWaitq</a> *waitq)</td></tr>
-<tr class="memdesc:a521dca6179d08d7d8541b0ce2285bee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to remove an entry from the front of the queue.  <br /></td></tr>
-<tr class="separator:a521dca6179d08d7d8541b0ce2285bee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a627250e7403cf768a7b162a697bbee94" id="r_a627250e7403cf768a7b162a697bbee94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2waitq_8h.html#a627250e7403cf768a7b162a697bbee94">cn_waitq_ins</a> (<a class="el" href="cn_2waitq_8h.html#aa5ac9fa62ac5970fcd8fc82264db8991">CnWaitq</a> *waitq, struct <a class="el" href="structVertegs.html">Vertegs</a> *entry)</td></tr>
+<tr class="memdesc:a627250e7403cf768a7b162a697bbee94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an entry into a waiting queue.  <br /></td></tr>
+<tr class="separator:a627250e7403cf768a7b162a697bbee94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa20d3689ac32274096c832470e2e19c" id="r_afa20d3689ac32274096c832470e2e19c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2waitq_8h.html#afa20d3689ac32274096c832470e2e19c">cn_waitq_rem</a> (<a class="el" href="cn_2waitq_8h.html#aa5ac9fa62ac5970fcd8fc82264db8991">CnWaitq</a> *waitq)</td></tr>
+<tr class="memdesc:afa20d3689ac32274096c832470e2e19c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an entry from the front of the queue.  <br /></td></tr>
+<tr class="separator:afa20d3689ac32274096c832470e2e19c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1b5b49622e234dfb18e93e05760b0e0" id="r_ac1b5b49622e234dfb18e93e05760b0e0"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2waitq_8h.html#ac1b5b49622e234dfb18e93e05760b0e0">cn_waitq_tryrem</a> (<a class="el" href="cn_2waitq_8h.html#aa5ac9fa62ac5970fcd8fc82264db8991">CnWaitq</a> *waitq)</td></tr>
+<tr class="memdesc:ac1b5b49622e234dfb18e93e05760b0e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to remove an entry from the front of the queue.  <br /></td></tr>
+<tr class="separator:ac1b5b49622e234dfb18e93e05760b0e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Waiting queue. </p>
@@ -201,8 +192,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af8bbabc8162aa4e66b8c580af55327a9" name="af8bbabc8162aa4e66b8c580af55327a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af8bbabc8162aa4e66b8c580af55327a9">&#9670;&#160;</a></span>cn_waitq_ins()</h2>
+<a id="a627250e7403cf768a7b162a697bbee94" name="a627250e7403cf768a7b162a697bbee94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a627250e7403cf768a7b162a697bbee94">&#9670;&#160;</a></span>cn_waitq_ins()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -216,7 +207,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="structCnBinode.html">CnBinode</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td>
           <td class="paramname"><em>entry</em>&#160;</td>
         </tr>
         <tr>
@@ -238,14 +229,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac69d80c3af5176b50df397442693f350" name="ac69d80c3af5176b50df397442693f350"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac69d80c3af5176b50df397442693f350">&#9670;&#160;</a></span>cn_waitq_rem()</h2>
+<a id="afa20d3689ac32274096c832470e2e19c" name="afa20d3689ac32274096c832470e2e19c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa20d3689ac32274096c832470e2e19c">&#9670;&#160;</a></span>cn_waitq_rem()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structCnBinode.html">CnBinode</a> * cn_waitq_rem </td>
+          <td class="memname">struct <a class="el" href="structVertegs.html">Vertegs</a> * cn_waitq_rem </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="cn_2waitq_8h.html#aa5ac9fa62ac5970fcd8fc82264db8991">CnWaitq</a> *&#160;</td>
           <td class="paramname"><em>waitq</em></td><td>)</td>
@@ -266,14 +257,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a521dca6179d08d7d8541b0ce2285bee4" name="a521dca6179d08d7d8541b0ce2285bee4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a521dca6179d08d7d8541b0ce2285bee4">&#9670;&#160;</a></span>cn_waitq_tryrem()</h2>
+<a id="ac1b5b49622e234dfb18e93e05760b0e0" name="ac1b5b49622e234dfb18e93e05760b0e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1b5b49622e234dfb18e93e05760b0e0">&#9670;&#160;</a></span>cn_waitq_tryrem()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structCnBinode.html">CnBinode</a> * cn_waitq_tryrem </td>
+          <td class="memname">struct <a class="el" href="structVertegs.html">Vertegs</a> * cn_waitq_tryrem </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="cn_2waitq_8h.html#aa5ac9fa62ac5970fcd8fc82264db8991">CnWaitq</a> *&#160;</td>
           <td class="paramname"><em>waitq</em></td><td>)</td>

@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['raise_0',['RAISE',['../cantil_2logger_2except_8h.html#a8ce0d30dc5485ea4032f2f981387922a',1,'except.h']]],
-  ['rb_5ffirst_1',['rb_first',['../cantil_2rbtree_8h.html#ab0ce2a4badbfa134e8db71f2a92b85b4',1,'rbtree.h']]],
-  ['rb_5finsrebal_2',['rb_insrebal',['../cantil_2rbtree_8h.html#a71b2d8e0fc93963c5ba267cfde17b459',1,'rbtree.h']]],
-  ['rb_5flink_3',['rb_link',['../cantil_2rbtree_8h.html#a58d70b77604149bd22342cbf82e205f8',1,'rbtree.h']]],
-  ['rb_5fnext_4',['rb_next',['../cantil_2rbtree_8h.html#ad12154b2ae877e5b4ed7d3c1e21886d3',1,'rbtree.h']]],
-  ['rb_5fparent_5',['rb_parent',['../cantil_2rbtree_8h.html#a99a605c3e039b4793bcfe271caefd009',1,'rbtree.h']]]
+  ['pool_5falloc_0',['pool_alloc',['../cantil_2pool_8h.html#a9a4278fea85bee246328f1100229add5',1,'pool.h']]],
+  ['pool_5fcreate_1',['pool_create',['../cantil_2pool_8h.html#a128706cd723f1b296ed83b8340f8c3da',1,'pool.h']]],
+  ['pool_5fdestroy_2',['pool_destroy',['../cantil_2pool_8h.html#a6ad9fa6e5d7796147a52b43a6f3252dc',1,'pool.h']]],
+  ['pool_5ffree_3',['pool_free',['../cantil_2pool_8h.html#a8e32e2d20746e80005258aa00ba0cce7',1,'pool.h']]],
+  ['pool_5ftryalloc_4',['pool_tryalloc',['../cantil_2pool_8h.html#a370f1c4a70b38b5d0c71865e75b4dcdf',1,'pool.h']]],
+  ['publish_5',['publish',['../cantil_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7',1,'broker.h']]]
 ];
