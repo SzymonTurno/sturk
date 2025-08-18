@@ -57,7 +57,6 @@ static void channel_destroy(CnChannel* ch)
 	struct ChannelData* data = dict_datap(ch);
 
 	ENSURE(!data->list, ERROR, sanity_fail);
-	msg_purge(data->broker);
 	mutex_destroy(data->mutex);
 	data->mutex = NULL;
 	data->broker = NULL;
@@ -144,13 +143,13 @@ static CnLoad* load_init(CnSubscriber* sber, struct Vertegs* node)
 {
 	struct Qentry* q = NULL;
 
-	subscriber_release(sber);
+	subscriber_unload(sber);
 	if (!node)
 		return NULL;
 	q = graph_4vx(node, q);
 	sber->msg = *graph_datap(q);
 	pool_free(sber->broker->sbers.pool, q);
-	return msg_getload(sber->msg);
+	return msg_2load(sber->msg);
 }
 
 CnBroker* cn_broker_create(const struct CnLoadVt* vp)
@@ -164,8 +163,8 @@ CnBroker* cn_broker_create(const struct CnLoadVt* vp)
 	self = NEW(struct CnBroker);
 	self->vp = vp;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	self->channels.offset = (vp->size() / MSG_SIZE + 1) * MSG_SIZE;
-	self->channels.pool = pool_create(self->channels.offset + MSG_SIZE);
+	self->channels.pool =
+		pool_create((vp->size() / MSG_SIZE + 2) * MSG_SIZE);
 	self->channels.dict = NULL;
 	self->sbers.pool = pool_create(sizeof(struct Qentry));
 	self->sbers.list = NULL;
@@ -181,6 +180,7 @@ void cn_broker_destroy(CnBroker* broker)
 		subscriber_destroy(*graph_datap(broker->sbers.list));
 	pool_destroy(broker->sbers.pool);
 	broker->sbers.pool = NULL;
+	msg_purge(broker);
 	if (broker->channels.dict)
 		dict_destroy(broker->channels.dict);
 	broker->channels.dict = NULL;
@@ -248,31 +248,19 @@ void cn_subscriber_destroy(CnSubscriber* sber)
 	cn_free(sber);
 }
 
-CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch)
+CnLoad* cn_subscriber_await(CnSubscriber* sber)
 {
-	CnLoad* ret = NULL;
-
 	ENSURE_MEM(sber, ERROR);
-	ret = load_init(sber, waitq_rem(sber->q));
-	if (ch) {
-		ENSURE(sber->msg, ERROR, null_param);
-		*ch = sber->msg->channel;
-	}
-	return ret;
+	return load_init(sber, waitq_rem(sber->q));
 }
 
-CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
+CnLoad* cn_subscriber_poll(CnSubscriber* sber)
 {
-	CnLoad* ret = NULL;
-
 	ENSURE_MEM(sber, ERROR);
-	ret = load_init(sber, waitq_tryrem(sber->q));
-	if (ch && sber->msg)
-		*ch = sber->msg->channel;
-	return ret;
+	return load_init(sber, waitq_tryrem(sber->q));
 }
 
-void cn_subscriber_release(CnSubscriber* sber)
+void cn_subscriber_unload(CnSubscriber* sber)
 {
 	ENSURE(sber, WARNING, null_param);
 	if (!sber)
@@ -315,4 +303,9 @@ void cn_subscribe(CnSubscriber* sber, const char* topic)
 	mutex_lock(data->mutex);
 	data->list = list_ins(data->list, slist_create(sber));
 	mutex_unlock(data->mutex);
+}
+
+CnChannel* cn_load_getchan(const CnLoad* load)
+{
+	return load ? msg_4load(load)->channel : NULL;
 }

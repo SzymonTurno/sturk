@@ -51,7 +51,10 @@ const struct CnLoadVt PAYLOAD_API[] = {
 
 static int receive(struct Subscriber* sub)
 {
-	sub->pl = (struct Payload*)subscriber_await(sub->sber, &sub->channel);
+	CnLoad* load = subscriber_await(sub->sber);
+
+	sub->pl = (struct Payload*)load;
+	sub->channel = load_getchan(load);
 	return 1;
 }
 

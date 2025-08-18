@@ -50,6 +50,9 @@
 
 #define GETTRACE(group, index) gettrace(test_stream_##group, index)
 
+#define TEST_ASSERT_NOT_EQUAL_STRING(expected, actual)                         \
+	TEST_ASSERT_NOT_EQUAL_INT(0, strcmp(expected, actual))
+
 static const char* gettrace(struct CnFstream* stream, int index)
 {
 	static char buff[256];
@@ -481,23 +484,41 @@ TEST(subscriber, should_receive_enqueued_message)
 {
 	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
 	CnSubscriber* sber = subscriber_create(broker);
-	CnChannel* ch = NULL;
+	CnLoad* load = NULL;
 
 	subscribe(sber, "test");
 	publish(broker_search(broker, "test"), "%X", 0xF00D);
-	TEST_ASSERT_NULL(channel_gettopic(ch));
-	TEST_ASSERT_EQUAL_STRING("F00D", subscriber_await(sber, &ch));
-	TEST_ASSERT_EQUAL_STRING("test", channel_gettopic(ch));
+	TEST_ASSERT_NULL(channel_gettopic(load_getchan(load)));
+	load = subscriber_await(sber);
+	TEST_ASSERT_EQUAL_STRING("F00D", load);
+	TEST_ASSERT_EQUAL_STRING("test", channel_gettopic(load_getchan(load)));
 	broker_destroy(broker);
 }
 
 TEST(subscriber, should_trace_null_param)
 {
 	logger_detach(WARNING, cn_stderr());
-	subscriber_release(NULL);
+	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		"src/broker/broker.c:277: Null param.\n",
+		"src/broker/broker.c:265: Null param.\n",
 		strstr(GETTRACE(subscriber, 0), "src/broker/broker.c:"));
+}
+
+TEST(subscriber, should_unload)
+{
+	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
+	CnSubscriber* sber = subscriber_create(broker);
+	CnLoad* load = NULL;
+
+	subscribe(sber, "test");
+	publish(broker_search(broker, "test"), "%X", 0xF00D);
+	load = subscriber_await(sber);
+	TEST_ASSERT_EQUAL_STRING("F00D", load);
+	subscriber_unload(sber);
+	publish(broker_search(broker, "test"), "%x", 0xBEEF);
+	TEST_ASSERT_EQUAL_STRING("beef", subscriber_await(sber));
+	TEST_ASSERT_NOT_EQUAL_STRING("F00D", load);
+	broker_destroy(broker);
 }
 
 TEST(broker, should_allow_zero_subscribers)
@@ -593,7 +614,7 @@ TEST(broker, should_trace_null_param)
 	logger_detach(WARNING, cn_stderr());
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		"src/broker/broker.c:309: Null param.\n",
+		"src/broker/broker.c:297: Null param.\n",
 		strstr(GETTRACE(broker, 0), "src/broker/broker.c:"));
 	free(tmp);
 }
@@ -641,6 +662,7 @@ static void run_other_tests(void)
 	RUN_TEST_CASE(pool, should_return_freed_pointer)
 	RUN_TEST_CASE(subscriber, should_receive_enqueued_message);
 	RUN_TEST_CASE(subscriber, should_trace_null_param);
+	RUN_TEST_CASE(subscriber, should_unload);
 	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
 	RUN_TEST_CASE(broker, should_allow_many_topics);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
@@ -649,10 +671,10 @@ static void run_other_tests(void)
 	RUN_TEST_CASE(logger, should_trace_error);
 	RUN_TEST_CASE(logger, should_ignore_detached_trace_levels);
 	if (THREADS_EN) {
+		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
 		RUN_TEST_CASE(mutex, should_lock_twice_if_recursive);
 		RUN_TEST_CASE(mutex, should_trace_not_supported_policy);
 		RUN_TEST_CASE(mutex, should_trace_not_supported_type);
-		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
 	} else {
 		RUN_TEST_CASE(mutex, should_trace_double_lock_warning);
 		RUN_TEST_CASE(mutex, should_trace_double_unlock_warning);

@@ -52,7 +52,10 @@ static const struct CnLoadVt PAYLOAD_API[] = {
 
 static void receive(struct Subscriber* sub)
 {
-	sub->pload = (struct Payload*)subscriber_poll(sub->sber, &sub->channel);
+	CnLoad* load = subscriber_poll(sub->sber);
+
+	sub->pload = (struct Payload*)load;
+	sub->channel = load_getchan(load);
 }
 
 static void

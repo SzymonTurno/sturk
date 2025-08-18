@@ -248,12 +248,11 @@ CnSubscriber* cn_subscriber_create(CnBroker* broker);
 void cn_subscriber_destroy(CnSubscriber* sber);
 
 /**
- * @fn CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch)
+ * @fn CnLoad* cn_subscriber_await(CnSubscriber* sber)
  *
  * @brief Wait for the messages that are wanted by the subscriber.
  *
  * @param[in,out] sber The pointer to the subscriber.
- * @param[in,out] ch The pointer to the channel reference.
  *
  * This function will receive the message immediately and return the load, if
  * the subscriber's message queue is not empty. Otherwise, with multithreading
@@ -261,33 +260,26 @@ void cn_subscriber_destroy(CnSubscriber* sber);
  * other thread publishes to topic that the given subscriber is interested in.
  * With a single thread application, the blocking is not supported.
  *
- * If the pointer to the channel reference is not NULL, it will be set to the
- * message's source channel.
- *
  * @return The load.
  */
-CnLoad* cn_subscriber_await(CnSubscriber* sber, CnChannel** ch);
+CnLoad* cn_subscriber_await(CnSubscriber* sber);
 
 /**
- * @fn CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch)
+ * @fn CnLoad* cn_subscriber_poll(CnSubscriber* sber)
  *
  * @brief Poll for the messages that are wanted by the subscriber.
  *
  * @param[in,out] sber The pointer to the subscriber.
- * @param[in,out] ch The pointer to the channel reference.
  *
  * This function will receive the message and return the load, if the
  * subscriber's message queue is not empty. Otherwise, it will return NULL.
  *
- * If the pointer to the channel reference is not NULL, it will be set to the
- * message's source channel.
- *
  * @return The load.
  */
-CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch);
+CnLoad* cn_subscriber_poll(CnSubscriber* sber);
 
 /**
- * @fn void cn_subscriber_release(CnSubscriber* sber)
+ * @fn void cn_subscriber_unload(CnSubscriber* sber)
  *
  * @brief Inform the broker that the message can be released for the given subscriber.
  *
@@ -301,6 +293,17 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber, CnChannel** ch);
  * function automatically, there is no need to release the last received message
  * if the subscriber attempts to receive another message.
  */
-void cn_subscriber_release(CnSubscriber* sber);
+void cn_subscriber_unload(CnSubscriber* sber);
+
+/**
+ * @fn CnChannel* cn_load_getchan(const CnLoad* load)
+ *
+ * @brief Get the source channel of the message.
+ *
+ * @param[in] load The pointer to the message load.
+ *
+ * @return The channel
+ */
+CnChannel* cn_load_getchan(const CnLoad* load);
 
 #endif /* CN_BROKER_H */

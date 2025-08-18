@@ -62,7 +62,6 @@ struct CnBroker {
 	struct {
 		CnChannel* dict;
 		CnPool* pool;
-		size_t offset;
 	} channels;
 };
 
