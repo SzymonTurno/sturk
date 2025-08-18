@@ -73,13 +73,14 @@ TEST(subscriber, should_receive_enqueued_message)
 {
 	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
 	CnSubscriber* sber = subscriber_create(broker);
-	CnChannel* ch = NULL;
+	CnLoad* load = NULL;
 
 	subscribe(sber, "test");
 	publish(broker_search(broker, "test"), "%X", 0xF00D);
-	TEST_ASSERT_NULL(channel_gettopic(ch));
-	TEST_ASSERT_EQUAL_STRING("F00D", subscriber_await(sber, &ch));
-	TEST_ASSERT_EQUAL_STRING("test", channel_gettopic(ch));
+	TEST_ASSERT_NULL(channel_gettopic(load_getchan(load)));
+	load = subscriber_await(sber);
+	TEST_ASSERT_EQUAL_STRING("F00D", load);
+	TEST_ASSERT_NULL("test", channel_gettopic(load_getchan(load)));
 	broker_destroy(broker);
 }
 ```

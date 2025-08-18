@@ -70,7 +70,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see cn_subscriber_poll() */
 #define subscriber_poll cn_subscriber_poll
 
-/** @see cn_subscriber_release() */
-#define subscriber_release cn_subscriber_release
+/** @see cn_subscriber_unload() */
+#define subscriber_unload cn_subscriber_unload
+
+/** @see cn_load_getchan() */
+#define load_getchan cn_load_getchan
 
 #endif /* CANTIL_BROKER_H */

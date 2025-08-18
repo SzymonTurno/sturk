@@ -35,47 +35,53 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "cn/os/mem.h"
 #include "types.h"
 
-static inline CnLoad* msg_getload(struct Message* msg)
+static inline CnLoad* msg_2load(struct Message* msg)
 {
-	return (CnLoad*)msg - dict_datap(msg->channel)->broker->channels.offset;
+	ENSURE(msg, ERROR, sanity_fail);
+	return (CnLoad*)&msg[1];
+}
+
+static inline const struct Message* msg_4load(const CnLoad* load)
+{
+	ENSURE(load, ERROR, sanity_fail);
+	return ((const struct Message*)load) - 1;
 }
 
 static inline struct Message* msg_create(CnBroker* broker, va_list args)
 {
-	CnLoad* load = pool_tryalloc(broker->channels.pool);
 	struct Message* self = NULL;
 
-	if (!load) {
-		load = pool_alloc(broker->channels.pool);
-		self = (struct Message*)&load[broker->channels.offset];
+	ENSURE(broker, ERROR, sanity_fail);
+	self = pool_tryalloc(broker->channels.pool);
+	if (!self) {
+		self = pool_alloc(broker->channels.pool);
 		self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	} else {
-		self = (struct Message*)&load[broker->channels.offset];
 	}
 	self->u.n_pending = 0;
-	broker->vp->ctor(load, args);
+	broker->vp->ctor(msg_2load(self), args);
 	return self;
 }
 
 static inline void msg_destroy(struct Message* msg)
 {
-	CnBroker* broker = dict_datap(msg->channel)->broker;
+	CnBroker* broker = NULL;
 
-	broker->vp->dtor(msg_getload(msg));
-	pool_free(broker->channels.pool, msg_getload(msg));
+	ENSURE(msg, ERROR, sanity_fail);
+	broker = dict_datap(msg->channel)->broker;
+	broker->vp->dtor(msg_2load(msg));
+	pool_free(broker->channels.pool, msg);
 }
 
 static inline void msg_purge(CnBroker* broker)
 {
-	CnLoad* load = NULL;
 	struct Message* msg = NULL;
 
-	while ((load = pool_tryalloc(broker->channels.pool))) {
-		msg = (struct Message*)&load[broker->channels.offset];
+	ENSURE(broker, ERROR, sanity_fail);
+	while ((msg = pool_tryalloc(broker->channels.pool))) {
 		msg->channel = NULL;
 		mutex_destroy(msg->mutex);
 		msg->mutex = NULL;
-		cn_free(load);
+		cn_free(msg);
 	}
 }
 
@@ -83,9 +89,11 @@ static inline void msg_release(struct Message* msg)
 {
 	int last = 0;
 
+	ENSURE(msg, ERROR, sanity_fail);
+	ENSURE(msg->u.n_pending, ERROR, sanity_fail);
 	mutex_lock(msg->mutex);
-	if (!--msg->u.n_pending)
-		last = 1;
+	last = (msg->u.n_pending == 1);
+	--msg->u.n_pending;
 	mutex_unlock(msg->mutex);
 	if (last)
 		msg_destroy(msg);
@@ -93,11 +101,13 @@ static inline void msg_release(struct Message* msg)
 
 static inline void msg_lock(struct Message* msg)
 {
+	ENSURE(msg, ERROR, sanity_fail);
 	mutex_lock(msg->mutex);
 }
 
 static inline void msg_unlock(struct Message* msg, int n_pending)
 {
+	ENSURE(msg, ERROR, sanity_fail);
 	msg->u.n_pending = n_pending;
 	mutex_unlock(msg->mutex);
 	if (!n_pending)
