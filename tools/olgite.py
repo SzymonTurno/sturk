@@ -162,9 +162,6 @@ class Olvars:
     def func(self, name: str, cmd: str) -> None:
         self.__funcs = self.__funcs + name + ' = ' + cmd + '\n'
 
-    def slashify(self, *paths) -> str:
-        return os.path.join(*paths).replace('\\', '/')
-
     def root(self) -> str:
         return os.path.normpath(self.__root)
 

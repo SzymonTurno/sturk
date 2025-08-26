@@ -18,6 +18,6 @@ def join(olvars):
         olvars.fail(
             'Unknown exceptions mode: ' + settings['logger']['exceptions'] + '.')
 
-    olvars.append('cantil_BLDDIRS', olvars.slashify(olvars.cwd()))
-    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'trace.o'))
-    olvars.append('cantil_OBJS', olvars.slashify(olvars.cwd(), 'streambag.o'))
+    olvars.append('cantil_BLDDIRS', os.path.join(olvars.cwd()))
+    olvars.append('cantil_OBJS', os.path.join(olvars.cwd(), 'trace.o'))
+    olvars.append('cantil_OBJS', os.path.join(olvars.cwd(), 'streambag.o'))
