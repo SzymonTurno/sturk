@@ -19,6 +19,16 @@
 
 #define LINE(str) str "\n"
 
+#if defined(_WIN32) || defined(WIN32)
+
+#define JOIN_PATH(str1, str2) str1 "\\" str2
+
+#else /* not defined: WIN32 */
+
+#define JOIN_PATH(str1, str2) str1 "/" str2
+
+#endif /* WIN32 */
+
 #define SIMPLE_TEST_GROUP(group, label)                                        \
 	static struct CnFstream* test_stream_##group;                          \
 	TEST_SETUP(group)                                                      \
@@ -52,6 +62,13 @@
 
 #define TEST_ASSERT_NOT_EQUAL_STRING(expected, actual)                         \
 	TEST_ASSERT_NOT_EQUAL_INT(0, strcmp(expected, actual))
+
+#define MUTEX_FILE_PATH                                                        \
+	JOIN_PATH(JOIN_PATH("src", "osal"), JOIN_PATH("posix", "mutex.c"))
+
+#define RBTREE_FILE_PATH JOIN_PATH("src", JOIN_PATH("algo", "rbtree.c"))
+
+#define BROKER_FILE_PATH JOIN_PATH("src", JOIN_PATH("broker", "broker.c"))
 
 static const char* gettrace(struct CnFstream* stream, int index)
 {
@@ -197,12 +214,12 @@ TEST(rbnode, should_trace_not_supported_traversals)
 	logger_detach(WARNING, cn_stderr());
 	rb_next(&node, BST_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
-		"src/algo/rbtree.c:199: Not supported.\n",
-		strstr(GETTRACE(rbnode, 0), "src/algo/rbtree.c:"));
+		RBTREE_FILE_PATH ":199: Not supported.\n",
+		strstr(GETTRACE(rbnode, 0), RBTREE_FILE_PATH ":"));
 	rb_first(&node, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING(
-		"src/algo/rbtree.c:160: Not supported.\n",
-		strstr(GETTRACE(rbnode, 1), "src/algo/rbtree.c:"));
+		RBTREE_FILE_PATH ":160: Not supported.\n",
+		strstr(GETTRACE(rbnode, 1), RBTREE_FILE_PATH ":"));
 }
 
 TEST(dictnode, should_sort)
@@ -405,11 +422,11 @@ TEST(mutex, should_trace_not_supported_policy)
 	logger_detach(WARNING, cn_stderr());
 	(void)mutex_create(CN_MUTEX_BF(POLICY, 7));
 	TEST_ASSERT_EQUAL_STRING(
-		"src/osal/posix/mutex.c:58: Not supported.\n",
-		strstr(GETTRACE(mutex, 0), "src/osal/posix/mutex.c:"));
+		MUTEX_FILE_PATH ":58: Not supported.\n",
+		strstr(GETTRACE(mutex, 0), MUTEX_FILE_PATH ":"));
 	TEST_ASSERT_EQUAL_STRING(
-		"src/osal/posix/mutex.c:96: Mutex failure.\n",
-		strstr(GETTRACE(mutex, 1), "src/osal/posix/mutex.c:"));
+		MUTEX_FILE_PATH ":96: Mutex failure.\n",
+		strstr(GETTRACE(mutex, 1), MUTEX_FILE_PATH ":"));
 }
 
 TEST(mutex, should_trace_not_supported_type)
@@ -417,11 +434,11 @@ TEST(mutex, should_trace_not_supported_type)
 	logger_detach(WARNING, cn_stderr());
 	(void)mutex_create(CN_MUTEX_BF(TYPE, 15));
 	TEST_ASSERT_EQUAL_STRING(
-		"src/osal/posix/mutex.c:77: Not supported.\n",
-		strstr(GETTRACE(mutex, 0), "src/osal/posix/mutex.c:"));
+		MUTEX_FILE_PATH ":77: Not supported.\n",
+		strstr(GETTRACE(mutex, 0), MUTEX_FILE_PATH ":"));
 	TEST_ASSERT_EQUAL_STRING(
-		"src/osal/posix/mutex.c:101: Mutex failure.\n",
-		strstr(GETTRACE(mutex, 1), "src/osal/posix/mutex.c:"));
+		MUTEX_FILE_PATH ":101: Mutex failure.\n",
+		strstr(GETTRACE(mutex, 1), MUTEX_FILE_PATH ":"));
 }
 
 TEST(semaphore, should_not_block_if_posted)
@@ -500,8 +517,8 @@ TEST(subscriber, should_trace_null_param)
 	logger_detach(WARNING, cn_stderr());
 	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		"src/broker/broker.c:265: Null param.\n",
-		strstr(GETTRACE(subscriber, 0), "src/broker/broker.c:"));
+		BROKER_FILE_PATH ":265: Null param.\n",
+		strstr(GETTRACE(subscriber, 0), BROKER_FILE_PATH ":"));
 }
 
 TEST(subscriber, should_unload)
@@ -614,8 +631,8 @@ TEST(broker, should_trace_null_param)
 	logger_detach(WARNING, cn_stderr());
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		"src/broker/broker.c:297: Null param.\n",
-		strstr(GETTRACE(broker, 0), "src/broker/broker.c:"));
+		BROKER_FILE_PATH ":297: Null param.\n",
+		strstr(GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 	free(tmp);
 }
 
