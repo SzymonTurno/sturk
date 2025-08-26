@@ -1,13 +1,13 @@
 import os
 
 def append_rules(olvars):
-    rule = olvars.rule(olvars.slashify('$(cantil_BLDDIR)', 'libcantil.a'))
+    rule = olvars.rule(os.path.join('$(cantil_BLDDIR)', 'libcantil.a'))
 
     rule.normal_depend('$(cantil_OBJS)')
     rule.step('ar rcs $@ $(cantil_OBJS)')
 
-    rule = olvars.rule(olvars.slashify('$(cantil_BLDDIR)', '%.o'))
-    rule.normal_depend(olvars.slashify('$(cantil_DIR)', '%.c'))
+    rule = olvars.rule(os.path.join('$(cantil_BLDDIR)', '%.o'))
+    rule.normal_depend(os.path.join('$(cantil_DIR)', '%.c'))
     rule.order_depend('$(cantil_BLDDIRS)')
     rule.step('$(CC) $(cantil_CFLAGS) $(cantil_EXTRA_CFLAGS) $(cantil_INC) -c -o $@ $<')
 
@@ -33,9 +33,9 @@ def join(olvars):
     olvars.append('cantil_CFLAGS', '-Wswitch-default')
     olvars.append('cantil_CFLAGS', '-Wwrite-strings')
     olvars.append('cantil_CFLAGS', '-DVX_EXCEPT=cn_except')
-    olvars.append('cantil_DIR', olvars.slashify(olvars.acwd()))
-    olvars.append('cantil_BLDDIR', olvars.slashify(olvars.cwd()))
-    olvars.append('cantil_BLDDIRS', olvars.slashify(olvars.cwd()))
+    olvars.append('cantil_DIR', os.path.join(olvars.acwd()))
+    olvars.append('cantil_BLDDIR', os.path.join(olvars.cwd()))
+    olvars.append('cantil_BLDDIRS', os.path.join(olvars.cwd()))
 
     if settings['cver'] == 'gnu':
         olvars.append('cantil_EXTRA_CFLAGS', '-std=gnu11')

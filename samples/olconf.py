@@ -1,9 +1,9 @@
 import os
 
 def append_rules(olvars):
-    rule = olvars.rule(olvars.slashify('$(sample_BLDDIR)', '%.o'))
+    rule = olvars.rule(os.path.join('$(sample_BLDDIR)', '%.o'))
 
-    rule.normal_depend(olvars.slashify('$(sample_DIR)', '%.c'))
+    rule.normal_depend(os.path.join('$(sample_DIR)', '%.c'))
     rule.order_depend('$(sample_BLDDIR)')
     rule.step(
         '$(CC) $(cantil_CFLAGS) $(sample_INC) $(cantil_INC) -c -o $@ $<')
@@ -12,12 +12,12 @@ def append_rules(olvars):
     rule.step('$(call MKDIR, $@)')
 
 def join(olvars):
-    olvars.append('sample_DIR', olvars.slashify(olvars.acwd()))
-    olvars.append('sample_INC', '-I' + olvars.slashify(olvars.acwd()))
-    olvars.append('sample_BLDDIR', olvars.slashify(olvars.cwd()))
+    olvars.append('sample_DIR', os.path.join(olvars.acwd()))
+    olvars.append('sample_INC', '-I' + os.path.join(olvars.acwd()))
+    olvars.append('sample_BLDDIR', os.path.join(olvars.cwd()))
     olvars.append(
-        'sample_OBJS', olvars.slashify(olvars.cwd(), 'single_thread_pubsub.o'))
+        'sample_OBJS', os.path.join(olvars.cwd(), 'single_thread_pubsub.o'))
     olvars.append(
-        'sample_OBJS', olvars.slashify(olvars.cwd(), 'multi_thread_pubsub.o'))
-    olvars.append('sample_OBJS', olvars.slashify(olvars.cwd(), 'load_api.o'))
+        'sample_OBJS', os.path.join(olvars.cwd(), 'multi_thread_pubsub.o'))
+    olvars.append('sample_OBJS', os.path.join(olvars.cwd(), 'load_api.o'))
     append_rules(olvars)
