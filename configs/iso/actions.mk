@@ -1,6 +1,10 @@
 cantil-iso: build-iso/src/libcantil.a
 build-iso/src/libcantil.a: build-iso/Makefile
+ifeq ($(OS),Windows_NT)
+	cd build-iso && $(MAKE) src\\\libcantil.a
+else
 	cd build-iso && $(MAKE) src/libcantil.a
+endif
 
 unity-iso: build-iso/Unity
 build-iso/Unity: build-iso/Makefile
@@ -8,11 +12,19 @@ build-iso/Unity: build-iso/Makefile
 
 all-iso: build-iso/tests/app
 build-iso/tests/app: build-iso/Makefile
+ifeq ($(OS),Windows_NT)
+	cd build-iso && $(MAKE) tests\\\app
+else
 	cd build-iso && $(MAKE) tests/app
+endif
 
 check-iso: build-iso/tests/reports.d/valgrind.info
 build-iso/tests/reports.d/valgrind.info: build-iso/Makefile
+ifeq ($(OS),Windows_NT)
+	cd build-iso && $(MAKE) tests\\\reports.d\\\valgrind.info
+else
 	cd build-iso && $(MAKE) tests/reports.d/valgrind.info
+endif
 
 coverage-iso: build-iso/tests/reports.d/coverage.d
 build-iso/tests/reports.d/coverage.d: build-iso/Makefile

@@ -1,5 +1,5 @@
 import os
-import platform
+from sys import platform
 
 CONSTRAINTS = [
     (

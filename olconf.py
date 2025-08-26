@@ -13,10 +13,7 @@ def join(olvars):
     olvars.append('CC', 'gcc')
     olvars.append('cantil_INC', '-I' + os.path.join(olvars.acwd(), 'include'))
     olvars.append('tools_DIR', os.path.join(olvars.acwd(), 'tools'))
-    if platform == 'win32':
-        olvars.func('MKDIR', 'mkdir $(subst /,\\,$(1))')
-    else:
-        olvars.func('MKDIR', 'mkdir -p $(1)')
+    olvars.func('MKDIR', 'mkdir -p $@')
     add_all(olvars)
     olvars.include('src')
     olvars.include('samples')

@@ -1,6 +1,10 @@
 cantil-default: build/src/libcantil.a
 build/src/libcantil.a: build/Makefile
+ifeq ($(OS),Windows_NT)
+	cd build && $(MAKE) src\\\libcantil.a
+else
 	cd build && $(MAKE) src/libcantil.a
+endif
 
 unity-default: build/Unity
 build/Unity: build/Makefile
@@ -8,11 +12,19 @@ build/Unity: build/Makefile
 
 all-default: build/tests/app
 build/tests/app: build/Makefile
+ifeq ($(OS),Windows_NT)
+	cd build && $(MAKE) tests\\\app
+else
 	cd build && $(MAKE) tests/app
+endif
 
 check-default: build/tests/reports.d/valgrind.info
 build/tests/reports.d/valgrind.info: build/Makefile
+ifeq ($(OS),Windows_NT)
+	cd build && $(MAKE) tests\\\reports.d\\\valgrind.info
+else
 	cd build && $(MAKE) tests/reports.d/valgrind.info
+endif
 
 build/Makefile: build
 	cd build && $(mkfile_DIR)/tools/configure.sh

@@ -79,7 +79,12 @@ class Olrule:
         self.__steps = []
 
     def text(self) -> str:
-        msg = self.__target + ':'
+        msg = ''
+
+        if sys.platform == 'win32':
+            msg = self.__target.replace('\\%', '\\\\%') + ':'
+        else:
+            msg = self.__target + ':'
 
         for norm in self.__normal:
             msg = msg + ' ' + norm
