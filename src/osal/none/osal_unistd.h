@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef OSAL_UNISTD_H
 #define OSAL_UNISTD_H
 
-#ifdef WIN32
+#if defined(_WIN32) || defined(WIN32)
 
 #include <direct.h>
 #include <io.h>
