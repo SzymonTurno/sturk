@@ -251,7 +251,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [
       check-default-on-unix,
+      check-default-on-win32,
       coverage-iso-on-unix,
+      check-iso-on-win32,
       coverage-posix-on-unix,
       clang-format-checking
     ]
