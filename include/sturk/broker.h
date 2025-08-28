@@ -32,48 +32,48 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/broker.h
  *
- * @see cn/broker.h
+ * @see st/broker.h
  */
 
 #ifndef STURK_BROKER_H
 #define STURK_BROKER_H
 
-#include "cn/broker.h"
+#include "st/broker.h"
 
-/** @see cn_publish() */
-#define publish cn_publish
+/** @see st_publish() */
+#define publish st_publish
 
-/** @see cn_subscribe() */
-#define subscribe cn_subscribe
+/** @see st_subscribe() */
+#define subscribe st_subscribe
 
-/** @see cn_broker_create() */
-#define broker_create cn_broker_create
+/** @see st_broker_create() */
+#define broker_create st_broker_create
 
-/** @see cn_broker_destroy() */
-#define broker_destroy cn_broker_destroy
+/** @see st_broker_destroy() */
+#define broker_destroy st_broker_destroy
 
-/** @see cn_broker_search() */
-#define broker_search cn_broker_search
+/** @see st_broker_search() */
+#define broker_search st_broker_search
 
-/** @see cn_channel_gettopic() */
-#define channel_gettopic cn_channel_gettopic
+/** @see st_channel_gettopic() */
+#define channel_gettopic st_channel_gettopic
 
-/** @see cn_subscriber_create() */
-#define subscriber_create cn_subscriber_create
+/** @see st_subscriber_create() */
+#define subscriber_create st_subscriber_create
 
-/** @see cn_subscriber_destroy() */
-#define subscriber_destroy cn_subscriber_destroy
+/** @see st_subscriber_destroy() */
+#define subscriber_destroy st_subscriber_destroy
 
-/** @see cn_subscriber_await() */
-#define subscriber_await cn_subscriber_await
+/** @see st_subscriber_await() */
+#define subscriber_await st_subscriber_await
 
-/** @see cn_subscriber_poll() */
-#define subscriber_poll cn_subscriber_poll
+/** @see st_subscriber_poll() */
+#define subscriber_poll st_subscriber_poll
 
-/** @see cn_subscriber_unload() */
-#define subscriber_unload cn_subscriber_unload
+/** @see st_subscriber_unload() */
+#define subscriber_unload st_subscriber_unload
 
-/** @see cn_load_getchan() */
-#define load_getchan cn_load_getchan
+/** @see st_load_getchan() */
+#define load_getchan st_load_getchan
 
 #endif /* STURK_BROKER_H */

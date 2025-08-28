@@ -36,9 +36,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define BUFF_MAX_SIZE 128
 
-static struct CnStreamBag* streambags[N_TRACE_LVLS];
+static struct StStreamBag* streambags[N_TRACE_LVLS];
 
-static const char* get_lvlstr(enum CnTraceLvl lvl)
+static const char* get_lvlstr(enum StTraceLvl lvl)
 {
 	switch (lvl) {
 	case DEBUG:
@@ -58,7 +58,7 @@ static const char* get_lvlstr(enum CnTraceLvl lvl)
 	/* LCOV_EXCL_STOP */
 }
 
-void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
+void st_trace(enum StTraceLvl lvl, const char* tag, const char* format, ...)
 {
 	va_list vlist;
 	char* buff = NULL;
@@ -68,32 +68,32 @@ void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
 		return;
 	buff = NEW(char, BUFF_MAX_SIZE);
 	if (tag)
-		cn_snprintf(
+		st_snprintf(
 			buff, BUFF_MAX_SIZE, "[%s][%s] %s\n", get_lvlstr(lvl),
 			tag, format);
 	else
-		cn_snprintf(
+		st_snprintf(
 			buff, BUFF_MAX_SIZE, "[%s] %s\n", get_lvlstr(lvl),
 			format);
 	va_start(vlist, format);
 	streambag_vprint(streambags[lvl], buff, vlist);
 	va_end(vlist);
-	cn_free(buff);
+	st_free(buff);
 }
 
-void cn_logger_attach(enum CnTraceLvl lvl, CnFstream* stream)
+void st_logger_attach(enum StTraceLvl lvl, StFstream* stream)
 {
 	if (!streambags[lvl])
 		streambags[lvl] = streambag_create();
 	streambag_ins(streambags[lvl], stream);
 }
 
-void cn_logger_detach(enum CnTraceLvl lvl, CnFstream* stream)
+void st_logger_detach(enum StTraceLvl lvl, StFstream* stream)
 {
 	streambag_rem(streambags[lvl], stream);
 }
 
-void cn_logger_cleanup(void)
+void st_logger_cleanup(void)
 {
 	for (int i = 0; i < N_TRACE_LVLS; i++) {
 		streambag_destroy(streambags[i]);

@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef STURK_LIST_H
 #define STURK_LIST_H
 
-#include "cn/os/sys.h"
+#include "st/os/sys.h"
 #include "vx/list.h"
 
 /** @see VX_LIST() */

@@ -32,15 +32,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/os/mem.h
  *
- * @see cn/os/mem.h
+ * @see st/os/mem.h
  */
 
 #ifndef STURK_OS_MEM_H
 #define STURK_OS_MEM_H
 
-#include "cn/os/mem.h"
+#include "st/os/mem.h"
 
-/** @see CN_NEW() */
-#define NEW CN_NEW
+/** @see ST_NEW() */
+#define NEW ST_NEW
 
 #endif /* STURK_OS_MEM_H */

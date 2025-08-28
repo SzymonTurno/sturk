@@ -38,11 +38,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define OK   0
 #define FAIL 1
 
-struct CnMutex {
+struct StMutex {
 	pthread_mutex_t pmut;
 };
 
-static int setprotocol(pthread_mutexattr_t* attr, CnBits args)
+static int setprotocol(pthread_mutexattr_t* attr, StBits args)
 {
 	int ret = FAIL;
 
@@ -61,7 +61,7 @@ static int setprotocol(pthread_mutexattr_t* attr, CnBits args)
 	return ret;
 }
 
-static int settype(pthread_mutexattr_t* attr, CnBits args)
+static int settype(pthread_mutexattr_t* attr, StBits args)
 {
 	int ret = FAIL;
 
@@ -80,9 +80,9 @@ static int settype(pthread_mutexattr_t* attr, CnBits args)
 	return ret;
 }
 
-CnMutex* cn_mutex_create(CnBits args)
+StMutex* st_mutex_create(StBits args)
 {
-	struct CnMutex* self = NULL;
+	struct StMutex* self = NULL;
 	pthread_mutexattr_t attr;
 
 	if (pthread_mutexattr_init(&attr) != OK) {
@@ -102,11 +102,11 @@ CnMutex* cn_mutex_create(CnBits args)
 		return NULL;
 	}
 
-	self = NEW(struct CnMutex);
+	self = NEW(struct StMutex);
 	if (pthread_mutex_init(&self->pmut, &attr) != OK) {
 		/* LCOV_EXCL_START */
 		RAISE(ERROR, mutex_fail);
-		cn_free(self);
+		st_free(self);
 		return NULL;
 		/* LCOV_EXCL_STOP */
 	}
@@ -114,32 +114,32 @@ CnMutex* cn_mutex_create(CnBits args)
 	if (pthread_mutexattr_destroy(&attr) != OK) {
 		/* LCOV_EXCL_START */
 		RAISE(ERROR, mutex_fail);
-		cn_free(self);
+		st_free(self);
 		return NULL;
 		/* LCOV_EXCL_STOP */
 	}
 	return self;
 }
 
-void cn_mutex_destroy(CnMutex* mutex)
+void st_mutex_destroy(StMutex* mutex)
 {
 	if (pthread_mutex_destroy(&mutex->pmut) != OK)
 		RAISE(ERROR, mutex_fail); /* LCOV_EXCL_LINE */
-	cn_free(mutex);
+	st_free(mutex);
 }
 
-void cn_mutex_lock(CnMutex* mutex)
+void st_mutex_lock(StMutex* mutex)
 {
 	if (pthread_mutex_lock(&mutex->pmut) != OK)
 		RAISE(ERROR, mutex_fail); /* LCOV_EXCL_LINE */
 }
 
-bool cn_mutex_trylock(CnMutex* mutex)
+bool st_mutex_trylock(StMutex* mutex)
 {
 	return pthread_mutex_trylock(&mutex->pmut) == OK;
 }
 
-void cn_mutex_unlock(CnMutex* mutex)
+void st_mutex_unlock(StMutex* mutex)
 {
 	if (pthread_mutex_unlock(&mutex->pmut) != OK)
 		RAISE(ERROR, mutex_fail); /* LCOV_EXCL_LINE */

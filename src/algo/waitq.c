@@ -29,7 +29,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cn/waitq.h"
+#include "st/waitq.h"
 #include "sturk/cirq.h"
 #include "sturk/logger/except.h"
 #include "sturk/logger/trace.h"
@@ -37,15 +37,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/mutex.h"
 #include "sturk/os/sem.h"
 
-struct CnWaitq {
+struct StWaitq {
 	struct Vertegs* v;
-	CnMutex* mut;
-	CnSem* sem;
+	StMutex* mut;
+	StSem* sem;
 };
 
-CnWaitq* cn_waitq_create(void)
+StWaitq* st_waitq_create(void)
 {
-	CnWaitq* self = NEW(CnWaitq);
+	StWaitq* self = NEW(StWaitq);
 
 	self->mut = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->sem = sem_create(0);
@@ -53,7 +53,7 @@ CnWaitq* cn_waitq_create(void)
 	return self;
 }
 
-void cn_waitq_destroy(CnWaitq* waitq)
+void st_waitq_destroy(StWaitq* waitq)
 {
 	if (!waitq)
 		return;
@@ -64,10 +64,10 @@ void cn_waitq_destroy(CnWaitq* waitq)
 	waitq->sem = NULL;
 	mutex_destroy(waitq->mut);
 	waitq->mut = NULL;
-	cn_free(waitq);
+	st_free(waitq);
 }
 
-void cn_waitq_ins(CnWaitq* waitq, struct Vertegs* entry)
+void st_waitq_ins(StWaitq* waitq, struct Vertegs* entry)
 {
 	ENSURE(waitq, ERROR, null_param);
 	mutex_lock(waitq->mut);
@@ -76,7 +76,7 @@ void cn_waitq_ins(CnWaitq* waitq, struct Vertegs* entry)
 	mutex_unlock(waitq->mut);
 }
 
-struct Vertegs* cn_waitq_rem(CnWaitq* waitq)
+struct Vertegs* st_waitq_rem(StWaitq* waitq)
 {
 	struct Vertegs* entry = NULL;
 
@@ -88,7 +88,7 @@ struct Vertegs* cn_waitq_rem(CnWaitq* waitq)
 	return entry;
 }
 
-struct Vertegs* cn_waitq_tryrem(CnWaitq* waitq)
+struct Vertegs* st_waitq_tryrem(StWaitq* waitq)
 {
 	struct Vertegs* entry = NULL;
 

@@ -30,84 +30,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/pool.h
+ * @file st/os/sys.h
  *
- * @brief Memory pool.
- *
- * Glossary
- * --------
- *
- * | Term | Description                   |
- * | ---- | ----------------------------- |
- * | pool | fixed-size blocks memory pool |
+ * @brief System procedures.
  */
 
-#ifndef CN_POOL_H
-#define CN_POOL_H
+#ifndef ST_SYS_H
+#define ST_SYS_H
 
+#include <stdarg.h>
+#include <stdbool.h>
 #include <stddef.h>
 
 /**
- * @var typedef struct CnPool CnPool
+ * @fn int st_snprintf(char* buffer, size_t bufsz, const char* format, ...)
  *
- * @brief *pool*.
+ * @see snprintf()
  */
-typedef struct CnPool CnPool;
+int st_snprintf(char* buffer, size_t bufsz, const char* format, ...);
 
 /**
- * @fn CnPool* cn_pool_create(size_t blk_size)
+ * @fn int st_remove(const char* filename)
  *
- * @brief Create a *pool*.
- *
- * @param[in] blk_size The size of the blocks.
- *
- * @return A new *pool*.
+ * @see remove()
  */
-CnPool* cn_pool_create(size_t blk_size);
+int st_remove(const char* filename);
 
 /**
- * @fn void cn_pool_destroy(CnPool* pool)
+ * @fn void st_except(const char* reason, const char* file, int line)
  *
- * @brief Destroy a *pool*.
- *
- * @param[in,out] pool The *pool*.
+ * @brief Log error reason and call exit(EXIT_FAILURE).
  */
-void cn_pool_destroy(CnPool* pool);
+void st_except(const char* reason, const char* file, int line);
 
-/**
- * @fn void* cn_pool_alloc(CnPool* pool)
- *
- * @brief Allocate a block from a *pool*.
- *
- * @param[in,out] pool The *pool*.
- *
- * If the *pool* is empty, allocates a new block from the system memory
- * allocator.
- * @see cn/os/mem.h
- *
- * @return The block.
- */
-void* cn_pool_alloc(CnPool* pool);
-
-/**
- * @fn void* cn_pool_tryalloc(CnPool* pool)
- *
- * @brief Try to allocate a block from a *pool*.
- *
- * @param[in,out] pool The *pool*.
- *
- * @return The block, if the *pool* is not empty. Otherwise, NULL.
- */
-void* cn_pool_tryalloc(CnPool* pool);
-
-/**
- * @fn void cn_pool_free(CnPool* pool, void* blk)
- *
- * @brief Return a block to a *pool*.
- *
- * @param[in,out] pool The *pool*.
- * @param[in,out] blk The block.
- */
-void cn_pool_free(CnPool* pool, void* blk);
-
-#endif /* CN_POOL_H */
+#endif /* ST_SYS_H */

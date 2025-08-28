@@ -38,46 +38,46 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define COLOR_MASK ((intptr_t)BIT(0))
 
-static void paint_red(struct CnRbnode* node)
+static void paint_red(struct StRbnode* node)
 {
 	graph_datap(node)->parcol |= COLOR_MASK;
 }
 
-static void paint_black(struct CnRbnode* node)
+static void paint_black(struct StRbnode* node)
 {
 	graph_datap(node)->parcol &= ~COLOR_MASK;
 }
 
-static int painted_red(struct CnRbnode* node)
+static int painted_red(struct StRbnode* node)
 {
 	return (node && (graph_datap(node)->parcol & COLOR_MASK));
 }
 
-static void set_parent(struct CnRbnode* node, struct CnRbnode* parent)
+static void set_parent(struct StRbnode* node, struct StRbnode* parent)
 {
 	graph_datap(node)->parcol =
 		((intptr_t)parent) | (graph_datap(node)->parcol & COLOR_MASK);
 }
 
-static struct CnRbnode* get_parent(struct CnRbnode* node)
+static struct StRbnode* get_parent(struct StRbnode* node)
 {
-	return (struct CnRbnode*)(graph_datap(node)->parcol & ~COLOR_MASK);
+	return (struct StRbnode*)(graph_datap(node)->parcol & ~COLOR_MASK);
 }
 
-static void set_left(struct CnRbnode* node, struct CnRbnode* child)
+static void set_left(struct StRbnode* node, struct StRbnode* child)
 {
 	graph_2vx(node)->nbor[BST_LEFT] = graph_2vx(child);
 }
 
-static void set_right(struct CnRbnode* node, struct CnRbnode* child)
+static void set_right(struct StRbnode* node, struct StRbnode* child)
 {
 	graph_2vx(node)->nbor[BST_RIGHT] = graph_2vx(child);
 }
 
-static struct CnRbnode* rot_left(struct CnRbnode* node, struct CnRbnode* root)
+static struct StRbnode* rot_left(struct StRbnode* node, struct StRbnode* root)
 {
-	struct CnRbnode* p = get_parent(node);
-	struct CnRbnode* y = rb_right(node);
+	struct StRbnode* p = get_parent(node);
+	struct StRbnode* y = rb_right(node);
 
 	set_right(node, rb_left(y));
 	if (rb_right(node))
@@ -96,10 +96,10 @@ static struct CnRbnode* rot_left(struct CnRbnode* node, struct CnRbnode* root)
 	return root;
 }
 
-static struct CnRbnode* rot_right(struct CnRbnode* node, struct CnRbnode* root)
+static struct StRbnode* rot_right(struct StRbnode* node, struct StRbnode* root)
 {
-	struct CnRbnode* p = get_parent(node);
-	struct CnRbnode* y = rb_left(node);
+	struct StRbnode* p = get_parent(node);
+	struct StRbnode* y = rb_left(node);
 
 	set_left(node, rb_right(y));
 	if (rb_left(node))
@@ -118,14 +118,14 @@ static struct CnRbnode* rot_right(struct CnRbnode* node, struct CnRbnode* root)
 	return root;
 }
 
-static struct CnRbnode* get_leftcorner(struct CnRbnode* node)
+static struct StRbnode* get_leftcorner(struct StRbnode* node)
 {
 	return graph_4vx(vx_walk(graph_2vx(node), BST_LEFT, -1), node);
 }
 
-static struct CnRbnode* get_inorderfirst(struct CnRbnode* node)
+static struct StRbnode* get_inorderfirst(struct StRbnode* node)
 {
-	struct CnRbnode* p = NULL;
+	struct StRbnode* p = NULL;
 
 	ENSURE_MEM(node, ERROR);
 	for (;;) {
@@ -142,9 +142,9 @@ static struct CnRbnode* get_inorderfirst(struct CnRbnode* node)
 	return node;
 }
 
-static struct CnRbnode* get_inordersucc(struct CnRbnode* node)
+static struct StRbnode* get_inordersucc(struct StRbnode* node)
 {
-	struct CnRbnode* p = NULL;
+	struct StRbnode* p = NULL;
 
 	if (rb_right(node))
 		p = get_leftcorner(rb_right(node));
@@ -154,16 +154,16 @@ static struct CnRbnode* get_inordersucc(struct CnRbnode* node)
 	return p;
 }
 
-static struct CnRbnode* get_preorderfirst(struct CnRbnode* node)
+static struct StRbnode* get_preorderfirst(struct StRbnode* node)
 {
 	(void)node;
 	RAISE(WARNING, not_supported);
 	return NULL;
 }
 
-static struct CnRbnode* get_preordersucc(struct CnRbnode* node)
+static struct StRbnode* get_preordersucc(struct StRbnode* node)
 {
-	struct CnRbnode* p = NULL;
+	struct StRbnode* p = NULL;
 
 	if (rb_left(node))
 		return rb_left(node);
@@ -176,7 +176,7 @@ static struct CnRbnode* get_preordersucc(struct CnRbnode* node)
 	return p ? rb_right(p) : NULL;
 }
 
-static struct CnRbnode* get_postorderfirst(struct CnRbnode* node)
+static struct StRbnode* get_postorderfirst(struct StRbnode* node)
 {
 	ENSURE_MEM(node, ERROR);
 	while (get_parent(node))
@@ -193,14 +193,14 @@ static struct CnRbnode* get_postorderfirst(struct CnRbnode* node)
 	return node;
 }
 
-static struct CnRbnode* get_postordersucc(struct CnRbnode* node)
+static struct StRbnode* get_postordersucc(struct StRbnode* node)
 {
 	(void)node;
 	RAISE(WARNING, not_supported);
 	return NULL;
 }
 
-struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent)
+struct StRbnode* st_rb_link(struct StRbnode* node, struct StRbnode* parent)
 {
 	ENSURE_MEM(node, ERROR);
 	paint_red(node);
@@ -210,10 +210,10 @@ struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent)
 	return node;
 }
 
-struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
+struct StRbnode* st_rb_insrebal(struct StRbnode* root, struct StRbnode* node)
 {
 	ENSURE_MEM(node, ERROR);
-	for (struct CnRbnode *p = NULL, *g = NULL, *u = NULL;;) {
+	for (struct StRbnode *p = NULL, *g = NULL, *u = NULL;;) {
 		p = get_parent(node);
 		if (!painted_red(p)) {
 			/* Case 0: done. */
@@ -295,19 +295,19 @@ struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
 	return root;
 }
 
-struct CnRbnode* cn_rb_parent(struct CnRbnode* node)
+struct StRbnode* st_rb_parent(struct StRbnode* node)
 {
 	ENSURE_MEM(node, ERROR);
 	return get_parent(node);
 }
 
-struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstOrder order)
+struct StRbnode* st_rb_first(struct StRbnode* node, enum StBstOrder order)
 {
 	ENSURE_MEM(node, ERROR);
 	switch (order) {
-	case CN_BST_PREORDER:
+	case ST_BST_PREORDER:
 		return get_preorderfirst(node);
-	case CN_BST_POSTORDER:
+	case ST_BST_POSTORDER:
 		return get_postorderfirst(node);
 	default:
 		break;
@@ -315,13 +315,13 @@ struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstOrder order)
 	return get_inorderfirst(node);
 }
 
-struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstOrder order)
+struct StRbnode* st_rb_next(struct StRbnode* node, enum StBstOrder order)
 {
 	ENSURE_MEM(node, ERROR);
 	switch (order) {
-	case CN_BST_PREORDER:
+	case ST_BST_PREORDER:
 		return get_preordersucc(node);
-	case CN_BST_POSTORDER:
+	case ST_BST_POSTORDER:
 		return get_postordersucc(node);
 	default:
 		break;

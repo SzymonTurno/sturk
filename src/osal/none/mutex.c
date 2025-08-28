@@ -35,26 +35,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/mem.h"
 #include <stddef.h>
 
-struct CnMutex {
+struct StMutex {
 	int locked;
 	int recursive;
 };
 
-CnMutex* cn_mutex_create(CnBits args)
+StMutex* st_mutex_create(StBits args)
 {
-	CnMutex* self = NEW(CnMutex);
+	StMutex* self = NEW(StMutex);
 
 	self->locked = 0;
 	self->recursive = args & MUTEX_TYPE_RECURSIVE;
 	return self;
 }
 
-void cn_mutex_destroy(CnMutex* mutex)
+void st_mutex_destroy(StMutex* mutex)
 {
-	cn_free(mutex);
+	st_free(mutex);
 }
 
-void cn_mutex_lock(CnMutex* mutex)
+void st_mutex_lock(StMutex* mutex)
 {
 	ENSURE(mutex, ERROR, null_param);
 	if (mutex->locked && !mutex->recursive)
@@ -63,7 +63,7 @@ void cn_mutex_lock(CnMutex* mutex)
 	mutex->locked = 1;
 }
 
-bool cn_mutex_trylock(CnMutex* mutex)
+bool st_mutex_trylock(StMutex* mutex)
 {
 	ENSURE(mutex, ERROR, null_param);
 	if (mutex->locked && !mutex->recursive)
@@ -72,7 +72,7 @@ bool cn_mutex_trylock(CnMutex* mutex)
 	return true;
 }
 
-void cn_mutex_unlock(CnMutex* mutex)
+void st_mutex_unlock(StMutex* mutex)
 {
 	ENSURE(mutex, ERROR, null_param);
 	if (!mutex->locked)

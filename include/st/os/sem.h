@@ -30,77 +30,76 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/waitq.h
+ * @file st/os/sem.h
  *
- * @brief Waiting queue.
+ * @brief Semaphore.
  */
 
-#ifndef CN_WAITQ_H
-#define CN_WAITQ_H
+#ifndef ST_OS_SEM_H
+#define ST_OS_SEM_H
 
-#include "cn/os/sys.h"
-#include "vx/vertegs.h"
+#include "st/bits.h"
+#include <stdbool.h>
 
 /**
- * @var typedef struct CnWaitq CnWaitq
+ * @var typedef struct StSem StSem
  *
- * @brief Waiting queue.
+ * @brief Semaphore.
  */
-typedef struct CnWaitq CnWaitq;
+typedef struct StSem StSem;
 
 /**
- * @fn CnWaitq* cn_waitq_create(void)
+ * @fn StSem* st_sem_create(StBits args)
  *
- * @brief Create a new waiting queue.
+ * @brief Create a semaphore.
  *
- * @return The new waiting queue.
+ * @param[in] args The configuration arguments.
+ *
+ * @return The new semaphore.
  */
-CnWaitq* cn_waitq_create(void);
+StSem* st_sem_create(StBits args);
 
 /**
- * @fn void cn_waitq_destroy(CnWaitq* waitq)
+ * @fn void st_sem_destroy(StSem* sem)
  *
- * @brief Destroy a waiting queue.
+ * @brief Destroy a semaphore.
  *
- * @param[in,out] waitq The waiting queue.
+ * @param[in,out] sem The semaphore.
  */
-void cn_waitq_destroy(CnWaitq* waitq);
+void st_sem_destroy(StSem* sem);
 
 /**
- * @fn void cn_waitq_ins(CnWaitq* waitq, struct Vertegs* entry)
+ * @fn void st_sem_wait(StSem* sem)
  *
- * @brief Insert an entry into a waiting queue
+ * @brief Wait on semaphore.
  *
- * @param[in,out] waitq The waiting queue.
- * @param[in,out] entry The inserted entry.
+ * Blocks the calling thread until the semaphore counter is 0. Decrement the
+ * counter.
+ *
+ * @param[in,out] sem The semaphore.
  */
-void cn_waitq_ins(CnWaitq* waitq, struct Vertegs* entry);
+void st_sem_wait(StSem* sem);
 
 /**
- * @fn struct Vertegs* cn_waitq_rem(CnWaitq* waitq)
+ * @fn bool st_sem_trywait(StSem* sem)
  *
- * @brief Remove an entry from the front of the queue.
+ * @brief Decrement the semaphore counter if it is greater than 0.
  *
- * @param[in,out] waitq The waiting queue.
+ * @param[in,out] sem The semaphore.
  *
- * This will block the thread if the queue is empty and wake it up only after an
- * entry has been inserted.
+ * Does not block the calling thread.
  *
- * @return The removed entry.
+ * @return True, if the counter has been successfully decremented.
  */
-struct Vertegs* cn_waitq_rem(CnWaitq* waitq);
+bool st_sem_trywait(StSem* sem);
 
 /**
- * @fn struct Vertegs* cn_waitq_tryrem(CnWaitq* waitq)
+ * @fn void st_sem_post(StSem* sem)
  *
- * @brief Try to remove an entry from the front of the queue.
+ * @brief Increment the semaphore counter.
  *
- * @param[in,out] waitq The waiting queue.
- *
- * This will not block the thread.
- *
- * @return The removed entry if the queue was not empty. Otherwise, NULL.
+ * @param[in,out] sem The semaphore.
  */
-struct Vertegs* cn_waitq_tryrem(CnWaitq* waitq);
+void st_sem_post(StSem* sem);
 
-#endif /* CN_WAITQ_H */
+#endif /* ST_OS_SEM_H */

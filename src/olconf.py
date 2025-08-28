@@ -32,7 +32,7 @@ def join(olvars):
     olvars.append('sturk_CFLAGS', '-Wstrict-prototypes')
     olvars.append('sturk_CFLAGS', '-Wswitch-default')
     olvars.append('sturk_CFLAGS', '-Wwrite-strings')
-    olvars.append('sturk_CFLAGS', '-DVX_EXCEPT=cn_except')
+    olvars.append('sturk_CFLAGS', '-DVX_EXCEPT=st_except')
     olvars.append('sturk_DIR', os.path.join(olvars.acwd()))
     olvars.append('sturk_BLDDIR', os.path.join(olvars.cwd()))
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd()))

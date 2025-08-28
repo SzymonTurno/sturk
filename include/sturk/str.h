@@ -32,39 +32,39 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/str.h
  *
- * @see cn/str.h
+ * @see st/str.h
  */
 
 #ifndef STURK_STR_H
 #define STURK_STR_H
 
-#include "cn/str.h"
+#include "st/str.h"
 
-/** @see cn_newstr() */
-#define newstr cn_newstr
+/** @see st_newstr() */
+#define newstr st_newstr
 
-/** @see cn_strlist_ins() */
-#define strlist_ins cn_strlist_ins
+/** @see st_strlist_ins() */
+#define strlist_ins st_strlist_ins
 
-/** @see cn_strlist_rem() */
-#define strlist_rem cn_strlist_rem
+/** @see st_strlist_rem() */
+#define strlist_rem st_strlist_rem
 
-/** @see cn_strq_ins() */
-#define strq_ins cn_strq_ins
+/** @see st_strq_ins() */
+#define strq_ins st_strq_ins
 
-/** @see cn_strq_rem() */
-#define strq_rem cn_strq_rem
+/** @see st_strq_rem() */
+#define strq_rem st_strq_rem
 
-/** @see cn_strbag_ins() */
-#define strbag_ins cn_strbag_ins
+/** @see st_strbag_ins() */
+#define strbag_ins st_strbag_ins
 
-/** @see cn_strbag_rem() */
-#define strbag_rem cn_strbag_rem
+/** @see st_strbag_rem() */
+#define strbag_rem st_strbag_rem
 
-/** @see cn_strbag_count() */
-#define strbag_count cn_strbag_count
+/** @see st_strbag_count() */
+#define strbag_count st_strbag_count
 
-/** @see cn_strbag_destroy() */
-#define strbag_destroy cn_strbag_destroy
+/** @see st_strbag_destroy() */
+#define strbag_destroy st_strbag_destroy
 
 #endif /* STURK_STR_H */

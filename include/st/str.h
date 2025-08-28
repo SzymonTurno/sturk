@@ -30,59 +30,59 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/str.h
+ * @file st/str.h
  *
  * @brief String utilities.
  */
 
-#ifndef CN_STR_H
-#define CN_STR_H
+#ifndef ST_STR_H
+#define ST_STR_H
 
-#include "cn/dict.h"
+#include "st/dict.h"
 #include "vx/cirq.h"
 #include "vx/list.h"
 
 /**
- * @def VX_LIST(struct CnStrlist, char*)
+ * @def VX_LIST(struct StStrlist, char*)
  *
- * @struct CnStrlist
+ * @struct StStrlist
  *
  * @brief List of strings.
  */
-VX_LIST(struct CnStrlist, char*);
-/**< This is a macro definition of the struct CnStrlist type. */
+VX_LIST(struct StStrlist, char*);
+/**< This is a macro definition of the struct StStrlist type. */
 
 /**
- * @def VX_CIRQ(struct CnStrq, char*)
+ * @def VX_CIRQ(struct StStrq, char*)
  *
- * @struct CnStrq
+ * @struct StStrq
  *
  * @brief Queue of strings.
  */
-VX_CIRQ(struct CnStrq, char*);
-/**< This is a macro definition of the struct CnStrq type. */
+VX_CIRQ(struct StStrq, char*);
+/**< This is a macro definition of the struct StStrq type. */
 
 /* clang-format off */
 /**
- * @def CN_DICT(struct CnStrbag, union {int n; void* align;})
+ * @def ST_DICT(struct StStrbag, union {int n; void* align;})
  *
- * @struct CnStrbag
+ * @struct StStrbag
  *
  * @brief Bag of strings.
  */
-CN_DICT(struct CnStrbag, union {int n; void* align;});
-/**< This is a macro definition of the struct CnStrbag type. */
+ST_DICT(struct StStrbag, union {int n; void* align;});
+/**< This is a macro definition of the struct StStrbag type. */
 /* clang-format on */
 
 /**
- * @fn char* cn_newstr(const char* str)
+ * @fn char* st_newstr(const char* str)
  *
  * @see strdup()
  */
-char* cn_newstr(const char* str);
+char* st_newstr(const char* str);
 
 /**
- * @fn struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str)
+ * @fn struct StStrlist* st_strlist_ins(struct StStrlist* list, char* str)
  *
  * @brief Insert a string into a list.
  *
@@ -91,10 +91,10 @@ char* cn_newstr(const char* str);
  *
  * @return The new head of the list.
  */
-struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str);
+struct StStrlist* st_strlist_ins(struct StStrlist* list, char* str);
 
 /**
- * @fn char* cn_strlist_rem(struct CnStrlist** listp)
+ * @fn char* st_strlist_rem(struct StStrlist** listp)
  *
  * @brief Remove a string from a list.
  *
@@ -102,10 +102,10 @@ struct CnStrlist* cn_strlist_ins(struct CnStrlist* list, char* str);
  *
  * @return The removed string.
  */
-char* cn_strlist_rem(struct CnStrlist** listp);
+char* st_strlist_rem(struct StStrlist** listp);
 
 /**
- * @fn struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str)
+ * @fn struct StStrq* st_strq_ins(struct StStrq* q, char* str)
  *
  * @brief Insert a string into a queue.
  *
@@ -114,10 +114,10 @@ char* cn_strlist_rem(struct CnStrlist** listp);
  *
  * @return The new head of the queue.
  */
-struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str);
+struct StStrq* st_strq_ins(struct StStrq* q, char* str);
 
 /**
- * @fn char* cn_strq_rem(struct CnStrq** qp)
+ * @fn char* st_strq_rem(struct StStrq** qp)
  *
  * @brief Remove a string from a queue.
  *
@@ -125,10 +125,10 @@ struct CnStrq* cn_strq_ins(struct CnStrq* q, char* str);
  *
  * @return The removed string.
  */
-char* cn_strq_rem(struct CnStrq** qp);
+char* st_strq_rem(struct StStrq** qp);
 
 /**
- * @fn struct CnStrbag* cn_strbag_ins(struct CnStrbag* bag, const char* str)
+ * @fn struct StStrbag* st_strbag_ins(struct StStrbag* bag, const char* str)
  *
  * @brief Insert a string into a bag.
  *
@@ -139,10 +139,10 @@ char* cn_strq_rem(struct CnStrq** qp);
  *
  * @return The new root of the bag.
  */
-struct CnStrbag* cn_strbag_ins(struct CnStrbag* bag, const char* str);
+struct StStrbag* st_strbag_ins(struct StStrbag* bag, const char* str);
 
 /**
- * @fn struct CnStrbag* cn_strbag_rem(struct CnStrbag* bag, const char* str)
+ * @fn struct StStrbag* st_strbag_rem(struct StStrbag* bag, const char* str)
  *
  * @brief Remove a string from a bag.
  *
@@ -154,10 +154,10 @@ struct CnStrbag* cn_strbag_ins(struct CnStrbag* bag, const char* str);
  *
  * @return The new root of the bag.
  */
-struct CnStrbag* cn_strbag_rem(struct CnStrbag* bag, const char* str);
+struct StStrbag* st_strbag_rem(struct StStrbag* bag, const char* str);
 
 /**
- * @fn int cn_strbag_count(const struct CnStrbag* bag)
+ * @fn int st_strbag_count(const struct StStrbag* bag)
  *
  * @brief For a bag entry, get the occurence count of its string.
  *
@@ -165,15 +165,15 @@ struct CnStrbag* cn_strbag_rem(struct CnStrbag* bag, const char* str);
  *
  * @return The occurence count.
  */
-int cn_strbag_count(const struct CnStrbag* bag);
+int st_strbag_count(const struct StStrbag* bag);
 
 /**
- * @fn void cn_strbag_destroy(struct CnStrbag* bag)
+ * @fn void st_strbag_destroy(struct StStrbag* bag)
  *
  * @brief Destroy the whole bag of strings.
  *
  * @param[in,out] bag Any entry from the bag.
  */
-void cn_strbag_destroy(struct CnStrbag* bag);
+void st_strbag_destroy(struct StStrbag* bag);
 
-#endif /* CN_STR_H */
+#endif /* ST_STR_H */

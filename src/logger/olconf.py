@@ -4,16 +4,16 @@ def join(olvars):
     settings = olvars.settings()
 
     if settings['logger']['trace'] == 'on':
-        olvars.append('sturk_EXTRA_CFLAGS', '-DCN_LOGGER_EN=1')
+        olvars.append('sturk_EXTRA_CFLAGS', '-DST_LOGGER_EN=1')
     elif settings['logger']['trace'] == 'off':
-        olvars.append('sturk_EXTRA_CFLAGS', '-DCN_LOGGER_EN=0')
+        olvars.append('sturk_EXTRA_CFLAGS', '-DST_LOGGER_EN=0')
     else:
         node.fail('Unknown trace mode: ' + settings['logger']['trace'] + '.')
 
     if settings['logger']['exceptions'] == 'on':
-        olvars.append('sturk_EXTRA_CFLAGS', '-DCN_EXCEPTIONS_EN=1')
+        olvars.append('sturk_EXTRA_CFLAGS', '-DST_EXCEPTIONS_EN=1')
     elif settings['logger']['exceptions'] == 'off':
-        olvars.append('sturk_EXTRA_CFLAGS', '-DCN_EXCEPTIONS_EN=0')
+        olvars.append('sturk_EXTRA_CFLAGS', '-DST_EXCEPTIONS_EN=0')
     else:
         olvars.fail(
             'Unknown exceptions mode: ' + settings['logger']['exceptions'] + '.')

@@ -30,76 +30,84 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/os/sem.h
+ * @file st/pool.h
  *
- * @brief Semaphore.
+ * @brief Memory pool.
+ *
+ * Glossary
+ * --------
+ *
+ * | Term | Description                   |
+ * | ---- | ----------------------------- |
+ * | pool | fixed-size blocks memory pool |
  */
 
-#ifndef CN_OS_SEM_H
-#define CN_OS_SEM_H
+#ifndef ST_POOL_H
+#define ST_POOL_H
 
-#include "cn/bits.h"
-#include <stdbool.h>
+#include <stddef.h>
 
 /**
- * @var typedef struct CnSem CnSem
+ * @var typedef struct StPool StPool
  *
- * @brief Semaphore.
+ * @brief *pool*.
  */
-typedef struct CnSem CnSem;
+typedef struct StPool StPool;
 
 /**
- * @fn CnSem* cn_sem_create(CnBits args)
+ * @fn StPool* st_pool_create(size_t blk_size)
  *
- * @brief Create a semaphore.
+ * @brief Create a *pool*.
  *
- * @param[in] args The configuration arguments.
+ * @param[in] blk_size The size of the blocks.
  *
- * @return The new semaphore.
+ * @return A new *pool*.
  */
-CnSem* cn_sem_create(CnBits args);
+StPool* st_pool_create(size_t blk_size);
 
 /**
- * @fn void cn_sem_destroy(CnSem* sem)
+ * @fn void st_pool_destroy(StPool* pool)
  *
- * @brief Destroy a semaphore.
+ * @brief Destroy a *pool*.
  *
- * @param[in,out] sem The semaphore.
+ * @param[in,out] pool The *pool*.
  */
-void cn_sem_destroy(CnSem* sem);
+void st_pool_destroy(StPool* pool);
 
 /**
- * @fn void cn_sem_wait(CnSem* sem)
+ * @fn void* st_pool_alloc(StPool* pool)
  *
- * @brief Wait on semaphore.
+ * @brief Allocate a block from a *pool*.
  *
- * Blocks the calling thread until the semaphore counter is 0. Decrement the
- * counter.
+ * @param[in,out] pool The *pool*.
  *
- * @param[in,out] sem The semaphore.
+ * If the *pool* is empty, allocates a new block from the system memory
+ * allocator.
+ * @see st/os/mem.h
+ *
+ * @return The block.
  */
-void cn_sem_wait(CnSem* sem);
+void* st_pool_alloc(StPool* pool);
 
 /**
- * @fn bool cn_sem_trywait(CnSem* sem)
+ * @fn void* st_pool_tryalloc(StPool* pool)
  *
- * @brief Decrement the semaphore counter if it is greater than 0.
+ * @brief Try to allocate a block from a *pool*.
  *
- * @param[in,out] sem The semaphore.
+ * @param[in,out] pool The *pool*.
  *
- * Does not block the calling thread.
- *
- * @return True, if the counter has been successfully decremented.
+ * @return The block, if the *pool* is not empty. Otherwise, NULL.
  */
-bool cn_sem_trywait(CnSem* sem);
+void* st_pool_tryalloc(StPool* pool);
 
 /**
- * @fn void cn_sem_post(CnSem* sem)
+ * @fn void st_pool_free(StPool* pool, void* blk)
  *
- * @brief Increment the semaphore counter.
+ * @brief Return a block to a *pool*.
  *
- * @param[in,out] sem The semaphore.
+ * @param[in,out] pool The *pool*.
+ * @param[in,out] blk The block.
  */
-void cn_sem_post(CnSem* sem);
+void st_pool_free(StPool* pool, void* blk);
 
-#endif /* CN_OS_SEM_H */
+#endif /* ST_POOL_H */

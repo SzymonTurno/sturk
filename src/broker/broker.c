@@ -40,9 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define MSG_SIZE sizeof(struct Message)
 
-static CnChannel* channel_create(CnBroker* broker, const char* topic)
+static StChannel* channel_create(StBroker* broker, const char* topic)
 {
-	CnChannel* self = NEW(CnChannel);
+	StChannel* self = NEW(StChannel);
 	struct ChannelData* data = dict_datap(self);
 
 	dict_setk(self, newstr(topic));
@@ -52,7 +52,7 @@ static CnChannel* channel_create(CnBroker* broker, const char* topic)
 	return self;
 }
 
-static void channel_destroy(CnChannel* ch)
+static void channel_destroy(StChannel* ch)
 {
 	struct ChannelData* data = dict_datap(ch);
 
@@ -60,18 +60,18 @@ static void channel_destroy(CnChannel* ch)
 	mutex_destroy(data->mutex);
 	data->mutex = NULL;
 	data->broker = NULL;
-	cn_free(dict_getk(ch));
+	st_free(dict_getk(ch));
 	dict_setk(ch, NULL);
-	cn_free(ch);
+	st_free(ch);
 }
 
-static void dict_destroy(CnChannel* dict)
+static void dict_destroy(StChannel* dict)
 {
-	for (struct CnRbnode *i = NULL, *p = NULL;;) {
+	for (struct StRbnode *i = NULL, *p = NULL;;) {
 		i = rb_first(&dict_cast(dict)->node, BST_POSTORDER);
 		p = rb_parent(i);
 		channel_destroy(
-			container_of(dictnode_from(i), CnChannel, dictnode));
+			container_of(dictnode_from(i), StChannel, dictnode));
 		if (!p)
 			break;
 
@@ -82,7 +82,7 @@ static void dict_destroy(CnChannel* dict)
 	}
 }
 
-static struct ChannelList* clist_create(CnChannel* ch)
+static struct ChannelList* clist_create(StChannel* ch)
 {
 	struct ChannelList* self = NEW(struct ChannelList);
 
@@ -90,7 +90,7 @@ static struct ChannelList* clist_create(CnChannel* ch)
 	return self;
 }
 
-static struct SubscriberList* slist_create(struct CnSubscriber* sber)
+static struct SubscriberList* slist_create(struct StSubscriber* sber)
 {
 	struct SubscriberList* self = NEW(struct SubscriberList);
 
@@ -98,7 +98,7 @@ static struct SubscriberList* slist_create(struct CnSubscriber* sber)
 	return self;
 }
 
-static void ins_msg(CnSubscriber* sber, struct Message* msg)
+static void ins_msg(StSubscriber* sber, struct Message* msg)
 {
 	struct Qentry* entry = pool_alloc(sber->broker->sbers.pool);
 
@@ -126,20 +126,20 @@ static void notify(struct ChannelData* data, struct Message* msg)
 	mutex_unlock(data->mutex);
 }
 
-static void unsubscribe(CnChannel* ch, CnSubscriber* sber)
+static void unsubscribe(StChannel* ch, StSubscriber* sber)
 {
 	struct ChannelData* data = dict_datap(ch);
 
 	mutex_lock(data->mutex);
 	list_foreach (struct SubscriberList, i, &data->list)
 		if (*graph_datap(*i) == sber) {
-			cn_free(list_rem(i));
+			st_free(list_rem(i));
 			break;
 		}
 	mutex_unlock(data->mutex);
 }
 
-static CnLoad* load_init(CnSubscriber* sber, struct Vertegs* node)
+static StLoad* load_init(StSubscriber* sber, struct Vertegs* node)
 {
 	struct Qentry* q = NULL;
 
@@ -152,15 +152,15 @@ static CnLoad* load_init(CnSubscriber* sber, struct Vertegs* node)
 	return msg_2load(sber->msg);
 }
 
-CnBroker* cn_broker_create(const struct CnLoadVt* vp)
+StBroker* st_broker_create(const struct StLoadVt* vp)
 {
-	struct CnBroker* self = NULL;
+	struct StBroker* self = NULL;
 
 	ENSURE_MEM(vp, ERROR);
 	ENSURE_MEM(vp->size, ERROR);
 	ENSURE_MEM(vp->ctor, ERROR);
 	ENSURE_MEM(vp->dtor, ERROR);
-	self = NEW(struct CnBroker);
+	self = NEW(struct StBroker);
 	self->vp = vp;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->channels.pool =
@@ -171,7 +171,7 @@ CnBroker* cn_broker_create(const struct CnLoadVt* vp)
 	return self;
 }
 
-void cn_broker_destroy(CnBroker* broker)
+void st_broker_destroy(StBroker* broker)
 {
 	if (!broker)
 		return;
@@ -189,12 +189,12 @@ void cn_broker_destroy(CnBroker* broker)
 	mutex_destroy(broker->mutex);
 	broker->mutex = NULL;
 	broker->vp = NULL;
-	cn_free(broker);
+	st_free(broker);
 }
 
-CnChannel* cn_broker_search(CnBroker* broker, const char* topic)
+StChannel* st_broker_search(StBroker* broker, const char* topic)
 {
-	struct CnChannel* ch = NULL;
+	struct StChannel* ch = NULL;
 
 	ENSURE_MEM(broker, ERROR);
 	mutex_lock(broker->mutex);
@@ -207,12 +207,12 @@ CnChannel* cn_broker_search(CnBroker* broker, const char* topic)
 	return ch;
 }
 
-CnSubscriber* cn_subscriber_create(CnBroker* broker)
+StSubscriber* st_subscriber_create(StBroker* broker)
 {
-	CnSubscriber* self = NULL;
+	StSubscriber* self = NULL;
 
 	ENSURE_MEM(broker, ERROR);
-	self = NEW(CnSubscriber);
+	self = NEW(StSubscriber);
 	self->broker = broker;
 	self->q = waitq_create();
 	self->msg = NULL;
@@ -223,14 +223,14 @@ CnSubscriber* cn_subscriber_create(CnBroker* broker)
 	return self;
 }
 
-void cn_subscriber_destroy(CnSubscriber* sber)
+void st_subscriber_destroy(StSubscriber* sber)
 {
 	if (!sber)
 		return;
 
 	while (sber->list) {
 		unsubscribe(*graph_datap(sber->list), sber);
-		cn_free(list_rem(&sber->list));
+		st_free(list_rem(&sber->list));
 	}
 
 	while ((load_init(sber, waitq_tryrem(sber->q))))
@@ -240,27 +240,27 @@ void cn_subscriber_destroy(CnSubscriber* sber)
 	mutex_lock(sber->broker->mutex);
 	list_foreach (struct SubscriberList, i, &sber->broker->sbers.list)
 		if (*graph_datap(*i) == sber) {
-			cn_free(list_rem(i));
+			st_free(list_rem(i));
 			break;
 		}
 	mutex_unlock(sber->broker->mutex);
 	sber->broker = NULL;
-	cn_free(sber);
+	st_free(sber);
 }
 
-CnLoad* cn_subscriber_await(CnSubscriber* sber)
+StLoad* st_subscriber_await(StSubscriber* sber)
 {
 	ENSURE_MEM(sber, ERROR);
 	return load_init(sber, waitq_rem(sber->q));
 }
 
-CnLoad* cn_subscriber_poll(CnSubscriber* sber)
+StLoad* st_subscriber_poll(StSubscriber* sber)
 {
 	ENSURE_MEM(sber, ERROR);
 	return load_init(sber, waitq_tryrem(sber->q));
 }
 
-void cn_subscriber_unload(CnSubscriber* sber)
+void st_subscriber_unload(StSubscriber* sber)
 {
 	ENSURE(sber, WARNING, null_param);
 	if (!sber)
@@ -271,12 +271,12 @@ void cn_subscriber_unload(CnSubscriber* sber)
 	sber->msg = NULL;
 }
 
-const char* cn_channel_gettopic(const CnChannel* ch)
+const char* st_channel_gettopic(const StChannel* ch)
 {
 	return ch ? dict_getk(ch) : NULL;
 }
 
-void cn_publish(CnChannel* ch, ...)
+void st_publish(StChannel* ch, ...)
 {
 	struct Message* msg = NULL;
 	va_list args;
@@ -288,9 +288,9 @@ void cn_publish(CnChannel* ch, ...)
 	notify(dict_datap(ch), msg);
 }
 
-void cn_subscribe(CnSubscriber* sber, const char* topic)
+void st_subscribe(StSubscriber* sber, const char* topic)
 {
-	struct CnChannel* ch = NULL;
+	struct StChannel* ch = NULL;
 	struct ChannelData* data = NULL;
 
 	if (!sber->broker) {
@@ -305,7 +305,7 @@ void cn_subscribe(CnSubscriber* sber, const char* topic)
 	mutex_unlock(data->mutex);
 }
 
-CnChannel* cn_load_getchan(const CnLoad* load)
+StChannel* st_load_getchan(const StLoad* load)
 {
 	return load ? msg_4load(load)->channel : NULL;
 }

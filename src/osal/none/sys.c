@@ -29,15 +29,15 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cn/os/sys.h"
-#include "cn/os/mem.h"
+#include "st/os/sys.h"
+#include "st/os/mem.h"
 #include "osal_unistd.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 #define BUFF_MAX_SIZE 256
 
-int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...)
+int st_snprintf(char* buffer, size_t bufsz, const char* format, ...)
 {
 	va_list vlist;
 	int ret = 0;
@@ -48,19 +48,19 @@ int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...)
 	return ret;
 }
 
-int cn_remove(const char* name)
+int st_remove(const char* name)
 {
 	return remove(name);
 }
 
 /* LCOV_EXCL_START */
-void cn_except(const char* reason, const char* file, int line)
+void st_except(const char* reason, const char* file, int line)
 {
-	char* buff = CN_NEW(char, BUFF_MAX_SIZE);
+	char* buff = ST_NEW(char, BUFF_MAX_SIZE);
 
-	cn_snprintf(buff, BUFF_MAX_SIZE, "%s:%d: %s", file, line, reason);
+	st_snprintf(buff, BUFF_MAX_SIZE, "%s:%d: %s", file, line, reason);
 	perror(buff);
-	cn_free(buff);
+	st_free(buff);
 	exit(EXIT_FAILURE);
 }
 /* LCOV_EXCL_STOP */

@@ -30,12 +30,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/bits.h
+ * @file st/bits.h
  *
  * @brief Bits and bitfields.
  *
  * This header file provides macros for operating with bits and bitfields.
- * Use the CnBits data type for bitwise operations as it avoids many issues
+ * Use the StBits data type for bitwise operations as it avoids many issues
  * related to integral promotion, which is a common source of bugs when doing
  * bit manipulations.
  *
@@ -44,22 +44,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * Usage.
  *   1. Set.
  * @code
- *     word |= CN_BIT(pos);
- *     word |= CN_BITMASK(hi, lo);
+ *     word |= ST_BIT(pos);
+ *     word |= ST_BITMASK(hi, lo);
  * @endcode
  *
  *   2. Clear.
  * @code
- *     word &= ~CN_BIT(pos);
- *     word $= ~CN_BITMASK(hi, lo);
+ *     word &= ~ST_BIT(pos);
+ *     word $= ~ST_BITMASK(hi, lo);
  * @endcode
  */
 
-#ifndef CN_BITS_H
-#define CN_BITS_H
+#ifndef ST_BITS_H
+#define ST_BITS_H
 
 /**
- * @def cn_bf_set(word, mask, val)
+ * @def st_bf_set(word, mask, val)
  *
  * @brief Set a bitfield in a word to a new value.
  *
@@ -69,10 +69,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @return New value of the word.
  */
-#define cn_bf_set(word, mask, val) (((word) & ~(mask)) | (val))
+#define st_bf_set(word, mask, val) (((word) & ~(mask)) | (val))
 
 /**
- * @def CN_BIT(pos)
+ * @def ST_BIT(pos)
  *
  * @brief Create a bitmask for a single bit.
  *
@@ -80,10 +80,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @return A bitmask for the bit at the @a pos position.
  */
-#define CN_BIT(pos) (1 << (pos))
+#define ST_BIT(pos) (1 << (pos))
 
 /**
- * @def CN_BITMASK(hi, lo)
+ * @def ST_BITMASK(hi, lo)
  *
  * @brief Create a contiguous bitmask.
  *
@@ -92,10 +92,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @return A contiguous bitmask that spans from the @a hi to the @a lo.
  */
-#define CN_BITMASK(hi, lo) ((1 << (hi)) * 2 - (1 << (lo)))
+#define ST_BITMASK(hi, lo) ((1 << (hi)) * 2 - (1 << (lo)))
 
 /**
- * @def CN_BITFIELD(mask, val)
+ * @def ST_BITFIELD(mask, val)
  *
  * @brief Create a bitfield.
  *
@@ -104,13 +104,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @return A bitfield with the value @a val at the position of the @a mask.
  */
-#define CN_BITFIELD(mask, val) ((val) << (__builtin_ffs(mask) - 1))
+#define ST_BITFIELD(mask, val) ((val) << (__builtin_ffs(mask) - 1))
 
 /**
- * @var typedef int CnBits
+ * @var typedef int StBits
  *
  * @brief The data type for bitwise operations.
  */
-typedef int CnBits;
+typedef int StBits;
 
-#endif /* CN_BITS_H */
+#endif /* ST_BITS_H */

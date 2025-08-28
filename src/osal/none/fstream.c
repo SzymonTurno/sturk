@@ -29,41 +29,41 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cn/os/fstream.h"
+#include "st/os/fstream.h"
 #include "osal_unistd.h"
 #include <stdio.h>
 
-CnFstream* cn_fopen(const char* filename, const char* mode)
+StFstream* st_fopen(const char* filename, const char* mode)
 {
-	return (CnFstream*)fopen(filename, mode);
+	return (StFstream*)fopen(filename, mode);
 }
 
-void cn_fclose(CnFstream* stream)
+void st_fclose(StFstream* stream)
 {
 	fclose((FILE*)stream);
 }
 
-char* cn_fgets(char* str, int size, CnFstream* stream)
+char* st_fgets(char* str, int size, StFstream* stream)
 {
 	return fgets(str, size, (FILE*)stream);
 }
 
-int cn_fseekset(CnFstream* stream, long int offset)
+int st_fseekset(StFstream* stream, long int offset)
 {
 	return fseek((FILE*)stream, offset, SEEK_SET);
 }
 
-CnFstream* cn_stdout(void)
+StFstream* st_stdout(void)
 {
-	return (CnFstream*)stdout;
+	return (StFstream*)stdout;
 }
 
-CnFstream* cn_stderr(void)
+StFstream* st_stderr(void)
 {
-	return (CnFstream*)stderr;
+	return (StFstream*)stderr;
 }
 
-int cn_vfprintf(CnFstream* stream, const char* format, va_list vlist)
+int st_vfprintf(StFstream* stream, const char* format, va_list vlist)
 {
 	return vfprintf((FILE*)stream, format, vlist);
 }

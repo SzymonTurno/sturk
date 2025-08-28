@@ -30,61 +30,61 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/logger/except.h
+ * @file st/logger/except.h
  *
  * @brief Exceptions.
  */
 
-#ifndef CN_LOGGER_EXCEPT_H
-#define CN_LOGGER_EXCEPT_H
+#ifndef ST_LOGGER_EXCEPT_H
+#define ST_LOGGER_EXCEPT_H
 
-#include "cn/logger/trace.h"
-#include "cn/os/sys.h"
+#include "st/logger/trace.h"
+#include "st/os/sys.h"
 
-#ifndef CN_EXCEPTIONS_EN
+#ifndef ST_EXCEPTIONS_EN
 
 /**
- * @def CN_EXCEPTIONS_EN
+ * @def ST_EXCEPTIONS_EN
  *
  * @brief Exceptions enabled.
  */
-#define CN_EXCEPTIONS_EN 0
+#define ST_EXCEPTIONS_EN 0
 
-#endif /* CN_EXCEPTIONS_EN */
+#endif /* ST_EXCEPTIONS_EN */
 
 /**
- * @def CN_RAISE(lvl, e)
+ * @def ST_RAISE(lvl, e)
  *
  * @brief Raise an exception.
  *
  * @param[in] lvl The exception level (WARNING or ERROR).
  * @param[in] e The exception.
  */
-#define CN_RAISE(lvl, e)                                                       \
+#define ST_RAISE(lvl, e)                                                       \
 	do {                                                                   \
-		enum CnTraceLvl _lvl = (lvl);                                  \
+		enum StTraceLvl _lvl = (lvl);                                  \
                                                                                \
-		if (CN_ERROR == _lvl) {                                        \
-			CN_TRACE(                                              \
-				CN_ERROR, NULL, "%s:%d: %s", __FILE__,         \
-				__LINE__, cn_except_##e.reason);               \
-			if (CN_EXCEPTIONS_EN)                                  \
-				cn_except(                                     \
-					cn_except_##e.reason, __FILE__,        \
+		if (ST_ERROR == _lvl) {                                        \
+			ST_TRACE(                                              \
+				ST_ERROR, NULL, "%s:%d: %s", __FILE__,         \
+				__LINE__, st_except_##e.reason);               \
+			if (ST_EXCEPTIONS_EN)                                  \
+				st_except(                                     \
+					st_except_##e.reason, __FILE__,        \
 					__LINE__);                             \
-		} else if (CN_WARNING == _lvl) {                               \
-			CN_TRACE(                                              \
-				CN_WARNING, NULL, "%s:%d: %s", __FILE__,       \
-				__LINE__, cn_except_##e.reason);               \
+		} else if (ST_WARNING == _lvl) {                               \
+			ST_TRACE(                                              \
+				ST_WARNING, NULL, "%s:%d: %s", __FILE__,       \
+				__LINE__, st_except_##e.reason);               \
 		} else {                                                       \
-			CN_TRACE(                                              \
-				CN_ERROR, NULL, "%s:%d: %s", __FILE__,         \
-				__LINE__, cn_except_not_supported.reason);     \
+			ST_TRACE(                                              \
+				ST_ERROR, NULL, "%s:%d: %s", __FILE__,         \
+				__LINE__, st_except_not_supported.reason);     \
 		}                                                              \
 	} while (0)
 
 /**
- * @def CN_ENSURE(cond, lvl, e)
+ * @def ST_ENSURE(cond, lvl, e)
  *
  * @brief Raise an exception if the condition is not met.
  *
@@ -92,35 +92,35 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @param[in] lvl The exception level: WARNING or ERROR.
  * @param[in] e The exception.
  */
-#define CN_ENSURE(cond, lvl, e)                                                \
+#define ST_ENSURE(cond, lvl, e)                                                \
 	do {                                                                   \
 		if (!(cond)) {                                                 \
-			CN_RAISE(lvl, e);                                      \
+			ST_RAISE(lvl, e);                                      \
 		}                                                              \
 	} while (0)
 
 /**
- * @def CN_ENSURE_MEM(lvl, ptr)
+ * @def ST_ENSURE_MEM(lvl, ptr)
  *
  * @brief Raise an exception and return NULL if the pointer is NULL.
  *
  * @param[in] ptr The pointer.
  * @param[in] lvl Exception level.
  */
-#define CN_ENSURE_MEM(ptr, lvl)                                                \
+#define ST_ENSURE_MEM(ptr, lvl)                                                \
 	do {                                                                   \
 		if ((ptr) == NULL) {                                           \
-			CN_RAISE(lvl, null_param);                             \
+			ST_RAISE(lvl, null_param);                             \
 			return NULL;                                           \
 		}                                                              \
 	} while (0)
 
 /**
- * @struct CnException
+ * @struct StException
  *
  * @brief Exception.
  */
-struct CnException {
+struct StException {
 	/**
 	 * @var const char* reason
 	 *
@@ -130,27 +130,27 @@ struct CnException {
 };
 
 /** Exception: "null_param". */
-static const struct CnException cn_except_null_param /**/
+static const struct StException st_except_null_param /**/
 	= {"Null param."};
 
 /** Exception: "alloc_fail". */
-static const struct CnException cn_except_alloc_fail /**/
+static const struct StException st_except_alloc_fail /**/
 	= {"Memory allocation failed."};
 
 /** Exception: "sem_fail". */
-static const struct CnException cn_except_sem_fail /**/
+static const struct StException st_except_sem_fail /**/
 	= {"Semaphore failure."};
 
 /** Exception: "mutex_fail". */
-static const struct CnException cn_except_mutex_fail /**/
+static const struct StException st_except_mutex_fail /**/
 	= {"Mutex failure."};
 
 /** Exception: "not_supported". */
-static const struct CnException cn_except_not_supported /**/
+static const struct StException st_except_not_supported /**/
 	= {"Not supported."};
 
 /** Exception: "sanity_fail". */
-static const struct CnException cn_except_sanity_fail /**/
+static const struct StException st_except_sanity_fail /**/
 	= {"Sanity check failed."};
 
-#endif /* CN_LOGGER_EXCEPT_H */
+#endif /* ST_LOGGER_EXCEPT_H */

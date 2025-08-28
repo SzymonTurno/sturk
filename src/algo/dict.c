@@ -29,7 +29,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cn/dict.h"
+#include "st/dict.h"
 #include "sturk/arith.h"
 #include "sturk/graph.h"
 #include "sturk/logger/except.h"
@@ -37,28 +37,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/rbtree.h"
 #include <string.h>
 
-static struct CnRbnode* rbnode_4nbor(struct Vertegs** nbor)
+static struct StRbnode* rbnode_4nbor(struct Vertegs** nbor)
 {
-	struct CnRbnode* ptr = NULL;
+	struct StRbnode* ptr = NULL;
 
 	ENSURE(nbor, ERROR, sanity_fail);
 	ptr = graph_4vx(vx_4nbor(nbor), ptr);
 	return ptr;
 }
 
-static struct CnDictnode* rbnode_2dictnode(struct CnRbnode* ptr)
+static struct StDictnode* rbnode_2dictnode(struct StRbnode* ptr)
 {
-	return container_of(ptr, struct CnDictnode, node);
+	return container_of(ptr, struct StDictnode, node);
 }
 
-static struct CnDictnode* dictnode_4nbor(struct Vertegs** nbor)
+static struct StDictnode* dictnode_4nbor(struct Vertegs** nbor)
 {
 	ENSURE(nbor, ERROR, sanity_fail);
 	return rbnode_2dictnode(rbnode_4nbor(nbor));
 }
 
-struct CnDictnode*
-cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* node)
+struct StDictnode*
+st_dictnode_ins(struct StDictnode* root, struct StDictnode* node)
 {
 	struct Vertegs* nbor[] = {root ? graph_2vx(&root->node) : NULL};
 	struct Vertegs** p = nbor;
@@ -79,7 +79,7 @@ cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* node)
 		rb_insrebal(graph_4vx(nbor[0], &node->node), &node->node));
 }
 
-struct CnDictnode* cn_dictnode_find(struct CnDictnode* root, const char* str)
+struct StDictnode* st_dictnode_find(struct StDictnode* root, const char* str)
 {
 	int tmp = 0;
 

@@ -30,19 +30,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/os/mutex.h
+ * @file st/os/mutex.h
  *
  * @brief Mutex.
  */
 
-#ifndef CN_OS_MUTEX_H
-#define CN_OS_MUTEX_H
+#ifndef ST_OS_MUTEX_H
+#define ST_OS_MUTEX_H
 
-#include "cn/bits.h"
+#include "st/bits.h"
 #include <stdbool.h>
 
 /**
- * @def CN_MUTEX_BF(opt, val)
+ * @def ST_MUTEX_BF(opt, val)
  *
  * @brief Create a bitfield for the mutex attribute option.
  *
@@ -51,31 +51,31 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @return The bitfield.
  */
-#define CN_MUTEX_BF(attr, opt) CN_BITFIELD(CN_MUTEX_##attr##_MASK, (opt))
+#define ST_MUTEX_BF(attr, opt) ST_BITFIELD(ST_MUTEX_##attr##_MASK, (opt))
 
 /* clang-format off */
-#define CN_MUTEX_POLICY_MASK CN_BITMASK(2, 0)  /**< mutex policy setting bits. */
-#define CN_MUTEX_TYPE_MASK   CN_BITMASK(6, 3)  /**< mutex type setting bits. */
-#define CN_MUTEX_UNUSED_MASK CN_BITMASK(31, 7) /**< mutex settings unused bits. */
+#define ST_MUTEX_POLICY_MASK ST_BITMASK(2, 0)  /**< mutex policy setting bits. */
+#define ST_MUTEX_TYPE_MASK   ST_BITMASK(6, 3)  /**< mutex type setting bits. */
+#define ST_MUTEX_UNUSED_MASK ST_BITMASK(31, 7) /**< mutex settings unused bits. */
 
-#define CN_MUTEX_POLICY_NONE         CN_MUTEX_BF(POLICY, 0) /**< mutex policy none. */
-#define CN_MUTEX_POLICY_PRIO_INHERIT CN_MUTEX_BF(POLICY, 1) /**< mutex policy priority inherit. */
-#define CN_MUTEX_POLICY_DELIM        CN_MUTEX_BF(POLICY, 8) /**< mutex policy deliminator. */
+#define ST_MUTEX_POLICY_NONE         ST_MUTEX_BF(POLICY, 0) /**< mutex policy none. */
+#define ST_MUTEX_POLICY_PRIO_INHERIT ST_MUTEX_BF(POLICY, 1) /**< mutex policy priority inherit. */
+#define ST_MUTEX_POLICY_DELIM        ST_MUTEX_BF(POLICY, 8) /**< mutex policy deliminator. */
 
-#define CN_MUTEX_TYPE_NONE      CN_MUTEX_BF(TYPE, 0)  /**< mutex type none. */
-#define CN_MUTEX_TYPE_RECURSIVE CN_MUTEX_BF(TYPE, 1)  /**< mutex type recursive. */
-#define CN_MUTEX_TYPE_DELIM     CN_MUTEX_BF(TYPE, 16) /**< mutex type deliminator. */
+#define ST_MUTEX_TYPE_NONE      ST_MUTEX_BF(TYPE, 0)  /**< mutex type none. */
+#define ST_MUTEX_TYPE_RECURSIVE ST_MUTEX_BF(TYPE, 1)  /**< mutex type recursive. */
+#define ST_MUTEX_TYPE_DELIM     ST_MUTEX_BF(TYPE, 16) /**< mutex type deliminator. */
 /* clang-format on */
 
 /**
- * @var typedef struct CnMutex CnMutex
+ * @var typedef struct StMutex StMutex
  *
  * @brief Mutex.
  */
-typedef struct CnMutex CnMutex;
+typedef struct StMutex StMutex;
 
 /**
- * @fn CnMutex* cn_mutex_create(CnBits args)
+ * @fn StMutex* st_mutex_create(StBits args)
  *
  * @brief Create a mutex.
  *
@@ -83,33 +83,33 @@ typedef struct CnMutex CnMutex;
  *
  * Create a recursive mutex with a priority inherit policy.
  * @code
- * m = cn_mutex_create(CN_MUTEX_POLICY_PRIO_INHERIT | CN_MUTEX_TYPE_RECURSIVE);
+ * m = st_mutex_create(ST_MUTEX_POLICY_PRIO_INHERIT | ST_MUTEX_TYPE_RECURSIVE);
  * @endcode
  *
  * @return The new mutex.
  */
-CnMutex* cn_mutex_create(CnBits args);
+StMutex* st_mutex_create(StBits args);
 
 /**
- * @fn void cn_mutex_destroy(CnMutex* mutex)
+ * @fn void st_mutex_destroy(StMutex* mutex)
  *
  * @brief Destroy a mutex.
  *
  * @param[in,out] mutex The mutex.
  */
-void cn_mutex_destroy(CnMutex* mutex);
+void st_mutex_destroy(StMutex* mutex);
 
 /**
- * @fn void cn_mutex_lock(CnMutex* mutex)
+ * @fn void st_mutex_lock(StMutex* mutex)
  *
  * @brief Block the calling thread until the mutex is unlocked. Lock the mutex.
  *
  * @param[in,out] mutex The mutex.
  */
-void cn_mutex_lock(CnMutex* mutex);
+void st_mutex_lock(StMutex* mutex);
 
 /**
- * @fn bool cn_mutex_trylock(CnMutex* mutex)
+ * @fn bool st_mutex_trylock(StMutex* mutex)
  *
  * @brief Lock the mutex if it is not locked. Do not block the calling thread.
  *
@@ -117,15 +117,15 @@ void cn_mutex_lock(CnMutex* mutex);
  *
  * @return True, if the mutex has been successfully locked.
  */
-bool cn_mutex_trylock(CnMutex* mutex);
+bool st_mutex_trylock(StMutex* mutex);
 
 /**
- * @fn bool cn_mutex_unlock(CnMutex* mutex)
+ * @fn bool st_mutex_unlock(StMutex* mutex)
  *
  * @brief Unlock a mutex.
  *
  * @param[in,out] mutex The mutex.
  */
-void cn_mutex_unlock(CnMutex* mutex);
+void st_mutex_unlock(StMutex* mutex);
 
-#endif /* CN_OS_MUTEX_H */
+#endif /* ST_OS_MUTEX_H */

@@ -30,43 +30,77 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/os/mem.h
+ * @file st/waitq.h
  *
- * @brief System memory allocator.
+ * @brief Waiting queue.
  */
 
-#ifndef CN_OS_MEM_H
-#define CN_OS_MEM_H
+#ifndef ST_WAITQ_H
+#define ST_WAITQ_H
 
-#include <stddef.h>
-
-/* @cond */
-#define CN__NEW(type, n, ...) ((type*)cn_malloc(sizeof(type) * n))
-/* @endcond */
+#include "st/os/sys.h"
+#include "vx/vertegs.h"
 
 /**
- * @def CN_NEW(...)
+ * @var typedef struct StWaitq StWaitq
  *
- * @brief Allocate memory for a data type.
- *
- * A call CN_NEW(type, n) will alocate contiguous memory region of the length
- * that is equal to the multiple of @a n and the size of @a type. The @a n
- * argument is optional and by default it equals 1.
+ * @brief Waiting queue.
  */
-#define CN_NEW(...) CN__NEW(__VA_ARGS__, 1, )
+typedef struct StWaitq StWaitq;
 
 /**
- * @fn void* cn_malloc(size_t size)
+ * @fn StWaitq* st_waitq_create(void)
  *
- * @see malloc()
+ * @brief Create a new waiting queue.
+ *
+ * @return The new waiting queue.
  */
-void* cn_malloc(size_t size);
+StWaitq* st_waitq_create(void);
 
 /**
- * @fn void cn_free(void* ptr)
+ * @fn void st_waitq_destroy(StWaitq* waitq)
  *
- * @see free()
+ * @brief Destroy a waiting queue.
+ *
+ * @param[in,out] waitq The waiting queue.
  */
-void cn_free(void* ptr);
+void st_waitq_destroy(StWaitq* waitq);
 
-#endif /* CN_OS_MEM_H */
+/**
+ * @fn void st_waitq_ins(StWaitq* waitq, struct Vertegs* entry)
+ *
+ * @brief Insert an entry into a waiting queue
+ *
+ * @param[in,out] waitq The waiting queue.
+ * @param[in,out] entry The inserted entry.
+ */
+void st_waitq_ins(StWaitq* waitq, struct Vertegs* entry);
+
+/**
+ * @fn struct Vertegs* st_waitq_rem(StWaitq* waitq)
+ *
+ * @brief Remove an entry from the front of the queue.
+ *
+ * @param[in,out] waitq The waiting queue.
+ *
+ * This will block the thread if the queue is empty and wake it up only after an
+ * entry has been inserted.
+ *
+ * @return The removed entry.
+ */
+struct Vertegs* st_waitq_rem(StWaitq* waitq);
+
+/**
+ * @fn struct Vertegs* st_waitq_tryrem(StWaitq* waitq)
+ *
+ * @brief Try to remove an entry from the front of the queue.
+ *
+ * @param[in,out] waitq The waiting queue.
+ *
+ * This will not block the thread.
+ *
+ * @return The removed entry if the queue was not empty. Otherwise, NULL.
+ */
+struct Vertegs* st_waitq_tryrem(StWaitq* waitq);
+
+#endif /* ST_WAITQ_H */

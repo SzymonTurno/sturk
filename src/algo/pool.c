@@ -29,7 +29,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cn/pool.h"
+#include "st/pool.h"
 #include "sturk/arith.h"
 #include "sturk/list.h"
 #include "sturk/logger/except.h"
@@ -39,15 +39,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 LIST(union FreeList, void*);
 
-struct CnPool {
+struct StPool {
 	size_t blk_size;
 	union FreeList* list;
-	CnMutex* mutex;
+	StMutex* mutex;
 };
 
-CnPool* cn_pool_create(size_t blk_size)
+StPool* st_pool_create(size_t blk_size)
 {
-	CnPool* self = NEW(CnPool);
+	StPool* self = NEW(StPool);
 
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->blk_size = MAX(blk_size, sizeof(*self->list));
@@ -55,20 +55,20 @@ CnPool* cn_pool_create(size_t blk_size)
 	return self;
 }
 
-void cn_pool_destroy(CnPool* pool)
+void st_pool_destroy(StPool* pool)
 {
 	if (!pool)
 		return;
 	mutex_lock(pool->mutex);
 	while (pool->list)
-		cn_free(list_rem(&pool->list));
+		st_free(list_rem(&pool->list));
 	mutex_unlock(pool->mutex);
 	mutex_destroy(pool->mutex);
 	pool->mutex = NULL;
-	cn_free(pool);
+	st_free(pool);
 }
 
-void* cn_pool_alloc(CnPool* pool)
+void* st_pool_alloc(StPool* pool)
 {
 	void* ret = NULL;
 
@@ -77,10 +77,10 @@ void* cn_pool_alloc(CnPool* pool)
 	if (pool->list)
 		ret = list_rem(&pool->list);
 	mutex_unlock(pool->mutex);
-	return ret ? ret : cn_malloc(pool->blk_size);
+	return ret ? ret : st_malloc(pool->blk_size);
 }
 
-void* cn_pool_tryalloc(CnPool* pool)
+void* st_pool_tryalloc(StPool* pool)
 {
 	void* ret = NULL;
 
@@ -92,7 +92,7 @@ void* cn_pool_tryalloc(CnPool* pool)
 	return ret;
 }
 
-void cn_pool_free(CnPool* pool, void* blk)
+void st_pool_free(StPool* pool, void* blk)
 {
 	ENSURE(pool, ERROR, null_param);
 	mutex_lock(pool->mutex);

@@ -32,27 +32,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/os/sem.h
  *
- * @see cn/os/sem.h
+ * @see st/os/sem.h
  */
 
 #ifndef STURK_OS_SEM_H
 #define STURK_OS_SEM_H
 
-#include "cn/os/sem.h"
+#include "st/os/sem.h"
 
-/** @see cn_sem_create() */
-#define sem_create cn_sem_create
+/** @see st_sem_create() */
+#define sem_create st_sem_create
 
-/** @see cn_sem_destroy() */
-#define sem_destroy cn_sem_destroy
+/** @see st_sem_destroy() */
+#define sem_destroy st_sem_destroy
 
-/** @see cn_sem_wait() */
-#define sem_wait cn_sem_wait
+/** @see st_sem_wait() */
+#define sem_wait st_sem_wait
 
-/** @see cn_sem_trywait() */
-#define sem_trywait cn_sem_trywait
+/** @see st_sem_trywait() */
+#define sem_trywait st_sem_trywait
 
-/** @see cn_sem_post() */
-#define sem_post cn_sem_post
+/** @see st_sem_post() */
+#define sem_post st_sem_post
 
 #endif /* STURK_OS_SEM_H */
