@@ -30,8 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "st/os/sys.h"
-#include "st/os/mem.h"
 #include "osal_unistd.h"
+#include "st/os/mem.h"
 #include <stdio.h>
 #include <stdlib.h>
 

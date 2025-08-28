@@ -33,6 +33,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define MESSAGE_H
 
 #include "st/os/mem.h"
+#include "sturk/logger/except.h"
+#include "sturk/logger/trace.h"
 #include "types.h"
 
 static inline StLoad* msg_2load(struct Message* msg)

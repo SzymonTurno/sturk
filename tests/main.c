@@ -1,3 +1,5 @@
+#include "pubsub.h"
+#include "st/os/mem.h"
 #include "sturk/broker.h"
 #include "sturk/cirq.h"
 #include "sturk/dict.h"
@@ -9,8 +11,6 @@
 #include "sturk/rbtree.h"
 #include "sturk/str.h"
 #include "sturk/waitq.h"
-#include "st/os/mem.h"
-#include "pubsub.h"
 #include "unity.h"
 #include "unity_fixture.h"
 #include <string.h>

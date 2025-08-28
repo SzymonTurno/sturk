@@ -29,6 +29,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include "message.h"
 #include "sturk/arith.h"
 #include "sturk/graph.h"
 #include "sturk/logger/except.h"
@@ -36,7 +37,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/mem.h"
 #include "sturk/rbtree.h"
 #include "sturk/str.h"
-#include "message.h"
 
 #define MSG_SIZE sizeof(struct Message)
 
