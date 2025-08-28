@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['info_0',['INFO',['../cantil_2logger_2trace_8h.html#ae1103fea1e1b3c41ca3322d5389f7162',1,'trace.h']]]
+  ['info_0',['INFO',['../rk_2logger_2trace_8h.html#ae1103fea1e1b3c41ca3322d5389f7162',1,'trace.h']]]
 ];

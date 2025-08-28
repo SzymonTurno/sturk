@@ -1,9 +1,0 @@
-<map id="include/cn/logger/streambag.h" name="include/cn/logger/streambag.h">
-<area shape="rect" id="Node000001" title="Bag of streams." alt="" coords="5,5,224,31"/>
-<area shape="rect" id="Node000002" href="$fstream_8h.html" title="File stream." alt="" coords="53,79,176,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,31,117,65,112,65,112,31"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="28,152,103,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="109,106,83,142,79,139,104,103"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="127,152,201,177"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="125,103,150,139,146,142,121,106"/>
-</map>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cantil: include/cn/os/sys.h Source File</title>
+<title>Sturk: include/st/os/sys.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Cantil<span id="projectnumber">&#160;1.0.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.0.1</span>
    </div>
    <div id="projectbrief">Scalable publish-subscribe implementation.</div>
   </td>
@@ -75,7 +75,7 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_91b676d929b41e53e001b884a607740c.html">cn</a></li><li class="navelem"><a class="el" href="dir_aaf27ef6cd0dd065aab66f4ab430195c.html">os</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_6e9a6da2c7e4a6c456ccabb42c2d8f90.html">st</a></li><li class="navelem"><a class="el" href="dir_31fb1c8d976b6c1711dfbf3240413f9f.html">os</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -113,23 +113,23 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment">*/</span></div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#ifndef CN_SYS_H</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define CN_SYS_H</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#ifndef ST_SYS_H</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define ST_SYS_H</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;stdarg.h&gt;</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="sys_8h.html#a041bd9144ae160641ebdf1ba1bbd16f9">   50</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="sys_8h.html#a041bd9144ae160641ebdf1ba1bbd16f9">cn_snprintf</a>(<span class="keywordtype">char</span>* buffer, <span class="keywordtype">size_t</span> bufsz, <span class="keyword">const</span> <span class="keywordtype">char</span>* format, ...);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="sys_8h.html#ab177e5357a71ce92d4a7fad6f1a6c2fe">   50</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="sys_8h.html#ab177e5357a71ce92d4a7fad6f1a6c2fe">st_snprintf</a>(<span class="keywordtype">char</span>* buffer, <span class="keywordtype">size_t</span> bufsz, <span class="keyword">const</span> <span class="keywordtype">char</span>* format, ...);</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="sys_8h.html#a1bab09ff398aa87ce8f112640826730c">   57</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="sys_8h.html#a1bab09ff398aa87ce8f112640826730c">cn_remove</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* filename);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="sys_8h.html#ab74e622c9faf55769d81742c07154c14">   57</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="sys_8h.html#ab74e622c9faf55769d81742c07154c14">st_remove</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* filename);</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="sys_8h.html#aec22793a9a604ada5ec839df8f9c7286">   64</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sys_8h.html#aec22793a9a604ada5ec839df8f9c7286">cn_except</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* reason, <span class="keyword">const</span> <span class="keywordtype">char</span>* file, <span class="keywordtype">int</span> line);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="sys_8h.html#a2debd6c58f969e8fca025fc795864dba">   64</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sys_8h.html#a2debd6c58f969e8fca025fc795864dba">st_except</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* reason, <span class="keyword">const</span> <span class="keywordtype">char</span>* file, <span class="keywordtype">int</span> line);</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif </span><span class="comment">/* CN_SYS_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="asys_8h_html_a041bd9144ae160641ebdf1ba1bbd16f9"><div class="ttname"><a href="sys_8h.html#a041bd9144ae160641ebdf1ba1bbd16f9">cn_snprintf</a></div><div class="ttdeci">int cn_snprintf(char *buffer, size_t bufsz, const char *format,...)</div></div>
-<div class="ttc" id="asys_8h_html_a1bab09ff398aa87ce8f112640826730c"><div class="ttname"><a href="sys_8h.html#a1bab09ff398aa87ce8f112640826730c">cn_remove</a></div><div class="ttdeci">int cn_remove(const char *filename)</div></div>
-<div class="ttc" id="asys_8h_html_aec22793a9a604ada5ec839df8f9c7286"><div class="ttname"><a href="sys_8h.html#aec22793a9a604ada5ec839df8f9c7286">cn_except</a></div><div class="ttdeci">void cn_except(const char *reason, const char *file, int line)</div><div class="ttdoc">Log error reason and call exit(EXIT_FAILURE).</div></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif </span><span class="comment">/* ST_SYS_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="asys_8h_html_a2debd6c58f969e8fca025fc795864dba"><div class="ttname"><a href="sys_8h.html#a2debd6c58f969e8fca025fc795864dba">st_except</a></div><div class="ttdeci">void st_except(const char *reason, const char *file, int line)</div><div class="ttdoc">Log error reason and call exit(EXIT_FAILURE).</div></div>
+<div class="ttc" id="asys_8h_html_ab177e5357a71ce92d4a7fad6f1a6c2fe"><div class="ttname"><a href="sys_8h.html#ab177e5357a71ce92d4a7fad6f1a6c2fe">st_snprintf</a></div><div class="ttdeci">int st_snprintf(char *buffer, size_t bufsz, const char *format,...)</div></div>
+<div class="ttc" id="asys_8h_html_ab74e622c9faf55769d81742c07154c14"><div class="ttname"><a href="sys_8h.html#ab74e622c9faf55769d81742c07154c14">st_remove</a></div><div class="ttdeci">int st_remove(const char *filename)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

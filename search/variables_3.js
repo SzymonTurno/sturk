@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['reason_0',['reason',['../structCnException.html#a0fd5bdaf0ff46783483929bbba515d55',1,'CnException']]]
+  ['reason_0',['reason',['../structStException.html#a6d88bbea826573104f77078593a46e95',1,'StException']]]
 ];
