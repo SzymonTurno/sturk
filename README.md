@@ -46,34 +46,34 @@ static size_t size(void)
 	return sizeof(char[8]);
 }
 
-static void init(CnLoad* load, va_list vlist)
+static void init(StLoad* load, va_list vlist)
 {
 	const char* format = va_arg(vlist, char*);
 
 	vsnprintf(load, 8, format, vlist);
 }
 
-static void deinit(CnLoad* load)
+static void deinit(StLoad* load)
 {
 	(void)load;
 }
 
-const struct CnLoadVt SAMPLE_LOAD_API[] = {
+const struct StLoadVt SAMPLE_LOAD_API[] = {
 	{.size = size, .ctor = init, .dtor = deinit}};
 ```
 
 ### 4.2. Initialize the message broker
 ```
-	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
+	StBroker* broker = broker_create(SAMPLE_LOAD_API);
 ```
 
 ### 4.3. Exchange messages
 ```c
 TEST(subscriber, should_receive_enqueued_message)
 {
-	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
-	CnSubscriber* sber = subscriber_create(broker);
-	CnLoad* load = NULL;
+	StBroker* broker = broker_create(SAMPLE_LOAD_API);
+	StSubscriber* sber = subscriber_create(broker);
+	StLoad* load = NULL;
 
 	subscribe(sber, "test");
 	publish(broker_search(broker, "test"), "%X", 0xF00D);

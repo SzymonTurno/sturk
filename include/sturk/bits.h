@@ -32,24 +32,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/bits.h
  *
- * @see cn/bits.h
+ * @see st/bits.h
  */
 
 #ifndef STURK_BITS_H
 #define STURK_BITS_H
 
-#include "cn/bits.h"
+#include "st/bits.h"
 
-/** @see cn_bf_set() */
-#define bf_set cn_bf_set
+/** @see st_bf_set() */
+#define bf_set st_bf_set
 
-/** @see CN_BIT() */
-#define BIT CN_BIT
+/** @see ST_BIT() */
+#define BIT ST_BIT
 
-/** @see CN_BITMASK() */
-#define BITMASK CN_BITMASK
+/** @see ST_BITMASK() */
+#define BITMASK ST_BITMASK
 
-/** @see CN_BITFIELD() */
-#define BITFIELD CN_BITFIELD
+/** @see ST_BITFIELD() */
+#define BITFIELD ST_BITFIELD
 
 #endif /* STURK_BITS_H */

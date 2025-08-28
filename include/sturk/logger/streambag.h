@@ -32,30 +32,30 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/logger/streambag.h
  *
- * @see cn/logger/streambag.h
+ * @see st/logger/streambag.h
  */
 
 #ifndef STURK_LOGGER_STREAMBAG_H
 #define STURK_LOGGER_STREAMBAG_H
 
-#include "cn/logger/streambag.h"
+#include "st/logger/streambag.h"
 
-/** @see cn_streambag_create() */
-#define streambag_create cn_streambag_create
+/** @see st_streambag_create() */
+#define streambag_create st_streambag_create
 
-/** @see cn_streambag_destroy() */
-#define streambag_destroy cn_streambag_destroy
+/** @see st_streambag_destroy() */
+#define streambag_destroy st_streambag_destroy
 
-/** @see cn_streambag_ins() */
-#define streambag_ins cn_streambag_ins
+/** @see st_streambag_ins() */
+#define streambag_ins st_streambag_ins
 
-/** @see cn_streambag_rem() */
-#define streambag_rem cn_streambag_rem
+/** @see st_streambag_rem() */
+#define streambag_rem st_streambag_rem
 
-/** @see cn_streambag_vprint() */
-#define streambag_vprint cn_streambag_vprint
+/** @see st_streambag_vprint() */
+#define streambag_vprint st_streambag_vprint
 
-/** @see cn_streambag_count() */
-#define streambag_count cn_streambag_count
+/** @see st_streambag_count() */
+#define streambag_count st_streambag_count
 
 #endif /* STURK_LOGGER_STREAMBAG_H */

@@ -29,7 +29,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cn/os/sem.h"
+#include "st/os/sem.h"
 #include "sturk/logger/except.h"
 #include "sturk/logger/trace.h"
 #include "sturk/os/mem.h"
@@ -37,44 +37,44 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define OK 0
 
-struct CnSem {
+struct StSem {
 	sem_t sem;
 };
 
-CnSem* cn_sem_create(CnBits args)
+StSem* st_sem_create(StBits args)
 {
-	struct CnSem* self = NEW(struct CnSem);
+	struct StSem* self = NEW(struct StSem);
 
 	(void)args;
 	if (sem_init(&self->sem, 0, 0) != OK) {
 		/* LCOV_EXCL_START */
 		RAISE(ERROR, sem_fail);
-		cn_free(self);
+		st_free(self);
 		return NULL;
 		/* LCOV_EXCL_STOP */
 	}
 	return self;
 }
 
-void cn_sem_destroy(CnSem* sem)
+void st_sem_destroy(StSem* sem)
 {
 	if (sem_destroy(&sem->sem) != OK)
 		RAISE(ERROR, sem_fail); /* LCOV_EXCL_LINE */
-	cn_free(sem);
+	st_free(sem);
 }
 
-void cn_sem_wait(CnSem* sem)
+void st_sem_wait(StSem* sem)
 {
 	if (sem_wait(&sem->sem) != OK)
 		RAISE(ERROR, sem_fail); /* LCOV_EXCL_LINE */
 }
 
-bool cn_sem_trywait(CnSem* sem)
+bool st_sem_trywait(StSem* sem)
 {
 	return sem_trywait(&sem->sem) == OK;
 }
 
-void cn_sem_post(CnSem* sem)
+void st_sem_post(StSem* sem)
 {
 	if (sem_post(&sem->sem) != OK)
 		RAISE(ERROR, sem_fail); /* LCOV_EXCL_LINE */

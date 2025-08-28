@@ -30,54 +30,54 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/rbtree.h
+ * @file st/rbtree.h
  *
  * @brief Red-black tree.
  */
 
-#ifndef CN_RBTREE_H
-#define CN_RBTREE_H
+#ifndef ST_RBTREE_H
+#define ST_RBTREE_H
 
-#include "cn/logger/except.h"
+#include "st/logger/except.h"
 #include "vx/graph.h"
 #include <stdint.h>
 
 /**
- * @enum CnBstOrder
+ * @enum StBstOrder
  *
  * @brief Nodes order for a binary search tree.
  */
-enum CnBstOrder {
-	CN_BST_INORDER = 0, /**< in-order.   */
-	CN_BST_PREORDER,    /**< pre-order.  */
-	CN_BST_POSTORDER,   /**< post-order. */
+enum StBstOrder {
+	ST_BST_INORDER = 0, /**< in-order.   */
+	ST_BST_PREORDER,    /**< pre-order.  */
+	ST_BST_POSTORDER,   /**< post-order. */
 };
 
 /**
- * @enum CnBstChild
+ * @enum StBstChild
  *
  * @brief Indices for children in a binary search tree.
  */
-enum CnBstChild {
-	CN_BST_LEFT = 0,   /**< left child.   */
-	CN_BST_RIGHT,      /**< right child.  */
-	CN_BST_N_CHILDREN, /**< number of children. */
+enum StBstChild {
+	ST_BST_LEFT = 0,   /**< left child.   */
+	ST_BST_RIGHT,      /**< right child.  */
+	ST_BST_N_CHILDREN, /**< number of children. */
 };
 
 /* clang-format off */
 /**
- * @def VX_GRAPH(struct CnRbnode, CN_BST_N_CHILDREN, union {intptr_t parcol; int32_t align;})
+ * @def VX_GRAPH(struct StRbnode, ST_BST_N_CHILDREN, union {intptr_t parcol; int32_t align;})
  *
- * @struct CnRbNode
+ * @struct StRbNode
  *
  * @brief Node of a red-black tree.
  */
-VX_GRAPH(struct CnRbnode, CN_BST_N_CHILDREN, union {intptr_t parcol; int32_t align;});
-/**< This is a macro definition of the struct CnRbnode type. */
+VX_GRAPH(struct StRbnode, ST_BST_N_CHILDREN, union {intptr_t parcol; int32_t align;});
+/**< This is a macro definition of the struct StRbnode type. */
 /* clang-format on */
 
 /**
- * @fn static inline struct CnRbnode* cn_rb_left(struct CnRbnode* node)
+ * @fn static inline struct StRbnode* st_rb_left(struct StRbnode* node)
  *
  * @brief Get the left child of the given node.
  *
@@ -85,14 +85,14 @@ VX_GRAPH(struct CnRbnode, CN_BST_N_CHILDREN, union {intptr_t parcol; int32_t ali
  *
  * @return The left child.
  */
-static inline struct CnRbnode* cn_rb_left(struct CnRbnode* node)
+static inline struct StRbnode* st_rb_left(struct StRbnode* node)
 {
-	CN_ENSURE_MEM(node, CN_ERROR);
-	return vx_graph_4vx(vx_graph_2vx(node)->nbor[CN_BST_LEFT], node);
+	ST_ENSURE_MEM(node, ST_ERROR);
+	return vx_graph_4vx(vx_graph_2vx(node)->nbor[ST_BST_LEFT], node);
 }
 
 /**
- * @fn static inline struct CnRbnode* cn_rb_right(struct CnRbnode* node)
+ * @fn static inline struct StRbnode* st_rb_right(struct StRbnode* node)
  *
  * @brief Get the right child of the given node.
  *
@@ -100,14 +100,14 @@ static inline struct CnRbnode* cn_rb_left(struct CnRbnode* node)
  *
  * @return The right child.
  */
-static inline struct CnRbnode* cn_rb_right(struct CnRbnode* node)
+static inline struct StRbnode* st_rb_right(struct StRbnode* node)
 {
-	CN_ENSURE_MEM(node, CN_ERROR);
-	return vx_graph_4vx(vx_graph_2vx(node)->nbor[CN_BST_RIGHT], node);
+	ST_ENSURE_MEM(node, ST_ERROR);
+	return vx_graph_4vx(vx_graph_2vx(node)->nbor[ST_BST_RIGHT], node);
 }
 
 /**
- * @fn struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent)
+ * @fn struct StRbnode* st_rb_link(struct StRbnode* node, struct StRbnode* parent)
  *
  * @brief Prepare a node for insertion in a red-black tree.
  *
@@ -116,15 +116,15 @@ static inline struct CnRbnode* cn_rb_right(struct CnRbnode* node)
  *
  * This will paint @a node red and set its parent pointer to @a parent. This
  * will also ensure that the left and right pointers of @a node are NULL. After
- * preparing the node for insertion, insert it with cn_rb_insrebal().
- * @see cn_rb_insrebal().
+ * preparing the node for insertion, insert it with st_rb_insrebal().
+ * @see st_rb_insrebal().
  *
  * @return The prepared node.
  */
-struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent);
+struct StRbnode* st_rb_link(struct StRbnode* node, struct StRbnode* parent);
 
 /**
- * @fn struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node)
+ * @fn struct StRbnode* st_rb_insrebal(struct StRbnode* root, struct StRbnode* node)
  *
  * @brief Insert a node in a red-black tree and rebalance the tree.
  *
@@ -133,13 +133,13 @@ struct CnRbnode* cn_rb_link(struct CnRbnode* node, struct CnRbnode* parent);
  *
  * @return The new root.
  *
- * @note Prepare @a node with cn_rb_link() before insertion.
- * @see cn_rb_link().
+ * @note Prepare @a node with st_rb_link() before insertion.
+ * @see st_rb_link().
  */
-struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node);
+struct StRbnode* st_rb_insrebal(struct StRbnode* root, struct StRbnode* node);
 
 /**
- * @fn struct CnRbnode* cn_rb_parent(struct CnRbnode* node)
+ * @fn struct StRbnode* st_rb_parent(struct StRbnode* node)
  *
  * @brief Get the parent of the red-black tree node.
  *
@@ -147,10 +147,10 @@ struct CnRbnode* cn_rb_insrebal(struct CnRbnode* root, struct CnRbnode* node);
  *
  * @return The parent.
  */
-struct CnRbnode* cn_rb_parent(struct CnRbnode* node);
+struct StRbnode* st_rb_parent(struct StRbnode* node);
 
 /**
- * @fn struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstOrder order)
+ * @fn struct StRbnode* st_rb_first(struct StRbnode* node, enum StBstOrder order)
  *
  * @brief Get the first node of the red-black tree for the given BST order.
  *
@@ -159,10 +159,10 @@ struct CnRbnode* cn_rb_parent(struct CnRbnode* node);
  *
  * @return The first node.
  */
-struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstOrder order);
+struct StRbnode* st_rb_first(struct StRbnode* node, enum StBstOrder order);
 
 /**
- * @fn struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstOrder order)
+ * @fn struct StRbnode* st_rb_next(struct StRbnode* node, enum StBstOrder order)
  *
  * @brief Get the next node for the current red-black tree node and the BST order.
  *
@@ -171,6 +171,6 @@ struct CnRbnode* cn_rb_first(struct CnRbnode* node, enum CnBstOrder order);
  *
  * @return The next node.
  */
-struct CnRbnode* cn_rb_next(struct CnRbnode* node, enum CnBstOrder order);
+struct StRbnode* st_rb_next(struct StRbnode* node, enum StBstOrder order);
 
-#endif /* CN_RBTREE_H */
+#endif /* ST_RBTREE_H */

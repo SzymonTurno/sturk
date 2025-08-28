@@ -30,37 +30,43 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/os/sys.h
+ * @file st/os/mem.h
  *
- * @brief System procedures.
+ * @brief System memory allocator.
  */
 
-#ifndef CN_SYS_H
-#define CN_SYS_H
+#ifndef ST_OS_MEM_H
+#define ST_OS_MEM_H
 
-#include <stdarg.h>
-#include <stdbool.h>
 #include <stddef.h>
 
-/**
- * @fn int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...)
- *
- * @see snprintf()
- */
-int cn_snprintf(char* buffer, size_t bufsz, const char* format, ...);
+/* @cond */
+#define ST__NEW(type, n, ...) ((type*)st_malloc(sizeof(type) * n))
+/* @endcond */
 
 /**
- * @fn int cn_remove(const char* filename)
+ * @def ST_NEW(...)
  *
- * @see remove()
+ * @brief Allocate memory for a data type.
+ *
+ * A call ST_NEW(type, n) will alocate contiguous memory region of the length
+ * that is equal to the multiple of @a n and the size of @a type. The @a n
+ * argument is optional and by default it equals 1.
  */
-int cn_remove(const char* filename);
+#define ST_NEW(...) ST__NEW(__VA_ARGS__, 1, )
 
 /**
- * @fn void cn_except(const char* reason, const char* file, int line)
+ * @fn void* st_malloc(size_t size)
  *
- * @brief Log error reason and call exit(EXIT_FAILURE).
+ * @see malloc()
  */
-void cn_except(const char* reason, const char* file, int line);
+void* st_malloc(size_t size);
 
-#endif /* CN_SYS_H */
+/**
+ * @fn void st_free(void* ptr)
+ *
+ * @see free()
+ */
+void st_free(void* ptr);
+
+#endif /* ST_OS_MEM_H */

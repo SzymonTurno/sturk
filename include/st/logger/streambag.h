@@ -30,63 +30,63 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/logger/streambag.h
+ * @file st/logger/streambag.h
  *
  * @brief Bag of streams.
  */
 
-#ifndef CN_LOGGER_STREAMBAG_H
-#define CN_LOGGER_STREAMBAG_H
+#ifndef ST_LOGGER_STREAMBAG_H
+#define ST_LOGGER_STREAMBAG_H
 
-#include "cn/os/fstream.h"
+#include "st/os/fstream.h"
 
 /**
- * @var typedef struct CnStreamBag CnStreamBag
+ * @var typedef struct StStreamBag StStreamBag
  *
  * @brief A bag of streams.
  */
-typedef struct CnStreamBag CnStreamBag;
+typedef struct StStreamBag StStreamBag;
 
 /**
- * @fn CnStreamBag* cn_streambag_create(void)
+ * @fn StStreamBag* st_streambag_create(void)
  *
  * @brief Create a new empty bag of streams.
  *
  * @return An empty bag of streams.
  */
-CnStreamBag* cn_streambag_create(void);
+StStreamBag* st_streambag_create(void);
 
 /**
- * @fn void cn_streambag_destroy(CnStreamBag* bag)
+ * @fn void st_streambag_destroy(StStreamBag* bag)
  *
  * @brief Destroy a bag of streams
  *
  * @param[in,out] bag The bag.
  */
-void cn_streambag_destroy(CnStreamBag* bag);
+void st_streambag_destroy(StStreamBag* bag);
 
 /**
- * @fn void cn_streambag_ins(CnStreamBag* bag, CnFstream* stream)
+ * @fn void st_streambag_ins(StStreamBag* bag, StFstream* stream)
  *
  * @brief Insert a stream into a bag.
  *
  * @param[in,out] bag The bag.
  * @param[in] stream The stream.
  */
-void cn_streambag_ins(CnStreamBag* bag, CnFstream* stream);
+void st_streambag_ins(StStreamBag* bag, StFstream* stream);
 
 /**
- * @fn void cn_streambag_rem(CnStreamBag* bag, CnFstream* stream)
+ * @fn void st_streambag_rem(StStreamBag* bag, StFstream* stream)
  *
  * @brief Remove a stream from a bag.
  *
  * @param[in,out] bag The bag.
  * @param[in] stream The stream.
  */
-void cn_streambag_rem(CnStreamBag* bag, CnFstream* stream);
+void st_streambag_rem(StStreamBag* bag, StFstream* stream);
 
 /**
- * @fn void cn_streambag_vprint(CnStreamBag* bag, const char* format, va_list vlist)
+ * @fn void st_streambag_vprint(StStreamBag* bag, const char* format, va_list vlist)
  *
  * @brief Print to all streams from a bag.
  *
@@ -94,10 +94,10 @@ void cn_streambag_rem(CnStreamBag* bag, CnFstream* stream);
  * @param[in] format The format string.
  * @param[in] vlist The list of arguments.
  */
-void cn_streambag_vprint(CnStreamBag* bag, const char* format, va_list vlist);
+void st_streambag_vprint(StStreamBag* bag, const char* format, va_list vlist);
 
 /**
- * @fn int cn_streambag_count(const CnStreamBag* bag)
+ * @fn int st_streambag_count(const StStreamBag* bag)
  *
  * @brief Get the number of streams in a bag.
  *
@@ -105,6 +105,6 @@ void cn_streambag_vprint(CnStreamBag* bag, const char* format, va_list vlist);
  *
  * @return The number of streams.
  */
-int cn_streambag_count(const CnStreamBag* bag);
+int st_streambag_count(const StStreamBag* bag);
 
-#endif /* CN_LOGGER_STREAMBAG_H */
+#endif /* ST_LOGGER_STREAMBAG_H */

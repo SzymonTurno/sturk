@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/broker.h
+ * @file st/broker.h
  *
  * @brief Message broker.
  *
@@ -38,35 +38,35 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * publish-subscribe messaging pattern.
  */
 
-#ifndef CN_BROKER_H
-#define CN_BROKER_H
+#ifndef ST_BROKER_H
+#define ST_BROKER_H
 
 #include <stdarg.h>
 #include <stddef.h>
 
 /**
- * @var typedef char CnLoad
+ * @var typedef char StLoad
  *
  * @brief Opaque data type that represents the message load.
  *
  * The memory for each message has two contexts:
  * 1. direct - allocated from the memory pool;
- * 2. indirect - optional, allocated within CnLoadVt::ctor.
+ * 2. indirect - optional, allocated within StLoadVt::ctor.
  *
  * It is for the user to decide how to use those contexts by defining the
- * message constructor (CnLoadVt::ctor).
+ * message constructor (StLoadVt::ctor).
  *
  * Direct context is a contiguous memory block allocated from fixed-size memory
  * pool and its size is constant for all messages. The size of the
  * block is a multiple of the size of the metadata, big enough to hold one
  * instance of the metadata and one instance of the user defined load. The size
- * of the load for the direct context is defined with the CnLoadVt::size
+ * of the load for the direct context is defined with the StLoadVt::size
  * callback.
- * @see CnPool
+ * @see StPool
  *
  * <table>
  * <caption id="direct_context">Direct context</caption>
- * <tr><th>Array <th>Load (CnLoad*) + meta
+ * <tr><th>Array <th>Load (StLoad*) + meta
  * <tr><td>0     <td rowspan="3">load
  * <tr><td>...
  * <tr><td>n-1
@@ -74,17 +74,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * </table>
  *
  * The indirect context is optional and it is everything that is allocated by
- * the contructor callback - CnLoadVt::ctor and that is accessible through
+ * the contructor callback - StLoadVt::ctor and that is accessible through
  * pointers placed somewhere in the direct context.
  */
-typedef char CnLoad;
+typedef char StLoad;
 
 /**
- * @struct CnLoadVt
+ * @struct StLoadVt
  *
  * @brief Vtable for message construction.
  */
-struct CnLoadVt {
+struct StLoadVt {
 	/**
 	 * @var size_t (*size)(void)
 	 *
@@ -93,117 +93,117 @@ struct CnLoadVt {
 	 * Should return the size of the load in bytes.
 	 *
 	 * @note It is called only once - when creating the broker with
-	 * cn_broker_create().
+	 * st_broker_create().
 	 */
 	size_t (*size)(void);
 
 	/**
-	 * @var void (*ctor)(CnLoad*, va_list)
+	 * @var void (*ctor)(StLoad*, va_list)
 	 *
 	 * @brief Constructor callback for the message.
 	 *
 	 * Should allocate additional memory for the message, if needed (see
 	 * "indirect context") and initialize the message - read arguments from
-	 * the va_list and fill the load passed through the CnLoad pointer.
+	 * the va_list and fill the load passed through the StLoad pointer.
 	 *
-	 * @note The input va_list will hold all values passed to cn_publish()
-	 * after the CnChannel argument.
-	 * @see cn_publish()
+	 * @note The input va_list will hold all values passed to st_publish()
+	 * after the StChannel argument.
+	 * @see st_publish()
 	 */
-	void (*ctor)(CnLoad*, va_list);
+	void (*ctor)(StLoad*, va_list);
 
 	/**
-	 * @var void (*dtor)(CnLoad*)
+	 * @var void (*dtor)(StLoad*)
 	 *
 	 * @brief Destructor callback for the message.
 	 *
-	 * Should free all the memory allocated by the CnLoadVt::ctor.
+	 * Should free all the memory allocated by the StLoadVt::ctor.
 	 */
-	void (*dtor)(CnLoad*);
+	void (*dtor)(StLoad*);
 };
 
 /**
- * @var typedef struct CnBroker CnBroker
+ * @var typedef struct StBroker StBroker
  *
  * @brief The message broker.
  *
- * The broker holds the list of all subscribers (CnSubscriber) in usage and
- * a dictionary of channels (CnChannel). All the messaging done through
+ * The broker holds the list of all subscribers (StSubscriber) in usage and
+ * a dictionary of channels (StChannel). All the messaging done through
  * channels created by the same broker will also use the same API for message
- * construction (CnLoadVt).
+ * construction (StLoadVt).
  */
-typedef struct CnBroker CnBroker;
+typedef struct StBroker StBroker;
 
 /**
- * @var typedef struct CnSubscriber CnSubscriber
+ * @var typedef struct StSubscriber StSubscriber
  *
  * @brief The subscriber.
  */
-typedef struct CnSubscriber CnSubscriber;
+typedef struct StSubscriber StSubscriber;
 
 /**
- * @var typedef struct CnChannel CnChannel
+ * @var typedef struct StChannel StChannel
  *
  * @brief The channel for messages.
  *
  * @note Channel is related to the topic through the dictionary owned by the
  * message broker.
- * @see cn_broker_search()
+ * @see st_broker_search()
  */
-typedef struct CnChannel CnChannel;
+typedef struct StChannel StChannel;
 
 /**
- * @fn void cn_publish(CnChannel* ch, ...)
+ * @fn void st_publish(StChannel* ch, ...)
  *
  * @brief Broadcast the message.
  *
  * @param[in,out] ch The channel to which the message is sent.
- * @param[in] ... The list of arguments used by the CnLoadVt::ctor.
+ * @param[in] ... The list of arguments used by the StLoadVt::ctor.
  *
  * @note Channels without any subscribers are allowed. Publishing to such
  * channel is safe and it does not have any meaningful behaviour (it does
  * "nothing").
  */
-void cn_publish(CnChannel* ch, ...);
+void st_publish(StChannel* ch, ...);
 
 /**
- * @fn void cn_subscribe(CnSubscriber* sber, const char* topic)
+ * @fn void st_subscribe(StSubscriber* sber, const char* topic)
  *
  * @brief Subscribe to a topic.
  *
  * @param[in,out] sber The subscriber that expresses the interest in the topic.
  * @param[in] topic The topic to which the subscription will be made.
  */
-void cn_subscribe(CnSubscriber* sber, const char* topic);
+void st_subscribe(StSubscriber* sber, const char* topic);
 
 /**
- * @fn CnBroker* cn_broker_create(const struct CnLoadVt* vp)
+ * @fn StBroker* st_broker_create(const struct StLoadVt* vp)
  *
  * @brief Create the message broker.
  *
- * @param[in] vp The pointer to the vtable for the CnLoad.
+ * @param[in] vp The pointer to the vtable for the StLoad.
  *
  * The chosen vtable will influence the behaviour of the functions that are
  * responsible for constructing and receiving the messages:
- * - cn_publish(),
- * - cn_subscriber_await(),
- * - cn_subscriber_poll().
+ * - st_publish(),
+ * - st_subscriber_await(),
+ * - st_subscriber_poll().
  *
  * @return The pointer to the new broker.
  */
-CnBroker* cn_broker_create(const struct CnLoadVt* vp);
+StBroker* st_broker_create(const struct StLoadVt* vp);
 
 /**
- * @fn void cn_broker_destroy(CnBroker* broker)
+ * @fn void st_broker_destroy(StBroker* broker)
  *
  * @brief Destroy the message broker.
  *
  * @param[in] broker The pointer to the broker.
  */
-void cn_broker_destroy(CnBroker* broker);
+void st_broker_destroy(StBroker* broker);
 
 /**
- * @fn CnChannel* cn_broker_search(CnBroker* broker, const char* topic)
+ * @fn StChannel* st_broker_search(StBroker* broker, const char* topic)
  *
  * @brief Find the channel that is assigned to the given topic.
  *
@@ -214,10 +214,10 @@ void cn_broker_destroy(CnBroker* broker);
  *
  * @return The pointer to the channel or NULL if NULL topic was passed.
  */
-CnChannel* cn_broker_search(CnBroker* broker, const char* topic);
+StChannel* st_broker_search(StBroker* broker, const char* topic);
 
 /**
- * @fn const char* cn_channel_gettopic(const CnChannel* ch)
+ * @fn const char* st_channel_gettopic(const StChannel* ch)
  *
  * @brief Get the topic for the given channel.
  *
@@ -225,10 +225,10 @@ CnChannel* cn_broker_search(CnBroker* broker, const char* topic);
  *
  * @return The topic (named channel).
  */
-const char* cn_channel_gettopic(const CnChannel* ch);
+const char* st_channel_gettopic(const StChannel* ch);
 
 /**
- * @fn CnSubscriber* cn_subscriber_create(CnBroker* broker)
+ * @fn StSubscriber* st_subscriber_create(StBroker* broker)
  *
  * @brief Create the subscriber.
  *
@@ -236,19 +236,19 @@ const char* cn_channel_gettopic(const CnChannel* ch);
  *
  * @return The pointer to the new subscriber.
  */
-CnSubscriber* cn_subscriber_create(CnBroker* broker);
+StSubscriber* st_subscriber_create(StBroker* broker);
 
 /**
- * @fn void cn_subscriber_destroy(CnSubscriber* sber)
+ * @fn void st_subscriber_destroy(StSubscriber* sber)
  *
  * @brief Destroy the subscriber.
  *
  * @param[in,out] sber The pointer to the subscriber.
  */
-void cn_subscriber_destroy(CnSubscriber* sber);
+void st_subscriber_destroy(StSubscriber* sber);
 
 /**
- * @fn CnLoad* cn_subscriber_await(CnSubscriber* sber)
+ * @fn StLoad* st_subscriber_await(StSubscriber* sber)
  *
  * @brief Wait for the messages that are wanted by the subscriber.
  *
@@ -262,10 +262,10 @@ void cn_subscriber_destroy(CnSubscriber* sber);
  *
  * @return The load.
  */
-CnLoad* cn_subscriber_await(CnSubscriber* sber);
+StLoad* st_subscriber_await(StSubscriber* sber);
 
 /**
- * @fn CnLoad* cn_subscriber_poll(CnSubscriber* sber)
+ * @fn StLoad* st_subscriber_poll(StSubscriber* sber)
  *
  * @brief Poll for the messages that are wanted by the subscriber.
  *
@@ -276,10 +276,10 @@ CnLoad* cn_subscriber_await(CnSubscriber* sber);
  *
  * @return The load.
  */
-CnLoad* cn_subscriber_poll(CnSubscriber* sber);
+StLoad* st_subscriber_poll(StSubscriber* sber);
 
 /**
- * @fn void cn_subscriber_unload(CnSubscriber* sber)
+ * @fn void st_subscriber_unload(StSubscriber* sber)
  *
  * @brief Inform the broker that the message can be released for the given subscriber.
  *
@@ -289,14 +289,14 @@ CnLoad* cn_subscriber_poll(CnSubscriber* sber);
  * subscribers counter for the message. When the counter hits 0, the message is
  * returned to the memory pool.
  *
- * @note The functions cn_subscriber_await() and cn_subscriber_poll() call this
+ * @note The functions st_subscriber_await() and st_subscriber_poll() call this
  * function automatically, there is no need to release the last received message
  * if the subscriber attempts to receive another message.
  */
-void cn_subscriber_unload(CnSubscriber* sber);
+void st_subscriber_unload(StSubscriber* sber);
 
 /**
- * @fn CnChannel* cn_load_getchan(const CnLoad* load)
+ * @fn StChannel* st_load_getchan(const StLoad* load)
  *
  * @brief Get the source channel of the message.
  *
@@ -304,6 +304,6 @@ void cn_subscriber_unload(CnSubscriber* sber);
  *
  * @return The channel
  */
-CnChannel* cn_load_getchan(const CnLoad* load);
+StChannel* st_load_getchan(const StLoad* load);
 
-#endif /* CN_BROKER_H */
+#endif /* ST_BROKER_H */

@@ -40,45 +40,45 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/pool.h"
 #include "sturk/waitq.h"
 
-LIST(struct SubscriberList, CnSubscriber*);
+LIST(struct SubscriberList, StSubscriber*);
 
 CIRQ(struct Qentry, struct Message*);
 
 struct ChannelData {
-	CnBroker* broker;
+	StBroker* broker;
 	struct SubscriberList* list;
-	CnMutex* mutex;
+	StMutex* mutex;
 };
 
-DICT(struct CnChannel, struct ChannelData);
+DICT(struct StChannel, struct ChannelData);
 
-struct CnBroker {
-	const struct CnLoadVt* vp;
-	CnMutex* mutex;
+struct StBroker {
+	const struct StLoadVt* vp;
+	StMutex* mutex;
 	struct {
 		struct SubscriberList* list;
-		CnPool* pool;
+		StPool* pool;
 	} sbers;
 	struct {
-		CnChannel* dict;
-		CnPool* pool;
+		StChannel* dict;
+		StPool* pool;
 	} channels;
 };
 
 struct Message {
-	CnChannel* channel;
-	CnMutex* mutex;
+	StChannel* channel;
+	StMutex* mutex;
 	union {
 		int n_pending;
 		void* align;
 	} u;
 };
 
-LIST(struct ChannelList, CnChannel*);
+LIST(struct ChannelList, StChannel*);
 
-struct CnSubscriber {
-	CnBroker* broker;
-	CnWaitq* q;
+struct StSubscriber {
+	StBroker* broker;
+	StWaitq* q;
 	struct Message* msg;
 	struct ChannelList* list;
 };

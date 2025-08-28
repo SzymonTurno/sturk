@@ -30,18 +30,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/arith.h
+ * @file st/arith.h
  *
  * @brief Basic arithmetic operations.
  */
 
-#ifndef CN_ARITH_H
-#define CN_ARITH_H
+#ifndef ST_ARITH_H
+#define ST_ARITH_H
 
 #include <stddef.h>
 
 /**
- * @def CN_MAX(x, y)
+ * @def ST_MAX(x, y)
  *
  * @brief Compute the maximum of two values.
  *
@@ -51,10 +51,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Side effects: @a x and @a y evaluated twice.
  */
-#define CN_MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define ST_MAX(x, y) (((x) > (y)) ? (x) : (y))
 
 /**
- * @def CN_MIN(x, y)
+ * @def ST_MIN(x, y)
  *
  * @brief Compute the minimum of two values.
  *
@@ -64,19 +64,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Side effects: @a x and @a y evaluated twice.
  */
-#define CN_MIN(x, y) (((x) < (y)) ? (x) : (y))
+#define ST_MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 #ifdef __STRICT_ANSI__
 
 /* clang-format off */
-#define cn_container_of(ptr, type, member)                                     \
+#define st_container_of(ptr, type, member)                                     \
 	((type*)((char*)(ptr) - offsetof(type, member)))
 /* clang-format on */
 
 #else /* not defined: __STRICT_ANSI__ */
 
 /**
- * @def cn_container_of(ptr, type, member)
+ * @def st_container_of(ptr, type, member)
  *
  * @brief Cast a member of a structure out to the containing structure.
  *
@@ -88,7 +88,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a ptr.
  */
-#define cn_container_of(ptr, type, member)                                     \
+#define st_container_of(ptr, type, member)                                     \
 	({                                                                     \
 		const __typeof__(((type*)0)->member)* _ptr = (ptr);            \
                                                                                \
@@ -97,4 +97,4 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #endif /* __STRICT_ANSI__ */
 
-#endif /* CN_ARITH_H */
+#endif /* ST_ARITH_H */

@@ -32,27 +32,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/pool.h
  *
- * @see cn/pool.h
+ * @see st/pool.h
  */
 
 #ifndef STURK_POOL_H
 #define STURK_POOL_H
 
-#include "cn/pool.h"
+#include "st/pool.h"
 
-/** @see cn_pool_create() */
-#define pool_create cn_pool_create
+/** @see st_pool_create() */
+#define pool_create st_pool_create
 
-/** @see cn_pool_destroy() */
-#define pool_destroy cn_pool_destroy
+/** @see st_pool_destroy() */
+#define pool_destroy st_pool_destroy
 
-/** @see cn_pool_alloc() */
-#define pool_alloc cn_pool_alloc
+/** @see st_pool_alloc() */
+#define pool_alloc st_pool_alloc
 
-/** @see cn_pool_tryalloc() */
-#define pool_tryalloc cn_pool_tryalloc
+/** @see st_pool_tryalloc() */
+#define pool_tryalloc st_pool_tryalloc
 
-/** @see cn_pool_free() */
-#define pool_free cn_pool_free
+/** @see st_pool_free() */
+#define pool_free st_pool_free
 
 #endif /* STURK_POOL_H */

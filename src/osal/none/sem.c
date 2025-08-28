@@ -29,31 +29,31 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cn/os/sem.h"
+#include "st/os/sem.h"
 #include "sturk/logger/except.h"
 #include "sturk/logger/trace.h"
 #include "sturk/os/mem.h"
 #include <stddef.h>
 
-struct CnSem {
+struct StSem {
 	int n;
 };
 
-CnSem* cn_sem_create(CnBits args)
+StSem* st_sem_create(StBits args)
 {
-	CnSem* self = NEW(CnSem);
+	StSem* self = NEW(StSem);
 
 	(void)args;
 	self->n = 0;
 	return self;
 }
 
-void cn_sem_destroy(CnSem* sem)
+void st_sem_destroy(StSem* sem)
 {
-	cn_free(sem);
+	st_free(sem);
 }
 
-void cn_sem_wait(CnSem* sem)
+void st_sem_wait(StSem* sem)
 {
 	ENSURE(sem, ERROR, null_param);
 	if (!sem->n)
@@ -62,7 +62,7 @@ void cn_sem_wait(CnSem* sem)
 	--sem->n;
 }
 
-bool cn_sem_trywait(CnSem* sem)
+bool st_sem_trywait(StSem* sem)
 {
 	ENSURE(sem, ERROR, null_param);
 	if (sem->n) {
@@ -72,7 +72,7 @@ bool cn_sem_trywait(CnSem* sem)
 	return false;
 }
 
-void cn_sem_post(CnSem* sem)
+void st_sem_post(StSem* sem)
 {
 	ENSURE(sem, ERROR, null_param);
 	++sem->n;

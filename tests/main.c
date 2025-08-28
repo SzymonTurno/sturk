@@ -9,7 +9,7 @@
 #include "sturk/rbtree.h"
 #include "sturk/str.h"
 #include "sturk/waitq.h"
-#include "cn/os/mem.h"
+#include "st/os/mem.h"
 #include "pubsub.h"
 #include "unity.h"
 #include "unity_fixture.h"
@@ -30,16 +30,16 @@
 #endif /* WIN32 */
 
 #define SIMPLE_TEST_GROUP(group, label)                                        \
-	static struct CnFstream* test_stream_##group;                          \
+	static struct StFstream* test_stream_##group;                          \
 	TEST_SETUP(group)                                                      \
 	{                                                                      \
 		test_stream_##group =                                          \
-			cn_fopen("test_traces_" label ".tmp", "w+");           \
+			st_fopen("test_traces_" label ".tmp", "w+");           \
                                                                                \
-		logger_attach(INFO, cn_stdout());                              \
-		logger_attach(DEBUG, cn_stdout());                             \
-		logger_attach(WARNING, cn_stderr());                           \
-		logger_attach(ERROR, cn_stderr());                             \
+		logger_attach(INFO, st_stdout());                              \
+		logger_attach(DEBUG, st_stdout());                             \
+		logger_attach(WARNING, st_stderr());                           \
+		logger_attach(ERROR, st_stderr());                             \
 		printf("\n");                                                  \
 		trace(INFO, "ut", "Running test case for: %s.", label);        \
 		logger_attach(INFO, test_stream_##group);                      \
@@ -51,8 +51,8 @@
 	{                                                                      \
 		trace(INFO, "ut", "Done.");                                    \
 		logger_cleanup();                                              \
-		cn_fclose(test_stream_##group);                                \
-		cn_remove("test_traces_" label ".tmp");                        \
+		st_fclose(test_stream_##group);                                \
+		st_remove("test_traces_" label ".tmp");                        \
 	}                                                                      \
 	TEST_GROUP(group)
 
@@ -70,14 +70,14 @@
 
 #define BROKER_FILE_PATH JOIN_PATH("src", JOIN_PATH("broker", "broker.c"))
 
-static const char* gettrace(struct CnFstream* stream, int index)
+static const char* gettrace(struct StFstream* stream, int index)
 {
 	static char buff[256];
 
-	cn_fseekset(stream, 0);
+	st_fseekset(stream, 0);
 	while (index--)
-		cn_fgets(buff, sizeof(buff), stream);
-	return cn_fgets(buff, sizeof(buff), stream);
+		st_fgets(buff, sizeof(buff), stream);
+	return st_fgets(buff, sizeof(buff), stream);
 }
 
 static void SimpleMain(int argc, const char** argv, void (*fn)(void))
@@ -116,7 +116,7 @@ TEST(common, should_destroy_null)
 
 TEST(list, should_implement_lifo)
 {
-	struct CnStrlist* list = NULL;
+	struct StStrlist* list = NULL;
 
 	list = strlist_ins(NULL, "One");
 	list = strlist_ins(list, "Two");
@@ -129,7 +129,7 @@ TEST(list, should_implement_lifo)
 
 TEST(cirq, should_implement_fifo)
 {
-	struct CnStrq* q = NULL;
+	struct StStrq* q = NULL;
 
 	q = strq_ins(NULL, "One");
 	q = strq_ins(q, "Two");
@@ -147,15 +147,15 @@ TEST(rbnode, should_return_left_and_right)
 	struct Vertegs* nbor[] = {left, right};
 
 	TEST_ASSERT_EQUAL_PTR(
-		left, (struct Vertegs*)rb_left((struct CnRbnode*)nbor));
+		left, (struct Vertegs*)rb_left((struct StRbnode*)nbor));
 	TEST_ASSERT_EQUAL_PTR(
-		right, (struct Vertegs*)rb_right((struct CnRbnode*)nbor));
+		right, (struct Vertegs*)rb_right((struct StRbnode*)nbor));
 }
 
 TEST(rbnode, should_link_as_leaf)
 {
-	struct CnRbnode p = {0};
-	struct CnRbnode n = {0};
+	struct StRbnode p = {0};
+	struct StRbnode n = {0};
 
 	memset(&n, 0xA, sizeof(n));
 	TEST_ASSERT_EQUAL_PTR(&n, rb_link(&n, &p));
@@ -167,9 +167,9 @@ TEST(rbnode, should_link_as_leaf)
 
 TEST(rbnode, should_insert_and_balance)
 {
-	struct CnRbnode c = {0};
-	struct CnRbnode a = {0};
-	struct CnRbnode b = {0};
+	struct StRbnode c = {0};
+	struct StRbnode a = {0};
+	struct StRbnode b = {0};
 	struct Vertegs** nbor = ((struct Vertegs*)&c)->nbor;
 
 	/*
@@ -209,9 +209,9 @@ TEST(rbnode, should_insert_and_balance)
 
 TEST(rbnode, should_trace_not_supported_traversals)
 {
-	struct CnRbnode node = {0};
+	struct StRbnode node = {0};
 
-	logger_detach(WARNING, cn_stderr());
+	logger_detach(WARNING, st_stderr());
 	rb_next(&node, BST_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
 		RBTREE_FILE_PATH ":199: Not supported.\n",
@@ -224,13 +224,13 @@ TEST(rbnode, should_trace_not_supported_traversals)
 
 TEST(dictnode, should_sort)
 {
-	struct CnDictnode q = {.node = {0}, .str = "q"};
-	struct CnDictnode w = {.node = {0}, .str = "w"};
-	struct CnDictnode e = {.node = {0}, .str = "e"};
-	struct CnDictnode r = {.node = {0}, .str = "r"};
-	struct CnDictnode t = {.node = {0}, .str = "t"};
-	struct CnDictnode y = {.node = {0}, .str = "y"};
-	struct CnDictnode* root = dictnode_ins(NULL, &q);
+	struct StDictnode q = {.node = {0}, .str = "q"};
+	struct StDictnode w = {.node = {0}, .str = "w"};
+	struct StDictnode e = {.node = {0}, .str = "e"};
+	struct StDictnode r = {.node = {0}, .str = "r"};
+	struct StDictnode t = {.node = {0}, .str = "t"};
+	struct StDictnode y = {.node = {0}, .str = "y"};
+	struct StDictnode* root = dictnode_ins(NULL, &q);
 
 	TEST_ASSERT_EQUAL_PTR(&q, root);
 	root = dictnode_ins(root, &w);
@@ -238,25 +238,25 @@ TEST(dictnode, should_sort)
 	root = dictnode_ins(root, &r);
 	root = dictnode_ins(root, &t);
 	root = dictnode_ins(root, &y);
-	root = (struct CnDictnode*)rb_first(
-		(struct CnRbnode*)root, BST_INORDER);
+	root = (struct StDictnode*)rb_first(
+		(struct StRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("e", root->str);
-	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
+	root = (struct StDictnode*)rb_next((struct StRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("q", root->str);
-	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
+	root = (struct StDictnode*)rb_next((struct StRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("r", root->str);
-	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
+	root = (struct StDictnode*)rb_next((struct StRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("t", root->str);
-	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
+	root = (struct StDictnode*)rb_next((struct StRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("w", root->str);
-	root = (struct CnDictnode*)rb_next((struct CnRbnode*)root, BST_INORDER);
+	root = (struct StDictnode*)rb_next((struct StRbnode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("y", root->str);
-	TEST_ASSERT_NULL(rb_next((struct CnRbnode*)root, BST_INORDER));
+	TEST_ASSERT_NULL(rb_next((struct StRbnode*)root, BST_INORDER));
 }
 
 TEST(strbag, should_allow_many_entries)
 {
-	struct CnStrbag* bag = NULL;
+	struct StStrbag* bag = NULL;
 	char str[sizeof(int) + 1] = {0};
 
 	srand(1);
@@ -275,7 +275,7 @@ TEST(strbag, should_allow_many_entries)
 
 TEST(strbag, should_sort)
 {
-	struct CnStrbag* bag = NULL;
+	struct StStrbag* bag = NULL;
 
 	bag = strbag_ins(NULL, "q");
 	bag = strbag_ins(bag, "w");
@@ -301,7 +301,7 @@ TEST(strbag, should_sort)
 
 TEST(strbag, should_allow_preorder_traversal)
 {
-	struct CnStrbag* bag = NULL;
+	struct StStrbag* bag = NULL;
 
 	bag = strbag_ins(NULL, "d");
 	bag = strbag_ins(bag, "b");
@@ -317,23 +317,23 @@ TEST(strbag, should_allow_preorder_traversal)
 	 *  a   c   f
 	 */
 	TEST_ASSERT_EQUAL_STRING("d", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next((struct CnRbnode*)bag, BST_PREORDER);
+	bag = (struct StStrbag*)rb_next((struct StRbnode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next((struct CnRbnode*)bag, BST_PREORDER);
+	bag = (struct StStrbag*)rb_next((struct StRbnode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next((struct CnRbnode*)bag, BST_PREORDER);
+	bag = (struct StStrbag*)rb_next((struct StRbnode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next((struct CnRbnode*)bag, BST_PREORDER);
+	bag = (struct StStrbag*)rb_next((struct StRbnode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_next((struct CnRbnode*)bag, BST_PREORDER);
+	bag = (struct StStrbag*)rb_next((struct StRbnode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("f", dict_getk(bag));
 	strbag_destroy(bag);
 }
 
 TEST(strbag, should_find_first)
 {
-	struct CnStrbag* bag = NULL;
-	struct CnStrbag* tmp = NULL;
+	struct StStrbag* bag = NULL;
+	struct StStrbag* tmp = NULL;
 
 	bag = strbag_ins(NULL, "c");
 	bag = strbag_ins(bag, "a");
@@ -347,18 +347,18 @@ TEST(strbag, should_find_first)
 	 *   \
 	 *    b
 	 */
-	tmp = (struct CnStrbag*)rb_right((struct CnRbnode*)bag);
+	tmp = (struct StStrbag*)rb_right((struct StRbnode*)bag);
 	TEST_ASSERT_EQUAL_STRING("d", dict_getk(tmp));
-	bag = (struct CnStrbag*)rb_first((struct CnRbnode*)tmp, BST_INORDER);
+	bag = (struct StStrbag*)rb_first((struct StRbnode*)tmp, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
-	bag = (struct CnStrbag*)rb_first((struct CnRbnode*)tmp, BST_POSTORDER);
+	bag = (struct StStrbag*)rb_first((struct StRbnode*)tmp, BST_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
 	strbag_destroy(bag);
 }
 
 TEST(strbag, should_allow_negative_count)
 {
-	struct CnStrbag* bag = strbag_rem(NULL, "");
+	struct StStrbag* bag = strbag_rem(NULL, "");
 
 	TEST_ASSERT_EQUAL_INT(-1, strbag_count(bag));
 	strbag_destroy(bag);
@@ -366,7 +366,7 @@ TEST(strbag, should_allow_negative_count)
 
 TEST(mutex, should_not_block_on_trylock)
 {
-	CnMutex* mutex = mutex_create(0);
+	StMutex* mutex = mutex_create(0);
 
 	TEST_ASSERT_TRUE(mutex_trylock(mutex));
 	TEST_ASSERT_FALSE(mutex_trylock(mutex));
@@ -376,7 +376,7 @@ TEST(mutex, should_not_block_on_trylock)
 
 TEST(mutex, should_lock_twice_if_recursive)
 {
-	CnMutex* mutex = mutex_create(MUTEX_TYPE_RECURSIVE);
+	StMutex* mutex = mutex_create(MUTEX_TYPE_RECURSIVE);
 
 	mutex_lock(mutex);
 	mutex_lock(mutex);
@@ -391,9 +391,9 @@ TEST(mutex, should_lock_twice_if_recursive)
 
 TEST(mutex, should_trace_double_lock_warning)
 {
-	CnMutex* mut = mutex_create(0);
+	StMutex* mut = mutex_create(0);
 
-	logger_detach(WARNING, cn_stderr());
+	logger_detach(WARNING, st_stderr());
 	mutex_lock(mut);
 	TEST_ASSERT_NULL(GETTRACE(mutex, 0));
 	mutex_lock(mut);
@@ -406,9 +406,9 @@ TEST(mutex, should_trace_double_lock_warning)
 
 TEST(mutex, should_trace_double_unlock_warning)
 {
-	CnMutex* mut = mutex_create(0);
+	StMutex* mut = mutex_create(0);
 
-	logger_detach(WARNING, cn_stderr());
+	logger_detach(WARNING, st_stderr());
 	TEST_ASSERT_NULL(GETTRACE(mutex, 0));
 	mutex_unlock(mut);
 	TEST_ASSERT_EQUAL_STRING(
@@ -419,8 +419,8 @@ TEST(mutex, should_trace_double_unlock_warning)
 
 TEST(mutex, should_trace_not_supported_policy)
 {
-	logger_detach(WARNING, cn_stderr());
-	(void)mutex_create(CN_MUTEX_BF(POLICY, 7));
+	logger_detach(WARNING, st_stderr());
+	(void)mutex_create(ST_MUTEX_BF(POLICY, 7));
 	TEST_ASSERT_EQUAL_STRING(
 		MUTEX_FILE_PATH ":58: Not supported.\n",
 		strstr(GETTRACE(mutex, 0), MUTEX_FILE_PATH ":"));
@@ -431,8 +431,8 @@ TEST(mutex, should_trace_not_supported_policy)
 
 TEST(mutex, should_trace_not_supported_type)
 {
-	logger_detach(WARNING, cn_stderr());
-	(void)mutex_create(CN_MUTEX_BF(TYPE, 15));
+	logger_detach(WARNING, st_stderr());
+	(void)mutex_create(ST_MUTEX_BF(TYPE, 15));
 	TEST_ASSERT_EQUAL_STRING(
 		MUTEX_FILE_PATH ":77: Not supported.\n",
 		strstr(GETTRACE(mutex, 0), MUTEX_FILE_PATH ":"));
@@ -443,7 +443,7 @@ TEST(mutex, should_trace_not_supported_type)
 
 TEST(semaphore, should_not_block_if_posted)
 {
-	CnSem* sem = sem_create(0);
+	StSem* sem = sem_create(0);
 
 	sem_post(sem);
 	sem_wait(sem);
@@ -452,9 +452,9 @@ TEST(semaphore, should_not_block_if_posted)
 
 TEST(semaphore, should_trace_fake_warning)
 {
-	CnSem* sem = sem_create(0);
+	StSem* sem = sem_create(0);
 
-	logger_detach(WARNING, cn_stderr());
+	logger_detach(WARNING, st_stderr());
 	TEST_ASSERT_NULL(GETTRACE(semaphore, 0));
 	sem_wait(sem);
 	TEST_ASSERT_EQUAL_STRING(
@@ -467,7 +467,7 @@ TEST(semaphore, should_trace_fake_warning)
 TEST(waitq, should_not_block_after_insertion)
 {
 	struct Vertegs* nbor[] = {NULL, NULL};
-	CnWaitq* waitq = waitq_create();
+	StWaitq* waitq = waitq_create();
 
 	waitq_ins(waitq, vx_4nbor(nbor));
 	TEST_ASSERT_EQUAL_PTR(nbor, waitq_rem(waitq));
@@ -477,9 +477,9 @@ TEST(waitq, should_not_block_after_insertion)
 TEST(waitq, should_trace_dataloss)
 {
 	struct Vertegs* nbor[] = {NULL, NULL};
-	CnWaitq* q = waitq_create();
+	StWaitq* q = waitq_create();
 
-	logger_detach(WARNING, cn_stderr());
+	logger_detach(WARNING, st_stderr());
 	waitq_ins(q, vx_4nbor(nbor));
 	waitq_destroy(q);
 	TEST_ASSERT_EQUAL_STRING(
@@ -488,7 +488,7 @@ TEST(waitq, should_trace_dataloss)
 
 TEST(pool, should_return_freed_pointer)
 {
-	CnPool* pool = pool_create(1);
+	StPool* pool = pool_create(1);
 	void* mem = pool_alloc(pool);
 
 	pool_free(pool, mem);
@@ -499,9 +499,9 @@ TEST(pool, should_return_freed_pointer)
 
 TEST(subscriber, should_receive_enqueued_message)
 {
-	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
-	CnSubscriber* sber = subscriber_create(broker);
-	CnLoad* load = NULL;
+	StBroker* broker = broker_create(SAMPLE_LOAD_API);
+	StSubscriber* sber = subscriber_create(broker);
+	StLoad* load = NULL;
 
 	subscribe(sber, "test");
 	publish(broker_search(broker, "test"), "%X", 0xF00D);
@@ -514,7 +514,7 @@ TEST(subscriber, should_receive_enqueued_message)
 
 TEST(subscriber, should_trace_null_param)
 {
-	logger_detach(WARNING, cn_stderr());
+	logger_detach(WARNING, st_stderr());
 	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
 		BROKER_FILE_PATH ":265: Null param.\n",
@@ -523,9 +523,9 @@ TEST(subscriber, should_trace_null_param)
 
 TEST(subscriber, should_unload)
 {
-	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
-	CnSubscriber* sber = subscriber_create(broker);
-	CnLoad* load = NULL;
+	StBroker* broker = broker_create(SAMPLE_LOAD_API);
+	StSubscriber* sber = subscriber_create(broker);
+	StLoad* load = NULL;
 
 	subscribe(sber, "test");
 	publish(broker_search(broker, "test"), "%X", 0xF00D);
@@ -540,8 +540,8 @@ TEST(subscriber, should_unload)
 
 TEST(broker, should_allow_zero_subscribers)
 {
-	CnBroker* broker = broker_create(SAMPLE_LOAD_API);
-	CnChannel* ch = broker_search(broker, "test");
+	StBroker* broker = broker_create(SAMPLE_LOAD_API);
+	StChannel* ch = broker_search(broker, "test");
 
 	publish(ch, "%d", 123);
 	broker_destroy(broker);
@@ -549,7 +549,7 @@ TEST(broker, should_allow_zero_subscribers)
 
 TEST(broker, should_allow_many_topics)
 {
-	CnBroker* broker = NULL;
+	StBroker* broker = NULL;
 	char str[sizeof(int) + 1] = {0};
 
 	srand(1);
@@ -579,21 +579,21 @@ TEST(broker, should_support_single_thread_pubsub)
 		LINE("[info] broadcast 1"),
 		LINE("[info] message: new = 1, old = 7"),
 		LINE("[info] message: new = 7, old = -91")};
-	struct CnStrq* q = single_thread_pubsub();
+	struct StStrq* q = single_thread_pubsub();
 	const char* tmp = NULL;
 
 	for (int i = 0; i < ARRAY_SIZE(expected); i++) {
 		tmp = strq_rem(&q);
 		TEST_ASSERT_EQUAL_STRING(expected[i], tmp);
-		cn_free((char*)tmp);
+		st_free((char*)tmp);
 	}
 	TEST_ASSERT_NULL(q);
 }
 
 TEST(broker, should_support_multi_thread_pubsub)
 {
-	struct CnStrbag* actual = multi_thread_pubsub();
-	struct CnStrbag* expected = NULL;
+	struct StStrbag* actual = multi_thread_pubsub();
+	struct StStrbag* expected = NULL;
 
 	expected = strbag_ins(expected, "[info] message: new = -3, old = 0\n");
 	expected =
@@ -626,9 +626,9 @@ TEST(broker, should_support_multi_thread_pubsub)
 
 TEST(broker, should_trace_null_param)
 {
-	CnSubscriber* tmp = calloc(sizeof(char), 256);
+	StSubscriber* tmp = calloc(sizeof(char), 256);
 
-	logger_detach(WARNING, cn_stderr());
+	logger_detach(WARNING, st_stderr());
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
 		BROKER_FILE_PATH ":297: Null param.\n",
@@ -638,21 +638,21 @@ TEST(broker, should_trace_null_param)
 
 TEST(logger, should_trace_debug)
 {
-	logger_detach(DEBUG, cn_stdout());
+	logger_detach(DEBUG, st_stdout());
 	trace(DEBUG, NULL, "");
 	TEST_ASSERT_EQUAL_STRING("[debug] \n", GETTRACE(logger, 0));
 }
 
 TEST(logger, should_trace_error)
 {
-	logger_detach(ERROR, cn_stderr());
+	logger_detach(ERROR, st_stderr());
 	trace(ERROR, NULL, "");
 	TEST_ASSERT_EQUAL_STRING("[error] \n", GETTRACE(logger, 0));
 }
 
 TEST(logger, should_ignore_detached_trace_levels)
 {
-	logger_detach(ERROR, cn_stderr());
+	logger_detach(ERROR, st_stderr());
 	TEST_LOGGER_DETACH(logger, ERROR);
 	trace(ERROR, NULL, "");
 }

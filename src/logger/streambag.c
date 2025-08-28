@@ -37,11 +37,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
 
-LIST(struct StreamList, CnFstream*);
+LIST(struct StreamList, StFstream*);
 
-struct CnStreamBag {
+struct StStreamBag {
 	struct StreamList* head;
-	CnMutex* mutex;
+	StMutex* mutex;
 	union {
 		int n_streams;
 		void* align;
@@ -55,14 +55,14 @@ list_print(struct StreamList* head, const char* format, va_list vlist)
 
 	list_foreach (struct StreamList, i, &head) {
 		va_copy(vcopy, vlist);
-		cn_vfprintf(*graph_datap(*i), format, vcopy);
+		st_vfprintf(*graph_datap(*i), format, vcopy);
 		va_end(vcopy);
 	}
 }
 
-CnStreamBag* cn_streambag_create(void)
+StStreamBag* st_streambag_create(void)
 {
-	CnStreamBag* self = NEW(CnStreamBag);
+	StStreamBag* self = NEW(StStreamBag);
 
 	self->head = NULL;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
@@ -70,18 +70,18 @@ CnStreamBag* cn_streambag_create(void)
 	return self;
 }
 
-void cn_streambag_destroy(CnStreamBag* bag)
+void st_streambag_destroy(StStreamBag* bag)
 {
 	if (!bag)
 		return;
 	mutex_destroy(bag->mutex);
 	bag->mutex = NULL;
 	while (bag->head)
-		cn_free(list_rem(&bag->head));
-	cn_free(bag);
+		st_free(list_rem(&bag->head));
+	st_free(bag);
 }
 
-void cn_streambag_ins(CnStreamBag* bag, CnFstream* stream)
+void st_streambag_ins(StStreamBag* bag, StFstream* stream)
 {
 	struct StreamList* entry = NEW(struct StreamList);
 
@@ -93,20 +93,20 @@ void cn_streambag_ins(CnStreamBag* bag, CnFstream* stream)
 	mutex_unlock(bag->mutex);
 }
 
-void cn_streambag_rem(CnStreamBag* bag, CnFstream* stream)
+void st_streambag_rem(StStreamBag* bag, StFstream* stream)
 {
 	ENSURE(bag, ERROR, null_param);
 	list_foreach (struct StreamList, i, &bag->head)
 		if (*graph_datap(*i) == stream) {
 			mutex_lock(bag->mutex);
-			cn_free(list_rem(i));
+			st_free(list_rem(i));
 			--bag->u.n_streams;
 			mutex_unlock(bag->mutex);
 			break;
 		}
 }
 
-void cn_streambag_vprint(CnStreamBag* bag, const char* format, va_list vlist)
+void st_streambag_vprint(StStreamBag* bag, const char* format, va_list vlist)
 {
 	ENSURE(bag, ERROR, null_param);
 	mutex_lock(bag->mutex);
@@ -114,7 +114,7 @@ void cn_streambag_vprint(CnStreamBag* bag, const char* format, va_list vlist)
 	mutex_unlock(bag->mutex);
 }
 
-int cn_streambag_count(const CnStreamBag* bag)
+int st_streambag_count(const StStreamBag* bag)
 {
 	return bag ? bag->u.n_streams : 0;
 }

@@ -30,59 +30,59 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/logger/trace.h
+ * @file st/logger/trace.h
  *
  * @brief Trace.
  */
 
-#ifndef CN_LOGGER_TRACE_H
-#define CN_LOGGER_TRACE_H
+#ifndef ST_LOGGER_TRACE_H
+#define ST_LOGGER_TRACE_H
 
-#include "cn/os/fstream.h"
+#include "st/os/fstream.h"
 
-#ifndef CN_LOGGER_EN
+#ifndef ST_LOGGER_EN
 
 /**
- * @def CN_LOGGER_EN
+ * @def ST_LOGGER_EN
  *
  * @brief Logger enabled.
  */
-#define CN_LOGGER_EN 0
+#define ST_LOGGER_EN 0
 
-#endif /* CN_LOGGER_EN */
+#endif /* ST_LOGGER_EN */
 
 /**
- * @def CN_TRACE(lvl, tag, ...)
+ * @def ST_TRACE(lvl, tag, ...)
  *
  * @brief Log to the streams that are attached to the logger.
  *
- * This is almost the same as cn_trace(). The main difference is that it will
- * not compile if the CN_LOGGER_EN is 0.
+ * This is almost the same as st_trace(). The main difference is that it will
+ * not compile if the ST_LOGGER_EN is 0.
  *
- * @see cn_trace()
+ * @see st_trace()
  */
-#define CN_TRACE(lvl, tag, ...)                                                \
+#define ST_TRACE(lvl, tag, ...)                                                \
 	do {                                                                   \
-		if (CN_LOGGER_EN)                                              \
-			cn_trace(lvl, tag, __VA_ARGS__);                       \
+		if (ST_LOGGER_EN)                                              \
+			st_trace(lvl, tag, __VA_ARGS__);                       \
 	} while (0)
 
 /**
- * @enum CnTraceLvl
+ * @enum StTraceLvl
  *
  * @brief Trace level.
  */
-enum CnTraceLvl {
-	CN_UNKNOWN = 0, /**< unknown trace level.    */
-	CN_DEBUG,       /**< debug trace level.      */
-	CN_INFO,        /**< info trace level.       */
-	CN_WARNING,     /**< warning trace level.    */
-	CN_ERROR,       /**< error trace level.      */
-	CN_N_TRACE_LVLS /**< number of trace levels. */
+enum StTraceLvl {
+	ST_UNKNOWN = 0, /**< unknown trace level.    */
+	ST_DEBUG,       /**< debug trace level.      */
+	ST_INFO,        /**< info trace level.       */
+	ST_WARNING,     /**< warning trace level.    */
+	ST_ERROR,       /**< error trace level.      */
+	ST_N_TRACE_LVLS /**< number of trace levels. */
 };
 
 /**
- * @fn void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...)
+ * @fn void st_trace(enum StTraceLvl lvl, const char* tag, const char* format, ...)
  *
  * @brief Log to the file streams that are attached to the logger.
  *
@@ -91,33 +91,33 @@ enum CnTraceLvl {
  * @param[in] format The format string.
  * @param[in] ... The list of arguments.
  */
-void cn_trace(enum CnTraceLvl lvl, const char* tag, const char* format, ...);
+void st_trace(enum StTraceLvl lvl, const char* tag, const char* format, ...);
 
 /**
- * @fn void cn_logger_attach(enum CnTraceLvl lvl, CnFstream* stream)
+ * @fn void st_logger_attach(enum StTraceLvl lvl, StFstream* stream)
  *
  * @brief Attach a stream to the logger.
  *
  * @param[in] lvl The trace level.
  * @param[in,out] stream The stream.
  */
-void cn_logger_attach(enum CnTraceLvl lvl, CnFstream* stream);
+void st_logger_attach(enum StTraceLvl lvl, StFstream* stream);
 
 /**
- * @fn void cn_logger_detach(enum CnTraceLvl lvl, CnFstream* stream)
+ * @fn void st_logger_detach(enum StTraceLvl lvl, StFstream* stream)
  *
  * @brief Detach a stream from the logger.
  *
  * @param[in] lvl The trace level.
  * @param[in,out] stream The stream.
  */
-void cn_logger_detach(enum CnTraceLvl lvl, CnFstream* stream);
+void st_logger_detach(enum StTraceLvl lvl, StFstream* stream);
 
 /**
- * @fn void cn_logger_cleanup(void)
+ * @fn void st_logger_cleanup(void)
  *
  * @brief Detach all streams and free all the memory allocated by the logger.
  */
-void cn_logger_cleanup(void);
+void st_logger_cleanup(void);
 
-#endif /* CN_LOGGER_TRACE_H */
+#endif /* ST_LOGGER_TRACE_H */

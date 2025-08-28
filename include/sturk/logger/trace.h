@@ -32,48 +32,48 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/logger/trace.h
  *
- * @see cn/logger/trace.h
+ * @see st/logger/trace.h
  */
 
 #ifndef STURK_LOGGER_TRACE_H
 #define STURK_LOGGER_TRACE_H
 
-#include "cn/logger/trace.h"
+#include "st/logger/trace.h"
 
-/** @see CN_LOGGER_EN */
-#define LOGGER_EN CN_LOGGER_EN
+/** @see ST_LOGGER_EN */
+#define LOGGER_EN ST_LOGGER_EN
 
-/** @see CN_TRACE() */
-#define TRACE CN_TRACE
+/** @see ST_TRACE() */
+#define TRACE ST_TRACE
 
-/** @see CN_UNKNOWN */
-#define UNKNOWN CN_UNKNOWN
+/** @see ST_UNKNOWN */
+#define UNKNOWN ST_UNKNOWN
 
-/** @see CN_DEBUG */
-#define DEBUG CN_DEBUG
+/** @see ST_DEBUG */
+#define DEBUG ST_DEBUG
 
-/** @see CN_INFO */
-#define INFO CN_INFO
+/** @see ST_INFO */
+#define INFO ST_INFO
 
-/** @see CN_WARNING */
-#define WARNING CN_WARNING
+/** @see ST_WARNING */
+#define WARNING ST_WARNING
 
-/** @see CN_ERROR */
-#define ERROR CN_ERROR
+/** @see ST_ERROR */
+#define ERROR ST_ERROR
 
-/** @see CN_N_TRACE_LVLS */
-#define N_TRACE_LVLS CN_N_TRACE_LVLS
+/** @see ST_N_TRACE_LVLS */
+#define N_TRACE_LVLS ST_N_TRACE_LVLS
 
-/** @see cn_trace() */
-#define trace cn_trace
+/** @see st_trace() */
+#define trace st_trace
 
-/** @see cn_logger_attach() */
-#define logger_attach cn_logger_attach
+/** @see st_logger_attach() */
+#define logger_attach st_logger_attach
 
-/** @see cn_logger_detach() */
-#define logger_detach cn_logger_detach
+/** @see st_logger_detach() */
+#define logger_detach st_logger_detach
 
-/** @see cn_logger_cleanup() */
-#define logger_cleanup cn_logger_cleanup
+/** @see st_logger_cleanup() */
+#define logger_cleanup st_logger_cleanup
 
 #endif /* STURK_LOGGER_TRACE_H */

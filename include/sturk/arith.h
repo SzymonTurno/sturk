@@ -32,21 +32,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/arith.h
  *
- * @see cn/arith.h
+ * @see st/arith.h
  */
 
 #ifndef STURK_ARITH_H
 #define STURK_ARITH_H
 
-#include "cn/arith.h"
+#include "st/arith.h"
 
-/** @see CN_MAX() */
-#define MAX CN_MAX
+/** @see ST_MAX() */
+#define MAX ST_MAX
 
-/** @see CN_MIN() */
-#define MIN CN_MIN
+/** @see ST_MIN() */
+#define MIN ST_MIN
 
-/** @see cn_container_of() */
-#define container_of cn_container_of
+/** @see st_container_of() */
+#define container_of st_container_of
 
 #endif /* STURK_ARITH_H */

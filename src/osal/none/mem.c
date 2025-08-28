@@ -29,21 +29,21 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cn/os/mem.h"
-#include "cn/os/sys.h"
+#include "st/os/mem.h"
+#include "st/os/sys.h"
 #include <stdlib.h>
 
-void* cn_malloc(size_t size)
+void* st_malloc(size_t size)
 {
 	void* ret = malloc(size);
 
 	if (!ret)
-		cn_except(/* LCOV_EXCL_LINE */
+		st_except(/* LCOV_EXCL_LINE */
 		          "Memory allocation failed.", __FILE__, __LINE__);
 	return ret;
 }
 
-void cn_free(void* ptr)
+void st_free(void* ptr)
 {
 	free(ptr);
 }

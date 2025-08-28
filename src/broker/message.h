@@ -32,22 +32,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include "cn/os/mem.h"
+#include "st/os/mem.h"
 #include "types.h"
 
-static inline CnLoad* msg_2load(struct Message* msg)
+static inline StLoad* msg_2load(struct Message* msg)
 {
 	ENSURE(msg, ERROR, sanity_fail);
-	return (CnLoad*)&msg[1];
+	return (StLoad*)&msg[1];
 }
 
-static inline const struct Message* msg_4load(const CnLoad* load)
+static inline const struct Message* msg_4load(const StLoad* load)
 {
 	ENSURE(load, ERROR, sanity_fail);
 	return ((const struct Message*)load) - 1;
 }
 
-static inline struct Message* msg_create(CnBroker* broker, va_list args)
+static inline struct Message* msg_create(StBroker* broker, va_list args)
 {
 	struct Message* self = NULL;
 
@@ -64,7 +64,7 @@ static inline struct Message* msg_create(CnBroker* broker, va_list args)
 
 static inline void msg_destroy(struct Message* msg)
 {
-	CnBroker* broker = NULL;
+	StBroker* broker = NULL;
 
 	ENSURE(msg, ERROR, sanity_fail);
 	broker = dict_datap(msg->channel)->broker;
@@ -72,7 +72,7 @@ static inline void msg_destroy(struct Message* msg)
 	pool_free(broker->channels.pool, msg);
 }
 
-static inline void msg_purge(CnBroker* broker)
+static inline void msg_purge(StBroker* broker)
 {
 	struct Message* msg = NULL;
 
@@ -81,7 +81,7 @@ static inline void msg_purge(CnBroker* broker)
 		msg->channel = NULL;
 		mutex_destroy(msg->mutex);
 		msg->mutex = NULL;
-		cn_free(msg);
+		st_free(msg);
 	}
 }
 

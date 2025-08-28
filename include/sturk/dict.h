@@ -32,48 +32,48 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/dict.h
  *
- * @see cn/dict.h
+ * @see st/dict.h
  */
 
 #ifndef STURK_DICT_H
 #define STURK_DICT_H
 
-#include "cn/dict.h"
+#include "st/dict.h"
 
-/** @see cn_dict_cast() */
-#define dict_cast cn_dict_cast
+/** @see st_dict_cast() */
+#define dict_cast st_dict_cast
 
-/** @see cn_dict_setk() */
-#define dict_setk cn_dict_setk
+/** @see st_dict_setk() */
+#define dict_setk st_dict_setk
 
-/** @see cn_dict_getk() */
-#define dict_getk cn_dict_getk
+/** @see st_dict_getk() */
+#define dict_getk st_dict_getk
 
-/** @see cn_dict_datap() */
-#define dict_datap cn_dict_datap
+/** @see st_dict_datap() */
+#define dict_datap st_dict_datap
 
-/** @see cn_dict_ins() */
-#define dict_ins cn_dict_ins
+/** @see st_dict_ins() */
+#define dict_ins st_dict_ins
 
-/** @see cn_dict_find() */
-#define dict_find cn_dict_find
+/** @see st_dict_find() */
+#define dict_find st_dict_find
 
-/** @see cn_dict_first() */
-#define dict_first cn_dict_first
+/** @see st_dict_first() */
+#define dict_first st_dict_first
 
-/** @see cn_dict_next() */
-#define dict_next cn_dict_next
+/** @see st_dict_next() */
+#define dict_next st_dict_next
 
-/** @see CN_DICT() */
-#define DICT CN_DICT
+/** @see ST_DICT() */
+#define DICT ST_DICT
 
-/** @see cn_dictnode_ins() */
-#define dictnode_ins cn_dictnode_ins
+/** @see st_dictnode_ins() */
+#define dictnode_ins st_dictnode_ins
 
-/** @see cn_dictnode_find() */
-#define dictnode_find cn_dictnode_find
+/** @see st_dictnode_find() */
+#define dictnode_find st_dictnode_find
 
-/** @see cn_dictnode_from() */
-#define dictnode_from cn_dictnode_from
+/** @see st_dictnode_from() */
+#define dictnode_from st_dictnode_from
 
 #endif /* STURK_DICT_H */

@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef STURK_GRAPH_H
 #define STURK_GRAPH_H
 
-#include "cn/os/sys.h"
+#include "st/os/sys.h"
 #include "vx/graph.h"
 
 /** @see VX_GRAPH() */

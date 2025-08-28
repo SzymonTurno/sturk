@@ -2,7 +2,7 @@
 #include "sturk/logger/trace.h"
 #include "sturk/os/mem.h"
 #include "sturk/str.h"
-#include "cn/os/sys.h"
+#include "st/os/sys.h"
 #include "pubsub.h"
 
 #define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
@@ -26,9 +26,9 @@ struct Payload {
 };
 
 struct Subscriber {
-	CnSubscriber* sber;
+	StSubscriber* sber;
 	struct Payload* pload;
-	CnChannel* channel;
+	StChannel* channel;
 };
 
 static size_t size(void)
@@ -36,30 +36,30 @@ static size_t size(void)
 	return sizeof(struct Payload);
 }
 
-static void init(CnLoad* load, va_list vlist)
+static void init(StLoad* load, va_list vlist)
 {
 	((struct Payload*)load)->new = va_arg(vlist, int);
 	((struct Payload*)load)->old = va_arg(vlist, int);
 }
 
-static void deinit(CnLoad* load)
+static void deinit(StLoad* load)
 {
 	(void)load;
 }
 
-static const struct CnLoadVt PAYLOAD_API[] = {
+static const struct StLoadVt PAYLOAD_API[] = {
 	{.size = size, .ctor = init, .dtor = deinit}};
 
 static void receive(struct Subscriber* sub)
 {
-	CnLoad* load = subscriber_poll(sub->sber);
+	StLoad* load = subscriber_poll(sub->sber);
 
 	sub->pload = (struct Payload*)load;
 	sub->channel = load_getchan(load);
 }
 
 static void
-broadcast(CnChannel** ch, struct Subscriber* subs, int* store, int val)
+broadcast(StChannel** ch, struct Subscriber* subs, int* store, int val)
 {
 	struct Payload* pload = NULL;
 	int done = 0;
@@ -99,8 +99,8 @@ broadcast(CnChannel** ch, struct Subscriber* subs, int* store, int val)
 
 static void app(void)
 {
-	CnBroker* broker = broker_create(PAYLOAD_API);
-	CnChannel* ch[] = {
+	StBroker* broker = broker_create(PAYLOAD_API);
+	StChannel* ch[] = {
 		broker_search(broker, "input"),
 		broker_search(broker, "result")};
 	struct Subscriber subs[] = {
@@ -121,20 +121,20 @@ static void app(void)
 	broker_destroy(broker);
 }
 
-struct CnStrq* single_thread_pubsub(void)
+struct StStrq* single_thread_pubsub(void)
 {
-	struct CnStrq* ret = NULL;
-	struct CnFstream* stream = cn_fopen("single_thread_pubsub.tmp", "w+");
+	struct StStrq* ret = NULL;
+	struct StFstream* stream = st_fopen("single_thread_pubsub.tmp", "w+");
 	char* buff = NEW(char, 256);
 
 	logger_attach(INFO, stream);
 	app();
 	logger_detach(INFO, stream);
-	cn_fseekset(stream, 0);
-	while (cn_fgets(buff, 256, stream))
+	st_fseekset(stream, 0);
+	while (st_fgets(buff, 256, stream))
 		ret = strq_ins(ret, newstr(buff));
-	cn_free(buff);
-	cn_fclose(stream);
-	cn_remove("single_thread_pubsub.tmp");
+	st_free(buff);
+	st_fclose(stream);
+	st_remove("single_thread_pubsub.tmp");
 	return ret;
 }

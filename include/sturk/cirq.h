@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef STURK_CIRQ_H
 #define STURK_CIRQ_H
 
-#include "cn/os/sys.h"
+#include "st/os/sys.h"
 #include "vx/cirq.h"
 
 /** @see VX_CIRQ() */

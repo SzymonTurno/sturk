@@ -32,24 +32,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/logger/except.h
  *
- * @see cn/logger/except.h
+ * @see st/logger/except.h
  */
 
 #ifndef STURK_LOGGER_EXCEPT_H
 #define STURK_LOGGER_EXCEPT_H
 
-#include "cn/logger/except.h"
+#include "st/logger/except.h"
 
-/** @see CN_EXCEPTIONS_EN */
-#define EXCEPTIONS_EN CN_EXCEPTIONS_EN
+/** @see ST_EXCEPTIONS_EN */
+#define EXCEPTIONS_EN ST_EXCEPTIONS_EN
 
-/** @see CN_ENSURE */
-#define ENSURE CN_ENSURE
+/** @see ST_ENSURE */
+#define ENSURE ST_ENSURE
 
-/** @see CN_RAISE */
-#define RAISE CN_RAISE
+/** @see ST_RAISE */
+#define RAISE ST_RAISE
 
-/** @see CN_ENSURE_MEM */
-#define ENSURE_MEM CN_ENSURE_MEM
+/** @see ST_ENSURE_MEM */
+#define ENSURE_MEM ST_ENSURE_MEM
 
 #endif /* STURK_LOGGER_EXCEPT_H */

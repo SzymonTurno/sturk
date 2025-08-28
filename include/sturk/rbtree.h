@@ -32,48 +32,48 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/rbtree.h
  *
- * @see cn/rbtree.h
+ * @see st/rbtree.h
  */
 
 #ifndef STURK_RBTREE_H
 #define STURK_RBTREE_H
 
-#include "cn/rbtree.h"
+#include "st/rbtree.h"
 
-/** @see CN_BST_INORDER */
-#define BST_INORDER CN_BST_INORDER
+/** @see ST_BST_INORDER */
+#define BST_INORDER ST_BST_INORDER
 
-/** @see CN_BST_PREORDER */
-#define BST_PREORDER CN_BST_PREORDER
+/** @see ST_BST_PREORDER */
+#define BST_PREORDER ST_BST_PREORDER
 
-/** @see CN_BST_POSTORDER */
-#define BST_POSTORDER CN_BST_POSTORDER
+/** @see ST_BST_POSTORDER */
+#define BST_POSTORDER ST_BST_POSTORDER
 
-/** @see CN_BST_LEFT */
-#define BST_LEFT CN_BST_LEFT
+/** @see ST_BST_LEFT */
+#define BST_LEFT ST_BST_LEFT
 
-/** @see CN_BST_RIGHT */
-#define BST_RIGHT CN_BST_RIGHT
+/** @see ST_BST_RIGHT */
+#define BST_RIGHT ST_BST_RIGHT
 
-/** @see cn_rb_link() */
-#define rb_link cn_rb_link
+/** @see st_rb_link() */
+#define rb_link st_rb_link
 
-/** @see cn_rb_insrebal() */
-#define rb_insrebal cn_rb_insrebal
+/** @see st_rb_insrebal() */
+#define rb_insrebal st_rb_insrebal
 
-/** @see cn_rb_left() */
-#define rb_left cn_rb_left
+/** @see st_rb_left() */
+#define rb_left st_rb_left
 
-/** @see cn_rb_right() */
-#define rb_right cn_rb_right
+/** @see st_rb_right() */
+#define rb_right st_rb_right
 
-/** @see cn_rb_parent() */
-#define rb_parent cn_rb_parent
+/** @see st_rb_parent() */
+#define rb_parent st_rb_parent
 
-/** @see cn_rb_first() */
-#define rb_first cn_rb_first
+/** @see st_rb_first() */
+#define rb_first st_rb_first
 
-/** @see cn_rb_next() */
-#define rb_next cn_rb_next
+/** @see st_rb_next() */
+#define rb_next st_rb_next
 
 #endif /* STURK_RBTREE_H */

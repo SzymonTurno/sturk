@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cn/dict.h
+ * @file st/dict.h
  *
  * @brief Dictionary.
  *
@@ -51,62 +51,62 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @code
  * typedef SomeData MyData;
  *
- * CN_DICT(struct MyDict, MyData);
+ * ST_DICT(struct MyDict, MyData);
  *
  * void push(struct MyDict** dictp, const char* key, MyData val)
  * {
  *     struct MyDict* entry = malloc(sizeof(*entry));
  *
- *     cn_dict_setk(entry, key);
- *     *cn_dict_data(entry) = val;
- *     *dictp = cn_dict_ins(*dictp, entry);
+ *     st_dict_setk(entry, key);
+ *     *st_dict_data(entry) = val;
+ *     *dictp = st_dict_ins(*dictp, entry);
  * }
  * @endcode
  */
 
-#ifndef CN_DICT_H
-#define CN_DICT_H
+#ifndef ST_DICT_H
+#define ST_DICT_H
 
-#include "cn/arith.h"
-#include "cn/logger/except.h"
-#include "cn/rbtree.h"
+#include "st/arith.h"
+#include "st/logger/except.h"
+#include "st/rbtree.h"
 
 #ifdef __STRICT_ANSI__
 
-#define cn_dict_cast(dict) ((struct CnDictnode*)(dict))
+#define st_dict_cast(dict) ((struct StDictnode*)(dict))
 
-#define cn_dict_setk(dict, key) ((dict)->dictnode.str = (key))
+#define st_dict_setk(dict, key) ((dict)->dictnode.str = (key))
 
-#define cn_dict_getk(dict) ((dict)->dictnode.str)
+#define st_dict_getk(dict) ((dict)->dictnode.str)
 
-#define cn_dict_datap(dict) (&(dict)->data)
+#define st_dict_datap(dict) (&(dict)->data)
 
-#define cn_dict_ins(dict, node)                                                \
-	((void*)cn_dictnode_ins(cn_dict_cast(dict), cn_dict_cast(node)))
+#define st_dict_ins(dict, node)                                                \
+	((void*)st_dictnode_ins(st_dict_cast(dict), st_dict_cast(node)))
 
-#define cn_dict_find(dict, key)                                                \
-	((void*)cn_dictnode_find(cn_dict_cast(dict), (key)))
+#define st_dict_find(dict, key)                                                \
+	((void*)st_dictnode_find(st_dict_cast(dict), (key)))
 
-#define cn_dict_first(dict)                                                    \
-	((void*)(cn_dictnode_from(cn_rb_first(&dict_cast(dict)->node, 0))))
+#define st_dict_first(dict)                                                    \
+	((void*)(st_dictnode_from(st_rb_first(&dict_cast(dict)->node, 0))))
 
-#define cn_dict_next(dict)                                                     \
-	((void*)(cn_dictnode_from(cn_rb_next(&dict_cast(dict)->node, 0))))
+#define st_dict_next(dict)                                                     \
+	((void*)(st_dictnode_from(st_rb_next(&dict_cast(dict)->node, 0))))
 
 #else /* not defined: __STRICT_ANSI__ */
 
 /**
- * @def cn_dict_cast(dict)
+ * @def st_dict_cast(dict)
  *
- * @brief Get the pointer to the CnDictnode member of the dictionary entry.
+ * @brief Get the pointer to the StDictnode member of the dictionary entry.
  *
  * @param[in] dict The dictionary entry.
  *
- * @return A pointer to the CnDictnode.
+ * @return A pointer to the StDictnode.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define cn_dict_cast(dict)                                                     \
+#define st_dict_cast(dict)                                                     \
 	({                                                                     \
 		__typeof__(dict) _dict2 = (dict);                              \
                                                                                \
@@ -114,7 +114,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	})
 
 /**
- * @def cn_dict_setk(dict, key)
+ * @def st_dict_setk(dict, key)
  *
  * @brief Set a key string for a dictionary entry.
  *
@@ -123,16 +123,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define cn_dict_setk(dict, key)                                                \
+#define st_dict_setk(dict, key)                                                \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
-		CN_ENSURE(_dict, CN_ERROR, null_param);                        \
+		ST_ENSURE(_dict, ST_ERROR, null_param);                        \
 		_dict->dictnode.str = (key);                                   \
 	})
 
 /**
- * @def cn_dict_getk(dict)
+ * @def st_dict_getk(dict)
  *
  * @brief Get the key string from a dictionary entry.
  *
@@ -142,16 +142,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define cn_dict_getk(dict)                                                     \
+#define st_dict_getk(dict)                                                     \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
-		CN_ENSURE(_dict, CN_ERROR, null_param);                        \
+		ST_ENSURE(_dict, ST_ERROR, null_param);                        \
 		_dict->dictnode.str;                                           \
 	})
 
 /**
- * @def cn_dict_datap(dict)
+ * @def st_dict_datap(dict)
  *
  * @brief Get a pointer to the data member of a dictionary entry.
  *
@@ -161,16 +161,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define cn_dict_datap(dict)                                                    \
+#define st_dict_datap(dict)                                                    \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
-		CN_ENSURE(_dict, CN_ERROR, null_param);                        \
+		ST_ENSURE(_dict, ST_ERROR, null_param);                        \
 		&_dict->data;                                                  \
 	})
 
 /**
- * @def cn_dict_ins(dict, entry)
+ * @def st_dict_ins(dict, entry)
  *
  * @brief Insert an entry into the dictionary.
  *
@@ -181,18 +181,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define cn_dict_ins(dict, entry)                                               \
+#define st_dict_ins(dict, entry)                                               \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
-		cn_container_of(                                               \
-			cn_dictnode_ins(                                       \
-				cn_dict_cast(_dict), cn_dict_cast(entry)),     \
+		st_container_of(                                               \
+			st_dictnode_ins(                                       \
+				st_dict_cast(_dict), st_dict_cast(entry)),     \
 			__typeof__(*dict), dictnode);                          \
 	})
 
 /**
- * @def cn_dict_find(dict, key)
+ * @def st_dict_find(dict, key)
  *
  * @brief In a dictionary, find the entry with the given key.
  *
@@ -203,17 +203,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define cn_dict_find(dict, key)                                                \
+#define st_dict_find(dict, key)                                                \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
-		cn_container_of(                                               \
-			cn_dictnode_find(cn_dict_cast(_dict), (key)),          \
+		st_container_of(                                               \
+			st_dictnode_find(st_dict_cast(_dict), (key)),          \
 			__typeof__(*dict), dictnode);                          \
 	})
 
 /**
- * @def cn_dict_first(dict)
+ * @def st_dict_first(dict)
  *
  * @brief Find the first entry of the dictionary traversal.
  *
@@ -226,18 +226,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define cn_dict_first(dict)                                                    \
+#define st_dict_first(dict)                                                    \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
-		cn_container_of(                                               \
-			cn_dictnode_from(                                      \
-				cn_rb_first(&dict_cast(_dict)->node, 0)),      \
+		st_container_of(                                               \
+			st_dictnode_from(                                      \
+				st_rb_first(&dict_cast(_dict)->node, 0)),      \
 			__typeof__(*dict), dictnode);                          \
 	})
 
 /**
- * @def cn_dict_next(dict)
+ * @def st_dict_next(dict)
  *
  * @brief Find the next entry of the dictionary traversal.
  *
@@ -250,20 +250,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define cn_dict_next(dict)                                                     \
+#define st_dict_next(dict)                                                     \
 	({                                                                     \
 		__typeof__(dict) _dict = (dict);                               \
                                                                                \
-		cn_container_of(                                               \
-			cn_dictnode_from(cn_rb_next(                           \
-				&dict_cast(_dict)->node, CN_BST_INORDER)),     \
+		st_container_of(                                               \
+			st_dictnode_from(st_rb_next(                           \
+				&dict_cast(_dict)->node, ST_BST_INORDER)),     \
 			__typeof__(*dict), dictnode);                          \
 	})
 
 #endif /* __STRICT_ANSI__ */
 
 /**
- * @def CN_DICT(name, type)
+ * @def ST_DICT(name, type)
  *
  * @brief Define the dictionary.
  *
@@ -273,25 +273,25 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * This macro will define a compound type (must be struct or union) @a name,
  * a type for a dictionary entry that holds the data of the type @a type.
  */
-#define CN_DICT(name, type)                                                    \
+#define ST_DICT(name, type)                                                    \
 	name                                                                   \
 	{                                                                      \
-		struct CnDictnode dictnode;                                    \
+		struct StDictnode dictnode;                                    \
 		type data;                                                     \
 	}
 
 /**
- * @struct CnDictnode
+ * @struct StDictnode
  *
  * @brief Dictionary node.
  */
-struct CnDictnode {
+struct StDictnode {
 	/**
-	 * @var struct CnRbnode node
+	 * @var struct StRbnode node
 	 *
 	 * @brief The red-black tree node.
 	 */
-	struct CnRbnode node;
+	struct StRbnode node;
 
 	/**
 	 * @var char* str
@@ -302,7 +302,7 @@ struct CnDictnode {
 };
 
 /**
- * @fn struct CnDictnode* cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* entry)
+ * @fn struct StDictnode* st_dictnode_ins(struct StDictnode* root, struct StDictnode* entry)
  *
  * @brief Insert an entry into the dictionary.
  *
@@ -311,11 +311,11 @@ struct CnDictnode {
  *
  * @return The new entry.
  */
-struct CnDictnode*
-cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* entry);
+struct StDictnode*
+st_dictnode_ins(struct StDictnode* root, struct StDictnode* entry);
 
 /**
- * @fn struct CnDictnode* cn_dictnode_find(struct CnDictnode* root, const char* str)
+ * @fn struct StDictnode* st_dictnode_find(struct StDictnode* root, const char* str)
  *
  * @brief In a dictionary, find the entry with the given key.
  *
@@ -324,20 +324,20 @@ cn_dictnode_ins(struct CnDictnode* root, struct CnDictnode* entry);
  *
  * @return The found entry or NULL if none found.
  */
-struct CnDictnode* cn_dictnode_find(struct CnDictnode* root, const char* str);
+struct StDictnode* st_dictnode_find(struct StDictnode* root, const char* str);
 
 /**
- * @fn static inline struct CnDictnode* cn_dictnode_from(struct CnRbnode* ptr)
+ * @fn static inline struct StDictnode* st_dictnode_from(struct StRbnode* ptr)
  *
- * @brief Cast a CnRbnode member out to the containing CnDictnode structure.
+ * @brief Cast a StRbnode member out to the containing StDictnode structure.
  *
- * @param[in] ptr The pointer to the CnRbnode member.
+ * @param[in] ptr The pointer to the StRbnode member.
  *
- * @return A pointer to the CnDictnode structure.
+ * @return A pointer to the StDictnode structure.
  */
-static inline struct CnDictnode* cn_dictnode_from(struct CnRbnode* ptr)
+static inline struct StDictnode* st_dictnode_from(struct StRbnode* ptr)
 {
-	return cn_container_of(ptr, struct CnDictnode, node);
+	return st_container_of(ptr, struct StDictnode, node);
 }
 
-#endif /* CN_DICT_H */
+#endif /* ST_DICT_H */
