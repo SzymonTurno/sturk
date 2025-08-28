@@ -76,7 +76,6 @@ void st_mutex_unlock(StMutex* mutex)
 {
 	ENSURE(mutex, ERROR, null_param);
 	if (!mutex->locked)
-		TRACE(WARNING, "sturk",
-		      "Unlocking an already unlocked mutex.");
+		TRACE(WARNING, "sturk", "Unlocking an already unlocked mutex.");
 	mutex->locked = 0;
 }

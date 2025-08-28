@@ -1,9 +1,9 @@
+#include "pubsub.h"
+#include "st/os/sys.h"
 #include "sturk/broker.h"
 #include "sturk/logger/trace.h"
 #include "sturk/os/mem.h"
 #include "sturk/str.h"
-#include "st/os/sys.h"
-#include "pubsub.h"
 
 #define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
 

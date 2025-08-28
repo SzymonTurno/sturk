@@ -1,8 +1,8 @@
+#include "pubsub.h"
+#include "st/os/sys.h"
 #include "sturk/broker.h"
 #include "sturk/logger/trace.h"
 #include "sturk/os/mem.h"
-#include "st/os/sys.h"
-#include "pubsub.h"
 #include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
