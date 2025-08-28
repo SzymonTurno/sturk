@@ -1,8 +1,8 @@
 #ifndef PUBSUB_H
 #define PUBSUB_H
 
-#include "cantil/broker.h"
-#include "cantil/str.h"
+#include "sturk/broker.h"
+#include "sturk/str.h"
 
 extern const struct CnLoadVt SAMPLE_LOAD_API[];
 

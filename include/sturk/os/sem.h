@@ -30,50 +30,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/logger/trace.h
+ * @file sturk/os/sem.h
  *
- * @see cn/logger/trace.h
+ * @see cn/os/sem.h
  */
 
-#ifndef CANTIL_LOGGER_TRACE_H
-#define CANTIL_LOGGER_TRACE_H
+#ifndef STURK_OS_SEM_H
+#define STURK_OS_SEM_H
 
-#include "cn/logger/trace.h"
+#include "cn/os/sem.h"
 
-/** @see CN_LOGGER_EN */
-#define LOGGER_EN CN_LOGGER_EN
+/** @see cn_sem_create() */
+#define sem_create cn_sem_create
 
-/** @see CN_TRACE() */
-#define TRACE CN_TRACE
+/** @see cn_sem_destroy() */
+#define sem_destroy cn_sem_destroy
 
-/** @see CN_UNKNOWN */
-#define UNKNOWN CN_UNKNOWN
+/** @see cn_sem_wait() */
+#define sem_wait cn_sem_wait
 
-/** @see CN_DEBUG */
-#define DEBUG CN_DEBUG
+/** @see cn_sem_trywait() */
+#define sem_trywait cn_sem_trywait
 
-/** @see CN_INFO */
-#define INFO CN_INFO
+/** @see cn_sem_post() */
+#define sem_post cn_sem_post
 
-/** @see CN_WARNING */
-#define WARNING CN_WARNING
-
-/** @see CN_ERROR */
-#define ERROR CN_ERROR
-
-/** @see CN_N_TRACE_LVLS */
-#define N_TRACE_LVLS CN_N_TRACE_LVLS
-
-/** @see cn_trace() */
-#define trace cn_trace
-
-/** @see cn_logger_attach() */
-#define logger_attach cn_logger_attach
-
-/** @see cn_logger_detach() */
-#define logger_detach cn_logger_detach
-
-/** @see cn_logger_cleanup() */
-#define logger_cleanup cn_logger_cleanup
-
-#endif /* CANTIL_LOGGER_TRACE_H */
+#endif /* STURK_OS_SEM_H */

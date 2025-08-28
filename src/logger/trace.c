@@ -29,10 +29,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cantil/logger/trace.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/streambag.h"
-#include "cantil/os/mem.h"
+#include "sturk/logger/trace.h"
+#include "sturk/logger/except.h"
+#include "sturk/logger/streambag.h"
+#include "sturk/os/mem.h"
 
 #define BUFF_MAX_SIZE 128
 

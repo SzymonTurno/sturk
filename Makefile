@@ -6,7 +6,7 @@ else
 endif
 mkfile_DIR := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
-all: cantil-default
+all: sturk-default
 
 check: check-default
 

@@ -30,13 +30,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/logger/except.h
+ * @file sturk/logger/except.h
  *
  * @see cn/logger/except.h
  */
 
-#ifndef CANTIL_LOGGER_EXCEPT_H
-#define CANTIL_LOGGER_EXCEPT_H
+#ifndef STURK_LOGGER_EXCEPT_H
+#define STURK_LOGGER_EXCEPT_H
 
 #include "cn/logger/except.h"
 
@@ -52,4 +52,4 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see CN_ENSURE_MEM */
 #define ENSURE_MEM CN_ENSURE_MEM
 
-#endif /* CANTIL_LOGGER_EXCEPT_H */
+#endif /* STURK_LOGGER_EXCEPT_H */

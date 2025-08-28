@@ -30,29 +30,50 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/pool.h
+ * @file sturk/dict.h
  *
- * @see cn/pool.h
+ * @see cn/dict.h
  */
 
-#ifndef CANTIL_POOL_H
-#define CANTIL_POOL_H
+#ifndef STURK_DICT_H
+#define STURK_DICT_H
 
-#include "cn/pool.h"
+#include "cn/dict.h"
 
-/** @see cn_pool_create() */
-#define pool_create cn_pool_create
+/** @see cn_dict_cast() */
+#define dict_cast cn_dict_cast
 
-/** @see cn_pool_destroy() */
-#define pool_destroy cn_pool_destroy
+/** @see cn_dict_setk() */
+#define dict_setk cn_dict_setk
 
-/** @see cn_pool_alloc() */
-#define pool_alloc cn_pool_alloc
+/** @see cn_dict_getk() */
+#define dict_getk cn_dict_getk
 
-/** @see cn_pool_tryalloc() */
-#define pool_tryalloc cn_pool_tryalloc
+/** @see cn_dict_datap() */
+#define dict_datap cn_dict_datap
 
-/** @see cn_pool_free() */
-#define pool_free cn_pool_free
+/** @see cn_dict_ins() */
+#define dict_ins cn_dict_ins
 
-#endif /* CANTIL_POOL_H */
+/** @see cn_dict_find() */
+#define dict_find cn_dict_find
+
+/** @see cn_dict_first() */
+#define dict_first cn_dict_first
+
+/** @see cn_dict_next() */
+#define dict_next cn_dict_next
+
+/** @see CN_DICT() */
+#define DICT CN_DICT
+
+/** @see cn_dictnode_ins() */
+#define dictnode_ins cn_dictnode_ins
+
+/** @see cn_dictnode_find() */
+#define dictnode_find cn_dictnode_find
+
+/** @see cn_dictnode_from() */
+#define dictnode_from cn_dictnode_from
+
+#endif /* STURK_DICT_H */

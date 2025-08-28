@@ -29,13 +29,13 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cantil/logger/streambag.h"
-#include "cantil/graph.h"
-#include "cantil/list.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
-#include "cantil/os/mem.h"
-#include "cantil/os/mutex.h"
+#include "sturk/logger/streambag.h"
+#include "sturk/graph.h"
+#include "sturk/list.h"
+#include "sturk/logger/except.h"
+#include "sturk/logger/trace.h"
+#include "sturk/os/mem.h"
+#include "sturk/os/mutex.h"
 
 LIST(struct StreamList, CnFstream*);
 

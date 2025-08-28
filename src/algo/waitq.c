@@ -30,12 +30,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "cn/waitq.h"
-#include "cantil/cirq.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
-#include "cantil/os/mem.h"
-#include "cantil/os/mutex.h"
-#include "cantil/os/sem.h"
+#include "sturk/cirq.h"
+#include "sturk/logger/except.h"
+#include "sturk/logger/trace.h"
+#include "sturk/os/mem.h"
+#include "sturk/os/mutex.h"
+#include "sturk/os/sem.h"
 
 struct CnWaitq {
 	struct Vertegs* v;
@@ -59,7 +59,7 @@ void cn_waitq_destroy(CnWaitq* waitq)
 		return;
 
 	if (waitq->v)
-		TRACE(WARNING, "cantil", "Data loss suspected.");
+		TRACE(WARNING, "sturk", "Data loss suspected.");
 	sem_destroy(waitq->sem);
 	waitq->sem = NULL;
 	mutex_destroy(waitq->mut);

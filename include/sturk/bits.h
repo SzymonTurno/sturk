@@ -30,50 +30,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/dict.h
+ * @file sturk/bits.h
  *
- * @see cn/dict.h
+ * @see cn/bits.h
  */
 
-#ifndef CANTIL_DICT_H
-#define CANTIL_DICT_H
+#ifndef STURK_BITS_H
+#define STURK_BITS_H
 
-#include "cn/dict.h"
+#include "cn/bits.h"
 
-/** @see cn_dict_cast() */
-#define dict_cast cn_dict_cast
+/** @see cn_bf_set() */
+#define bf_set cn_bf_set
 
-/** @see cn_dict_setk() */
-#define dict_setk cn_dict_setk
+/** @see CN_BIT() */
+#define BIT CN_BIT
 
-/** @see cn_dict_getk() */
-#define dict_getk cn_dict_getk
+/** @see CN_BITMASK() */
+#define BITMASK CN_BITMASK
 
-/** @see cn_dict_datap() */
-#define dict_datap cn_dict_datap
+/** @see CN_BITFIELD() */
+#define BITFIELD CN_BITFIELD
 
-/** @see cn_dict_ins() */
-#define dict_ins cn_dict_ins
-
-/** @see cn_dict_find() */
-#define dict_find cn_dict_find
-
-/** @see cn_dict_first() */
-#define dict_first cn_dict_first
-
-/** @see cn_dict_next() */
-#define dict_next cn_dict_next
-
-/** @see CN_DICT() */
-#define DICT CN_DICT
-
-/** @see cn_dictnode_ins() */
-#define dictnode_ins cn_dictnode_ins
-
-/** @see cn_dictnode_find() */
-#define dictnode_find cn_dictnode_find
-
-/** @see cn_dictnode_from() */
-#define dictnode_from cn_dictnode_from
-
-#endif /* CANTIL_DICT_H */
+#endif /* STURK_BITS_H */

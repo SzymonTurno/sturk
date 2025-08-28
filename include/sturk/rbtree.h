@@ -30,24 +30,50 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/cirq.h
+ * @file sturk/rbtree.h
  *
- * @see vx/cirq.h
+ * @see cn/rbtree.h
  */
 
-#ifndef CANTIL_CIRQ_H
-#define CANTIL_CIRQ_H
+#ifndef STURK_RBTREE_H
+#define STURK_RBTREE_H
 
-#include "cn/os/sys.h"
-#include "vx/cirq.h"
+#include "cn/rbtree.h"
 
-/** @see VX_CIRQ() */
-#define CIRQ VX_CIRQ
+/** @see CN_BST_INORDER */
+#define BST_INORDER CN_BST_INORDER
 
-/** @see vx_cirq_ins() */
-#define cirq_ins vx_cirq_ins
+/** @see CN_BST_PREORDER */
+#define BST_PREORDER CN_BST_PREORDER
 
-/** @see vx_cirq_rem() */
-#define cirq_rem vx_cirq_rem
+/** @see CN_BST_POSTORDER */
+#define BST_POSTORDER CN_BST_POSTORDER
 
-#endif /* CANTIL_CIRQ_H */
+/** @see CN_BST_LEFT */
+#define BST_LEFT CN_BST_LEFT
+
+/** @see CN_BST_RIGHT */
+#define BST_RIGHT CN_BST_RIGHT
+
+/** @see cn_rb_link() */
+#define rb_link cn_rb_link
+
+/** @see cn_rb_insrebal() */
+#define rb_insrebal cn_rb_insrebal
+
+/** @see cn_rb_left() */
+#define rb_left cn_rb_left
+
+/** @see cn_rb_right() */
+#define rb_right cn_rb_right
+
+/** @see cn_rb_parent() */
+#define rb_parent cn_rb_parent
+
+/** @see cn_rb_first() */
+#define rb_first cn_rb_first
+
+/** @see cn_rb_next() */
+#define rb_next cn_rb_next
+
+#endif /* STURK_RBTREE_H */

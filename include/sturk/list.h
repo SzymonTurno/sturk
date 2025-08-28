@@ -30,26 +30,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/bits.h
+ * @file sturk/list.h
  *
- * @see cn/bits.h
+ * @see vx/list.h
  */
 
-#ifndef CANTIL_BITS_H
-#define CANTIL_BITS_H
+#ifndef STURK_LIST_H
+#define STURK_LIST_H
 
-#include "cn/bits.h"
+#include "cn/os/sys.h"
+#include "vx/list.h"
 
-/** @see cn_bf_set() */
-#define bf_set cn_bf_set
+/** @see VX_LIST() */
+#define LIST VX_LIST
 
-/** @see CN_BIT() */
-#define BIT CN_BIT
+/** @see vx_list_foreach() */
+#define list_foreach vx_list_foreach
 
-/** @see CN_BITMASK() */
-#define BITMASK CN_BITMASK
+/** @see vx_list_ins() */
+#define list_ins vx_list_ins
 
-/** @see CN_BITFIELD() */
-#define BITFIELD CN_BITFIELD
+/** @see vx_list_rem() */
+#define list_rem vx_list_rem
 
-#endif /* CANTIL_BITS_H */
+#endif /* STURK_LIST_H */

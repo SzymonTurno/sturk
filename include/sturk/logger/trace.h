@@ -30,33 +30,50 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/graph.h
+ * @file sturk/logger/trace.h
  *
- * @see vx/graph.h
+ * @see cn/logger/trace.h
  */
 
-#ifndef CANTIL_GRAPH_H
-#define CANTIL_GRAPH_H
+#ifndef STURK_LOGGER_TRACE_H
+#define STURK_LOGGER_TRACE_H
 
-#include "cn/os/sys.h"
-#include "vx/graph.h"
+#include "cn/logger/trace.h"
 
-/** @see VX_GRAPH() */
-#define GRAPH VX_GRAPH
+/** @see CN_LOGGER_EN */
+#define LOGGER_EN CN_LOGGER_EN
 
-/** @see vx_graph_2vx() */
-#define graph_2vx vx_graph_2vx
+/** @see CN_TRACE() */
+#define TRACE CN_TRACE
 
-/** @see vx_graph_4vx() */
-#define graph_4vx vx_graph_4vx
+/** @see CN_UNKNOWN */
+#define UNKNOWN CN_UNKNOWN
 
-/** @see vx_graphp_2vxp() */
-#define graphp_2vxp vx_graphp_2vxp
+/** @see CN_DEBUG */
+#define DEBUG CN_DEBUG
 
-/** @see vx_graph_datap() */
-#define graph_datap vx_graph_datap
+/** @see CN_INFO */
+#define INFO CN_INFO
 
-/** @see vx_graph_foredge() */
-#define graph_foredge vx_graph_foredge
+/** @see CN_WARNING */
+#define WARNING CN_WARNING
 
-#endif /* CANTIL_GRAPH_H */
+/** @see CN_ERROR */
+#define ERROR CN_ERROR
+
+/** @see CN_N_TRACE_LVLS */
+#define N_TRACE_LVLS CN_N_TRACE_LVLS
+
+/** @see cn_trace() */
+#define trace cn_trace
+
+/** @see cn_logger_attach() */
+#define logger_attach cn_logger_attach
+
+/** @see cn_logger_detach() */
+#define logger_detach cn_logger_detach
+
+/** @see cn_logger_cleanup() */
+#define logger_cleanup cn_logger_cleanup
+
+#endif /* STURK_LOGGER_TRACE_H */

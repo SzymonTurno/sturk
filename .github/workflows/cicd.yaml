@@ -17,8 +17,8 @@ jobs:
         platform: [ubuntu-latest, macos-latest]
     steps:
     - uses: actions/checkout@v4
-    - name: Build cantil
-      run: tools/picky.sh make cantil-default
+    - name: Build sturk
+      run: tools/picky.sh make sturk-default
     - uses: actions/upload-artifact@v4
       with:
         name: build-default-on-${{ matrix.platform }}-output
@@ -57,8 +57,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: Setup
       run: python -m pip install pyyaml
-    - name: Build cantil
-      run: make cantil-default
+    - name: Build sturk
+      run: make sturk-default
     - uses: actions/upload-artifact@v4
       with:
         name: build-default-on-win32-output
@@ -89,8 +89,8 @@ jobs:
         platform: [ubuntu-latest, macos-latest]
     steps:
     - uses: actions/checkout@v4
-    - name: Build cantil
-      run: tools/picky.sh make cantil-iso
+    - name: Build sturk
+      run: tools/picky.sh make sturk-iso
     - uses: actions/upload-artifact@v4
       with:
         name: build-iso-on-${{ matrix.platform }}-output
@@ -152,8 +152,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: Setup
       run: python -m pip install pyyaml
-    - name: Build cantil
-      run: make cantil-iso
+    - name: Build sturk
+      run: make sturk-iso
     - uses: actions/upload-artifact@v4
       with:
         name: build-iso-on-win32-output
@@ -184,8 +184,8 @@ jobs:
         platform: [ubuntu-latest, macos-latest]
     steps:
     - uses: actions/checkout@v4
-    - name: Build cantil
-      run: tools/picky.sh make cantil-posix
+    - name: Build sturk
+      run: tools/picky.sh make sturk-posix
     - uses: actions/upload-artifact@v4
       with:
         name: build-posix-on-${{ matrix.platform }}-output

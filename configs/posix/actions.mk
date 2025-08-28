@@ -1,6 +1,6 @@
-cantil-posix: build-posix/src/libcantil.a
-build-posix/src/libcantil.a: build-posix/Makefile
-	cd build-posix && $(MAKE) src/libcantil.a
+sturk-posix: build-posix/src/libsturk.a
+build-posix/src/libsturk.a: build-posix/Makefile
+	cd build-posix && $(MAKE) src/libsturk.a
 
 unity-posix: build-posix/Unity
 build-posix/Unity: build-posix/Makefile
@@ -25,4 +25,4 @@ build-posix/Makefile: build-posix
 build-posix:
 	$(call MKDIR, build-posix)
 
-.PHONY: cantil-posix unity-posix all-posix check-posix coverage-posix
+.PHONY: sturk-posix unity-posix all-posix check-posix coverage-posix

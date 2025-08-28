@@ -30,17 +30,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/os/mem.h
+ * @file sturk/cirq.h
  *
- * @see cn/os/mem.h
+ * @see vx/cirq.h
  */
 
-#ifndef CANTIL_OS_MEM_H
-#define CANTIL_OS_MEM_H
+#ifndef STURK_CIRQ_H
+#define STURK_CIRQ_H
 
-#include "cn/os/mem.h"
+#include "cn/os/sys.h"
+#include "vx/cirq.h"
 
-/** @see CN_NEW() */
-#define NEW CN_NEW
+/** @see VX_CIRQ() */
+#define CIRQ VX_CIRQ
 
-#endif /* CANTIL_OS_MEM_H */
+/** @see vx_cirq_ins() */
+#define cirq_ins vx_cirq_ins
+
+/** @see vx_cirq_rem() */
+#define cirq_rem vx_cirq_rem
+
+#endif /* STURK_CIRQ_H */

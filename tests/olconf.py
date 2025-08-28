@@ -52,14 +52,14 @@ def append_rules(olvars):
 
     rule = olvars.rule(os.path.join('$(test_BLDDIR)', 'app'))
     tmp = '$(test_OBJS) $(test_EXTRA_OBJS) $(unity_OBJS) $(sample_OBJS) '
-    tmp = tmp + os.path.join('$(cantil_BLDDIR)', 'libcantil.a')
+    tmp = tmp + os.path.join('$(sturk_BLDDIR)', 'libsturk.a')
     rule.normal_depend(tmp)
     rule.step('$(CC) -o $@ ' + tmp + ' -lgcov --coverage')
 
     rule = olvars.rule(os.path.join('$(test_BLDDIR)', 'main.o'))
     rule.normal_depend(os.path.join('$(test_DIR)', 'main.c'))
     rule.order_depend('$(test_EXTRA_OBJS) $(unity_DIR)')
-    rule.step('$(CC) $(test_CFLAGS) $(unity_INCS) $(sample_INC) $(cantil_INC) -c -o $@ $<')
+    rule.step('$(CC) $(test_CFLAGS) $(unity_INCS) $(sample_INC) $(sturk_INC) -c -o $@ $<')
 
     rule = olvars.rule('$(test_BLDDIR)')
     rule.step('$(call MKDIR, $@)')

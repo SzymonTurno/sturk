@@ -30,27 +30,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/list.h
+ * @file sturk/logger/streambag.h
  *
- * @see vx/list.h
+ * @see cn/logger/streambag.h
  */
 
-#ifndef CANTIL_LIST_H
-#define CANTIL_LIST_H
+#ifndef STURK_LOGGER_STREAMBAG_H
+#define STURK_LOGGER_STREAMBAG_H
 
-#include "cn/os/sys.h"
-#include "vx/list.h"
+#include "cn/logger/streambag.h"
 
-/** @see VX_LIST() */
-#define LIST VX_LIST
+/** @see cn_streambag_create() */
+#define streambag_create cn_streambag_create
 
-/** @see vx_list_foreach() */
-#define list_foreach vx_list_foreach
+/** @see cn_streambag_destroy() */
+#define streambag_destroy cn_streambag_destroy
 
-/** @see vx_list_ins() */
-#define list_ins vx_list_ins
+/** @see cn_streambag_ins() */
+#define streambag_ins cn_streambag_ins
 
-/** @see vx_list_rem() */
-#define list_rem vx_list_rem
+/** @see cn_streambag_rem() */
+#define streambag_rem cn_streambag_rem
 
-#endif /* CANTIL_LIST_H */
+/** @see cn_streambag_vprint() */
+#define streambag_vprint cn_streambag_vprint
+
+/** @see cn_streambag_count() */
+#define streambag_count cn_streambag_count
+
+#endif /* STURK_LOGGER_STREAMBAG_H */
