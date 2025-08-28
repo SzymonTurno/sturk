@@ -30,50 +30,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/broker.h
+ * @file sturk/graph.h
  *
- * @see cn/broker.h
+ * @see vx/graph.h
  */
 
-#ifndef CANTIL_BROKER_H
-#define CANTIL_BROKER_H
+#ifndef STURK_GRAPH_H
+#define STURK_GRAPH_H
 
-#include "cn/broker.h"
+#include "cn/os/sys.h"
+#include "vx/graph.h"
 
-/** @see cn_publish() */
-#define publish cn_publish
+/** @see VX_GRAPH() */
+#define GRAPH VX_GRAPH
 
-/** @see cn_subscribe() */
-#define subscribe cn_subscribe
+/** @see vx_graph_2vx() */
+#define graph_2vx vx_graph_2vx
 
-/** @see cn_broker_create() */
-#define broker_create cn_broker_create
+/** @see vx_graph_4vx() */
+#define graph_4vx vx_graph_4vx
 
-/** @see cn_broker_destroy() */
-#define broker_destroy cn_broker_destroy
+/** @see vx_graphp_2vxp() */
+#define graphp_2vxp vx_graphp_2vxp
 
-/** @see cn_broker_search() */
-#define broker_search cn_broker_search
+/** @see vx_graph_datap() */
+#define graph_datap vx_graph_datap
 
-/** @see cn_channel_gettopic() */
-#define channel_gettopic cn_channel_gettopic
+/** @see vx_graph_foredge() */
+#define graph_foredge vx_graph_foredge
 
-/** @see cn_subscriber_create() */
-#define subscriber_create cn_subscriber_create
-
-/** @see cn_subscriber_destroy() */
-#define subscriber_destroy cn_subscriber_destroy
-
-/** @see cn_subscriber_await() */
-#define subscriber_await cn_subscriber_await
-
-/** @see cn_subscriber_poll() */
-#define subscriber_poll cn_subscriber_poll
-
-/** @see cn_subscriber_unload() */
-#define subscriber_unload cn_subscriber_unload
-
-/** @see cn_load_getchan() */
-#define load_getchan cn_load_getchan
-
-#endif /* CANTIL_BROKER_H */
+#endif /* STURK_GRAPH_H */

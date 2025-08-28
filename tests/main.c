@@ -1,14 +1,14 @@
-#include "cantil/broker.h"
-#include "cantil/cirq.h"
-#include "cantil/dict.h"
-#include "cantil/graph.h"
-#include "cantil/logger/trace.h"
-#include "cantil/os/mutex.h"
-#include "cantil/os/sem.h"
-#include "cantil/pool.h"
-#include "cantil/rbtree.h"
-#include "cantil/str.h"
-#include "cantil/waitq.h"
+#include "sturk/broker.h"
+#include "sturk/cirq.h"
+#include "sturk/dict.h"
+#include "sturk/graph.h"
+#include "sturk/logger/trace.h"
+#include "sturk/os/mutex.h"
+#include "sturk/os/sem.h"
+#include "sturk/pool.h"
+#include "sturk/rbtree.h"
+#include "sturk/str.h"
+#include "sturk/waitq.h"
 #include "cn/os/mem.h"
 #include "pubsub.h"
 #include "unity.h"
@@ -398,7 +398,7 @@ TEST(mutex, should_trace_double_lock_warning)
 	TEST_ASSERT_NULL(GETTRACE(mutex, 0));
 	mutex_lock(mut);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning][cantil] Fake mutex does not support context "
+		"[warning][sturk] Fake mutex does not support context "
 		"switch.\n",
 		GETTRACE(mutex, 0));
 	mutex_destroy(mut);
@@ -412,7 +412,7 @@ TEST(mutex, should_trace_double_unlock_warning)
 	TEST_ASSERT_NULL(GETTRACE(mutex, 0));
 	mutex_unlock(mut);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning][cantil] Unlocking an already unlocked mutex.\n",
+		"[warning][sturk] Unlocking an already unlocked mutex.\n",
 		GETTRACE(mutex, 0));
 	mutex_destroy(mut);
 }
@@ -458,7 +458,7 @@ TEST(semaphore, should_trace_fake_warning)
 	TEST_ASSERT_NULL(GETTRACE(semaphore, 0));
 	sem_wait(sem);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning][cantil] Fake semaphore does not support context "
+		"[warning][sturk] Fake semaphore does not support context "
 		"switch.\n",
 		GETTRACE(semaphore, 0));
 	sem_destroy(sem);
@@ -483,7 +483,7 @@ TEST(waitq, should_trace_dataloss)
 	waitq_ins(q, vx_4nbor(nbor));
 	waitq_destroy(q);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning][cantil] Data loss suspected.\n", GETTRACE(waitq, 0));
+		"[warning][sturk] Data loss suspected.\n", GETTRACE(waitq, 0));
 }
 
 TEST(pool, should_return_freed_pointer)

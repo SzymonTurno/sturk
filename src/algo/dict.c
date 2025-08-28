@@ -30,11 +30,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "cn/dict.h"
-#include "cantil/arith.h"
-#include "cantil/graph.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
-#include "cantil/rbtree.h"
+#include "sturk/arith.h"
+#include "sturk/graph.h"
+#include "sturk/logger/except.h"
+#include "sturk/logger/trace.h"
+#include "sturk/rbtree.h"
 #include <string.h>
 
 static struct CnRbnode* rbnode_4nbor(struct Vertegs** nbor)

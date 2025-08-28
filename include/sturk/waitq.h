@@ -30,41 +30,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/str.h
+ * @file sturk/waitq.h
  *
- * @see cn/str.h
+ * @see cn/waitq.h
  */
 
-#ifndef CANTIL_STR_H
-#define CANTIL_STR_H
+#ifndef STURK_WAITQ_H
+#define STURK_WAITQ_H
 
-#include "cn/str.h"
+#include "cn/waitq.h"
 
-/** @see cn_newstr() */
-#define newstr cn_newstr
+/** @see cn_waitq_create() */
+#define waitq_create cn_waitq_create
 
-/** @see cn_strlist_ins() */
-#define strlist_ins cn_strlist_ins
+/** @see cn_waitq_destroy() */
+#define waitq_destroy cn_waitq_destroy
 
-/** @see cn_strlist_rem() */
-#define strlist_rem cn_strlist_rem
+/** @see cn_waitq_ins() */
+#define waitq_ins cn_waitq_ins
 
-/** @see cn_strq_ins() */
-#define strq_ins cn_strq_ins
+/** @see cn_waitq_rem() */
+#define waitq_rem cn_waitq_rem
 
-/** @see cn_strq_rem() */
-#define strq_rem cn_strq_rem
+/** @see cn_waitq_tryrem() */
+#define waitq_tryrem cn_waitq_tryrem
 
-/** @see cn_strbag_ins() */
-#define strbag_ins cn_strbag_ins
-
-/** @see cn_strbag_rem() */
-#define strbag_rem cn_strbag_rem
-
-/** @see cn_strbag_count() */
-#define strbag_count cn_strbag_count
-
-/** @see cn_strbag_destroy() */
-#define strbag_destroy cn_strbag_destroy
-
-#endif /* CANTIL_STR_H */
+#endif /* STURK_WAITQ_H */

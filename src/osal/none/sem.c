@@ -30,9 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "cn/os/sem.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
-#include "cantil/os/mem.h"
+#include "sturk/logger/except.h"
+#include "sturk/logger/trace.h"
+#include "sturk/os/mem.h"
 #include <stddef.h>
 
 struct CnSem {
@@ -57,7 +57,7 @@ void cn_sem_wait(CnSem* sem)
 {
 	ENSURE(sem, ERROR, null_param);
 	if (!sem->n)
-		TRACE(WARNING, "cantil",
+		TRACE(WARNING, "sturk",
 		      "Fake semaphore does not support context switch.");
 	--sem->n;
 }

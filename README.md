@@ -1,8 +1,8 @@
-# Cantil
+# Sturk
 
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-[Code](https://github.com/SzymonTurno/cantil)/[Documentation](https://szymonturno.github.io/cantil)
+[Code](https://github.com/SzymonTurno/sturk)/[Documentation](https://szymonturno.github.io/sturk)
 
 Scalable publish-subscribe implementation.
 
@@ -25,15 +25,15 @@ Scalable publish-subscribe implementation.
 ## 3. Build
 | Output file |
 | ----------- |
-| libcantil.a |
+| libsturk.a  |
 ```sh
 # default build
-cd /path/to/cantil
+cd /path/to/sturk
 make
 
 # customized build
 cd /my/empty/dir
-/path/to/cantil/tools/configure.sh /path/to/config.yaml
+/path/to/sturk/tools/configure.sh /path/to/config.yaml
 make
 ```
 

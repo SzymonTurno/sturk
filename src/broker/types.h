@@ -32,13 +32,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef TYPES_H
 #define TYPES_H
 
-#include "cantil/broker.h"
-#include "cantil/cirq.h"
-#include "cantil/dict.h"
-#include "cantil/list.h"
-#include "cantil/os/mutex.h"
-#include "cantil/pool.h"
-#include "cantil/waitq.h"
+#include "sturk/broker.h"
+#include "sturk/cirq.h"
+#include "sturk/dict.h"
+#include "sturk/list.h"
+#include "sturk/os/mutex.h"
+#include "sturk/pool.h"
+#include "sturk/waitq.h"
 
 LIST(struct SubscriberList, CnSubscriber*);
 

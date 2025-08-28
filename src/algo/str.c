@@ -29,16 +29,16 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "cantil/str.h"
-#include "cantil/arith.h"
-#include "cantil/cirq.h"
-#include "cantil/dict.h"
-#include "cantil/graph.h"
-#include "cantil/list.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
-#include "cantil/os/mem.h"
-#include "cantil/rbtree.h"
+#include "sturk/str.h"
+#include "sturk/arith.h"
+#include "sturk/cirq.h"
+#include "sturk/dict.h"
+#include "sturk/graph.h"
+#include "sturk/list.h"
+#include "sturk/logger/except.h"
+#include "sturk/logger/trace.h"
+#include "sturk/os/mem.h"
+#include "sturk/rbtree.h"
 #include <string.h>
 
 static struct CnStrbag* bag_create(const char* str)

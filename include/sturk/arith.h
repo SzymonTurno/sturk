@@ -30,32 +30,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/logger/streambag.h
+ * @file sturk/arith.h
  *
- * @see cn/logger/streambag.h
+ * @see cn/arith.h
  */
 
-#ifndef CANTIL_LOGGER_STREAMBAG_H
-#define CANTIL_LOGGER_STREAMBAG_H
+#ifndef STURK_ARITH_H
+#define STURK_ARITH_H
 
-#include "cn/logger/streambag.h"
+#include "cn/arith.h"
 
-/** @see cn_streambag_create() */
-#define streambag_create cn_streambag_create
+/** @see CN_MAX() */
+#define MAX CN_MAX
 
-/** @see cn_streambag_destroy() */
-#define streambag_destroy cn_streambag_destroy
+/** @see CN_MIN() */
+#define MIN CN_MIN
 
-/** @see cn_streambag_ins() */
-#define streambag_ins cn_streambag_ins
+/** @see cn_container_of() */
+#define container_of cn_container_of
 
-/** @see cn_streambag_rem() */
-#define streambag_rem cn_streambag_rem
-
-/** @see cn_streambag_vprint() */
-#define streambag_vprint cn_streambag_vprint
-
-/** @see cn_streambag_count() */
-#define streambag_count cn_streambag_count
-
-#endif /* CANTIL_LOGGER_STREAMBAG_H */
+#endif /* STURK_ARITH_H */

@@ -1,58 +1,58 @@
 import os
 
 def append_rules(olvars):
-    rule = olvars.rule(os.path.join('$(cantil_BLDDIR)', 'libcantil.a'))
+    rule = olvars.rule(os.path.join('$(sturk_BLDDIR)', 'libsturk.a'))
 
-    rule.normal_depend('$(cantil_OBJS)')
-    rule.step('ar rcs $@ $(cantil_OBJS)')
+    rule.normal_depend('$(sturk_OBJS)')
+    rule.step('ar rcs $@ $(sturk_OBJS)')
 
-    rule = olvars.rule(os.path.join('$(cantil_BLDDIR)', '%.o'))
-    rule.normal_depend(os.path.join('$(cantil_DIR)', '%.c'))
-    rule.order_depend('$(cantil_BLDDIRS)')
-    rule.step('$(CC) $(cantil_CFLAGS) $(cantil_EXTRA_CFLAGS) $(cantil_INC) -c -o $@ $<')
+    rule = olvars.rule(os.path.join('$(sturk_BLDDIR)', '%.o'))
+    rule.normal_depend(os.path.join('$(sturk_DIR)', '%.c'))
+    rule.order_depend('$(sturk_BLDDIRS)')
+    rule.step('$(CC) $(sturk_CFLAGS) $(sturk_EXTRA_CFLAGS) $(sturk_INC) -c -o $@ $<')
 
-    rule = olvars.rule('$(cantil_BLDDIRS)')
+    rule = olvars.rule('$(sturk_BLDDIRS)')
     rule.step('$(call MKDIR, $@)')
 
 def join(olvars):
     settings = olvars.settings()
 
-    olvars.append('cantil_CFLAGS', '-fanalyzer')
-    olvars.append('cantil_CFLAGS', '-Wall')
-    olvars.append('cantil_CFLAGS', '-Wcast-align')
-    olvars.append('cantil_CFLAGS', '-Wconversion')
-    olvars.append('cantil_CFLAGS', '-Wdisabled-optimization')
-    olvars.append('cantil_CFLAGS', '-Wextra')
-    olvars.append('cantil_CFLAGS', '-Wlogical-op')
-    olvars.append('cantil_CFLAGS', '-Wmissing-prototypes')
-    olvars.append('cantil_CFLAGS', '-Wnested-externs')
-    olvars.append('cantil_CFLAGS', '-Wpadded')
-    olvars.append('cantil_CFLAGS', '-Wredundant-decls')
-    olvars.append('cantil_CFLAGS', '-Wshadow')
-    olvars.append('cantil_CFLAGS', '-Wstrict-prototypes')
-    olvars.append('cantil_CFLAGS', '-Wswitch-default')
-    olvars.append('cantil_CFLAGS', '-Wwrite-strings')
-    olvars.append('cantil_CFLAGS', '-DVX_EXCEPT=cn_except')
-    olvars.append('cantil_DIR', os.path.join(olvars.acwd()))
-    olvars.append('cantil_BLDDIR', os.path.join(olvars.cwd()))
-    olvars.append('cantil_BLDDIRS', os.path.join(olvars.cwd()))
+    olvars.append('sturk_CFLAGS', '-fanalyzer')
+    olvars.append('sturk_CFLAGS', '-Wall')
+    olvars.append('sturk_CFLAGS', '-Wcast-align')
+    olvars.append('sturk_CFLAGS', '-Wconversion')
+    olvars.append('sturk_CFLAGS', '-Wdisabled-optimization')
+    olvars.append('sturk_CFLAGS', '-Wextra')
+    olvars.append('sturk_CFLAGS', '-Wlogical-op')
+    olvars.append('sturk_CFLAGS', '-Wmissing-prototypes')
+    olvars.append('sturk_CFLAGS', '-Wnested-externs')
+    olvars.append('sturk_CFLAGS', '-Wpadded')
+    olvars.append('sturk_CFLAGS', '-Wredundant-decls')
+    olvars.append('sturk_CFLAGS', '-Wshadow')
+    olvars.append('sturk_CFLAGS', '-Wstrict-prototypes')
+    olvars.append('sturk_CFLAGS', '-Wswitch-default')
+    olvars.append('sturk_CFLAGS', '-Wwrite-strings')
+    olvars.append('sturk_CFLAGS', '-DVX_EXCEPT=cn_except')
+    olvars.append('sturk_DIR', os.path.join(olvars.acwd()))
+    olvars.append('sturk_BLDDIR', os.path.join(olvars.cwd()))
+    olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd()))
 
     if settings['cver'] == 'gnu':
-        olvars.append('cantil_EXTRA_CFLAGS', '-std=gnu11')
+        olvars.append('sturk_EXTRA_CFLAGS', '-std=gnu11')
     elif settings['cver'] == 'iso':
-        olvars.append('cantil_EXTRA_CFLAGS', '-std=c99')
-        olvars.append('cantil_EXTRA_CFLAGS', '-pedantic')
+        olvars.append('sturk_EXTRA_CFLAGS', '-std=c99')
+        olvars.append('sturk_EXTRA_CFLAGS', '-pedantic')
     else:
         olvars.fail('Unknown cver: ' + settings['cver'] + '.')
 
     if settings['build_type'] == 'release':
-        olvars.append('cantil_EXTRA_CFLAGS', '-O3')
+        olvars.append('sturk_EXTRA_CFLAGS', '-O3')
     elif settings['build_type'] == 'debug':
-        olvars.append('cantil_EXTRA_CFLAGS', '-g')
+        olvars.append('sturk_EXTRA_CFLAGS', '-g')
     elif settings['build_type'] == 'coverage':
-        olvars.append('cantil_EXTRA_CFLAGS', '-g')
-        olvars.append('cantil_EXTRA_CFLAGS', '-fprofile-arcs')
-        olvars.append('cantil_EXTRA_CFLAGS', '-ftest-coverage')
+        olvars.append('sturk_EXTRA_CFLAGS', '-g')
+        olvars.append('sturk_EXTRA_CFLAGS', '-fprofile-arcs')
+        olvars.append('sturk_EXTRA_CFLAGS', '-ftest-coverage')
     else:
         olvars.fail('Unknown build type: ' + settings['build_type'] + '.')
 

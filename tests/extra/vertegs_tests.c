@@ -1,5 +1,5 @@
-#include "cantil/cirq.h"
-#include "cantil/graph.h"
+#include "sturk/cirq.h"
+#include "sturk/graph.h"
 #include <assert.h>
 #include <stdio.h>
 

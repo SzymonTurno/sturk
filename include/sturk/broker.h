@@ -30,50 +30,50 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/rbtree.h
+ * @file sturk/broker.h
  *
- * @see cn/rbtree.h
+ * @see cn/broker.h
  */
 
-#ifndef CANTIL_RBTREE_H
-#define CANTIL_RBTREE_H
+#ifndef STURK_BROKER_H
+#define STURK_BROKER_H
 
-#include "cn/rbtree.h"
+#include "cn/broker.h"
 
-/** @see CN_BST_INORDER */
-#define BST_INORDER CN_BST_INORDER
+/** @see cn_publish() */
+#define publish cn_publish
 
-/** @see CN_BST_PREORDER */
-#define BST_PREORDER CN_BST_PREORDER
+/** @see cn_subscribe() */
+#define subscribe cn_subscribe
 
-/** @see CN_BST_POSTORDER */
-#define BST_POSTORDER CN_BST_POSTORDER
+/** @see cn_broker_create() */
+#define broker_create cn_broker_create
 
-/** @see CN_BST_LEFT */
-#define BST_LEFT CN_BST_LEFT
+/** @see cn_broker_destroy() */
+#define broker_destroy cn_broker_destroy
 
-/** @see CN_BST_RIGHT */
-#define BST_RIGHT CN_BST_RIGHT
+/** @see cn_broker_search() */
+#define broker_search cn_broker_search
 
-/** @see cn_rb_link() */
-#define rb_link cn_rb_link
+/** @see cn_channel_gettopic() */
+#define channel_gettopic cn_channel_gettopic
 
-/** @see cn_rb_insrebal() */
-#define rb_insrebal cn_rb_insrebal
+/** @see cn_subscriber_create() */
+#define subscriber_create cn_subscriber_create
 
-/** @see cn_rb_left() */
-#define rb_left cn_rb_left
+/** @see cn_subscriber_destroy() */
+#define subscriber_destroy cn_subscriber_destroy
 
-/** @see cn_rb_right() */
-#define rb_right cn_rb_right
+/** @see cn_subscriber_await() */
+#define subscriber_await cn_subscriber_await
 
-/** @see cn_rb_parent() */
-#define rb_parent cn_rb_parent
+/** @see cn_subscriber_poll() */
+#define subscriber_poll cn_subscriber_poll
 
-/** @see cn_rb_first() */
-#define rb_first cn_rb_first
+/** @see cn_subscriber_unload() */
+#define subscriber_unload cn_subscriber_unload
 
-/** @see cn_rb_next() */
-#define rb_next cn_rb_next
+/** @see cn_load_getchan() */
+#define load_getchan cn_load_getchan
 
-#endif /* CANTIL_RBTREE_H */
+#endif /* STURK_BROKER_H */

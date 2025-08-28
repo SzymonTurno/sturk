@@ -1,9 +1,9 @@
-cantil-iso: build-iso/src/libcantil.a
-build-iso/src/libcantil.a: build-iso/Makefile
+sturk-iso: build-iso/src/libsturk.a
+build-iso/src/libsturk.a: build-iso/Makefile
 ifeq ($(OS),Windows_NT)
-	cd build-iso && $(MAKE) src\\\libcantil.a
+	cd build-iso && $(MAKE) src\\\libsturk.a
 else
-	cd build-iso && $(MAKE) src/libcantil.a
+	cd build-iso && $(MAKE) src/libsturk.a
 endif
 
 unity-iso: build-iso/Unity
@@ -37,4 +37,4 @@ build-iso/Makefile: build-iso
 build-iso:
 	$(call MKDIR, build-iso)
 
-.PHONY: cantil-iso unity-iso all-iso check-iso coverage-iso
+.PHONY: sturk-iso unity-iso all-iso check-iso coverage-iso

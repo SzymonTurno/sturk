@@ -30,29 +30,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file cantil/os/sem.h
+ * @file sturk/pool.h
  *
- * @see cn/os/sem.h
+ * @see cn/pool.h
  */
 
-#ifndef CANTIL_OS_SEM_H
-#define CANTIL_OS_SEM_H
+#ifndef STURK_POOL_H
+#define STURK_POOL_H
 
-#include "cn/os/sem.h"
+#include "cn/pool.h"
 
-/** @see cn_sem_create() */
-#define sem_create cn_sem_create
+/** @see cn_pool_create() */
+#define pool_create cn_pool_create
 
-/** @see cn_sem_destroy() */
-#define sem_destroy cn_sem_destroy
+/** @see cn_pool_destroy() */
+#define pool_destroy cn_pool_destroy
 
-/** @see cn_sem_wait() */
-#define sem_wait cn_sem_wait
+/** @see cn_pool_alloc() */
+#define pool_alloc cn_pool_alloc
 
-/** @see cn_sem_trywait() */
-#define sem_trywait cn_sem_trywait
+/** @see cn_pool_tryalloc() */
+#define pool_tryalloc cn_pool_tryalloc
 
-/** @see cn_sem_post() */
-#define sem_post cn_sem_post
+/** @see cn_pool_free() */
+#define pool_free cn_pool_free
 
-#endif /* CANTIL_OS_SEM_H */
+#endif /* STURK_POOL_H */

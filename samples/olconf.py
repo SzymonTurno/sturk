@@ -6,7 +6,7 @@ def append_rules(olvars):
     rule.normal_depend(os.path.join('$(sample_DIR)', '%.c'))
     rule.order_depend('$(sample_BLDDIR)')
     rule.step(
-        '$(CC) $(cantil_CFLAGS) $(sample_INC) $(cantil_INC) -c -o $@ $<')
+        '$(CC) $(sturk_CFLAGS) $(sample_INC) $(sturk_INC) -c -o $@ $<')
 
     rule = olvars.rule('$(sample_BLDDIR)')
     rule.step('$(call MKDIR, $@)')

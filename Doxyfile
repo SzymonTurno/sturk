@@ -33,7 +33,7 @@
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = "Cantil"
+PROJECT_NAME           = "Sturk"
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. This
 # could be handy for archiving the generated documentation or if some version
@@ -122,9 +122,9 @@ INPUT                  = README.md \
                          include/cn \
                          include/cn/logger \
 			 include/cn/os \
-			 include/cantil \
-			 include/cantil/logger \
-			 include/cantil/os \
+			 include/sturk \
+			 include/sturk/logger \
+			 include/sturk/os \
 			 include/vx
 
 # If the value of the INPUT tag contains directories, you can use the

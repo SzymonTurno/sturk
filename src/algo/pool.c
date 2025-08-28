@@ -30,12 +30,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "cn/pool.h"
-#include "cantil/arith.h"
-#include "cantil/list.h"
-#include "cantil/logger/except.h"
-#include "cantil/logger/trace.h"
-#include "cantil/os/mem.h"
-#include "cantil/os/mutex.h"
+#include "sturk/arith.h"
+#include "sturk/list.h"
+#include "sturk/logger/except.h"
+#include "sturk/logger/trace.h"
+#include "sturk/os/mem.h"
+#include "sturk/os/mutex.h"
 
 LIST(union FreeList, void*);
 
