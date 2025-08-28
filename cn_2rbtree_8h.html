@@ -159,6 +159,12 @@ Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>VX_GRAPH</b> (struct CnRbnode, <a class="el" href="cn_2rbtree_8h.html#a7a02d53e1d8e3291af2237bd662826c1af484e943c3b66f75a47482bfc6f021f4">CN_BST_N_CHILDREN</a>, union {intptr_t parcol;int32_t align;})</td></tr>
 <tr class="memdesc:ad1055f378caa1ca55bb6dc5f68ab72bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is a macro definition of the struct CnRbnode type. <br /></td></tr>
 <tr class="separator:ad1055f378caa1ca55bb6dc5f68ab72bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abba0439aa4e2a8d14bd32d67964565ce" id="r_abba0439aa4e2a8d14bd32d67964565ce"><td class="memItemLeft" align="right" valign="top">static struct CnRbnode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#abba0439aa4e2a8d14bd32d67964565ce">cn_rb_left</a> (struct CnRbnode *node)</td></tr>
+<tr class="memdesc:abba0439aa4e2a8d14bd32d67964565ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the left child of the given node.  <br /></td></tr>
+<tr class="separator:abba0439aa4e2a8d14bd32d67964565ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a815ee834bf0603a8bbf39cefaafae6a7" id="r_a815ee834bf0603a8bbf39cefaafae6a7"><td class="memItemLeft" align="right" valign="top">static struct CnRbnode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#a815ee834bf0603a8bbf39cefaafae6a7">cn_rb_right</a> (struct CnRbnode *node)</td></tr>
+<tr class="memdesc:a815ee834bf0603a8bbf39cefaafae6a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the right child of the given node.  <br /></td></tr>
+<tr class="separator:a815ee834bf0603a8bbf39cefaafae6a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46b1a99b69506c38fc80b6c3d6b68b59" id="r_a46b1a99b69506c38fc80b6c3d6b68b59"><td class="memItemLeft" align="right" valign="top">struct CnRbnode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2rbtree_8h.html#a46b1a99b69506c38fc80b6c3d6b68b59">cn_rb_link</a> (struct CnRbnode *node, struct CnRbnode *parent)</td></tr>
 <tr class="memdesc:a46b1a99b69506c38fc80b6c3d6b68b59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare a node for insertion in a red-black tree.  <br /></td></tr>
 <tr class="separator:a46b1a99b69506c38fc80b6c3d6b68b59"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -313,6 +319,41 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="abba0439aa4e2a8d14bd32d67964565ce" name="abba0439aa4e2a8d14bd32d67964565ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abba0439aa4e2a8d14bd32d67964565ce">&#9670;&#160;</a></span>cn_rb_left()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static inline struct CnRbnode * cn_rb_left </td>
+          <td>(</td>
+          <td class="paramtype">struct CnRbnode *&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the left child of the given node. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td>The node.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The left child. </dd></dl>
+
+</div>
+</div>
 <a id="a46b1a99b69506c38fc80b6c3d6b68b59" name="a46b1a99b69506c38fc80b6c3d6b68b59"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a46b1a99b69506c38fc80b6c3d6b68b59">&#9670;&#160;</a></span>cn_rb_link()</h2>
 
@@ -414,6 +455,41 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The parent. </dd></dl>
+
+</div>
+</div>
+<a id="a815ee834bf0603a8bbf39cefaafae6a7" name="a815ee834bf0603a8bbf39cefaafae6a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a815ee834bf0603a8bbf39cefaafae6a7">&#9670;&#160;</a></span>cn_rb_right()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static inline struct CnRbnode * cn_rb_right </td>
+          <td>(</td>
+          <td class="paramtype">struct CnRbnode *&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the right child of the given node. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td>The node.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The right child. </dd></dl>
 
 </div>
 </div>

@@ -29,6 +29,6 @@ var searchData=
   ['subscriber_5fcreate_26',['subscriber_create',['../cantil_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634',1,'broker.h']]],
   ['subscriber_5fdestroy_27',['subscriber_destroy',['../cantil_2broker_8h.html#acf22b096250bd3257f8ab509e0345761',1,'broker.h']]],
   ['subscriber_5fpoll_28',['subscriber_poll',['../cantil_2broker_8h.html#ad89e3f07bb3fb1d05c0cc2da138749df',1,'broker.h']]],
-  ['subscriber_5frelease_29',['subscriber_release',['../cantil_2broker_8h.html#a0b625bd920fa533f5e5f95bab71587d9',1,'broker.h']]],
+  ['subscriber_5funload_29',['subscriber_unload',['../cantil_2broker_8h.html#a484aa4a42302fcde6a903e59c59a53d3',1,'broker.h']]],
   ['sys_2eh_30',['sys.h',['../sys_8h.html',1,'']]]
 ];

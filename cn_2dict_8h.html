@@ -185,6 +185,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a24c82f1dfe9585a52953ec7acc068d9b" id="r_a24c82f1dfe9585a52953ec7acc068d9b"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structCnDictnode.html">CnDictnode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2dict_8h.html#a24c82f1dfe9585a52953ec7acc068d9b">cn_dictnode_find</a> (struct <a class="el" href="structCnDictnode.html">CnDictnode</a> *root, const char *str)</td></tr>
 <tr class="memdesc:a24c82f1dfe9585a52953ec7acc068d9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">In a dictionary, find the entry with the given key.  <br /></td></tr>
 <tr class="separator:a24c82f1dfe9585a52953ec7acc068d9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b00ccbee6b2cb515ba5473f20dc4a69" id="r_a4b00ccbee6b2cb515ba5473f20dc4a69"><td class="memItemLeft" align="right" valign="top">static struct <a class="el" href="structCnDictnode.html">CnDictnode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2dict_8h.html#a4b00ccbee6b2cb515ba5473f20dc4a69">cn_dictnode_from</a> (struct CnRbnode *ptr)</td></tr>
+<tr class="memdesc:a4b00ccbee6b2cb515ba5473f20dc4a69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cast a CnRbnode member out to the containing <a class="el" href="structCnDictnode.html" title="Dictionary node.">CnDictnode</a> structure.  <br /></td></tr>
+<tr class="separator:a4b00ccbee6b2cb515ba5473f20dc4a69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Dictionary. </p>
@@ -391,11 +394,12 @@ Usage</h2>
 <div class="line">                __typeof__(dict) _dict = (dict);                               \</div>
 <div class="line">                                                                               \</div>
 <div class="line">                cn_container_of(                                               \</div>
-<div class="line">                        cn_dictnode_from(                                      \</div>
+<div class="line">                        <a class="code hl_function" href="cn_2dict_8h.html#a4b00ccbee6b2cb515ba5473f20dc4a69">cn_dictnode_from</a>(                                      \</div>
 <div class="line">                                <a class="code hl_function" href="cn_2rbtree_8h.html#ab18ca1d1da6a50d9773a2ad0121553fc">cn_rb_first</a>(&amp;<a class="code hl_define" href="cantil_2dict_8h.html#a33e4183c17f41934f54ff15c1815388f">dict_cast</a>(_dict)-&gt;node, 0)),      \</div>
 <div class="line">                        __typeof__(*dict), dictnode);                          \</div>
 <div class="line">        })</div>
 <div class="ttc" id="acantil_2dict_8h_html_a33e4183c17f41934f54ff15c1815388f"><div class="ttname"><a href="cantil_2dict_8h.html#a33e4183c17f41934f54ff15c1815388f">dict_cast</a></div><div class="ttdeci">#define dict_cast</div><div class="ttdef"><b>Definition</b> dict.h:44</div></div>
+<div class="ttc" id="acn_2dict_8h_html_a4b00ccbee6b2cb515ba5473f20dc4a69"><div class="ttname"><a href="cn_2dict_8h.html#a4b00ccbee6b2cb515ba5473f20dc4a69">cn_dictnode_from</a></div><div class="ttdeci">static struct CnDictnode * cn_dictnode_from(struct CnRbnode *ptr)</div><div class="ttdoc">Cast a CnRbnode member out to the containing CnDictnode structure.</div><div class="ttdef"><b>Definition</b> dict.h:338</div></div>
 <div class="ttc" id="acn_2rbtree_8h_html_ab18ca1d1da6a50d9773a2ad0121553fc"><div class="ttname"><a href="cn_2rbtree_8h.html#ab18ca1d1da6a50d9773a2ad0121553fc">cn_rb_first</a></div><div class="ttdeci">struct CnRbnode * cn_rb_first(struct CnRbnode *node, enum CnBstOrder order)</div><div class="ttdoc">Get the first node of the red-black tree for the given BST order.</div></div>
 </div><!-- fragment -->
 <p>Find the first entry of the dictionary traversal. </p>
@@ -512,7 +516,7 @@ Usage</h2>
 <div class="line">                __typeof__(dict) _dict = (dict);                               \</div>
 <div class="line">                                                                               \</div>
 <div class="line">                cn_container_of(                                               \</div>
-<div class="line">                        cn_dictnode_from(<a class="code hl_function" href="cn_2rbtree_8h.html#ae95185bc3cfa523cccb2a52fe2f35242">cn_rb_next</a>(                           \</div>
+<div class="line">                        <a class="code hl_function" href="cn_2dict_8h.html#a4b00ccbee6b2cb515ba5473f20dc4a69">cn_dictnode_from</a>(<a class="code hl_function" href="cn_2rbtree_8h.html#ae95185bc3cfa523cccb2a52fe2f35242">cn_rb_next</a>(                           \</div>
 <div class="line">                                &amp;<a class="code hl_define" href="cantil_2dict_8h.html#a33e4183c17f41934f54ff15c1815388f">dict_cast</a>(_dict)-&gt;node, <a class="code hl_enumvalue" href="cn_2rbtree_8h.html#afd5241fc92cdaf38c429ef806fbea928a40e76d4cb39819c200f1fe530c7bca22">CN_BST_INORDER</a>)),     \</div>
 <div class="line">                        __typeof__(*dict), dictnode);                          \</div>
 <div class="line">        })</div>
@@ -612,6 +616,41 @@ Usage</h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The found entry or NULL if none found. </dd></dl>
+
+</div>
+</div>
+<a id="a4b00ccbee6b2cb515ba5473f20dc4a69" name="a4b00ccbee6b2cb515ba5473f20dc4a69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b00ccbee6b2cb515ba5473f20dc4a69">&#9670;&#160;</a></span>cn_dictnode_from()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static inline struct <a class="el" href="structCnDictnode.html">CnDictnode</a> * cn_dictnode_from </td>
+          <td>(</td>
+          <td class="paramtype">struct CnRbnode *&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cast a CnRbnode member out to the containing <a class="el" href="structCnDictnode.html" title="Dictionary node.">CnDictnode</a> structure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ptr</td><td>The pointer to the CnRbnode member.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the <a class="el" href="structCnDictnode.html" title="Dictionary node.">CnDictnode</a> structure. </dd></dl>
 
 </div>
 </div>

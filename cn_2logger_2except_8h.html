@@ -76,7 +76,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
-<a href="#define-members">Macros</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">except.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -154,6 +155,33 @@ Macros</h2></td></tr>
 <tr class="memitem:ad6f4269c4a2260f8a1a2b314453a74b3" id="r_ad6f4269c4a2260f8a1a2b314453a74b3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cn_2logger_2except_8h.html#ad6f4269c4a2260f8a1a2b314453a74b3">CN_ENSURE_MEM</a>(ptr,  lvl)</td></tr>
 <tr class="memdesc:ad6f4269c4a2260f8a1a2b314453a74b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raise an exception and return NULL if the pointer is NULL.  <br /></td></tr>
 <tr class="separator:ad6f4269c4a2260f8a1a2b314453a74b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a7667fcef2a8072f2c1b7c7479545def5" id="r_a7667fcef2a8072f2c1b7c7479545def5"><td class="memItemLeft" align="right" valign="top"><a id="a7667fcef2a8072f2c1b7c7479545def5" name="a7667fcef2a8072f2c1b7c7479545def5"></a>
+static const struct <a class="el" href="structCnException.html">CnException</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cn_except_null_param</b> = {&quot;Null param.&quot;}</td></tr>
+<tr class="memdesc:a7667fcef2a8072f2c1b7c7479545def5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception: "null_param". <br /></td></tr>
+<tr class="separator:a7667fcef2a8072f2c1b7c7479545def5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c59522d14e5eede9e9cd7888f3efa82" id="r_a5c59522d14e5eede9e9cd7888f3efa82"><td class="memItemLeft" align="right" valign="top"><a id="a5c59522d14e5eede9e9cd7888f3efa82" name="a5c59522d14e5eede9e9cd7888f3efa82"></a>
+static const struct <a class="el" href="structCnException.html">CnException</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cn_except_alloc_fail</b> = {&quot;Memory allocation failed.&quot;}</td></tr>
+<tr class="memdesc:a5c59522d14e5eede9e9cd7888f3efa82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception: "alloc_fail". <br /></td></tr>
+<tr class="separator:a5c59522d14e5eede9e9cd7888f3efa82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6a38a89f9031aeb342418378cc72cf7" id="r_ae6a38a89f9031aeb342418378cc72cf7"><td class="memItemLeft" align="right" valign="top"><a id="ae6a38a89f9031aeb342418378cc72cf7" name="ae6a38a89f9031aeb342418378cc72cf7"></a>
+static const struct <a class="el" href="structCnException.html">CnException</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cn_except_sem_fail</b> = {&quot;Semaphore failure.&quot;}</td></tr>
+<tr class="memdesc:ae6a38a89f9031aeb342418378cc72cf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception: "sem_fail". <br /></td></tr>
+<tr class="separator:ae6a38a89f9031aeb342418378cc72cf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2b969c5b8641fd39a8a2757a70119b3" id="r_af2b969c5b8641fd39a8a2757a70119b3"><td class="memItemLeft" align="right" valign="top"><a id="af2b969c5b8641fd39a8a2757a70119b3" name="af2b969c5b8641fd39a8a2757a70119b3"></a>
+static const struct <a class="el" href="structCnException.html">CnException</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cn_except_mutex_fail</b> = {&quot;Mutex failure.&quot;}</td></tr>
+<tr class="memdesc:af2b969c5b8641fd39a8a2757a70119b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception: "mutex_fail". <br /></td></tr>
+<tr class="separator:af2b969c5b8641fd39a8a2757a70119b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08e239ee4a2a0dc4dd19001ff3e6ccd0" id="r_a08e239ee4a2a0dc4dd19001ff3e6ccd0"><td class="memItemLeft" align="right" valign="top"><a id="a08e239ee4a2a0dc4dd19001ff3e6ccd0" name="a08e239ee4a2a0dc4dd19001ff3e6ccd0"></a>
+static const struct <a class="el" href="structCnException.html">CnException</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cn_except_not_supported</b> = {&quot;Not supported.&quot;}</td></tr>
+<tr class="memdesc:a08e239ee4a2a0dc4dd19001ff3e6ccd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception: "not_supported". <br /></td></tr>
+<tr class="separator:a08e239ee4a2a0dc4dd19001ff3e6ccd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fd8ce030391d3673d10959aa360006f" id="r_a9fd8ce030391d3673d10959aa360006f"><td class="memItemLeft" align="right" valign="top"><a id="a9fd8ce030391d3673d10959aa360006f" name="a9fd8ce030391d3673d10959aa360006f"></a>
+static const struct <a class="el" href="structCnException.html">CnException</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cn_except_sanity_fail</b> = {&quot;Sanity check failed.&quot;}</td></tr>
+<tr class="memdesc:a9fd8ce030391d3673d10959aa360006f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception: "sanity_fail". <br /></td></tr>
+<tr class="separator:a9fd8ce030391d3673d10959aa360006f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Exceptions. </p>
@@ -293,9 +321,10 @@ Macros</h2></td></tr>
 <div class="line">                } <span class="keywordflow">else</span> {                                                       \</div>
 <div class="line">                        CN_TRACE(                                              \</div>
 <div class="line">                                <a class="code hl_enumvalue" href="cn_2logger_2trace_8h.html#a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f">CN_ERROR</a>, NULL, <span class="stringliteral">&quot;%s:%d: %s&quot;</span>, __FILE__,         \</div>
-<div class="line">                                __LINE__, cn_except_not_supported.<a class="code hl_variable" href="structCnException.html#a0fd5bdaf0ff46783483929bbba515d55">reason</a>);     \</div>
+<div class="line">                                __LINE__, <a class="code hl_variable" href="cn_2logger_2except_8h.html#a08e239ee4a2a0dc4dd19001ff3e6ccd0">cn_except_not_supported</a>.<a class="code hl_variable" href="structCnException.html#a0fd5bdaf0ff46783483929bbba515d55">reason</a>);     \</div>
 <div class="line">                }                                                              \</div>
 <div class="line">        } <span class="keywordflow">while</span> (0)</div>
+<div class="ttc" id="acn_2logger_2except_8h_html_a08e239ee4a2a0dc4dd19001ff3e6ccd0"><div class="ttname"><a href="cn_2logger_2except_8h.html#a08e239ee4a2a0dc4dd19001ff3e6ccd0">cn_except_not_supported</a></div><div class="ttdeci">static const struct CnException cn_except_not_supported</div><div class="ttdoc">Exception: &quot;not_supported&quot;.</div><div class="ttdef"><b>Definition</b> except.h:150</div></div>
 <div class="ttc" id="acn_2logger_2except_8h_html_a242fc55b254c59993a1f8e6b0e7fd82a"><div class="ttname"><a href="cn_2logger_2except_8h.html#a242fc55b254c59993a1f8e6b0e7fd82a">CN_EXCEPTIONS_EN</a></div><div class="ttdeci">#define CN_EXCEPTIONS_EN</div><div class="ttdoc">Exceptions enabled.</div><div class="ttdef"><b>Definition</b> except.h:51</div></div>
 <div class="ttc" id="acn_2logger_2trace_8h_html_a9c6f8a9a915d0e5ff1714d8c2a8a7e61"><div class="ttname"><a href="cn_2logger_2trace_8h.html#a9c6f8a9a915d0e5ff1714d8c2a8a7e61">CnTraceLvl</a></div><div class="ttdeci">CnTraceLvl</div><div class="ttdoc">Trace level.</div><div class="ttdef"><b>Definition</b> trace.h:75</div></div>
 <div class="ttc" id="acn_2logger_2trace_8h_html_a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f"><div class="ttname"><a href="cn_2logger_2trace_8h.html#a9c6f8a9a915d0e5ff1714d8c2a8a7e61a02a1b1476a43d2320d262eb65c62933f">CN_ERROR</a></div><div class="ttdeci">@ CN_ERROR</div><div class="ttdoc">error trace level.</div><div class="ttdef"><b>Definition</b> trace.h:80</div></div>

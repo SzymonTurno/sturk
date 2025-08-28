@@ -146,15 +146,17 @@ $(function() {
 <div class="line">{</div>
 <div class="line">        <a class="code hl_typedef" href="cn_2broker_8h.html#a7994dbebbca4ce4f9f19d811edda0905">CnBroker</a>* broker = <a class="code hl_define" href="cantil_2broker_8h.html#ab327ff3f3c8556db878846baaecd526e">broker_create</a>(SAMPLE_LOAD_API);</div>
 <div class="line">        <a class="code hl_typedef" href="cn_2broker_8h.html#a070ea82c82ee7d183aee382a68dd642a">CnSubscriber</a>* sber = <a class="code hl_define" href="cantil_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">subscriber_create</a>(broker);</div>
-<div class="line">        <a class="code hl_typedef" href="cn_2broker_8h.html#aa04ba136293d02105197879ddb3f7f4d">CnChannel</a>* ch = NULL;</div>
+<div class="line">        <a class="code hl_typedef" href="cn_2broker_8h.html#aca06eb77448bba60e91668222990239d">CnLoad</a>* load = NULL;</div>
 <div class="line"> </div>
 <div class="line">        <a class="code hl_define" href="cantil_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a>(sber, <span class="stringliteral">&quot;test&quot;</span>);</div>
 <div class="line">        <a class="code hl_define" href="cantil_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7">publish</a>(<a class="code hl_define" href="cantil_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">broker_search</a>(broker, <span class="stringliteral">&quot;test&quot;</span>), <span class="stringliteral">&quot;%X&quot;</span>, 0xF00D);</div>
-<div class="line">        TEST_ASSERT_NULL(<a class="code hl_define" href="cantil_2broker_8h.html#a266db5e96592b3b4074c7131f5eecf3c">channel_gettopic</a>(ch));</div>
-<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;F00D&quot;</span>, <a class="code hl_define" href="cantil_2broker_8h.html#af23ee47bacf77f34816373673f569dd2">subscriber_await</a>(sber, &amp;ch));</div>
-<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;test&quot;</span>, <a class="code hl_define" href="cantil_2broker_8h.html#a266db5e96592b3b4074c7131f5eecf3c">channel_gettopic</a>(ch));</div>
+<div class="line">        TEST_ASSERT_NULL(<a class="code hl_define" href="cantil_2broker_8h.html#a266db5e96592b3b4074c7131f5eecf3c">channel_gettopic</a>(<a class="code hl_define" href="cantil_2broker_8h.html#a00f4f7358c0e704bee60f4c6cf0d5859">load_getchan</a>(load)));</div>
+<div class="line">        load = <a class="code hl_define" href="cantil_2broker_8h.html#af23ee47bacf77f34816373673f569dd2">subscriber_await</a>(sber);</div>
+<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;F00D&quot;</span>, load);</div>
+<div class="line">        TEST_ASSERT_NULL(<span class="stringliteral">&quot;test&quot;</span>, <a class="code hl_define" href="cantil_2broker_8h.html#a266db5e96592b3b4074c7131f5eecf3c">channel_gettopic</a>(<a class="code hl_define" href="cantil_2broker_8h.html#a00f4f7358c0e704bee60f4c6cf0d5859">load_getchan</a>(load)));</div>
 <div class="line">        <a class="code hl_define" href="cantil_2broker_8h.html#a7f51b614c2070cffbeb75192cacc3396">broker_destroy</a>(broker);</div>
 <div class="line">}</div>
+<div class="ttc" id="acantil_2broker_8h_html_a00f4f7358c0e704bee60f4c6cf0d5859"><div class="ttname"><a href="cantil_2broker_8h.html#a00f4f7358c0e704bee60f4c6cf0d5859">load_getchan</a></div><div class="ttdeci">#define load_getchan</div><div class="ttdef"><b>Definition</b> broker.h:77</div></div>
 <div class="ttc" id="acantil_2broker_8h_html_a062f5f37e33e4568681930342fdbbca6"><div class="ttname"><a href="cantil_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">broker_search</a></div><div class="ttdeci">#define broker_search</div><div class="ttdef"><b>Definition</b> broker.h:56</div></div>
 <div class="ttc" id="acantil_2broker_8h_html_a14ca1bc17062b36cac51ad0df7d56e91"><div class="ttname"><a href="cantil_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a></div><div class="ttdeci">#define subscribe</div><div class="ttdef"><b>Definition</b> broker.h:47</div></div>
 <div class="ttc" id="acantil_2broker_8h_html_a266db5e96592b3b4074c7131f5eecf3c"><div class="ttname"><a href="cantil_2broker_8h.html#a266db5e96592b3b4074c7131f5eecf3c">channel_gettopic</a></div><div class="ttdeci">#define channel_gettopic</div><div class="ttdef"><b>Definition</b> broker.h:59</div></div>
@@ -165,7 +167,6 @@ $(function() {
 <div class="ttc" id="acantil_2broker_8h_html_af23ee47bacf77f34816373673f569dd2"><div class="ttname"><a href="cantil_2broker_8h.html#af23ee47bacf77f34816373673f569dd2">subscriber_await</a></div><div class="ttdeci">#define subscriber_await</div><div class="ttdef"><b>Definition</b> broker.h:68</div></div>
 <div class="ttc" id="acn_2broker_8h_html_a070ea82c82ee7d183aee382a68dd642a"><div class="ttname"><a href="cn_2broker_8h.html#a070ea82c82ee7d183aee382a68dd642a">CnSubscriber</a></div><div class="ttdeci">struct CnSubscriber CnSubscriber</div><div class="ttdoc">The subscriber.</div><div class="ttdef"><b>Definition</b> broker.h:142</div></div>
 <div class="ttc" id="acn_2broker_8h_html_a7994dbebbca4ce4f9f19d811edda0905"><div class="ttname"><a href="cn_2broker_8h.html#a7994dbebbca4ce4f9f19d811edda0905">CnBroker</a></div><div class="ttdeci">struct CnBroker CnBroker</div><div class="ttdoc">The message broker.</div><div class="ttdef"><b>Definition</b> broker.h:135</div></div>
-<div class="ttc" id="acn_2broker_8h_html_aa04ba136293d02105197879ddb3f7f4d"><div class="ttname"><a href="cn_2broker_8h.html#aa04ba136293d02105197879ddb3f7f4d">CnChannel</a></div><div class="ttdeci">struct CnChannel CnChannel</div><div class="ttdoc">The channel for messages.</div><div class="ttdef"><b>Definition</b> broker.h:153</div></div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->

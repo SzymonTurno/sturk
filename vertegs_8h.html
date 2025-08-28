@@ -76,7 +76,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
-<a href="#define-members">Macros</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">vertegs.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -150,6 +151,27 @@ Macros</h2></td></tr>
 <tr class="memitem:a34884fbfd432acaeaa0e229c4a944ae7" id="r_a34884fbfd432acaeaa0e229c4a944ae7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_8h.html#a34884fbfd432acaeaa0e229c4a944ae7">VX_ENSURE_MEM</a>(ptr)</td></tr>
 <tr class="memdesc:a34884fbfd432acaeaa0e229c4a944ae7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raise an exception and return NULL if the pointer is NULL.  <br /></td></tr>
 <tr class="separator:a34884fbfd432acaeaa0e229c4a944ae7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a98457a0105c8753bfaf468d46f9e4b25" id="r_a98457a0105c8753bfaf468d46f9e4b25"><td class="memItemLeft" align="right" valign="top">static struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_8h.html#a98457a0105c8753bfaf468d46f9e4b25">vx_4nbor</a> (struct <a class="el" href="structVertegs.html">Vertegs</a> **nbor)</td></tr>
+<tr class="memdesc:a98457a0105c8753bfaf468d46f9e4b25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cast to vertex from its neighbourhood.  <br /></td></tr>
+<tr class="separator:a98457a0105c8753bfaf468d46f9e4b25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c31079c3c2d0617719b869f92046364" id="r_a4c31079c3c2d0617719b869f92046364"><td class="memItemLeft" align="right" valign="top">static struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_8h.html#a4c31079c3c2d0617719b869f92046364">vx_walk</a> (struct <a class="el" href="structVertegs.html">Vertegs</a> *v, size_t edge, int len)</td></tr>
+<tr class="memdesc:a4c31079c3c2d0617719b869f92046364"><td class="mdescLeft">&#160;</td><td class="mdescRight">For a chain, in which all edges share the same index, find the other end.  <br /></td></tr>
+<tr class="separator:a4c31079c3c2d0617719b869f92046364"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fa2b5ebdacf0efdb6c8259e8daa2d68" id="r_a6fa2b5ebdacf0efdb6c8259e8daa2d68"><td class="memItemLeft" align="right" valign="top">static struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_8h.html#a6fa2b5ebdacf0efdb6c8259e8daa2d68">vx_inslist</a> (struct <a class="el" href="structVertegs.html">Vertegs</a> *list, struct <a class="el" href="structVertegs.html">Vertegs</a> *entry, int pos)</td></tr>
+<tr class="memdesc:a6fa2b5ebdacf0efdb6c8259e8daa2d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert, at a given position, an entry into a list.  <br /></td></tr>
+<tr class="separator:a6fa2b5ebdacf0efdb6c8259e8daa2d68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2c46fa1cfe62e0b9bfeba2201d3f445" id="r_aa2c46fa1cfe62e0b9bfeba2201d3f445"><td class="memItemLeft" align="right" valign="top">static struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_8h.html#aa2c46fa1cfe62e0b9bfeba2201d3f445">vx_remlist</a> (struct <a class="el" href="structVertegs.html">Vertegs</a> **listp, int pos)</td></tr>
+<tr class="memdesc:aa2c46fa1cfe62e0b9bfeba2201d3f445"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove, at a given position, an entry from a list.  <br /></td></tr>
+<tr class="separator:aa2c46fa1cfe62e0b9bfeba2201d3f445"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb2098b3d6b58a177680522ec3b451a7" id="r_abb2098b3d6b58a177680522ec3b451a7"><td class="memItemLeft" align="right" valign="top">static struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_8h.html#abb2098b3d6b58a177680522ec3b451a7">vx_inscirq</a> (struct <a class="el" href="structVertegs.html">Vertegs</a> *cirq, struct <a class="el" href="structVertegs.html">Vertegs</a> *entry, int pos)</td></tr>
+<tr class="memdesc:abb2098b3d6b58a177680522ec3b451a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert, at a given position, an entry into a <em>cirq</em>.  <br /></td></tr>
+<tr class="separator:abb2098b3d6b58a177680522ec3b451a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae86a08a17aa4315c6c99352fd9603c70" id="r_ae86a08a17aa4315c6c99352fd9603c70"><td class="memItemLeft" align="right" valign="top">static struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_8h.html#ae86a08a17aa4315c6c99352fd9603c70">vx_remcirq</a> (struct <a class="el" href="structVertegs.html">Vertegs</a> **cirqp, int pos)</td></tr>
+<tr class="memdesc:ae86a08a17aa4315c6c99352fd9603c70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove, at a given position, an entry from a <em>cirq</em>.  <br /></td></tr>
+<tr class="separator:ae86a08a17aa4315c6c99352fd9603c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Vertex. </p>
@@ -184,6 +206,293 @@ Macros</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a98457a0105c8753bfaf468d46f9e4b25" name="a98457a0105c8753bfaf468d46f9e4b25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98457a0105c8753bfaf468d46f9e4b25">&#9670;&#160;</a></span>vx_4nbor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static inline struct <a class="el" href="structVertegs.html">Vertegs</a> * vx_4nbor </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structVertegs.html">Vertegs</a> **&#160;</td>
+          <td class="paramname"><em>nbor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cast to vertex from its neighbourhood. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbor</td><td>The neighbourhood.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The vertex. </dd></dl>
+
+</div>
+</div>
+<a id="abb2098b3d6b58a177680522ec3b451a7" name="abb2098b3d6b58a177680522ec3b451a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb2098b3d6b58a177680522ec3b451a7">&#9670;&#160;</a></span>vx_inscirq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static inline struct <a class="el" href="structVertegs.html">Vertegs</a> * vx_inscirq </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td>
+          <td class="paramname"><em>cirq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td>
+          <td class="paramname"><em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Insert, at a given position, an entry into a <em>cirq</em>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cirq</td><td>The head of the <em>cirq</em>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">entry</td><td>The new entry. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pos</td><td>The position.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The new head. </dd></dl>
+
+</div>
+</div>
+<a id="a6fa2b5ebdacf0efdb6c8259e8daa2d68" name="a6fa2b5ebdacf0efdb6c8259e8daa2d68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fa2b5ebdacf0efdb6c8259e8daa2d68">&#9670;&#160;</a></span>vx_inslist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static inline struct <a class="el" href="structVertegs.html">Vertegs</a> * vx_inslist </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td>
+          <td class="paramname"><em>list</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td>
+          <td class="paramname"><em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Insert, at a given position, an entry into a list. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">list</td><td>The head of the list. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">entry</td><td>The new entry. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pos</td><td>The position.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The new head. </dd></dl>
+
+</div>
+</div>
+<a id="ae86a08a17aa4315c6c99352fd9603c70" name="ae86a08a17aa4315c6c99352fd9603c70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae86a08a17aa4315c6c99352fd9603c70">&#9670;&#160;</a></span>vx_remcirq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static inline struct <a class="el" href="structVertegs.html">Vertegs</a> * vx_remcirq </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structVertegs.html">Vertegs</a> **&#160;</td>
+          <td class="paramname"><em>cirqp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remove, at a given position, an entry from a <em>cirq</em>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cirqp</td><td>The pointer to the head of the <em>cirq</em>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pos</td><td>The position.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The removed entry. </dd></dl>
+
+</div>
+</div>
+<a id="aa2c46fa1cfe62e0b9bfeba2201d3f445" name="aa2c46fa1cfe62e0b9bfeba2201d3f445"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2c46fa1cfe62e0b9bfeba2201d3f445">&#9670;&#160;</a></span>vx_remlist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static inline struct <a class="el" href="structVertegs.html">Vertegs</a> * vx_remlist </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structVertegs.html">Vertegs</a> **&#160;</td>
+          <td class="paramname"><em>listp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remove, at a given position, an entry from a list. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">listp</td><td>The pointer to the head of the list. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pos</td><td>The position.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The removed entry. </dd></dl>
+
+</div>
+</div>
+<a id="a4c31079c3c2d0617719b869f92046364" name="a4c31079c3c2d0617719b869f92046364"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c31079c3c2d0617719b869f92046364">&#9670;&#160;</a></span>vx_walk()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static inline struct <a class="el" href="structVertegs.html">Vertegs</a> * vx_walk </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>edge</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>For a chain, in which all edges share the same index, find the other end. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">v</td><td>The first end of the chain. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">edge</td><td>The index of all edges in the chain. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">len</td><td>The length of the chain - the number of edges.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The other end. </dd></dl>
 
 </div>
 </div>
