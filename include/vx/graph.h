@@ -131,7 +131,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @brief Traverse a graph.
  *
  * Traverse the graph of type @a type referenced by @a graphp along the edges of
- * of index @a edge, assigning every node in turn to @a i.
+ * index @a edge, assigning every node in turn to @a i.
  */
 #define vx_graph_foredge(type, i, graphp, edge)                                \
 	for (type** i = graphp; *i; i = (type**)&(*i)->vx_graph_nbor[edge])

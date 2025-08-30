@@ -56,22 +56,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * It is for the user to decide how to use those contexts by defining the
  * message constructor (StLoadVt::ctor).
  *
- * Direct context is a contiguous memory block allocated from fixed-size memory
- * pool and its size is constant for all messages. The size of the
+ * Direct context is a contiguous memory block allocated from a fixed-size
+ * memory pool and its size is constant for all messages. The size of the
  * block is a multiple of the size of the metadata, big enough to hold one
  * instance of the metadata and one instance of the user defined load. The size
  * of the load for the direct context is defined with the StLoadVt::size
  * callback.
  * @see StPool
  *
- * <table>
- * <caption id="direct_context">Direct context</caption>
- * <tr><th>Array <th>meta + load (StLoad*)
- * <tr><td>0     <td>meta
- * <tr><td>...   <td rowspan="3">load
- * <tr><td>n-1
- * <tr><td>n
- * </table>
+ * | Array | meta + load (StLoad*) |
+ * | ----- | --------------------- |
+ * | 0     | meta                  |
+ * | ...   | load                  |
+ * | n - 1 | ^                     |
+ * | n     | ^                     |
  *
  * The indirect context is optional and it is everything that is allocated by
  * the contructor callback - StLoadVt::ctor and that is accessible through
@@ -289,9 +287,9 @@ StLoad* st_subscriber_poll(StSubscriber* sber);
  * subscribers counter for the message. When the counter hits 0, the message is
  * returned to the memory pool.
  *
- * @note The functions st_subscriber_await() and st_subscriber_poll() call this
- * function automatically, there is no need to release the last received message
- * if the subscriber attempts to receive another message.
+ * @note Functions st_subscriber_await() and st_subscriber_poll() call
+ * st_subscriber_unload() automatically, there is no need to release the last
+ * received message if the subscriber attempts to receive another message.
  */
 void st_subscriber_unload(StSubscriber* sber);
 

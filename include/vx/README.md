@@ -1,10 +1,10 @@
 # Vertegs
 
-Vertegs is a header only library that provides data types, macros and functions
-that operate on graphs. [TOC]
+Vertegs is a library with C header files only that provide data types, macros and
+functions that operate on graphs. [TOC]
 
 
-## Features
+## Overview
 
 - Intrusive data structures.
 - Inheritance from a single data type.
@@ -14,9 +14,9 @@ that operate on graphs. [TOC]
 
 ## Glossary
 
-|  #  | Term | Description                 |
-| --- | ---- | --------------------------- |
-|  1  | cirq | doubly linked circular list |
+| Term | Description                 |
+| ---- | --------------------------- |
+| cirq | doubly linked circular list |
 
 
 ## List
