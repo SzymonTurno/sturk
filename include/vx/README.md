@@ -1,7 +1,7 @@
 # Vertegs
 
-Vertegs is a header only library that provides data types, macros and functions
-that operate on graphs. [TOC]
+Vertegs is a library with C header files only that provide data types, macros and
+functions that operate on graphs. [TOC]
 
 
 ## Features

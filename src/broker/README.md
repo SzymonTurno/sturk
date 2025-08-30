@@ -1,6 +1,6 @@
 # Message broker
 
-This is an example usage of the message broker. [TOC]
+Below is an example usage of the message broker. [TOC]
 
 
 ## Defining API for messages
@@ -71,7 +71,7 @@ const struct StLoadVt SAMPLE_LOAD_API[] = {
 ```
 
 
-## Publish and subscribe
+## Publishing and subscribing
 
 ### Initializing a broker
 
