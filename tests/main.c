@@ -116,7 +116,7 @@ TEST(common, should_destroy_null)
 
 TEST(list, should_implement_lifo)
 {
-	struct StStrlist* list = NULL;
+	struct StStrList* list = NULL;
 
 	list = strlist_ins(NULL, "One");
 	list = strlist_ins(list, "Two");
@@ -129,7 +129,7 @@ TEST(list, should_implement_lifo)
 
 TEST(cirq, should_implement_fifo)
 {
-	struct StStrq* q = NULL;
+	struct StStrQ* q = NULL;
 
 	q = strq_ins(NULL, "One");
 	q = strq_ins(q, "Two");
@@ -147,15 +147,15 @@ TEST(rbnode, should_return_left_and_right)
 	struct Vertegs* nbor[] = {left, right};
 
 	TEST_ASSERT_EQUAL_PTR(
-		left, (struct Vertegs*)rb_left((struct StRbnode*)nbor));
+		left, (struct Vertegs*)rb_left((struct StRbNode*)nbor));
 	TEST_ASSERT_EQUAL_PTR(
-		right, (struct Vertegs*)rb_right((struct StRbnode*)nbor));
+		right, (struct Vertegs*)rb_right((struct StRbNode*)nbor));
 }
 
 TEST(rbnode, should_link_as_leaf)
 {
-	struct StRbnode p = {0};
-	struct StRbnode n = {0};
+	struct StRbNode p = {0};
+	struct StRbNode n = {0};
 
 	memset(&n, 0xA, sizeof(n));
 	TEST_ASSERT_EQUAL_PTR(&n, rb_link(&n, &p));
@@ -167,9 +167,9 @@ TEST(rbnode, should_link_as_leaf)
 
 TEST(rbnode, should_insert_and_balance)
 {
-	struct StRbnode c = {0};
-	struct StRbnode a = {0};
-	struct StRbnode b = {0};
+	struct StRbNode c = {0};
+	struct StRbNode a = {0};
+	struct StRbNode b = {0};
 	struct Vertegs** nbor = ((struct Vertegs*)&c)->nbor;
 
 	/*
@@ -209,7 +209,7 @@ TEST(rbnode, should_insert_and_balance)
 
 TEST(rbnode, should_trace_not_supported_traversals)
 {
-	struct StRbnode node = {0};
+	struct StRbNode node = {0};
 
 	logger_detach(WARNING, st_stderr());
 	rb_next(&node, BST_POSTORDER);
@@ -224,13 +224,13 @@ TEST(rbnode, should_trace_not_supported_traversals)
 
 TEST(dictnode, should_sort)
 {
-	struct StDictnode q = {.node = {0}, .str = "q"};
-	struct StDictnode w = {.node = {0}, .str = "w"};
-	struct StDictnode e = {.node = {0}, .str = "e"};
-	struct StDictnode r = {.node = {0}, .str = "r"};
-	struct StDictnode t = {.node = {0}, .str = "t"};
-	struct StDictnode y = {.node = {0}, .str = "y"};
-	struct StDictnode* root = dictnode_ins(NULL, &q);
+	struct StDictNode q = {.node = {0}, .str = "q"};
+	struct StDictNode w = {.node = {0}, .str = "w"};
+	struct StDictNode e = {.node = {0}, .str = "e"};
+	struct StDictNode r = {.node = {0}, .str = "r"};
+	struct StDictNode t = {.node = {0}, .str = "t"};
+	struct StDictNode y = {.node = {0}, .str = "y"};
+	struct StDictNode* root = dictnode_ins(NULL, &q);
 
 	TEST_ASSERT_EQUAL_PTR(&q, root);
 	root = dictnode_ins(root, &w);
@@ -238,25 +238,25 @@ TEST(dictnode, should_sort)
 	root = dictnode_ins(root, &r);
 	root = dictnode_ins(root, &t);
 	root = dictnode_ins(root, &y);
-	root = (struct StDictnode*)rb_first(
-		(struct StRbnode*)root, BST_INORDER);
+	root = (struct StDictNode*)rb_first(
+		(struct StRbNode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("e", root->str);
-	root = (struct StDictnode*)rb_next((struct StRbnode*)root, BST_INORDER);
+	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("q", root->str);
-	root = (struct StDictnode*)rb_next((struct StRbnode*)root, BST_INORDER);
+	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("r", root->str);
-	root = (struct StDictnode*)rb_next((struct StRbnode*)root, BST_INORDER);
+	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("t", root->str);
-	root = (struct StDictnode*)rb_next((struct StRbnode*)root, BST_INORDER);
+	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("w", root->str);
-	root = (struct StDictnode*)rb_next((struct StRbnode*)root, BST_INORDER);
+	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("y", root->str);
-	TEST_ASSERT_NULL(rb_next((struct StRbnode*)root, BST_INORDER));
+	TEST_ASSERT_NULL(rb_next((struct StRbNode*)root, BST_INORDER));
 }
 
 TEST(strbag, should_allow_many_entries)
 {
-	struct StStrbag* bag = NULL;
+	struct StStrBag* bag = NULL;
 	char str[sizeof(int) + 1] = {0};
 
 	srand(1);
@@ -275,7 +275,7 @@ TEST(strbag, should_allow_many_entries)
 
 TEST(strbag, should_sort)
 {
-	struct StStrbag* bag = NULL;
+	struct StStrBag* bag = NULL;
 
 	bag = strbag_ins(NULL, "q");
 	bag = strbag_ins(bag, "w");
@@ -301,7 +301,7 @@ TEST(strbag, should_sort)
 
 TEST(strbag, should_allow_preorder_traversal)
 {
-	struct StStrbag* bag = NULL;
+	struct StStrBag* bag = NULL;
 
 	bag = strbag_ins(NULL, "d");
 	bag = strbag_ins(bag, "b");
@@ -317,23 +317,23 @@ TEST(strbag, should_allow_preorder_traversal)
 	 *  a   c   f
 	 */
 	TEST_ASSERT_EQUAL_STRING("d", dict_getk(bag));
-	bag = (struct StStrbag*)rb_next((struct StRbnode*)bag, BST_PREORDER);
+	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
-	bag = (struct StStrbag*)rb_next((struct StRbnode*)bag, BST_PREORDER);
+	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
-	bag = (struct StStrbag*)rb_next((struct StRbnode*)bag, BST_PREORDER);
+	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
-	bag = (struct StStrbag*)rb_next((struct StRbnode*)bag, BST_PREORDER);
+	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
-	bag = (struct StStrbag*)rb_next((struct StRbnode*)bag, BST_PREORDER);
+	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING("f", dict_getk(bag));
 	strbag_destroy(bag);
 }
 
 TEST(strbag, should_find_first)
 {
-	struct StStrbag* bag = NULL;
-	struct StStrbag* tmp = NULL;
+	struct StStrBag* bag = NULL;
+	struct StStrBag* tmp = NULL;
 
 	bag = strbag_ins(NULL, "c");
 	bag = strbag_ins(bag, "a");
@@ -347,18 +347,18 @@ TEST(strbag, should_find_first)
 	 *   \
 	 *    b
 	 */
-	tmp = (struct StStrbag*)rb_right((struct StRbnode*)bag);
+	tmp = (struct StStrBag*)rb_right((struct StRbNode*)bag);
 	TEST_ASSERT_EQUAL_STRING("d", dict_getk(tmp));
-	bag = (struct StStrbag*)rb_first((struct StRbnode*)tmp, BST_INORDER);
+	bag = (struct StStrBag*)rb_first((struct StRbNode*)tmp, BST_INORDER);
 	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
-	bag = (struct StStrbag*)rb_first((struct StRbnode*)tmp, BST_POSTORDER);
+	bag = (struct StStrBag*)rb_first((struct StRbNode*)tmp, BST_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
 	strbag_destroy(bag);
 }
 
 TEST(strbag, should_allow_negative_count)
 {
-	struct StStrbag* bag = strbag_rem(NULL, "");
+	struct StStrBag* bag = strbag_rem(NULL, "");
 
 	TEST_ASSERT_EQUAL_INT(-1, strbag_count(bag));
 	strbag_destroy(bag);
@@ -579,7 +579,7 @@ TEST(broker, should_support_single_thread_pubsub)
 		LINE("[info] broadcast 1"),
 		LINE("[info] message: new = 1, old = 7"),
 		LINE("[info] message: new = 7, old = -91")};
-	struct StStrq* q = single_thread_pubsub();
+	struct StStrQ* q = single_thread_pubsub();
 	const char* tmp = NULL;
 
 	for (int i = 0; i < ARRAY_SIZE(expected); i++) {
@@ -592,8 +592,8 @@ TEST(broker, should_support_single_thread_pubsub)
 
 TEST(broker, should_support_multi_thread_pubsub)
 {
-	struct StStrbag* actual = multi_thread_pubsub();
-	struct StStrbag* expected = NULL;
+	struct StStrBag* actual = multi_thread_pubsub();
+	struct StStrBag* expected = NULL;
 
 	expected = strbag_ins(expected, "[info] message: new = -3, old = 0\n");
 	expected =

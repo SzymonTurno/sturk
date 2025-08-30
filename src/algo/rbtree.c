@@ -38,46 +38,46 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define COLOR_MASK ((intptr_t)BIT(0))
 
-static void paint_red(struct StRbnode* node)
+static void paint_red(struct StRbNode* node)
 {
 	graph_datap(node)->parcol |= COLOR_MASK;
 }
 
-static void paint_black(struct StRbnode* node)
+static void paint_black(struct StRbNode* node)
 {
 	graph_datap(node)->parcol &= ~COLOR_MASK;
 }
 
-static int painted_red(struct StRbnode* node)
+static int painted_red(struct StRbNode* node)
 {
 	return (node && (graph_datap(node)->parcol & COLOR_MASK));
 }
 
-static void set_parent(struct StRbnode* node, struct StRbnode* parent)
+static void set_parent(struct StRbNode* node, struct StRbNode* parent)
 {
 	graph_datap(node)->parcol =
 		((intptr_t)parent) | (graph_datap(node)->parcol & COLOR_MASK);
 }
 
-static struct StRbnode* get_parent(struct StRbnode* node)
+static struct StRbNode* get_parent(struct StRbNode* node)
 {
-	return (struct StRbnode*)(graph_datap(node)->parcol & ~COLOR_MASK);
+	return (struct StRbNode*)(graph_datap(node)->parcol & ~COLOR_MASK);
 }
 
-static void set_left(struct StRbnode* node, struct StRbnode* child)
+static void set_left(struct StRbNode* node, struct StRbNode* child)
 {
 	graph_2vx(node)->nbor[BST_LEFT] = graph_2vx(child);
 }
 
-static void set_right(struct StRbnode* node, struct StRbnode* child)
+static void set_right(struct StRbNode* node, struct StRbNode* child)
 {
 	graph_2vx(node)->nbor[BST_RIGHT] = graph_2vx(child);
 }
 
-static struct StRbnode* rot_left(struct StRbnode* node, struct StRbnode* root)
+static struct StRbNode* rot_left(struct StRbNode* node, struct StRbNode* root)
 {
-	struct StRbnode* p = get_parent(node);
-	struct StRbnode* y = rb_right(node);
+	struct StRbNode* p = get_parent(node);
+	struct StRbNode* y = rb_right(node);
 
 	set_right(node, rb_left(y));
 	if (rb_right(node))
@@ -96,10 +96,10 @@ static struct StRbnode* rot_left(struct StRbnode* node, struct StRbnode* root)
 	return root;
 }
 
-static struct StRbnode* rot_right(struct StRbnode* node, struct StRbnode* root)
+static struct StRbNode* rot_right(struct StRbNode* node, struct StRbNode* root)
 {
-	struct StRbnode* p = get_parent(node);
-	struct StRbnode* y = rb_left(node);
+	struct StRbNode* p = get_parent(node);
+	struct StRbNode* y = rb_left(node);
 
 	set_left(node, rb_right(y));
 	if (rb_left(node))
@@ -118,14 +118,14 @@ static struct StRbnode* rot_right(struct StRbnode* node, struct StRbnode* root)
 	return root;
 }
 
-static struct StRbnode* get_leftcorner(struct StRbnode* node)
+static struct StRbNode* get_leftcorner(struct StRbNode* node)
 {
 	return graph_4vx(vx_walk(graph_2vx(node), BST_LEFT, -1), node);
 }
 
-static struct StRbnode* get_inorderfirst(struct StRbnode* node)
+static struct StRbNode* get_inorderfirst(struct StRbNode* node)
 {
-	struct StRbnode* p = NULL;
+	struct StRbNode* p = NULL;
 
 	ENSURE_MEM(node, ERROR);
 	for (;;) {
@@ -142,9 +142,9 @@ static struct StRbnode* get_inorderfirst(struct StRbnode* node)
 	return node;
 }
 
-static struct StRbnode* get_inordersucc(struct StRbnode* node)
+static struct StRbNode* get_inordersucc(struct StRbNode* node)
 {
-	struct StRbnode* p = NULL;
+	struct StRbNode* p = NULL;
 
 	if (rb_right(node))
 		p = get_leftcorner(rb_right(node));
@@ -154,16 +154,16 @@ static struct StRbnode* get_inordersucc(struct StRbnode* node)
 	return p;
 }
 
-static struct StRbnode* get_preorderfirst(struct StRbnode* node)
+static struct StRbNode* get_preorderfirst(struct StRbNode* node)
 {
 	(void)node;
 	RAISE(WARNING, not_supported);
 	return NULL;
 }
 
-static struct StRbnode* get_preordersucc(struct StRbnode* node)
+static struct StRbNode* get_preordersucc(struct StRbNode* node)
 {
-	struct StRbnode* p = NULL;
+	struct StRbNode* p = NULL;
 
 	if (rb_left(node))
 		return rb_left(node);
@@ -176,7 +176,7 @@ static struct StRbnode* get_preordersucc(struct StRbnode* node)
 	return p ? rb_right(p) : NULL;
 }
 
-static struct StRbnode* get_postorderfirst(struct StRbnode* node)
+static struct StRbNode* get_postorderfirst(struct StRbNode* node)
 {
 	ENSURE_MEM(node, ERROR);
 	while (get_parent(node))
@@ -193,14 +193,14 @@ static struct StRbnode* get_postorderfirst(struct StRbnode* node)
 	return node;
 }
 
-static struct StRbnode* get_postordersucc(struct StRbnode* node)
+static struct StRbNode* get_postordersucc(struct StRbNode* node)
 {
 	(void)node;
 	RAISE(WARNING, not_supported);
 	return NULL;
 }
 
-struct StRbnode* st_rb_link(struct StRbnode* node, struct StRbnode* parent)
+struct StRbNode* st_rb_link(struct StRbNode* node, struct StRbNode* parent)
 {
 	ENSURE_MEM(node, ERROR);
 	paint_red(node);
@@ -210,10 +210,10 @@ struct StRbnode* st_rb_link(struct StRbnode* node, struct StRbnode* parent)
 	return node;
 }
 
-struct StRbnode* st_rb_insrebal(struct StRbnode* root, struct StRbnode* node)
+struct StRbNode* st_rb_insrebal(struct StRbNode* root, struct StRbNode* node)
 {
 	ENSURE_MEM(node, ERROR);
-	for (struct StRbnode *p = NULL, *g = NULL, *u = NULL;;) {
+	for (struct StRbNode *p = NULL, *g = NULL, *u = NULL;;) {
 		p = get_parent(node);
 		if (!painted_red(p)) {
 			/* Case 0: done. */
@@ -295,13 +295,13 @@ struct StRbnode* st_rb_insrebal(struct StRbnode* root, struct StRbnode* node)
 	return root;
 }
 
-struct StRbnode* st_rb_parent(struct StRbnode* node)
+struct StRbNode* st_rb_parent(struct StRbNode* node)
 {
 	ENSURE_MEM(node, ERROR);
 	return get_parent(node);
 }
 
-struct StRbnode* st_rb_first(struct StRbnode* node, enum StBstOrder order)
+struct StRbNode* st_rb_first(struct StRbNode* node, enum StBstOrder order)
 {
 	ENSURE_MEM(node, ERROR);
 	switch (order) {
@@ -315,7 +315,7 @@ struct StRbnode* st_rb_first(struct StRbnode* node, enum StBstOrder order)
 	return get_inorderfirst(node);
 }
 
-struct StRbnode* st_rb_next(struct StRbnode* node, enum StBstOrder order)
+struct StRbNode* st_rb_next(struct StRbNode* node, enum StBstOrder order)
 {
 	ENSURE_MEM(node, ERROR);
 	switch (order) {

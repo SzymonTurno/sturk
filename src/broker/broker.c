@@ -67,7 +67,7 @@ static void channel_destroy(StChannel* ch)
 
 static void dict_destroy(StChannel* dict)
 {
-	for (struct StRbnode *i = NULL, *p = NULL;;) {
+	for (struct StRbNode *i = NULL, *p = NULL;;) {
 		i = rb_first(&dict_cast(dict)->node, BST_POSTORDER);
 		p = rb_parent(i);
 		channel_destroy(

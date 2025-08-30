@@ -6,8 +6,8 @@
 
 extern const struct StLoadVt SAMPLE_LOAD_API[];
 
-struct StStrq* single_thread_pubsub(void);
+struct StStrQ* single_thread_pubsub(void);
 
-struct StStrbag* multi_thread_pubsub(void);
+struct StStrBag* multi_thread_pubsub(void);
 
 #endif /* PUBSUB_H */
