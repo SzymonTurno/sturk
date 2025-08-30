@@ -265,11 +265,11 @@ jobs:
         sudo apt-get install doxygen
         sudo apt-get install graphviz
     - name: Generate docs
-      run: tools/picky.sh make docs
+      run: tools/picky.sh make public
     - uses: actions/upload-artifact@v4
       with:
         name: doxygen-output
-        path: docs/
+        path: public/
 
   deploy:
     runs-on: ubuntu-latest
@@ -280,9 +280,9 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         name: doxygen-output
-        path: docs/
+        path: public/
     - name: Deploy Doxygen Docs
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: docs/html
+        publish_dir: public/html
