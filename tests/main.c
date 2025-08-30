@@ -1,5 +1,6 @@
 #include "pubsub.h"
 #include "st/os/mem.h"
+#include "sturk/arena.h"
 #include "sturk/broker.h"
 #include "sturk/cirq.h"
 #include "sturk/dict.h"
@@ -49,6 +50,8 @@ SIMPTE_GROUP(mutex, "mutex");
 SIMPTE_GROUP(semaphore, "semaphore");
 SIMPTE_GROUP(waitq, "waitq");
 SIMPTE_GROUP(pool, "pool");
+SIMPTE_GROUP(arena, "arena");
+SIMPTE_GROUP(channel, "channel");
 SIMPTE_GROUP(subscriber, "subscriber");
 SIMPTE_GROUP(broker, "broker");
 SIMPTE_GROUP(logger, "logger");
@@ -60,6 +63,7 @@ TEST(common, should_destroy_null)
 	waitq_destroy(NULL);
 	broker_destroy(NULL);
 	subscriber_destroy(NULL);
+	arena_free(NULL);
 }
 
 TEST(list, should_implement_lifo)
@@ -446,6 +450,82 @@ TEST(pool, should_return_freed_pointer)
 	pool_destroy(pool);
 }
 
+TEST(arena, should_allocate_aligned_memory)
+{
+	struct StArenaGroup g = {0};
+	StArena* arena = arena_create(&g, malloc, free);
+	void* buffs[8] = {0};
+
+	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
+		buffs[i] = ARENA_ALLOC(arena, 1 << i);
+		TEST_ASSERT_EQUAL_INT(0, ((uintptr_t)buffs[i]) % sizeof(StAlign));
+	}
+	arena_destroy(arena);
+	arena_cleanup(&g);
+}
+
+TEST(arena, should_allocate_independent_blocks)
+{
+	struct StArenaGroup g = {0};
+	StArena* arena = arena_create(&g, malloc, free);
+	void* buffs[15] = {0};
+
+	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
+		buffs[i] = ARENA_ALLOC(arena, i + 1);
+		memset(buffs[i], i + 1, i + 1);
+	}
+
+	for (int i = 0; i < ARRAY_SIZE(buffs); i++)
+		for (int j = 0; j < i + 1; j++)
+			TEST_ASSERT_EQUAL_INT(i + 1, ((char*)buffs[i])[j]);
+	arena_destroy(arena);
+	arena_cleanup(&g);
+}
+
+TEST(arena, should_allocate_freed_memory)
+{
+	struct StArenaGroup g = {0};
+	StArena* arena = arena_create(&g, malloc, free);
+	void* buff = ARENA_ALLOC(arena, 64);
+
+	memset(buff, 0xbe, 64);
+	arena_free(arena);
+	buff = ARENA_ALLOC(arena, 64);
+	for (int i = 16; i < 48; i++)
+		TEST_ASSERT_EQUAL_INT((char)0xbe, ((char*)buff)[i]);
+	arena_destroy(arena);
+	arena_cleanup(&g);
+}
+
+TEST(arena, should_return_null_for_null_arena)
+{
+	TEST_ASSERT_NULL(ARENA_ALLOC(NULL, 0));
+}
+
+TEST(arena, should_support_many_allocations)
+{
+	struct StArenaGroup g = {0};
+	StArena* arena = arena_create(&g, malloc, free);
+	struct StStrList* list = NULL;
+
+	for (int i = 0; i < 16384; i++)
+		list = strlist_ins(list, ARENA_ALLOC(arena, 128));
+
+	while (list)
+		strlist_rem(&list);
+	arena_destroy(arena);
+	arena_cleanup(&g);
+}
+
+TEST(channel, should_access_its_topic)
+{
+	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
+	StChannel* ch = broker_search(broker, "test");
+
+	TEST_ASSERT_EQUAL_STRING("test", channel_gettopic(ch));
+	broker_destroy(broker);
+}
+
 TEST(subscriber, should_receive_enqueued_message)
 {
 	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
@@ -630,7 +710,13 @@ static void run_basic_tests(void)
 	RUN_TEST_CASE(semaphore, should_not_block_if_posted);
 	RUN_TEST_CASE(waitq, should_not_block_after_insertion);
 	RUN_TEST_CASE(waitq, should_trace_dataloss);
-	RUN_TEST_CASE(pool, should_return_freed_pointer)
+	RUN_TEST_CASE(pool, should_return_freed_pointer);
+	RUN_TEST_CASE(arena, should_allocate_aligned_memory);
+	RUN_TEST_CASE(arena, should_allocate_independent_blocks);
+	RUN_TEST_CASE(arena, should_allocate_freed_memory);
+	RUN_TEST_CASE(arena, should_return_null_for_null_arena);
+	RUN_TEST_CASE(arena, should_support_many_allocations);
+	RUN_TEST_CASE(channel, should_access_its_topic);
 	RUN_TEST_CASE(subscriber, should_receive_enqueued_message);
 	RUN_TEST_CASE(subscriber, should_trace_null_param);
 	RUN_TEST_CASE(subscriber, should_unload);

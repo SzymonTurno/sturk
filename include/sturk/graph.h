@@ -59,4 +59,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see vx_graph_foredge() */
 #define graph_foredge vx_graph_foredge
 
+/** @see VX_GRAPH_EMPTY */
+#define GRAPH_EMPTY VX_GRAPH_EMPTY
+
 #endif /* STURK_GRAPH_H */

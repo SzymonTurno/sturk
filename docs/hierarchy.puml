@@ -1,4 +1,4 @@
-@startuml "Submodules hierarchy"
+@startuml "Modules hierarchy"
 
 package "Standard libraries" {
     [stdio]
@@ -6,11 +6,8 @@ package "Standard libraries" {
     [pthread]
 }
 
-package "OSAL libraries" {
-    [arena]
-}
-
 component [vertegs]
+component [basis]
 component [osal]
 component [logger]
 component [algo]
@@ -25,10 +22,10 @@ algo --> osal
 algo --> logger
 logger --> vertegs
 logger --> osal
-osal --> vertegs
+osal --> basis
 osal --> stdio
 osal --> stdlib
 osal --> pthread
-osal --> arena
+basis --> vertegs
 
 @enduml

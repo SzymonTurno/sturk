@@ -29,53 +29,36 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "sturk/logger/except.h"
-#include "sturk/logger/trace.h"
-#include "sturk/os/mem.h"
-#include "sturk/os/mutex.h"
-#include <stddef.h>
+/**
+ * @file sturk/arena.h
+ *
+ * @see st/arena.h
+ */
 
-struct StMutex {
-	int locked;
-	int recursive;
-};
+#ifndef STURK_ARENA_H
+#define STURK_ARENA_H
 
-StMutex* st_mutex_create(StBits args)
-{
-	StMutex* self = NEW(StMutex);
+#include "st/arena.h"
 
-	self->locked = 0;
-	self->recursive = args & MUTEX_TYPE_RECURSIVE;
-	return self;
-}
+/** @see ST_ARENA_ALLOC() */
+#define ARENA_ALLOC ST_ARENA_ALLOC
 
-void st_mutex_destroy(StMutex* mutex)
-{
-	st_free(mutex);
-}
+/** @see st_arena_pool() */
+#define arena_pool st_arena_pool
 
-void st_mutex_lock(StMutex* mutex)
-{
-	ENSURE(mutex, ERROR, null_param);
-	if (mutex->locked && !mutex->recursive)
-		TRACE(WARNING, "sturk",
-		      "Fake mutex does not support context switch.");
-	mutex->locked = 1;
-}
+/** @see st_arena_create() */
+#define arena_create st_arena_create
 
-bool st_mutex_trylock(StMutex* mutex)
-{
-	ENSURE(mutex, ERROR, null_param);
-	if (mutex->locked && !mutex->recursive)
-		return false;
-	mutex->locked = 1;
-	return true;
-}
+/** @see st_arena_destroy() */
+#define arena_destroy st_arena_destroy
 
-void st_mutex_unlock(StMutex* mutex)
-{
-	ENSURE(mutex, ERROR, null_param);
-	if (!mutex->locked)
-		TRACE(WARNING, "sturk", "Unlocking an already unlocked mutex.");
-	mutex->locked = 0;
-}
+/** @see st_arena_alloc() */
+#define arena_alloc st_arena_alloc
+
+/** @see st_arena_free() */
+#define arena_free st_arena_free
+
+/** @see st_arena_cleanup() */
+#define arena_cleanup st_arena_cleanup
+
+#endif /* STURK_ARENA_H */

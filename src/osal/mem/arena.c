@@ -29,53 +29,49 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "sturk/logger/except.h"
-#include "sturk/logger/trace.h"
-#include "sturk/os/mem.h"
+#include "sturk/arena.h"
+#include "st/os/mem.h"
 #include "sturk/os/mutex.h"
-#include <stddef.h>
+#include <stdlib.h>
 
-struct StMutex {
-	int locked;
-	int recursive;
-};
+static struct StArenaGroup group;
+static StArena* arena;
+static StMutex* mutex;
 
-StMutex* st_mutex_create(StBits args)
+void* st_mem_alloc(size_t size, const char* file, int line)
 {
-	StMutex* self = NEW(StMutex);
+	void* ret = NULL;
 
-	self->locked = 0;
-	self->recursive = args & MUTEX_TYPE_RECURSIVE;
-	return self;
+	if (!arena) {
+		arena = arena_create(&group, malloc, free);
+		mutex = mutex_create(ST_MUTEX_POLICY_PRIO_INHERIT);
+	}
+
+	if (mutex) {
+		mutex_lock(mutex);
+		ret = arena_alloc(arena, size, file, line);
+		mutex_unlock(mutex);
+	} else {
+		ret = arena_alloc(arena, size, file, line);
+	}
+	return ret;
 }
 
-void st_mutex_destroy(StMutex* mutex)
+void st_mem_free(void* ptr, const char* file, int line)
 {
-	st_free(mutex);
+	(void)ptr;
+	(void)file;
+	(void)line;
 }
 
-void st_mutex_lock(StMutex* mutex)
+void st_mem_cleanup(void)
 {
-	ENSURE(mutex, ERROR, null_param);
-	if (mutex->locked && !mutex->recursive)
-		TRACE(WARNING, "sturk",
-		      "Fake mutex does not support context switch.");
-	mutex->locked = 1;
-}
-
-bool st_mutex_trylock(StMutex* mutex)
-{
-	ENSURE(mutex, ERROR, null_param);
-	if (mutex->locked && !mutex->recursive)
-		return false;
-	mutex->locked = 1;
-	return true;
-}
-
-void st_mutex_unlock(StMutex* mutex)
-{
-	ENSURE(mutex, ERROR, null_param);
-	if (!mutex->locked)
-		TRACE(WARNING, "sturk", "Unlocking an already unlocked mutex.");
-	mutex->locked = 0;
+	if (mutex)
+		mutex_destroy(mutex);
+	mutex = NULL;
+	if (arena) {
+		arena_destroy(arena);
+		arena_cleanup(&group);
+	}
+	arena = NULL;
 }

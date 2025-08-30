@@ -102,4 +102,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define vx_list_rem(...) VX__LIST_REM(__VA_ARGS__, 0, )
 
+/**
+ * @def vx_list_next()
+ *
+ * @brief Get the next entry in a list.
+ *
+ * @param[in] list The list entry.
+ *
+ * @return The next entry.
+ */
+#define vx_list_next(list) vx_graph_4vx(vx_graph_2vx(list)->nbor[0], list)
+
 #endif /* VERTEGS_LIST_H */

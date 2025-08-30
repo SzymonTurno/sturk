@@ -37,9 +37,10 @@ void* st_mem_alloc(size_t size, const char* file, int line)
 {
 	void* ret = malloc(size);
 
+	/* LCOV_EXCL_START */
 	if (!ret)
-		st_except(/* LCOV_EXCL_LINE */
-		          "Memory allocation failed.", file, line);
+		st_except(st_except_alloc_fail.reason, file, line);
+	/* LCOV_EXCL_STOP */
 	return ret;
 }
 
@@ -48,4 +49,9 @@ void st_mem_free(void* ptr, const char* file, int line)
 	(void)file;
 	(void)line;
 	free(ptr);
+}
+
+void st_mem_cleanup(void)
+{
+	return;
 }

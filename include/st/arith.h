@@ -39,6 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_ARITH_H
 
 #include <stddef.h>
+#include <stdint.h>
 
 /**
  * @def ST_MAX(x, y)
@@ -96,5 +97,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	})
 
 #endif /* __STRICT_ANSI__ */
+
+/**
+ *@union StAlign
+ *
+ * Type for the biggest fundamental alignment.
+ */
+typedef union {
+	/** int i */
+	int i;
+	/** long l */
+	long l;
+	/** long long ll */
+	long long ll;
+	/** intmax_t im */
+	intmax_t im;
+	/** long* lp */
+	long* lp;
+	/** void* p */
+	void* p;
+	/** void (*fp)(void)int i */
+	void (*fp)(void);
+	/** float f */
+	float f;
+	/** double d */
+	double d;
+	/** long double ld */
+	long double ld;
+} StAlign;
 
 #endif /* ST_ARITH_H */

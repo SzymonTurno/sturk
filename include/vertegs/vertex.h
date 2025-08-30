@@ -43,16 +43,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stddef.h>
 
-#ifndef VX_EXCEPT
+#ifndef VX_ASSERT
+
+#include <assert.h>
 
 /**
- * @def VX_EXCEPT(reason, file, line)
+ * @def VX_ASSERT(cond)
  *
- * @brief Raise an exception.
+ * @brief Raise an exception if the condition is not met.
+ *
+ * @param[in] cond The condition.
  */
-#define VX_EXCEPT(reason, file, line)
+#define VX_ASSERT(cond) assert(cond)
 
-#endif /* VX_EXCEPT */
+#endif /* VX_ASSERT */
 
 /**
  * @def VX_ENSURE_MEM(ptr)
@@ -63,10 +67,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define VX_ENSURE_MEM(ptr)                                                     \
 	do {                                                                   \
-		if ((ptr) == NULL) {                                           \
-			VX_EXCEPT("Null param.", __FILE__, __LINE__);          \
+		VX_ASSERT(ptr);                                                \
+		if ((ptr) == NULL)                                             \
 			return NULL;                                           \
-		}                                                              \
 	} while (0)
 
 /**
@@ -110,11 +113,9 @@ static inline struct Vertegs* vx_4nbor(struct Vertegs** nbor)
  */
 static inline struct Vertegs* vx_walk(struct Vertegs* v, size_t edge, int len)
 {
-	struct Vertegs* p = NULL;
-
 	VX_ENSURE_MEM(v);
-	while (len-- && (p = v->nbor[edge]))
-		v = p;
+	while (len-- && v->nbor[edge])
+		v = v->nbor[edge];
 	return v;
 }
 
