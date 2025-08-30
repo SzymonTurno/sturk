@@ -9,7 +9,7 @@ is a C library that implements the publish-subscribe messaging pattern. [TOC]
 
 ## Features
 
-- User-defined message interface.
+- User-defined API for constructing messages.
 - Red-black tree for the channels dictionary.
 - Memory pools for messages and queues.
 - Logger with trace levels and exceptions.
@@ -52,8 +52,10 @@ cd /my/empty/dir
 make
 ```
 
+---
 
-## Usage
+
+## --- USAGE ---
 
 - [Message broker](src/broker/README.md)
 - [Graphs library](include/vx/README.md)

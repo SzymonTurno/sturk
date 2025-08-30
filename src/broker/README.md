@@ -1,6 +1,25 @@
 # Message broker
 
-This is an example usage of the message broker. [TOC]
+<!--![TOC]-->
+
+
+Message broker is a data type that provides messaging in a publish-subscribe manner.
+It aggregates two other data types:
+
+1. channels - in a dictionary (key-value data structure),
+2. subscribers - in a list.
+
+The key used in a channels dictionary is a character array (string) and it is called
+a *topic* or a *named channel*. Messages are published to channels and received with
+subscribers. In order for the subscriber to receive a message sent through a specific
+channel it must subscribe to a topic that corresponds to this channel.
+
+> [!note]
+> Typical publish-subscribe implementations introduce also a publisher data type. This
+> implementation does not have publishers. Publishing is done directly to a message
+> channel.
+
+Below is an example usage of the message broker.
 
 
 ## Defining API for messages
@@ -71,7 +90,7 @@ const struct StLoadVt SAMPLE_LOAD_API[] = {
 ```
 
 
-## Publish and subscribe
+## Publishing and subscribing
 
 ### Initializing a broker
 
