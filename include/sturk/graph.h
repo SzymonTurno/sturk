@@ -32,14 +32,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/graph.h
  *
- * @see vx/graph.h
+ * @see vertegs/graph.h
  */
 
 #ifndef STURK_GRAPH_H
 #define STURK_GRAPH_H
 
 #include "st/os/sys.h"
-#include "vx/graph.h"
+#include "vertegs/graph.h"
 
 /** @see VX_GRAPH() */
 #define GRAPH VX_GRAPH

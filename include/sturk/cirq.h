@@ -32,14 +32,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/cirq.h
  *
- * @see vx/cirq.h
+ * @see vertegs/cirq.h
  */
 
 #ifndef STURK_CIRQ_H
 #define STURK_CIRQ_H
 
 #include "st/os/sys.h"
-#include "vx/cirq.h"
+#include "vertegs/cirq.h"
 
 /** @see VX_CIRQ() */
 #define CIRQ VX_CIRQ

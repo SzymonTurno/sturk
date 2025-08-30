@@ -39,8 +39,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_STR_H
 
 #include "st/dict.h"
-#include "vx/cirq.h"
-#include "vx/list.h"
+#include "vertegs/cirq.h"
+#include "vertegs/list.h"
 
 /**
  * @def VX_LIST(struct StStrList, char*)
