@@ -39,7 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_WAITQ_H
 
 #include "st/os/sys.h"
-#include "vx/vertegs.h"
+#include "vertegs/vertex.h"
 
 /**
  * @var typedef struct StWaitq StWaitq

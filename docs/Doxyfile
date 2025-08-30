@@ -120,7 +120,7 @@ INPUT                  = ./README.md \
                          ./include/sturk \
                          ./include/sturk/logger \
                          ./include/sturk/os \
-                         ./include/vx \
+                         ./include/vertegs \
                          ./docs/summary.md
 
 # If the value of the INPUT tag contains directories, you can use the
