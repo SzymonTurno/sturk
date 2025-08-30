@@ -33,17 +33,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "st/os/sys.h"
 #include <stdlib.h>
 
-void* st_malloc(size_t size)
+void* st_mem_alloc(size_t size, const char* file, int line)
 {
 	void* ret = malloc(size);
 
 	if (!ret)
 		st_except(/* LCOV_EXCL_LINE */
-		          "Memory allocation failed.", __FILE__, __LINE__);
+		          "Memory allocation failed.", file, line);
 	return ret;
 }
 
-void st_free(void* ptr)
+void st_mem_free(void* ptr, const char* file, int line)
 {
+	(void)file;
+	(void)line;
 	free(ptr);
 }
