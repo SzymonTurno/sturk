@@ -29,8 +29,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "st/os/fstream.h"
 #include "osal/unistd.h"
+#include "st/os/fstream.h"
 #include <stdio.h>
 
 StFstream* st_fopen(const char* filename, const char* mode)

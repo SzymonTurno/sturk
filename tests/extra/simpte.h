@@ -2,6 +2,7 @@
 #define SIMPTE_H
 
 #include "sturk/logger/trace.h"
+#include "sturk/os/mem.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -21,6 +22,7 @@
 		       ++simpte_##group##_counter, simpte_##group##_label);    \
 		simpte_##group##_##case();                                     \
 		printf("Done\n");                                              \
+		st_mem_cleanup();                                              \
 	} while (0)
 /* clang-format on */
 
@@ -98,6 +100,7 @@
 		logger_cleanup();                                              \
 		st_fclose(simpte_stream_##group);                              \
 		st_remove("test_traces_" label ".tmp");                        \
+		st_mem_cleanup();                                              \
 	}                                                                      \
 	TEST_GROUP(group)
 

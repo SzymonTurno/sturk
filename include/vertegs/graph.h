@@ -136,4 +136,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define vx_graph_foredge(type, i, graphp, edge)                                \
 	for (type** i = graphp; *i; i = (type**)&(*i)->vx_graph_nbor[edge])
 
+/**
+ * @struct VxGraphEmpty
+ *
+ * @brief Vtable for message construction.
+ */
+struct VxGraphEmpty {
+	/**
+	 * @var struct Vertegs* vx_graph_nbor[1]
+	 *
+	 * @brief The neighbourhood of the vertex - an array of neighbours.
+	 */
+	struct Vertegs* vx_graph_nbor[1];
+};
+
+/** Empty graph - null pointer. */
+static const struct VxGraphEmpty* VX_GRAPH_EMPTY;
+
+/**
+ * @fn static inline const struct VxGraphEmpty* vx_graph_empty(void)
+ *
+ * @brief Return an empty graph.
+ *
+ * @return The empty graph.
+ */
+static inline const struct VxGraphEmpty* vx_graph_empty(void)
+{
+	return VX_GRAPH_EMPTY;
+}
+
 #endif /* VERTEGS_GRAPH_H */

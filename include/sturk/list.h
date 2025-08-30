@@ -53,4 +53,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see vx_list_rem() */
 #define list_rem vx_list_rem
 
+/** @see vx_list_next() */
+#define list_next vx_list_next
+
 #endif /* STURK_LIST_H */

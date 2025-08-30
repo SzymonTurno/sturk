@@ -4,5 +4,6 @@
   osal:
     mutex: "posix"
     sem: "posix"
+    mem: "arena"
   test:
     threads: "on"

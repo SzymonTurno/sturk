@@ -43,6 +43,44 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stddef.h>
 
 /**
+ * @struct StException
+ *
+ * @brief Exception.
+ */
+struct StException {
+	/**
+	 * @var const char* reason
+	 *
+	 * @brief The reason that caused the exception.
+	 */
+	const char* reason;
+};
+
+/** Exception: "null_param". */
+static const struct StException st_except_null_param /**/
+	= {"Null param."};
+
+/** Exception: "alloc_fail". */
+static const struct StException st_except_alloc_fail /**/
+	= {"Memory allocation failed."};
+
+/** Exception: "sem_fail". */
+static const struct StException st_except_sem_fail /**/
+	= {"Semaphore failure."};
+
+/** Exception: "mutex_fail". */
+static const struct StException st_except_mutex_fail /**/
+	= {"Mutex failure."};
+
+/** Exception: "not_supported". */
+static const struct StException st_except_not_supported /**/
+	= {"Not supported."};
+
+/** Exception: "sanity_fail". */
+static const struct StException st_except_sanity_fail /**/
+	= {"Sanity check failed."};
+
+/**
  * @fn int st_snprintf(char* buffer, size_t bufsz, const char* format, ...)
  *
  * @see snprintf()
@@ -60,6 +98,10 @@ int st_remove(const char* filename);
  * @fn void st_except(const char* reason, const char* file, int line)
  *
  * @brief Log error reason and call exit(EXIT_FAILURE).
+ *
+ * @param[in] reason The reason.
+ * @param[in] file The path to the calling source file.
+ * @param[in] line The number of the calling line of code from the source file.
  */
 void st_except(const char* reason, const char* file, int line);
 

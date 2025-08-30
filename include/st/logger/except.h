@@ -94,9 +94,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define ST_ENSURE(cond, lvl, e)                                                \
 	do {                                                                   \
-		if (!(cond)) {                                                 \
+		if (!(cond)) \
 			ST_RAISE(lvl, e);                                      \
-		}                                                              \
 	} while (0)
 
 /**
@@ -114,43 +113,5 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			return NULL;                                           \
 		}                                                              \
 	} while (0)
-
-/**
- * @struct StException
- *
- * @brief Exception.
- */
-struct StException {
-	/**
-	 * @var const char* reason
-	 *
-	 * @brief The reason that caused the exception.
-	 */
-	const char* reason;
-};
-
-/** Exception: "null_param". */
-static const struct StException st_except_null_param /**/
-	= {"Null param."};
-
-/** Exception: "alloc_fail". */
-static const struct StException st_except_alloc_fail /**/
-	= {"Memory allocation failed."};
-
-/** Exception: "sem_fail". */
-static const struct StException st_except_sem_fail /**/
-	= {"Semaphore failure."};
-
-/** Exception: "mutex_fail". */
-static const struct StException st_except_mutex_fail /**/
-	= {"Mutex failure."};
-
-/** Exception: "not_supported". */
-static const struct StException st_except_not_supported /**/
-	= {"Not supported."};
-
-/** Exception: "sanity_fail". */
-static const struct StException st_except_sanity_fail /**/
-	= {"Sanity check failed."};
 
 #endif /* ST_LOGGER_EXCEPT_H */

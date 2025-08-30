@@ -32,7 +32,6 @@ def join(olvars):
     olvars.append('sturk_CFLAGS', '-Wstrict-prototypes')
     olvars.append('sturk_CFLAGS', '-Wswitch-default')
     olvars.append('sturk_CFLAGS', '-Wwrite-strings')
-    olvars.append('sturk_CFLAGS', '-DVX_EXCEPT=st_except')
     olvars.append('sturk_DIR', os.path.join(olvars.acwd()))
     olvars.append('sturk_BLDDIR', os.path.join(olvars.cwd()))
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd()))
@@ -57,6 +56,7 @@ def join(olvars):
         olvars.fail('Unknown build type: ' + settings['build_type'] + '.')
 
     olvars.include('algo')
+    olvars.include('basis')
     olvars.include('broker')
     olvars.include('logger')
     olvars.include('osal')

@@ -71,34 +71,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_NEW(...) ST__NEW(__VA_ARGS__, 1, )
 
 /**
- *@union StAlign
- *
- * Type for the biggest fundamental alignment.
- */
-typedef union {
-	/** int i */
-	int i;
-	/** long l */
-	long l;
-	/** long long ll */
-	long long ll;
-	/** intmax_t im */
-	intmax_t im;
-	/** long* lp */
-	long* lp;
-	/** void* p */
-	void* p;
-	/** void (*fp)(void)int i */
-	void (*fp)(void);
-	/** float f */
-	float f;
-	/** double d */
-	double d;
-	/** long double ld */
-	long double ld;
-} StAlign;
-
-/**
  * @fn st_mem_alloc(size_t size, const char* file, int line)
  *
  * @brief Allocate a contiguous memory region and optionally log a message on failure.
@@ -121,5 +93,22 @@ void* st_mem_alloc(size_t size, const char* file, int line);
  * @param[in] line The line number (for logging).
  */
 void st_mem_free(void* ptr, const char* file, int line);
+
+/*
+ * @fn void st_mem_expand(void* buff, size_t size)
+ *
+ * @brief Add a buffer to the free memory.
+ *
+ * @param[in] buff The buffer.
+ * @param[in] size The size of the buffer in bytes.
+ */
+/* void st_mem_expand(void* buff, size_t size); */
+
+/**
+ * @fn void st_mem_cleanup(void)
+ *
+ * @brief If supported, free all the memory allocated with the system allocator.
+ */
+void st_mem_cleanup(void);
 
 #endif /* ST_OS_MEM_H */

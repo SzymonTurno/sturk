@@ -55,18 +55,19 @@ See [Buildsystem](#buildsystem).
 
 ## Architecture
 
-| Submodule                            | Description                                |
+| Module                               | Provides                                   |
 | ------------------------------------ | ------------------------------------------ |
-| [broker](src/broker/README.md)       | publish-subscribe data types               |
-| algo                                 | memory pool, waiting queue, red-black tree |
-| logger                               | -                                          |
-| osal                                 | -                                          |
+| [broker](src/broker/README.md)       | publish-subscribe utility                  |
+| algo                                 | memory pool; waiting queue; red-black tree |
+| logger                               | logging to stdout/stderr/file              |
+| osal                                 | memory allocator; filesystem; thread sync. |
+| basis                                | arena                                      |
 | [vertegs](include/vertegs/README.md) | subroutines for operating on graphs        |
 
 
 | ![](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/feat/arena-allocator/docs/hierarchy.puml) |
-| :------------------: |
-| Submodules hierarchy |
+| :---------------: |
+| Modules hierarchy |
 
 
 ## Buildsystem<!--!{#buildsystem}!-->
