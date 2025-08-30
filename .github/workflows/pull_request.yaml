@@ -1,13 +1,8 @@
-name: CI/CD
+name: Pull request
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-permissions:
-  contents: write
 
 jobs:
   build-default-on-unix:
@@ -266,23 +261,3 @@ jobs:
         sudo apt-get install graphviz
     - name: Generate docs
       run: tools/picky.sh make public
-    - uses: actions/upload-artifact@v4
-      with:
-        name: doxygen-output
-        path: public/
-
-  deploy:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    needs: ready-for-merge
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/download-artifact@v4
-      with:
-        name: doxygen-output
-        path: public/
-    - name: Deploy Doxygen Docs
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: public/html
