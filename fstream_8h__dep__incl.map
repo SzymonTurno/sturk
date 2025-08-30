@@ -1,0 +1,28 @@
+<map id="include/st/os/fstream.h" name="include/st/os/fstream.h">
+<area shape="rect" id="Node000001" title="File stream." alt="" coords="139,5,309,31"/>
+<area shape="rect" id="Node000002" href="$logger_2streambag_8h.html" title="Bag of streams." alt="" coords="5,79,221,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,40,133,81,130,76,193,36"/>
+<area shape="rect" id="Node000004" href="$logger_2trace_8h.html" title="Trace." alt="" coords="245,79,424,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="255,36,318,76,315,81,252,40"/>
+<area shape="rect" id="Node000003" href="$rk_2logger_2streambag_8h.html" title=" " alt="" coords="38,152,189,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="116,118,116,152,111,152,111,118"/>
+<area shape="rect" id="Node000005" href="$logger_2except_8h.html" title="Exceptions." alt="" coords="226,159,417,185"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="333,118,326,160,321,159,328,117"/>
+<area shape="rect" id="Node000013" href="$rk_2logger_2trace_8h.html" title=" " alt="" coords="441,152,591,192"/>
+<area shape="poly" id="edge13_Node000004_Node000013" title=" " alt="" coords="375,107,473,149,471,154,372,112"/>
+<area shape="rect" id="Node000006" href="$st_2dict_8h.html" title="Dictionary." alt="" coords="151,328,276,353"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="292,194,265,215,242,241,231,264,224,287,217,328,212,327,218,286,226,262,238,239,261,211,288,190"/>
+<area shape="rect" id="Node000010" href="$st_2rbtree_8h.html" title="Red&#45;black tree." alt="" coords="251,247,391,273"/>
+<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="324,199,324,247,319,247,319,199"/>
+<area shape="rect" id="Node000012" href="$rk_2logger_2except_8h.html" title=" " alt="" coords="415,240,566,280"/>
+<area shape="poly" id="edge12_Node000005_Node000012" title=" " alt="" coords="357,189,455,237,452,242,355,193"/>
+<area shape="rect" id="Node000007" href="$st_2str_8h.html" title="String utilities." alt="" coords="77,401,195,427"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="193,365,150,403,147,399,189,361"/>
+<area shape="rect" id="Node000009" href="$sturk_2dict_8h.html" title=" " alt="" coords="219,401,365,427"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="238,361,281,399,277,403,234,365"/>
+<area shape="rect" id="Node000008" href="$sturk_2str_8h.html" title=" " alt="" coords="67,475,205,500"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="139,440,139,475,133,475,133,440"/>
+<area shape="poly" id="edge10_Node000010_Node000006" title=" " alt="" coords="296,283,231,330,228,326,293,279"/>
+<area shape="rect" id="Node000011" href="$sturk_2rbtree_8h.html" title=" " alt="" coords="301,328,462,353"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="341,282,375,326,370,329,337,285"/>
+</map>
