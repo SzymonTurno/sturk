@@ -1,3 +1,9 @@
+/*
+ * File included as an example in the documentation.
+ *
+ * Note, line numbering in this file must be coherent with the documentation.
+ */
+
 #include "pubsub.h"
 #include <stdio.h>
 #include <stdlib.h>

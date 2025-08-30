@@ -119,6 +119,7 @@ EXTRACT_STATIC         = YES
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = README.md \
+                         src/broker/README.md \
                          include/st \
                          include/st/logger \
 			 include/st/os \
@@ -151,7 +152,7 @@ FILE_PATTERNS          = *.md *.h
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           = samples
+EXAMPLE_PATH           = samples, tests
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
