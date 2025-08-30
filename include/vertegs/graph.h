@@ -30,15 +30,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file vx/graph.h
+ * @file vertegs/graph.h
  *
  * @brief Graph.
  */
 
-#ifndef VX_GRAPH_H
-#define VX_GRAPH_H
+#ifndef VERTEGS_GRAPH_H
+#define VERTEGS_GRAPH_H
 
-#include "vx/vertegs.h"
+#include "vertegs/vertex.h"
 
 #ifdef __STRICT_ANSI__
 
@@ -136,4 +136,4 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define vx_graph_foredge(type, i, graphp, edge)                                \
 	for (type** i = graphp; *i; i = (type**)&(*i)->vx_graph_nbor[edge])
 
-#endif /* VX_GRAPH_H */
+#endif /* VERTEGS_GRAPH_H */

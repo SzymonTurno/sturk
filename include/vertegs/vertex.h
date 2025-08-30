@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file vx/vertegs.h
+ * @file vertegs/vertex.h
  *
  * @brief Vertex.
  *
@@ -38,8 +38,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * operate on graph vertices.
  */
 
-#ifndef VERTEGS_H
-#define VERTEGS_H
+#ifndef VERTEGS_VERTEX_H
+#define VERTEGS_VERTEX_H
 
 #include <stddef.h>
 
@@ -232,4 +232,4 @@ static inline struct Vertegs* vx_remcirq(struct Vertegs** cirqp, int pos)
 	return ret;
 }
 
-#endif /* VERTEGS_H */
+#endif /* VERTEGS_VERTEX_H */

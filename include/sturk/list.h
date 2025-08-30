@@ -32,14 +32,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/list.h
  *
- * @see vx/list.h
+ * @see vertegs/list.h
  */
 
 #ifndef STURK_LIST_H
 #define STURK_LIST_H
 
 #include "st/os/sys.h"
-#include "vx/list.h"
+#include "vertegs/list.h"
 
 /** @see VX_LIST() */
 #define LIST VX_LIST
