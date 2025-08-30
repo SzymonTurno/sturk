@@ -23,9 +23,10 @@ def join(olvars):
     olvars.append('sturk_BLDDIRS', olvars.cwd())
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd(), 'none'))
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd(), 'posix'))
+    olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd(), 'mem'))
     olvars.append(
         'sturk_OBJS',
-        os.path.join(olvars.cwd(), settings['osal']['mem'], 'mem.o'))
+        os.path.join(olvars.cwd(), 'mem', settings['osal']['mem'] + '.o'))
     olvars.append(
         'sturk_OBJS',
         os.path.join(olvars.cwd(), settings['osal']['mutex'], 'mutex.o'))

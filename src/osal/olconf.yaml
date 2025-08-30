@@ -1,6 +1,6 @@
 ---
   osal:
-    mem: "none"
+    mem: "std"
     mutex: "none"
     sem: "none"
     sys: "none"
