@@ -40,8 +40,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stddef.h>
 
+/**
+ * @def st_alloc(size)
+ *
+ * @see st_mem_alloc()
+ */
+#define st_alloc(size) st_mem_alloc((size), __FILE__, __LINE__)
+
+/**
+ * @def st_free(size)
+ *
+ * @see st_mem_free()
+ */
+#define st_free(ptr) st_mem_free((ptr), __FILE__, __LINE__)
+
 /* @cond */
-#define ST__NEW(type, n, ...) ((type*)st_malloc(sizeof(type) * n))
+#define ST__NEW(type, n, ...) ((type*)st_alloc(sizeof(type) * n))
 /* @endcond */
 
 /**
@@ -56,17 +70,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_NEW(...) ST__NEW(__VA_ARGS__, 1, )
 
 /**
- * @fn void* st_malloc(size_t size)
+ * @fn st_mem_alloc(size_t size, const char* file, int line)
  *
- * @see malloc()
+ * @brief Allocate a contiguous memory region and optionally log a message on failure.
+ *
+ * @param[in] size The number of bytes to allocate.
+ * @param[in] file The path to the file (for logging).
+ * @param[in] line The line number (for logging).
+ *
+ * @return The pointer to the allocated memory region.
  */
-void* st_malloc(size_t size);
+void* st_mem_alloc(size_t size, const char* file, int line);
 
 /**
- * @fn void st_free(void* ptr)
+ * @fn void st_mem_free(void* ptr, const char* file, int line)
  *
- * @see free()
+ * @brief Free a contiguous memory region and optionally log a message on failure.
+ *
+ * @param[in] ptr The pointer to the memory region.
+ * @param[in] file The path to the file (for logging).
+ * @param[in] line The line number (for logging).
  */
-void st_free(void* ptr);
+void st_mem_free(void* ptr, const char* file, int line);
 
 #endif /* ST_OS_MEM_H */
