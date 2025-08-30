@@ -37,28 +37,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/rbtree.h"
 #include <string.h>
 
-static struct StRbnode* rbnode_4nbor(struct Vertegs** nbor)
+static struct StRbNode* rbnode_4nbor(struct Vertegs** nbor)
 {
-	struct StRbnode* ptr = NULL;
+	struct StRbNode* ptr = NULL;
 
 	ENSURE(nbor, ERROR, sanity_fail);
 	ptr = graph_4vx(vx_4nbor(nbor), ptr);
 	return ptr;
 }
 
-static struct StDictnode* rbnode_2dictnode(struct StRbnode* ptr)
+static struct StDictNode* rbnode_2dictnode(struct StRbNode* ptr)
 {
-	return container_of(ptr, struct StDictnode, node);
+	return container_of(ptr, struct StDictNode, node);
 }
 
-static struct StDictnode* dictnode_4nbor(struct Vertegs** nbor)
+static struct StDictNode* dictnode_4nbor(struct Vertegs** nbor)
 {
 	ENSURE(nbor, ERROR, sanity_fail);
 	return rbnode_2dictnode(rbnode_4nbor(nbor));
 }
 
-struct StDictnode*
-st_dictnode_ins(struct StDictnode* root, struct StDictnode* node)
+struct StDictNode*
+st_dictnode_ins(struct StDictNode* root, struct StDictNode* node)
 {
 	struct Vertegs* nbor[] = {root ? graph_2vx(&root->node) : NULL};
 	struct Vertegs** p = nbor;
@@ -79,7 +79,7 @@ st_dictnode_ins(struct StDictnode* root, struct StDictnode* node)
 		rb_insrebal(graph_4vx(nbor[0], &node->node), &node->node));
 }
 
-struct StDictnode* st_dictnode_find(struct StDictnode* root, const char* str)
+struct StDictNode* st_dictnode_find(struct StDictNode* root, const char* str)
 {
 	int tmp = 0;
 

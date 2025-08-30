@@ -73,7 +73,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef __STRICT_ANSI__
 
-#define st_dict_cast(dict) ((struct StDictnode*)(dict))
+#define st_dict_cast(dict) ((struct StDictNode*)(dict))
 
 #define st_dict_setk(dict, key) ((dict)->dictnode.str = (key))
 
@@ -98,11 +98,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @def st_dict_cast(dict)
  *
- * @brief Get the pointer to the StDictnode member of the dictionary entry.
+ * @brief Get the pointer to the StDictNode member of the dictionary entry.
  *
  * @param[in] dict The dictionary entry.
  *
- * @return A pointer to the StDictnode.
+ * @return A pointer to the StDictNode.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
@@ -276,22 +276,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_DICT(name, type)                                                    \
 	name                                                                   \
 	{                                                                      \
-		struct StDictnode dictnode;                                    \
+		struct StDictNode dictnode;                                    \
 		type data;                                                     \
 	}
 
 /**
- * @struct StDictnode
+ * @struct StDictNode
  *
  * @brief Dictionary node.
  */
-struct StDictnode {
+struct StDictNode {
 	/**
-	 * @var struct StRbnode node
+	 * @var struct StRbNode node
 	 *
 	 * @brief The red-black tree node.
 	 */
-	struct StRbnode node;
+	struct StRbNode node;
 
 	/**
 	 * @var char* str
@@ -302,7 +302,7 @@ struct StDictnode {
 };
 
 /**
- * @fn struct StDictnode* st_dictnode_ins(struct StDictnode* root, struct StDictnode* entry)
+ * @fn struct StDictNode* st_dictnode_ins(struct StDictNode* root, struct StDictNode* entry)
  *
  * @brief Insert an entry into the dictionary.
  *
@@ -311,11 +311,11 @@ struct StDictnode {
  *
  * @return The new entry.
  */
-struct StDictnode*
-st_dictnode_ins(struct StDictnode* root, struct StDictnode* entry);
+struct StDictNode*
+st_dictnode_ins(struct StDictNode* root, struct StDictNode* entry);
 
 /**
- * @fn struct StDictnode* st_dictnode_find(struct StDictnode* root, const char* str)
+ * @fn struct StDictNode* st_dictnode_find(struct StDictNode* root, const char* str)
  *
  * @brief In a dictionary, find the entry with the given key.
  *
@@ -324,20 +324,20 @@ st_dictnode_ins(struct StDictnode* root, struct StDictnode* entry);
  *
  * @return The found entry or NULL if none found.
  */
-struct StDictnode* st_dictnode_find(struct StDictnode* root, const char* str);
+struct StDictNode* st_dictnode_find(struct StDictNode* root, const char* str);
 
 /**
- * @fn static inline struct StDictnode* st_dictnode_from(struct StRbnode* ptr)
+ * @fn static inline struct StDictNode* st_dictnode_from(struct StRbNode* ptr)
  *
- * @brief Cast a StRbnode member out to the containing StDictnode structure.
+ * @brief Cast a StRbNode member out to the containing StDictNode structure.
  *
- * @param[in] ptr The pointer to the StRbnode member.
+ * @param[in] ptr The pointer to the StRbNode member.
  *
- * @return A pointer to the StDictnode structure.
+ * @return A pointer to the StDictNode structure.
  */
-static inline struct StDictnode* st_dictnode_from(struct StRbnode* ptr)
+static inline struct StDictNode* st_dictnode_from(struct StRbNode* ptr)
 {
-	return st_container_of(ptr, struct StDictnode, node);
+	return st_container_of(ptr, struct StDictNode, node);
 }
 
 #endif /* ST_DICT_H */

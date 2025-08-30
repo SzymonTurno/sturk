@@ -41,34 +41,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/rbtree.h"
 #include <string.h>
 
-static struct StStrbag* bag_create(const char* str)
+static struct StStrBag* bag_create(const char* str)
 {
-	struct StStrbag* self = NEW(struct StStrbag);
+	struct StStrBag* self = NEW(struct StStrBag);
 
 	dict_setk(self, newstr(str));
 	dict_datap(self)->n = 0;
 	return self;
 }
 
-static void bag_destroy(struct StStrbag* bag)
+static void bag_destroy(struct StStrBag* bag)
 {
 	st_free(dict_getk(bag));
 	dict_setk(bag, NULL);
 	st_free(bag);
 }
 
-static struct StStrbag* bag_root(struct StStrbag* bag)
+static struct StStrBag* bag_root(struct StStrBag* bag)
 {
-	struct StRbnode* i = &dict_cast(bag)->node;
+	struct StRbNode* i = &dict_cast(bag)->node;
 
 	while (st_rb_parent(i))
 		i = st_rb_parent(i);
-	return container_of(dictnode_from(i), struct StStrbag, dictnode);
+	return container_of(dictnode_from(i), struct StStrBag, dictnode);
 }
 
-struct StStrlist* st_strlist_ins(struct StStrlist* list, char* str)
+struct StStrList* st_strlist_ins(struct StStrList* list, char* str)
 {
-	struct StStrlist* self = NEW(struct StStrlist);
+	struct StStrList* self = NEW(struct StStrList);
 
 	ENSURE_MEM(self, ERROR);
 	*graph_datap(self) = str;
@@ -80,9 +80,9 @@ char* st_newstr(const char* str)
 	return strcpy(NEW(char, strlen(str) + 1), str);
 }
 
-char* st_strlist_rem(struct StStrlist** listp)
+char* st_strlist_rem(struct StStrList** listp)
 {
-	struct StStrlist* tmp = NULL;
+	struct StStrList* tmp = NULL;
 	char* ret = NULL;
 
 	ENSURE_MEM(listp, ERROR);
@@ -92,18 +92,18 @@ char* st_strlist_rem(struct StStrlist** listp)
 	return ret;
 }
 
-struct StStrq* st_strq_ins(struct StStrq* q, char* str)
+struct StStrQ* st_strq_ins(struct StStrQ* q, char* str)
 {
-	struct StStrq* self = NEW(struct StStrq);
+	struct StStrQ* self = NEW(struct StStrQ);
 
 	ENSURE_MEM(self, ERROR);
 	*graph_datap(self) = str;
 	return cirq_ins(q, self);
 }
 
-char* st_strq_rem(struct StStrq** qp)
+char* st_strq_rem(struct StStrQ** qp)
 {
-	struct StStrq* tmp = NULL;
+	struct StStrQ* tmp = NULL;
 	char* ret = NULL;
 
 	ENSURE_MEM(qp, ERROR);
@@ -114,9 +114,9 @@ char* st_strq_rem(struct StStrq** qp)
 	return ret;
 }
 
-struct StStrbag* st_strbag_ins(struct StStrbag* bag, const char* str)
+struct StStrBag* st_strbag_ins(struct StStrBag* bag, const char* str)
 {
-	struct StStrbag* p = dict_find(bag, str);
+	struct StStrBag* p = dict_find(bag, str);
 
 	if (!p) {
 		p = bag_create(str);
@@ -126,9 +126,9 @@ struct StStrbag* st_strbag_ins(struct StStrbag* bag, const char* str)
 	return bag;
 }
 
-struct StStrbag* st_strbag_rem(struct StStrbag* bag, const char* str)
+struct StStrBag* st_strbag_rem(struct StStrBag* bag, const char* str)
 {
-	struct StStrbag* p = dict_find(bag, str);
+	struct StStrBag* p = dict_find(bag, str);
 
 	if (!p) {
 		p = bag_create(str);
@@ -138,21 +138,21 @@ struct StStrbag* st_strbag_rem(struct StStrbag* bag, const char* str)
 	return bag;
 }
 
-int st_strbag_count(const struct StStrbag* bag)
+int st_strbag_count(const struct StStrBag* bag)
 {
 	return bag ? dict_datap(bag)->n : 0;
 }
 
-void st_strbag_destroy(struct StStrbag* bag)
+void st_strbag_destroy(struct StStrBag* bag)
 {
 	if (!bag)
 		return;
 	bag = bag_root(bag);
-	for (struct StRbnode *i = NULL, *p = NULL;;) {
+	for (struct StRbNode *i = NULL, *p = NULL;;) {
 		i = rb_first(&dict_cast(bag)->node, BST_POSTORDER);
 		p = rb_parent(i);
 		bag_destroy(container_of(
-			dictnode_from(i), struct StStrbag, dictnode));
+			dictnode_from(i), struct StStrBag, dictnode));
 		if (!p)
 			break;
 

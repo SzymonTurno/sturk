@@ -66,18 +66,18 @@ enum StBstChild {
 
 /* clang-format off */
 /**
- * @def VX_GRAPH(struct StRbnode, ST_BST_N_CHILDREN, union {intptr_t parcol; int32_t align;})
+ * @def VX_GRAPH(struct StRbNode, ST_BST_N_CHILDREN, union {intptr_t parcol; int32_t align;})
  *
  * @struct StRbNode
  *
  * @brief Node of a red-black tree.
  */
-VX_GRAPH(struct StRbnode, ST_BST_N_CHILDREN, union {intptr_t parcol; int32_t align;});
-/**< This is a macro definition of the struct StRbnode type. */
+VX_GRAPH(struct StRbNode, ST_BST_N_CHILDREN, union {intptr_t parcol; int32_t align;});
+/**< This is a macro definition of the struct StRbNode type. */
 /* clang-format on */
 
 /**
- * @fn static inline struct StRbnode* st_rb_left(struct StRbnode* node)
+ * @fn static inline struct StRbNode* st_rb_left(struct StRbNode* node)
  *
  * @brief Get the left child of the given node.
  *
@@ -85,14 +85,14 @@ VX_GRAPH(struct StRbnode, ST_BST_N_CHILDREN, union {intptr_t parcol; int32_t ali
  *
  * @return The left child.
  */
-static inline struct StRbnode* st_rb_left(struct StRbnode* node)
+static inline struct StRbNode* st_rb_left(struct StRbNode* node)
 {
 	ST_ENSURE_MEM(node, ST_ERROR);
 	return vx_graph_4vx(vx_graph_2vx(node)->nbor[ST_BST_LEFT], node);
 }
 
 /**
- * @fn static inline struct StRbnode* st_rb_right(struct StRbnode* node)
+ * @fn static inline struct StRbNode* st_rb_right(struct StRbNode* node)
  *
  * @brief Get the right child of the given node.
  *
@@ -100,14 +100,14 @@ static inline struct StRbnode* st_rb_left(struct StRbnode* node)
  *
  * @return The right child.
  */
-static inline struct StRbnode* st_rb_right(struct StRbnode* node)
+static inline struct StRbNode* st_rb_right(struct StRbNode* node)
 {
 	ST_ENSURE_MEM(node, ST_ERROR);
 	return vx_graph_4vx(vx_graph_2vx(node)->nbor[ST_BST_RIGHT], node);
 }
 
 /**
- * @fn struct StRbnode* st_rb_link(struct StRbnode* node, struct StRbnode* parent)
+ * @fn struct StRbNode* st_rb_link(struct StRbNode* node, struct StRbNode* parent)
  *
  * @brief Prepare a node for insertion in a red-black tree.
  *
@@ -121,10 +121,10 @@ static inline struct StRbnode* st_rb_right(struct StRbnode* node)
  *
  * @return The prepared node.
  */
-struct StRbnode* st_rb_link(struct StRbnode* node, struct StRbnode* parent);
+struct StRbNode* st_rb_link(struct StRbNode* node, struct StRbNode* parent);
 
 /**
- * @fn struct StRbnode* st_rb_insrebal(struct StRbnode* root, struct StRbnode* node)
+ * @fn struct StRbNode* st_rb_insrebal(struct StRbNode* root, struct StRbNode* node)
  *
  * @brief Insert a node in a red-black tree and rebalance the tree.
  *
@@ -136,10 +136,10 @@ struct StRbnode* st_rb_link(struct StRbnode* node, struct StRbnode* parent);
  * @note Prepare @a node with st_rb_link() before insertion.
  * @see st_rb_link().
  */
-struct StRbnode* st_rb_insrebal(struct StRbnode* root, struct StRbnode* node);
+struct StRbNode* st_rb_insrebal(struct StRbNode* root, struct StRbNode* node);
 
 /**
- * @fn struct StRbnode* st_rb_parent(struct StRbnode* node)
+ * @fn struct StRbNode* st_rb_parent(struct StRbNode* node)
  *
  * @brief Get the parent of the red-black tree node.
  *
@@ -147,10 +147,10 @@ struct StRbnode* st_rb_insrebal(struct StRbnode* root, struct StRbnode* node);
  *
  * @return The parent.
  */
-struct StRbnode* st_rb_parent(struct StRbnode* node);
+struct StRbNode* st_rb_parent(struct StRbNode* node);
 
 /**
- * @fn struct StRbnode* st_rb_first(struct StRbnode* node, enum StBstOrder order)
+ * @fn struct StRbNode* st_rb_first(struct StRbNode* node, enum StBstOrder order)
  *
  * @brief Get the first node of the red-black tree for the given BST order.
  *
@@ -159,10 +159,10 @@ struct StRbnode* st_rb_parent(struct StRbnode* node);
  *
  * @return The first node.
  */
-struct StRbnode* st_rb_first(struct StRbnode* node, enum StBstOrder order);
+struct StRbNode* st_rb_first(struct StRbNode* node, enum StBstOrder order);
 
 /**
- * @fn struct StRbnode* st_rb_next(struct StRbnode* node, enum StBstOrder order)
+ * @fn struct StRbNode* st_rb_next(struct StRbNode* node, enum StBstOrder order)
  *
  * @brief Get the next node for the current red-black tree node and the BST order.
  *
@@ -171,6 +171,6 @@ struct StRbnode* st_rb_first(struct StRbnode* node, enum StBstOrder order);
  *
  * @return The next node.
  */
-struct StRbnode* st_rb_next(struct StRbnode* node, enum StBstOrder order);
+struct StRbNode* st_rb_next(struct StRbNode* node, enum StBstOrder order);
 
 #endif /* ST_RBTREE_H */

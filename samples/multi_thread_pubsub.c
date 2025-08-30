@@ -163,9 +163,9 @@ static void app(void)
 	broker_destroy(broker);
 }
 
-struct StStrbag* multi_thread_pubsub(void)
+struct StStrBag* multi_thread_pubsub(void)
 {
-	struct StStrbag* ret = NULL;
+	struct StStrBag* ret = NULL;
 	struct StFstream* stream = st_fopen("multi_thread_pubsub.tmp", "w+");
 	char* buff = NEW(char, 256);
 
