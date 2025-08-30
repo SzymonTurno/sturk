@@ -77,7 +77,7 @@ void* st_pool_alloc(StPool* pool)
 	if (pool->list)
 		ret = list_rem(&pool->list);
 	mutex_unlock(pool->mutex);
-	return ret ? ret : st_malloc(pool->blk_size);
+	return ret ? ret : st_alloc(pool->blk_size);
 }
 
 void* st_pool_tryalloc(StPool* pool)
