@@ -1,28 +1,8 @@
+#include "simpte.h"
 #include "sturk/cirq.h"
 #include "sturk/graph.h"
-#include <assert.h>
-#include <stdio.h>
 
-#define TEST(group, case) static void test_##group##_##case (void)
-
-#define SIMPLE_TEST_GROUP(group, label)                                        \
-	static int test_##group##_counter;                                     \
-	static const char* test_##group##_label = label
-
-/* clang-format off */
-#define RUN_TEST_CASE(group, case)                                             \
-	do {                                                                   \
-		printf(".\nRunning test case %d for: %s.\n",                   \
-		       ++test_##group##_counter, test_##group##_label);        \
-		test_##group##_##case();                                       \
-		printf("Done\n");                                              \
-	} while (0)
-/* clang-format on */
-
-#define TEST_ASSERT_EQUAL_PTR(expected, actual)                                \
-	assert((void*)(expected) == (void*)(actual))
-
-SIMPLE_TEST_GROUP(vertegs, "vertegs");
+SIMPTE_GROUP(vertegs, "vertegs");
 
 TEST(vertegs, should_implement_cirq)
 {
