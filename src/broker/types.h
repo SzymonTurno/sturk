@@ -42,8 +42,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 LIST(struct SubscriberList, StSubscriber*);
 
-CIRQ(struct Qentry, struct Message*);
-
 struct ChannelData {
 	StBroker* broker;
 	struct SubscriberList* list;
@@ -65,21 +63,27 @@ struct StBroker {
 	} channels;
 };
 
-struct Message {
-	StChannel* channel;
-	StMutex* mutex;
-	union {
-		int n_pending;
-		void* align;
-	} u;
+union Message {
+	StAlign align;
+	struct {
+		StChannel* channel;
+		StMutex* mutex;
+		union {
+			int n_pending;
+			void* align;
+		} u;
+		void* padding;
+	} s;
 };
+
+CIRQ(struct Qentry, union Message*);
 
 LIST(struct ChannelList, StChannel*);
 
 struct StSubscriber {
 	StBroker* broker;
 	StWaitQ* q;
-	struct Message* msg;
+	union Message* msg;
 	struct ChannelList* list;
 };
 

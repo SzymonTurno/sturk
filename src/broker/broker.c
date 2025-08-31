@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/rbtree.h"
 #include "sturk/str.h"
 
-#define MSG_SIZE sizeof(struct Message)
+#define MSG_SIZE sizeof(union Message)
 
 static StChannel* channel_create(StBroker* broker, const char* topic)
 {
@@ -98,7 +98,7 @@ static struct SubscriberList* slist_create(struct StSubscriber* sber)
 	return self;
 }
 
-static void ins_msg(StSubscriber* sber, struct Message* msg)
+static void ins_msg(StSubscriber* sber, union Message* msg)
 {
 	struct Qentry* entry = pool_alloc(sber->broker->sbers.pool);
 
@@ -112,7 +112,7 @@ static void ins_msg(StSubscriber* sber, struct Message* msg)
 	waitq_ins(sber->q, graph_2vx(entry));
 }
 
-static void notify(struct ChannelData* data, struct Message* msg)
+static void notify(struct ChannelData* data, union Message* msg)
 {
 	int n = 0;
 
@@ -278,13 +278,13 @@ const char* st_channel_gettopic(const StChannel* ch)
 
 void st_publish(StChannel* ch, ...)
 {
-	struct Message* msg = NULL;
+	union Message* msg = NULL;
 	va_list args;
 
 	va_start(args, ch);
 	msg = msg_create(dict_datap(ch)->broker, args);
 	va_end(args);
-	msg->channel = ch;
+	msg->s.channel = ch;
 	notify(dict_datap(ch), msg);
 }
 
@@ -307,5 +307,5 @@ void st_subscribe(StSubscriber* sber, const char* topic)
 
 StChannel* st_load_getchan(const StLoad* load)
 {
-	return load ? msg_4load(load)->channel : NULL;
+	return load ? msg_4load(load)->s.channel : NULL;
 }
