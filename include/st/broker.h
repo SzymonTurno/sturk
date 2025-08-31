@@ -89,9 +89,6 @@ struct StLoadVt {
 	 * @brief Callback for obtaining the size of the load.
 	 *
 	 * Should return the size of the load in bytes.
-	 *
-	 * @note It is called only once - when creating the broker with
-	 * st_broker_create().
 	 */
 	size_t (*size)(void);
 

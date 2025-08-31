@@ -37,11 +37,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
 
-LIST(union FreeList, void*);
-
 struct StPool {
 	size_t blk_size;
-	union FreeList* list;
+	union StFreeList* list;
 	StMutex* mutex;
 };
 
@@ -96,6 +94,6 @@ void st_pool_free(StPool* pool, void* blk)
 {
 	ENSURE(pool, ERROR, null_param);
 	mutex_lock(pool->mutex);
-	pool->list = list_ins(pool->list, (union FreeList*)blk);
+	pool->list = list_ins(pool->list, (union StFreeList*)blk);
 	mutex_unlock(pool->mutex);
 }

@@ -38,8 +38,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/rbtree.h"
 #include "sturk/str.h"
 
-#define MSG_SIZE sizeof(union Message)
-
 static StChannel* channel_create(StBroker* broker, const char* topic)
 {
 	StChannel* self = NEW(StChannel);
@@ -163,8 +161,7 @@ StBroker* st_broker_create(const struct StLoadVt* vp)
 	self = NEW(struct StBroker);
 	self->vp = vp;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	self->channels.pool =
-		pool_create((vp->size() / MSG_SIZE + 2) * MSG_SIZE);
+	self->channels.pool = pool_create(0);
 	self->channels.dict = NULL;
 	self->sbers.pool = pool_create(sizeof(struct Qentry));
 	self->sbers.list = NULL;
@@ -284,7 +281,7 @@ void st_publish(StChannel* ch, ...)
 	va_start(args, ch);
 	msg = msg_create(dict_datap(ch)->broker, args);
 	va_end(args);
-	msg->s.channel = ch;
+	msg->s.u1.channel = ch;
 	notify(dict_datap(ch), msg);
 }
 
@@ -307,5 +304,5 @@ void st_subscribe(StSubscriber* sber, const char* topic)
 
 StChannel* st_load_getchan(const StLoad* load)
 {
-	return load ? msg_4load(load)->s.channel : NULL;
+	return load ? msg_4load(load)->s.u1.channel : NULL;
 }
