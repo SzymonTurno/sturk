@@ -45,6 +45,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_POOL_H
 #define ST_POOL_H
 
+#include "st/os/sys.h"
+#include "vertegs/list.h"
 #include <stddef.h>
 
 /**
@@ -53,6 +55,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @brief *pool*.
  */
 typedef struct StPool StPool;
+
+/**
+ * @def VX_LIST(union StFreeList, void*)
+ *
+ * @union StFreeList
+ *
+ * @brief Free list.
+ */
+VX_LIST(union StFreeList, void*);
+/**< This is a macro definition of the free list used by the pool. */
 
 /**
  * @fn StPool* st_pool_create(size_t blk_size)

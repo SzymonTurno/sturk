@@ -64,16 +64,24 @@ struct StBroker {
 };
 
 union Message {
-	StAlign align;
 	struct {
-		StChannel* channel;
+		union {
+			StChannel* channel;
+			/* The member "union StFreeList align" is overwritten
+			 * when the message is returned to the pool. */
+			union StFreeList align;
+		} u1;
+		/* Mutex must be placed after "union StFreeList align" so that
+		 * it is not overwritten when the message is returned to the
+		 * pool. */
 		StMutex* mutex;
 		union {
 			int n_pending;
 			void* align;
-		} u;
+		} u2;
 		void* padding;
 	} s;
+	StAlign align;
 };
 
 CIRQ(struct Qentry, union Message*);

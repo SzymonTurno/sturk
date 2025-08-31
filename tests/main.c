@@ -517,7 +517,7 @@ TEST(subscriber, should_trace_null_param)
 	logger_detach(WARNING, st_stderr());
 	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":265: Null param.\n",
+		BROKER_FILE_PATH ":262: Null param.\n",
 		strstr(GETTRACE(subscriber, 0), BROKER_FILE_PATH ":"));
 }
 
@@ -631,7 +631,7 @@ TEST(broker, should_trace_null_param)
 	logger_detach(WARNING, st_stderr());
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":297: Null param.\n",
+		BROKER_FILE_PATH ":294: Null param.\n",
 		strstr(GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 	free(tmp);
 }
