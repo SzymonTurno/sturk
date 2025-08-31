@@ -42,42 +42,42 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "vertegs/vertex.h"
 
 /**
- * @var typedef struct StWaitq StWaitq
+ * @var typedef struct StWaitQ StWaitQ
  *
  * @brief Waiting queue.
  */
-typedef struct StWaitq StWaitq;
+typedef struct StWaitQ StWaitQ;
 
 /**
- * @fn StWaitq* st_waitq_create(void)
+ * @fn StWaitQ* st_waitq_create(void)
  *
  * @brief Create a new waiting queue.
  *
  * @return The new waiting queue.
  */
-StWaitq* st_waitq_create(void);
+StWaitQ* st_waitq_create(void);
 
 /**
- * @fn void st_waitq_destroy(StWaitq* waitq)
+ * @fn void st_waitq_destroy(StWaitQ* waitq)
  *
  * @brief Destroy a waiting queue.
  *
  * @param[in,out] waitq The waiting queue.
  */
-void st_waitq_destroy(StWaitq* waitq);
+void st_waitq_destroy(StWaitQ* waitq);
 
 /**
- * @fn void st_waitq_ins(StWaitq* waitq, struct Vertegs* entry)
+ * @fn void st_waitq_ins(StWaitQ* waitq, struct Vertegs* entry)
  *
  * @brief Insert an entry into a waiting queue
  *
  * @param[in,out] waitq The waiting queue.
  * @param[in,out] entry The inserted entry.
  */
-void st_waitq_ins(StWaitq* waitq, struct Vertegs* entry);
+void st_waitq_ins(StWaitQ* waitq, struct Vertegs* entry);
 
 /**
- * @fn struct Vertegs* st_waitq_rem(StWaitq* waitq)
+ * @fn struct Vertegs* st_waitq_rem(StWaitQ* waitq)
  *
  * @brief Remove an entry from the front of the queue.
  *
@@ -88,10 +88,10 @@ void st_waitq_ins(StWaitq* waitq, struct Vertegs* entry);
  *
  * @return The removed entry.
  */
-struct Vertegs* st_waitq_rem(StWaitq* waitq);
+struct Vertegs* st_waitq_rem(StWaitQ* waitq);
 
 /**
- * @fn struct Vertegs* st_waitq_tryrem(StWaitq* waitq)
+ * @fn struct Vertegs* st_waitq_tryrem(StWaitQ* waitq)
  *
  * @brief Try to remove an entry from the front of the queue.
  *
@@ -101,6 +101,6 @@ struct Vertegs* st_waitq_rem(StWaitq* waitq);
  *
  * @return The removed entry if the queue was not empty. Otherwise, NULL.
  */
-struct Vertegs* st_waitq_tryrem(StWaitq* waitq);
+struct Vertegs* st_waitq_tryrem(StWaitQ* waitq);
 
 #endif /* ST_WAITQ_H */

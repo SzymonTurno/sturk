@@ -467,7 +467,7 @@ TEST(semaphore, should_trace_fake_warning)
 TEST(waitq, should_not_block_after_insertion)
 {
 	struct Vertegs* nbor[] = {NULL, NULL};
-	StWaitq* waitq = waitq_create();
+	StWaitQ* waitq = waitq_create();
 
 	waitq_ins(waitq, vx_4nbor(nbor));
 	TEST_ASSERT_EQUAL_PTR(nbor, waitq_rem(waitq));
@@ -477,7 +477,7 @@ TEST(waitq, should_not_block_after_insertion)
 TEST(waitq, should_trace_dataloss)
 {
 	struct Vertegs* nbor[] = {NULL, NULL};
-	StWaitq* q = waitq_create();
+	StWaitQ* q = waitq_create();
 
 	logger_detach(WARNING, st_stderr());
 	waitq_ins(q, vx_4nbor(nbor));
