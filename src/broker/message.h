@@ -56,10 +56,12 @@ static inline union Message* msg_create(StBroker* broker, va_list args)
 	ENSURE(broker, ERROR, sanity_fail);
 	self = pool_tryalloc(broker->channels.pool);
 	if (!self) {
-		self = pool_alloc(broker->channels.pool);
+		self = st_alloc(
+			(broker->vp->size() / sizeof(union Message) + 2) *
+			sizeof(union Message));
 		self->s.mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	}
-	self->s.u.n_pending = 0;
+	self->s.u2.n_pending = 0;
 	broker->vp->ctor(msg_2load(self), args);
 	return self;
 }
@@ -69,7 +71,7 @@ static inline void msg_destroy(union Message* msg)
 	StBroker* broker = NULL;
 
 	ENSURE(msg, ERROR, sanity_fail);
-	broker = dict_datap(msg->s.channel)->broker;
+	broker = dict_datap(msg->s.u1.channel)->broker;
 	broker->vp->dtor(msg_2load(msg));
 	pool_free(broker->channels.pool, msg);
 }
@@ -80,7 +82,7 @@ static inline void msg_purge(StBroker* broker)
 
 	ENSURE(broker, ERROR, sanity_fail);
 	while ((msg = pool_tryalloc(broker->channels.pool))) {
-		msg->s.channel = NULL;
+		msg->s.u1.channel = NULL;
 		mutex_destroy(msg->s.mutex);
 		msg->s.mutex = NULL;
 		st_free(msg);
@@ -92,10 +94,10 @@ static inline void msg_release(union Message* msg)
 	int last = 0;
 
 	ENSURE(msg, ERROR, sanity_fail);
-	ENSURE(msg->s.u.n_pending, ERROR, sanity_fail);
 	mutex_lock(msg->s.mutex);
-	last = (msg->s.u.n_pending == 1);
-	--msg->s.u.n_pending;
+	ENSURE(msg->s.u2.n_pending, ERROR, sanity_fail);
+	last = (msg->s.u2.n_pending == 1);
+	--msg->s.u2.n_pending;
 	mutex_unlock(msg->s.mutex);
 	if (last)
 		msg_destroy(msg);
@@ -110,7 +112,7 @@ static inline void msg_lock(union Message* msg)
 static inline void msg_unlock(union Message* msg, int n_pending)
 {
 	ENSURE(msg, ERROR, sanity_fail);
-	msg->s.u.n_pending = n_pending;
+	msg->s.u2.n_pending = n_pending;
 	mutex_unlock(msg->s.mutex);
 	if (!n_pending)
 		msg_destroy(msg);

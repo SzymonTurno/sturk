@@ -50,7 +50,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @brief List of strings.
  */
 VX_LIST(struct StStrList, char*);
-/**< This is a macro definition of the struct StStrList type. */
+/**< This is a macro definition of a type for a list of strings. */
 
 /**
  * @def VX_CIRQ(struct StStrQ, char*)
@@ -60,7 +60,7 @@ VX_LIST(struct StStrList, char*);
  * @brief Queue of strings.
  */
 VX_CIRQ(struct StStrQ, char*);
-/**< This is a macro definition of the struct StStrQ type. */
+/**< This is a macro definition of a type for a queue of strings. */
 
 /* clang-format off */
 /**
@@ -71,7 +71,7 @@ VX_CIRQ(struct StStrQ, char*);
  * @brief Bag of strings.
  */
 ST_DICT(struct StStrBag, union {int n; void* align;});
-/**< This is a macro definition of the struct StStrBag type. */
+/**< This is a macro definition of a type for a bag of strings. */
 /* clang-format on */
 
 /**
