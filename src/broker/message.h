@@ -37,81 +37,81 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/logger/trace.h"
 #include "types.h"
 
-static inline StLoad* msg_2load(struct Message* msg)
+static inline StLoad* msg_2load(union Message* msg)
 {
 	ENSURE(msg, ERROR, sanity_fail);
 	return (StLoad*)&msg[1];
 }
 
-static inline const struct Message* msg_4load(const StLoad* load)
+static inline const union Message* msg_4load(const StLoad* load)
 {
 	ENSURE(load, ERROR, sanity_fail);
-	return ((const struct Message*)load) - 1;
+	return ((const union Message*)load) - 1;
 }
 
-static inline struct Message* msg_create(StBroker* broker, va_list args)
+static inline union Message* msg_create(StBroker* broker, va_list args)
 {
-	struct Message* self = NULL;
+	union Message* self = NULL;
 
 	ENSURE(broker, ERROR, sanity_fail);
 	self = pool_tryalloc(broker->channels.pool);
 	if (!self) {
 		self = pool_alloc(broker->channels.pool);
-		self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
+		self->s.mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	}
-	self->u.n_pending = 0;
+	self->s.u.n_pending = 0;
 	broker->vp->ctor(msg_2load(self), args);
 	return self;
 }
 
-static inline void msg_destroy(struct Message* msg)
+static inline void msg_destroy(union Message* msg)
 {
 	StBroker* broker = NULL;
 
 	ENSURE(msg, ERROR, sanity_fail);
-	broker = dict_datap(msg->channel)->broker;
+	broker = dict_datap(msg->s.channel)->broker;
 	broker->vp->dtor(msg_2load(msg));
 	pool_free(broker->channels.pool, msg);
 }
 
 static inline void msg_purge(StBroker* broker)
 {
-	struct Message* msg = NULL;
+	union Message* msg = NULL;
 
 	ENSURE(broker, ERROR, sanity_fail);
 	while ((msg = pool_tryalloc(broker->channels.pool))) {
-		msg->channel = NULL;
-		mutex_destroy(msg->mutex);
-		msg->mutex = NULL;
+		msg->s.channel = NULL;
+		mutex_destroy(msg->s.mutex);
+		msg->s.mutex = NULL;
 		st_free(msg);
 	}
 }
 
-static inline void msg_release(struct Message* msg)
+static inline void msg_release(union Message* msg)
 {
 	int last = 0;
 
 	ENSURE(msg, ERROR, sanity_fail);
-	ENSURE(msg->u.n_pending, ERROR, sanity_fail);
-	mutex_lock(msg->mutex);
-	last = (msg->u.n_pending == 1);
-	--msg->u.n_pending;
-	mutex_unlock(msg->mutex);
+	ENSURE(msg->s.u.n_pending, ERROR, sanity_fail);
+	mutex_lock(msg->s.mutex);
+	last = (msg->s.u.n_pending == 1);
+	--msg->s.u.n_pending;
+	mutex_unlock(msg->s.mutex);
 	if (last)
 		msg_destroy(msg);
 }
 
-static inline void msg_lock(struct Message* msg)
+static inline void msg_lock(union Message* msg)
 {
 	ENSURE(msg, ERROR, sanity_fail);
-	mutex_lock(msg->mutex);
+	mutex_lock(msg->s.mutex);
 }
 
-static inline void msg_unlock(struct Message* msg, int n_pending)
+static inline void msg_unlock(union Message* msg, int n_pending)
 {
 	ENSURE(msg, ERROR, sanity_fail);
-	msg->u.n_pending = n_pending;
-	mutex_unlock(msg->mutex);
+	msg->s.u.n_pending = n_pending;
+	mutex_unlock(msg->s.mutex);
 	if (!n_pending)
 		msg_destroy(msg);
 }
