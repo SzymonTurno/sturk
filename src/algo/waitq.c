@@ -37,15 +37,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/mutex.h"
 #include "sturk/os/sem.h"
 
-struct StWaitq {
+struct StWaitQ {
 	struct Vertegs* v;
 	StMutex* mut;
 	StSem* sem;
 };
 
-StWaitq* st_waitq_create(void)
+StWaitQ* st_waitq_create(void)
 {
-	StWaitq* self = NEW(StWaitq);
+	StWaitQ* self = NEW(StWaitQ);
 
 	self->mut = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	self->sem = sem_create(0);
@@ -53,7 +53,7 @@ StWaitq* st_waitq_create(void)
 	return self;
 }
 
-void st_waitq_destroy(StWaitq* waitq)
+void st_waitq_destroy(StWaitQ* waitq)
 {
 	if (!waitq)
 		return;
@@ -67,7 +67,7 @@ void st_waitq_destroy(StWaitq* waitq)
 	st_free(waitq);
 }
 
-void st_waitq_ins(StWaitq* waitq, struct Vertegs* entry)
+void st_waitq_ins(StWaitQ* waitq, struct Vertegs* entry)
 {
 	ENSURE(waitq, ERROR, null_param);
 	mutex_lock(waitq->mut);
@@ -76,7 +76,7 @@ void st_waitq_ins(StWaitq* waitq, struct Vertegs* entry)
 	mutex_unlock(waitq->mut);
 }
 
-struct Vertegs* st_waitq_rem(StWaitq* waitq)
+struct Vertegs* st_waitq_rem(StWaitQ* waitq)
 {
 	struct Vertegs* entry = NULL;
 
@@ -88,7 +88,7 @@ struct Vertegs* st_waitq_rem(StWaitq* waitq)
 	return entry;
 }
 
-struct Vertegs* st_waitq_tryrem(StWaitq* waitq)
+struct Vertegs* st_waitq_tryrem(StWaitQ* waitq)
 {
 	struct Vertegs* entry = NULL;
 

@@ -78,7 +78,7 @@ LIST(struct ChannelList, StChannel*);
 
 struct StSubscriber {
 	StBroker* broker;
-	StWaitq* q;
+	StWaitQ* q;
 	struct Message* msg;
 	struct ChannelList* list;
 };
