@@ -4,7 +4,6 @@
 #include "sturk/cirq.h"
 #include "sturk/dict.h"
 #include "sturk/graph.h"
-#include "sturk/logger/trace.h"
 #include "sturk/os/mutex.h"
 #include "sturk/os/sem.h"
 #include "sturk/pool.h"
@@ -13,7 +12,8 @@
 #include "sturk/waitq.h"
 #include "unity.h"
 #include "unity_fixture.h"
-#include <string.h>
+
+#include "extra/simpte.h"
 
 #define ARRAY_SIZE(array) (sizeof(array) / sizeof(array[0]))
 
@@ -29,40 +29,6 @@
 
 #endif /* WIN32 */
 
-#define SIMPLE_TEST_GROUP(group, label)                                        \
-	static struct StFstream* test_stream_##group;                          \
-	TEST_SETUP(group)                                                      \
-	{                                                                      \
-		test_stream_##group =                                          \
-			st_fopen("test_traces_" label ".tmp", "w+");           \
-                                                                               \
-		logger_attach(INFO, st_stdout());                              \
-		logger_attach(DEBUG, st_stdout());                             \
-		logger_attach(WARNING, st_stderr());                           \
-		logger_attach(ERROR, st_stderr());                             \
-		printf("\n");                                                  \
-		trace(INFO, "ut", "Running test case for: %s.", label);        \
-		logger_attach(INFO, test_stream_##group);                      \
-		logger_attach(DEBUG, test_stream_##group);                     \
-		logger_attach(WARNING, test_stream_##group);                   \
-		logger_attach(ERROR, test_stream_##group);                     \
-	}                                                                      \
-	TEST_TEAR_DOWN(group)                                                  \
-	{                                                                      \
-		trace(INFO, "ut", "Done.");                                    \
-		logger_cleanup();                                              \
-		st_fclose(test_stream_##group);                                \
-		st_remove("test_traces_" label ".tmp");                        \
-	}                                                                      \
-	TEST_GROUP(group)
-
-#define TEST_LOGGER_DETACH(group, lvl) logger_detach((lvl), test_stream_##group)
-
-#define GETTRACE(group, index) gettrace(test_stream_##group, index)
-
-#define TEST_ASSERT_NOT_EQUAL_STRING(expected, actual)                         \
-	TEST_ASSERT_NOT_EQUAL_INT(0, strcmp(expected, actual))
-
 #define MUTEX_FILE_PATH                                                        \
 	JOIN_PATH(JOIN_PATH("src", "osal"), JOIN_PATH("posix", "mutex.c"))
 
@@ -70,40 +36,22 @@
 
 #define BROKER_FILE_PATH JOIN_PATH("src", JOIN_PATH("broker", "broker.c"))
 
-static const char* gettrace(struct StFstream* stream, int index)
-{
-	static char buff[256];
-
-	st_fseekset(stream, 0);
-	while (index--)
-		st_fgets(buff, sizeof(buff), stream);
-	return st_fgets(buff, sizeof(buff), stream);
-}
-
-static void SimpleMain(int argc, const char** argv, void (*fn)(void))
-{
-	(void)argc;
-	(void)argv;
-	printf("Simple test run 1 of 1\n");
-	fn();
-	printf("\n\n-----------------------\nOK\n");
-}
-
 extern void run_vertegs_tests(void);
+extern void run_broker_extra_tests(void);
 
-SIMPLE_TEST_GROUP(common, "common");
-SIMPLE_TEST_GROUP(list, "list");
-SIMPLE_TEST_GROUP(cirq, "cirq");
-SIMPLE_TEST_GROUP(rbnode, "rbnode");
-SIMPLE_TEST_GROUP(dictnode, "dictnode");
-SIMPLE_TEST_GROUP(strbag, "strbag");
-SIMPLE_TEST_GROUP(mutex, "mutex");
-SIMPLE_TEST_GROUP(semaphore, "semaphore");
-SIMPLE_TEST_GROUP(waitq, "waitq");
-SIMPLE_TEST_GROUP(pool, "pool");
-SIMPLE_TEST_GROUP(subscriber, "subscriber");
-SIMPLE_TEST_GROUP(broker, "broker");
-SIMPLE_TEST_GROUP(logger, "logger");
+SIMPTE_GROUP(common, "common");
+SIMPTE_GROUP(list, "list");
+SIMPTE_GROUP(cirq, "cirq");
+SIMPTE_GROUP(rbnode, "rbnode");
+SIMPTE_GROUP(dictnode, "dictnode");
+SIMPTE_GROUP(strbag, "strbag");
+SIMPTE_GROUP(mutex, "mutex");
+SIMPTE_GROUP(semaphore, "semaphore");
+SIMPTE_GROUP(waitq, "waitq");
+SIMPTE_GROUP(pool, "pool");
+SIMPTE_GROUP(subscriber, "subscriber");
+SIMPTE_GROUP(broker, "broker");
+SIMPTE_GROUP(logger, "logger");
 
 TEST(common, should_destroy_null)
 {
@@ -215,11 +163,11 @@ TEST(rbnode, should_trace_not_supported_traversals)
 	rb_next(&node, BST_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
 		RBTREE_FILE_PATH ":199: Not supported.\n",
-		strstr(GETTRACE(rbnode, 0), RBTREE_FILE_PATH ":"));
+		strstr(SIMPTE_GETTRACE(rbnode, 0), RBTREE_FILE_PATH ":"));
 	rb_first(&node, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING(
 		RBTREE_FILE_PATH ":160: Not supported.\n",
-		strstr(GETTRACE(rbnode, 1), RBTREE_FILE_PATH ":"));
+		strstr(SIMPTE_GETTRACE(rbnode, 1), RBTREE_FILE_PATH ":"));
 }
 
 TEST(dictnode, should_sort)
@@ -395,12 +343,12 @@ TEST(mutex, should_trace_double_lock_warning)
 
 	logger_detach(WARNING, st_stderr());
 	mutex_lock(mut);
-	TEST_ASSERT_NULL(GETTRACE(mutex, 0));
+	TEST_ASSERT_NULL(SIMPTE_GETTRACE(mutex, 0));
 	mutex_lock(mut);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][sturk] Fake mutex does not support context "
 		"switch.\n",
-		GETTRACE(mutex, 0));
+		SIMPTE_GETTRACE(mutex, 0));
 	mutex_destroy(mut);
 }
 
@@ -409,11 +357,11 @@ TEST(mutex, should_trace_double_unlock_warning)
 	StMutex* mut = mutex_create(0);
 
 	logger_detach(WARNING, st_stderr());
-	TEST_ASSERT_NULL(GETTRACE(mutex, 0));
+	TEST_ASSERT_NULL(SIMPTE_GETTRACE(mutex, 0));
 	mutex_unlock(mut);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][sturk] Unlocking an already unlocked mutex.\n",
-		GETTRACE(mutex, 0));
+		SIMPTE_GETTRACE(mutex, 0));
 	mutex_destroy(mut);
 }
 
@@ -423,10 +371,10 @@ TEST(mutex, should_trace_not_supported_policy)
 	(void)mutex_create(ST_MUTEX_BF(POLICY, 7));
 	TEST_ASSERT_EQUAL_STRING(
 		MUTEX_FILE_PATH ":58: Not supported.\n",
-		strstr(GETTRACE(mutex, 0), MUTEX_FILE_PATH ":"));
+		strstr(SIMPTE_GETTRACE(mutex, 0), MUTEX_FILE_PATH ":"));
 	TEST_ASSERT_EQUAL_STRING(
 		MUTEX_FILE_PATH ":96: Mutex failure.\n",
-		strstr(GETTRACE(mutex, 1), MUTEX_FILE_PATH ":"));
+		strstr(SIMPTE_GETTRACE(mutex, 1), MUTEX_FILE_PATH ":"));
 }
 
 TEST(mutex, should_trace_not_supported_type)
@@ -435,10 +383,10 @@ TEST(mutex, should_trace_not_supported_type)
 	(void)mutex_create(ST_MUTEX_BF(TYPE, 15));
 	TEST_ASSERT_EQUAL_STRING(
 		MUTEX_FILE_PATH ":77: Not supported.\n",
-		strstr(GETTRACE(mutex, 0), MUTEX_FILE_PATH ":"));
+		strstr(SIMPTE_GETTRACE(mutex, 0), MUTEX_FILE_PATH ":"));
 	TEST_ASSERT_EQUAL_STRING(
 		MUTEX_FILE_PATH ":101: Mutex failure.\n",
-		strstr(GETTRACE(mutex, 1), MUTEX_FILE_PATH ":"));
+		strstr(SIMPTE_GETTRACE(mutex, 1), MUTEX_FILE_PATH ":"));
 }
 
 TEST(semaphore, should_not_block_if_posted)
@@ -455,12 +403,12 @@ TEST(semaphore, should_trace_fake_warning)
 	StSem* sem = sem_create(0);
 
 	logger_detach(WARNING, st_stderr());
-	TEST_ASSERT_NULL(GETTRACE(semaphore, 0));
+	TEST_ASSERT_NULL(SIMPTE_GETTRACE(semaphore, 0));
 	sem_wait(sem);
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][sturk] Fake semaphore does not support context "
 		"switch.\n",
-		GETTRACE(semaphore, 0));
+		SIMPTE_GETTRACE(semaphore, 0));
 	sem_destroy(sem);
 }
 
@@ -483,7 +431,8 @@ TEST(waitq, should_trace_dataloss)
 	waitq_ins(q, vx_4nbor(nbor));
 	waitq_destroy(q);
 	TEST_ASSERT_EQUAL_STRING(
-		"[warning][sturk] Data loss suspected.\n", GETTRACE(waitq, 0));
+		"[warning][sturk] Data loss suspected.\n",
+		SIMPTE_GETTRACE(waitq, 0));
 }
 
 TEST(pool, should_return_freed_pointer)
@@ -518,7 +467,7 @@ TEST(subscriber, should_trace_null_param)
 	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
 		BROKER_FILE_PATH ":262: Null param.\n",
-		strstr(GETTRACE(subscriber, 0), BROKER_FILE_PATH ":"));
+		strstr(SIMPTE_GETTRACE(subscriber, 0), BROKER_FILE_PATH ":"));
 }
 
 TEST(subscriber, should_unload)
@@ -632,7 +581,7 @@ TEST(broker, should_trace_null_param)
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
 		BROKER_FILE_PATH ":294: Null param.\n",
-		strstr(GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
+		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 	free(tmp);
 }
 
@@ -640,21 +589,28 @@ TEST(logger, should_trace_debug)
 {
 	logger_detach(DEBUG, st_stdout());
 	trace(DEBUG, NULL, "");
-	TEST_ASSERT_EQUAL_STRING("[debug] \n", GETTRACE(logger, 0));
+	TEST_ASSERT_EQUAL_STRING("[debug] \n", SIMPTE_GETTRACE(logger, 0));
 }
 
 TEST(logger, should_trace_error)
 {
 	logger_detach(ERROR, st_stderr());
 	trace(ERROR, NULL, "");
-	TEST_ASSERT_EQUAL_STRING("[error] \n", GETTRACE(logger, 0));
+	TEST_ASSERT_EQUAL_STRING("[error] \n", SIMPTE_GETTRACE(logger, 0));
 }
 
 TEST(logger, should_ignore_detached_trace_levels)
 {
 	logger_detach(ERROR, st_stderr());
-	TEST_LOGGER_DETACH(logger, ERROR);
+	SIMPTE_DETACH(logger, ERROR);
 	trace(ERROR, NULL, "");
+}
+
+static void run_extra_tests(void)
+{
+	run_vertegs_tests();
+	if (THREADS_EN)
+		run_broker_extra_tests();
 }
 
 static void run_other_tests(void)
@@ -701,7 +657,7 @@ static void run_other_tests(void)
 
 int main(int argc, const char** argv)
 {
-	SimpleMain(argc, argv, run_vertegs_tests);
+	SimpteMain(argc, argv, run_extra_tests);
 	UnityMain(argc, argv, run_other_tests);
 	return 0;
 }
