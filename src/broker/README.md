@@ -22,10 +22,10 @@ channel it must subscribe to a topic that corresponds to this channel.
 Below is an example usage of the message broker.
 
 
-## Defining API for messages
+## Define an API for messages
 
 
-### Defining the size of the message
+### Define a size of the message
 
 ```c
 static size_t size(void)
@@ -35,7 +35,7 @@ static size_t size(void)
 ```
 
 
-### Defining the message constructor {#defining-the-message-constructor}
+### Define a message constructor<!--! {#define-a-message-constructor} -->
 
 ```c
 static void init(StLoad* load, va_list vlist)
@@ -47,7 +47,7 @@ static void init(StLoad* load, va_list vlist)
 ```
 
 
-### Defining the message destructor
+### Define a message destructor
 
 ```c
 static void deinit(StLoad* load)
@@ -57,7 +57,7 @@ static void deinit(StLoad* load)
 ```
 
 
-### Defining a vtable {#defining-a-vtable}
+### Define a vtable<!--! {#define-a-vtable} -->
 
 ```c
 const struct StLoadVt SAMPLE_LOAD_API[] = {
@@ -90,46 +90,44 @@ const struct StLoadVt SAMPLE_LOAD_API[] = {
 ```
 
 
-## Publishing and subscribing
+## Publish-subscribe
 
-### Initializing a broker
+### Initialize a broker
 
 ```c
 	StBroker* broker = broker_create(SAMPLE_LOAD_API);
 ```
 
-@note
-> [!NOTE]
-> The API passed here is the previously defined [vtable](#defining-a-vtable).
+> [!note]
+> The API passed here is the previously defined [vtable](#define-a-vtable).
 
 
-### Creating a subscriber
+### Create a subscriber
 
 ```c
 	StSubscriber* sber = subscriber_create(broker);
 ```
 
 
-### Subscribing to a topic
+### Subscribe to a topic
 
 ```c
 	subscribe(sber, "test");
 ```
 
 
-### Publishing to a topic
+### Publish to a topic
 
 ```c
 	publish(broker_search(broker, "test"), "%X", 0xF00D);
 ```
 
-@note
-> [!NOTE]
+> [!note]
 > The behaviour of the publish procedure is controlled with the
-> [message constructor](#defining-the-message-constructor).
+> [message constructor](#define-a-message-constructor).
 
 
-### Receiving a message
+### Receive a message
 
 ```c
 	load = subscriber_await(sber);
