@@ -1,6 +1,9 @@
 # Message broker
 
-Below is an example usage of the message broker. [TOC]
+<!--! [TOC] -->
+
+
+Below is an example usage of the message broker.
 
 
 ## Defining API for messages
@@ -16,7 +19,7 @@ static size_t size(void)
 ```
 
 
-### Defining the message constructor {#defining-the-message-constructor}
+### Defining the message constructor<!--! {#defining-the-message-constructor} -->
 
 ```c
 static void init(StLoad* load, va_list vlist)
@@ -38,7 +41,7 @@ static void deinit(StLoad* load)
 ```
 
 
-### Defining a vtable {#defining-a-vtable}
+### Defining a vtable<!--! {#defining-a-vtable} -->
 
 ```c
 const struct StLoadVt SAMPLE_LOAD_API[] = {
@@ -79,8 +82,7 @@ const struct StLoadVt SAMPLE_LOAD_API[] = {
 	StBroker* broker = broker_create(SAMPLE_LOAD_API);
 ```
 
-@note
-> [!NOTE]
+> [!note]
 > The API passed here is the previously defined [vtable](#defining-a-vtable).
 
 
@@ -104,8 +106,7 @@ const struct StLoadVt SAMPLE_LOAD_API[] = {
 	publish(broker_search(broker, "test"), "%X", 0xF00D);
 ```
 
-@note
-> [!NOTE]
+> [!note]
 > The behaviour of the publish procedure is controlled with the
 > [message constructor](#defining-the-message-constructor).
 
