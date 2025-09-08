@@ -30,7 +30,7 @@
 #endif /* WIN32 */
 
 #define MUTEX_FILE_PATH                                                        \
-	JOIN_PATH(JOIN_PATH("src", "osal"), JOIN_PATH("posix", "mutex.c"))
+	JOIN_PATH(JOIN_PATH("src", "osal"), JOIN_PATH("mutex", "posix.c"))
 
 #define RBTREE_FILE_PATH JOIN_PATH("src", JOIN_PATH("algo", "rbtree.c"))
 

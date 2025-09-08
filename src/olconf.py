@@ -9,7 +9,7 @@ def append_rules(olvars):
     rule = olvars.rule(os.path.join('$(sturk_BLDDIR)', '%.o'))
     rule.normal_depend(os.path.join('$(sturk_DIR)', '%.c'))
     rule.order_depend('$(sturk_BLDDIRS)')
-    rule.step('$(CC) $(sturk_CFLAGS) $(sturk_EXTRA_CFLAGS) $(sturk_INC) -c -o $@ $<')
+    rule.step('$(CC) $(sturk_CFLAGS) $(sturk_EXTRA_CFLAGS) $(sturk_INC) $(osal_INC) -c -o $@ $<')
 
     rule = olvars.rule('$(sturk_BLDDIRS)')
     rule.step('$(call MKDIR, $@)')
