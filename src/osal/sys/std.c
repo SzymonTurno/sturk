@@ -29,41 +29,38 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "st/os/fstream.h"
-#include "osal_unistd.h"
+#include "st/os/sys.h"
+#include "osal/unistd.h"
+#include "st/os/mem.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-StFstream* st_fopen(const char* filename, const char* mode)
+#define BUFF_MAX_SIZE 256
+
+int st_snprintf(char* buffer, size_t bufsz, const char* format, ...)
 {
-	return (StFstream*)fopen(filename, mode);
+	va_list vlist;
+	int ret = 0;
+
+	va_start(vlist, format);
+	ret = vsnprintf(buffer, bufsz, format, vlist);
+	va_end(vlist);
+	return ret;
 }
 
-void st_fclose(StFstream* stream)
+int st_remove(const char* name)
 {
-	fclose((FILE*)stream);
+	return remove(name);
 }
 
-char* st_fgets(char* str, int size, StFstream* stream)
+/* LCOV_EXCL_START */
+void st_except(const char* reason, const char* file, int line)
 {
-	return fgets(str, size, (FILE*)stream);
-}
+	char* buff = ST_NEW(char, BUFF_MAX_SIZE);
 
-int st_fseekset(StFstream* stream, long int offset)
-{
-	return fseek((FILE*)stream, offset, SEEK_SET);
+	st_snprintf(buff, BUFF_MAX_SIZE, "%s:%d: %s", file, line, reason);
+	perror(buff);
+	st_free(buff);
+	exit(EXIT_FAILURE);
 }
-
-StFstream* st_stdout(void)
-{
-	return (StFstream*)stdout;
-}
-
-StFstream* st_stderr(void)
-{
-	return (StFstream*)stderr;
-}
-
-int st_vfprintf(StFstream* stream, const char* format, va_list vlist)
-{
-	return vfprintf((FILE*)stream, format, vlist);
-}
+/* LCOV_EXCL_STOP */

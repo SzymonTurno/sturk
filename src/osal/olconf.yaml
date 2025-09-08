@@ -1,7 +1,7 @@
 ---
   osal:
-    mem: "none"
+    mem: "std"
     mutex: "none"
     sem: "none"
-    sys: "none"
-    fstream: "none"
+    sys: "std"
+    fstream: "std"

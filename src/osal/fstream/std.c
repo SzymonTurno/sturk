@@ -29,38 +29,41 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "st/os/sys.h"
-#include "osal_unistd.h"
-#include "st/os/mem.h"
+#include "st/os/fstream.h"
+#include "osal/unistd.h"
 #include <stdio.h>
-#include <stdlib.h>
 
-#define BUFF_MAX_SIZE 256
-
-int st_snprintf(char* buffer, size_t bufsz, const char* format, ...)
+StFstream* st_fopen(const char* filename, const char* mode)
 {
-	va_list vlist;
-	int ret = 0;
-
-	va_start(vlist, format);
-	ret = vsnprintf(buffer, bufsz, format, vlist);
-	va_end(vlist);
-	return ret;
+	return (StFstream*)fopen(filename, mode);
 }
 
-int st_remove(const char* name)
+void st_fclose(StFstream* stream)
 {
-	return remove(name);
+	fclose((FILE*)stream);
 }
 
-/* LCOV_EXCL_START */
-void st_except(const char* reason, const char* file, int line)
+char* st_fgets(char* str, int size, StFstream* stream)
 {
-	char* buff = ST_NEW(char, BUFF_MAX_SIZE);
-
-	st_snprintf(buff, BUFF_MAX_SIZE, "%s:%d: %s", file, line, reason);
-	perror(buff);
-	st_free(buff);
-	exit(EXIT_FAILURE);
+	return fgets(str, size, (FILE*)stream);
 }
-/* LCOV_EXCL_STOP */
+
+int st_fseekset(StFstream* stream, long int offset)
+{
+	return fseek((FILE*)stream, offset, SEEK_SET);
+}
+
+StFstream* st_stdout(void)
+{
+	return (StFstream*)stdout;
+}
+
+StFstream* st_stderr(void)
+{
+	return (StFstream*)stderr;
+}
+
+int st_vfprintf(StFstream* stream, const char* format, va_list vlist)
+{
+	return vfprintf((FILE*)stream, format, vlist);
+}
