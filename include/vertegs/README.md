@@ -19,13 +19,6 @@ functions that operate on graphs.
 - Type checks for a build with GNU C extensions.
 
 
-## Glossary
-
-| Term | Description                 |
-| ---- | --------------------------- |
-| cirq | doubly linked circular list |
-
-
 ## List
 
 ### Define a list data type
@@ -72,3 +65,10 @@ void push(struct MyCirq** headp, MyData data)
     *headp = vx_cirq_ins(*headp, entry);
 }
 ```
+
+
+## Glossary
+
+| Term | Description                 |
+| ---- | --------------------------- |
+| cirq | doubly linked circular list |

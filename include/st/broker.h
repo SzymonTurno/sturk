@@ -45,79 +45,43 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stddef.h>
 
 /**
- * @var typedef char StLoad
- *
- * @brief Opaque data type that represents the message load.
- *
- * The memory for each message has two contexts:
- * 1. static - allocated from the memory pool;
- * 2. dynamic - optional, allocated within StLoadVt::ctor.
- *
- * It is for the user to decide how to use those contexts by defining the
- * message constructor (StLoadVt::ctor).
- *
- * Static context is a contiguous memory block allocated from a fixed-size
- * memory pool and its size is constant for all messages. The size of the
- * block is a multiple of the size of the metadata, big enough to hold one
- * instance of the metadata and one instance of the user defined load. The size
- * of the load for the static context is defined with the StLoadVt::size
- * callback.
- *
- * @see StPool
- *
- * Table: Static context
- *
- * | Array | meta + load (StLoad*) |
- * | ----- | --------------------- |
- * | 0     | meta                  |
- * | ...   | load                  |
- * | n - 1 | ^                     |
- * | n     | ^                     |
- *
- * The dynamic context is optional and it is everything that is allocated by
- * the contructor callback - StLoadVt::ctor and that is accessible through
- * pointers placed somewhere in the load.
- */
-typedef char StLoad;
-
-/**
- * @struct StLoadVt
+ * @struct StMessageVt
  *
  * @brief Vtable for message construction.
  */
-struct StLoadVt {
+struct StMessageVt {
 	/**
 	 * @var size_t (*size)(void)
 	 *
-	 * @brief Callback for obtaining the size of the load.
+	 * @brief Callback for obtaining the size of the message.
 	 *
-	 * Should return the size of the load in bytes.
+	 * Should return the size of the message in bytes.
 	 */
 	size_t (*size)(void);
 
 	/**
-	 * @var void (*ctor)(StLoad*, va_list)
+	 * @var void (*ctor)(void*, va_list)
 	 *
 	 * @brief Constructor callback for the message.
 	 *
 	 * Should allocate additional memory for the message, if needed (see
 	 * "dynamic context") and initialize the message - read arguments from
-	 * the va_list and fill the load passed through the StLoad pointer.
+	 * the va_list and fill the message passed through the void pointer.
 	 *
 	 * @note The input va_list will hold all values passed to st_publish()
 	 * after the StChannel argument.
 	 * @see st_publish()
 	 */
-	void (*ctor)(StLoad*, va_list);
+	void (*ctor)(void*, va_list);
 
 	/**
-	 * @var void (*dtor)(StLoad*)
+	 * @var void (*dtor)(void*)
 	 *
 	 * @brief Destructor callback for the message.
 	 *
-	 * Should free all the memory allocated by the StLoadVt::ctor.
+	 * Should free all the memory allocated by the StMessageVt::ctor.
 	 */
-	void (*dtor)(StLoad*);
+	void (*dtor)(void*);
 };
 
 /**
@@ -128,7 +92,7 @@ struct StLoadVt {
  * The broker holds the list of all subscribers (StSubscriber) in usage and
  * a dictionary of channels (StChannel). All the messaging done through
  * channels created by the same broker will also use the same API for message
- * construction (StLoadVt).
+ * construction (StMessageVt).
  */
 typedef struct StBroker StBroker;
 
@@ -156,7 +120,7 @@ typedef struct StChannel StChannel;
  * @brief Broadcast the message.
  *
  * @param[in,out] ch The channel to which the message is sent.
- * @param[in] ... The list of arguments passed to the StLoadVt::ctor.
+ * @param[in] ... The list of arguments passed to the StMessageVt::ctor.
  *
  * @note Channels without any subscribers are allowed. Publishing to such
  * channel is safe and it does not have any meaningful behaviour (it does
@@ -175,11 +139,11 @@ void st_publish(StChannel* ch, ...);
 void st_subscribe(StSubscriber* sber, const char* topic);
 
 /**
- * @fn StBroker* st_broker_create(const struct StLoadVt* vp)
+ * @fn StBroker* st_broker_create(const struct StMessageVt* vp)
  *
  * @brief Create the message broker.
  *
- * @param[in] vp The pointer to the vtable for the StLoad.
+ * @param[in] vp The pointer to the vtable for the StMessage.
  *
  * The chosen vtable will influence the behaviour of the functions that are
  * responsible for constructing and receiving the messages:
@@ -189,7 +153,7 @@ void st_subscribe(StSubscriber* sber, const char* topic);
  *
  * @return The pointer to the new broker.
  */
-StBroker* st_broker_create(const struct StLoadVt* vp);
+StBroker* st_broker_create(const struct StMessageVt* vp);
 
 /**
  * @fn void st_broker_destroy(StBroker* broker)
@@ -246,35 +210,36 @@ StSubscriber* st_subscriber_create(StBroker* broker);
 void st_subscriber_destroy(StSubscriber* sber);
 
 /**
- * @fn StLoad* st_subscriber_await(StSubscriber* sber)
+ * @fn StMessage* st_subscriber_await(StSubscriber* sber)
  *
  * @brief Wait for the messages that are wanted by the subscriber.
  *
  * @param[in,out] sber The pointer to the subscriber.
  *
- * This function will receive the message immediately and return the load, if
- * the subscriber's message queue is not empty. Otherwise, with multithreading
- * enabled, this will block the thread that has called this function until some
- * other thread publishes to topic that the given subscriber is interested in.
- * With a single thread application, the blocking is not supported.
+ * This function will return the message immediately, if there are any messages
+ * in the subscriber's queue. If the subscriber's queue is empty, with
+ * multithreading enabled, this will block the thread that has called this
+ * function until some other thread publishes to topic that the given
+ * subscriber is interested in. With a single thread application, the blocking
+ * is not supported.
  *
- * @return The load.
+ * @return The message.
  */
-StLoad* st_subscriber_await(StSubscriber* sber);
+void* st_subscriber_await(StSubscriber* sber);
 
 /**
- * @fn StLoad* st_subscriber_poll(StSubscriber* sber)
+ * @fn void* st_subscriber_poll(StSubscriber* sber)
  *
  * @brief Poll for the messages that are wanted by the subscriber.
  *
  * @param[in,out] sber The pointer to the subscriber.
  *
- * This function will receive the message and return the load, if the
- * subscriber's message queue is not empty. Otherwise, it will return NULL.
+ * This function will return the message, if there are any messages in the
+ * subscriber's queue. If the subscriber's queue is empty, it will return NULL.
  *
- * @return The load.
+ * @return The message.
  */
-StLoad* st_subscriber_poll(StSubscriber* sber);
+void* st_subscriber_poll(StSubscriber* sber);
 
 /**
  * @fn void st_subscriber_unload(StSubscriber* sber)
@@ -292,16 +257,5 @@ StLoad* st_subscriber_poll(StSubscriber* sber);
  * received message if the subscriber attempts to receive another message.
  */
 void st_subscriber_unload(StSubscriber* sber);
-
-/**
- * @fn StChannel* st_load_getchan(const StLoad* load)
- *
- * @brief Get the source channel of the message.
- *
- * @param[in] load The pointer to the message load.
- *
- * @return The channel
- */
-StChannel* st_load_getchan(const StLoad* load);
 
 #endif /* ST_BROKER_H */

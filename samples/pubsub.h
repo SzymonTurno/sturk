@@ -4,7 +4,7 @@
 #include "sturk/broker.h"
 #include "sturk/str.h"
 
-extern const struct StLoadVt SAMPLE_LOAD_API[];
+extern const struct StMessageVt SAMPLE_MESSAGE_API[];
 
 struct StStrQ* single_thread_pubsub(void);
 

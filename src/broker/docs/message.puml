@@ -1,0 +1,11 @@
+@startuml "Message for a call \"publish(5)\""
+
+object "**string**" as string {
+    "|||||"
+}
+
+map "**message**" as message {
+    char* *-> string
+}
+
+@enduml

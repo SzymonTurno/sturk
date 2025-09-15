@@ -73,7 +73,4 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see st_subscriber_unload() */
 #define subscriber_unload st_subscriber_unload
 
-/** @see st_load_getchan() */
-#define load_getchan st_load_getchan
-
 #endif /* STURK_BROKER_H */
