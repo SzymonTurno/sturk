@@ -51,7 +51,7 @@ struct ChannelData {
 DICT(struct StChannel, struct ChannelData);
 
 struct StBroker {
-	const struct StLoadVt* vp;
+	const struct StMessageVt* vp;
 	StMutex* mutex;
 	struct {
 		struct SubscriberList* list;
@@ -66,20 +66,15 @@ struct StBroker {
 union Message {
 	struct {
 		union {
-			StChannel* channel;
+			int n_pending;
 			/* The member "union StFreeList align" is overwritten
 			 * when the message is returned to the pool. */
 			union StFreeList align;
-		} u1;
+		} u;
 		/* Mutex must be placed after "union StFreeList align" so that
 		 * it is not overwritten when the message is returned to the
 		 * pool. */
 		StMutex* mutex;
-		union {
-			int n_pending;
-			void* align;
-		} u2;
-		void* padding;
 	} s;
 	StAlign align;
 };

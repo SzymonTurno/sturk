@@ -113,16 +113,14 @@ EXTRACT_STATIC         = YES
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = ./README.md \
-                         ./src/broker/docs \
+                         ./src/broker \
                          ./include/st \
                          ./include/st/logger \
                          ./include/st/os \
                          ./include/sturk \
                          ./include/sturk/logger \
                          ./include/sturk/os \
-                         ./include/vertegs \
-                         ./include/vertegs/docs \
-                         ./docs/summary.md
+                         ./include/vertegs
 
 # If the value of the INPUT tag contains directories, you can use the
 # FILE_PATTERNS tag to specify one or more wildcard patterns (like *.cpp and

@@ -1,41 +1,34 @@
-@startuml "Message broker data types"
-    class Channel {
-        +publish(in args : va_list)
-        +gettopic() : string
-    }
+@startuml "Broker data types"
 
-    class Load {
-        +getchan() : Channel
-    }
+abstract class MessageVtable {
+    +size()
+    +ctor(in args : va_list) : void*
+    +dtor(in msg : void*)
+}
 
-    abstract class LoadVt {
-        +size()
-        +ctor(in args : va_list) : Load
-        +dtor(in load : Load)
-    }
+class Broker {
+    -channels : Dictionary<char*, Channel>
+    -subscribers : List<Subscriber>
+    +create(in vp : MessageVtable)
+    +search(in topic : char*) : Channel
+}
 
-    class Broker {
-        -channels : Dictionary<String, Channel>
-        -subscribers : List<Subscriber>
-        +create(in vp : LoadVt)
-        +destroy()
-        +search(in topic : String) : Channel
-    }
+class Channel {
+    +publish(in args : ...)
+    +gettopic() : char*
+}
 
-    class Subscriber {
-        +create(in broker : Broker)
-        +destroy()
-        +subscribe(in topic : String)
-        +await() : Load
-        +poll() : Load
-        +unload()
-    }
+class Subscriber {
+    +create(in broker : Broker)
+    +subscribe(in topic : char*)
+    +await() : void*
+    +poll() : void*
+    +unload()
+}
 
-    Channel "many" --o "1" Broker
-    Load --> Channel
-    LoadVt --> Load
-    Broker --> LoadVt
-    Subscriber "many" --o "1" Broker
-    Subscriber --> Broker
-    Subscriber --> Load
+Channel "many" --o "1" Broker
+Broker --> MessageVtable
+Subscriber "many" --o "1" Broker
+Subscriber --> Broker
+
 @enduml

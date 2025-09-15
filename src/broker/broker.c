@@ -115,12 +115,15 @@ static void notify(struct ChannelData* data, union Message* msg)
 	int n = 0;
 
 	mutex_lock(data->mutex);
-	msg_lock(msg);
+	mutex_lock(msg->s.mutex);
 	list_foreach (struct SubscriberList, i, &data->list) {
 		ins_msg(*graph_datap(*i), msg);
 		++n;
 	}
-	msg_unlock(msg, n);
+	msg->s.u.n_pending = n;
+	mutex_unlock(msg->s.mutex);
+	if (!n)
+		msg_destroy(data->broker, msg);
 	mutex_unlock(data->mutex);
 }
 
@@ -137,7 +140,7 @@ static void unsubscribe(StChannel* ch, StSubscriber* sber)
 	mutex_unlock(data->mutex);
 }
 
-static StLoad* load_init(StSubscriber* sber, struct Vertegs* node)
+static void* initmsg(StSubscriber* sber, struct Vertegs* node)
 {
 	struct Qentry* q = NULL;
 
@@ -147,10 +150,10 @@ static StLoad* load_init(StSubscriber* sber, struct Vertegs* node)
 	q = graph_4vx(node, q);
 	sber->msg = *graph_datap(q);
 	pool_free(sber->broker->sbers.pool, q);
-	return msg_2load(sber->msg);
+	return &sber->msg[1];
 }
 
-StBroker* st_broker_create(const struct StLoadVt* vp)
+StBroker* st_broker_create(const struct StMessageVt* vp)
 {
 	struct StBroker* self = NULL;
 
@@ -230,7 +233,7 @@ void st_subscriber_destroy(StSubscriber* sber)
 		st_free(list_rem(&sber->list));
 	}
 
-	while ((load_init(sber, waitq_tryrem(sber->q))))
+	while ((initmsg(sber, waitq_tryrem(sber->q))))
 		;
 	waitq_destroy(sber->q);
 	sber->q = NULL;
@@ -245,26 +248,36 @@ void st_subscriber_destroy(StSubscriber* sber)
 	st_free(sber);
 }
 
-StLoad* st_subscriber_await(StSubscriber* sber)
+void* st_subscriber_await(StSubscriber* sber)
 {
 	ENSURE_MEM(sber, ERROR);
-	return load_init(sber, waitq_rem(sber->q));
+	return initmsg(sber, waitq_rem(sber->q));
 }
 
-StLoad* st_subscriber_poll(StSubscriber* sber)
+void* st_subscriber_poll(StSubscriber* sber)
 {
 	ENSURE_MEM(sber, ERROR);
-	return load_init(sber, waitq_tryrem(sber->q));
+	return initmsg(sber, waitq_tryrem(sber->q));
 }
 
 void st_subscriber_unload(StSubscriber* sber)
 {
+	int last = 0;
+
 	ENSURE(sber, WARNING, null_param);
 	if (!sber)
 		return;
 
-	if (sber->msg)
-		msg_release(sber->msg);
+	if (sber->msg) {
+		mutex_lock(sber->msg->s.mutex);
+		ENSURE(sber->msg->s.u.n_pending, ERROR, sanity_fail);
+		last = (sber->msg->s.u.n_pending == 1);
+		--sber->msg->s.u.n_pending;
+		mutex_unlock(sber->msg->s.mutex);
+	}
+
+	if (last)
+		msg_destroy(sber->broker, sber->msg);
 	sber->msg = NULL;
 }
 
@@ -281,7 +294,6 @@ void st_publish(StChannel* ch, ...)
 	va_start(args, ch);
 	msg = msg_create(dict_datap(ch)->broker, args);
 	va_end(args);
-	msg->s.u1.channel = ch;
 	notify(dict_datap(ch), msg);
 }
 
@@ -300,9 +312,4 @@ void st_subscribe(StSubscriber* sber, const char* topic)
 	mutex_lock(data->mutex);
 	data->list = list_ins(data->list, slist_create(sber));
 	mutex_unlock(data->mutex);
-}
-
-StChannel* st_load_getchan(const StLoad* load)
-{
-	return load ? msg_4load(load)->s.u1.channel : NULL;
 }

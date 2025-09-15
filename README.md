@@ -10,41 +10,68 @@
 is a C library that implements the publish-subscribe messaging pattern.
 
 
-## Features
-
-- User-defined API for constructing messages.
-- Red-black tree for the channels dictionary.
-- Memory pools for messages and queues.
-- Logger with trace levels and exceptions.
-- Common data structures: list, queue, dictionary.
-- Single-thread implementation.
-- Multi-thread implementation.
-
-
 ## Portability
 
 - C99 support: `gcc -std=c99 -pedantic ...`.
 - CI/CD platforms: ubuntu, macos, windows.
-- Operating system abstraction layer.
+- OSAL.
 
 
-## Build
+## Usage
 
-Sources are compiled into a static library - `libsturk.a`.
-The library uses header files from the directory `/path/to/sturk/include`.
+Sturk is designed with an intention to be used as a static library.
+Therefore, the most straightforward approach to compile a program that uses Sturk would
+be to build in two steps:
 
-```sh
--I/path/to/sturk/include
-```
+1. compile Sturk library,
+2. compile the program while linking to Sturk library and its header files.
 
 
-By default, `libsturk.a` will be created at `/path/to/sturk/build/src`.
+> [!note]
+> - By default, the library is built at `/path/to/sturk/build/src/libsturk.a`.
+> - Header files are located at `/path/to/sturk/include`.
+
+
+**Compile `libsturk.a`**
 
 ```sh
 cd /path/to/sturk
 make
 ```
 
+
+**Link to `libsturk.a`**
+
+```sh
+cc main.c /path/to/sturk/build/src/libsturk.a -I/path/to/sturk/include
+```
+
+
+### Configuring
+
+See [Buildsystem](#buildsystem).
+
+
+
+## Architecture
+
+| Submodule                            | Description                                |
+| ------------------------------------ | ------------------------------------------ |
+| [broker](src/broker/README.md)       | publish-subscribe data types               |
+| algo                                 | memory pool, waiting queue, red-black tree |
+| logger                               | -                                          |
+| osal                                 | -                                          |
+| [vertegs](include/vertegs/README.md) | subroutines for operating on graphs        |
+
+
+| ![](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/feat/arena-allocator/docs/hierarchy.puml) |
+| :------------------: |
+| Submodules hierarchy |
+
+
+## Buildsystem<!--!{#buildsystem}!-->
+
+WIP
 
 The build can be customized with a yaml configuration.
 In this case, `libsturk.a` will be created at `/my/empty/dir`.
@@ -55,10 +82,9 @@ cd /my/empty/dir
 make
 ```
 
----
 
+## Glossary
 
-## --- USAGE ---
-
-- [Message broker](src/broker/docs/README.md)
-- [Graphs library](include/vertegs/docs/README.md)
+| Term | Description                        |
+| ---- | ---------------------------------- |
+| OSAL | operating system abstraction layer |

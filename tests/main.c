@@ -448,16 +448,14 @@ TEST(pool, should_return_freed_pointer)
 
 TEST(subscriber, should_receive_enqueued_message)
 {
-	StBroker* broker = broker_create(SAMPLE_LOAD_API);
+	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
 	StSubscriber* sber = subscriber_create(broker);
-	StLoad* load = NULL;
+	char** msg = NULL;
 
 	subscribe(sber, "test");
-	publish(broker_search(broker, "test"), "%X", 0xF00D);
-	TEST_ASSERT_NULL(channel_gettopic(load_getchan(load)));
-	load = subscriber_await(sber);
-	TEST_ASSERT_EQUAL_STRING("F00D", load);
-	TEST_ASSERT_EQUAL_STRING("test", channel_gettopic(load_getchan(load)));
+	publish(broker_search(broker, "test"), 5);
+	msg = subscriber_await(sber);
+	TEST_ASSERT_EQUAL_STRING("|||||", *msg);
 	broker_destroy(broker);
 }
 
@@ -466,33 +464,33 @@ TEST(subscriber, should_trace_null_param)
 	logger_detach(WARNING, st_stderr());
 	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":262: Null param.\n",
+		BROKER_FILE_PATH ":267: Null param.\n",
 		strstr(SIMPTE_GETTRACE(subscriber, 0), BROKER_FILE_PATH ":"));
 }
 
 TEST(subscriber, should_unload)
 {
-	StBroker* broker = broker_create(SAMPLE_LOAD_API);
+	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
 	StSubscriber* sber = subscriber_create(broker);
-	StLoad* load = NULL;
+	char** msg = NULL;
 
 	subscribe(sber, "test");
-	publish(broker_search(broker, "test"), "%X", 0xF00D);
-	load = subscriber_await(sber);
-	TEST_ASSERT_EQUAL_STRING("F00D", load);
+	publish(broker_search(broker, "test"), 2);
+	msg = subscriber_await(sber);
+	TEST_ASSERT_EQUAL_STRING("||", *msg);
 	subscriber_unload(sber);
-	publish(broker_search(broker, "test"), "%x", 0xBEEF);
-	TEST_ASSERT_EQUAL_STRING("beef", subscriber_await(sber));
-	TEST_ASSERT_NOT_EQUAL_STRING("F00D", load);
+	publish(broker_search(broker, "test"), 5);
+	TEST_ASSERT_EQUAL_STRING("|||||", *(char**)subscriber_await(sber));
+	TEST_ASSERT_NOT_EQUAL_STRING("||", *msg);
 	broker_destroy(broker);
 }
 
 TEST(broker, should_allow_zero_subscribers)
 {
-	StBroker* broker = broker_create(SAMPLE_LOAD_API);
+	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
 	StChannel* ch = broker_search(broker, "test");
 
-	publish(ch, "%d", 123);
+	publish(ch, 123);
 	broker_destroy(broker);
 }
 
@@ -503,7 +501,7 @@ TEST(broker, should_allow_many_topics)
 
 	srand(1);
 	for (int i = 0; i < 10; i++) {
-		broker = broker_create(SAMPLE_LOAD_API);
+		broker = broker_create(SAMPLE_MESSAGE_API);
 		for (int i = 0; i < 1000; i++) {
 			*((int*)str) = rand();
 			broker_search(broker, str);
@@ -580,7 +578,7 @@ TEST(broker, should_trace_null_param)
 	logger_detach(WARNING, st_stderr());
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":294: Null param.\n",
+		BROKER_FILE_PATH ":306: Null param.\n",
 		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 	free(tmp);
 }
@@ -613,7 +611,7 @@ static void run_extra_tests(void)
 		run_broker_extra_tests();
 }
 
-static void run_other_tests(void)
+static void run_basic_tests(void)
 {
 	RUN_TEST_CASE(common, should_destroy_null);
 	RUN_TEST_CASE(list, should_implement_lifo);
@@ -657,7 +655,7 @@ static void run_other_tests(void)
 
 int main(int argc, const char** argv)
 {
+	UnityMain(argc, argv, run_basic_tests);
 	SimpteMain(argc, argv, run_extra_tests);
-	UnityMain(argc, argv, run_other_tests);
 	return 0;
 }
