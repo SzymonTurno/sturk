@@ -50,19 +50,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @brief Opaque data type that represents the message load.
  *
  * The memory for each message has two contexts:
- * 1. direct - allocated from the memory pool;
- * 2. indirect - optional, allocated within StLoadVt::ctor.
+ * 1. static - allocated from the memory pool;
+ * 2. dynamic - optional, allocated within StLoadVt::ctor.
  *
  * It is for the user to decide how to use those contexts by defining the
  * message constructor (StLoadVt::ctor).
  *
- * Direct context is a contiguous memory block allocated from a fixed-size
+ * Static context is a contiguous memory block allocated from a fixed-size
  * memory pool and its size is constant for all messages. The size of the
  * block is a multiple of the size of the metadata, big enough to hold one
  * instance of the metadata and one instance of the user defined load. The size
- * of the load for the direct context is defined with the StLoadVt::size
+ * of the load for the static context is defined with the StLoadVt::size
  * callback.
+ *
  * @see StPool
+ *
+ * Table: Static context
  *
  * | Array | meta + load (StLoad*) |
  * | ----- | --------------------- |
@@ -71,9 +74,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * | n - 1 | ^                     |
  * | n     | ^                     |
  *
- * The indirect context is optional and it is everything that is allocated by
+ * The dynamic context is optional and it is everything that is allocated by
  * the contructor callback - StLoadVt::ctor and that is accessible through
- * pointers placed somewhere in the direct context.
+ * pointers placed somewhere in the load.
  */
 typedef char StLoad;
 
@@ -98,7 +101,7 @@ struct StLoadVt {
 	 * @brief Constructor callback for the message.
 	 *
 	 * Should allocate additional memory for the message, if needed (see
-	 * "indirect context") and initialize the message - read arguments from
+	 * "dynamic context") and initialize the message - read arguments from
 	 * the va_list and fill the load passed through the StLoad pointer.
 	 *
 	 * @note The input va_list will hold all values passed to st_publish()
@@ -153,7 +156,7 @@ typedef struct StChannel StChannel;
  * @brief Broadcast the message.
  *
  * @param[in,out] ch The channel to which the message is sent.
- * @param[in] ... The list of arguments used by the StLoadVt::ctor.
+ * @param[in] ... The list of arguments passed to the StLoadVt::ctor.
  *
  * @note Channels without any subscribers are allowed. Publishing to such
  * channel is safe and it does not have any meaningful behaviour (it does

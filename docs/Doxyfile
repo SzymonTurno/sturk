@@ -253,3 +253,4 @@ DISABLE_INDEX          = NO
 FULL_SIDEBAR           = NO
 HTML_COLORSTYLE        = LIGHT
 HTML_HEADER            = ./docs/header.html
+PLANTUML_JAR_PATH      = ./docs/plantuml.jar

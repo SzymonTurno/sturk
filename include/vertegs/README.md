@@ -1,10 +1,43 @@
 # Vertegs
 
-<!--! [TOC] -->
+<!--![TOC]!-->
 
 
 Vertegs is a library with C header files only that provide data types, macros and
 functions that operate on graphs.
+
+@startuml "Vertegs data types"
+
+    class Vertegs {
+        +nbor[] : Vertegs
+        +walk(in edge : size_t, in len : int) : Vertegs
+        +inslist(in entry : Vertegs, in pos : int)
+        +remlist(in pos : int) : Vertegs
+        +inscirq(in entry : Vertegs, in pos : int)
+        +remcirq(in pos : int) : Vertegs
+    }
+
+    class Graph <<T>> {
+        -data : T
+        +datap() : T
+    }
+
+    class List <<T>> {
+        +ins(in entry : List<T>, in pos : int)
+        +rem(in pos : int) : List<T>
+        +next() : List<T>
+    }
+
+    class Cirq <<T>> {
+        +ins(in entry : Cirq<T>, in pos : int)
+        +rem(in pos : int) : Cirq<T>
+    }
+
+    Graph --|> Vertegs
+    List --|> Graph
+    Cirq --|> Graph
+
+@enduml
 
 
 ## Overview
