@@ -1,10 +1,10 @@
 # Message broker
 
-<!--![TOC]-->
+<!--![TOC]!-->
 
 
-Message broker is a data type that provides messaging in a publish-subscribe manner.
-It aggregates two other data types:
+Message broker is a data type for interprocess communication in a publish-subscribe
+manner. It aggregates two other data types:
 
 1. channels - in a dictionary (key-value data structure),
 2. subscribers - in a list.
@@ -14,15 +14,61 @@ a *topic* or a *named channel*. Messages are published to channels and received 
 subscribers. In order for the subscriber to receive a message sent through a specific
 channel it must subscribe to a topic that corresponds to this channel.
 
+@startuml "Message broker data types"
+
+    class Channel {
+        +publish(in args : va_list)
+        +gettopic() : string
+    }
+
+    class Load {
+        +getchan() : Channel
+    }
+
+    abstract class LoadVt {
+        +size()
+        +ctor(in args : va_list) : Load
+        +dtor(in load : Load)
+    }
+
+    class Broker {
+        -channels : Dictionary<String, Channel>
+        -subscribers : List<Subscriber>
+        +create(in vp : LoadVt)
+        +destroy()
+        +search(in topic : String) : Channel
+    }
+
+    class Subscriber {
+        +create(in broker : Broker)
+        +destroy()
+        +subscribe(in topic : String)
+        +await() : Load
+        +poll() : Load
+        +unload()
+    }
+
+    Channel "many" --o "1" Broker
+    Load --> Channel
+    LoadVt --> Load
+    Broker --> LoadVt
+    Subscriber "many" --o "1" Broker
+    Subscriber --> Broker
+    Subscriber --> Load
+
+@enduml
+
+
 > [!note]
 > Typical publish-subscribe implementations introduce also a publisher data type. This
 > implementation does not have publishers. Publishing is done directly to a message
 > channel.
 
-Below is an example usage of the message broker.
-
 
 ## Define an API for messages
+
+The size of the message, its structure and the parsing of arguments passed to the
+publish procedure are controlled by the API that the broker has been created with.
 
 
 ### Define a size of the message
@@ -35,7 +81,7 @@ static size_t size(void)
 ```
 
 
-### Define a message constructor<!--! {#define-a-message-constructor} -->
+### Define a message constructor<!--!{#define-a-message-constructor}!-->
 
 ```c
 static void init(StLoad* load, va_list vlist)
@@ -57,7 +103,7 @@ static void deinit(StLoad* load)
 ```
 
 
-### Define a vtable<!--! {#define-a-vtable} -->
+### Define a vtable<!--!{#define-a-vtable}!-->
 
 ```c
 const struct StLoadVt SAMPLE_LOAD_API[] = {

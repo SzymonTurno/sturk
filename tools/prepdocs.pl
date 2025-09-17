@@ -19,9 +19,9 @@ sub new {
 	my $out = "";
 
 	while ($i <= $size) {
-		if ($self{commented} && rindex($text, "-->", $i) == $i) {
+		if ($self{commented} && rindex($text, "!-->", $i) == $i) {
 			$self{commented} = 0;
-			$i += length("-->");
+			$i += length("!-->");
 		} elsif (rindex($text, "<!--!", $i) == $i) {
 			$self{commented} = 1;
 			$i += length("<!--!");
