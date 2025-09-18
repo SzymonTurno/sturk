@@ -14,49 +14,9 @@ a *topic* or a *named channel*. Messages are published to channels and received 
 subscribers. In order for the subscriber to receive a message sent through a specific
 channel it must subscribe to a topic that corresponds to this channel.
 
-@startuml "Message broker data types"
-
-    class Channel {
-        +publish(in args : va_list)
-        +gettopic() : string
-    }
-
-    class Load {
-        +getchan() : Channel
-    }
-
-    abstract class LoadVt {
-        +size()
-        +ctor(in args : va_list) : Load
-        +dtor(in load : Load)
-    }
-
-    class Broker {
-        -channels : Dictionary<String, Channel>
-        -subscribers : List<Subscriber>
-        +create(in vp : LoadVt)
-        +destroy()
-        +search(in topic : String) : Channel
-    }
-
-    class Subscriber {
-        +create(in broker : Broker)
-        +destroy()
-        +subscribe(in topic : String)
-        +await() : Load
-        +poll() : Load
-        +unload()
-    }
-
-    Channel "many" --o "1" Broker
-    Load --> Channel
-    LoadVt --> Load
-    Broker --> LoadVt
-    Subscriber "many" --o "1" Broker
-    Subscriber --> Broker
-    Subscriber --> Load
-
-@enduml
+| ![](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/feat/arena-allocator/src/broker/docs/hierarchy.puml) |
+| :----------------------: |
+| Message broker hierarchy |
 
 
 > [!note]

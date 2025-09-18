@@ -60,5 +60,5 @@ make
 
 ## --- USAGE ---
 
-- [Message broker](src/broker/README.md)
-- [Graphs library](include/vertegs/README.md)
+- [Message broker](src/broker/docs/README.md)
+- [Graphs library](include/vertegs/docs/README.md)

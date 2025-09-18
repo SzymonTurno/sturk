@@ -113,7 +113,7 @@ EXTRACT_STATIC         = YES
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = ./README.md \
-                         ./src/broker/README.md \
+                         ./src/broker/docs \
                          ./include/st \
                          ./include/st/logger \
                          ./include/st/os \
@@ -121,6 +121,7 @@ INPUT                  = ./README.md \
                          ./include/sturk/logger \
                          ./include/sturk/os \
                          ./include/vertegs \
+                         ./include/vertegs/docs \
                          ./docs/summary.md
 
 # If the value of the INPUT tag contains directories, you can use the
