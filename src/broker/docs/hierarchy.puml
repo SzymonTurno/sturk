@@ -1,0 +1,41 @@
+@startuml "Message broker data types"
+    class Channel {
+        +publish(in args : va_list)
+        +gettopic() : string
+    }
+
+    class Load {
+        +getchan() : Channel
+    }
+
+    abstract class LoadVt {
+        +size()
+        +ctor(in args : va_list) : Load
+        +dtor(in load : Load)
+    }
+
+    class Broker {
+        -channels : Dictionary<String, Channel>
+        -subscribers : List<Subscriber>
+        +create(in vp : LoadVt)
+        +destroy()
+        +search(in topic : String) : Channel
+    }
+
+    class Subscriber {
+        +create(in broker : Broker)
+        +destroy()
+        +subscribe(in topic : String)
+        +await() : Load
+        +poll() : Load
+        +unload()
+    }
+
+    Channel "many" --o "1" Broker
+    Load --> Channel
+    LoadVt --> Load
+    Broker --> LoadVt
+    Subscriber "many" --o "1" Broker
+    Subscriber --> Broker
+    Subscriber --> Load
+@enduml
