@@ -112,15 +112,7 @@ EXTRACT_STATIC         = YES
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ./README.md \
-                         ./src/broker \
-                         ./include/st \
-                         ./include/st/logger \
-                         ./include/st/os \
-                         ./include/sturk \
-                         ./include/sturk/logger \
-                         ./include/sturk/os \
-                         ./include/vertegs
+INPUT                  = ./
 
 # If the value of the INPUT tag contains directories, you can use the
 # FILE_PATTERNS tag to specify one or more wildcard patterns (like *.cpp and
@@ -182,11 +174,11 @@ IGNORE_PREFIX          = St st_ ST_ vx_ VX_
 # documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  = ./docs/doxygen-awesome.css \
-                         ./docs/doxygen-custom/custom.css \
-                         ./docs/doxygen-awesome-sidebar-only.css \
-                         ./docs/doxygen-awesome-sidebar-only-darkmode-toggle.css \
-                         ./docs/doxygen-custom/custom-alternative.css
+HTML_EXTRA_STYLESHEET  = ../../docs/doxygen-awesome.css \
+                         ../../docs/doxygen-custom/custom.css \
+                         ../../docs/doxygen-awesome-sidebar-only.css \
+                         ../../docs/doxygen-awesome-sidebar-only-darkmode-toggle.css \
+                         ../../docs/doxygen-custom/custom-alternative.css
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
@@ -196,12 +188,12 @@ HTML_EXTRA_STYLESHEET  = ./docs/doxygen-awesome.css \
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       = ./docs/doxygen-awesome-darkmode-toggle.js \
-                         ./docs/doxygen-awesome-fragment-copy-button.js \
-                         ./docs/doxygen-awesome-paragraph-link.js \
-                         ./docs/doxygen-custom/toggle-alternative-theme.js \
-                         ./docs/doxygen-awesome-interactive-toc.js \
-                         ./docs/doxygen-awesome-tabs.js
+HTML_EXTRA_FILES       = ../../docs/doxygen-awesome-darkmode-toggle.js \
+                         ../../docs/doxygen-awesome-fragment-copy-button.js \
+                         ../../docs/doxygen-awesome-paragraph-link.js \
+                         ../../docs/doxygen-custom/toggle-alternative-theme.js \
+                         ../../docs/doxygen-awesome-interactive-toc.js \
+                         ../../docs/doxygen-awesome-tabs.js
 
 #---------------------------------------------------------------------------
 # Configuration options related to the man page output
@@ -251,5 +243,7 @@ GENERATE_TREEVIEW      = YES
 DISABLE_INDEX          = NO
 FULL_SIDEBAR           = NO
 HTML_COLORSTYLE        = LIGHT
-HTML_HEADER            = ./docs/header.html
-PLANTUML_JAR_PATH      = ./docs/plantuml.jar
+HTML_HEADER            = ../../docs/header.html
+PLANTUML_JAR_PATH      = ../../docs/plantuml.jar
+RECURSIVE              = YES
+EXCLUDE                = ./vertegs/README.md

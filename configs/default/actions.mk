@@ -30,6 +30,6 @@ build/Makefile: build
 	cd build && $(mkfile_DIR)/tools/configure.sh
 
 build:
-	$(call MKDIR, build)
+	$(call MKDIR, $@)
 
 .PHONY: sturk-default unity-default all-default check-default

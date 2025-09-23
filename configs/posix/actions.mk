@@ -23,6 +23,6 @@ build-posix/Makefile: build-posix
 		$(mkfile_DIR)/configs/posix/olconf.yaml
 
 build-posix:
-	$(call MKDIR, build-posix)
+	$(call MKDIR, $@)
 
 .PHONY: sturk-posix unity-posix all-posix check-posix coverage-posix
