@@ -94,16 +94,17 @@ sub preprocess {
 	return $out;
 
 } sub main {
-	my $tools_dir = dirname(__FILE__);
-	my $sturk_dir = (fileparse($tools_dir))[1];
-	my @files = `find $sturk_dir -name README.md`;
+	my $outfile = $ARGV[0];
+	my $file = $outfile;
+	my $out = "";
+	my $dir = "";
 
-	chomp @files;
-	foreach my $file (@files) {
-		$out = preprocess($file);
-		open(fd, '>', $file) or die $!;
-		print fd $out;
-		close(fd);
-	}
+	$file =~ s/^.?.?build\/docs\///g;
+	$out = preprocess($file);
+	$dir = dirname($outfile);
+	`mkdir -p $dir`;
+	open(fd, '>', $outfile) or die $!;
+	print fd $out;
+	close(fd);
 
 } main();

@@ -13,17 +13,9 @@ check: check-default
 format:
 	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i
 
-public:
-ifeq ($(PROJECT_NUMBER),)
-	(cat docs/Doxyfile ; \
-	echo "PROJECT_NUMBER=$(shell git describe --tags --abbrev=0 \
-		| sed 's/v//')") | doxygen -
-else
-	(cat docs/Doxyfile ; echo "PROJECT_NUMBER=$(PROJECT_NUMBER)") | doxygen -
-endif
-
 include configs/default/actions.mk
 include configs/iso/actions.mk
 include configs/posix/actions.mk
+include docs/actions.mk
 
 .PHONY: all check format

@@ -35,6 +35,6 @@ build-iso/Makefile: build-iso
 		$(mkfile_DIR)/configs/iso/olconf.yaml
 
 build-iso:
-	$(call MKDIR, build-iso)
+	$(call MKDIR, $@)
 
 .PHONY: sturk-iso unity-iso all-iso check-iso coverage-iso
