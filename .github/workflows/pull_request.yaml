@@ -255,13 +255,15 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Set env
-      run: echo "RELEASE_VERSION=v0.0.0" >> $GITHUB_ENV
-      run: echo "PROJECT_NUMBER=$(echo $RELEASE_VERSION | sed 's/v//')" >> $GITHUB_ENV
+      run: |
+        echo "RELEASE_VERSION=v0.0.0" >> $GITHUB_ENV
+        echo "PROJECT_NUMBER=$(echo $RELEASE_VERSION | sed 's/v//')" >> $GITHUB_ENV
     - name: Setup
       run: |
         sudo apt update
         sudo apt-get install doxygen
         sudo apt-get install graphviz
     - name: Generate docs
-      run: tools/prepdocs.pl
-      run: tools/picky.sh make PROJECT_NUMBER=$PROJECT_NUMBER public
+      run: |
+        tools/prepdocs.pl
+        tools/picky.sh make PROJECT_NUMBER=$PROJECT_NUMBER public
