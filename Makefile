@@ -13,9 +13,12 @@ check: check-default
 format:
 	find . -iname '*.h' -o -iname '*.c' | xargs clang-format -i
 
+lint-md:
+	mdl . -r ~MD013,~MD029
+
 include configs/default/actions.mk
 include configs/iso/actions.mk
 include configs/posix/actions.mk
 include docs/actions.mk
 
-.PHONY: all check format
+.PHONY: all check format lint-md

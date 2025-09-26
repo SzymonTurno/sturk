@@ -9,24 +9,20 @@ class Vertegs {
     +remcirq(in pos : int) : Vertegs
 }
 
-class Graph <<T>> {
+class Graph<T> extends Vertegs {
     -data : T
     +datap() : T
 }
 
-class List <<T>> {
+class List<T> implements Graph {
     +ins(in entry : List<T>, in pos : int)
     +rem(in pos : int) : List<T>
     +next() : List<T>
 }
 
-class Cirq <<T>> {
+class Cirq<T> implements Graph {
     +ins(in entry : Cirq<T>, in pos : int)
     +rem(in pos : int) : Cirq<T>
 }
-
-Graph --|> Vertegs
-List --|> Graph
-Cirq --|> Graph
 
 @enduml
