@@ -44,7 +44,7 @@ static inline union Message* msg_create(StBroker* broker, va_list args)
 	self = pool_tryalloc(broker->channels.pool);
 	if (!self) {
 		self = st_alloc(
-			(broker->vp->size() / sizeof(union Message) + 2) *
+			(broker->vp->size_cb() / sizeof(union Message) + 2) *
 			sizeof(union Message));
 		self->s.mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	}

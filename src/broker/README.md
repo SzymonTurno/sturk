@@ -43,7 +43,7 @@ length will be equal to the integer passed to the publish procedure.
 ### Define the size of the message
 
 ```c
-static size_t size(void)
+static size_t getsize(void)
 {
 	return sizeof(char*);
 }
@@ -86,14 +86,14 @@ static void deinit(void* msg)
 
 ```c
 const struct StMessageVt SAMPLE_MESSAGE_API[] = {
-	{.size = size, .ctor = init, .dtor = deinit}};
+	{.size_cb = getsize, .ctor = init, .dtor = deinit}};
 ```
 
 
 ### Complete API
 
 ```c
-static size_t size(void)
+static size_t getsize(void)
 {
 	return sizeof(char*);
 }
@@ -118,7 +118,7 @@ static void deinit(void* msg)
 }
 
 const struct StMessageVt SAMPLE_MESSAGE_API[] = {
-	{.size = size, .ctor = init, .dtor = deinit}};
+	{.size_cb = getsize, .ctor = init, .dtor = deinit}};
 ```
 
 

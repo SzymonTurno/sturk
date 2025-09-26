@@ -51,13 +51,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 struct StMessageVt {
 	/**
-	 * @var size_t (*size)(void)
+	 * @var size_t (*size_cb)(void)
 	 *
 	 * @brief Callback for obtaining the size of the message.
 	 *
 	 * Should return the size of the message in bytes.
 	 */
-	size_t (*size)(void);
+	size_t (*size_cb)(void);
 
 	/**
 	 * @var void (*ctor)(void*, va_list)
