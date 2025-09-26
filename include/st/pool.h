@@ -33,13 +33,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @file st/pool.h
  *
  * @brief Memory pool.
- *
- * Glossary
- * --------
- *
- * | Term | Description                   |
- * | ---- | ----------------------------- |
- * | pool | fixed-size blocks memory pool |
  */
 
 #ifndef ST_POOL_H

@@ -1,6 +1,6 @@
 @startuml "Broker data types"
 
-abstract class MessageVtable {
+abstract class "MessageVtable" as MessageVtable {
     +size()
     +ctor(in args : va_list) : void*
     +dtor(in msg : void*)
