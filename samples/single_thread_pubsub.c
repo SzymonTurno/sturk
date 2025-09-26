@@ -31,7 +31,7 @@ struct Subscriber {
 	struct Payload* pload;
 };
 
-static size_t size(void)
+static size_t getsize(void)
 {
 	return sizeof(struct Payload);
 }
@@ -49,7 +49,7 @@ static void deinit(void* msg)
 }
 
 static const struct StMessageVt PAYLOAD_API[] = {
-	{.size = size, .ctor = init, .dtor = deinit}};
+	{.size_cb = getsize, .ctor = init, .dtor = deinit}};
 
 static void receive(struct Subscriber* sub)
 {

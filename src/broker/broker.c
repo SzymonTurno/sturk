@@ -158,7 +158,7 @@ StBroker* st_broker_create(const struct StMessageVt* vp)
 	struct StBroker* self = NULL;
 
 	ENSURE_MEM(vp, ERROR);
-	ENSURE_MEM(vp->size, ERROR);
+	ENSURE_MEM(vp->size_cb, ERROR);
 	ENSURE_MEM(vp->ctor, ERROR);
 	ENSURE_MEM(vp->dtor, ERROR);
 	self = NEW(struct StBroker);

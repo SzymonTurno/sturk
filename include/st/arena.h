@@ -59,11 +59,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 typedef struct StArena StArena;
 
 /**
- * @var struct StArenaPool
+ * @struct StArenaGroup
  *
  * @brief Collection of arena instances.
  */
 struct StArenaGroup {
+	/** @brief Using union @a u for explicit padding. */
 	union {
 		/**
 		 * @var int n_elems
@@ -132,11 +133,11 @@ void* st_arena_alloc(StArena* arena, size_t size, const char* file, int line);
 void st_arena_free(StArena* arena);
 
 /**
- * @fn void st_arena_cleanup(struct StArenaPool* pool)
+ * @fn void st_arena_cleanup(struct StArenaGroup* group)
  *
- * @brief Free all the memory from an arena pool.
+ * @brief Free all the memory from an arena collection.
  *
- * @param[in,out] pool The arena pool.
+ * @param[in,out] group The arena collection.
  */
 void st_arena_cleanup(struct StArenaGroup* group);
 

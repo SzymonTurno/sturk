@@ -24,7 +24,7 @@ struct Message {
 	char payload[8];
 };
 
-static size_t size(void)
+static size_t getsize(void)
 {
 	return sizeof(struct Message);
 }
@@ -55,7 +55,7 @@ static int msg_getid(void* msg)
 }
 
 const struct StMessageVt MESSAGE_API[] = {
-	{.size = size, .ctor = init, .dtor = deinit}};
+	{.size_cb = getsize, .ctor = init, .dtor = deinit}};
 
 static void* task(void* arg)
 {

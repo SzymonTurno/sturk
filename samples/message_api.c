@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static size_t size(void)
+static size_t getsize(void)
 {
 	return sizeof(char*);
 }
@@ -27,4 +27,4 @@ static void deinit(void* msg)
 }
 
 const struct StMessageVt SAMPLE_MESSAGE_API[] = {
-	{.size = size, .ctor = init, .dtor = deinit}};
+	{.size_cb = getsize, .ctor = init, .dtor = deinit}};
