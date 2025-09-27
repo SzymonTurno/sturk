@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/graph.h"
 #include "sturk/list.h"
 
-#define THRESHOLD 8
+#define THRESHOLD  8
 #define CHUNK_SIZE (8 * 1024)
 
 struct Chunk {
@@ -103,7 +103,8 @@ static size_t getbytes(StArena* arena)
 	return (size_t)(graph_datap(arena)->limit - graph_datap(arena)->avail);
 }
 
-StArena* st_arena_create(struct StArenaGroup* group, void* (*alloc_cb)(size_t),
+StArena* st_arena_create(
+	struct StArenaGroup* group, void* (*alloc_cb)(size_t),
 	void (*free_cb)(void*))
 {
 	StArena* ret = alloc_cb(sizeof(*ret));
