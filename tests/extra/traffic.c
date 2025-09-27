@@ -94,8 +94,7 @@ static void* task(void* arg)
 			if (strcmp("request.join",
 			           channel_gettopic(msg_getchan(msg))) == 0)
 				break;
-			TEST_ASSERT_GREATER_THAN_INT(
-				N_THREADS, msg_getid(msg));
+			TEST_ASSERT_GREATER_THAN_INT(N_THREADS, msg_getid(msg));
 			TEST_ASSERT_LESS_OR_EQUAL_INT(0, msg_getid(msg));
 			counters[id][msg_getid(msg)]++;
 			msg = NULL;

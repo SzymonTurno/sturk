@@ -94,7 +94,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define ST_ENSURE(cond, lvl, e)                                                \
 	do {                                                                   \
-		if (!(cond)) \
+		if (!(cond))                                                   \
 			ST_RAISE(lvl, e);                                      \
 	} while (0)
 

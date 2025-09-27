@@ -458,7 +458,8 @@ TEST(arena, should_allocate_aligned_memory)
 
 	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
 		buffs[i] = ARENA_ALLOC(arena, 1 << i);
-		TEST_ASSERT_EQUAL_INT(0, ((uintptr_t)buffs[i]) % sizeof(StAlign));
+		TEST_ASSERT_EQUAL_INT(
+			0, ((uintptr_t)buffs[i]) % sizeof(StAlign));
 	}
 	arena_destroy(arena);
 	arena_cleanup(&g);

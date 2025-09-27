@@ -86,8 +86,7 @@ struct StArenaGroup {
 };
 
 /**
- * @fn StArena* st_arena_create(struct StArenaGroup* group, void* (*alloc)(size_t),
- *	void (*free)(void*))
+ * @fn StArena* st_arena_create(struct StArenaGroup* group, void* (*alloc)(size_t), void (*free)(void*))
  *
  * @brief Create an arena.
  *
@@ -97,7 +96,8 @@ struct StArenaGroup {
  *
  * @return The pointer to the new arena.
  */
-StArena* st_arena_create(struct StArenaGroup* group, void* (*alloc_cb)(size_t),
+StArena* st_arena_create(
+	struct StArenaGroup* group, void* (*alloc_cb)(size_t),
 	void (*free_cb)(void*));
 
 /**
