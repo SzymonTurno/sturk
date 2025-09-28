@@ -1,9 +1,9 @@
-<map id="include/st/dict.h" name="include/st/dict.h">
-<area shape="rect" id="Node000001" title="Dictionary." alt="" coords="89,5,215,31"/>
-<area shape="rect" id="Node000002" href="$st_2str_8h.html" title="String utilities." alt="" coords="16,79,133,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,42,89,80,86,76,128,38"/>
-<area shape="rect" id="Node000004" href="$sturk_2dict_8h.html" title=" " alt="" coords="157,79,304,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="177,38,220,76,216,80,173,42"/>
-<area shape="rect" id="Node000003" href="$sturk_2str_8h.html" title=" " alt="" coords="5,152,144,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="77,118,77,152,72,152,72,118"/>
+<map id="st/dict.h" name="st/dict.h">
+<area shape="rect" id="Node000001" title="Dictionary." alt="" coords="63,5,138,31"/>
+<area shape="rect" id="Node000002" href="$st_2str_8h.html" title="String utilities." alt="" coords="15,79,82,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,43,59,80,55,77,82,40"/>
+<area shape="rect" id="Node000004" href="$sturk_2dict_8h.html" title=" " alt="" coords="107,79,201,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="120,40,147,77,143,80,115,43"/>
+<area shape="rect" id="Node000003" href="$sturk_2str_8h.html" title=" " alt="" coords="5,152,92,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="51,118,51,152,46,152,46,118"/>
 </map>

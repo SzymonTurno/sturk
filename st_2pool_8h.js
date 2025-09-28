@@ -5,5 +5,6 @@ var st_2pool_8h =
     [ "st_pool_create", "st_2pool_8h.html#a172657dfff0d52edb492ee69477f9b07", null ],
     [ "st_pool_destroy", "st_2pool_8h.html#a4f55b543f6768816cb0be2baa3d867d7", null ],
     [ "st_pool_free", "st_2pool_8h.html#adb2c5252a1a79d799cd2ff918f0adecf", null ],
-    [ "st_pool_tryalloc", "st_2pool_8h.html#a4162201c63b16c181ac5e29b98c37de7", null ]
+    [ "st_pool_tryalloc", "st_2pool_8h.html#a4162201c63b16c181ac5e29b98c37de7", null ],
+    [ "VX_LIST", "st_2pool_8h.html#ae37438fb898c28e49ef628647279ed6b", null ]
 ];

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Sturk: include/st/waitq.h File Reference</title>
+<title>Sturk: st/waitq.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.0.2</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -127,34 +127,36 @@ $(document).ready(function(){initNavTree('st_2waitq_8h.html',''); initResizable(
 <p>Waiting queue.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="sys_8h_source.html">st/os/sys.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="vertegs_8h_source.html">vx/vertegs.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="vertex_8h_source.html">vertegs/vertex.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for waitq.h:</div>
 <div class="dyncontent">
-<div class="center"><img src="st_2waitq_8h__incl.png" border="0" usemap="#ainclude_2st_2waitq_8h" alt=""/></div>
-<map name="ainclude_2st_2waitq_8h" id="ainclude_2st_2waitq_8h">
-<area shape="rect" title="Waiting queue." alt="" coords="131,5,269,31"/>
-<area shape="rect" href="sys_8h.html" title="System procedures." alt="" coords="95,79,185,104"/>
-<area shape="poly" title=" " alt="" coords="192,33,161,70,156,66,188,29"/>
-<area shape="rect" href="vertegs_8h.html" title="Vertex." alt="" coords="210,79,313,104"/>
-<area shape="poly" title=" " alt="" coords="212,29,244,66,240,70,208,33"/>
+<div class="center"><img src="st_2waitq_8h__incl.png" border="0" usemap="#ast_2waitq_8h" alt=""/></div>
+<map name="ast_2waitq_8h" id="ast_2waitq_8h">
+<area shape="rect" title="Waiting queue." alt="" coords="169,5,255,31"/>
+<area shape="rect" href="sys_8h.html" title="System procedures." alt="" coords="100,79,191,104"/>
+<area shape="poly" title=" " alt="" coords="203,33,167,70,164,67,199,29"/>
+<area shape="rect" href="vertex_8h.html" title="Vertex." alt="" coords="215,79,345,104"/>
+<area shape="poly" title=" " alt="" coords="225,29,261,67,257,70,221,33"/>
 <area shape="rect" title=" " alt="" coords="5,152,80,177"/>
-<area shape="poly" title=" " alt="" coords="126,106,71,146,68,141,123,102"/>
+<area shape="poly" title=" " alt="" coords="130,106,72,146,69,142,127,102"/>
 <area shape="rect" title=" " alt="" coords="104,152,187,177"/>
-<area shape="poly" title=" " alt="" coords="144,104,146,138,141,139,138,105"/>
-<area shape="rect" title=" " alt="" coords="220,152,295,177"/>
-<area shape="poly" title=" " alt="" coords="160,102,228,142,225,147,157,106"/>
-<area shape="poly" title=" " alt="" coords="263,104,261,139,256,138,258,104"/>
+<area shape="poly" title=" " alt="" coords="148,104,148,138,143,138,143,104"/>
+<area shape="rect" title=" " alt="" coords="211,152,285,177"/>
+<area shape="poly" title=" " alt="" coords="163,102,221,142,218,146,160,106"/>
+<area shape="poly" title=" " alt="" coords="277,105,261,141,256,139,272,103"/>
+<area shape="rect" title=" " alt="" coords="309,152,384,177"/>
+<area shape="poly" title=" " alt="" coords="293,103,328,140,325,144,289,106"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="st_2waitq_8h__dep__incl.png" border="0" usemap="#ainclude_2st_2waitq_8hdep" alt=""/></div>
-<map name="ainclude_2st_2waitq_8hdep" id="ainclude_2st_2waitq_8hdep">
-<area shape="rect" title="Waiting queue." alt="" coords="16,5,153,31"/>
-<area shape="rect" href="sturk_2waitq_8h.html" title=" " alt="" coords="5,79,164,104"/>
-<area shape="poly" title=" " alt="" coords="87,44,87,79,82,79,82,44"/>
+<div class="center"><img src="st_2waitq_8h__dep__incl.png" border="0" usemap="#ast_2waitq_8hdep" alt=""/></div>
+<map name="ast_2waitq_8hdep" id="ast_2waitq_8hdep">
+<area shape="rect" title="Waiting queue." alt="" coords="15,5,102,31"/>
+<area shape="rect" href="sturk_2waitq_8h.html" title=" " alt="" coords="5,79,112,104"/>
+<area shape="poly" title=" " alt="" coords="61,44,61,79,56,79,56,44"/>
 </map>
 </div>
 </div>
@@ -162,40 +164,40 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ab888411bf6ffcbf6dedb21242d66f2d0" id="r_ab888411bf6ffcbf6dedb21242d66f2d0"><td class="memItemLeft" align="right" valign="top"><a id="ab888411bf6ffcbf6dedb21242d66f2d0" name="ab888411bf6ffcbf6dedb21242d66f2d0"></a>
-typedef struct <a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a>&#160;</td><td class="memItemRight" valign="bottom"><b>StWaitq</b></td></tr>
-<tr class="memdesc:ab888411bf6ffcbf6dedb21242d66f2d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waiting queue. <br /></td></tr>
-<tr class="separator:ab888411bf6ffcbf6dedb21242d66f2d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c766ae65ba0b483d5eded3c64976a0b" id="r_a8c766ae65ba0b483d5eded3c64976a0b"><td class="memItemLeft" align="right" valign="top"><a id="a8c766ae65ba0b483d5eded3c64976a0b" name="a8c766ae65ba0b483d5eded3c64976a0b"></a>
+typedef struct <a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a>&#160;</td><td class="memItemRight" valign="bottom"><b>StWaitQ</b></td></tr>
+<tr class="memdesc:a8c766ae65ba0b483d5eded3c64976a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waiting queue. <br /></td></tr>
+<tr class="separator:a8c766ae65ba0b483d5eded3c64976a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:acffc98af0fc04deaae9e99d98d7c921f" id="r_acffc98af0fc04deaae9e99d98d7c921f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2waitq_8h.html#acffc98af0fc04deaae9e99d98d7c921f">st_waitq_create</a> (void)</td></tr>
-<tr class="memdesc:acffc98af0fc04deaae9e99d98d7c921f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new waiting queue.  <br /></td></tr>
-<tr class="separator:acffc98af0fc04deaae9e99d98d7c921f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa202eaca1c1bc218d925f9b411f8b88" id="r_aaa202eaca1c1bc218d925f9b411f8b88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2waitq_8h.html#aaa202eaca1c1bc218d925f9b411f8b88">st_waitq_destroy</a> (<a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a> *waitq)</td></tr>
-<tr class="memdesc:aaa202eaca1c1bc218d925f9b411f8b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy a waiting queue.  <br /></td></tr>
-<tr class="separator:aaa202eaca1c1bc218d925f9b411f8b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3917ce24b9e8a9691545c0bda6f4034a" id="r_a3917ce24b9e8a9691545c0bda6f4034a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2waitq_8h.html#a3917ce24b9e8a9691545c0bda6f4034a">st_waitq_ins</a> (<a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a> *waitq, struct <a class="el" href="structVertegs.html">Vertegs</a> *entry)</td></tr>
-<tr class="memdesc:a3917ce24b9e8a9691545c0bda6f4034a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an entry into a waiting queue.  <br /></td></tr>
-<tr class="separator:a3917ce24b9e8a9691545c0bda6f4034a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaaad98c8e4ad8730e9e98dc2c17751e6" id="r_aaaad98c8e4ad8730e9e98dc2c17751e6"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2waitq_8h.html#aaaad98c8e4ad8730e9e98dc2c17751e6">st_waitq_rem</a> (<a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a> *waitq)</td></tr>
-<tr class="memdesc:aaaad98c8e4ad8730e9e98dc2c17751e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an entry from the front of the queue.  <br /></td></tr>
-<tr class="separator:aaaad98c8e4ad8730e9e98dc2c17751e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9758d7b836ccfca1e25f3ed64082dbe9" id="r_a9758d7b836ccfca1e25f3ed64082dbe9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2waitq_8h.html#a9758d7b836ccfca1e25f3ed64082dbe9">st_waitq_tryrem</a> (<a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a> *waitq)</td></tr>
-<tr class="memdesc:a9758d7b836ccfca1e25f3ed64082dbe9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to remove an entry from the front of the queue.  <br /></td></tr>
-<tr class="separator:a9758d7b836ccfca1e25f3ed64082dbe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54ada1579f467dd42fd43433ba2819cb" id="r_a54ada1579f467dd42fd43433ba2819cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2waitq_8h.html#a54ada1579f467dd42fd43433ba2819cb">st_waitq_create</a> (void)</td></tr>
+<tr class="memdesc:a54ada1579f467dd42fd43433ba2819cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new waiting queue.  <br /></td></tr>
+<tr class="separator:a54ada1579f467dd42fd43433ba2819cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbd86953eae6514b81c8e0fc01409e6b" id="r_adbd86953eae6514b81c8e0fc01409e6b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2waitq_8h.html#adbd86953eae6514b81c8e0fc01409e6b">st_waitq_destroy</a> (<a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> *waitq)</td></tr>
+<tr class="memdesc:adbd86953eae6514b81c8e0fc01409e6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy a waiting queue.  <br /></td></tr>
+<tr class="separator:adbd86953eae6514b81c8e0fc01409e6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70a64f9cc3f4f0f553f630864b8ccd32" id="r_a70a64f9cc3f4f0f553f630864b8ccd32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2waitq_8h.html#a70a64f9cc3f4f0f553f630864b8ccd32">st_waitq_ins</a> (<a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> *waitq, struct <a class="el" href="structVertegs.html">Vertegs</a> *entry)</td></tr>
+<tr class="memdesc:a70a64f9cc3f4f0f553f630864b8ccd32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an entry into a waiting queue.  <br /></td></tr>
+<tr class="separator:a70a64f9cc3f4f0f553f630864b8ccd32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dcb64322a90f504b4440ee1ef760004" id="r_a9dcb64322a90f504b4440ee1ef760004"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2waitq_8h.html#a9dcb64322a90f504b4440ee1ef760004">st_waitq_rem</a> (<a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> *waitq)</td></tr>
+<tr class="memdesc:a9dcb64322a90f504b4440ee1ef760004"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an entry from the front of the queue.  <br /></td></tr>
+<tr class="separator:a9dcb64322a90f504b4440ee1ef760004"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a875e2bb5a20e40a78011fdff047e3090" id="r_a875e2bb5a20e40a78011fdff047e3090"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structVertegs.html">Vertegs</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2waitq_8h.html#a875e2bb5a20e40a78011fdff047e3090">st_waitq_tryrem</a> (<a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> *waitq)</td></tr>
+<tr class="memdesc:a875e2bb5a20e40a78011fdff047e3090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to remove an entry from the front of the queue.  <br /></td></tr>
+<tr class="separator:a875e2bb5a20e40a78011fdff047e3090"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Waiting queue. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="acffc98af0fc04deaae9e99d98d7c921f" name="acffc98af0fc04deaae9e99d98d7c921f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acffc98af0fc04deaae9e99d98d7c921f">&#9670;&#160;</a></span>st_waitq_create()</h2>
+<a id="a54ada1579f467dd42fd43433ba2819cb" name="a54ada1579f467dd42fd43433ba2819cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54ada1579f467dd42fd43433ba2819cb">&#9670;&#160;</a></span>st_waitq_create()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a> * st_waitq_create </td>
+          <td class="memname"><a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> * st_waitq_create </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -209,8 +211,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aaa202eaca1c1bc218d925f9b411f8b88" name="aaa202eaca1c1bc218d925f9b411f8b88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa202eaca1c1bc218d925f9b411f8b88">&#9670;&#160;</a></span>st_waitq_destroy()</h2>
+<a id="adbd86953eae6514b81c8e0fc01409e6b" name="adbd86953eae6514b81c8e0fc01409e6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbd86953eae6514b81c8e0fc01409e6b">&#9670;&#160;</a></span>st_waitq_destroy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -218,7 +220,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void st_waitq_destroy </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> *&#160;</td>
           <td class="paramname"><em>waitq</em></td><td>)</td>
           <td></td>
         </tr>
@@ -235,8 +237,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3917ce24b9e8a9691545c0bda6f4034a" name="a3917ce24b9e8a9691545c0bda6f4034a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3917ce24b9e8a9691545c0bda6f4034a">&#9670;&#160;</a></span>st_waitq_ins()</h2>
+<a id="a70a64f9cc3f4f0f553f630864b8ccd32" name="a70a64f9cc3f4f0f553f630864b8ccd32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70a64f9cc3f4f0f553f630864b8ccd32">&#9670;&#160;</a></span>st_waitq_ins()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -244,7 +246,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void st_waitq_ins </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> *&#160;</td>
           <td class="paramname"><em>waitq</em>, </td>
         </tr>
         <tr>
@@ -272,8 +274,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aaaad98c8e4ad8730e9e98dc2c17751e6" name="aaaad98c8e4ad8730e9e98dc2c17751e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaaad98c8e4ad8730e9e98dc2c17751e6">&#9670;&#160;</a></span>st_waitq_rem()</h2>
+<a id="a9dcb64322a90f504b4440ee1ef760004" name="a9dcb64322a90f504b4440ee1ef760004"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9dcb64322a90f504b4440ee1ef760004">&#9670;&#160;</a></span>st_waitq_rem()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -281,7 +283,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">struct <a class="el" href="structVertegs.html">Vertegs</a> * st_waitq_rem </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> *&#160;</td>
           <td class="paramname"><em>waitq</em></td><td>)</td>
           <td></td>
         </tr>
@@ -300,8 +302,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9758d7b836ccfca1e25f3ed64082dbe9" name="a9758d7b836ccfca1e25f3ed64082dbe9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9758d7b836ccfca1e25f3ed64082dbe9">&#9670;&#160;</a></span>st_waitq_tryrem()</h2>
+<a id="a875e2bb5a20e40a78011fdff047e3090" name="a875e2bb5a20e40a78011fdff047e3090"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a875e2bb5a20e40a78011fdff047e3090">&#9670;&#160;</a></span>st_waitq_tryrem()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -309,7 +311,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">struct <a class="el" href="structVertegs.html">Vertegs</a> * st_waitq_tryrem </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="st_2waitq_8h.html#ab888411bf6ffcbf6dedb21242d66f2d0">StWaitq</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> *&#160;</td>
           <td class="paramname"><em>waitq</em></td><td>)</td>
           <td></td>
         </tr>
@@ -333,7 +335,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_6e9a6da2c7e4a6c456ccabb42c2d8f90.html">st</a></li><li class="navelem"><a class="el" href="st_2waitq_8h.html">waitq.h</a></li>
+    <li class="navelem"><a class="el" href="dir_adfe62f17403c5c9faef15746ee82730.html">st</a></li><li class="navelem"><a class="el" href="st_2waitq_8h.html">waitq.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

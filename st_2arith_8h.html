@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Sturk: include/st/arith.h File Reference</title>
+<title>Sturk: st/arith.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.0.2</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -118,6 +118,7 @@ $(document).ready(function(){initNavTree('st_2arith_8h.html',''); initResizable(
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a>  </div>
   <div class="headertitle"><div class="title">arith.h File Reference</div></div>
 </div><!--header-->
@@ -126,37 +127,46 @@ $(document).ready(function(){initNavTree('st_2arith_8h.html',''); initResizable(
 <p>Basic arithmetic operations.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for arith.h:</div>
 <div class="dyncontent">
-<div class="center"><img src="st_2arith_8h__incl.png" border="0" usemap="#ainclude_2st_2arith_8h" alt=""/></div>
-<map name="ainclude_2st_2arith_8h" id="ainclude_2st_2arith_8h">
-<area shape="rect" title="Basic arithmetic operations." alt="" coords="5,5,136,31"/>
-<area shape="rect" title=" " alt="" coords="33,79,108,104"/>
-<area shape="poly" title=" " alt="" coords="73,31,73,65,68,65,68,31"/>
+<div class="center"><img src="st_2arith_8h__incl.png" border="0" usemap="#ast_2arith_8h" alt=""/></div>
+<map name="ast_2arith_8h" id="ast_2arith_8h">
+<area shape="rect" title="Basic arithmetic operations." alt="" coords="51,5,131,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,80,104"/>
+<area shape="poly" title=" " alt="" coords="85,33,60,69,56,66,81,30"/>
+<area shape="rect" title=" " alt="" coords="105,79,175,104"/>
+<area shape="poly" title=" " alt="" coords="101,29,126,66,122,69,97,33"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="st_2arith_8h__dep__incl.png" border="0" usemap="#ainclude_2st_2arith_8hdep" alt=""/></div>
-<map name="ainclude_2st_2arith_8hdep" id="ainclude_2st_2arith_8hdep">
-<area shape="rect" title="Basic arithmetic operations." alt="" coords="168,5,299,31"/>
-<area shape="rect" href="st_2dict_8h.html" title="Dictionary." alt="" coords="89,79,215,104"/>
-<area shape="poly" title=" " alt="" coords="212,42,167,80,164,76,208,38"/>
-<area shape="rect" href="sturk_2arith_8h.html" title=" " alt="" coords="239,79,391,104"/>
-<area shape="poly" title=" " alt="" coords="258,38,303,76,300,80,255,42"/>
-<area shape="rect" href="st_2str_8h.html" title="String utilities." alt="" coords="16,152,133,177"/>
-<area shape="poly" title=" " alt="" coords="131,115,89,154,86,150,128,111"/>
-<area shape="rect" href="sturk_2dict_8h.html" title=" " alt="" coords="157,152,304,177"/>
-<area shape="poly" title=" " alt="" coords="177,111,220,150,216,154,173,115"/>
-<area shape="rect" href="sturk_2str_8h.html" title=" " alt="" coords="5,225,144,251"/>
-<area shape="poly" title=" " alt="" coords="77,191,77,225,72,225,72,191"/>
+<div class="center"><img src="st_2arith_8h__dep__incl.png" border="0" usemap="#ast_2arith_8hdep" alt=""/></div>
+<map name="ast_2arith_8hdep" id="ast_2arith_8hdep">
+<area shape="rect" title="Basic arithmetic operations." alt="" coords="117,5,197,31"/>
+<area shape="rect" href="st_2dict_8h.html" title="Dictionary." alt="" coords="63,79,138,104"/>
+<area shape="poly" title=" " alt="" coords="141,43,112,80,108,77,137,40"/>
+<area shape="rect" href="sturk_2arith_8h.html" title=" " alt="" coords="162,79,263,104"/>
+<area shape="poly" title=" " alt="" coords="177,40,206,77,202,80,172,43"/>
+<area shape="rect" href="st_2str_8h.html" title="String utilities." alt="" coords="15,152,82,177"/>
+<area shape="poly" title=" " alt="" coords="86,117,59,153,55,150,82,114"/>
+<area shape="rect" href="sturk_2dict_8h.html" title=" " alt="" coords="107,152,201,177"/>
+<area shape="poly" title=" " alt="" coords="120,113,147,150,143,153,115,117"/>
+<area shape="rect" href="sturk_2str_8h.html" title=" " alt="" coords="5,225,92,251"/>
+<area shape="poly" title=" " alt="" coords="51,191,51,225,46,225,46,191"/>
 </map>
 </div>
 </div>
 <p><a href="st_2arith_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="unionStAlign.html">StAlign</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type for the biggest fundamental alignment.  <a href="unionStAlign.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:ae75a772e5416262e3b59badc22d81eb1" id="r_ae75a772e5416262e3b59badc22d81eb1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2arith_8h.html#ae75a772e5416262e3b59badc22d81eb1">ST_MAX</a>(x,  y)&#160;&#160;&#160;(((x) &gt; (y)) ? (x) : (y))</td></tr>
@@ -294,7 +304,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_6e9a6da2c7e4a6c456ccabb42c2d8f90.html">st</a></li><li class="navelem"><a class="el" href="st_2arith_8h.html">arith.h</a></li>
+    <li class="navelem"><a class="el" href="dir_adfe62f17403c5c9faef15746ee82730.html">st</a></li><li class="navelem"><a class="el" href="st_2arith_8h.html">arith.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

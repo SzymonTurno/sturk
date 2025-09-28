@@ -1,0 +1,13 @@
+<map id="vertegs/list.h" name="vertegs/list.h">
+<area shape="rect" id="Node000001" title="Singly linked list." alt="" coords="113,5,220,31"/>
+<area shape="rect" id="Node000002" href="$st_2pool_8h.html" title="Memory pool." alt="" coords="25,79,103,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,41,82,81,79,76,137,36"/>
+<area shape="rect" id="Node000004" href="$st_2str_8h.html" title="String utilities." alt="" coords="133,79,200,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="169,44,169,79,164,79,164,44"/>
+<area shape="rect" id="Node000006" href="$sturk_2list_8h.html" title=" " alt="" coords="224,79,315,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="196,36,254,76,251,81,193,41"/>
+<area shape="rect" id="Node000003" href="$sturk_2pool_8h.html" title=" " alt="" coords="5,152,104,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="63,118,59,152,54,152,58,117"/>
+<area shape="rect" id="Node000005" href="$sturk_2str_8h.html" title=" " alt="" coords="129,152,215,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="171,118,174,152,168,152,166,118"/>
+</map>

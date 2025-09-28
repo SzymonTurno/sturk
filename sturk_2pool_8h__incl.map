@@ -1,7 +1,23 @@
-<map id="include/sturk/pool.h" name="include/sturk/pool.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,156,31"/>
-<area shape="rect" id="Node000002" href="$st_2pool_8h.html" title="Memory pool." alt="" coords="41,79,120,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,31,83,65,78,65,78,31"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="43,152,118,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="83,104,83,138,78,138,78,104"/>
+<map id="sturk/pool.h" name="sturk/pool.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="225,5,324,31"/>
+<area shape="rect" id="Node000002" href="$st_2pool_8h.html" title="Memory pool." alt="" coords="235,79,314,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="277,31,277,65,272,65,272,31"/>
+<area shape="rect" id="Node000003" href="$sys_8h.html" title="System procedures." alt="" coords="124,152,215,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="259,106,199,147,196,142,256,102"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="237,372,312,397"/>
+<area shape="poly" id="edge11_Node000002_Node000006" title=" " alt="" coords="277,104,277,358,272,358,272,104"/>
+<area shape="rect" id="Node000007" href="$vertegs_2list_8h.html" title="Singly linked list." alt="" coords="317,152,424,177"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="292,102,345,141,342,146,289,106"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,225,80,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="150,180,77,221,74,216,148,175"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="104,225,187,251"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="168,179,156,213,151,211,163,177"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="177,176,201,224,266,358,261,361,196,227,173,179"/>
+<area shape="rect" id="Node000008" href="$vertegs_2graph_8h.html" title="Graph." alt="" coords="314,225,438,251"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="374,177,377,212,371,212,369,178"/>
+<area shape="rect" id="Node000009" href="$vertex_8h.html" title="Vertex." alt="" coords="313,299,442,324"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="379,251,380,285,374,285,374,251"/>
+<area shape="poly" id="edge9_Node000009_Node000006" title=" " alt="" coords="362,326,304,366,301,362,359,322"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="340,372,415,397"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="380,324,380,358,375,358,375,324"/>
 </map>

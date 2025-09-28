@@ -1,9 +1,20 @@
 var searchData=
 [
-  ['waitq_5fcreate_0',['waitq_create',['../sturk_2waitq_8h.html#a473bf404491982ba6425bcf947740c70',1,'waitq.h']]],
-  ['waitq_5fdestroy_1',['waitq_destroy',['../sturk_2waitq_8h.html#a29ff4143530985c00b9eea5a28b6f0da',1,'waitq.h']]],
-  ['waitq_5fins_2',['waitq_ins',['../sturk_2waitq_8h.html#a08809a720584081578bc46521c782ca5',1,'waitq.h']]],
-  ['waitq_5frem_3',['waitq_rem',['../sturk_2waitq_8h.html#a00e8659572e3a8549f3ff6ef1f215f1f',1,'waitq.h']]],
-  ['waitq_5ftryrem_4',['waitq_tryrem',['../sturk_2waitq_8h.html#af97d85c2b34002c498a489de55d724fe',1,'waitq.h']]],
-  ['warning_5',['WARNING',['../rk_2logger_2trace_8h.html#a5cb439d9f933fde4cf23caa370c030e7',1,'trace.h']]]
+  ['vx_5fassert_0',['VX_ASSERT',['../vertex_8h.html#af47247d33a4aee4756bc926da1d80379',1,'vertex.h']]],
+  ['vx_5fcirq_1',['VX_CIRQ',['../vertegs_2cirq_8h.html#a6c656392a404368beedc4e45295397a1',1,'cirq.h']]],
+  ['vx_5fcirq_5fins_2',['vx_cirq_ins',['../vertegs_2cirq_8h.html#a339d67c7033e5fa71191f2e97da3eb26',1,'cirq.h']]],
+  ['vx_5fcirq_5frem_3',['vx_cirq_rem',['../vertegs_2cirq_8h.html#a45e68202ba91c8f806402627de95eb96',1,'cirq.h']]],
+  ['vx_5fensure_5fmem_4',['VX_ENSURE_MEM',['../vertex_8h.html#a34884fbfd432acaeaa0e229c4a944ae7',1,'vertex.h']]],
+  ['vx_5fgraph_5',['VX_GRAPH',['../vertegs_2graph_8h.html#a6e4a4be50138a171db0bfc8754c93186',1,'graph.h']]],
+  ['vx_5fgraph_5f2vx_6',['vx_graph_2vx',['../vertegs_2graph_8h.html#a3d9d02ea479e7cbe16b92c6ee489fda1',1,'graph.h']]],
+  ['vx_5fgraph_5f4vx_7',['vx_graph_4vx',['../vertegs_2graph_8h.html#a9724074c4f6fe6004c54040ddd53898e',1,'graph.h']]],
+  ['vx_5fgraph_5fdatap_8',['vx_graph_datap',['../vertegs_2graph_8h.html#a7be9cbdf920dbd7b7203a8fa28322a0d',1,'graph.h']]],
+  ['vx_5fgraph_5fforedge_9',['vx_graph_foredge',['../vertegs_2graph_8h.html#a809fdde82c375f18fe20da9d1269b72e',1,'graph.h']]],
+  ['vx_5fgraphp_5f2vxp_10',['vx_graphp_2vxp',['../vertegs_2graph_8h.html#a036b6bdb6bc2fae85436ff635d8459d5',1,'graph.h']]],
+  ['vx_5flist_11',['VX_LIST',['../vertegs_2list_8h.html#ab89c0c5286ce94be2d2dc75e9ca3f04e',1,'list.h']]],
+  ['vx_5flist_5fforeach_12',['vx_list_foreach',['../vertegs_2list_8h.html#a7962601a53337e4fd77faabcae60fd4c',1,'list.h']]],
+  ['vx_5flist_5fins_13',['vx_list_ins',['../vertegs_2list_8h.html#a3430a38a8ce90dae26474a992b7508bb',1,'list.h']]],
+  ['vx_5flist_5fnext_14',['vx_list_next',['../vertegs_2list_8h.html#ae56d9e8c6b1f3593afb8e977b196b902',1,'list.h']]],
+  ['vx_5flist_5frem_15',['vx_list_rem',['../vertegs_2list_8h.html#aec5715bac6895fa91ab67d5f2f35db06',1,'list.h']]],
+  ['vx_5ftypeof_16',['VX_TYPEOF',['../vertegs_2graph_8h.html#a4e24c685dc5623b8263c1b840e8d1202',1,'graph.h']]]
 ];

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Sturk: include/st/pool.h Source File</title>
+<title>Sturk: st/pool.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.0.2</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -156,36 +156,43 @@ $(document).ready(function(){initNavTree('st_2pool_8h_source.html',''); initResi
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment">*/</span></div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#ifndef ST_POOL_H</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define ST_POOL_H</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">   55</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a> <a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#a172657dfff0d52edb492ee69477f9b07">   66</a></span><a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>* <a class="code hl_function" href="st_2pool_8h.html#a172657dfff0d52edb492ee69477f9b07">st_pool_create</a>(<span class="keywordtype">size_t</span> blk_size);</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#a4f55b543f6768816cb0be2baa3d867d7">   75</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="st_2pool_8h.html#a4f55b543f6768816cb0be2baa3d867d7">st_pool_destroy</a>(<a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>* pool);</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#a174ffb84c766b37d0f85b3b06f07e510">   90</a></span><span class="keywordtype">void</span>* <a class="code hl_function" href="st_2pool_8h.html#a174ffb84c766b37d0f85b3b06f07e510">st_pool_alloc</a>(<a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>* pool);</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#a4162201c63b16c181ac5e29b98c37de7">  101</a></span><span class="keywordtype">void</span>* <a class="code hl_function" href="st_2pool_8h.html#a4162201c63b16c181ac5e29b98c37de7">st_pool_tryalloc</a>(<a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>* pool);</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#adb2c5252a1a79d799cd2ff918f0adecf">  111</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="st_2pool_8h.html#adb2c5252a1a79d799cd2ff918f0adecf">st_pool_free</a>(<a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>* pool, <span class="keywordtype">void</span>* blk);</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#endif </span><span class="comment">/* ST_POOL_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#ifndef ST_POOL_H</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define ST_POOL_H</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &quot;<a class="code" href="sys_8h.html">st/os/sys.h</a>&quot;</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &quot;<a class="code" href="vertegs_2list_8h.html">vertegs/list.h</a>&quot;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">   50</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a> <a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#ae37438fb898c28e49ef628647279ed6b">   59</a></span><a class="code hl_define" href="vertegs_2list_8h.html#ab89c0c5286ce94be2d2dc75e9ca3f04e">VX_LIST</a>(<span class="keyword">union</span> <a class="code hl_union" href="unionStFreeList.html">StFreeList</a>, <span class="keywordtype">void</span>*);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#a172657dfff0d52edb492ee69477f9b07">   71</a></span><a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>* <a class="code hl_function" href="st_2pool_8h.html#a172657dfff0d52edb492ee69477f9b07">st_pool_create</a>(<span class="keywordtype">size_t</span> blk_size);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#a4f55b543f6768816cb0be2baa3d867d7">   80</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="st_2pool_8h.html#a4f55b543f6768816cb0be2baa3d867d7">st_pool_destroy</a>(<a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>* pool);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#a174ffb84c766b37d0f85b3b06f07e510">   95</a></span><span class="keywordtype">void</span>* <a class="code hl_function" href="st_2pool_8h.html#a174ffb84c766b37d0f85b3b06f07e510">st_pool_alloc</a>(<a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>* pool);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#a4162201c63b16c181ac5e29b98c37de7">  106</a></span><span class="keywordtype">void</span>* <a class="code hl_function" href="st_2pool_8h.html#a4162201c63b16c181ac5e29b98c37de7">st_pool_tryalloc</a>(<a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>* pool);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="st_2pool_8h.html#adb2c5252a1a79d799cd2ff918f0adecf">  116</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="st_2pool_8h.html#adb2c5252a1a79d799cd2ff918f0adecf">st_pool_free</a>(<a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>* pool, <span class="keywordtype">void</span>* blk);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#endif </span><span class="comment">/* ST_POOL_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="ast_2pool_8h_html_a172657dfff0d52edb492ee69477f9b07"><div class="ttname"><a href="st_2pool_8h.html#a172657dfff0d52edb492ee69477f9b07">st_pool_create</a></div><div class="ttdeci">StPool * st_pool_create(size_t blk_size)</div><div class="ttdoc">Create a pool.</div></div>
 <div class="ttc" id="ast_2pool_8h_html_a174ffb84c766b37d0f85b3b06f07e510"><div class="ttname"><a href="st_2pool_8h.html#a174ffb84c766b37d0f85b3b06f07e510">st_pool_alloc</a></div><div class="ttdeci">void * st_pool_alloc(StPool *pool)</div><div class="ttdoc">Allocate a block from a pool.</div></div>
 <div class="ttc" id="ast_2pool_8h_html_a4162201c63b16c181ac5e29b98c37de7"><div class="ttname"><a href="st_2pool_8h.html#a4162201c63b16c181ac5e29b98c37de7">st_pool_tryalloc</a></div><div class="ttdeci">void * st_pool_tryalloc(StPool *pool)</div><div class="ttdoc">Try to allocate a block from a pool.</div></div>
 <div class="ttc" id="ast_2pool_8h_html_a4f55b543f6768816cb0be2baa3d867d7"><div class="ttname"><a href="st_2pool_8h.html#a4f55b543f6768816cb0be2baa3d867d7">st_pool_destroy</a></div><div class="ttdeci">void st_pool_destroy(StPool *pool)</div><div class="ttdoc">Destroy a pool.</div></div>
-<div class="ttc" id="ast_2pool_8h_html_ad05b60f2fe249242e910c5ee9be65eaf"><div class="ttname"><a href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a></div><div class="ttdeci">struct StPool StPool</div><div class="ttdoc">pool.</div><div class="ttdef"><b>Definition</b> pool.h:55</div></div>
+<div class="ttc" id="ast_2pool_8h_html_ad05b60f2fe249242e910c5ee9be65eaf"><div class="ttname"><a href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a></div><div class="ttdeci">struct StPool StPool</div><div class="ttdoc">pool.</div><div class="ttdef"><b>Definition</b> pool.h:50</div></div>
 <div class="ttc" id="ast_2pool_8h_html_adb2c5252a1a79d799cd2ff918f0adecf"><div class="ttname"><a href="st_2pool_8h.html#adb2c5252a1a79d799cd2ff918f0adecf">st_pool_free</a></div><div class="ttdeci">void st_pool_free(StPool *pool, void *blk)</div><div class="ttdoc">Return a block to a pool.</div></div>
+<div class="ttc" id="asys_8h_html"><div class="ttname"><a href="sys_8h.html">sys.h</a></div><div class="ttdoc">System procedures.</div></div>
+<div class="ttc" id="aunionStFreeList_html"><div class="ttname"><a href="unionStFreeList.html">StFreeList</a></div><div class="ttdoc">Free list.</div></div>
+<div class="ttc" id="avertegs_2list_8h_html"><div class="ttname"><a href="vertegs_2list_8h.html">list.h</a></div><div class="ttdoc">Singly linked list.</div></div>
+<div class="ttc" id="avertegs_2list_8h_html_ab89c0c5286ce94be2d2dc75e9ca3f04e"><div class="ttname"><a href="vertegs_2list_8h.html#ab89c0c5286ce94be2d2dc75e9ca3f04e">VX_LIST</a></div><div class="ttdeci">#define VX_LIST(name, type)</div><div class="ttdoc">Define the list.</div><div class="ttdef"><b>Definition</b> list.h:67</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_6e9a6da2c7e4a6c456ccabb42c2d8f90.html">st</a></li><li class="navelem"><a class="el" href="st_2pool_8h.html">pool.h</a></li>
+    <li class="navelem"><a class="el" href="dir_adfe62f17403c5c9faef15746ee82730.html">st</a></li><li class="navelem"><a class="el" href="st_2pool_8h.html">pool.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

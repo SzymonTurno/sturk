@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Sturk: include/st/pool.h File Reference</title>
+<title>Sturk: st/pool.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.0.2</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -126,25 +126,43 @@ $(document).ready(function(){initNavTree('st_2pool_8h.html',''); initResizable()
 
 <p>Memory pool.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="sys_8h_source.html">st/os/sys.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="vertegs_2list_8h_source.html">vertegs/list.h</a>&quot;</code><br />
+<code>#include &lt;stddef.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for pool.h:</div>
 <div class="dyncontent">
-<div class="center"><img src="st_2pool_8h__incl.png" border="0" usemap="#ainclude_2st_2pool_8h" alt=""/></div>
-<map name="ainclude_2st_2pool_8h" id="ainclude_2st_2pool_8h">
-<area shape="rect" title="Memory pool." alt="" coords="5,5,135,31"/>
-<area shape="rect" title=" " alt="" coords="33,79,107,104"/>
-<area shape="poly" title=" " alt="" coords="73,31,73,65,67,65,67,31"/>
+<div class="center"><img src="st_2pool_8h__incl.png" border="0" usemap="#ast_2pool_8h" alt=""/></div>
+<map name="ast_2pool_8h" id="ast_2pool_8h">
+<area shape="rect" title="Memory pool." alt="" coords="235,5,314,31"/>
+<area shape="rect" href="sys_8h.html" title="System procedures." alt="" coords="124,79,215,104"/>
+<area shape="poly" title=" " alt="" coords="259,33,199,73,196,69,256,28"/>
+<area shape="rect" title=" " alt="" coords="237,299,312,324"/>
+<area shape="poly" title=" " alt="" coords="277,31,277,285,272,285,272,31"/>
+<area shape="rect" href="vertegs_2list_8h.html" title="Singly linked list." alt="" coords="317,79,424,104"/>
+<area shape="poly" title=" " alt="" coords="292,29,345,68,342,72,289,33"/>
+<area shape="rect" title=" " alt="" coords="5,152,80,177"/>
+<area shape="poly" title=" " alt="" coords="150,106,77,147,74,143,148,102"/>
+<area shape="rect" title=" " alt="" coords="104,152,187,177"/>
+<area shape="poly" title=" " alt="" coords="168,105,156,140,151,138,163,103"/>
+<area shape="poly" title=" " alt="" coords="177,103,201,151,266,285,261,287,196,153,173,105"/>
+<area shape="rect" href="vertegs_2graph_8h.html" title="Graph." alt="" coords="314,152,438,177"/>
+<area shape="poly" title=" " alt="" coords="374,104,377,138,371,139,369,105"/>
+<area shape="rect" href="vertex_8h.html" title="Vertex." alt="" coords="313,225,442,251"/>
+<area shape="poly" title=" " alt="" coords="379,178,380,212,374,212,374,178"/>
+<area shape="poly" title=" " alt="" coords="362,253,304,293,301,288,359,248"/>
+<area shape="rect" title=" " alt="" coords="340,299,415,324"/>
+<area shape="poly" title=" " alt="" coords="380,251,380,285,375,285,375,251"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="st_2pool_8h__dep__incl.png" border="0" usemap="#ainclude_2st_2pool_8hdep" alt=""/></div>
-<map name="ainclude_2st_2pool_8hdep" id="ainclude_2st_2pool_8hdep">
-<area shape="rect" title="Memory pool." alt="" coords="16,5,145,31"/>
-<area shape="rect" href="sturk_2pool_8h.html" title=" " alt="" coords="5,79,156,104"/>
-<area shape="poly" title=" " alt="" coords="83,44,83,79,78,79,78,44"/>
+<div class="center"><img src="st_2pool_8h__dep__incl.png" border="0" usemap="#ast_2pool_8hdep" alt=""/></div>
+<map name="ast_2pool_8hdep" id="ast_2pool_8hdep">
+<area shape="rect" title="Memory pool." alt="" coords="15,5,94,31"/>
+<area shape="rect" href="sturk_2pool_8h.html" title=" " alt="" coords="5,79,104,104"/>
+<area shape="poly" title=" " alt="" coords="57,44,57,79,52,79,52,44"/>
 </map>
 </div>
 </div>
@@ -159,6 +177,10 @@ typedef struct <a class="el" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ae37438fb898c28e49ef628647279ed6b" id="r_ae37438fb898c28e49ef628647279ed6b"><td class="memItemLeft" align="right" valign="top"><a id="ae37438fb898c28e49ef628647279ed6b" name="ae37438fb898c28e49ef628647279ed6b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>VX_LIST</b> (union <a class="el" href="unionStFreeList.html">StFreeList</a>, void *)</td></tr>
+<tr class="memdesc:ae37438fb898c28e49ef628647279ed6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is a macro definition of the free list used by the pool. <br /></td></tr>
+<tr class="separator:ae37438fb898c28e49ef628647279ed6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a172657dfff0d52edb492ee69477f9b07" id="r_a172657dfff0d52edb492ee69477f9b07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2pool_8h.html#a172657dfff0d52edb492ee69477f9b07">st_pool_create</a> (size_t blk_size)</td></tr>
 <tr class="memdesc:a172657dfff0d52edb492ee69477f9b07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <em>pool</em>.  <br /></td></tr>
 <tr class="separator:a172657dfff0d52edb492ee69477f9b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,14 +199,6 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Memory pool. </p>
-<h2><a class="anchor" id="autotoc_md20"></a>
-Glossary</h2>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Term   </th><th class="markdownTableHeadNone">Description    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">pool   </td><td class="markdownTableBodyNone">fixed-size blocks memory pool   </td></tr>
-</table>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a174ffb84c766b37d0f85b3b06f07e510" name="a174ffb84c766b37d0f85b3b06f07e510"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a174ffb84c766b37d0f85b3b06f07e510">&#9670;&#160;</a></span>st_pool_alloc()</h2>
@@ -336,7 +350,7 @@ Glossary</h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_6e9a6da2c7e4a6c456ccabb42c2d8f90.html">st</a></li><li class="navelem"><a class="el" href="st_2pool_8h.html">pool.h</a></li>
+    <li class="navelem"><a class="el" href="dir_adfe62f17403c5c9faef15746ee82730.html">st</a></li><li class="navelem"><a class="el" href="st_2pool_8h.html">pool.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

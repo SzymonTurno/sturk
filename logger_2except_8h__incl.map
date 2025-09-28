@@ -1,5 +1,5 @@
-<map id="include/st/logger/except.h" name="include/st/logger/except.h">
-<area shape="rect" id="Node000001" title="Exceptions." alt="" coords="34,5,225,31"/>
+<map id="st/logger/except.h" name="st/logger/except.h">
+<area shape="rect" id="Node000001" title="Exceptions." alt="" coords="60,5,199,31"/>
 <area shape="rect" id="Node000002" href="$logger_2trace_8h.html" title="Trace." alt="" coords="8,79,136,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,33,92,70,88,66,118,29"/>
 <area shape="rect" id="Node000006" href="$sys_8h.html" title="System procedures." alt="" coords="149,152,240,177"/>

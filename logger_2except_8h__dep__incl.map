@@ -1,18 +1,18 @@
-<map id="include/st/logger/except.h" name="include/st/logger/except.h">
-<area shape="rect" id="Node000001" title="Exceptions." alt="" coords="165,5,355,31"/>
-<area shape="rect" id="Node000002" href="$st_2dict_8h.html" title="Dictionary." alt="" coords="89,167,215,192"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,40,202,58,181,80,169,102,162,126,155,167,150,166,157,125,164,100,176,77,198,54,223,36"/>
-<area shape="rect" id="Node000006" href="$st_2rbtree_8h.html" title="Red&#45;black tree." alt="" coords="190,86,330,111"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="263,44,263,86,257,86,257,44"/>
-<area shape="rect" id="Node000008" href="$rk_2logger_2except_8h.html" title=" " alt="" coords="354,79,505,119"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="298,34,389,76,387,81,296,39"/>
-<area shape="rect" id="Node000003" href="$st_2str_8h.html" title="String utilities." alt="" coords="16,240,133,265"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="131,203,89,242,86,238,128,199"/>
-<area shape="rect" id="Node000005" href="$sturk_2dict_8h.html" title=" " alt="" coords="157,240,304,265"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="177,199,220,238,216,242,173,203"/>
-<area shape="rect" id="Node000004" href="$sturk_2str_8h.html" title=" " alt="" coords="5,313,144,339"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="77,279,77,313,72,313,72,279"/>
-<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="235,122,170,169,166,164,231,117"/>
-<area shape="rect" id="Node000007" href="$sturk_2rbtree_8h.html" title=" " alt="" coords="239,167,401,192"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="279,121,313,165,309,168,275,124"/>
+<map id="st/logger/except.h" name="st/logger/except.h">
+<area shape="rect" id="Node000001" title="Exceptions." alt="" coords="114,5,253,31"/>
+<area shape="rect" id="Node000002" href="$st_2dict_8h.html" title="Dictionary." alt="" coords="63,152,138,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,42,144,60,130,80,113,119,105,152,100,151,108,117,125,77,140,56,158,38"/>
+<area shape="rect" id="Node000006" href="$st_2rbtree_8h.html" title="Red&#45;black tree." alt="" coords="139,79,228,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="186,44,186,79,181,79,181,44"/>
+<area shape="rect" id="Node000008" href="$rk_2logger_2except_8h.html" title=" " alt="" coords="253,79,413,104"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="221,34,309,76,307,81,218,39"/>
+<area shape="rect" id="Node000003" href="$st_2str_8h.html" title="String utilities." alt="" coords="15,225,82,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="86,190,59,227,55,224,82,187"/>
+<area shape="rect" id="Node000005" href="$sturk_2dict_8h.html" title=" " alt="" coords="107,225,201,251"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="120,187,147,224,143,227,115,190"/>
+<area shape="rect" id="Node000004" href="$sturk_2str_8h.html" title=" " alt="" coords="5,299,92,324"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="51,264,51,299,46,299,46,264"/>
+<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="161,115,116,154,112,150,158,111"/>
+<area shape="rect" id="Node000007" href="$sturk_2rbtree_8h.html" title=" " alt="" coords="163,152,273,177"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="197,115,215,151,210,153,193,118"/>
 </map>

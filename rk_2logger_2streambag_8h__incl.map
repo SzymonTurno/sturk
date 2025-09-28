@@ -1,11 +1,11 @@
-<map id="include/sturk/logger/streambag.h" name="include/sturk/logger/streambag.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="17,5,167,45"/>
-<area shape="rect" id="Node000002" href="$logger_2streambag_8h.html" title="Bag of streams." alt="" coords="9,93,175,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,46,95,79,89,79,89,46"/>
-<area shape="rect" id="Node000003" href="$fstream_8h.html" title="File stream." alt="" coords="32,167,152,192"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="95,119,95,153,89,153,89,119"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="5,240,80,265"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="86,194,61,230,56,227,82,191"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="104,240,179,265"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="102,191,128,227,123,230,98,194"/>
+<map id="sturk/logger/streambag.h" name="sturk/logger/streambag.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,192,31"/>
+<area shape="rect" id="Node000002" href="$logger_2streambag_8h.html" title="Bag of streams." alt="" coords="16,79,181,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,31,101,65,96,65,96,31"/>
+<area shape="rect" id="Node000003" href="$fstream_8h.html" title="File stream." alt="" coords="39,152,159,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="101,104,101,138,96,138,96,104"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="12,225,87,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="93,179,67,216,63,213,88,176"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="111,225,185,251"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="109,176,134,213,130,216,105,179"/>
 </map>

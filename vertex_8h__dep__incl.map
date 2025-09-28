@@ -1,0 +1,37 @@
+<map id="vertegs/vertex.h" name="vertegs/vertex.h">
+<area shape="rect" id="Node000001" title="Vertex." alt="" coords="117,5,246,31"/>
+<area shape="rect" id="Node000002" href="$st_2waitq_8h.html" title="Waiting queue." alt="" coords="74,79,161,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,43,130,80,126,77,160,39"/>
+<area shape="rect" id="Node000004" href="$vertegs_2graph_8h.html" title="Graph." alt="" coords="242,79,366,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,35,285,76,283,81,211,40"/>
+<area shape="rect" id="Node000003" href="$sturk_2waitq_8h.html" title=" " alt="" coords="5,152,112,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="101,116,70,154,66,150,97,113"/>
+<area shape="rect" id="Node000005" href="$st_2rbtree_8h.html" title="Red&#45;black tree." alt="" coords="137,152,226,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="274,113,203,154,200,149,271,108"/>
+<area shape="rect" id="Node000011" href="$sturk_2graph_8h.html" title=" " alt="" coords="250,152,358,177"/>
+<area shape="poly" id="edge10_Node000004_Node000011" title=" " alt="" coords="307,118,307,152,301,152,301,118"/>
+<area shape="rect" id="Node000012" href="$vertegs_2cirq_8h.html" title="Doubly linked circular list." alt="" coords="382,152,493,177"/>
+<area shape="poly" id="edge11_Node000004_Node000012" title=" " alt="" coords="339,108,417,149,414,154,336,113"/>
+<area shape="rect" id="Node000014" href="$vertegs_2list_8h.html" title="Singly linked list." alt="" coords="532,152,639,177"/>
+<area shape="poly" id="edge14_Node000004_Node000014" title=" " alt="" coords="363,105,540,149,539,154,362,110"/>
+<area shape="rect" id="Node000006" href="$st_2dict_8h.html" title="Dictionary." alt="" coords="104,225,179,251"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="170,191,150,227,145,224,166,188"/>
+<area shape="rect" id="Node000010" href="$sturk_2rbtree_8h.html" title=" " alt="" coords="203,225,314,251"/>
+<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="206,185,248,223,244,227,202,189"/>
+<area shape="rect" id="Node000007" href="$st_2str_8h.html" title="String utilities." alt="" coords="319,299,385,324"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="189,252,319,296,318,301,187,257"/>
+<area shape="rect" id="Node000009" href="$sturk_2dict_8h.html" title=" " alt="" coords="94,299,189,324"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="144,264,144,299,139,299,139,264"/>
+<area shape="rect" id="Node000008" href="$sturk_2str_8h.html" title=" " alt="" coords="309,372,395,397"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="355,338,355,372,349,372,349,338"/>
+<area shape="poly" id="edge12_Node000012_Node000007" title=" " alt="" coords="413,188,395,206,380,227,364,265,356,299,351,298,359,263,375,224,391,202,410,184"/>
+<area shape="rect" id="Node000013" href="$sturk_2cirq_8h.html" title=" " alt="" coords="390,225,485,251"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="440,191,440,225,435,225,435,191"/>
+<area shape="poly" id="edge17_Node000014_Node000007" title=" " alt="" coords="568,190,537,222,497,253,440,283,387,303,385,298,438,278,495,248,533,218,564,186"/>
+<area shape="rect" id="Node000015" href="$st_2pool_8h.html" title="Memory pool." alt="" coords="561,225,639,251"/>
+<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="593,190,600,225,595,226,588,191"/>
+<area shape="rect" id="Node000017" href="$sturk_2list_8h.html" title=" " alt="" coords="664,225,755,251"/>
+<area shape="poly" id="edge18_Node000014_Node000017" title=" " alt="" coords="618,182,690,223,688,227,616,186"/>
+<area shape="rect" id="Node000016" href="$sturk_2pool_8h.html" title=" " alt="" coords="551,299,649,324"/>
+<area shape="poly" id="edge16_Node000015_Node000016" title=" " alt="" coords="603,264,603,299,597,299,597,264"/>
+</map>

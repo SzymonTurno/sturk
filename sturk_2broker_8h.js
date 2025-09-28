@@ -4,7 +4,6 @@ var sturk_2broker_8h =
     [ "broker_destroy", "sturk_2broker_8h.html#a7f51b614c2070cffbeb75192cacc3396", null ],
     [ "broker_search", "sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6", null ],
     [ "channel_gettopic", "sturk_2broker_8h.html#a266db5e96592b3b4074c7131f5eecf3c", null ],
-    [ "load_getchan", "sturk_2broker_8h.html#a00f4f7358c0e704bee60f4c6cf0d5859", null ],
     [ "publish", "sturk_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7", null ],
     [ "subscribe", "sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91", null ],
     [ "subscriber_await", "sturk_2broker_8h.html#af23ee47bacf77f34816373673f569dd2", null ],

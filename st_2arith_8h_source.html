@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Sturk: include/st/arith.h Source File</title>
+<title>Sturk: st/arith.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.0.2</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -160,38 +160,64 @@ $(document).ready(function(){initNavTree('st_2arith_8h_source.html',''); initRes
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define ST_ARITH_H</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="st_2arith_8h.html#ae75a772e5416262e3b59badc22d81eb1">   54</a></span><span class="preprocessor">#define ST_MAX(x, y) (((x) &gt; (y)) ? (x) : (y))</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="st_2arith_8h.html#a3dd4c8a3de86666f1997514620f12f0b">   67</a></span><span class="preprocessor">#define ST_MIN(x, y) (((x) &lt; (y)) ? (x) : (y))</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#ifdef __STRICT_ANSI__</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="comment">/* clang-format off */</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#define st_container_of(ptr, type, member)                                     \</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">        ((type*)((char*)(ptr) - offsetof(type, member)))</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="comment">/* clang-format on */</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#else </span><span class="comment">/* not defined: __STRICT_ANSI__ */</span><span class="preprocessor"></span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="foldopen" id="foldopen00091" data-start="" data-end="">
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="st_2arith_8h.html#a5d1a5015522779dd5520a4ec42452ecc">   91</a></span><span class="preprocessor">#define st_container_of(ptr, type, member)                                     \</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">        ({                                                                     \</span></div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">                const __typeof__(((type*)0)-&gt;member)* _ptr = (ptr);            \</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">                                                                               \</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">                (type*)((char*)_ptr - offsetof(type, member));                 \</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">        })</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="st_2arith_8h.html#ae75a772e5416262e3b59badc22d81eb1">   55</a></span><span class="preprocessor">#define ST_MAX(x, y) (((x) &gt; (y)) ? (x) : (y))</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="st_2arith_8h.html#a3dd4c8a3de86666f1997514620f12f0b">   68</a></span><span class="preprocessor">#define ST_MIN(x, y) (((x) &lt; (y)) ? (x) : (y))</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#ifdef __STRICT_ANSI__</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="comment">/* clang-format off */</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#define st_container_of(ptr, type, member)                                     \</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">        ((type*)((char*)(ptr) - offsetof(type, member)))</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="comment">/* clang-format on */</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#else </span><span class="comment">/* not defined: __STRICT_ANSI__ */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="foldopen" id="foldopen00092" data-start="" data-end="">
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="st_2arith_8h.html#a5d1a5015522779dd5520a4ec42452ecc">   92</a></span><span class="preprocessor">#define st_container_of(ptr, type, member)                                     \</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">        ({                                                                     \</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">                const __typeof__(((type*)0)-&gt;member)* _ptr = (ptr);            \</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">                                                                               \</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">                (type*)((char*)_ptr - offsetof(type, member));                 \</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">        })</span></div>
 </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="preprocessor">#endif </span><span class="comment">/* __STRICT_ANSI__ */</span><span class="preprocessor"></span></div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="preprocessor">#endif </span><span class="comment">/* ST_ARITH_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="preprocessor">#endif </span><span class="comment">/* __STRICT_ANSI__ */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="foldopen" id="foldopen00106" data-start="{" data-end="};">
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="unionStAlign.html">  106</a></span><span class="keyword">typedef</span> <span class="keyword">union </span>{</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="unionStAlign.html#a053ed9e43a2bc1a9a45ccc198d3de0e1">  108</a></span>        <span class="keywordtype">int</span> <a class="code hl_variable" href="unionStAlign.html#a053ed9e43a2bc1a9a45ccc198d3de0e1">i</a>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="unionStAlign.html#a788113beb23007d2b6be8724a9d41ed5">  110</a></span>        <span class="keywordtype">long</span> <a class="code hl_variable" href="unionStAlign.html#a788113beb23007d2b6be8724a9d41ed5">l</a>;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="unionStAlign.html#afa20cb537357cba31506f0b8190bffef">  112</a></span>        <span class="keywordtype">long</span> <span class="keywordtype">long</span> <a class="code hl_variable" href="unionStAlign.html#afa20cb537357cba31506f0b8190bffef">ll</a>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="unionStAlign.html#a67f5a9dd346d200bf27f9874afd34e2b">  114</a></span>        intmax_t <a class="code hl_variable" href="unionStAlign.html#a67f5a9dd346d200bf27f9874afd34e2b">im</a>;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="unionStAlign.html#aa8df130c8f8b5c882848d1c213142e99">  116</a></span>        <span class="keywordtype">long</span>* <a class="code hl_variable" href="unionStAlign.html#aa8df130c8f8b5c882848d1c213142e99">lp</a>;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="unionStAlign.html#ad7e1f6fe08c0b2b2b3e7c9a57675e6c8">  118</a></span>        <span class="keywordtype">void</span>* <a class="code hl_variable" href="unionStAlign.html#ad7e1f6fe08c0b2b2b3e7c9a57675e6c8">p</a>;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="unionStAlign.html#a9f7f5cfbde66cc638b222f1cb51c1d12">  120</a></span>        void (*fp)(void);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="unionStAlign.html#a3e099c2f6c7288f779c4ae0abc72efbd">  122</a></span>        <span class="keywordtype">float</span> <a class="code hl_variable" href="unionStAlign.html#a3e099c2f6c7288f779c4ae0abc72efbd">f</a>;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="unionStAlign.html#a631ba0f6df67e8076a1cc94078d511e0">  124</a></span>        <span class="keywordtype">double</span> <a class="code hl_variable" href="unionStAlign.html#a631ba0f6df67e8076a1cc94078d511e0">d</a>;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="unionStAlign.html#a11f7f6311a9d86ec7f7ce1c0c9ddca37">  126</a></span>        <span class="keywordtype">long</span> <span class="keywordtype">double</span> <a class="code hl_variable" href="unionStAlign.html#a11f7f6311a9d86ec7f7ce1c0c9ddca37">ld</a>;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>} <a class="code hl_union" href="unionStAlign.html">StAlign</a>;</div>
+</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">#endif </span><span class="comment">/* ST_ARITH_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="aunionStAlign_html"><div class="ttname"><a href="unionStAlign.html">StAlign</a></div><div class="ttdoc">Type for the biggest fundamental alignment.</div><div class="ttdef"><b>Definition</b> arith.h:106</div></div>
+<div class="ttc" id="aunionStAlign_html_a053ed9e43a2bc1a9a45ccc198d3de0e1"><div class="ttname"><a href="unionStAlign.html#a053ed9e43a2bc1a9a45ccc198d3de0e1">StAlign::i</a></div><div class="ttdeci">int i</div><div class="ttdoc">int i</div><div class="ttdef"><b>Definition</b> arith.h:108</div></div>
+<div class="ttc" id="aunionStAlign_html_a11f7f6311a9d86ec7f7ce1c0c9ddca37"><div class="ttname"><a href="unionStAlign.html#a11f7f6311a9d86ec7f7ce1c0c9ddca37">StAlign::ld</a></div><div class="ttdeci">long double ld</div><div class="ttdoc">long double ld</div><div class="ttdef"><b>Definition</b> arith.h:126</div></div>
+<div class="ttc" id="aunionStAlign_html_a3e099c2f6c7288f779c4ae0abc72efbd"><div class="ttname"><a href="unionStAlign.html#a3e099c2f6c7288f779c4ae0abc72efbd">StAlign::f</a></div><div class="ttdeci">float f</div><div class="ttdoc">float f</div><div class="ttdef"><b>Definition</b> arith.h:122</div></div>
+<div class="ttc" id="aunionStAlign_html_a631ba0f6df67e8076a1cc94078d511e0"><div class="ttname"><a href="unionStAlign.html#a631ba0f6df67e8076a1cc94078d511e0">StAlign::d</a></div><div class="ttdeci">double d</div><div class="ttdoc">double d</div><div class="ttdef"><b>Definition</b> arith.h:124</div></div>
+<div class="ttc" id="aunionStAlign_html_a67f5a9dd346d200bf27f9874afd34e2b"><div class="ttname"><a href="unionStAlign.html#a67f5a9dd346d200bf27f9874afd34e2b">StAlign::im</a></div><div class="ttdeci">intmax_t im</div><div class="ttdoc">intmax_t im</div><div class="ttdef"><b>Definition</b> arith.h:114</div></div>
+<div class="ttc" id="aunionStAlign_html_a788113beb23007d2b6be8724a9d41ed5"><div class="ttname"><a href="unionStAlign.html#a788113beb23007d2b6be8724a9d41ed5">StAlign::l</a></div><div class="ttdeci">long l</div><div class="ttdoc">long l</div><div class="ttdef"><b>Definition</b> arith.h:110</div></div>
+<div class="ttc" id="aunionStAlign_html_aa8df130c8f8b5c882848d1c213142e99"><div class="ttname"><a href="unionStAlign.html#aa8df130c8f8b5c882848d1c213142e99">StAlign::lp</a></div><div class="ttdeci">long * lp</div><div class="ttdoc">long* lp</div><div class="ttdef"><b>Definition</b> arith.h:116</div></div>
+<div class="ttc" id="aunionStAlign_html_ad7e1f6fe08c0b2b2b3e7c9a57675e6c8"><div class="ttname"><a href="unionStAlign.html#ad7e1f6fe08c0b2b2b3e7c9a57675e6c8">StAlign::p</a></div><div class="ttdeci">void * p</div><div class="ttdoc">void* p</div><div class="ttdef"><b>Definition</b> arith.h:118</div></div>
+<div class="ttc" id="aunionStAlign_html_afa20cb537357cba31506f0b8190bffef"><div class="ttname"><a href="unionStAlign.html#afa20cb537357cba31506f0b8190bffef">StAlign::ll</a></div><div class="ttdeci">long long ll</div><div class="ttdoc">long long ll</div><div class="ttdef"><b>Definition</b> arith.h:112</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_6e9a6da2c7e4a6c456ccabb42c2d8f90.html">st</a></li><li class="navelem"><a class="el" href="st_2arith_8h.html">arith.h</a></li>
+    <li class="navelem"><a class="el" href="dir_adfe62f17403c5c9faef15746ee82730.html">st</a></li><li class="navelem"><a class="el" href="st_2arith_8h.html">arith.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

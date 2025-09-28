@@ -1,19 +1,19 @@
-<map id="include/sturk/logger/except.h" name="include/sturk/logger/except.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="54,5,205,45"/>
-<area shape="rect" id="Node000002" href="$logger_2except_8h.html" title="Exceptions." alt="" coords="60,93,199,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,46,132,79,127,79,127,46"/>
-<area shape="rect" id="Node000003" href="$logger_2trace_8h.html" title="Trace." alt="" coords="8,167,136,192"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="122,121,92,158,88,154,118,117"/>
-<area shape="rect" id="Node000007" href="$sys_8h.html" title="System procedures." alt="" coords="149,240,240,265"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="137,118,186,226,181,229,132,120"/>
-<area shape="rect" id="Node000004" href="$fstream_8h.html" title="File stream." alt="" coords="5,240,125,265"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="74,193,70,227,65,226,68,192"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="127,313,201,339"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="83,263,138,303,135,307,80,268"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="28,313,103,339"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="68,266,68,300,63,300,63,266"/>
-<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="192,267,177,302,172,300,187,265"/>
-<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="175,268,100,309,98,304,173,263"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="225,313,308,339"/>
-<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="208,264,247,302,243,306,205,268"/>
+<map id="sturk/logger/except.h" name="sturk/logger/except.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="49,5,209,31"/>
+<area shape="rect" id="Node000002" href="$logger_2except_8h.html" title="Exceptions." alt="" coords="60,79,199,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,31,132,65,127,65,127,31"/>
+<area shape="rect" id="Node000003" href="$logger_2trace_8h.html" title="Trace." alt="" coords="8,152,136,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="122,106,92,143,88,139,118,103"/>
+<area shape="rect" id="Node000007" href="$sys_8h.html" title="System procedures." alt="" coords="149,225,240,251"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="137,103,186,212,181,214,132,106"/>
+<area shape="rect" id="Node000004" href="$fstream_8h.html" title="File stream." alt="" coords="5,225,125,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="74,178,70,212,65,212,68,177"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="127,299,201,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="83,249,138,288,135,293,80,253"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="28,299,103,324"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="68,251,68,285,63,285,63,251"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="192,252,177,287,172,285,187,250"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="175,253,100,294,98,289,173,248"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="225,299,308,324"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="208,249,247,287,243,291,205,253"/>
 </map>

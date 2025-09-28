@@ -1,15 +1,9 @@
 var searchData=
 [
-  ['bf_5fset_0',['bf_set',['../sturk_2bits_8h.html#a925d84bf903e939499e6de42dcfe89ec',1,'bits.h']]],
-  ['bit_1',['BIT',['../sturk_2bits_8h.html#a7b846473f310e6962ca8b763772cf862',1,'bits.h']]],
-  ['bitfield_2',['BITFIELD',['../sturk_2bits_8h.html#adc4d43d7b76bc0b12a7762739ab425b1',1,'bits.h']]],
-  ['bitmask_3',['BITMASK',['../sturk_2bits_8h.html#a43191cb42d5dfbf054d126c6c59d0c15',1,'bits.h']]],
-  ['broker_5fcreate_4',['broker_create',['../sturk_2broker_8h.html#ab327ff3f3c8556db878846baaecd526e',1,'broker.h']]],
-  ['broker_5fdestroy_5',['broker_destroy',['../sturk_2broker_8h.html#a7f51b614c2070cffbeb75192cacc3396',1,'broker.h']]],
-  ['broker_5fsearch_6',['broker_search',['../sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6',1,'broker.h']]],
-  ['bst_5finorder_7',['BST_INORDER',['../sturk_2rbtree_8h.html#a5850905e30743ab0ba98c38006182ea6',1,'rbtree.h']]],
-  ['bst_5fleft_8',['BST_LEFT',['../sturk_2rbtree_8h.html#a339ef6cf1a70fae73df326547480a6ab',1,'rbtree.h']]],
-  ['bst_5fpostorder_9',['BST_POSTORDER',['../sturk_2rbtree_8h.html#adb9ad7a27031b70aab87d2d4c8d8f733',1,'rbtree.h']]],
-  ['bst_5fpreorder_10',['BST_PREORDER',['../sturk_2rbtree_8h.html#ab49e9672ddba20df5785ea0a99f2d8a2',1,'rbtree.h']]],
-  ['bst_5fright_11',['BST_RIGHT',['../sturk_2rbtree_8h.html#ad0282ee1977996b7f12c7f3b5836880e',1,'rbtree.h']]]
+  ['arena_5falloc_0',['arena_alloc',['../sturk_2arena_8h.html#a07350e6ef20e3da1b80313434bef21ec',1,'arena_alloc:&#160;arena.h'],['../sturk_2arena_8h.html#a52ca41ea9ec8bde596b8248ef78b62c2',1,'ARENA_ALLOC:&#160;arena.h']]],
+  ['arena_5fcleanup_1',['arena_cleanup',['../sturk_2arena_8h.html#a44b67dc49c89e3009c0d59a1ab3cadb7',1,'arena.h']]],
+  ['arena_5fcreate_2',['arena_create',['../sturk_2arena_8h.html#af8dfdfb54b2eec3cc6535edfd3a5f59a',1,'arena.h']]],
+  ['arena_5fdestroy_3',['arena_destroy',['../sturk_2arena_8h.html#a1cb7996bf447b826488724b97a9d9089',1,'arena.h']]],
+  ['arena_5ffree_4',['arena_free',['../sturk_2arena_8h.html#a2d67cb08ade870313dc6e2a6e1dc9d7e',1,'arena.h']]],
+  ['arena_5fpool_5',['arena_pool',['../sturk_2arena_8h.html#a9612f42f9140b724db13343b594ef827',1,'arena.h']]]
 ];

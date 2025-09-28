@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sturk_0',['Sturk',['../index.html',1,'']]]
+  ['logger_0',['Logger',['../md_src_2logger_2README.html',1,'']]]
 ];

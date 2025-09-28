@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['broker_0',['Message broker',['../md_src_2broker_2README.html',1,'']]]
+  ['algo_0',['Algo',['../md_src_2algo_2README.html',1,'']]]
 ];
