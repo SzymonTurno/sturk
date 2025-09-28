@@ -17,7 +17,7 @@ it must subscribe to a topic that corresponds to the channel.
 The size of the message, its structure and the parsing of arguments passed to the
 publish procedure are controlled by the message API. See the [example](#broker-example).
 
-| ![broker-hierarchy](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/feat/arena-allocator/src/broker/docs/hierarchy.puml) |
+| ![broker-hierarchy](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/main/src/broker/docs/hierarchy.puml) |
 | :--------------: |
 | Broker hierarchy |
 
@@ -31,7 +31,7 @@ publish procedure are controlled by the message API. See the [example](#broker-e
 In this example the message will be a sequence of pipe characters - `|`. The sequence
 length will be equal to the integer passed to the publish procedure.
 
-| ![broker-example-message](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/feat/arena-allocator/src/broker/docs/message.puml) |
+| ![broker-example-message](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/main/src/broker/docs/message.puml) |
 | :-----------------------------: |
 | Message for a call "publish(5)" |
 

@@ -10,7 +10,7 @@ that points to the neighbourhood of the vertex. The graph template extends the v
 type with additional member of a type specified by the template parameter. The purpose
 of this template is to provide an interface for defining intrusive data structures.
 
-| ![vertegs-hierarchy](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/feat/arena-allocator/include/vertegs/docs/hierarchy.puml) |
+| ![vertegs-hierarchy](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/main/include/vertegs/docs/hierarchy.puml) |
 | :---------------: |
 | Vertegs hierarchy |
 
