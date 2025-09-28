@@ -9,7 +9,35 @@ is a C library that implements the publish-subscribe messaging pattern.
 
 ## Quickstart
 
-See [publish-subscribe](#publish-subscribe).
+### Initialize a broker
+
+```c
+        StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
+```
+
+### Create a subscriber
+
+```c
+        StSubscriber* sber = subscriber_create(broker);
+```
+
+### Subscribe to a topic
+
+```c
+        subscribe(sber, "test");
+```
+
+### Publish to a topic
+
+```c
+        publish(broker_search(broker, "test"), 5);
+```
+
+### Receive a message
+
+```c
+        msg = subscriber_await(sber);
+```
 
 ## Portability
 
