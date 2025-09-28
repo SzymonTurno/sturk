@@ -57,7 +57,7 @@ To choose an OS or to add support for an OS see also [osal](src/osal/README.md).
 Sturk consists of several modules with dependencies as shown in the
 **Modules hierarchy** diagram.
 
-| ![modules-hierarchy](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/feat/arena-allocator/docs/hierarchy.puml) |
+| ![modules-hierarchy](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/main/docs/hierarchy.puml) |
 | :---------------: |
 | Modules hierarchy |
 
