@@ -30,30 +30,45 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file sturk/list.h
+ * @file st/io/buffer.h
  *
- * @see vertegs/list.h
+ * @brief Input/output buffer.
  */
 
-#ifndef STURK_LIST_H
-#define STURK_LIST_H
+#ifndef ST_IO_BUFFER_H
+#define ST_IO_BUFFER_H
 
-#include "st/os/sys.h"
-#include "vertegs/list.h"
+#include "st/arith.h"
+#include <stdarg.h>
 
-/** @see VX_LIST() */
-#define LIST VX_LIST
+#define ST_IO_EOF -1
 
-/** @see vx_list_ins() */
-#define list_ins vx_list_ins
+#define st_iobuffer_getlen(bytes)                                              \
+	(3 + (sizeof(char*) + (bytes) - 1) / sizeof(StAlign))
 
-/** @see vx_list_rem() */
-#define list_rem vx_list_rem
+typedef StAlign StIoBuffer;
 
-/** @see vx_list_next() */
-#define list_next vx_list_next
+typedef union StIo StIo;
 
-/** @see vx_listit_next() */
-#define listit_next vx_listit_next
+struct StIoVtable {
+	void (*putc_cb)(void*, char);
+	char (*getc_cb)(void*);
+};
 
-#endif /* STURK_LIST_H */
+StIo* st_io_init(StIoBuffer* buff);
+
+void st_io_setp(StIo* io, void* p);
+
+void st_io_setvp(StIo* io, const struct StIoVtable* vp);
+
+void st_io_putc(StIo* io, char c);
+
+char st_io_getc(StIo* io);
+
+void st_io_vprint(StIo* io, const char* fmt, va_list va);
+
+void st_io_print(StIo* io, const char* fmt, ...);
+
+char* st_io_fgets(char* str, int size, StIo* io);
+
+#endif /* ST_IO_BUFFER_H */

@@ -30,30 +30,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file sturk/list.h
+ * @file st/io/bag.h
  *
- * @see vertegs/list.h
+ * @brief Bag of IO instances.
  */
 
-#ifndef STURK_LIST_H
-#define STURK_LIST_H
+#ifndef ST_IO_BAG_H
+#define ST_IO_BAG_H
 
-#include "st/os/sys.h"
-#include "vertegs/list.h"
+#include "st/io/buffer.h"
 
-/** @see VX_LIST() */
-#define LIST VX_LIST
+/**
+ * @var typedef struct StIoGroup StIoGroup
+ *
+ * @brief A bag of IO instances.
+ */
+typedef struct StIoBag StIoBag;
 
-/** @see vx_list_ins() */
-#define list_ins vx_list_ins
+StIoBag* st_iobag_create(void);
 
-/** @see vx_list_rem() */
-#define list_rem vx_list_rem
+void st_iobag_destroy(StIoBag* bag);
 
-/** @see vx_list_next() */
-#define list_next vx_list_next
+void st_iobag_ins(StIoBag* bag, StIo* io);
 
-/** @see vx_listit_next() */
-#define listit_next vx_listit_next
+void st_iobag_rem(StIoBag* bag, StIo* io);
 
-#endif /* STURK_LIST_H */
+void st_iobag_vprint(StIoBag* bag, const char* fmt, va_list va);
+
+size_t st_iobag_count(const StIoBag* bag);
+
+#endif /* ST_IO_BAG_H */

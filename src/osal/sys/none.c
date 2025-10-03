@@ -29,41 +29,28 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "osal/unistd.h"
-#include "st/os/fstream.h"
-#include <stdio.h>
+#include "sturk/os/sys.h"
+#include "sturk/io/buffer.h"
 
-StFstream* st_fopen(const char* filename, const char* mode)
+void st_strprint(char* buff, const char* fmt, ...)
 {
-	return (StFstream*)fopen(filename, mode);
+	va_list va;
+	StIoBuffer iobuff[iobuffer_getlen(0)] = {0};
+	StIo* io = io_init(iobuff);
+	char** s = &buff;
+
+	io_setp(io, s);
+	va_start(va, fmt);
+	io_vprint(io, fmt, va);
+	va_end(va);
+	io_putc(io, '\0');
 }
 
-void st_fclose(StFstream* stream)
+/* LCOV_EXCL_START */
+void st_except(const char* reason, const char* file, int line)
 {
-	fclose((FILE*)stream);
+	(void)reason;
+	(void)file;
+	(void)line;
 }
-
-char* st_fgets(char* str, int size, StFstream* stream)
-{
-	return fgets(str, size, (FILE*)stream);
-}
-
-int st_fseekset(StFstream* stream, long int offset)
-{
-	return fseek((FILE*)stream, offset, SEEK_SET);
-}
-
-StFstream* st_stdout(void)
-{
-	return (StFstream*)stdout;
-}
-
-StFstream* st_stderr(void)
-{
-	return (StFstream*)stderr;
-}
-
-int st_vfprintf(StFstream* stream, const char* format, va_list vlist)
-{
-	return vfprintf((FILE*)stream, format, vlist);
-}
+/* LCOV_EXCL_STOP */

@@ -56,9 +56,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see vx_graph_datap() */
 #define graph_datap vx_graph_datap
 
-/** @see vx_graph_foredge() */
-#define graph_foredge vx_graph_foredge
-
 /** @see VX_GRAPH_EMPTY */
 #define GRAPH_EMPTY VX_GRAPH_EMPTY
 

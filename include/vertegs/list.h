@@ -67,16 +67,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define VX_LIST(name, type) VX_GRAPH(name, 1, type)
 
 /**
- * @def vx_list_foreach(type, i, listp)
- *
- * @brief Traverse a list.
- *
- * Traverse the list of type @a type referenced by @a listp in the forward
- * direcion, assigning every entry in turn to @a i.
- */
-#define vx_list_foreach(type, i, listp) vx_graph_foredge (type, i, listp, 0)
-
-/**
  * @def vx_list_ins(list, ...)
  *
  * @brief Insert, at a given position, an entry into a list.
@@ -112,5 +102,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @return The next entry.
  */
 #define vx_list_next(list) vx_graph_4vx(vx_graph_2vx(list)->nbor[0], list)
+
+#define vx_listit_next(it) vx_graphit_next(it, 0)
 
 #endif /* VERTEGS_LIST_H */

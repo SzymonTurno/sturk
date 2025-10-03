@@ -30,30 +30,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file sturk/list.h
+ * @file sturk/os/mem.h
  *
- * @see vertegs/list.h
+ * @see st/os/mem.h
  */
 
-#ifndef STURK_LIST_H
-#define STURK_LIST_H
+#ifndef STURK_OS_SYS_H
+#define STURK_OS_SYS_H
 
 #include "st/os/sys.h"
-#include "vertegs/list.h"
 
-/** @see VX_LIST() */
-#define LIST VX_LIST
+/** @see st_strprint() */
+#define strprint st_strprint
 
-/** @see vx_list_ins() */
-#define list_ins vx_list_ins
+/** @see st_except() */
+#define except st_except
 
-/** @see vx_list_rem() */
-#define list_rem vx_list_rem
-
-/** @see vx_list_next() */
-#define list_next vx_list_next
-
-/** @see vx_listit_next() */
-#define listit_next vx_listit_next
-
-#endif /* STURK_LIST_H */
+#endif /* STURK_OS_SYS_H */
