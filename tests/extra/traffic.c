@@ -29,14 +29,14 @@ static size_t getsize(void)
 	return sizeof(struct Message);
 }
 
-static void init(void* msg, va_list vlist)
+static void init(void* msg, va_list va)
 {
 	struct Message* tmp = msg;
 	char* format = NULL;
 
-	tmp->channel = va_arg(vlist, StChannel*);
-	format = va_arg(vlist, char*);
-	vsnprintf(tmp->payload, 8, format, vlist);
+	tmp->channel = va_arg(va, StChannel*);
+	format = va_arg(va, char*);
+	vsnprintf(tmp->payload, 8, format, va);
 }
 
 static void deinit(void* msg)

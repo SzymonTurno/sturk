@@ -7,9 +7,9 @@ static size_t getsize(void)
 	return sizeof(char*);
 }
 
-static void init(void* msg, va_list vlist)
+static void init(void* msg, va_list va)
 {
-	int n = va_arg(vlist, int) + 1;
+	int n = va_arg(va, int) + 1;
 	char* str = NULL;
 
 	if (n > 0) {

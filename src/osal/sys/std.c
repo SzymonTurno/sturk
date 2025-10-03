@@ -35,30 +35,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdio.h>
 #include <stdlib.h>
 
-#define BUFF_MAX_SIZE 256
-
-int st_snprintf(char* buffer, size_t bufsz, const char* format, ...)
+void st_strprint(char* buff, const char* fmt, ...)
 {
-	va_list vlist;
-	int ret = 0;
+	va_list va;
 
-	va_start(vlist, format);
-	ret = vsnprintf(buffer, bufsz, format, vlist);
-	va_end(vlist);
-	return ret;
-}
-
-int st_remove(const char* name)
-{
-	return remove(name);
+	va_start(va, fmt);
+	vsprintf(buff, fmt, va);
+	va_end(va);
 }
 
 /* LCOV_EXCL_START */
 void st_except(const char* reason, const char* file, int line)
 {
-	char* buff = ST_NEW(char, BUFF_MAX_SIZE);
+	static char buff[256];
 
-	st_snprintf(buff, BUFF_MAX_SIZE, "%s:%d: %s", file, line, reason);
+	st_strprint(buff, "%s:%d: %s", file, line, reason);
 	perror(buff);
 	st_free(buff);
 	exit(EXIT_FAILURE);

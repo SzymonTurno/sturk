@@ -114,6 +114,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define vx_graphp_2vxp(graphp)                                                 \
 	(0 ? (*(graphp))->vx_graph_nbor : (struct Vertegs**)(graphp))
 
+#define vx_graphp_2vxpp(graphpp)                                               \
+	(0 ? (struct Vertegs***)(**(graphpp))->vx_graph_nbor                   \
+	   : (struct Vertegs***)(graphpp))
+
 /**
  * @def vx_graph_datap(graph)
  *
@@ -125,16 +129,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define vx_graph_datap(graph) (&(graph)->vx_graph_data)
 
-/**
- * @def vx_graph_foredge(type, i, graphp, edge)
- *
- * @brief Traverse a graph.
- *
- * Traverse the graph of type @a type referenced by @a graphp along the edges of
- * index @a edge, assigning every node in turn to @a i.
- */
-#define vx_graph_foredge(type, i, graphp, edge)                                \
-	for (type** i = graphp; *i; i = (type**)&(*i)->vx_graph_nbor[edge])
+#define vx_graphit_next(it, edge)                                              \
+	(vx_graph_4vx(vx_itnext(vx_graphp_2vxpp(it), edge), **(it)))
 
 /**
  * @struct VxGraphEmpty

@@ -2,6 +2,7 @@ import os
 
 def append_rules(olvars):
     rule = olvars.rule(os.path.join('$(sturk_BLDDIR)', 'libsturk.a'))
+    incs = "$(sturk_INC) $(osal_INC)"
 
     rule.normal_depend('$(sturk_OBJS)')
     rule.step('ar rcs $@ $(sturk_OBJS)')
@@ -9,7 +10,7 @@ def append_rules(olvars):
     rule = olvars.rule(os.path.join('$(sturk_BLDDIR)', '%.o'))
     rule.normal_depend(os.path.join('$(sturk_DIR)', '%.c'))
     rule.order_depend('$(sturk_BLDDIRS)')
-    rule.step('$(CC) $(sturk_CFLAGS) $(sturk_EXTRA_CFLAGS) $(sturk_INC) $(osal_INC) -c -o $@ $<')
+    rule.step('$(CC) $(sturk_CFLAGS) $(sturk_EXTRA_CFLAGS) ' + incs + ' -c -o $@ $<')
 
     rule = olvars.rule('$(sturk_BLDDIRS)')
     rule.step('$(call MKDIR, $@)')

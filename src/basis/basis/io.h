@@ -29,31 +29,29 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/**
- * @file sturk/list.h
- *
- * @see vertegs/list.h
- */
+#ifndef BASIS_IO_H
+#define BASIS_IO_H
 
-#ifndef STURK_LIST_H
-#define STURK_LIST_H
+#include "sturk/arith.h"
+#include "sturk/bits.h"
+#include "sturk/io/buffer.h"
 
-#include "st/os/sys.h"
-#include "vertegs/list.h"
+#define USR_MODE_MASK ST_BIT(0)
 
-/** @see VX_LIST() */
-#define LIST VX_LIST
+union StIo {
+	struct {
+		const struct StIoVtable* vp;
+		union {
+			StBits flags;
+			void* align;
+		} u;
+	} s;
+	StAlign align;
+};
 
-/** @see vx_list_ins() */
-#define list_ins vx_list_ins
+static inline void* getp(StIo* io)
+{
+	return (io->s.u.flags & USR_MODE_MASK) ? *(void**)&io[1] : &io[1];
+}
 
-/** @see vx_list_rem() */
-#define list_rem vx_list_rem
-
-/** @see vx_list_next() */
-#define list_next vx_list_next
-
-/** @see vx_listit_next() */
-#define listit_next vx_listit_next
-
-#endif /* STURK_LIST_H */
+#endif /* BASIS_IO_H */

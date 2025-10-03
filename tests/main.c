@@ -5,6 +5,8 @@
 #include "sturk/cirq.h"
 #include "sturk/dict.h"
 #include "sturk/graph.h"
+#include "sturk/io/bag.h"
+#include "sturk/io/buffer.h"
 #include "sturk/os/mutex.h"
 #include "sturk/os/sem.h"
 #include "sturk/pool.h"
@@ -37,6 +39,8 @@
 
 #define BROKER_FILE_PATH JOIN_PATH("src", JOIN_PATH("broker", "broker.c"))
 
+SIMPTE_BEGIN();
+
 extern void run_vertegs_tests(void);
 extern void run_broker_extra_tests(void);
 
@@ -51,6 +55,7 @@ SIMPTE_GROUP(semaphore, "semaphore");
 SIMPTE_GROUP(waitq, "waitq");
 SIMPTE_GROUP(pool, "pool");
 SIMPTE_GROUP(arena, "arena");
+SIMPTE_GROUP(io, "io");
 SIMPTE_GROUP(channel, "channel");
 SIMPTE_GROUP(subscriber, "subscriber");
 SIMPTE_GROUP(broker, "broker");
@@ -163,7 +168,7 @@ TEST(rbnode, should_trace_not_supported_traversals)
 {
 	struct StRbNode node = {0};
 
-	logger_detach(WARNING, st_stderr());
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	rb_next(&node, BST_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
 		RBTREE_FILE_PATH ":199: Not supported.\n",
@@ -345,7 +350,7 @@ TEST(mutex, should_trace_double_lock_warning)
 {
 	StMutex* mut = mutex_create(0);
 
-	logger_detach(WARNING, st_stderr());
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	mutex_lock(mut);
 	TEST_ASSERT_NULL(SIMPTE_GETTRACE(mutex, 0));
 	mutex_lock(mut);
@@ -360,7 +365,7 @@ TEST(mutex, should_trace_double_unlock_warning)
 {
 	StMutex* mut = mutex_create(0);
 
-	logger_detach(WARNING, st_stderr());
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	TEST_ASSERT_NULL(SIMPTE_GETTRACE(mutex, 0));
 	mutex_unlock(mut);
 	TEST_ASSERT_EQUAL_STRING(
@@ -371,7 +376,7 @@ TEST(mutex, should_trace_double_unlock_warning)
 
 TEST(mutex, should_trace_not_supported_policy)
 {
-	logger_detach(WARNING, st_stderr());
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	(void)mutex_create(ST_MUTEX_BF(POLICY, 7));
 	TEST_ASSERT_EQUAL_STRING(
 		MUTEX_FILE_PATH ":58: Not supported.\n",
@@ -383,7 +388,7 @@ TEST(mutex, should_trace_not_supported_policy)
 
 TEST(mutex, should_trace_not_supported_type)
 {
-	logger_detach(WARNING, st_stderr());
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	(void)mutex_create(ST_MUTEX_BF(TYPE, 15));
 	TEST_ASSERT_EQUAL_STRING(
 		MUTEX_FILE_PATH ":77: Not supported.\n",
@@ -406,7 +411,7 @@ TEST(semaphore, should_trace_fake_warning)
 {
 	StSem* sem = sem_create(0);
 
-	logger_detach(WARNING, st_stderr());
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	TEST_ASSERT_NULL(SIMPTE_GETTRACE(semaphore, 0));
 	sem_wait(sem);
 	TEST_ASSERT_EQUAL_STRING(
@@ -431,7 +436,7 @@ TEST(waitq, should_trace_dataloss)
 	struct Vertegs* nbor[] = {NULL, NULL};
 	StWaitQ* q = waitq_create();
 
-	logger_detach(WARNING, st_stderr());
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	waitq_ins(q, vx_4nbor(nbor));
 	waitq_destroy(q);
 	TEST_ASSERT_EQUAL_STRING(
@@ -518,6 +523,107 @@ TEST(arena, should_support_many_allocations)
 	arena_cleanup(&g);
 }
 
+TEST(io, should_calculate_iobuffer_length)
+{
+	const size_t remain = sizeof(StAlign) - sizeof(char*);
+
+	TEST_ASSERT_EQUAL_INT(3, iobuffer_getlen(0));
+	TEST_ASSERT_EQUAL_INT(3, iobuffer_getlen(remain));
+	TEST_ASSERT_EQUAL_INT(4, iobuffer_getlen(remain + 1));
+	TEST_ASSERT_EQUAL_INT(4, iobuffer_getlen(remain + sizeof(StAlign)));
+	TEST_ASSERT_EQUAL_INT(5, iobuffer_getlen(remain + sizeof(StAlign) + 1));
+}
+
+TEST(io, should_write_to_memory_buffer)
+{
+	char out[256] = {0};
+	StIoBuffer buff[iobuffer_getlen(sizeof(out))] = {0};
+	StIo* io = io_init(buff);
+
+	TEST_ASSERT_EQUAL_INT(sizeof(out) + 3 * sizeof(StAlign), sizeof(buff));
+	io_print(io, "one ");
+	io_print(io, "two \nthree");
+	io_print(io, " %d;%u;%x", -3000L, 200, 10);
+	io_putc(io, IO_EOF);
+	io = io_init(buff);
+	TEST_ASSERT_EQUAL_STRING("one two \n", io_fgets(out, sizeof(out), io));
+	TEST_ASSERT_EQUAL_STRING(
+		"three -3000;200;a", io_fgets(out, sizeof(out), io));
+	TEST_ASSERT_NULL(io_fgets(out, sizeof(out), io));
+	TEST_ASSERT_EQUAL_INT('t', out[0]);
+	io = io_init(buff);
+	io_print(io, "%01Alu", 14);
+	io_putc(io, IO_EOF);
+	io = io_init(buff);
+	TEST_ASSERT_EQUAL_STRING(
+		"00000000000000000014", io_fgets(out, sizeof(out), io));
+	io = io_init(buff);
+	io_print(io, "%01ald", -14L);
+	io_putc(io, IO_EOF);
+	io = io_init(buff);
+	TEST_ASSERT_EQUAL_STRING(
+		"00000000000000000-14", io_fgets(out, sizeof(out), io));
+	io = io_init(buff);
+	io_print(io, "%07lX", 11);
+	io_putc(io, IO_EOF);
+	io = io_init(buff);
+	TEST_ASSERT_EQUAL_STRING("000000B", io_fgets(out, sizeof(out), io));
+	io = io_init(buff);
+	io_print(io, "%c:%%:%s", 's', "string");
+	io_putc(io, IO_EOF);
+	io = io_init(buff);
+	TEST_ASSERT_EQUAL_STRING("s:%:string", io_fgets(out, sizeof(out), io));
+	io = io_init(buff);
+	io_print(io, "%f%01b%", 3.14);
+	io_putc(io, IO_EOF);
+	io = io_init(buff);
+	TEST_ASSERT_NULL(io_fgets(out, sizeof(out), io));
+	TEST_ASSERT_EQUAL_INT('s', out[0]);
+}
+
+TEST(io, should_read_from_file)
+{
+	const char* expected[] = {
+		"Lorem ipsum dolor sit amet, consectetur adipiscing\n",
+		"elit, sed do eiusmod tempor incididunt ut labore\n",
+		"et dolore magna aliqua. Ut enim ad minim veniam,\n",
+		"quis nostrud exercitation ullamco laboris nisi ut\n",
+		"aliquip ex ea commodo consequat.\n"};
+	char out[256] = {0};
+	StIoBuffer buff[iobuffer_getlen(0)] = {0};
+	StIo* io = io_init(buff);
+	FILE* fp = fopen(LOREM_TXT, "r");
+
+	io_setp(io, fp);
+	io_setvp(io, SAMPLE_FILE_API);
+	for (int i = 0; i < ARRAY_SIZE(expected); i++)
+		TEST_ASSERT_EQUAL_STRING(
+			expected[i], io_fgets(out, sizeof(out), io));
+	TEST_ASSERT_NULL(io_fgets(out, sizeof(out), io));
+	TEST_ASSERT_EQUAL_INT(expected[4][0], out[0]);
+	fclose(fp);
+}
+
+TEST(io, should_write_to_file)
+{
+	const char* filename = "sturk_tests_delete_me.txt";
+	char out[256] = {0};
+	StIoBuffer buff[iobuffer_getlen(0)] = {0};
+	StIo* io = io_init(buff);
+	FILE* fp = fopen(filename, "w");
+
+	io_setp(io, fp);
+	io_setvp(io, SAMPLE_FILE_API);
+	io_print(io, "%d;%u;%x\n", -3000L, 200, 10);
+	fclose(fp);
+	fp = fopen(filename, "r");
+	TEST_ASSERT_EQUAL_STRING("-3000;200;a\n", fgets(out, sizeof(out), fp));
+	TEST_ASSERT_NULL(fgets(out, sizeof(out), fp));
+	TEST_ASSERT_EQUAL_INT('-', out[0]);
+	fclose(fp);
+	remove(filename);
+}
+
 TEST(channel, should_access_its_topic)
 {
 	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
@@ -542,10 +648,10 @@ TEST(subscriber, should_receive_enqueued_message)
 
 TEST(subscriber, should_trace_null_param)
 {
-	logger_detach(WARNING, st_stderr());
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":267: Null param.\n",
+		BROKER_FILE_PATH ":269: Null param.\n",
 		strstr(SIMPTE_GETTRACE(subscriber, 0), BROKER_FILE_PATH ":"));
 }
 
@@ -563,6 +669,16 @@ TEST(subscriber, should_unload)
 	publish(broker_search(broker, "test"), 5);
 	TEST_ASSERT_EQUAL_STRING("|||||", *(char**)subscriber_await(sber));
 	TEST_ASSERT_NOT_EQUAL_STRING("||", *msg);
+	broker_destroy(broker);
+}
+
+TEST(subscriber, should_be_destroyed_independently)
+{
+	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
+	StSubscriber* sber = subscriber_create(broker);
+
+	subscriber_create(broker);
+	subscriber_destroy(sber);
 	broker_destroy(broker);
 }
 
@@ -656,32 +772,32 @@ TEST(broker, should_trace_null_param)
 {
 	StSubscriber* tmp = calloc(sizeof(char), 256);
 
-	logger_detach(WARNING, st_stderr());
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":306: Null param.\n",
+		BROKER_FILE_PATH ":308: Null param.\n",
 		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 	free(tmp);
 }
 
 TEST(logger, should_trace_debug)
 {
-	logger_detach(DEBUG, st_stdout());
+	logger_detach(DEBUG, SIMPTE_IO(STDOUT));
 	trace(DEBUG, NULL, "");
 	TEST_ASSERT_EQUAL_STRING("[debug] \n", SIMPTE_GETTRACE(logger, 0));
 }
 
 TEST(logger, should_trace_error)
 {
-	logger_detach(ERROR, st_stderr());
+	logger_detach(ERROR, SIMPTE_IO(STDERR));
 	trace(ERROR, NULL, "");
 	TEST_ASSERT_EQUAL_STRING("[error] \n", SIMPTE_GETTRACE(logger, 0));
 }
 
 TEST(logger, should_ignore_detached_trace_levels)
 {
-	logger_detach(ERROR, st_stderr());
-	SIMPTE_DETACH(logger, ERROR);
+	logger_detach(ERROR, SIMPTE_IO(STDERR));
+	logger_detach(ERROR, SIMPTE_IO(logger));
 	trace(ERROR, NULL, "");
 }
 
@@ -717,10 +833,15 @@ static void run_basic_tests(void)
 	RUN_TEST_CASE(arena, should_allocate_freed_memory);
 	RUN_TEST_CASE(arena, should_return_null_for_null_arena);
 	RUN_TEST_CASE(arena, should_support_many_allocations);
+	RUN_TEST_CASE(io, should_calculate_iobuffer_length);
+	RUN_TEST_CASE(io, should_write_to_memory_buffer);
+	RUN_TEST_CASE(io, should_read_from_file);
+	RUN_TEST_CASE(io, should_write_to_file);
 	RUN_TEST_CASE(channel, should_access_its_topic);
 	RUN_TEST_CASE(subscriber, should_receive_enqueued_message);
 	RUN_TEST_CASE(subscriber, should_trace_null_param);
 	RUN_TEST_CASE(subscriber, should_unload);
+	RUN_TEST_CASE(subscriber, should_be_destroyed_independently);
 	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
 	RUN_TEST_CASE(broker, should_allow_many_topics);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);

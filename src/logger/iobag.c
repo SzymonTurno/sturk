@@ -29,92 +29,98 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "sturk/logger/streambag.h"
 #include "sturk/graph.h"
+#include "sturk/io/bag.h"
+#include "sturk/io/buffer.h"
 #include "sturk/list.h"
-#include "sturk/logger/except.h"
-#include "sturk/logger/trace.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
 
-LIST(struct StreamList, StFstream*);
+LIST(struct IoList, StIo*);
 
-struct StStreamBag {
-	struct StreamList* head;
+struct StIoBag {
+	struct IoList* head;
 	StMutex* mutex;
 	union {
-		int n_streams;
+		size_t n_io;
 		void* align;
 	} u;
 };
 
-static void
-list_print(struct StreamList* head, const char* format, va_list vlist)
+static void list_print(struct IoList* head, const char* fmt, va_list va)
 {
 	va_list vcopy;
+	struct IoList* tmp = NULL;
 
-	list_foreach (struct StreamList, i, &head) {
-		va_copy(vcopy, vlist);
-		st_vfprintf(*graph_datap(*i), format, vcopy);
+	for (struct IoList** it = &head; *it;) {
+		va_copy(vcopy, va);
+		tmp = listit_next(&it);
+		io_vprint(*graph_datap(tmp), fmt, vcopy);
 		va_end(vcopy);
 	}
 }
 
-StStreamBag* st_streambag_create(void)
+StIoBag* st_iobag_create(void)
 {
-	StStreamBag* self = NEW(StStreamBag);
+	StIoBag* self = NEW(StIoBag);
 
 	self->head = NULL;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	self->u.n_streams = 0;
+	self->u.n_io = 0;
 	return self;
 }
 
-void st_streambag_destroy(StStreamBag* bag)
+void st_iobag_destroy(StIoBag* bag)
 {
-	if (!bag)
-		return;
-	mutex_destroy(bag->mutex);
-	bag->mutex = NULL;
-	while (bag->head)
-		st_free(list_rem(&bag->head));
-	st_free(bag);
+	if (bag) {
+		mutex_destroy(bag->mutex);
+		bag->mutex = NULL;
+		while (bag->head)
+			st_free(list_rem(&bag->head));
+		bag->u.n_io = 0;
+		st_free(bag);
+	}
 }
 
-void st_streambag_ins(StStreamBag* bag, StFstream* stream)
+void st_iobag_ins(StIoBag* bag, StIo* io)
 {
-	struct StreamList* entry = NEW(struct StreamList);
+	struct IoList* entry = NULL;
 
-	ENSURE(bag, ERROR, null_param);
-	*graph_datap(entry) = stream;
+	VX_ASSERT(bag);
+	if (bag) {
+		entry = NEW(struct IoList);
+		*graph_datap(entry) = io;
+		mutex_lock(bag->mutex);
+		bag->head = list_ins(bag->head, entry);
+		++bag->u.n_io;
+		mutex_unlock(bag->mutex);
+	}
+}
+
+void st_iobag_rem(StIoBag* bag, StIo* io)
+{
+	VX_ASSERT(bag);
 	mutex_lock(bag->mutex);
-	bag->head = list_ins(bag->head, entry);
-	++bag->u.n_streams;
-	mutex_unlock(bag->mutex);
-}
-
-void st_streambag_rem(StStreamBag* bag, StFstream* stream)
-{
-	ENSURE(bag, ERROR, null_param);
-	list_foreach (struct StreamList, i, &bag->head)
-		if (*graph_datap(*i) == stream) {
-			mutex_lock(bag->mutex);
+	for (struct IoList** i = &bag->head; *i; listit_next(&i))
+		if (*graph_datap(*i) == io) {
 			st_free(list_rem(i));
-			--bag->u.n_streams;
-			mutex_unlock(bag->mutex);
+			--bag->u.n_io;
 			break;
 		}
-}
-
-void st_streambag_vprint(StStreamBag* bag, const char* format, va_list vlist)
-{
-	ENSURE(bag, ERROR, null_param);
-	mutex_lock(bag->mutex);
-	list_print(bag->head, format, vlist);
 	mutex_unlock(bag->mutex);
 }
 
-int st_streambag_count(const StStreamBag* bag)
+void st_iobag_vprint(StIoBag* bag, const char* fmt, va_list va)
 {
-	return bag ? bag->u.n_streams : 0;
+	VX_ASSERT(bag);
+	if (bag) {
+		mutex_lock(bag->mutex);
+		list_print(bag->head, fmt, va);
+		mutex_unlock(bag->mutex);
+	}
+}
+
+size_t st_iobag_count(const StIoBag* bag)
+{
+	return bag ? bag->u.n_io : 0;
 }

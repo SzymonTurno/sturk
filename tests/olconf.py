@@ -94,6 +94,10 @@ def join(olvars):
     else:
         node.fail('Unknown threads mode: ' + settings['test']['threads'] + '.')
 
+    olvars.append(
+        'test_CFLAGS',
+        '-DLOREM_TXT=\\"' + os.path.join(olvars.acwd(), 'lorem.txt') + '\\"')
+
     olvars.append('unity_DIR', 'Unity')
     olvars.append('unity_INCS', '-I' + os.path.join('Unity', 'src'))
     olvars.append('unity_INCS', '-I' + os.path.join(fixture_dir(), 'src'))

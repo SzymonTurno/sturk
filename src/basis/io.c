@@ -29,31 +29,77 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/**
- * @file sturk/list.h
- *
- * @see vertegs/list.h
- */
+#include "basis/io.h"
+#include "vertegs/vertex.h"
 
-#ifndef STURK_LIST_H
-#define STURK_LIST_H
+static void stream_putc(void* p, char c)
+{
+	char** s = p;
 
-#include "st/os/sys.h"
-#include "vertegs/list.h"
+	*(*s)++ = c;
+}
 
-/** @see VX_LIST() */
-#define LIST VX_LIST
+static char stream_getc(void* p)
+{
+	char** s = p;
+	char c = **s;
 
-/** @see vx_list_ins() */
-#define list_ins vx_list_ins
+	if (c != IO_EOF)
+		++(*s);
+	return c;
+}
 
-/** @see vx_list_rem() */
-#define list_rem vx_list_rem
+static const struct StIoVtable STREAM_API[] = {
+	{.putc_cb = stream_putc, .getc_cb = stream_getc}};
 
-/** @see vx_list_next() */
-#define list_next vx_list_next
+StIo* st_io_init(StIoBuffer* buff)
+{
+	StIo* io = (StIo*)buff;
+	char** s = NULL;
 
-/** @see vx_listit_next() */
-#define listit_next vx_listit_next
+	VX_ENSURE_MEM(buff);
+	io->s.vp = STREAM_API;
+	io->s.u.flags = 0;
+	s = (char**)&io[1];
+	*s = (char*)&s[1];
+	return io;
+}
 
-#endif /* STURK_LIST_H */
+void st_io_setp(StIo* io, void* p)
+{
+	VX_ASSERT(io);
+	io->s.u.flags |= USR_MODE_MASK;
+	*(void**)&io[1] = p;
+}
+
+void st_io_setvp(StIo* io, const struct StIoVtable* vp)
+{
+	VX_ASSERT(io);
+	io->s.vp = vp;
+}
+
+void st_io_putc(StIo* io, char c)
+{
+	io->s.vp->putc_cb(getp(io), c);
+}
+
+char st_io_getc(StIo* io)
+{
+	return io->s.vp->getc_cb(getp(io));
+}
+
+char* st_io_fgets(char* str, int size, StIo* io)
+{
+	char c = '\0';
+	char* ret = str;
+
+	VX_ENSURE_MEM(str);
+	VX_ASSERT(size > 0);
+	while (--size && c != '\n' && (c = io_getc(io)) != IO_EOF)
+		*str++ = c;
+
+	if (ret == str)
+		return NULL;
+	*str = '\0';
+	return ret;
+}

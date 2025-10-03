@@ -30,79 +30,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file st/os/fstream.h
+ * @file sturk/io/bag.h
  *
- * @brief File stream.
+ * @see st/io/bag.h
  */
 
-#ifndef ST_FSTREAM_H
-#define ST_FSTREAM_H
+#ifndef STURK_IO_BAG_H
+#define STURK_IO_BAG_H
 
-#include <stdarg.h>
-#include <stddef.h>
+#include "st/io/bag.h"
 
-/**
- * @var typedef struct StFstream StFstream
- *
- * @brief File stream.
- *
- * @see FILE
- */
-typedef struct StFstream StFstream;
+/** @see st_iobag_create() */
+#define iobag_create st_iobag_create
 
-/**
- * @fn StFstream* st_fopen(const char* filename, const char* mode)
- *
- * @see fopen()
- */
-StFstream* st_fopen(const char* filename, const char* mode);
+/** @see st_iobag_destroy() */
+#define iobag_destroy st_iobag_destroy
 
-/**
- * @fn void st_fclose(StFstream* stream)
- *
- * @see fclose()
- */
-void st_fclose(StFstream* stream);
+/** @see st_iobag_ins() */
+#define iobag_ins st_iobag_ins
 
-/**
- * @fn char* st_fgets(char* str, int size, StFstream* stream)
- *
- * @see fgets()
- */
-char* st_fgets(char* str, int size, StFstream* stream);
+/** @see st_iobag_rem() */
+#define iobag_rem st_iobag_rem
 
-/**
- * @fn int st_fseekset(StFstream* stream, long int offset)
- *
- * This is fseek() with mode set to SEEK_SET.
- *
- * @see fseek()
- */
-int st_fseekset(StFstream* stream, long int offset);
+/** @see st_iobag_vprint() */
+#define iobag_vprint st_iobag_vprint
 
-/**
- * @fn StFstream* st_stdout(void)
- *
- * @return The stdout stream.
- *
- * @see stdout
- */
-StFstream* st_stdout(void);
+/** @see st_iobag_count() */
+#define iobag_count st_iobag_count
 
-/**
- * @fn StFstream* st_stderr(void)
- *
- * @return The stderr stream.
- *
- * @see stderr
- */
-StFstream* st_stderr(void);
-
-/**
- * @fn int st_vfprintf(StFstream* stream, const char* format, va_list vlist)
- *
- * @see vfprintf()
- */
-int st_vfprintf(StFstream* stream, const char* format, va_list vlist);
-
-#endif /* ST_FSTREAM_H */
+#endif /* STURK_IO_BAG_H */

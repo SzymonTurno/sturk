@@ -30,32 +30,44 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file sturk/logger/streambag.h
+ * @file sturk/io/buffer.h
  *
- * @see st/logger/streambag.h
+ * @see st/io/buffer.h
  */
 
-#ifndef STURK_LOGGER_STREAMBAG_H
-#define STURK_LOGGER_STREAMBAG_H
+#ifndef STURK_IO_BUFFER_H
+#define STURK_IO_BUFFER_H
 
-#include "st/logger/streambag.h"
+#include "st/io/buffer.h"
 
-/** @see st_streambag_create() */
-#define streambag_create st_streambag_create
+/** @see ST_IO_EOF */
+#define IO_EOF ST_IO_EOF
 
-/** @see st_streambag_destroy() */
-#define streambag_destroy st_streambag_destroy
+/** @see st_iobuffer_getlen() */
+#define iobuffer_getlen st_iobuffer_getlen
 
-/** @see st_streambag_ins() */
-#define streambag_ins st_streambag_ins
+/** @see st_io_init() */
+#define io_init st_io_init
 
-/** @see st_streambag_rem() */
-#define streambag_rem st_streambag_rem
+/** @see st_io_setp() */
+#define io_setp st_io_setp
 
-/** @see st_streambag_vprint() */
-#define streambag_vprint st_streambag_vprint
+/** @see st_io_setvp() */
+#define io_setvp st_io_setvp
 
-/** @see st_streambag_count() */
-#define streambag_count st_streambag_count
+/** @see st_io_putc() */
+#define io_putc st_io_putc
 
-#endif /* STURK_LOGGER_STREAMBAG_H */
+/** @see st_io_getc() */
+#define io_getc st_io_getc
+
+/** @see st_io_vprint() */
+#define io_vprint st_io_vprint
+
+/** @see st_io_print() */
+#define io_print st_io_print
+
+/** @see st_io_fgets() */
+#define io_fgets st_io_fgets
+
+#endif /* ST_IO_BUFFER_H */

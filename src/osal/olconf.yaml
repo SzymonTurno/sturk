@@ -1,7 +1,6 @@
 ---
   osal:
-    mem: "std"
+    mem: "arena"
     mutex: "none"
     sem: "none"
-    sys: "std"
-    fstream: "std"
+    sys: "none"

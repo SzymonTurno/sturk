@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_LOGGER_TRACE_H
 #define ST_LOGGER_TRACE_H
 
-#include "st/os/fstream.h"
+#include "st/io/buffer.h"
 
 #ifndef ST_LOGGER_EN
 
@@ -94,24 +94,24 @@ enum StTraceLvl {
 void st_trace(enum StTraceLvl lvl, const char* tag, const char* format, ...);
 
 /**
- * @fn void st_logger_attach(enum StTraceLvl lvl, StFstream* stream)
+ * @fn void st_logger_attach(enum StTraceLvl lvl, StIo* io)
  *
- * @brief Attach a stream to the logger.
+ * @brief Attach an io to the logger.
  *
  * @param[in] lvl The trace level.
- * @param[in,out] stream The stream.
+ * @param[in,out] io The io.
  */
-void st_logger_attach(enum StTraceLvl lvl, StFstream* stream);
+void st_logger_attach(enum StTraceLvl lvl, StIo* io);
 
 /**
- * @fn void st_logger_detach(enum StTraceLvl lvl, StFstream* stream)
+ * @fn void st_logger_detach(enum StTraceLvl lvl, StIo* io)
  *
- * @brief Detach a stream from the logger.
+ * @brief Detach an io from the logger.
  *
  * @param[in] lvl The trace level.
- * @param[in,out] stream The stream.
+ * @param[in,out] io The io.
  */
-void st_logger_detach(enum StTraceLvl lvl, StFstream* stream);
+void st_logger_detach(enum StTraceLvl lvl, StIo* io);
 
 /**
  * @fn void st_logger_cleanup(void)
