@@ -35,7 +35,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/logger/except.h"
 #include "sturk/logger/trace.h"
 #include "sturk/rbtree.h"
-#include <string.h>
+
+static int st_strcmp(const char* s1, const char* s2)
+{
+	while (*s1 && (*s1 == *s2)) {
+		s1++;
+		s2++;
+	}
+	return *(const unsigned char*)s1 - *(const unsigned char*)s2;
+}
 
 static struct StRbNode* rbnode_4nbor(struct Vertegs** nbor)
 {
@@ -68,7 +76,7 @@ st_dictnode_ins(struct StDictNode* root, struct StDictNode* node)
 	ENSURE_MEM(node->str, ERROR);
 	while (p[child]) {
 		p = p[child]->nbor;
-		if (strcmp(node->str, dictnode_4nbor(p)->str) < 0)
+		if (st_strcmp(node->str, dictnode_4nbor(p)->str) < 0)
 			child = BST_LEFT;
 		else
 			child = BST_RIGHT;
@@ -86,7 +94,7 @@ struct StDictNode* st_dictnode_find(struct StDictNode* root, const char* str)
 	ENSURE_MEM(str, ERROR);
 	while (root) {
 		ENSURE(root->str, ERROR, null_param);
-		tmp = strcmp(str, root->str);
+		tmp = st_strcmp(str, root->str);
 		if (tmp < 0)
 			root = rbnode_2dictnode(rb_left(&root->node));
 		else if (tmp > 0)
