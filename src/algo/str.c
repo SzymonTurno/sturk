@@ -39,7 +39,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/logger/trace.h"
 #include "sturk/os/mem.h"
 #include "sturk/rbtree.h"
-#include <string.h>
+
+static size_t st_strlen(const char* str)
+{
+	size_t len = 0;
+
+	while (str[len])
+		len++;
+	return len;
+}
+
+static char* st_strcpy(char* dest, const char* src)
+{
+	char* temp = dest;
+
+	while ((*dest++ = *src++))
+		;
+	return temp;
+}
 
 static struct StStrBag* bag_create(const char* str)
 {
@@ -77,7 +94,7 @@ struct StStrList* st_strlist_ins(struct StStrList* list, char* str)
 
 char* st_newstr(const char* str)
 {
-	return strcpy(NEW(char, strlen(str) + 1), str);
+	return st_strcpy(NEW(char, st_strlen(str) + 1), str);
 }
 
 char* st_strlist_rem(struct StStrList** listp)
