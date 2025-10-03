@@ -136,6 +136,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define vx_graph_foredge(type, i, graphp, edge)                                \
 	for (type** i = graphp; *i; i = (type**)&(*i)->vx_graph_nbor[edge])
 
+#define vx_graphit_next(it, edge)                                              \
+	(vx_graph_4vx(vx_itnext(vx_graphp_2vxp(it), edge), *(it)))
+
 /**
  * @struct VxGraphEmpty
  *

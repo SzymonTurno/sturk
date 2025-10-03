@@ -113,4 +113,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define vx_list_next(list) vx_graph_4vx(vx_graph_2vx(list)->nbor[0], list)
 
+#define vx_listit_next(it) vx_graphit_next(it, 0)
+
 #endif /* VERTEGS_LIST_H */

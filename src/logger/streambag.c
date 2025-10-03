@@ -52,10 +52,12 @@ static void
 list_print(struct StreamList* head, const char* format, va_list vlist)
 {
 	va_list vcopy;
+	struct StreamList* tmp = NULL;
 
-	list_foreach (struct StreamList, i, &head) {
+	for (struct StreamList** it = &head; *it;) {
 		va_copy(vcopy, vlist);
-		st_vfprintf(*graph_datap(*i), format, vcopy);
+		tmp = listit_next(it);
+		st_vfprintf(*graph_datap(tmp), format, vcopy);
 		va_end(vcopy);
 	}
 }
