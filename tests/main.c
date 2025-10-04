@@ -5,6 +5,7 @@
 #include "sturk/cirq.h"
 #include "sturk/dict.h"
 #include "sturk/graph.h"
+#include "sturk/io.h"
 #include "sturk/os/mutex.h"
 #include "sturk/os/sem.h"
 #include "sturk/pool.h"
@@ -51,6 +52,7 @@ SIMPTE_GROUP(semaphore, "semaphore");
 SIMPTE_GROUP(waitq, "waitq");
 SIMPTE_GROUP(pool, "pool");
 SIMPTE_GROUP(arena, "arena");
+SIMPTE_GROUP(io, "io");
 SIMPTE_GROUP(channel, "channel");
 SIMPTE_GROUP(subscriber, "subscriber");
 SIMPTE_GROUP(broker, "broker");
@@ -518,6 +520,57 @@ TEST(arena, should_support_many_allocations)
 	arena_cleanup(&g);
 }
 
+TEST(io, should_calculate_membuff_length)
+{
+	const size_t remain = sizeof(StAlign) - 2 * sizeof(size_t);
+
+	TEST_ASSERT_EQUAL_INT(3, membuff_len(0));
+	TEST_ASSERT_EQUAL_INT(3, membuff_len(remain));
+	TEST_ASSERT_EQUAL_INT(4, membuff_len(remain + 1));
+	TEST_ASSERT_EQUAL_INT(4, membuff_len(remain + sizeof(StAlign)));
+	TEST_ASSERT_EQUAL_INT(5, membuff_len(remain + sizeof(StAlign) + 1));
+}
+
+TEST(io, should_write_to_memory_buffer)
+{
+	char out[256] = {0};
+	StMemBuff buff[membuff_len(sizeof(out))] = {0};
+	StIo* io = io_init(buff);
+
+	TEST_ASSERT_EQUAL_INT(sizeof(out) + 3 * sizeof(StAlign), sizeof(buff));
+	io_print(io, "one ");
+	io_print(io, "two \nthree");
+	io_print(io, " %d;%u;%x", -3000L, 200, 10);
+	TEST_ASSERT_EQUAL_STRING("one two \n", io_fgets(out, sizeof(out), io));
+	TEST_ASSERT_EQUAL_STRING(
+		"three -3000;200;a", io_fgets(out, sizeof(out), io));
+	TEST_ASSERT_EQUAL_INT('\0', io_fgets(out, sizeof(out), io)[0]);
+	io_print(io, "%01Alu", 14);
+	TEST_ASSERT_EQUAL_STRING(
+		"00000000000000000014", io_fgets(out, sizeof(out), io));
+	io = io_init(buff);
+	io_print(io, "%01ald", -14L);
+	TEST_ASSERT_EQUAL_STRING(
+		"00000000000000000-14", io_fgets(out, sizeof(out), io));
+	io = io_init(buff);
+	io_print(io, "%07lX", 11);
+	TEST_ASSERT_EQUAL_STRING("000000B", io_fgets(out, sizeof(out), io));
+	io = io_init(buff);
+	io_print(io, "%c:%%:%s", 's', "string");
+	TEST_ASSERT_EQUAL_STRING("s:%:string", io_fgets(out, sizeof(out), io));
+	io_print(io, "%f%01b%", 3.14);
+	TEST_ASSERT_EQUAL_INT('\0', io_fgets(out, sizeof(out), io)[0]);
+}
+
+TEST(io, should_accept_null_pointers)
+{
+	StMemBuff buff[membuff_len(0)] = {0};
+	StIo* io = io_init(buff);
+
+	io_setp(io, NULL);
+	io_setvp(io, NULL);
+}
+
 TEST(channel, should_access_its_topic)
 {
 	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
@@ -717,6 +770,9 @@ static void run_basic_tests(void)
 	RUN_TEST_CASE(arena, should_allocate_freed_memory);
 	RUN_TEST_CASE(arena, should_return_null_for_null_arena);
 	RUN_TEST_CASE(arena, should_support_many_allocations);
+	RUN_TEST_CASE(io, should_calculate_membuff_length);
+	RUN_TEST_CASE(io, should_write_to_memory_buffer);
+	RUN_TEST_CASE(io, should_accept_null_pointers);
 	RUN_TEST_CASE(channel, should_access_its_topic);
 	RUN_TEST_CASE(subscriber, should_receive_enqueued_message);
 	RUN_TEST_CASE(subscriber, should_trace_null_param);
