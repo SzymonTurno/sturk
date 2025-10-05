@@ -32,40 +32,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "basis/io.h"
 #include "vertegs/vertex.h"
 
-struct Buffer {
-	size_t front;
-	size_t rear;
-};
-
 static void stream_putc(void* p, char c)
 {
-	struct Buffer* buff = p;
-	char* stream = (char*)&buff[1];
+	char** s = p;
 
-	stream[buff->front++] = c;
+	*(*s)++ = c;
 }
 
 static char stream_getc(void* p)
 {
-	struct Buffer* buff = p;
-	char* stream = (char*)&buff[1];
+	char** s = p;
+	char c = **s;
 
-	return (buff->front == buff->rear) ? IO_EOF : stream[buff->rear++];
+	if (c != IO_EOF)
+		++(*s);
+	return c;
 }
 
-static const struct StIoVtable VTABLE[] = {
+static const struct StIoVtable STREAM_API[] = {
 	{.putc_cb = stream_putc, .getc_cb = stream_getc}};
 
-StIo* st_io_init(StMemBuff* buff)
+StIo* st_io_init(StIoBuffer* buff)
 {
 	StIo* io = (StIo*)buff;
-	struct Buffer* pb = NULL;
+	char** s = NULL;
 
 	VX_ENSURE_MEM(buff);
-	io->s.vp = VTABLE;
-	pb = (struct Buffer*)&io[1];
-	pb->front = 0;
-	pb->rear = 0;
+	io->s.vp = STREAM_API;
+	io->s.u.flags = 0;
+	s = (char**)&io[1];
+	*s = (char*)&s[1];
 	return io;
 }
 
@@ -82,6 +78,16 @@ void st_io_setvp(StIo* io, const struct StIoVtable* vp)
 	io->s.vp = vp;
 }
 
+void st_io_putc(StIo* io, char c)
+{
+	io->s.vp->putc_cb(getp(io), c);
+}
+
+char st_io_getc(StIo* io)
+{
+	return io->s.vp->getc_cb(getp(io));
+}
+
 char* st_io_fgets(char* str, int size, StIo* io)
 {
 	char c = '\0';
@@ -89,8 +95,11 @@ char* st_io_fgets(char* str, int size, StIo* io)
 
 	VX_ENSURE_MEM(str);
 	VX_ASSERT(size > 0);
-	while (--size && c != '\n' && (c = iogetc(io)) != IO_EOF)
+	while (--size && c != '\n' && (c = io_getc(io)) != IO_EOF)
 		*str++ = c;
+
+	if (ret == str)
+		return NULL;
 	*str = '\0';
 	return ret;
 }

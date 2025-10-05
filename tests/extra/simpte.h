@@ -1,6 +1,7 @@
 #ifndef SIMPTE_H
 #define SIMPTE_H
 
+#include "sturk/io/buffer.h"
 #include "sturk/logger/trace.h"
 #include "sturk/os/mem.h"
 #include <assert.h>
@@ -74,32 +75,48 @@
 
 #endif /* TEST_ASSERT_NOT_EQUAL_INT */
 
+#define SIMPTE_IO(ref) simpte_##ref##_io
+
+#define SIMPTE_IO_DCL(ref, bytes)                                              \
+	static StIoBuffer simpte_##ref##_buff[iobuffer_getlen(bytes)];         \
+	static StIo* SIMPTE_IO(ref)
+
+#define SIMPTE_IO_INIT(ref) SIMPTE_IO(ref) = io_init(simpte_##ref##_buff)
+
+#define SIMPTE_BEGIN()                                                         \
+	SIMPTE_IO_DCL(STDOUT, 0);                                              \
+	SIMPTE_IO_DCL(STDERR, 0)
+
 #ifdef TEST_GROUP
 
 #define SIMPTE_GROUP(group, label)                                             \
-	struct StFstream* simpte_stream_##group;                               \
+	SIMPTE_IO_DCL(group, 512);                                             \
 	TEST_SETUP(group)                                                      \
 	{                                                                      \
-		simpte_stream_##group =                                        \
-			st_fopen("test_traces_" label ".tmp", "w+");           \
-                                                                               \
-		logger_attach(INFO, st_stdout());                              \
-		logger_attach(DEBUG, st_stdout());                             \
-		logger_attach(WARNING, st_stderr());                           \
-		logger_attach(ERROR, st_stderr());                             \
+		SIMPTE_IO_INIT(STDOUT);                                        \
+		SIMPTE_IO_INIT(STDERR);                                        \
+		SIMPTE_IO_INIT(group);                                         \
+		io_putc(SIMPTE_IO(group), IO_EOF);                             \
+		SIMPTE_IO_INIT(group);                                         \
+		io_setp(SIMPTE_IO(STDOUT), stdout);                            \
+		io_setvp(SIMPTE_IO(STDOUT), SAMPLE_FILE_API);                  \
+		io_setp(SIMPTE_IO(STDERR), stdout);                            \
+		io_setvp(SIMPTE_IO(STDERR), SAMPLE_FILE_API);                  \
+		logger_attach(INFO, SIMPTE_IO(STDOUT));                        \
+		logger_attach(DEBUG, SIMPTE_IO(STDOUT));                       \
+		logger_attach(WARNING, SIMPTE_IO(STDERR));                     \
+		logger_attach(ERROR, SIMPTE_IO(STDERR));                       \
 		printf("\n");                                                  \
 		trace(INFO, "ut", "Running test case for: %s.", label);        \
-		logger_attach(INFO, simpte_stream_##group);                    \
-		logger_attach(DEBUG, simpte_stream_##group);                   \
-		logger_attach(WARNING, simpte_stream_##group);                 \
-		logger_attach(ERROR, simpte_stream_##group);                   \
+		logger_attach(INFO, SIMPTE_IO(group));                         \
+		logger_attach(DEBUG, SIMPTE_IO(group));                        \
+		logger_attach(WARNING, SIMPTE_IO(group));                      \
+		logger_attach(ERROR, SIMPTE_IO(group));                        \
 	}                                                                      \
 	TEST_TEAR_DOWN(group)                                                  \
 	{                                                                      \
 		trace(INFO, "ut", "Done.");                                    \
 		logger_cleanup();                                              \
-		st_fclose(simpte_stream_##group);                              \
-		st_remove("test_traces_" label ".tmp");                        \
 		st_mem_cleanup();                                              \
 	}                                                                      \
 	TEST_GROUP(group)
@@ -112,10 +129,8 @@
 
 #endif /* TEST_GROUP */
 
-#define SIMPTE_DETACH(group, lvl) logger_detach((lvl), simpte_stream_##group)
-
 #define SIMPTE_GETTRACE(group, index)                                          \
-	SimpteGettrace(simpte_stream_##group, index)
+	SimpteGettrace(simpte_##group##_buff, index)
 
 static inline void SimpteMain(int argc, const char** argv, void (*fn)(void))
 {
@@ -126,14 +141,14 @@ static inline void SimpteMain(int argc, const char** argv, void (*fn)(void))
 	printf("\n\n-----------------------\nOK\n");
 }
 
-static inline const char* SimpteGettrace(struct StFstream* stream, int index)
+static inline const char* SimpteGettrace(StIoBuffer* buff, int index)
 {
-	static char buff[256];
+	static char out[256];
+	StIo* io = io_init(buff);
 
-	st_fseekset(stream, 0);
 	while (index--)
-		st_fgets(buff, sizeof(buff), stream);
-	return st_fgets(buff, sizeof(buff), stream);
+		io_fgets(out, sizeof(out), io);
+	return io_fgets(out, sizeof(out), io);
 }
 
 #endif /* SIMPTE_H */

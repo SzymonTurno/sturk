@@ -118,9 +118,9 @@ static int a2d(char ch)
 	return -1;
 }
 
-static char a2i(char ch, char** src, int base, int* nump)
+static char a2i(char ch, const char** src, int base, int* nump)
 {
-	char* p = *src;
+	const char* p = *src;
 	int num = 0;
 	int dgt = 0;
 
@@ -145,13 +145,13 @@ static void putchw(StIo* io, int n, char z, char* bf)
 		n--;
 
 	while (n-- > 0)
-		ioputc(io, fc);
+		io_putc(io, fc);
 
 	while ((ch = *bf++))
-		ioputc(io, ch);
+		io_putc(io, ch);
 }
 
-void st_io_vprint(StIo* io, char* fmt, va_list vlist)
+void st_io_vprint(StIo* io, const char* fmt, va_list va)
 {
 	char bf[12] = {0};
 	char ch = 0;
@@ -161,7 +161,7 @@ void st_io_vprint(StIo* io, char* fmt, va_list vlist)
 
 	while ((ch = *(fmt++))) {
 		if (ch != '%') {
-			ioputc(io, ch);
+			io_putc(io, ch);
 			continue;
 		}
 
@@ -185,36 +185,35 @@ void st_io_vprint(StIo* io, char* fmt, va_list vlist)
 		switch (ch) {
 		case 'u':
 			if (lng)
-				ul2a(va_arg(vlist, unsigned long), 10, 0, bf);
+				ul2a(va_arg(va, unsigned long), 10, 0, bf);
 			else
-				ui2a(va_arg(vlist, unsigned), 10, 0, bf);
+				ui2a(va_arg(va, unsigned), 10, 0, bf);
 			putchw(io, w, lz, bf);
 			break;
 		case 'd':
 			if (lng)
-				li2a(va_arg(vlist, long), bf);
+				li2a(va_arg(va, long), bf);
 			else
-				i2a(va_arg(vlist, int), bf);
+				i2a(va_arg(va, int), bf);
 			putchw(io, w, lz, bf);
 			break;
 		case 'x':
 		case 'X':
 			if (lng)
-				ul2a(va_arg(vlist, unsigned long), 16,
-				     (ch == 'X'), bf);
-			else
-				ui2a(va_arg(vlist, unsigned), 16, (ch == 'X'),
+				ul2a(va_arg(va, unsigned long), 16, (ch == 'X'),
 				     bf);
+			else
+				ui2a(va_arg(va, unsigned), 16, (ch == 'X'), bf);
 			putchw(io, w, lz, bf);
 			break;
 		case 'c':
-			ioputc(io, (char)(va_arg(vlist, int)));
+			io_putc(io, (char)(va_arg(va, int)));
 			break;
 		case 's':
-			putchw(io, w, 0, va_arg(vlist, char*));
+			putchw(io, w, 0, va_arg(va, char*));
 			break;
 		case '%':
-			ioputc(io, ch);
+			io_putc(io, ch);
 			break;
 		default:
 			VX_ASSERT(ch);
@@ -223,11 +222,11 @@ void st_io_vprint(StIo* io, char* fmt, va_list vlist)
 	}
 }
 
-void st_io_print(StIo* io, char* fmt, ...)
+void st_io_print(StIo* io, const char* fmt, ...)
 {
-	va_list vlist;
+	va_list va;
 
-	va_start(vlist, fmt);
-	st_io_vprint(io, fmt, vlist);
-	va_end(vlist);
+	va_start(va, fmt);
+	io_vprint(io, fmt, va);
+	va_end(va);
 }

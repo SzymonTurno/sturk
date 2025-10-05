@@ -72,18 +72,19 @@ static void getchunk(StArena* arena, size_t size, const char* file, int line)
 	StArena* ptr = NULL;
 	char* limit = NULL;
 
+	(void)file;
+	(void)line;
 	if (g->p) {
 		ptr = remgroup(g);
 		limit = graph_datap(ptr)->limit;
 	} else {
 		VX_ASSERT(CHUNK_SIZE > sizeof(union Header) + size);
 		ptr = graph_datap(arena)->alloc_cb(CHUNK_SIZE);
-		if (!ptr) {
-			/* LCOV_EXCL_START */
-			st_except(st_except_alloc_fail.reason, file, line);
+		VX_ASSERT(ptr);
+		/* LCOV_EXCL_START */
+		if (!ptr)
 			return;
-			/* LCOV_EXCL_STOP */
-		}
+		/* LCOV_EXCL_STOP */
 		limit = (char*)ptr + CHUNK_SIZE;
 	}
 	*ptr = *arena;
@@ -109,12 +110,7 @@ StArena* st_arena_create(
 {
 	StArena* ret = alloc_cb(sizeof(*ret));
 
-	if (!ret) {
-		/* LCOV_EXCL_START */
-		st_except(st_except_alloc_fail.reason, __FILE__, __LINE__);
-		return NULL;
-		/* LCOV_EXCL_STOP */
-	}
+	VX_ENSURE_MEM(ret);
 	ret = list_ins(GRAPH_EMPTY, ret);
 	graph_datap(ret)->avail = NULL;
 	graph_datap(ret)->limit = NULL;

@@ -29,42 +29,28 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/**
- * @file st/io.h
- *
- * @brief Input/output operations.
- */
+#include "sturk/os/sys.h"
+#include "sturk/io/buffer.h"
 
-#ifndef ST_IO_H
-#define ST_IO_H
+void st_strprint(char* buff, const char* fmt, ...)
+{
+	va_list va;
+	StIoBuffer iobuff[iobuffer_getlen(0)] = {0};
+	StIo* io = io_init(iobuff);
+	char** s = &buff;
 
-#include "st/arith.h"
-#include <stdarg.h>
+	io_setp(io, s);
+	va_start(va, fmt);
+	io_vprint(io, fmt, va);
+	va_end(va);
+	io_putc(io, '\0');
+}
 
-#define ST_IO_EOF -1
-
-#define st_membuff_len(bytes)                                                  \
-	(3 + (2 * sizeof(size_t) + (bytes) - 1) / sizeof(StAlign))
-
-typedef StAlign StMemBuff;
-
-typedef union StIo StIo;
-
-struct StIoVtable {
-	void (*putc_cb)(void*, char);
-	char (*getc_cb)(void*);
-};
-
-StIo* st_io_init(StMemBuff* buff);
-
-void st_io_setp(StIo* io, void* p);
-
-void st_io_setvp(StIo* io, const struct StIoVtable* vp);
-
-void st_io_vprint(StIo* io, char* fmt, va_list vlist);
-
-void st_io_print(StIo* io, char* fmt, ...);
-
-char* st_io_fgets(char* str, int size, StIo* io);
-
-#endif /* ST_IO_H */
+/* LCOV_EXCL_START */
+void st_except(const char* reason, const char* file, int line)
+{
+	(void)reason;
+	(void)file;
+	(void)line;
+}
+/* LCOV_EXCL_STOP */

@@ -30,79 +30,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file st/os/fstream.h
+ * @file sturk/os/mem.h
  *
- * @brief File stream.
+ * @see st/os/mem.h
  */
 
-#ifndef ST_FSTREAM_H
-#define ST_FSTREAM_H
+#ifndef STURK_OS_SYS_H
+#define STURK_OS_SYS_H
 
-#include <stdarg.h>
-#include <stddef.h>
+#include "st/os/sys.h"
 
-/**
- * @var typedef struct StFstream StFstream
- *
- * @brief File stream.
- *
- * @see FILE
- */
-typedef struct StFstream StFstream;
+/** @see st_strprint() */
+#define strprint st_strprint
 
-/**
- * @fn StFstream* st_fopen(const char* filename, const char* mode)
- *
- * @see fopen()
- */
-StFstream* st_fopen(const char* filename, const char* mode);
+/** @see st_except() */
+#define except st_except
 
-/**
- * @fn void st_fclose(StFstream* stream)
- *
- * @see fclose()
- */
-void st_fclose(StFstream* stream);
-
-/**
- * @fn char* st_fgets(char* str, int size, StFstream* stream)
- *
- * @see fgets()
- */
-char* st_fgets(char* str, int size, StFstream* stream);
-
-/**
- * @fn int st_fseekset(StFstream* stream, long int offset)
- *
- * This is fseek() with mode set to SEEK_SET.
- *
- * @see fseek()
- */
-int st_fseekset(StFstream* stream, long int offset);
-
-/**
- * @fn StFstream* st_stdout(void)
- *
- * @return The stdout stream.
- *
- * @see stdout
- */
-StFstream* st_stdout(void);
-
-/**
- * @fn StFstream* st_stderr(void)
- *
- * @return The stderr stream.
- *
- * @see stderr
- */
-StFstream* st_stderr(void);
-
-/**
- * @fn int st_vfprintf(StFstream* stream, const char* format, va_list vlist)
- *
- * @see vfprintf()
- */
-int st_vfprintf(StFstream* stream, const char* format, va_list vlist);
-
-#endif /* ST_FSTREAM_H */
+#endif /* STURK_OS_SYS_H */

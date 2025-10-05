@@ -11,11 +11,10 @@ Table: OSAL
 
 |  #  | API                                                            | Implementations |
 | --- | -------------------------------------------------------------- | --------------- |
-|  1  | [fstream](https://szymonturno.github.io/sturk/fstream_8h.html) | `std`           |
-|  2  | [mem](https://szymonturno.github.io/sturk/os_2mem_8h.html)     | `arena`, `std`  |
-|  3  | [mutex](https://szymonturno.github.io/sturk/os_2mutex_8h.html) | `none`, `posix` |
-|  4  | [sem](https://szymonturno.github.io/sturk/os_2sem_8h.html)     | `none`, `posix` |
-|  5  | [sys](https://szymonturno.github.io/sturk/sys_8h.html)         | `std`           |
+|  1  | [mem](https://szymonturno.github.io/sturk/os_2mem_8h.html)     | `arena`, `std`  |
+|  2  | [mutex](https://szymonturno.github.io/sturk/os_2mutex_8h.html) | `none`, `posix` |
+|  3  | [sem](https://szymonturno.github.io/sturk/os_2sem_8h.html)     | `none`, `posix` |
+|  4  | [sys](https://szymonturno.github.io/sturk/sys_8h.html)         | `std`           |
 
 ## Configuring OSAL
 

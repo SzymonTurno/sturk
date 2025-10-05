@@ -30,32 +30,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file sturk/logger/streambag.h
+ * @file st/io/bag.h
  *
- * @see st/logger/streambag.h
+ * @brief Bag of IO instances.
  */
 
-#ifndef STURK_LOGGER_STREAMBAG_H
-#define STURK_LOGGER_STREAMBAG_H
+#ifndef ST_IO_BAG_H
+#define ST_IO_BAG_H
 
-#include "st/logger/streambag.h"
+#include "st/io/buffer.h"
 
-/** @see st_streambag_create() */
-#define streambag_create st_streambag_create
+/**
+ * @var typedef struct StIoGroup StIoGroup
+ *
+ * @brief A bag of IO instances.
+ */
+typedef struct StIoBag StIoBag;
 
-/** @see st_streambag_destroy() */
-#define streambag_destroy st_streambag_destroy
+StIoBag* st_iobag_create(void);
 
-/** @see st_streambag_ins() */
-#define streambag_ins st_streambag_ins
+void st_iobag_destroy(StIoBag* bag);
 
-/** @see st_streambag_rem() */
-#define streambag_rem st_streambag_rem
+void st_iobag_ins(StIoBag* bag, StIo* io);
 
-/** @see st_streambag_vprint() */
-#define streambag_vprint st_streambag_vprint
+void st_iobag_rem(StIoBag* bag, StIo* io);
 
-/** @see st_streambag_count() */
-#define streambag_count st_streambag_count
+void st_iobag_vprint(StIoBag* bag, const char* fmt, va_list va);
 
-#endif /* STURK_LOGGER_STREAMBAG_H */
+size_t st_iobag_count(const StIoBag* bag);
+
+#endif /* ST_IO_BAG_H */

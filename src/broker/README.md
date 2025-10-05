@@ -52,9 +52,9 @@ For `n` pipe characters allocate `n + 1` bytes (add one to include the string
 terminating character - `\0`) and fill the string with `n` number of `|`.
 
 ```c
-static void init(void* msg, va_list vlist)
+static void init(void* msg, va_list va)
 {
-        int n = va_arg(vlist, int) + 1;
+        int n = va_arg(va, int) + 1;
         char* str = NULL;
 
         if (n > 0) {
@@ -91,9 +91,9 @@ static size_t getsize(void)
         return sizeof(char*);
 }
 
-static void init(void* msg, va_list vlist)
+static void init(void* msg, va_list va)
 {
-        int n = va_arg(vlist, int) + 1;
+        int n = va_arg(va, int) + 1;
         char* str = NULL;
 
         if (n > 0) {

@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "st/os/mem.h"
-#include "st/os/sys.h"
+#include "sturk/os/sys.h"
 #include <stdlib.h>
 
 void* st_mem_alloc(size_t size, const char* file, int line)
@@ -39,7 +39,7 @@ void* st_mem_alloc(size_t size, const char* file, int line)
 
 	/* LCOV_EXCL_START */
 	if (!ret)
-		st_except(st_except_alloc_fail.reason, file, line);
+		except(st_except_alloc_fail.reason, file, line);
 	/* LCOV_EXCL_STOP */
 	return ret;
 }

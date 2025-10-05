@@ -29,41 +29,45 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "osal/unistd.h"
-#include "st/os/fstream.h"
-#include <stdio.h>
+/**
+ * @file sturk/io/buffer.h
+ *
+ * @see st/io/buffer.h
+ */
 
-StFstream* st_fopen(const char* filename, const char* mode)
-{
-	return (StFstream*)fopen(filename, mode);
-}
+#ifndef STURK_IO_BUFFER_H
+#define STURK_IO_BUFFER_H
 
-void st_fclose(StFstream* stream)
-{
-	fclose((FILE*)stream);
-}
+#include "st/io/buffer.h"
 
-char* st_fgets(char* str, int size, StFstream* stream)
-{
-	return fgets(str, size, (FILE*)stream);
-}
+/** @see ST_IO_EOF */
+#define IO_EOF ST_IO_EOF
 
-int st_fseekset(StFstream* stream, long int offset)
-{
-	return fseek((FILE*)stream, offset, SEEK_SET);
-}
+/** @see st_iobuffer_getlen() */
+#define iobuffer_getlen st_iobuffer_getlen
 
-StFstream* st_stdout(void)
-{
-	return (StFstream*)stdout;
-}
+/** @see st_io_init() */
+#define io_init st_io_init
 
-StFstream* st_stderr(void)
-{
-	return (StFstream*)stderr;
-}
+/** @see st_io_setp() */
+#define io_setp st_io_setp
 
-int st_vfprintf(StFstream* stream, const char* format, va_list vlist)
-{
-	return vfprintf((FILE*)stream, format, vlist);
-}
+/** @see st_io_setvp() */
+#define io_setvp st_io_setvp
+
+/** @see st_io_putc() */
+#define io_putc st_io_putc
+
+/** @see st_io_getc() */
+#define io_getc st_io_getc
+
+/** @see st_io_vprint() */
+#define io_vprint st_io_vprint
+
+/** @see st_io_print() */
+#define io_print st_io_print
+
+/** @see st_io_fgets() */
+#define io_fgets st_io_fgets
+
+#endif /* ST_IO_BUFFER_H */

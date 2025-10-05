@@ -116,7 +116,7 @@ static void notify(struct ChannelData* data, union Message* msg)
 
 	mutex_lock(data->mutex);
 	mutex_lock(msg->s.mutex);
-	list_foreach (struct SubscriberList, i, &data->list) {
+	for (struct SubscriberList** i = &data->list; *i; listit_next(&i)) {
 		ins_msg(*graph_datap(*i), msg);
 		++n;
 	}
@@ -132,7 +132,7 @@ static void unsubscribe(StChannel* ch, StSubscriber* sber)
 	struct ChannelData* data = dict_datap(ch);
 
 	mutex_lock(data->mutex);
-	list_foreach (struct SubscriberList, i, &data->list)
+	for (struct SubscriberList** i = &data->list; *i; listit_next(&i))
 		if (*graph_datap(*i) == sber) {
 			st_free(list_rem(i));
 			break;
@@ -238,11 +238,13 @@ void st_subscriber_destroy(StSubscriber* sber)
 	waitq_destroy(sber->q);
 	sber->q = NULL;
 	mutex_lock(sber->broker->mutex);
-	list_foreach (struct SubscriberList, i, &sber->broker->sbers.list)
+	for (struct SubscriberList** i = &sber->broker->sbers.list; *i;) {
 		if (*graph_datap(*i) == sber) {
 			st_free(list_rem(i));
 			break;
 		}
+		listit_next(&i);
+	}
 	mutex_unlock(sber->broker->mutex);
 	sber->broker = NULL;
 	st_free(sber);

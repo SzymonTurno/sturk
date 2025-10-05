@@ -20,4 +20,4 @@ def join(olvars):
 
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd()))
     olvars.append('sturk_OBJS', os.path.join(olvars.cwd(), 'trace.o'))
-    olvars.append('sturk_OBJS', os.path.join(olvars.cwd(), 'streambag.o'))
+    olvars.append('sturk_OBJS', os.path.join(olvars.cwd(), 'iobag.o'))

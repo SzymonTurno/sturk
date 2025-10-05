@@ -30,38 +30,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file st/io.h
+ * @file sturk/io/bag.h
  *
- * @see st/io.h.
+ * @see st/io/bag.h
  */
 
-#ifndef STURK_IO_H
-#define STURK_IO_H
+#ifndef STURK_IO_BAG_H
+#define STURK_IO_BAG_H
 
-#include "st/io.h"
+#include "st/io/bag.h"
 
-/** @see ST_IO_EOF */
-#define IO_EOF ST_IO_EOF
+/** @see st_iobag_create() */
+#define iobag_create st_iobag_create
 
-/** @see st_membuff_len() */
-#define membuff_len st_membuff_len
+/** @see st_iobag_destroy() */
+#define iobag_destroy st_iobag_destroy
 
-/** @see st_io_init() */
-#define io_init st_io_init
+/** @see st_iobag_ins() */
+#define iobag_ins st_iobag_ins
 
-/** @see st_io_setp() */
-#define io_setp st_io_setp
+/** @see st_iobag_rem() */
+#define iobag_rem st_iobag_rem
 
-/** @see st_io_setvp() */
-#define io_setvp st_io_setvp
+/** @see st_iobag_vprint() */
+#define iobag_vprint st_iobag_vprint
 
-/** @see st_io_vprint() */
-#define io_vprint st_io_vprint
+/** @see st_iobag_count() */
+#define iobag_count st_iobag_count
 
-/** @see st_io_print() */
-#define io_print st_io_print
-
-/** @see st_io_fgets() */
-#define io_fgets st_io_fgets
-
-#endif /* ST_IO_H */
+#endif /* STURK_IO_BAG_H */

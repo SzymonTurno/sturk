@@ -233,11 +233,11 @@ static inline struct Vertegs* vx_remcirq(struct Vertegs** cirqp, int pos)
 	return ret;
 }
 
-static inline struct Vertegs* vx_itnext(struct Vertegs** it, size_t edge)
+static inline struct Vertegs* vx_itnext(struct Vertegs*** it, size_t edge)
 {
-	struct Vertegs* ret = *it;
+	struct Vertegs* ret = **it;
 
-	*it = ret->nbor[edge];
+	*it = &ret->nbor[edge];
 	return ret;
 }
 

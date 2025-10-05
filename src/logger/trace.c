@@ -30,15 +30,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "sturk/logger/trace.h"
-#include "sturk/logger/except.h"
-#include "sturk/logger/streambag.h"
+#include "sturk/os/sys.h"
+#include "sturk/io/bag.h"
 #include "sturk/os/mem.h"
 
 #define BUFF_MAX_SIZE 128
 
-static struct StStreamBag* streambags[N_TRACE_LVLS];
+static struct StIoBag* iobags[N_TRACE_LVLS];
 
-static const char* get_lvlstr(enum StTraceLvl lvl)
+static const char* getlvlstr(enum StTraceLvl lvl)
 {
 	switch (lvl) {
 	case DEBUG:
@@ -53,50 +53,50 @@ static const char* get_lvlstr(enum StTraceLvl lvl)
 	default:
 		break;
 	}
-	RAISE(ERROR, sanity_fail);
+	except(st_except_sanity_fail.reason, __FILE__, __LINE__);
 	return "unknown trace level";
 	/* LCOV_EXCL_STOP */
 }
 
-void st_trace(enum StTraceLvl lvl, const char* tag, const char* format, ...)
+void st_trace(enum StTraceLvl lvl, const char* tag, const char* fmt, ...)
 {
-	va_list vlist;
+	va_list va;
 	char* buff = NULL;
 
-	ENSURE(lvl > UNKNOWN && lvl < N_TRACE_LVLS, ERROR, not_supported);
-	if (!streambag_count(streambags[lvl]))
+	/* LCOV_EXCL_START */
+	if (lvl <= UNKNOWN || lvl >= N_TRACE_LVLS)
+		except(st_except_not_supported.reason, __FILE__, __LINE__);
+	/* LCOV_EXCL_STOP */
+
+	if (!iobag_count(iobags[lvl]))
 		return;
 	buff = NEW(char, BUFF_MAX_SIZE);
 	if (tag)
-		st_snprintf(
-			buff, BUFF_MAX_SIZE, "[%s][%s] %s\n", get_lvlstr(lvl),
-			tag, format);
+		st_strprint(buff, "[%s][%s] %s\n", getlvlstr(lvl), tag, fmt);
 	else
-		st_snprintf(
-			buff, BUFF_MAX_SIZE, "[%s] %s\n", get_lvlstr(lvl),
-			format);
-	va_start(vlist, format);
-	streambag_vprint(streambags[lvl], buff, vlist);
-	va_end(vlist);
+		st_strprint(buff, "[%s] %s\n", getlvlstr(lvl), fmt);
+	va_start(va, fmt);
+	iobag_vprint(iobags[lvl], buff, va);
+	va_end(va);
 	st_free(buff);
 }
 
-void st_logger_attach(enum StTraceLvl lvl, StFstream* stream)
+void st_logger_attach(enum StTraceLvl lvl, StIo* io)
 {
-	if (!streambags[lvl])
-		streambags[lvl] = streambag_create();
-	streambag_ins(streambags[lvl], stream);
+	if (!iobags[lvl])
+		iobags[lvl] = iobag_create();
+	iobag_ins(iobags[lvl], io);
 }
 
-void st_logger_detach(enum StTraceLvl lvl, StFstream* stream)
+void st_logger_detach(enum StTraceLvl lvl, StIo* io)
 {
-	streambag_rem(streambags[lvl], stream);
+	iobag_rem(iobags[lvl], io);
 }
 
 void st_logger_cleanup(void)
 {
 	for (int i = 0; i < N_TRACE_LVLS; i++) {
-		streambag_destroy(streambags[i]);
-		streambags[i] = NULL;
+		iobag_destroy(iobags[i]);
+		iobags[i] = NULL;
 	}
 }

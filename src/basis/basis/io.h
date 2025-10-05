@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "sturk/arith.h"
 #include "sturk/bits.h"
-#include "sturk/io.h"
+#include "sturk/io/buffer.h"
 
 #define USR_MODE_MASK ST_BIT(0)
 
@@ -52,16 +52,6 @@ union StIo {
 static inline void* getp(StIo* io)
 {
 	return (io->s.u.flags & USR_MODE_MASK) ? *(void**)&io[1] : &io[1];
-}
-
-static inline void ioputc(StIo* io, char c)
-{
-	io->s.vp->putc_cb(getp(io), c);
-}
-
-static inline char iogetc(StIo* io)
-{
-	return io->s.vp->getc_cb(getp(io));
 }
 
 #endif /* BASIS_IO_H */

@@ -81,18 +81,11 @@ static const struct StException st_except_sanity_fail /**/
 	= {"Sanity check failed."};
 
 /**
- * @fn int st_snprintf(char* buffer, size_t bufsz, const char* format, ...)
+ * @fn void st_strprint(char* buff, const char* fmt, ...)
  *
  * @see snprintf()
  */
-int st_snprintf(char* buffer, size_t bufsz, const char* format, ...);
-
-/**
- * @fn int st_remove(const char* filename)
- *
- * @see remove()
- */
-int st_remove(const char* filename);
+void st_strprint(char* buff, const char* fmt, ...);
 
 /**
  * @fn void st_except(const char* reason, const char* file, int line)

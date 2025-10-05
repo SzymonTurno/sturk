@@ -35,11 +35,11 @@ static size_t getsize(void)
 	return sizeof(struct Payload);
 }
 
-static void init(void* msg, va_list vlist)
+static void init(void* msg, va_list va)
 {
-	((struct Payload*)msg)->new = va_arg(vlist, int);
-	((struct Payload*)msg)->old = va_arg(vlist, int);
-	((struct Payload*)msg)->channel = va_arg(vlist, StChannel*);
+	((struct Payload*)msg)->new = va_arg(va, int);
+	((struct Payload*)msg)->old = va_arg(va, int);
+	((struct Payload*)msg)->channel = va_arg(va, StChannel*);
 }
 
 static void deinit(void* msg)
@@ -164,17 +164,18 @@ static void app(void)
 struct StStrBag* multi_thread_pubsub(void)
 {
 	struct StStrBag* ret = NULL;
-	struct StFstream* stream = st_fopen("multi_thread_pubsub.tmp", "w+");
-	char* buff = NEW(char, 256);
+	char* out = NEW(char, 256);
+	StIoBuffer* buff = NEW(StIoBuffer, iobuffer_getlen(1024));
+	StIo* io = io_init(buff);
 
-	logger_attach(INFO, stream);
+	logger_attach(INFO, io);
 	app();
-	logger_detach(INFO, stream);
-	st_fseekset(stream, 0);
-	while (st_fgets(buff, 256, stream))
-		ret = st_strbag_ins(ret, buff);
+	logger_detach(INFO, io);
+	io_putc(io, IO_EOF);
+	io = io_init(buff);
+	while (io_fgets(out, 256, io))
+		ret = st_strbag_ins(ret, out);
 	st_free(buff);
-	st_fclose(stream);
-	st_remove("multi_thread_pubsub.tmp");
+	st_free(out);
 	return ret;
 }

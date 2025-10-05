@@ -15,11 +15,6 @@ BreakBeforeBraces: Linux
 ColumnLimit: 80
 CommentPragmas: '^\@.+'
 ContinuationIndentWidth: 8
-ForEachMacros:
-  - vx_graph_foredge
-  - graph_foredge
-  - vx_list_foreach
-  - list_foreach
 IndentWidth: 8
 PointerAlignment: Left
 TabWidth: 8
