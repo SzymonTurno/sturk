@@ -1,11 +1,10 @@
 ---
   cver: "gnu"
   build_type: "coverage"
+  hosted: true
   osal:
     mem: "arena"
     mutex: "posix"
     sem: "posix"
-    sys: "none"
   test:
     threading: true
-    hosted: true

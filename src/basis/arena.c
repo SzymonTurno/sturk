@@ -41,8 +41,8 @@ struct Chunk {
 	char* avail;
 	char* limit;
 	struct StArenaGroup* group;
-	void* (*alloc_cb)(size_t);
-	void (*free_cb)(void*);
+	const struct StMemVt* vp;
+	void* padding;
 };
 
 LIST(struct StArena, struct Chunk);
@@ -66,20 +66,18 @@ static StArena* remgroup(struct StArenaGroup* group)
 	return ret;
 }
 
-static void getchunk(StArena* arena, size_t size, const char* file, int line)
+static void getchunk(StArena* arena, size_t size)
 {
 	struct StArenaGroup* g = graph_datap(arena)->group;
 	StArena* ptr = NULL;
 	char* limit = NULL;
 
-	(void)file;
-	(void)line;
 	if (g->p) {
 		ptr = remgroup(g);
 		limit = graph_datap(ptr)->limit;
 	} else {
 		VX_ASSERT(CHUNK_SIZE > sizeof(union Header) + size);
-		ptr = graph_datap(arena)->alloc_cb(CHUNK_SIZE);
+		ptr = graph_datap(arena)->vp->alloc_cb(CHUNK_SIZE);
 		VX_ASSERT(ptr);
 		/* LCOV_EXCL_START */
 		if (!ptr)
@@ -104,19 +102,16 @@ static size_t getbytes(StArena* arena)
 	return (size_t)(graph_datap(arena)->limit - graph_datap(arena)->avail);
 }
 
-StArena* st_arena_create(
-	struct StArenaGroup* group, void* (*alloc_cb)(size_t),
-	void (*free_cb)(void*))
+StArena* st_arena_create(struct StArenaGroup* group, const struct StMemVt* vp)
 {
-	StArena* ret = alloc_cb(sizeof(*ret));
+	StArena* ret = vp->alloc_cb(sizeof(*ret));
 
 	VX_ENSURE_MEM(ret);
 	ret = list_ins(GRAPH_EMPTY, ret);
 	graph_datap(ret)->avail = NULL;
 	graph_datap(ret)->limit = NULL;
 	graph_datap(ret)->group = group;
-	graph_datap(ret)->alloc_cb = alloc_cb;
-	graph_datap(ret)->free_cb = free_cb;
+	graph_datap(ret)->vp = vp;
 	return ret;
 }
 
@@ -125,19 +120,19 @@ void st_arena_destroy(StArena* arena)
 	void (*free_cb)(void*) = NULL;
 
 	if (arena) {
-		free_cb = graph_datap(arena)->free_cb;
+		free_cb = graph_datap(arena)->vp->free_cb;
 		st_arena_free(arena);
 		free_cb(arena);
 	}
 }
 
-void* st_arena_alloc(StArena* arena, size_t size, const char* file, int line)
+void* st_arena_alloc(StArena* arena, size_t size)
 {
 	if (!arena)
 		return NULL;
 	size = roundup(size, sizeof(StAlign));
 	while (size > getbytes(arena))
-		getchunk(arena, size, file, line);
+		getchunk(arena, size);
 	graph_datap(arena)->avail += size;
 	return graph_datap(arena)->avail - size;
 }
@@ -152,7 +147,7 @@ void st_arena_free(StArena* arena)
 	if (!arena)
 		return;
 
-	free_cb = graph_datap(arena)->free_cb;
+	free_cb = graph_datap(arena)->vp->free_cb;
 	while ((p = list_next(arena))) {
 		tmp = *p;
 		g = graph_datap(p)->group;
@@ -175,7 +170,7 @@ void st_arena_cleanup(struct StArenaGroup* group)
 
 	while (group->p) {
 		p = remgroup(group);
-		free_cb = graph_datap(p)->free_cb;
+		free_cb = graph_datap(p)->vp->free_cb;
 		free_cb(p);
 	}
 }

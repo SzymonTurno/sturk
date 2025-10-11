@@ -43,7 +43,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stddef.h>
 
-#ifndef VX_ASSERT
+#ifndef VX_DEBUG
+#define VX_DEBUG 0
+#endif /* VX_DEBUG */
+
+#if VX_DEBUG
 
 #include <assert.h>
 
@@ -56,6 +60,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define VX_ASSERT(cond) assert(cond)
 
+#endif /* VX_DEBUG */
+
+#ifndef VX_ASSERT
+#define VX_ASSERT(cond) (void)(cond)
 #endif /* VX_ASSERT */
 
 /**

@@ -9,7 +9,19 @@ CONSTRAINTS = [
     (
         ['cver', 'iso'],
         ['osal', 'sem', 'posix']
-    )
+    ),
+    (
+        ['hosted', False],
+        ['osal', 'mem', 'std']
+    ),
+    (
+        ['hosted', False],
+        ['osal', 'mutex', 'posix']
+    ),
+    (
+        ['hosted', False],
+        ['osal', 'sys', 'std']
+    ),
 ]
 
 def join(olvars):
