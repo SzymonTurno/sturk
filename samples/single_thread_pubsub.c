@@ -124,7 +124,7 @@ struct StStrQ* single_thread_pubsub(void)
 {
 	struct StStrQ* ret = NULL;
 	char* out = NEW(char, 256);
-	StIoBuffer* buff = NEW(StIoBuffer, iobuffer_getlen(1024));
+	StIoBuffer* buff = NEW(StIoBuffer, iobuffer_calclen(1024));
 	StIo* io = io_init(buff);
 
 	logger_attach(INFO, io);

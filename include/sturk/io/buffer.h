@@ -43,8 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see ST_IO_EOF */
 #define IO_EOF ST_IO_EOF
 
-/** @see st_iobuffer_getlen() */
-#define iobuffer_getlen st_iobuffer_getlen
+/** @see st_iobuffer_calclen() */
+#define iobuffer_calclen st_iobuffer_calclen
 
 /** @see st_io_init() */
 #define io_init st_io_init

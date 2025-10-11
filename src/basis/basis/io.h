@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 union StIo {
 	struct {
-		const struct StIoVtable* vp;
+		const struct StIoVt* vp;
 		union {
 			StBits flags;
 			void* align;

@@ -43,14 +43,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define ST_IO_EOF -1
 
-#define st_iobuffer_getlen(bytes)                                              \
+#define st_iobuffer_calclen(bytes)                                             \
 	(3 + (sizeof(char*) + (bytes) - 1) / sizeof(StAlign))
 
 typedef StAlign StIoBuffer;
 
 typedef union StIo StIo;
 
-struct StIoVtable {
+struct StIoVt {
 	void (*putc_cb)(void*, char);
 	char (*getc_cb)(void*);
 };
@@ -59,7 +59,7 @@ StIo* st_io_init(StIoBuffer* buff);
 
 void st_io_setp(StIo* io, void* p);
 
-void st_io_setvp(StIo* io, const struct StIoVtable* vp);
+void st_io_setvp(StIo* io, const struct StIoVt* vp);
 
 void st_io_putc(StIo* io, char c);
 

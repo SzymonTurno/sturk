@@ -35,7 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 void st_strprint(char* buff, const char* fmt, ...)
 {
 	va_list va;
-	StIoBuffer iobuff[iobuffer_getlen(0)] = {0};
+	StIoBuffer iobuff[iobuffer_calclen(0)] = {0};
 	StIo* io = io_init(iobuff);
 	char** s = &buff;
 
