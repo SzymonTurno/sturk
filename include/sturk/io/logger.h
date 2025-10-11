@@ -30,26 +30,50 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file sturk/logger/except.h
+ * @file sturk/io/logger.h
  *
- * @see st/logger/except.h
+ * @see sturk/io/logger.h
  */
 
-#ifndef STURK_LOGGER_EXCEPT_H
-#define STURK_LOGGER_EXCEPT_H
+#ifndef STURK_IO_LOGGER_H
+#define STURK_IO_LOGGER_H
 
-#include "st/logger/except.h"
+#include "st/io/logger.h"
 
-/** @see ST_EXCEPTIONS_EN */
-#define EXCEPTIONS_EN ST_EXCEPTIONS_EN
+/** @see ST_LOGGER_EN */
+#define LOGGER_EN ST_LOGGER_EN
 
-/** @see ST_ENSURE */
-#define ENSURE ST_ENSURE
+/** @see ST_TRACE() */
+#define TRACE ST_TRACE
 
-/** @see ST_RAISE */
-#define RAISE ST_RAISE
+/** @see ST_UNKNOWN */
+#define UNKNOWN ST_UNKNOWN
 
-/** @see ST_ENSURE_MEM */
-#define ENSURE_MEM ST_ENSURE_MEM
+/** @see ST_DEBUG */
+#define DEBUG ST_DEBUG
 
-#endif /* STURK_LOGGER_EXCEPT_H */
+/** @see ST_INFO */
+#define INFO ST_INFO
+
+/** @see ST_WARNING */
+#define WARNING ST_WARNING
+
+/** @see ST_ERROR */
+#define ERROR ST_ERROR
+
+/** @see ST_N_TRACE_LVLS */
+#define N_TRACE_LVLS ST_N_TRACE_LVLS
+
+/** @see st_trace() */
+#define trace st_trace
+
+/** @see st_logger_attach() */
+#define logger_attach st_logger_attach
+
+/** @see st_logger_detach() */
+#define logger_detach st_logger_detach
+
+/** @see st_logger_cleanup() */
+#define logger_cleanup st_logger_cleanup
+
+#endif /* STURK_IO_LOGGER_H */

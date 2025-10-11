@@ -2,7 +2,7 @@
 #define SIMPTE_H
 
 #include "sturk/io/buffer.h"
-#include "sturk/logger/trace.h"
+#include "sturk/io/logger.h"
 #include "sturk/os/mem.h"
 #include <assert.h>
 #include <stdio.h>

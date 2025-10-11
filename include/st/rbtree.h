@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_RBTREE_H
 #define ST_RBTREE_H
 
-#include "st/logger/except.h"
+#include "st/io/except.h"
 #include "vertegs/graph.h"
 #include <stdint.h>
 

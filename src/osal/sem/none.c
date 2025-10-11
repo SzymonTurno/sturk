@@ -30,8 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "st/os/sem.h"
-#include "sturk/logger/except.h"
-#include "sturk/logger/trace.h"
+#include "sturk/io/except.h"
+#include "sturk/io/logger.h"
 #include "sturk/os/mem.h"
 #include <stddef.h>
 

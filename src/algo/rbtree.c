@@ -32,8 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/rbtree.h"
 #include "sturk/bits.h"
 #include "sturk/graph.h"
-#include "sturk/logger/except.h"
-#include "sturk/logger/trace.h"
+#include "sturk/io/except.h"
+#include "sturk/io/logger.h"
 #include <stddef.h>
 
 #define COLOR_MASK ((intptr_t)BIT(0))

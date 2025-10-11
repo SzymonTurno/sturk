@@ -29,8 +29,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "sturk/logger/except.h"
-#include "sturk/logger/trace.h"
+#include "sturk/io/except.h"
+#include "sturk/io/logger.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
 #include <stddef.h>

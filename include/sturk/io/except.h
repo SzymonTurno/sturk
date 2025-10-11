@@ -29,74 +29,27 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "sturk/logger/trace.h"
-#include "sturk/io/bag.h"
-#include "sturk/os/mem.h"
-#include "sturk/os/sys.h"
+/**
+ * @file sturk/io/except.h
+ *
+ * @see st/io/except.h
+ */
 
-#define BUFF_MAX_SIZE 128
+#ifndef STURK_IO_EXCEPT_H
+#define STURK_IO_EXCEPT_H
 
-static struct StIoBag* iobags[N_TRACE_LVLS];
+#include "st/io/except.h"
 
-static const char* getlvlstr(enum StTraceLvl lvl)
-{
-	switch (lvl) {
-	case DEBUG:
-		return "debug";
-	case INFO:
-		return "info";
-	case WARNING:
-		return "warning";
-	case ERROR:
-		return "error";
-	/* LCOV_EXCL_START */
-	default:
-		break;
-	}
-	except(st_except_sanity_fail.reason, __FILE__, __LINE__);
-	return "unknown trace level";
-	/* LCOV_EXCL_STOP */
-}
+/** @see ST_EXCEPTIONS_EN */
+#define EXCEPTIONS_EN ST_EXCEPTIONS_EN
 
-void st_trace(enum StTraceLvl lvl, const char* tag, const char* fmt, ...)
-{
-	va_list va;
-	char* buff = NULL;
+/** @see ST_ENSURE */
+#define ENSURE ST_ENSURE
 
-	/* LCOV_EXCL_START */
-	if (lvl <= UNKNOWN || lvl >= N_TRACE_LVLS)
-		except(st_except_not_supported.reason, __FILE__, __LINE__);
-	/* LCOV_EXCL_STOP */
+/** @see ST_RAISE */
+#define RAISE ST_RAISE
 
-	if (!iobag_count(iobags[lvl]))
-		return;
-	buff = NEW(char, BUFF_MAX_SIZE);
-	if (tag)
-		st_strprint(buff, "[%s][%s] %s\n", getlvlstr(lvl), tag, fmt);
-	else
-		st_strprint(buff, "[%s] %s\n", getlvlstr(lvl), fmt);
-	va_start(va, fmt);
-	iobag_vprint(iobags[lvl], buff, va);
-	va_end(va);
-	st_free(buff);
-}
+/** @see ST_ENSURE_MEM */
+#define ENSURE_MEM ST_ENSURE_MEM
 
-void st_logger_attach(enum StTraceLvl lvl, StIo* io)
-{
-	if (!iobags[lvl])
-		iobags[lvl] = iobag_create();
-	iobag_ins(iobags[lvl], io);
-}
-
-void st_logger_detach(enum StTraceLvl lvl, StIo* io)
-{
-	iobag_rem(iobags[lvl], io);
-}
-
-void st_logger_cleanup(void)
-{
-	for (int i = 0; i < N_TRACE_LVLS; i++) {
-		iobag_destroy(iobags[i]);
-		iobags[i] = NULL;
-	}
-}
+#endif /* STURK_IO_EXCEPT_H */
