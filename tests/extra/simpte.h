@@ -78,7 +78,7 @@
 #define SIMPTE_IO(ref) simpte_##ref##_io
 
 #define SIMPTE_IO_DCL(ref, bytes)                                              \
-	static StIoBuffer simpte_##ref##_buff[iobuffer_getlen(bytes)];         \
+	static StIoBuffer simpte_##ref##_buff[iobuffer_calclen(bytes)];        \
 	static StIo* SIMPTE_IO(ref)
 
 #define SIMPTE_IO_INIT(ref) SIMPTE_IO(ref) = io_init(simpte_##ref##_buff)

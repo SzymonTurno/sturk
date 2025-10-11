@@ -7,7 +7,7 @@
 
 extern const struct StMessageVt SAMPLE_MESSAGE_API[];
 
-extern const struct StIoVtable SAMPLE_FILE_API[];
+extern const struct StIoVt SAMPLE_FILE_API[];
 
 struct StStrQ* single_thread_pubsub(void);
 

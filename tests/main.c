@@ -529,17 +529,17 @@ TEST(io, should_calculate_iobuffer_length)
 {
 	const size_t remain = sizeof(StAlign) - sizeof(char*);
 
-	TEST_ASSERT_EQUAL_INT(3, iobuffer_getlen(0));
-	TEST_ASSERT_EQUAL_INT(3, iobuffer_getlen(remain));
-	TEST_ASSERT_EQUAL_INT(4, iobuffer_getlen(remain + 1));
-	TEST_ASSERT_EQUAL_INT(4, iobuffer_getlen(remain + sizeof(StAlign)));
-	TEST_ASSERT_EQUAL_INT(5, iobuffer_getlen(remain + sizeof(StAlign) + 1));
+	TEST_ASSERT_EQUAL_INT(3, iobuffer_calclen(0));
+	TEST_ASSERT_EQUAL_INT(3, iobuffer_calclen(remain));
+	TEST_ASSERT_EQUAL_INT(4, iobuffer_calclen(remain + 1));
+	TEST_ASSERT_EQUAL_INT(4, iobuffer_calclen(remain + sizeof(StAlign)));
+	TEST_ASSERT_EQUAL_INT(5, iobuffer_calclen(remain + sizeof(StAlign) + 1));
 }
 
 TEST(io, should_write_to_memory_buffer)
 {
 	char out[256] = {0};
-	StIoBuffer buff[iobuffer_getlen(sizeof(out))] = {0};
+	StIoBuffer buff[iobuffer_calclen(sizeof(out))] = {0};
 	StIo* io = io_init(buff);
 
 	TEST_ASSERT_EQUAL_INT(sizeof(out) + 3 * sizeof(StAlign), sizeof(buff));
@@ -592,7 +592,7 @@ TEST(io, should_read_from_file)
 		"quis nostrud exercitation ullamco laboris nisi ut\n",
 		"aliquip ex ea commodo consequat.\n"};
 	char out[256] = {0};
-	StIoBuffer buff[iobuffer_getlen(0)] = {0};
+	StIoBuffer buff[iobuffer_calclen(0)] = {0};
 	StIo* io = io_init(buff);
 	FILE* fp = fopen(LOREM_TXT, "r");
 
@@ -610,7 +610,7 @@ TEST(io, should_write_to_file)
 {
 	const char* filename = "sturk_tests_delete_me.txt";
 	char out[256] = {0};
-	StIoBuffer buff[iobuffer_getlen(0)] = {0};
+	StIoBuffer buff[iobuffer_calclen(0)] = {0};
 	StIo* io = io_init(buff);
 	FILE* fp = fopen(filename, "w");
 
