@@ -29,8 +29,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "sturk/os/sys.h"
 #include "sturk/io/buffer.h"
+#include "sturk/os/sys.h"
 
 void st_strprint(char* buff, const char* fmt, ...)
 {
