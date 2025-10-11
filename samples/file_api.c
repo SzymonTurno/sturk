@@ -15,5 +15,5 @@ static char file_getc(void* p)
 	return (char)getc(fp);
 }
 
-const struct StIoVtable SAMPLE_FILE_API[] = {
+const struct StIoVt SAMPLE_FILE_API[] = {
 	{.putc_cb = file_putc, .getc_cb = file_getc}};

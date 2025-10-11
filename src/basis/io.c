@@ -49,7 +49,7 @@ static char stream_getc(void* p)
 	return c;
 }
 
-static const struct StIoVtable STREAM_API[] = {
+static const struct StIoVt STREAM_API[] = {
 	{.putc_cb = stream_putc, .getc_cb = stream_getc}};
 
 StIo* st_io_init(StIoBuffer* buff)
@@ -72,7 +72,7 @@ void st_io_setp(StIo* io, void* p)
 	*(void**)&io[1] = p;
 }
 
-void st_io_setvp(StIo* io, const struct StIoVtable* vp)
+void st_io_setvp(StIo* io, const struct StIoVt* vp)
 {
 	VX_ASSERT(io);
 	io->s.vp = vp;
