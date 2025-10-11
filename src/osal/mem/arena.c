@@ -30,30 +30,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "sturk/arena.h"
-#include "st/os/mem.h"
+#include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
-#include <stdlib.h>
+#include "sturk/os/sys.h"
 
 static struct StArenaGroup group;
 static StArena* arena;
 static StMutex* mutex;
+
+extern const struct StMemVt STURK_MEM_API[];
 
 void* st_mem_alloc(size_t size, const char* file, int line)
 {
 	void* ret = NULL;
 
 	if (!arena) {
-		arena = arena_create(&group, malloc, free);
+		arena = arena_create(&group, STURK_MEM_API);
 		mutex = mutex_create(ST_MUTEX_POLICY_PRIO_INHERIT);
 	}
 
 	if (mutex) {
 		mutex_lock(mutex);
-		ret = arena_alloc(arena, size, file, line);
+		ret = arena_alloc(arena, size);
 		mutex_unlock(mutex);
 	} else {
-		ret = arena_alloc(arena, size, file, line);
+		ret = arena_alloc(arena, size);
 	}
+	/* LCOV_EXCL_START */
+	if (!ret)
+		except(st_except_alloc_fail.reason, file, line);
+	/* LCOV_EXCL_STOP */
 	return ret;
 }
 

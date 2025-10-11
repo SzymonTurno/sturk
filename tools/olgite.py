@@ -49,17 +49,19 @@ def fail(e):
 def assert_settings(settings: dict, constraints: list) -> None:
     hdr = '\nOlgite configuration not supported \n'
     e = ''
+    first = True
 
     for constraint in constraints:
         found0 = __find_entry(settings, constraint[0])
         found1 = __find_entry(settings, constraint[1])
         if found0 and found1:
-            if constraint != constraints[0]:
+            if not first:
                 e = e + ','
+            first = False
             e = e + '\n' + str(constraint)
 
     if e != '':
-        fail(hdr + str(settings) + '\n\nviolated following constraints:' + e + '.\n')
+        fail(hdr + str(settings) + ',\n\nviolated following constraints:' + e + '.\n')
 
 def combine_into(d: dict, combined: dict) -> None:
     for k, v in d.items():

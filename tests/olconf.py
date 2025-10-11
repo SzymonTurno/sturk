@@ -3,20 +3,8 @@ from sys import platform
 
 CONSTRAINTS = [
     (
-        ['osal', 'mem', 'std'],
-        ['test', 'hosted', False]
-    ),
-    (
-        ['osal', 'mutex', 'none'],
+        ['cver', 'iso'],
         ['test', 'threading', True]
-    ),
-    (
-        ['osal', 'sem', 'none'],
-        ['test', 'threading', True]
-    ),
-    (
-        ['osal', 'sys', 'std'],
-        ['test', 'hosted', False]
     )
 ]
 
@@ -66,7 +54,7 @@ def append_rules(olvars):
     tmp = '$(test_OBJS) $(test_EXTRA_OBJS) $(unity_OBJS) $(sample_OBJS) '
     tmp = tmp + os.path.join('$(sturk_BLDDIR)', 'libsturk.a')
     rule.normal_depend(tmp)
-    if not olvars.settings()['test']['hosted']:
+    if not olvars.settings()['hosted']:
         rule.order_depend(os.path.join('$(test_BLDDIR)', 'bare'))
     rule.step('$(CC) -o $@ ' + tmp + ' -lgcov --coverage')
 
@@ -93,8 +81,9 @@ def append_rules(olvars):
     rule = olvars.rule(os.path.join('$(test_BLDDIR)', 'bare'))
     tmp = os.path.join('$(test_BLDDIR)', 'bare.o')
     tmp = tmp + ' ' + os.path.join('$(sturk_BLDDIR)', 'libsturk.a')
+    opts = '-ffreestanding -nostartfiles -nostdlib -nodefaultlibs -nolibc'
     rule.normal_depend(tmp)
-    rule.step('$(CC) -o $@ ' + tmp + ' -ffreestanding')
+    rule.step('$(CC) -o $@ ' + tmp + ' ' + opts)
 
     rule = olvars.rule(os.path.join('$(test_BLDDIR)', 'bare.o'))
     rule.normal_depend(os.path.join('$(test_DIR)', 'bare.c'))

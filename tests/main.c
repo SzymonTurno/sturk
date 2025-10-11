@@ -41,6 +41,8 @@
 
 SIMPTE_BEGIN();
 
+const struct StMemVt STURK_MEM_API[] = {{.alloc_cb = malloc, .free_cb = free}};
+
 extern void run_vertegs_tests(void);
 extern void run_broker_extra_tests(void);
 
@@ -458,11 +460,11 @@ TEST(pool, should_return_freed_pointer)
 TEST(arena, should_allocate_aligned_memory)
 {
 	struct StArenaGroup g = {0};
-	StArena* arena = arena_create(&g, malloc, free);
+	StArena* arena = arena_create(&g, STURK_MEM_API);
 	void* buffs[8] = {0};
 
 	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
-		buffs[i] = ARENA_ALLOC(arena, 1 << i);
+		buffs[i] = arena_alloc(arena, 1 << i);
 		TEST_ASSERT_EQUAL_INT(
 			0, ((uintptr_t)buffs[i]) % sizeof(StAlign));
 	}
@@ -473,11 +475,11 @@ TEST(arena, should_allocate_aligned_memory)
 TEST(arena, should_allocate_independent_blocks)
 {
 	struct StArenaGroup g = {0};
-	StArena* arena = arena_create(&g, malloc, free);
+	StArena* arena = arena_create(&g, STURK_MEM_API);
 	void* buffs[15] = {0};
 
 	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
-		buffs[i] = ARENA_ALLOC(arena, i + 1);
+		buffs[i] = arena_alloc(arena, i + 1);
 		memset(buffs[i], i + 1, i + 1);
 	}
 
@@ -491,12 +493,12 @@ TEST(arena, should_allocate_independent_blocks)
 TEST(arena, should_allocate_freed_memory)
 {
 	struct StArenaGroup g = {0};
-	StArena* arena = arena_create(&g, malloc, free);
-	void* buff = ARENA_ALLOC(arena, 64);
+	StArena* arena = arena_create(&g, STURK_MEM_API);
+	void* buff = arena_alloc(arena, 64);
 
 	memset(buff, 0xbe, 64);
 	arena_free(arena);
-	buff = ARENA_ALLOC(arena, 64);
+	buff = arena_alloc(arena, 64);
 	for (int i = 16; i < 48; i++)
 		TEST_ASSERT_EQUAL_INT((char)0xbe, ((char*)buff)[i]);
 	arena_destroy(arena);
@@ -505,17 +507,17 @@ TEST(arena, should_allocate_freed_memory)
 
 TEST(arena, should_return_null_for_null_arena)
 {
-	TEST_ASSERT_NULL(ARENA_ALLOC(NULL, 0));
+	TEST_ASSERT_NULL(arena_alloc(NULL, 0));
 }
 
 TEST(arena, should_support_many_allocations)
 {
 	struct StArenaGroup g = {0};
-	StArena* arena = arena_create(&g, malloc, free);
+	StArena* arena = arena_create(&g, STURK_MEM_API);
 	struct StStrList* list = NULL;
 
 	for (int i = 0; i < 16384; i++)
-		list = strlist_ins(list, ARENA_ALLOC(arena, 128));
+		list = strlist_ins(list, arena_alloc(arena, 128));
 
 	while (list)
 		strlist_rem(&list);

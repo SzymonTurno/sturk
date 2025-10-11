@@ -1,5 +1,16 @@
 import os
 
+CONSTRAINTS = [
+    (
+        ['build_type', 'coverage'],
+        ['hosted', False]
+    ),
+    (
+        ['build_type', 'debug'],
+        ['hosted', False]
+    )
+]
+
 def append_rules(olvars):
     rule = olvars.rule(os.path.join('$(sturk_BLDDIR)', 'libsturk.a'))
     incs = "$(sturk_INC) $(osal_INC)"
@@ -47,12 +58,15 @@ def join(olvars):
 
     if settings['build_type'] == 'release':
         olvars.append('sturk_EXTRA_CFLAGS', '-O3')
+        olvars.append('sturk_EXTRA_CFLAGS', '-DVX_DEBUG=0')
     elif settings['build_type'] == 'debug':
         olvars.append('sturk_EXTRA_CFLAGS', '-g')
+        olvars.append('sturk_EXTRA_CFLAGS', '-DVX_DEBUG=1')
     elif settings['build_type'] == 'coverage':
         olvars.append('sturk_EXTRA_CFLAGS', '-g')
         olvars.append('sturk_EXTRA_CFLAGS', '-fprofile-arcs')
         olvars.append('sturk_EXTRA_CFLAGS', '-ftest-coverage')
+        olvars.append('sturk_EXTRA_CFLAGS', '-DVX_DEBUG=1')
     else:
         olvars.fail('Unknown build type: ' + settings['build_type'] + '.')
 

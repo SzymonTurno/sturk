@@ -1,8 +1,7 @@
 ---
   cver: "iso"
   build_type: "coverage"
+  hosted: true
   osal:
     mem: "std"
     sys: "std"
-  test:
-    hosted: true

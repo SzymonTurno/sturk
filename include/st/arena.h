@@ -43,13 +43,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stddef.h>
 
-/**
- * @def ST_ARENA_ALLOC(arena, size)
- *
- * @brief Allocate memory from an arena.
- */
-#define ST_ARENA_ALLOC(arena, size)                                            \
-	st_arena_alloc((arena), (size), __FILE__, __LINE__)
+struct StMemVt {
+	void* (*alloc_cb)(size_t);
+	void (*free_cb)(void*);
+};
 
 /**
  * @var typedef struct StArena StArena
@@ -86,7 +83,7 @@ struct StArenaGroup {
 };
 
 /**
- * @fn StArena* st_arena_create(struct StArenaGroup* group, void* (*alloc)(size_t), void (*free)(void*))
+ * @fn StArena* st_arena_create(struct StArenaGroup* group, const struct StMemVt* vp)
  *
  * @brief Create an arena.
  *
@@ -96,9 +93,7 @@ struct StArenaGroup {
  *
  * @return The pointer to the new arena.
  */
-StArena* st_arena_create(
-	struct StArenaGroup* group, void* (*alloc_cb)(size_t),
-	void (*free_cb)(void*));
+StArena* st_arena_create(struct StArenaGroup* group, const struct StMemVt* vp);
 
 /**
  * @fn void st_arena_destroy(StArena* arena)
@@ -110,18 +105,16 @@ StArena* st_arena_create(
 void st_arena_destroy(StArena* arena);
 
 /**
- * @fn void* st_arena_alloc(StArena* arena, size_t size, const char* file, int line)
+ * @fn void* st_arena_alloc(StArena* arena, size_t size)
  *
  * @brief Allocate memory from an arena.
  *
  * @param[in,out] arena The pointer to the arena.
  * @param[in,out] size The size in bytes of the requested memory.
- * @param[in] file The path to the calling source file.
- * @param[in] line The number of the calling line of code from the source file.
  *
  * @return The pointer to the allocated memory.
  */
-void* st_arena_alloc(StArena* arena, size_t size, const char* file, int line);
+void* st_arena_alloc(StArena* arena, size_t size);
 
 /**
  * @fn void st_arena_free(StArena* arena)

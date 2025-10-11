@@ -30,9 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "sturk/logger/trace.h"
-#include "sturk/os/sys.h"
 #include "sturk/io/bag.h"
 #include "sturk/os/mem.h"
+#include "sturk/os/sys.h"
 
 #define BUFF_MAX_SIZE 128
 

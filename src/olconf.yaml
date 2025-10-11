@@ -1,3 +1,4 @@
 ---
   cver: "gnu"
   build_type: "release"
+  hosted: false
