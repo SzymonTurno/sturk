@@ -43,8 +43,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stddef.h>
 
+/**
+ * @struct StMemVt
+ *
+ * @brief Vtable for a memory allocator.
+ */
 struct StMemVt {
+	/**
+	 * @var void* (*alloc_cb)(size_t)
+	 *
+	 * @brief Callback for allocating memory.
+	 */
 	void* (*alloc_cb)(size_t);
+
+	/**
+	 * @var void (*free_cb)(void*)
+	 *
+	 * @brief Callback for freeing memory.
+	 */
 	void (*free_cb)(void*);
 };
 
@@ -88,8 +104,7 @@ struct StArenaGroup {
  * @brief Create an arena.
  *
  * @param[in,out] group Collection of arena instances.
- * @param[in] alloc Memory allocation callback.
- * @param[in] free Memory freeing callback.
+ * @param[in] vp The memory allocator vtable.
  *
  * @return The pointer to the new arena.
  */

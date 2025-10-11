@@ -44,12 +44,25 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stddef.h>
 
 #ifndef VX_DEBUG
+
+/**
+ * @def VX_DEBUG
+ *
+ * @brief Enable assertions.
+ */
 #define VX_DEBUG 0
+
 #endif /* VX_DEBUG */
 
 #if VX_DEBUG
 
 #include <assert.h>
+
+#define VX_ASSERT(cond) assert(cond)
+
+#endif /* VX_DEBUG */
+
+#ifndef VX_ASSERT
 
 /**
  * @def VX_ASSERT(cond)
@@ -58,12 +71,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @param[in] cond The condition.
  */
-#define VX_ASSERT(cond) assert(cond)
-
-#endif /* VX_DEBUG */
-
-#ifndef VX_ASSERT
 #define VX_ASSERT(cond) (void)(cond)
+
 #endif /* VX_ASSERT */
 
 /**
@@ -241,6 +250,16 @@ static inline struct Vertegs* vx_remcirq(struct Vertegs** cirqp, int pos)
 	return ret;
 }
 
+/**
+ * @fn static inline struct Vertegs* vx_itnext(struct Vertegs*** it, size_t edge)
+ *
+ * @brief On a given edge, get the next entry from a graph iterator.
+ *
+ * @param[in,out] it The iterator.
+ * @param[in] edge The edge index.
+ *
+ * @return The next entry.
+ */
 static inline struct Vertegs* vx_itnext(struct Vertegs*** it, size_t edge)
 {
 	struct Vertegs* ret = **it;
