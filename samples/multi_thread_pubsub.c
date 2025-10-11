@@ -1,7 +1,7 @@
 #include "pubsub.h"
 #include "st/os/sys.h"
 #include "sturk/broker.h"
-#include "sturk/logger/trace.h"
+#include "sturk/io/logger.h"
 #include "sturk/os/mem.h"
 #include <pthread.h>
 #include <stdlib.h>

@@ -32,8 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "st/dict.h"
 #include "sturk/arith.h"
 #include "sturk/graph.h"
-#include "sturk/logger/except.h"
-#include "sturk/logger/trace.h"
+#include "sturk/io/except.h"
+#include "sturk/io/logger.h"
 #include "sturk/rbtree.h"
 
 static int st_strcmp(const char* s1, const char* s2)

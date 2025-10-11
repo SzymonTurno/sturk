@@ -31,8 +31,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "st/waitq.h"
 #include "sturk/cirq.h"
-#include "sturk/logger/except.h"
-#include "sturk/logger/trace.h"
+#include "sturk/io/except.h"
+#include "sturk/io/logger.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
 #include "sturk/os/sem.h"

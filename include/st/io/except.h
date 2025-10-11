@@ -30,15 +30,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file st/logger/except.h
+ * @file st/io/except.h
  *
  * @brief Exceptions.
  */
 
-#ifndef ST_LOGGER_EXCEPT_H
-#define ST_LOGGER_EXCEPT_H
+#ifndef ST_IO_EXCEPT_H
+#define ST_IO_EXCEPT_H
 
-#include "st/logger/trace.h"
+#include "st/io/logger.h"
 #include "st/os/sys.h"
 
 #ifndef ST_EXCEPTIONS_EN
@@ -114,4 +114,4 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		}                                                              \
 	} while (0)
 
-#endif /* ST_LOGGER_EXCEPT_H */
+#endif /* ST_IO_EXCEPT_H */
