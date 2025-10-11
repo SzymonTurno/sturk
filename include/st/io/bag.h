@@ -41,22 +41,70 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "st/io/buffer.h"
 
 /**
- * @var typedef struct StIoGroup StIoGroup
+ * @var typedef struct StIoBag StIoBag
  *
  * @brief A bag of IO instances.
  */
 typedef struct StIoBag StIoBag;
 
+/**
+ * @fn StIoBag* st_iobag_create(void)
+ *
+ * @brief Create a bag of IO interface instances.
+ *
+ * @return The pointer to the bag.
+ */
 StIoBag* st_iobag_create(void);
 
+/**
+ * @fn void st_iobag_destroy(StIoBag* bag)
+ *
+ * @brief Destroy a bag of IO interface instances.
+ *
+ * @param[in,out] bag The bag.
+ */
 void st_iobag_destroy(StIoBag* bag);
 
+/**
+ * @fn void st_iobag_ins(StIoBag* bag, StIo* io)
+ *
+ * @brief Insert an IO interface into a bag.
+ *
+ * @param[in,out] bag The bag.
+ * @param[in,out] io The IO interface.
+ */
 void st_iobag_ins(StIoBag* bag, StIo* io);
 
+/**
+ * @fn void st_iobag_rem(StIoBag* bag, StIo* io)
+ *
+ * @brief Remove an IO interface from a bag.
+ *
+ * @param[in,out] bag The bag.
+ * @param[in,out] io The IO interface.
+ */
 void st_iobag_rem(StIoBag* bag, StIo* io);
 
+/**
+ * @fn void st_iobag_vprint(StIoBag* bag, const char* fmt, va_list va)
+ *
+ * @brief Convert data from a va_list and write it with all IO interfaces from a bag.
+ *
+ * @param[in,out] bag The bag.
+ * @param[in] fmt The format string.
+ * @param[in] va The va_list.
+ */
 void st_iobag_vprint(StIoBag* bag, const char* fmt, va_list va);
 
+/**
+ * @fn size_t st_iobag_count(const StIoBag* bag)
+ *
+ * @brief Count IO interface instances in a bag.
+ *
+ * @param[in] bag The bag.
+ *
+ * @return The number of instances.
+ */
 size_t st_iobag_count(const StIoBag* bag);
 
 #endif /* ST_IO_BAG_H */

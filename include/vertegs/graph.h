@@ -114,9 +114,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define vx_graphp_2vxp(graphp)                                                 \
 	(0 ? (*(graphp))->vx_graph_nbor : (struct Vertegs**)(graphp))
 
-#define vx_graphp_2vxpp(graphpp)                                               \
-	(0 ? (struct Vertegs***)(**(graphpp))->vx_graph_nbor                   \
-	   : (struct Vertegs***)(graphpp))
+/**
+ * @def vx_graphit_2vxit(graphit)
+ *
+ * @brief Cast to generic vertex iterator pointer from a graph node iterator pointer.
+ *
+ * @param[in] graphit The graph node iterator pointer.
+ *
+ * @return The vertex iterator pointer.
+ */
+#define vx_graphit_2vxit(graphit)                                              \
+	(0 ? (struct Vertegs***)(**(graphit))->vx_graph_nbor                   \
+	   : (struct Vertegs***)(graphit))
 
 /**
  * @def vx_graph_datap(graph)
@@ -129,8 +138,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define vx_graph_datap(graph) (&(graph)->vx_graph_data)
 
+/**
+ * @def vx_graphit_next(it, edge)
+ *
+ * @brief On a given edge, get the next entry from a graph iterator.
+ *
+ * @param[in] it The iterator.
+ * @param[in] edge The edge index.
+ *
+ * @return The next entry.
+ */
 #define vx_graphit_next(it, edge)                                              \
-	(vx_graph_4vx(vx_itnext(vx_graphp_2vxpp(it), edge), **(it)))
+	(vx_graph_4vx(vx_itnext(vx_graphit_2vxit(it), edge), **(it)))
 
 /**
  * @struct VxGraphEmpty
