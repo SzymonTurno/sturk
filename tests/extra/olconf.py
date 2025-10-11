@@ -22,7 +22,7 @@ def join(olvars):
     olvars.append('test_EXTRA_BLDDIR', os.path.join(olvars.cwd()))
     olvars.append(
         'test_EXTRA_OBJS', os.path.join(olvars.cwd(), 'vertegs.o'))
-    if settings['test']['threads'] == 'on':
+    if settings['test']['threading']:
         olvars.append(
             'test_EXTRA_OBJS', os.path.join(olvars.cwd(), 'traffic.o'))
     append_rules(olvars)

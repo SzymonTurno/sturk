@@ -33,10 +33,8 @@ import yaml
 import importlib.util
 
 def __find_entry(settings, entry) -> bool:
-    if not settings or not entry:
-        return True
-    if not isinstance(settings, dict) and settings == entry[0]:
-        return True
+    if not isinstance(settings, dict):
+        return settings == entry[0]
     if entry[0] in settings:
         return __find_entry(settings[entry[0]], entry[1:])
     return False
@@ -49,8 +47,7 @@ def fail(e):
     sys.exit(1)
 
 def assert_settings(settings: dict, constraints: list) -> None:
-    hdr = '\nOlgite configuration not supported, '
-    hdr += 'violated following constraints:'
+    hdr = '\nOlgite configuration not supported \n'
     e = ''
 
     for constraint in constraints:
@@ -62,7 +59,7 @@ def assert_settings(settings: dict, constraints: list) -> None:
             e = e + '\n' + str(constraint)
 
     if e != '':
-        fail(hdr + e + '.\n')
+        fail(hdr + str(settings) + '\n\nviolated following constraints:' + e + '.\n')
 
 def combine_into(d: dict, combined: dict) -> None:
     for k, v in d.items():

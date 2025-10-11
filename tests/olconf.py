@@ -3,8 +3,20 @@ from sys import platform
 
 CONSTRAINTS = [
     (
-        ['cver', 'iso'],
-        ['test', 'threads', 'on']
+        ['osal', 'mem', 'std'],
+        ['test', 'hosted', False]
+    ),
+    (
+        ['osal', 'mutex', 'none'],
+        ['test', 'threading', True]
+    ),
+    (
+        ['osal', 'sem', 'none'],
+        ['test', 'threading', True]
+    ),
+    (
+        ['osal', 'sys', 'std'],
+        ['test', 'hosted', False]
     )
 ]
 
@@ -54,6 +66,8 @@ def append_rules(olvars):
     tmp = '$(test_OBJS) $(test_EXTRA_OBJS) $(unity_OBJS) $(sample_OBJS) '
     tmp = tmp + os.path.join('$(sturk_BLDDIR)', 'libsturk.a')
     rule.normal_depend(tmp)
+    if not olvars.settings()['test']['hosted']:
+        rule.order_depend(os.path.join('$(test_BLDDIR)', 'bare'))
     rule.step('$(CC) -o $@ ' + tmp + ' -lgcov --coverage')
 
     rule = olvars.rule(os.path.join('$(test_BLDDIR)', 'main.o'))
@@ -76,6 +90,16 @@ def append_rules(olvars):
     rule.step('git clone https://github.com/ThrowTheSwitch/Unity.git')
     rule.step('cd $(unity_DIR) && git reset --hard v2.6.1')
 
+    rule = olvars.rule(os.path.join('$(test_BLDDIR)', 'bare'))
+    tmp = os.path.join('$(test_BLDDIR)', 'bare.o')
+    tmp = tmp + ' ' + os.path.join('$(sturk_BLDDIR)', 'libsturk.a')
+    rule.normal_depend(tmp)
+    rule.step('$(CC) -o $@ ' + tmp + ' -ffreestanding')
+
+    rule = olvars.rule(os.path.join('$(test_BLDDIR)', 'bare.o'))
+    rule.normal_depend(os.path.join('$(test_DIR)', 'bare.c'))
+    rule.step('$(CC) $(sturk_INC) -c -o $@ $<')
+
 def join(olvars):
     settings = olvars.settings()
 
@@ -87,12 +111,10 @@ def join(olvars):
     else:
         olvars.fail('Unknown cver: ' + settings['cver'] + '.')
 
-    if settings['test']['threads'] == 'on':
-        olvars.append('test_CFLAGS', '-DTHREADS_EN=1')
-    elif settings['test']['threads'] == 'off':
-        olvars.append('test_CFLAGS', '-DTHREADS_EN=0')
+    if settings['test']['threading']:
+        olvars.append('test_CFLAGS', '-DTHREADING=1')
     else:
-        node.fail('Unknown threads mode: ' + settings['test']['threads'] + '.')
+        olvars.append('test_CFLAGS', '-DTHREADING=0')
 
     olvars.append(
         'test_CFLAGS',

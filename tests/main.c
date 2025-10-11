@@ -804,7 +804,7 @@ TEST(logger, should_ignore_detached_trace_levels)
 static void run_extra_tests(void)
 {
 	run_vertegs_tests();
-	if (THREADS_EN)
+	if (THREADING)
 		run_broker_extra_tests();
 }
 
@@ -849,7 +849,7 @@ static void run_basic_tests(void)
 	RUN_TEST_CASE(logger, should_trace_debug);
 	RUN_TEST_CASE(logger, should_trace_error);
 	RUN_TEST_CASE(logger, should_ignore_detached_trace_levels);
-	if (THREADS_EN) {
+	if (THREADING) {
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
 		RUN_TEST_CASE(mutex, should_lock_twice_if_recursive);
 		RUN_TEST_CASE(mutex, should_trace_not_supported_policy);
