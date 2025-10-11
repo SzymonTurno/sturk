@@ -30,13 +30,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file st/logger/trace.h
+ * @file st/io/logger.h
  *
  * @brief Trace.
  */
 
-#ifndef ST_LOGGER_TRACE_H
-#define ST_LOGGER_TRACE_H
+#ifndef ST_IO_LOGGER_H
+#define ST_IO_LOGGER_H
 
 #include "st/io/buffer.h"
 
@@ -120,4 +120,4 @@ void st_logger_detach(enum StTraceLvl lvl, StIo* io);
  */
 void st_logger_cleanup(void);
 
-#endif /* ST_LOGGER_TRACE_H */
+#endif /* ST_IO_LOGGER_H */

@@ -68,7 +68,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_DICT_H
 
 #include "st/arith.h"
-#include "st/logger/except.h"
+#include "st/io/except.h"
 #include "st/rbtree.h"
 
 #ifdef __STRICT_ANSI__

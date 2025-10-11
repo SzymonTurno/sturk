@@ -29,51 +29,74 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/**
- * @file sturk/logger/trace.h
- *
- * @see st/logger/trace.h
- */
+#include "sturk/io/logger.h"
+#include "sturk/io/bag.h"
+#include "sturk/os/mem.h"
+#include "sturk/os/sys.h"
 
-#ifndef STURK_LOGGER_TRACE_H
-#define STURK_LOGGER_TRACE_H
+#define BUFF_MAX_SIZE 128
 
-#include "st/logger/trace.h"
+static struct StIoBag* iobags[N_TRACE_LVLS];
 
-/** @see ST_LOGGER_EN */
-#define LOGGER_EN ST_LOGGER_EN
+static const char* getlvlstr(enum StTraceLvl lvl)
+{
+	switch (lvl) {
+	case DEBUG:
+		return "debug";
+	case INFO:
+		return "info";
+	case WARNING:
+		return "warning";
+	case ERROR:
+		return "error";
+	/* LCOV_EXCL_START */
+	default:
+		break;
+	}
+	except(st_except_sanity_fail.reason, __FILE__, __LINE__);
+	return "unknown trace level";
+	/* LCOV_EXCL_STOP */
+}
 
-/** @see ST_TRACE() */
-#define TRACE ST_TRACE
+void st_trace(enum StTraceLvl lvl, const char* tag, const char* fmt, ...)
+{
+	va_list va;
+	char* buff = NULL;
 
-/** @see ST_UNKNOWN */
-#define UNKNOWN ST_UNKNOWN
+	/* LCOV_EXCL_START */
+	if (lvl <= UNKNOWN || lvl >= N_TRACE_LVLS)
+		except(st_except_not_supported.reason, __FILE__, __LINE__);
+	/* LCOV_EXCL_STOP */
 
-/** @see ST_DEBUG */
-#define DEBUG ST_DEBUG
+	if (!iobag_count(iobags[lvl]))
+		return;
+	buff = NEW(char, BUFF_MAX_SIZE);
+	if (tag)
+		st_strprint(buff, "[%s][%s] %s\n", getlvlstr(lvl), tag, fmt);
+	else
+		st_strprint(buff, "[%s] %s\n", getlvlstr(lvl), fmt);
+	va_start(va, fmt);
+	iobag_vprint(iobags[lvl], buff, va);
+	va_end(va);
+	st_free(buff);
+}
 
-/** @see ST_INFO */
-#define INFO ST_INFO
+void st_logger_attach(enum StTraceLvl lvl, StIo* io)
+{
+	if (!iobags[lvl])
+		iobags[lvl] = iobag_create();
+	iobag_ins(iobags[lvl], io);
+}
 
-/** @see ST_WARNING */
-#define WARNING ST_WARNING
+void st_logger_detach(enum StTraceLvl lvl, StIo* io)
+{
+	iobag_rem(iobags[lvl], io);
+}
 
-/** @see ST_ERROR */
-#define ERROR ST_ERROR
-
-/** @see ST_N_TRACE_LVLS */
-#define N_TRACE_LVLS ST_N_TRACE_LVLS
-
-/** @see st_trace() */
-#define trace st_trace
-
-/** @see st_logger_attach() */
-#define logger_attach st_logger_attach
-
-/** @see st_logger_detach() */
-#define logger_detach st_logger_detach
-
-/** @see st_logger_cleanup() */
-#define logger_cleanup st_logger_cleanup
-
-#endif /* STURK_LOGGER_TRACE_H */
+void st_logger_cleanup(void)
+{
+	for (int i = 0; i < N_TRACE_LVLS; i++) {
+		iobag_destroy(iobags[i]);
+		iobags[i] = NULL;
+	}
+}
