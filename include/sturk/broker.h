@@ -58,6 +58,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see st_channel_gettopic() */
 #define channel_gettopic st_channel_gettopic
 
+/** @see st_channel_allocmsg() */
+#define channel_allocmsg st_channel_allocmsg
+
+/** @see st_message_setcb() */
+#define message_setcb st_message_setcb
+
+/** @see st_message_getchannel() */
+#define message_getchannel st_message_getchannel
+
 /** @see st_subscriber_create() */
 #define subscriber_create st_subscriber_create
 

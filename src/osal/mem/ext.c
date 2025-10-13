@@ -29,45 +29,30 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef MESSAGE_H
-#define MESSAGE_H
+static int subsequent;
+static StMutex* mutex;
 
-#include "broker/types.h"
-#include "st/os/mem.h"
-#include "sturk/io/except.h"
-#include "sturk/io/logger.h"
+extern const struct StMemVt STURK_MEM_API[];
 
-static inline union Message* msg_create(StBroker* broker, va_list args)
+void* st_mem_alloc(size_t size, const char* file, int line)
 {
-	union Message* self = NULL;
+	void* ret = STURK_MEM_API->malloc(size);
 
-	self = pool_tryalloc(broker->channels.pool);
-	if (!self) {
-		self = st_alloc(
-			(broker->vp->size_cb() / sizeof(union Message) + 2) *
-			sizeof(union Message));
-		self->s.mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	}
-	self->s.u.n_pending = 0;
-	broker->vp->ctor(&self[1], args);
-	return self;
+	/* LCOV_EXCL_START */
+	if (!ret)
+		except(st_except_alloc_fail.reason, file, line);
+	/* LCOV_EXCL_STOP */
+	return ret;
 }
 
-static void msg_destroy(StBroker* broker, union Message* msg)
+void st_mem_free(void* ptr, const char* file, int line)
 {
-	broker->vp->dtor(&msg[1]);
-	pool_free(broker->channels.pool, msg);
+	(void)file;
+	(void)line;
+	STURK_MEM_API->free(ptr);
 }
 
-static inline void msg_purge(StBroker* broker)
+void st_mem_cleanup(void)
 {
-	union Message* msg = NULL;
-
-	while ((msg = pool_tryalloc(broker->channels.pool))) {
-		mutex_destroy(msg->s.mutex);
-		msg->s.mutex = NULL;
-		st_free(msg);
-	}
+	return;
 }
-
-#endif /* MESSAGE_H */

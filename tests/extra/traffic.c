@@ -5,9 +5,7 @@
 #include <stdlib.h>
 
 #define AWAIT_AND_ASSERT_TOPIC(sber, expected_topic)                           \
-	TEST_ASSERT_EQUAL_STRING(                                              \
-		expected_topic,                                                \
-		channel_gettopic(msg_getchan(subscriber_await(sber))))
+	TEST_ASSERT_EQUAL_STRING(expected_topic, await_and_gettopic(sber))
 
 #define N_THREADS 20
 #define N_NOTIFS  100
@@ -19,49 +17,39 @@ static const char* topics2[] = {"veniam, quis", "consequat.Duis", "laboris"};
 
 SIMPTE_GROUP(broker_extra, "broker_extra");
 
-struct Message {
-	StChannel* channel;
-	char payload[8];
+struct Payload {
+	char info[8];
 };
 
-static size_t getsize(void)
+static int msg_getid(struct Payload* pload)
 {
-	return sizeof(struct Message);
+	return atoi(pload->info);
 }
 
-static void init(void* msg, va_list va)
+static const char* await_and_gettopic(StSubscriber* sber)
 {
-	struct Message* tmp = msg;
-	char* format = NULL;
+	struct StMessage msg = subscriber_await(sber);
 
-	tmp->channel = va_arg(va, StChannel*);
-	format = va_arg(va, char*);
-	vsnprintf(tmp->payload, 8, format, va);
+	return channel_gettopic(message_getchannel(msg));
 }
 
-static void deinit(void* msg)
+static void publ(StChannel* ch, const char* fmt, ...)
 {
-	(void)msg;
-}
+	va_list va;
+	struct StMessage msg = channel_allocmsg(ch);
+	struct Payload* pload = msg.payload;
 
-static StChannel* msg_getchan(void* msg)
-{
-	return ((struct Message*)msg)->channel;
+	va_start(va, fmt);
+	vsnprintf(pload->info, 8, fmt, va);
+	va_end(va);
+	publish(&msg);
 }
-
-static int msg_getid(void* msg)
-{
-	return atoi(((struct Message*)msg)->payload);
-}
-
-const struct StMessageVt MESSAGE_API[] = {
-	{.size_cb = getsize, .ctor = init, .dtor = deinit}};
 
 static void* task(void* arg)
 {
 	const intptr_t id = (intptr_t)arg;
 	StSubscriber* sber = subscriber_create(broker);
-	struct Message* msg = NULL;
+	struct StMessage msg = {.payload = NULL};
 	const char** topics_in = NULL;
 	const char** topics_out = NULL;
 	int n_in = 0;
@@ -86,32 +74,35 @@ static void* task(void* arg)
 	for (int i = 0; i < n_in; i++)
 		subscribe(sber, topics_in[i]);
 	ch = broker_search(broker, "response.subscribed");
-	publish(ch, ch, "%d", id);
+	publ(ch, "%d", id);
 
 	AWAIT_AND_ASSERT_TOPIC(sber, "request.traffic");
 	for (;;)
-		if (msg || (msg = subscriber_poll(sber))) {
+		if (msg.payload || (msg = subscriber_poll(sber)).payload) {
 			if (strcmp("request.join",
-			           channel_gettopic(msg_getchan(msg))) == 0)
+			           channel_gettopic(message_getchannel(msg))) ==
+			    0)
 				break;
-			TEST_ASSERT_GREATER_THAN_INT(N_THREADS, msg_getid(msg));
-			TEST_ASSERT_LESS_OR_EQUAL_INT(0, msg_getid(msg));
-			counters[id][msg_getid(msg)]++;
-			msg = NULL;
+			TEST_ASSERT_GREATER_THAN_INT(
+				N_THREADS, msg_getid(msg.payload));
+			TEST_ASSERT_LESS_OR_EQUAL_INT(
+				0, msg_getid(msg.payload));
+			counters[id][msg_getid(msg.payload)]++;
+			msg.payload = NULL;
 		} else if (i < N_NOTIFS) {
 			ch = broker_search(broker, topics_out[rand() % n_out]);
-			publish(ch, ch, "%d", id);
+			publ(ch, "%d", id);
 			++i;
 		} else if (!done) {
 			printf("[%ld] Publishing to \"response.done\".\n", id);
 			done = 1;
 			ch = broker_search(broker, "response.done");
-			publish(ch, ch, "%ld", id);
+			publ(ch, "%ld", id);
 		} else {
 			msg = subscriber_await(sber);
 		}
 	ch = broker_search(broker, "response.join");
-	publish(ch, ch, "%ld", id);
+	publ(ch, "%ld", id);
 	return NULL;
 }
 
@@ -124,7 +115,7 @@ TEST(broker_extra, should_be_safe_from_race_conditions)
 
 	pthread_attr_init(&attr);
 	pthread_attr_setstacksize(&attr, 512);
-	broker = broker_create(MESSAGE_API);
+	broker = broker_create(sizeof(struct Payload));
 	sber = subscriber_create(broker);
 	subscribe(sber, "response.subscribed");
 	subscribe(sber, "response.done");
@@ -135,15 +126,16 @@ TEST(broker_extra, should_be_safe_from_race_conditions)
 	for (int i = 0; i < N_THREADS; i++)
 		AWAIT_AND_ASSERT_TOPIC(sber, "response.subscribed");
 	ch = broker_search(broker, "request.traffic");
-	publish(ch, ch, "%p", NULL);
+	publ(ch, "%p", NULL);
 
 	for (int i = 0; i < N_THREADS; i++)
 		AWAIT_AND_ASSERT_TOPIC(sber, "response.done");
 	ch = broker_search(broker, "request.join");
-	publish(ch, ch, "%p", NULL);
+	publ(ch, "%p", NULL);
 
 	for (int i = 0; i < N_THREADS; i++)
-		pthread_join(thid[msg_getid(subscriber_await(sber))], NULL);
+		pthread_join(
+			thid[msg_getid(subscriber_await(sber).payload)], NULL);
 
 	for (int i = 0; i < N_THREADS; i++)
 		for (int j = !(i % 2); j < N_THREADS; j += 2)

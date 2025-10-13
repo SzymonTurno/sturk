@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 struct Chunk {
 	char* avail;
 	char* limit;
-	struct StArenaGroup* group;
+	struct StArenaGc* gc;
 	const struct StMemVt* vp;
 	void* padding;
 };
@@ -52,28 +52,28 @@ union Header {
 	StAlign align;
 };
 
-static void insgroup(struct StArenaGroup* group, StArena* arena)
+static void insgc(struct StArenaGc* gc, StArena* arena)
 {
-	group->p = list_ins(group->p, arena);
-	++group->u.n_elems;
+	gc->p = list_ins(gc->p, arena);
+	++gc->u.n_elems;
 }
 
-static StArena* remgroup(struct StArenaGroup* group)
+static StArena* remgc(struct StArenaGc* gc)
 {
-	StArena* ret = list_rem(&group->p);
+	StArena* ret = list_rem(&gc->p);
 
-	--group->u.n_elems;
+	--gc->u.n_elems;
 	return ret;
 }
 
 static void getchunk(StArena* arena, size_t size)
 {
-	struct StArenaGroup* g = graph_datap(arena)->group;
+	struct StArenaGc* gc = graph_datap(arena)->gc;
 	StArena* ptr = NULL;
 	char* limit = NULL;
 
-	if (g->p) {
-		ptr = remgroup(g);
+	if (gc->p) {
+		ptr = remgc(gc);
 		limit = graph_datap(ptr)->limit;
 	} else {
 		VX_ASSERT(CHUNK_SIZE > sizeof(union Header) + size);
@@ -102,7 +102,7 @@ static size_t getbytes(StArena* arena)
 	return (size_t)(graph_datap(arena)->limit - graph_datap(arena)->avail);
 }
 
-StArena* st_arena_create(struct StArenaGroup* group, const struct StMemVt* vp)
+StArena* st_arena_create(struct StArenaGc* gc, const struct StMemVt* vp)
 {
 	StArena* ret = vp->alloc_cb(sizeof(*ret));
 
@@ -110,7 +110,7 @@ StArena* st_arena_create(struct StArenaGroup* group, const struct StMemVt* vp)
 	ret = list_ins(GRAPH_EMPTY, ret);
 	graph_datap(ret)->avail = NULL;
 	graph_datap(ret)->limit = NULL;
-	graph_datap(ret)->group = group;
+	graph_datap(ret)->gc = gc;
 	graph_datap(ret)->vp = vp;
 	return ret;
 }
@@ -140,7 +140,7 @@ void* st_arena_alloc(StArena* arena, size_t size)
 void st_arena_free(StArena* arena)
 {
 	void (*free_cb)(void*) = NULL;
-	struct StArenaGroup* g = NULL;
+	struct StArenaGc* gc = NULL;
 	StArena* p = NULL;
 	StArena tmp = {0};
 
@@ -150,10 +150,10 @@ void st_arena_free(StArena* arena)
 	free_cb = graph_datap(arena)->vp->free_cb;
 	while ((p = list_next(arena))) {
 		tmp = *p;
-		g = graph_datap(p)->group;
-		if (g->u.n_elems < THRESHOLD) {
-			insgroup(g, p);
-			graph_datap(g->p)->limit = graph_datap(arena)->limit;
+		gc = graph_datap(p)->gc;
+		if (gc->u.n_elems < THRESHOLD) {
+			insgc(gc, p);
+			graph_datap(gc->p)->limit = graph_datap(arena)->limit;
 		} else {
 			free_cb(p);
 		}
@@ -163,13 +163,13 @@ void st_arena_free(StArena* arena)
 	VX_ASSERT(!graph_datap(arena)->avail);
 }
 
-void st_arena_cleanup(struct StArenaGroup* group)
+void st_arena_cleanup(struct StArenaGc* gc)
 {
 	StArena* p = NULL;
 	void (*free_cb)(void*) = NULL;
 
-	while (group->p) {
-		p = remgroup(group);
+	while (gc->p) {
+		p = remgc(gc);
 		free_cb = graph_datap(p)->vp->free_cb;
 		free_cb(p);
 	}

@@ -1,4 +1,4 @@
-#include "pubsub.h"
+#include "sample.h"
 #include "st/os/sys.h"
 #include "sturk/broker.h"
 #include "sturk/io/logger.h"
@@ -14,7 +14,6 @@
 struct Payload {
 	int new;
 	int old;
-	StChannel* channel;
 };
 
 struct Publisher {
@@ -27,46 +26,34 @@ struct Publisher {
 
 struct Subscriber {
 	StSubscriber* sber;
+	struct StMessage msg;
 	struct Payload* pl;
 };
 
-static size_t getsize(void)
-{
-	return sizeof(struct Payload);
-}
-
-static void init(void* msg, va_list va)
-{
-	((struct Payload*)msg)->new = va_arg(va, int);
-	((struct Payload*)msg)->old = va_arg(va, int);
-	((struct Payload*)msg)->channel = va_arg(va, StChannel*);
-}
-
-static void deinit(void* msg)
-{
-	(void)msg;
-}
-
-const struct StMessageVt PAYLOAD_API[] = {
-	{.size_cb = getsize, .ctor = init, .dtor = deinit}};
-
 static int receive(struct Subscriber* sub)
 {
-	sub->pl = subscriber_await(sub->sber);
+	sub->msg = subscriber_await(sub->sber);
+	sub->pl = sub->msg.payload;
 	return 1;
 }
 
 static void sample_publish(struct Publisher* pub, const char* topic, int data)
 {
 	StChannel* ch = broker_search(pub->broker, topic);
+	struct StMessage msg = channel_allocmsg(ch);
+	struct Payload* pload = msg.payload;
 
-	publish(ch, data, pub->u.data, ch);
+	pload->new = data;
+	pload->old = pub->u.data;
+	publish(&msg);
 	pub->u.data = data;
 }
 
 static int join_requested(struct Subscriber* sub, int i)
 {
-	if (strcmp(channel_gettopic(sub->pl->channel), "join"))
+	StChannel* ch = message_getchannel(sub->msg);
+
+	if (strcmp(channel_gettopic(ch), "join"))
 		return 0;
 	return sub->pl->new == i;
 }
@@ -75,7 +62,7 @@ static void* multiply(void* arg)
 {
 	StBroker* broker = arg;
 	struct Publisher pub = {.broker = broker, .u.data = 0};
-	struct Subscriber sub = {subscriber_create(broker), NULL};
+	struct Subscriber sub = {subscriber_create(broker), {0}, NULL};
 
 	subscribe(sub.sber, "input");
 	subscribe(sub.sber, "join");
@@ -97,7 +84,7 @@ static void* report(void* arg)
 {
 	StBroker* broker = arg;
 	struct Publisher pub = {.broker = broker, .u.data = 0};
-	struct Subscriber sub = {subscriber_create(broker), NULL};
+	struct Subscriber sub = {subscriber_create(broker), {0}, NULL};
 
 	subscribe(sub.sber, "input");
 	subscribe(sub.sber, "result");
@@ -118,7 +105,7 @@ static void* report(void* arg)
 static void
 start_thread(StBroker* broker, pthread_t* thid, int i, void* (*cb)(void*))
 {
-	struct Subscriber sub = {subscriber_create(broker), NULL};
+	struct Subscriber sub = {subscriber_create(broker), {0}, NULL};
 	pthread_attr_t attr;
 
 	subscribe(sub.sber, "ready");
@@ -133,7 +120,7 @@ start_thread(StBroker* broker, pthread_t* thid, int i, void* (*cb)(void*))
 static void join_thread(StBroker* broker, pthread_t* thid, int i)
 {
 	struct Publisher pub = {.broker = broker, .u.data = 0};
-	struct Subscriber sub = {subscriber_create(broker), NULL};
+	struct Subscriber sub = {subscriber_create(broker), {0}, NULL};
 	void* res = NULL;
 
 	subscribe(sub.sber, "done");
@@ -146,7 +133,7 @@ static void join_thread(StBroker* broker, pthread_t* thid, int i)
 
 static void app(void)
 {
-	StBroker* broker = broker_create(PAYLOAD_API);
+	StBroker* broker = broker_create(sizeof(struct Payload));
 	struct Publisher pub = {.broker = broker, .u.data = 0};
 	pthread_t thid[DELIM_TH_ID] = {0};
 

@@ -29,65 +29,48 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef TYPES_H
-#define TYPES_H
+static int subsequent;
+static StMutex* mutex;
 
-#include "sturk/broker.h"
-#include "sturk/cirq.h"
-#include "sturk/dict.h"
-#include "sturk/list.h"
-#include "sturk/os/mutex.h"
-#include "sturk/pool.h"
-#include "sturk/waitq.h"
+extern const struct StMemVt STURK_MEM_API[];
 
-LIST(struct SubscriberList, StSubscriber*);
+void* st_mem_alloc(size_t size, const char* file, int line)
+{
+	void* ret = NULL;
 
-struct ChannelData {
-	StBroker* broker;
-	struct SubscriberList* list;
-	StMutex* mutex;
-};
+	if (!subsequent) {
+		subsequent = 1;
+		mutex = mutex_create(ST_MUTEX_POLICY_PRIO_INHERIT);
+	}
 
-DICT(struct StChannel, struct ChannelData);
+	if (mutex) {
+		mutex_lock(mutex);
+		ret = STURK_MEM_API->malloc(size);
+		mutex_unlock(mutex);
+	} else {
+		ret = STURK_MEM_API->malloc(size);
+	}
 
-struct StBroker {
-	const struct StMessageVt* vp;
-	StMutex* mutex;
-	struct {
-		struct SubscriberList* list;
-		StPool* pool;
-	} sbers;
-	struct {
-		StChannel* dict;
-		StPool* pool;
-	} channels;
-};
+	/* LCOV_EXCL_START */
+	if (!ret)
+		except(st_except_alloc_fail.reason, file, line);
+	/* LCOV_EXCL_STOP */
+	return ret;
+}
 
-union Message {
-	struct {
-		union {
-			int n_pending;
-			/* The member "union StFreeList align" is overwritten
-			 * when the message is returned to the pool. */
-			union StFreeList align;
-		} u;
-		/* Mutex must be placed after "union StFreeList align" so that
-		 * it is not overwritten when the message is returned to the
-		 * pool. */
-		StMutex* mutex;
-	} s;
-	StAlign align;
-};
+void st_mem_free(void* ptr, const char* file, int line)
+{
+	(void)file;
+	(void)line;
+	mutex_lock(mutex);
+	STURK_MEM_API->free(ptr);
+	mutex_unlock(mutex);
+}
 
-CIRQ(struct Qentry, union Message*);
-
-LIST(struct ChannelList, StChannel*);
-
-struct StSubscriber {
-	StBroker* broker;
-	StWaitQ* q;
-	union Message* msg;
-	struct ChannelList* list;
-};
-
-#endif /* TYPES_H */
+void st_mem_cleanup(void)
+{
+	if (mutex)
+		mutex_destroy(mutex);
+	mutex = NULL;
+	subsequent = 0;
+}
