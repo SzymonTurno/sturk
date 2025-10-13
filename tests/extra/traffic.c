@@ -19,9 +19,8 @@ static const char* topics2[] = {"veniam, quis", "consequat.Duis", "laboris"};
 
 SIMPTE_GROUP(broker_extra, "broker_extra");
 
-struct Message {
-	StChannel* channel;
-	char payload[8];
+struct Payload {
+	char info[8];
 };
 
 static size_t getsize(void)
@@ -124,7 +123,7 @@ TEST(broker_extra, should_be_safe_from_race_conditions)
 
 	pthread_attr_init(&attr);
 	pthread_attr_setstacksize(&attr, 512);
-	broker = broker_create(MESSAGE_API);
+	broker = broker_create(sizeof(struct Payload));
 	sber = subscriber_create(broker);
 	subscribe(sber, "response.subscribed");
 	subscribe(sber, "response.done");

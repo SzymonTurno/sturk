@@ -533,7 +533,8 @@ TEST(io, should_calculate_iobuffer_length)
 	TEST_ASSERT_EQUAL_INT(3, iobuffer_calclen(remain));
 	TEST_ASSERT_EQUAL_INT(4, iobuffer_calclen(remain + 1));
 	TEST_ASSERT_EQUAL_INT(4, iobuffer_calclen(remain + sizeof(StAlign)));
-	TEST_ASSERT_EQUAL_INT(5, iobuffer_calclen(remain + sizeof(StAlign) + 1));
+	TEST_ASSERT_EQUAL_INT(
+		5, iobuffer_calclen(remain + sizeof(StAlign) + 1));
 }
 
 TEST(io, should_write_to_memory_buffer)
