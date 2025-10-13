@@ -19,6 +19,5 @@ def join(olvars):
         'sample_OBJS', os.path.join(olvars.cwd(), 'single_thread_pubsub.o'))
     olvars.append(
         'sample_OBJS', os.path.join(olvars.cwd(), 'multi_thread_pubsub.o'))
-    olvars.append('sample_OBJS', os.path.join(olvars.cwd(), 'message_api.o'))
     olvars.append('sample_OBJS', os.path.join(olvars.cwd(), 'file_api.o'))
     append_rules(olvars)

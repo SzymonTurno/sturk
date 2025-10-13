@@ -1,4 +1,4 @@
-#include "pubsub.h"
+#include "sample.h"
 #include "st/os/sys.h"
 #include "sturk/broker.h"
 #include "sturk/io/logger.h"
@@ -23,37 +23,26 @@ enum Event {
 struct Payload {
 	int new;
 	int old;
-	StChannel* channel;
 };
 
 struct Subscriber {
 	StSubscriber* sber;
-	struct Payload* pload;
+	struct StMessage msg;
 };
-
-static size_t getsize(void)
-{
-	return sizeof(struct Payload);
-}
-
-static void init(void* msg, va_list va)
-{
-	((struct Payload*)msg)->new = va_arg(va, int);
-	((struct Payload*)msg)->old = va_arg(va, int);
-	((struct Payload*)msg)->channel = va_arg(va, StChannel*);
-}
-
-static void deinit(void* msg)
-{
-	(void)msg;
-}
-
-static const struct StMessageVt PAYLOAD_API[] = {
-	{.size_cb = getsize, .ctor = init, .dtor = deinit}};
 
 static void receive(struct Subscriber* sub)
 {
-	sub->pload = subscriber_poll(sub->sber);
+	sub->msg = subscriber_poll(sub->sber);
+}
+
+static void sample_publish(StChannel* ch, int new, int old)
+{
+	struct StMessage msg = channel_allocmsg(ch);
+	struct Payload* pload = msg.payload;
+
+	pload->new = new;
+	pload->old = old;
+	publish(&msg);
 }
 
 static void
@@ -63,14 +52,14 @@ broadcast(StChannel** ch, struct Subscriber* subs, int* store, int val)
 	int done = 0;
 
 	trace(INFO, NULL, "broadcast %d", val);
-	publish(ch[INPUT_ID], val, store[INPUT_ID], ch[INPUT_ID]);
+	sample_publish(ch[INPUT_ID], val, store[INPUT_ID]);
 	do {
 		receive(&subs[STORAGE_EVENT]);
 		receive(&subs[MULTIPLY_EVENT]);
 		receive(&subs[TRACE_EVENT]);
-		if (subs[STORAGE_EVENT].pload) {
-			pload = subs[STORAGE_EVENT].pload;
-			if (subs[STORAGE_EVENT].pload->channel ==
+		if (subs[STORAGE_EVENT].msg.payload) {
+			pload = subs[STORAGE_EVENT].msg.payload;
+			if (message_getchannel(subs[STORAGE_EVENT].msg) ==
 			    ch[STORAGE_EVENT]) {
 				pload->old = store[INPUT_ID];
 				store[INPUT_ID] = pload->new;
@@ -81,15 +70,16 @@ broadcast(StChannel** ch, struct Subscriber* subs, int* store, int val)
 		}
 
 		done = 1;
-		if (subs[MULTIPLY_EVENT].pload) {
-			pload = subs[MULTIPLY_EVENT].pload;
-			publish(ch[RESULT_ID], pload->new * pload->old,
-			        store[RESULT_ID], ch[RESULT_ID]);
+		if (subs[MULTIPLY_EVENT].msg.payload) {
+			pload = subs[MULTIPLY_EVENT].msg.payload;
+			sample_publish(
+				ch[RESULT_ID], pload->new * pload->old,
+				store[RESULT_ID]);
 			done = 0;
 		}
 
-		if (subs[TRACE_EVENT].pload) {
-			pload = subs[TRACE_EVENT].pload;
+		if (subs[TRACE_EVENT].msg.payload) {
+			pload = subs[TRACE_EVENT].msg.payload;
 			trace(INFO, NULL, "message: new = %d, old = %d",
 			      pload->new, pload->old);
 		}
@@ -98,14 +88,14 @@ broadcast(StChannel** ch, struct Subscriber* subs, int* store, int val)
 
 static void app(void)
 {
-	StBroker* broker = broker_create(PAYLOAD_API);
+	StBroker* broker = broker_create(sizeof(struct Payload));
 	StChannel* ch[] = {
 		broker_search(broker, "input"),
 		broker_search(broker, "result")};
 	struct Subscriber subs[] = {
-		{subscriber_create(broker), NULL},
-		{subscriber_create(broker), NULL},
-		{subscriber_create(broker), NULL}};
+		{subscriber_create(broker), {0}},
+		{subscriber_create(broker), {0}},
+		{subscriber_create(broker), {0}}};
 	int store[ARRAY_SIZE(ch)] = {0};
 
 	subscribe(subs[STORAGE_EVENT].sber, "input");

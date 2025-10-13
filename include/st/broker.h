@@ -41,47 +41,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_BROKER_H
 #define ST_BROKER_H
 
-#include <stdarg.h>
 #include <stddef.h>
 
 /**
- * @struct StMessageVt
+ * @struct StMessage
  *
- * @brief Vtable for message construction.
+ * @brief Message.
+ *
+ * For functions that operate on the payload only the void pointer is needed.
+ * The enclosing structure is used just for clarity.
  */
-struct StMessageVt {
+struct StMessage {
 	/**
-	 * @var size_t (*size_cb)(void)
+	 * @var void* payload
 	 *
-	 * @brief Callback for obtaining the size of the message.
-	 *
-	 * Should return the size of the message in bytes.
+	 * @brief The payload of the message.
 	 */
-	size_t (*size_cb)(void);
-
-	/**
-	 * @var void (*ctor)(void*, va_list)
-	 *
-	 * @brief Constructor callback for the message.
-	 *
-	 * Should allocate additional memory for the message, if needed (see
-	 * "dynamic context") and initialize the message - read arguments from
-	 * the va_list and fill the message passed through the void pointer.
-	 *
-	 * @note The input va_list will hold all values passed to st_publish()
-	 * after the StChannel argument.
-	 * @see st_publish()
-	 */
-	void (*ctor)(void*, va_list);
-
-	/**
-	 * @var void (*dtor)(void*)
-	 *
-	 * @brief Destructor callback for the message.
-	 *
-	 * Should free all the memory allocated by the StMessageVt::ctor.
-	 */
-	void (*dtor)(void*);
+	void* payload;
 };
 
 /**
@@ -90,9 +66,7 @@ struct StMessageVt {
  * @brief The message broker.
  *
  * The broker holds the list of all subscribers (StSubscriber) in usage and
- * a dictionary of channels (StChannel). All the messaging done through
- * channels created by the same broker will also use the same API for message
- * construction (StMessageVt).
+ * a dictionary of channels (StChannel).
  */
 typedef struct StBroker StBroker;
 
@@ -115,18 +89,13 @@ typedef struct StSubscriber StSubscriber;
 typedef struct StChannel StChannel;
 
 /**
- * @fn void st_publish(StChannel* ch, ...)
+ * @fn void st_publish(struct StMessage* msg)
  *
- * @brief Broadcast the message.
+ * @brief Broadcast the message and set the payload pointer to NULL.
  *
- * @param[in,out] ch The channel to which the message is sent.
- * @param[in] ... The list of arguments passed to the StMessageVt::ctor.
- *
- * @note Channels without any subscribers are allowed. Publishing to such
- * channel is safe and it does not have any meaningful behaviour (it does
- * "nothing").
+ * @param[in,out] msg The message.
  */
-void st_publish(StChannel* ch, ...);
+void st_publish(struct StMessage* msg);
 
 /**
  * @fn void st_subscribe(StSubscriber* sber, const char* topic)
@@ -139,21 +108,15 @@ void st_publish(StChannel* ch, ...);
 void st_subscribe(StSubscriber* sber, const char* topic);
 
 /**
- * @fn StBroker* st_broker_create(const struct StMessageVt* vp)
+ * @fn StBroker* st_broker_create(size_t payload_size)
  *
  * @brief Create the message broker.
  *
- * @param[in] vp The pointer to the vtable for the StMessage.
- *
- * The chosen vtable will influence the behaviour of the functions that are
- * responsible for constructing and receiving the messages:
- * - st_publish(),
- * - st_subscriber_await(),
- * - st_subscriber_poll().
+ * @param[in] payload_size The size of the payload for each message.
  *
  * @return The pointer to the new broker.
  */
-StBroker* st_broker_create(const struct StMessageVt* vp);
+StBroker* st_broker_create(size_t payload_size);
 
 /**
  * @fn void st_broker_destroy(StBroker* broker)
@@ -190,6 +153,45 @@ StChannel* st_broker_search(StBroker* broker, const char* topic);
 const char* st_channel_gettopic(const StChannel* ch);
 
 /**
+ * @fn struct StMessage st_channel_allocmsg(StChannel* ch)
+ *
+ * @brief Allocate the payload and return it enclosed in a structure.
+ *
+ * @param[in] ch The channel.
+ *
+ * @return The message structure.
+ */
+struct StMessage st_channel_allocmsg(StChannel* ch);
+
+/**
+ * @fn void st_message_setcb(struct StMessage msg, void (*cb)(struct StMessage))
+ *
+ * @brief Set a callback function for the message.
+ *
+ * @param[in] msg The message.
+ * @param[in] cb The callback.
+ *
+ * The function passed will be called only once, when all of the subscribers
+ * finish reading the message i.e. the subscribers counter for the message hits
+ * 0.
+ *
+ * @note This can be useful for freeing any memory that has been allocated when
+ * initializing the payload.
+ */
+void st_message_setcb(struct StMessage msg, void (*cb)(struct StMessage));
+
+/**
+ * @fn StChannel* st_message_getchannel(struct StMessage msg)
+ *
+ * @brief Get the source channel of the message.
+ *
+ * @param[in] msg The message.
+ *
+ * @return The channel.
+ */
+StChannel* st_message_getchannel(struct StMessage msg);
+
+/**
  * @fn StSubscriber* st_subscriber_create(StBroker* broker)
  *
  * @brief Create the subscriber.
@@ -216,16 +218,16 @@ void st_subscriber_destroy(StSubscriber* sber);
  *
  * @param[in,out] sber The pointer to the subscriber.
  *
- * This function will return the message immediately, if there are any messages
- * in the subscriber's queue. If the subscriber's queue is empty, with
- * multithreading enabled, this will block the thread that has called this
+ * This function will return the payload of a message immediately, if there are
+ * any messages in the subscriber's queue. If the subscriber's queue is empty,
+ * with multithreading enabled, this will block the thread that has called this
  * function until some other thread publishes to topic that the given
  * subscriber is interested in. With a single thread application, the blocking
  * is not supported.
  *
- * @return The message.
+ * @return The payload.
  */
-void* st_subscriber_await(StSubscriber* sber);
+struct StMessage st_subscriber_await(StSubscriber* sber);
 
 /**
  * @fn void* st_subscriber_poll(StSubscriber* sber)
@@ -234,12 +236,13 @@ void* st_subscriber_await(StSubscriber* sber);
  *
  * @param[in,out] sber The pointer to the subscriber.
  *
- * This function will return the message, if there are any messages in the
- * subscriber's queue. If the subscriber's queue is empty, it will return NULL.
+ * This function will return the payload of a message, if there are any messages
+ * in the subscriber's queue. If the subscriber's queue is empty, it will return
+ * NULL.
  *
- * @return The message.
+ * @return The payload.
  */
-void* st_subscriber_poll(StSubscriber* sber);
+struct StMessage st_subscriber_poll(StSubscriber* sber);
 
 /**
  * @fn void st_subscriber_unload(StSubscriber* sber)

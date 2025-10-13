@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/mutex.h"
 #include "sturk/os/sys.h"
 
-static struct StArenaGroup group;
+static struct StArenaGc arena_gc;
 static StArena* arena;
 static StMutex* mutex;
 
@@ -45,7 +45,7 @@ void* st_mem_alloc(size_t size, const char* file, int line)
 	void* ret = NULL;
 
 	if (!arena) {
-		arena = arena_create(&group, STURK_MEM_API);
+		arena = arena_create(&arena_gc, STURK_MEM_API);
 		mutex = mutex_create(ST_MUTEX_POLICY_PRIO_INHERIT);
 	}
 
@@ -56,6 +56,7 @@ void* st_mem_alloc(size_t size, const char* file, int line)
 	} else {
 		ret = arena_alloc(arena, size);
 	}
+
 	/* LCOV_EXCL_START */
 	if (!ret)
 		except(st_except_alloc_fail.reason, file, line);
@@ -77,7 +78,7 @@ void st_mem_cleanup(void)
 	mutex = NULL;
 	if (arena) {
 		arena_destroy(arena);
-		arena_cleanup(&group);
+		arena_cleanup(&arena_gc);
 	}
 	arena = NULL;
 }

@@ -72,17 +72,17 @@ struct StMemVt {
 typedef struct StArena StArena;
 
 /**
- * @struct StArenaGroup
+ * @struct StArenaGc
  *
- * @brief Collection of arena instances.
+ * @brief Arena garbage collector.
  */
-struct StArenaGroup {
+struct StArenaGc {
 	/** @brief Using union @a u for explicit padding. */
 	union {
 		/**
 		 * @var int n_elems
 		 *
-		 * @brief The number of elements in a collection.
+		 * @brief The number of arena instances.
 		 */
 		int n_elems;
 
@@ -99,16 +99,16 @@ struct StArenaGroup {
 };
 
 /**
- * @fn StArena* st_arena_create(struct StArenaGroup* group, const struct StMemVt* vp)
+ * @fn StArena* st_arena_create(struct StArenaGc* gc, const struct StMemVt* vp)
  *
  * @brief Create an arena.
  *
- * @param[in,out] group Collection of arena instances.
+ * @param[in,out] gc Arena garbage collector.
  * @param[in] vp The memory allocator vtable.
  *
  * @return The pointer to the new arena.
  */
-StArena* st_arena_create(struct StArenaGroup* group, const struct StMemVt* vp);
+StArena* st_arena_create(struct StArenaGc* gc, const struct StMemVt* vp);
 
 /**
  * @fn void st_arena_destroy(StArena* arena)
@@ -141,12 +141,12 @@ void* st_arena_alloc(StArena* arena, size_t size);
 void st_arena_free(StArena* arena);
 
 /**
- * @fn void st_arena_cleanup(struct StArenaGroup* group)
+ * @fn void st_arena_cleanup(struct StArenaGc* gc)
  *
- * @brief Free all the memory from an arena collection.
+ * @brief Free all the memory from the arena garbage collector.
  *
- * @param[in,out] group The arena collection.
+ * @param[in,out] gc Arena garbage collector.
  */
-void st_arena_cleanup(struct StArenaGroup* group);
+void st_arena_cleanup(struct StArenaGc* gc);
 
 #endif /* ST_ARENA_H */

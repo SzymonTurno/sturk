@@ -1,4 +1,4 @@
-#include "pubsub.h"
+#include "sample.h"
 #include "st/os/mem.h"
 #include "sturk/arena.h"
 #include "sturk/broker.h"
@@ -459,8 +459,8 @@ TEST(pool, should_return_freed_pointer)
 
 TEST(arena, should_allocate_aligned_memory)
 {
-	struct StArenaGroup g = {0};
-	StArena* arena = arena_create(&g, STURK_MEM_API);
+	struct StArenaGc gc = {0};
+	StArena* arena = arena_create(&gc, STURK_MEM_API);
 	void* buffs[8] = {0};
 
 	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
@@ -469,13 +469,13 @@ TEST(arena, should_allocate_aligned_memory)
 			0, ((uintptr_t)buffs[i]) % sizeof(StAlign));
 	}
 	arena_destroy(arena);
-	arena_cleanup(&g);
+	arena_cleanup(&gc);
 }
 
 TEST(arena, should_allocate_independent_blocks)
 {
-	struct StArenaGroup g = {0};
-	StArena* arena = arena_create(&g, STURK_MEM_API);
+	struct StArenaGc gc = {0};
+	StArena* arena = arena_create(&gc, STURK_MEM_API);
 	void* buffs[15] = {0};
 
 	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
@@ -487,13 +487,13 @@ TEST(arena, should_allocate_independent_blocks)
 		for (int j = 0; j < i + 1; j++)
 			TEST_ASSERT_EQUAL_INT(i + 1, ((char*)buffs[i])[j]);
 	arena_destroy(arena);
-	arena_cleanup(&g);
+	arena_cleanup(&gc);
 }
 
 TEST(arena, should_allocate_freed_memory)
 {
-	struct StArenaGroup g = {0};
-	StArena* arena = arena_create(&g, STURK_MEM_API);
+	struct StArenaGc gc = {0};
+	StArena* arena = arena_create(&gc, STURK_MEM_API);
 	void* buff = arena_alloc(arena, 64);
 
 	memset(buff, 0xbe, 64);
@@ -502,7 +502,7 @@ TEST(arena, should_allocate_freed_memory)
 	for (int i = 16; i < 48; i++)
 		TEST_ASSERT_EQUAL_INT((char)0xbe, ((char*)buff)[i]);
 	arena_destroy(arena);
-	arena_cleanup(&g);
+	arena_cleanup(&gc);
 }
 
 TEST(arena, should_return_null_for_null_arena)
@@ -512,8 +512,8 @@ TEST(arena, should_return_null_for_null_arena)
 
 TEST(arena, should_support_many_allocations)
 {
-	struct StArenaGroup g = {0};
-	StArena* arena = arena_create(&g, STURK_MEM_API);
+	struct StArenaGc gc = {0};
+	StArena* arena = arena_create(&gc, STURK_MEM_API);
 	struct StStrList* list = NULL;
 
 	for (int i = 0; i < 16384; i++)
@@ -522,7 +522,7 @@ TEST(arena, should_support_many_allocations)
 	while (list)
 		strlist_rem(&list);
 	arena_destroy(arena);
-	arena_cleanup(&g);
+	arena_cleanup(&gc);
 }
 
 TEST(io, should_calculate_iobuffer_length)
@@ -533,7 +533,8 @@ TEST(io, should_calculate_iobuffer_length)
 	TEST_ASSERT_EQUAL_INT(3, iobuffer_calclen(remain));
 	TEST_ASSERT_EQUAL_INT(4, iobuffer_calclen(remain + 1));
 	TEST_ASSERT_EQUAL_INT(4, iobuffer_calclen(remain + sizeof(StAlign)));
-	TEST_ASSERT_EQUAL_INT(5, iobuffer_calclen(remain + sizeof(StAlign) + 1));
+	TEST_ASSERT_EQUAL_INT(
+		5, iobuffer_calclen(remain + sizeof(StAlign) + 1));
 }
 
 TEST(io, should_write_to_memory_buffer)
@@ -628,23 +629,47 @@ TEST(io, should_write_to_file)
 
 TEST(channel, should_access_its_topic)
 {
-	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
+	StBroker* broker = broker_create(0);
 	StChannel* ch = broker_search(broker, "test");
 
 	TEST_ASSERT_EQUAL_STRING("test", channel_gettopic(ch));
 	broker_destroy(broker);
 }
 
+TEST(channel, should_return_null_payload)
+{
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
+	TEST_ASSERT_NULL(channel_allocmsg(NULL).payload);
+}
+
+static void test_freepayload(struct StMessage msg)
+{
+	st_free(*(char**)msg.payload);
+}
+
 TEST(subscriber, should_receive_enqueued_message)
 {
-	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
+	StBroker* broker = broker_create(sizeof(char**));
 	StSubscriber* sber = subscriber_create(broker);
-	char** msg = NULL;
+	StChannel* ch = broker_search(broker, "test.topic");
+	struct StMessage msg = {0};
 
-	subscribe(sber, "test");
-	publish(broker_search(broker, "test"), 5);
-	msg = subscriber_await(sber);
-	TEST_ASSERT_EQUAL_STRING("|||||", *msg);
+	/* Subscribe */
+	subscribe(sber, "test.topic");
+	TEST_ASSERT_NULL(subscriber_poll(sber).payload);
+
+	/* Publish */
+	msg = channel_allocmsg(ch);
+	message_setcb(msg, test_freepayload);
+	*(char**)msg.payload = newstr("test contents");
+	publish(&msg);
+	TEST_ASSERT_NULL(msg.payload);
+
+	/* Receive */
+	msg = subscriber_poll(sber);
+	TEST_ASSERT_EQUAL_STRING("test contents", *(char**)msg.payload);
+
+	/* Cleanup */
 	broker_destroy(broker);
 }
 
@@ -653,30 +678,48 @@ TEST(subscriber, should_trace_null_param)
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":269: Null param.\n",
+		BROKER_FILE_PATH ":383: Null param.\n",
 		strstr(SIMPTE_GETTRACE(subscriber, 0), BROKER_FILE_PATH ":"));
 }
 
 TEST(subscriber, should_unload)
 {
-	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
+	StBroker* broker = broker_create(sizeof(char**));
 	StSubscriber* sber = subscriber_create(broker);
-	char** msg = NULL;
+	StChannel* ch = broker_search(broker, "test.topic");
+	struct StMessage msg = {0};
+	struct StMessage alice = {0};
 
-	subscribe(sber, "test");
-	publish(broker_search(broker, "test"), 2);
-	msg = subscriber_await(sber);
-	TEST_ASSERT_EQUAL_STRING("||", *msg);
+	subscribe(sber, "test.topic");
+	msg = channel_allocmsg(ch);
+	message_setcb(msg, test_freepayload);
+	*(char**)msg.payload = newstr("Alice");
+	publish(&msg);
+	alice = subscriber_await(sber);
+	TEST_ASSERT_EQUAL_STRING("Alice", *(char**)alice.payload);
+
+	/* Return "Alice" message to the pool. */
 	subscriber_unload(sber);
-	publish(broker_search(broker, "test"), 5);
-	TEST_ASSERT_EQUAL_STRING("|||||", *(char**)subscriber_await(sber));
-	TEST_ASSERT_NOT_EQUAL_STRING("||", *msg);
+
+	/* Reusing memory previously used for "Alice" message. */
+	msg = channel_allocmsg(ch);
+
+	message_setcb(msg, test_freepayload);
+	*(char**)msg.payload = newstr("Bob");
+	publish(&msg);
+	TEST_ASSERT_EQUAL_STRING(
+		"Bob", *(char**)subscriber_await(sber).payload);
+
+	/* As expected: "Alice" message, previously received by the subcriber,
+	 * has been corrupted. */
+	TEST_ASSERT_NOT_EQUAL_STRING("Alice", *(char**)alice.payload);
+
 	broker_destroy(broker);
 }
 
 TEST(subscriber, should_be_destroyed_independently)
 {
-	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
+	StBroker* broker = broker_create(0);
 	StSubscriber* sber = subscriber_create(broker);
 
 	subscriber_create(broker);
@@ -686,10 +729,11 @@ TEST(subscriber, should_be_destroyed_independently)
 
 TEST(broker, should_allow_zero_subscribers)
 {
-	StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
+	StBroker* broker = broker_create(0);
 	StChannel* ch = broker_search(broker, "test");
+	struct StMessage msg = channel_allocmsg(ch);
 
-	publish(ch, 123);
+	publish(&msg);
 	broker_destroy(broker);
 }
 
@@ -700,7 +744,7 @@ TEST(broker, should_allow_many_topics)
 
 	srand(1);
 	for (int i = 0; i < 10; i++) {
-		broker = broker_create(SAMPLE_MESSAGE_API);
+		broker = broker_create(0);
 		for (int i = 0; i < 1000; i++) {
 			*((int*)str) = rand();
 			broker_search(broker, str);
@@ -777,7 +821,7 @@ TEST(broker, should_trace_null_param)
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":308: Null param.\n",
+		BROKER_FILE_PATH ":411: Null param.\n",
 		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 	free(tmp);
 }
@@ -840,6 +884,7 @@ static void run_basic_tests(void)
 	RUN_TEST_CASE(io, should_read_from_file);
 	RUN_TEST_CASE(io, should_write_to_file);
 	RUN_TEST_CASE(channel, should_access_its_topic);
+	RUN_TEST_CASE(channel, should_return_null_payload);
 	RUN_TEST_CASE(subscriber, should_receive_enqueued_message);
 	RUN_TEST_CASE(subscriber, should_trace_null_param);
 	RUN_TEST_CASE(subscriber, should_unload);
