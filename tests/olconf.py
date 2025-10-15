@@ -4,7 +4,7 @@ from sys import platform
 CONSTRAINTS = [
     (
         ['cver', 'iso'],
-        ['test', 'threading', True]
+        ['test', 'multithreading', True]
     )
 ]
 
@@ -100,10 +100,10 @@ def join(olvars):
     else:
         olvars.fail('Unknown cver: ' + settings['cver'] + '.')
 
-    if settings['test']['threading']:
-        olvars.append('test_CFLAGS', '-DTHREADING=1')
+    if settings['test']['multithreading']:
+        olvars.append('test_CFLAGS', '-DMULTITHREADING=1')
     else:
-        olvars.append('test_CFLAGS', '-DTHREADING=0')
+        olvars.append('test_CFLAGS', '-DMULTITHREADING=0')
 
     olvars.append(
         'test_CFLAGS',

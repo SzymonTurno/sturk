@@ -7,4 +7,4 @@
     mutex: "posix"
     sem: "posix"
   test:
-    threading: true
+    multithreading: true
