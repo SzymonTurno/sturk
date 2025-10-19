@@ -23,13 +23,9 @@
 #define LINE(str) str "\n"
 
 #if defined(_WIN32) || defined(WIN32)
-
 #define JOIN_PATH(str1, str2) str1 "\\" str2
-
 #else /* not defined: WIN32 */
-
 #define JOIN_PATH(str1, str2) str1 "/" str2
-
 #endif /* WIN32 */
 
 #define MUTEX_FILE_PATH                                                        \
@@ -39,425 +35,25 @@
 
 #define BROKER_FILE_PATH JOIN_PATH("src", JOIN_PATH("broker", "broker.c"))
 
-SIMPTE_BEGIN();
-
 const struct StMemVt STURK_MEM_API[] = {{.alloc_cb = malloc, .free_cb = free}};
 
 extern void run_vertegs_tests(void);
-extern void run_broker_extra_tests(void);
+extern void run_traffic_tests(void);
 
-SIMPTE_GROUP(common, "common");
-SIMPTE_GROUP(list, "list");
-SIMPTE_GROUP(cirq, "cirq");
-SIMPTE_GROUP(rbnode, "rbnode");
-SIMPTE_GROUP(dictnode, "dictnode");
-SIMPTE_GROUP(strbag, "strbag");
-SIMPTE_GROUP(mutex, "mutex");
-SIMPTE_GROUP(semaphore, "semaphore");
-SIMPTE_GROUP(waitq, "waitq");
-SIMPTE_GROUP(pool, "pool");
-SIMPTE_GROUP(arena, "arena");
-SIMPTE_GROUP(io, "io");
-SIMPTE_GROUP(channel, "channel");
-SIMPTE_GROUP(subscriber, "subscriber");
-SIMPTE_GROUP(broker, "broker");
-SIMPTE_GROUP(logger, "logger");
+SIMPTE_BEGIN();
+SIMPTE_GROUP(basis);
+SIMPTE_GROUP(osal);
+SIMPTE_GROUP(logger);
+SIMPTE_GROUP(algo);
+SIMPTE_GROUP(broker);
+SIMPTE_GROUP(common);
 
-TEST(common, should_destroy_null)
+TEST(basis, should_destroy_null)
 {
-	pool_destroy(NULL);
-	strbag_destroy(NULL);
-	waitq_destroy(NULL);
-	broker_destroy(NULL);
-	subscriber_destroy(NULL);
 	arena_free(NULL);
 }
 
-TEST(list, should_implement_lifo)
-{
-	struct StStrList* list = NULL;
-
-	list = strlist_ins(NULL, "One");
-	list = strlist_ins(list, "Two");
-	list = strlist_ins(list, "Three");
-	TEST_ASSERT_EQUAL_STRING("Three", strlist_rem(&list));
-	TEST_ASSERT_EQUAL_STRING("Two", strlist_rem(&list));
-	TEST_ASSERT_EQUAL_STRING("One", strlist_rem(&list));
-	TEST_ASSERT_NULL(list);
-}
-
-TEST(cirq, should_implement_fifo)
-{
-	struct StStrQ* q = NULL;
-
-	q = strq_ins(NULL, "One");
-	q = strq_ins(q, "Two");
-	q = strq_ins(q, "Three");
-	TEST_ASSERT_EQUAL_STRING("One", strq_rem(&q));
-	TEST_ASSERT_EQUAL_STRING("Two", strq_rem(&q));
-	TEST_ASSERT_EQUAL_STRING("Three", strq_rem(&q));
-	TEST_ASSERT_NULL(q);
-}
-
-TEST(rbnode, should_return_left_and_right)
-{
-	struct Vertegs left[1] = {0};
-	struct Vertegs right[1] = {0};
-	struct Vertegs* nbor[] = {left, right};
-
-	TEST_ASSERT_EQUAL_PTR(
-		left, (struct Vertegs*)rb_left((struct StRbNode*)nbor));
-	TEST_ASSERT_EQUAL_PTR(
-		right, (struct Vertegs*)rb_right((struct StRbNode*)nbor));
-}
-
-TEST(rbnode, should_link_as_leaf)
-{
-	struct StRbNode p = {0};
-	struct StRbNode n = {0};
-
-	memset(&n, 0xA, sizeof(n));
-	TEST_ASSERT_EQUAL_PTR(&n, rb_link(&n, &p));
-	/* Adding one ("+ 1") verifies that node is red. */
-	TEST_ASSERT_EQUAL_INT(((intptr_t)&p) + 1, graph_datap(&n)->parcol);
-	TEST_ASSERT_NULL(rb_left(&n));
-	TEST_ASSERT_NULL(rb_right(&n));
-}
-
-TEST(rbnode, should_insert_and_balance)
-{
-	struct StRbNode c = {0};
-	struct StRbNode a = {0};
-	struct StRbNode b = {0};
-	struct Vertegs** nbor = ((struct Vertegs*)&c)->nbor;
-
-	/*
-	 *    c
-	 *   / \
-	 *  a (nil)
-	 */
-	nbor[0] = graph_2vx(rb_link(&a, &c));
-
-	/*
-	 *    c
-	 *   / \
-	 *  a (nil)
-	 */
-	TEST_ASSERT_EQUAL_PTR(&c, rb_insrebal(&c, &a));
-
-	/*
-	 *        c
-	 *       / \
-	 *      a (nil)
-	 *     / \
-	 *  (nil) b
-	 */
-	nbor = ((struct Vertegs*)&a)->nbor;
-	nbor[1] = graph_2vx(rb_link(&b, &a));
-
-	/*
-	 *        b
-	 *       / \
-	 *      a   c
-	 */
-	TEST_ASSERT_EQUAL_PTR(&b, rb_insrebal(&c, &b));
-	nbor = ((struct Vertegs*)&b)->nbor;
-	TEST_ASSERT_EQUAL_PTR(&a, nbor[0]);
-	TEST_ASSERT_EQUAL_PTR(&c, nbor[1]);
-}
-
-TEST(rbnode, should_trace_not_supported_traversals)
-{
-	struct StRbNode node = {0};
-
-	logger_detach(WARNING, SIMPTE_IO(STDERR));
-	rb_next(&node, BST_POSTORDER);
-	TEST_ASSERT_EQUAL_STRING(
-		RBTREE_FILE_PATH ":199: Not supported.\n",
-		strstr(SIMPTE_GETTRACE(rbnode, 0), RBTREE_FILE_PATH ":"));
-	rb_first(&node, BST_PREORDER);
-	TEST_ASSERT_EQUAL_STRING(
-		RBTREE_FILE_PATH ":160: Not supported.\n",
-		strstr(SIMPTE_GETTRACE(rbnode, 1), RBTREE_FILE_PATH ":"));
-}
-
-TEST(dictnode, should_sort)
-{
-	struct StDictNode q = {.node = {0}, .str = "q"};
-	struct StDictNode w = {.node = {0}, .str = "w"};
-	struct StDictNode e = {.node = {0}, .str = "e"};
-	struct StDictNode r = {.node = {0}, .str = "r"};
-	struct StDictNode t = {.node = {0}, .str = "t"};
-	struct StDictNode y = {.node = {0}, .str = "y"};
-	struct StDictNode* root = dictnode_ins(NULL, &q);
-
-	TEST_ASSERT_EQUAL_PTR(&q, root);
-	root = dictnode_ins(root, &w);
-	root = dictnode_ins(root, &e);
-	root = dictnode_ins(root, &r);
-	root = dictnode_ins(root, &t);
-	root = dictnode_ins(root, &y);
-	root = (struct StDictNode*)rb_first(
-		(struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("e", root->str);
-	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("q", root->str);
-	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("r", root->str);
-	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("t", root->str);
-	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("w", root->str);
-	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("y", root->str);
-	TEST_ASSERT_NULL(rb_next((struct StRbNode*)root, BST_INORDER));
-}
-
-TEST(strbag, should_allow_many_entries)
-{
-	struct StStrBag* bag = NULL;
-	char str[sizeof(int) + 1] = {0};
-
-	srand(1);
-	*((int*)str) = rand();
-	bag = strbag_ins(bag, str);
-	TEST_ASSERT_EQUAL_STRING(str, dict_getk(bag));
-	for (int i = 0; i < 10; i++) {
-		for (int i = 0; i < 1000; i++) {
-			*((int*)str) = rand();
-			bag = strbag_ins(bag, str);
-		}
-		strbag_destroy(bag);
-		bag = NULL;
-	}
-}
-
-TEST(strbag, should_sort)
-{
-	struct StStrBag* bag = NULL;
-
-	bag = strbag_ins(NULL, "q");
-	bag = strbag_ins(bag, "w");
-	bag = strbag_ins(bag, "e");
-	bag = strbag_ins(bag, "r");
-	bag = strbag_ins(bag, "t");
-	bag = strbag_ins(bag, "y");
-	bag = dict_first(bag);
-	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
-	bag = dict_next(bag);
-	TEST_ASSERT_EQUAL_STRING("q", dict_getk(bag));
-	bag = dict_next(bag);
-	TEST_ASSERT_EQUAL_STRING("r", dict_getk(bag));
-	bag = dict_next(bag);
-	TEST_ASSERT_EQUAL_STRING("t", dict_getk(bag));
-	bag = dict_next(bag);
-	TEST_ASSERT_EQUAL_STRING("w", dict_getk(bag));
-	bag = dict_next(bag);
-	TEST_ASSERT_EQUAL_STRING("y", dict_getk(bag));
-	TEST_ASSERT_NULL(dict_next(bag));
-	strbag_destroy(bag);
-}
-
-TEST(strbag, should_allow_preorder_traversal)
-{
-	struct StStrBag* bag = NULL;
-
-	bag = strbag_ins(NULL, "d");
-	bag = strbag_ins(bag, "b");
-	bag = strbag_ins(bag, "e");
-	bag = strbag_ins(bag, "a");
-	bag = strbag_ins(bag, "c");
-	bag = strbag_ins(bag, "f");
-	/*
-	 *      d
-	 *     / \
-	 *    b   e
-	 *   / \   \
-	 *  a   c   f
-	 */
-	TEST_ASSERT_EQUAL_STRING("d", dict_getk(bag));
-	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
-	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
-	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
-	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
-	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
-	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
-	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
-	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
-	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
-	TEST_ASSERT_EQUAL_STRING("f", dict_getk(bag));
-	strbag_destroy(bag);
-}
-
-TEST(strbag, should_find_first)
-{
-	struct StStrBag* bag = NULL;
-	struct StStrBag* tmp = NULL;
-
-	bag = strbag_ins(NULL, "c");
-	bag = strbag_ins(bag, "a");
-	bag = strbag_ins(bag, "d");
-	bag = strbag_ins(bag, "b");
-	/*
-	 *     c
-	 *    / \
-	 *   /   \
-	 *  a     d
-	 *   \
-	 *    b
-	 */
-	tmp = (struct StStrBag*)rb_right((struct StRbNode*)bag);
-	TEST_ASSERT_EQUAL_STRING("d", dict_getk(tmp));
-	bag = (struct StStrBag*)rb_first((struct StRbNode*)tmp, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
-	bag = (struct StStrBag*)rb_first((struct StRbNode*)tmp, BST_POSTORDER);
-	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
-	strbag_destroy(bag);
-}
-
-TEST(strbag, should_allow_negative_count)
-{
-	struct StStrBag* bag = strbag_rem(NULL, "");
-
-	TEST_ASSERT_EQUAL_INT(-1, strbag_count(bag));
-	strbag_destroy(bag);
-}
-
-TEST(mutex, should_not_block_on_trylock)
-{
-	StMutex* mutex = mutex_create(0);
-
-	TEST_ASSERT_TRUE(mutex_trylock(mutex));
-	TEST_ASSERT_FALSE(mutex_trylock(mutex));
-	mutex_unlock(mutex);
-	mutex_destroy(mutex);
-}
-
-TEST(mutex, should_lock_twice_if_recursive)
-{
-	StMutex* mutex = mutex_create(MUTEX_TYPE_RECURSIVE);
-
-	mutex_lock(mutex);
-	mutex_lock(mutex);
-	TEST_ASSERT_TRUE(mutex_trylock(mutex));
-	TEST_ASSERT_TRUE(mutex_trylock(mutex));
-	mutex_unlock(mutex);
-	mutex_unlock(mutex);
-	mutex_unlock(mutex);
-	mutex_unlock(mutex);
-	mutex_destroy(mutex);
-}
-
-TEST(mutex, should_trace_double_lock_warning)
-{
-	StMutex* mut = mutex_create(0);
-
-	logger_detach(WARNING, SIMPTE_IO(STDERR));
-	mutex_lock(mut);
-	TEST_ASSERT_NULL(SIMPTE_GETTRACE(mutex, 0));
-	mutex_lock(mut);
-	TEST_ASSERT_EQUAL_STRING(
-		"[warning][sturk] Fake mutex does not support context "
-		"switch.\n",
-		SIMPTE_GETTRACE(mutex, 0));
-	mutex_destroy(mut);
-}
-
-TEST(mutex, should_trace_double_unlock_warning)
-{
-	StMutex* mut = mutex_create(0);
-
-	logger_detach(WARNING, SIMPTE_IO(STDERR));
-	TEST_ASSERT_NULL(SIMPTE_GETTRACE(mutex, 0));
-	mutex_unlock(mut);
-	TEST_ASSERT_EQUAL_STRING(
-		"[warning][sturk] Unlocking an already unlocked mutex.\n",
-		SIMPTE_GETTRACE(mutex, 0));
-	mutex_destroy(mut);
-}
-
-TEST(mutex, should_trace_not_supported_policy)
-{
-	logger_detach(WARNING, SIMPTE_IO(STDERR));
-	(void)mutex_create(ST_MUTEX_BF(POLICY, 7));
-	TEST_ASSERT_EQUAL_STRING(
-		MUTEX_FILE_PATH ":58: Not supported.\n",
-		strstr(SIMPTE_GETTRACE(mutex, 0), MUTEX_FILE_PATH ":"));
-	TEST_ASSERT_EQUAL_STRING(
-		MUTEX_FILE_PATH ":96: Mutex failure.\n",
-		strstr(SIMPTE_GETTRACE(mutex, 1), MUTEX_FILE_PATH ":"));
-}
-
-TEST(mutex, should_trace_not_supported_type)
-{
-	logger_detach(WARNING, SIMPTE_IO(STDERR));
-	(void)mutex_create(ST_MUTEX_BF(TYPE, 15));
-	TEST_ASSERT_EQUAL_STRING(
-		MUTEX_FILE_PATH ":77: Not supported.\n",
-		strstr(SIMPTE_GETTRACE(mutex, 0), MUTEX_FILE_PATH ":"));
-	TEST_ASSERT_EQUAL_STRING(
-		MUTEX_FILE_PATH ":101: Mutex failure.\n",
-		strstr(SIMPTE_GETTRACE(mutex, 1), MUTEX_FILE_PATH ":"));
-}
-
-TEST(semaphore, should_not_block_if_posted)
-{
-	StSem* sem = sem_create(0);
-
-	sem_post(sem);
-	sem_wait(sem);
-	sem_destroy(sem);
-}
-
-TEST(semaphore, should_trace_fake_warning)
-{
-	StSem* sem = sem_create(0);
-
-	logger_detach(WARNING, SIMPTE_IO(STDERR));
-	TEST_ASSERT_NULL(SIMPTE_GETTRACE(semaphore, 0));
-	sem_wait(sem);
-	TEST_ASSERT_EQUAL_STRING(
-		"[warning][sturk] Fake semaphore does not support context "
-		"switch.\n",
-		SIMPTE_GETTRACE(semaphore, 0));
-	sem_destroy(sem);
-}
-
-TEST(waitq, should_not_block_after_insertion)
-{
-	struct Vertegs* nbor[] = {NULL, NULL};
-	StWaitQ* waitq = waitq_create();
-
-	waitq_ins(waitq, vx_4nbor(nbor));
-	TEST_ASSERT_EQUAL_PTR(nbor, waitq_rem(waitq));
-	waitq_destroy(waitq);
-}
-
-TEST(waitq, should_trace_dataloss)
-{
-	struct Vertegs* nbor[] = {NULL, NULL};
-	StWaitQ* q = waitq_create();
-
-	logger_detach(WARNING, SIMPTE_IO(STDERR));
-	waitq_ins(q, vx_4nbor(nbor));
-	waitq_destroy(q);
-	TEST_ASSERT_EQUAL_STRING(
-		"[warning][sturk] Data loss suspected.\n",
-		SIMPTE_GETTRACE(waitq, 0));
-}
-
-TEST(pool, should_return_freed_pointer)
-{
-	StPool* pool = pool_create(1);
-	void* mem = pool_alloc(pool);
-
-	pool_free(pool, mem);
-	TEST_ASSERT_EQUAL_PTR(mem, pool_alloc(pool));
-	pool_free(pool, mem);
-	pool_destroy(pool);
-}
-
-TEST(arena, should_allocate_aligned_memory)
+TEST(basis, should_allocate_aligned_memory_from_arena)
 {
 	struct StArenaGc gc = {0};
 	StArena* arena = arena_create(&gc, STURK_MEM_API);
@@ -472,7 +68,7 @@ TEST(arena, should_allocate_aligned_memory)
 	arena_cleanup(&gc);
 }
 
-TEST(arena, should_allocate_independent_blocks)
+TEST(basis, should_allocate_nonoverlapping_blocks_from_arena)
 {
 	struct StArenaGc gc = {0};
 	StArena* arena = arena_create(&gc, STURK_MEM_API);
@@ -490,7 +86,7 @@ TEST(arena, should_allocate_independent_blocks)
 	arena_cleanup(&gc);
 }
 
-TEST(arena, should_allocate_freed_memory)
+TEST(basis, should_allocate_freed_memory_from_arena)
 {
 	struct StArenaGc gc = {0};
 	StArena* arena = arena_create(&gc, STURK_MEM_API);
@@ -505,27 +101,12 @@ TEST(arena, should_allocate_freed_memory)
 	arena_cleanup(&gc);
 }
 
-TEST(arena, should_return_null_for_null_arena)
+TEST(basis, should_alloc_null_from_null_arena)
 {
 	TEST_ASSERT_NULL(arena_alloc(NULL, 0));
 }
 
-TEST(arena, should_support_many_allocations)
-{
-	struct StArenaGc gc = {0};
-	StArena* arena = arena_create(&gc, STURK_MEM_API);
-	struct StStrList* list = NULL;
-
-	for (int i = 0; i < 16384; i++)
-		list = strlist_ins(list, arena_alloc(arena, 128));
-
-	while (list)
-		strlist_rem(&list);
-	arena_destroy(arena);
-	arena_cleanup(&gc);
-}
-
-TEST(io, should_calculate_iobuffer_length)
+TEST(basis, should_calculate_iobuffer_length)
 {
 	const size_t remain = sizeof(StAlign) - sizeof(char*);
 
@@ -537,7 +118,7 @@ TEST(io, should_calculate_iobuffer_length)
 		5, iobuffer_calclen(remain + sizeof(StAlign) + 1));
 }
 
-TEST(io, should_write_to_memory_buffer)
+TEST(basis, should_write_to_memory_buffer)
 {
 	char out[256] = {0};
 	StIoBuffer buff[iobuffer_calclen(sizeof(out))] = {0};
@@ -584,7 +165,7 @@ TEST(io, should_write_to_memory_buffer)
 	TEST_ASSERT_EQUAL_INT('s', out[0]);
 }
 
-TEST(io, should_read_from_file)
+TEST(basis, should_read_from_file)
 {
 	const char* expected[] = {
 		"Lorem ipsum dolor sit amet, consectetur adipiscing\n",
@@ -607,7 +188,7 @@ TEST(io, should_read_from_file)
 	fclose(fp);
 }
 
-TEST(io, should_write_to_file)
+TEST(basis, should_write_to_file)
 {
 	const char* filename = "sturk_tests_delete_me.txt";
 	char out[256] = {0};
@@ -627,7 +208,484 @@ TEST(io, should_write_to_file)
 	remove(filename);
 }
 
-TEST(channel, should_access_its_topic)
+TEST_GROUP_RUNNER(basis)
+{
+	printf("BASIS TESTS\n");
+	RUN_TEST_CASE(basis, should_destroy_null);
+	RUN_TEST_CASE(basis, should_allocate_aligned_memory_from_arena);
+	RUN_TEST_CASE(basis, should_allocate_nonoverlapping_blocks_from_arena);
+	RUN_TEST_CASE(basis, should_allocate_freed_memory_from_arena);
+	RUN_TEST_CASE(basis, should_alloc_null_from_null_arena);
+	RUN_TEST_CASE(basis, should_calculate_iobuffer_length);
+	RUN_TEST_CASE(basis, should_write_to_memory_buffer);
+	RUN_TEST_CASE(basis, should_read_from_file);
+	RUN_TEST_CASE(basis, should_write_to_file);
+}
+
+TEST(osal, should_not_block_on_mutex_trylock)
+{
+	StMutex* mutex = mutex_create(0);
+
+	TEST_ASSERT_TRUE(mutex_trylock(mutex));
+	TEST_ASSERT_FALSE(mutex_trylock(mutex));
+	mutex_unlock(mutex);
+	mutex_destroy(mutex);
+}
+
+TEST(osal, should_not_block_if_sem_posted)
+{
+	StSem* sem = sem_create(0);
+
+	sem_post(sem);
+	sem_wait(sem);
+	sem_destroy(sem);
+}
+
+TEST(osal, should_lock_mutex_twice_if_recursive)
+{
+	StMutex* mutex = mutex_create(MUTEX_TYPE_RECURSIVE);
+
+	mutex_lock(mutex);
+	mutex_lock(mutex);
+	TEST_ASSERT_TRUE(mutex_trylock(mutex));
+	TEST_ASSERT_TRUE(mutex_trylock(mutex));
+	mutex_unlock(mutex);
+	mutex_unlock(mutex);
+	mutex_unlock(mutex);
+	mutex_unlock(mutex);
+	mutex_destroy(mutex);
+}
+
+TEST(osal, should_trace_mutex_not_supported_policy)
+{
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
+	(void)mutex_create(ST_MUTEX_BF(POLICY, 7));
+	TEST_ASSERT_EQUAL_STRING(
+		MUTEX_FILE_PATH ":58: Not supported.\n",
+		strstr(SIMPTE_GETTRACE(osal, 0), MUTEX_FILE_PATH ":"));
+	TEST_ASSERT_EQUAL_STRING(
+		MUTEX_FILE_PATH ":96: Mutex failure.\n",
+		strstr(SIMPTE_GETTRACE(osal, 1), MUTEX_FILE_PATH ":"));
+}
+
+TEST(osal, should_trace_mutex_not_supported_type)
+{
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
+	(void)mutex_create(ST_MUTEX_BF(TYPE, 15));
+	TEST_ASSERT_EQUAL_STRING(
+		MUTEX_FILE_PATH ":77: Not supported.\n",
+		strstr(SIMPTE_GETTRACE(osal, 0), MUTEX_FILE_PATH ":"));
+	TEST_ASSERT_EQUAL_STRING(
+		MUTEX_FILE_PATH ":101: Mutex failure.\n",
+		strstr(SIMPTE_GETTRACE(osal, 1), MUTEX_FILE_PATH ":"));
+}
+
+TEST(osal, should_trace_mutex_double_lock_warning)
+{
+	StMutex* mut = mutex_create(0);
+
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
+	mutex_lock(mut);
+	TEST_ASSERT_NULL(SIMPTE_GETTRACE(osal, 0));
+	mutex_lock(mut);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][sturk] Fake mutex does not support context "
+		"switch.\n",
+		SIMPTE_GETTRACE(osal, 0));
+	mutex_destroy(mut);
+}
+
+TEST(osal, should_trace_mutex_double_unlock_warning)
+{
+	StMutex* mut = mutex_create(0);
+
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
+	TEST_ASSERT_NULL(SIMPTE_GETTRACE(osal, 0));
+	mutex_unlock(mut);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][sturk] Unlocking an already unlocked mutex.\n",
+		SIMPTE_GETTRACE(osal, 0));
+	mutex_destroy(mut);
+}
+
+TEST(osal, should_trace_sem_fake_warning)
+{
+	StSem* sem = sem_create(0);
+
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
+	TEST_ASSERT_NULL(SIMPTE_GETTRACE(osal, 0));
+	sem_wait(sem);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][sturk] Fake semaphore does not support context "
+		"switch.\n",
+		SIMPTE_GETTRACE(osal, 0));
+	sem_destroy(sem);
+}
+
+TEST_GROUP_RUNNER(osal)
+{
+	printf("OSAL TESTS\n");
+	RUN_TEST_CASE(osal, should_not_block_on_mutex_trylock);
+	RUN_TEST_CASE(osal, should_not_block_if_sem_posted);
+	if (MULTITHREADING) {
+		RUN_TEST_CASE(osal, should_lock_mutex_twice_if_recursive);
+		RUN_TEST_CASE(osal, should_trace_mutex_not_supported_policy);
+		RUN_TEST_CASE(osal, should_trace_mutex_not_supported_type);
+	} else {
+		RUN_TEST_CASE(osal, should_trace_mutex_double_lock_warning);
+		RUN_TEST_CASE(osal, should_trace_mutex_double_unlock_warning);
+		RUN_TEST_CASE(osal, should_trace_sem_fake_warning);
+	}
+}
+
+TEST(logger, should_trace_debug)
+{
+	logger_detach(DEBUG, SIMPTE_IO(STDOUT));
+	trace(DEBUG, NULL, "");
+	TEST_ASSERT_EQUAL_STRING("[debug] \n", SIMPTE_GETTRACE(logger, 0));
+}
+
+TEST(logger, should_trace_error)
+{
+	logger_detach(ERROR, SIMPTE_IO(STDERR));
+	trace(ERROR, NULL, "");
+	TEST_ASSERT_EQUAL_STRING("[error] \n", SIMPTE_GETTRACE(logger, 0));
+}
+
+TEST(logger, should_ignore_detached_trace_levels)
+{
+	logger_detach(ERROR, SIMPTE_IO(STDERR));
+	logger_detach(ERROR, SIMPTE_IO(logger));
+	trace(ERROR, NULL, "");
+}
+
+TEST_GROUP_RUNNER(logger)
+{
+	printf("LOGGER TESTS\n");
+	RUN_TEST_CASE(logger, should_trace_debug);
+	RUN_TEST_CASE(logger, should_trace_error);
+	RUN_TEST_CASE(logger, should_ignore_detached_trace_levels);
+}
+
+TEST(algo, should_destroy_null)
+{
+	pool_destroy(NULL);
+	strbag_destroy(NULL);
+	waitq_destroy(NULL);
+}
+
+TEST(algo, should_implement_list_as_lifo)
+{
+	struct StStrList* list = NULL;
+
+	list = strlist_ins(NULL, "One");
+	list = strlist_ins(list, "Two");
+	list = strlist_ins(list, "Three");
+	TEST_ASSERT_EQUAL_STRING("Three", strlist_rem(&list));
+	TEST_ASSERT_EQUAL_STRING("Two", strlist_rem(&list));
+	TEST_ASSERT_EQUAL_STRING("One", strlist_rem(&list));
+	TEST_ASSERT_NULL(list);
+}
+
+TEST(algo, should_implement_cirq_as_fifo)
+{
+	struct StStrQ* q = NULL;
+
+	q = strq_ins(NULL, "One");
+	q = strq_ins(q, "Two");
+	q = strq_ins(q, "Three");
+	TEST_ASSERT_EQUAL_STRING("One", strq_rem(&q));
+	TEST_ASSERT_EQUAL_STRING("Two", strq_rem(&q));
+	TEST_ASSERT_EQUAL_STRING("Three", strq_rem(&q));
+	TEST_ASSERT_NULL(q);
+}
+
+TEST(algo, should_return_left_and_right_child_of_rbnode)
+{
+	struct Vertegs left[1] = {0};
+	struct Vertegs right[1] = {0};
+	struct Vertegs* nbor[] = {left, right};
+
+	TEST_ASSERT_EQUAL_PTR(
+		left, (struct Vertegs*)rb_left((struct StRbNode*)nbor));
+	TEST_ASSERT_EQUAL_PTR(
+		right, (struct Vertegs*)rb_right((struct StRbNode*)nbor));
+}
+
+TEST(algo, should_link_rbnode_as_leaf)
+{
+	struct StRbNode p = {0};
+	struct StRbNode n = {0};
+
+	memset(&n, 0xA, sizeof(n));
+	TEST_ASSERT_EQUAL_PTR(&n, rb_link(&n, &p));
+	/* Adding one ("+ 1") verifies that node is red. */
+	TEST_ASSERT_EQUAL_INT(((intptr_t)&p) + 1, graph_datap(&n)->parcol);
+	TEST_ASSERT_NULL(rb_left(&n));
+	TEST_ASSERT_NULL(rb_right(&n));
+}
+
+TEST(algo, should_insert_in_rbtree_and_balance)
+{
+	struct StRbNode c = {0};
+	struct StRbNode a = {0};
+	struct StRbNode b = {0};
+	struct Vertegs** nbor = ((struct Vertegs*)&c)->nbor;
+
+	/*
+	 *    c
+	 *   / \
+	 *  a (nil)
+	 */
+	nbor[0] = graph_2vx(rb_link(&a, &c));
+
+	/*
+	 *    c
+	 *   / \
+	 *  a (nil)
+	 */
+	TEST_ASSERT_EQUAL_PTR(&c, rb_insrebal(&c, &a));
+
+	/*
+	 *        c
+	 *       / \
+	 *      a (nil)
+	 *     / \
+	 *  (nil) b
+	 */
+	nbor = ((struct Vertegs*)&a)->nbor;
+	nbor[1] = graph_2vx(rb_link(&b, &a));
+
+	/*
+	 *        b
+	 *       / \
+	 *      a   c
+	 */
+	TEST_ASSERT_EQUAL_PTR(&b, rb_insrebal(&c, &b));
+	nbor = ((struct Vertegs*)&b)->nbor;
+	TEST_ASSERT_EQUAL_PTR(&a, nbor[0]);
+	TEST_ASSERT_EQUAL_PTR(&c, nbor[1]);
+}
+
+TEST(algo, should_trace_not_supported_traversals)
+{
+	struct StRbNode node = {0};
+
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
+	rb_next(&node, BST_POSTORDER);
+	TEST_ASSERT_EQUAL_STRING(
+		RBTREE_FILE_PATH ":199: Not supported.\n",
+		strstr(SIMPTE_GETTRACE(algo, 0), RBTREE_FILE_PATH ":"));
+	rb_first(&node, BST_PREORDER);
+	TEST_ASSERT_EQUAL_STRING(
+		RBTREE_FILE_PATH ":160: Not supported.\n",
+		strstr(SIMPTE_GETTRACE(algo, 1), RBTREE_FILE_PATH ":"));
+}
+
+TEST(algo, should_sort_with_dict_node)
+{
+	struct StDictNode q = {.node = {0}, .str = "q"};
+	struct StDictNode w = {.node = {0}, .str = "w"};
+	struct StDictNode e = {.node = {0}, .str = "e"};
+	struct StDictNode r = {.node = {0}, .str = "r"};
+	struct StDictNode t = {.node = {0}, .str = "t"};
+	struct StDictNode y = {.node = {0}, .str = "y"};
+	struct StDictNode* root = dictnode_ins(NULL, &q);
+
+	TEST_ASSERT_EQUAL_PTR(&q, root);
+	root = dictnode_ins(root, &w);
+	root = dictnode_ins(root, &e);
+	root = dictnode_ins(root, &r);
+	root = dictnode_ins(root, &t);
+	root = dictnode_ins(root, &y);
+	root = (struct StDictNode*)rb_first(
+		(struct StRbNode*)root, BST_INORDER);
+	TEST_ASSERT_EQUAL_STRING("e", root->str);
+	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
+	TEST_ASSERT_EQUAL_STRING("q", root->str);
+	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
+	TEST_ASSERT_EQUAL_STRING("r", root->str);
+	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
+	TEST_ASSERT_EQUAL_STRING("t", root->str);
+	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
+	TEST_ASSERT_EQUAL_STRING("w", root->str);
+	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
+	TEST_ASSERT_EQUAL_STRING("y", root->str);
+	TEST_ASSERT_NULL(rb_next((struct StRbNode*)root, BST_INORDER));
+}
+
+TEST(algo, should_allow_many_entries_in_strbag)
+{
+	struct StStrBag* bag = NULL;
+	char str[sizeof(int) + 1] = {0};
+
+	srand(1);
+	*((int*)str) = rand();
+	bag = strbag_ins(bag, str);
+	TEST_ASSERT_EQUAL_STRING(str, dict_getk(bag));
+	for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1000; i++) {
+			*((int*)str) = rand();
+			bag = strbag_ins(bag, str);
+		}
+		strbag_destroy(bag);
+		bag = NULL;
+	}
+}
+
+TEST(algo, should_sort_with_strbag)
+{
+	struct StStrBag* bag = NULL;
+
+	bag = strbag_ins(NULL, "q");
+	bag = strbag_ins(bag, "w");
+	bag = strbag_ins(bag, "e");
+	bag = strbag_ins(bag, "r");
+	bag = strbag_ins(bag, "t");
+	bag = strbag_ins(bag, "y");
+	bag = dict_first(bag);
+	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("q", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("r", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("t", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("w", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("y", dict_getk(bag));
+	TEST_ASSERT_NULL(dict_next(bag));
+	strbag_destroy(bag);
+}
+
+TEST(algo, should_allow_preorder_traversal_with_strbag)
+{
+	struct StStrBag* bag = NULL;
+
+	bag = strbag_ins(NULL, "d");
+	bag = strbag_ins(bag, "b");
+	bag = strbag_ins(bag, "e");
+	bag = strbag_ins(bag, "a");
+	bag = strbag_ins(bag, "c");
+	bag = strbag_ins(bag, "f");
+	/*
+	 *      d
+	 *     / \
+	 *    b   e
+	 *   / \   \
+	 *  a   c   f
+	 */
+	TEST_ASSERT_EQUAL_STRING("d", dict_getk(bag));
+	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
+	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
+	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
+	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
+	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
+	TEST_ASSERT_EQUAL_STRING("f", dict_getk(bag));
+	strbag_destroy(bag);
+}
+
+TEST(algo, should_find_first_in_strbag)
+{
+	struct StStrBag* bag = NULL;
+	struct StStrBag* tmp = NULL;
+
+	bag = strbag_ins(NULL, "c");
+	bag = strbag_ins(bag, "a");
+	bag = strbag_ins(bag, "d");
+	bag = strbag_ins(bag, "b");
+	/*
+	 *     c
+	 *    / \
+	 *   /   \
+	 *  a     d
+	 *   \
+	 *    b
+	 */
+	tmp = (struct StStrBag*)rb_right((struct StRbNode*)bag);
+	TEST_ASSERT_EQUAL_STRING("d", dict_getk(tmp));
+	bag = (struct StStrBag*)rb_first((struct StRbNode*)tmp, BST_INORDER);
+	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
+	bag = (struct StStrBag*)rb_first((struct StRbNode*)tmp, BST_POSTORDER);
+	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
+	strbag_destroy(bag);
+}
+
+TEST(algo, should_allow_negative_count_in_strbag)
+{
+	struct StStrBag* bag = strbag_rem(NULL, "");
+
+	TEST_ASSERT_EQUAL_INT(-1, strbag_count(bag));
+	strbag_destroy(bag);
+}
+
+TEST(algo, should_not_block_after_insertion_in_waitq)
+{
+	struct Vertegs* nbor[] = {NULL, NULL};
+	StWaitQ* waitq = waitq_create();
+
+	waitq_ins(waitq, vx_4nbor(nbor));
+	TEST_ASSERT_EQUAL_PTR(nbor, waitq_rem(waitq));
+	waitq_destroy(waitq);
+}
+
+TEST(algo, should_trace_waitq_dataloss)
+{
+	struct Vertegs* nbor[] = {NULL, NULL};
+	StWaitQ* q = waitq_create();
+
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
+	waitq_ins(q, vx_4nbor(nbor));
+	waitq_destroy(q);
+	TEST_ASSERT_EQUAL_STRING(
+		"[warning][sturk] Data loss suspected.\n",
+		SIMPTE_GETTRACE(algo, 0));
+}
+
+TEST(algo, should_return_freed_pointer_from_pool)
+{
+	StPool* pool = pool_create(1);
+	void* mem = pool_alloc(pool);
+
+	pool_free(pool, mem);
+	TEST_ASSERT_EQUAL_PTR(mem, pool_alloc(pool));
+	pool_free(pool, mem);
+	pool_destroy(pool);
+}
+
+TEST_GROUP_RUNNER(algo)
+{
+	printf("ALGO TESTS\n");
+	RUN_TEST_CASE(algo, should_destroy_null);
+	RUN_TEST_CASE(algo, should_implement_list_as_lifo);
+	RUN_TEST_CASE(algo, should_implement_cirq_as_fifo);
+	RUN_TEST_CASE(algo, should_return_left_and_right_child_of_rbnode);
+	RUN_TEST_CASE(algo, should_link_rbnode_as_leaf);
+	RUN_TEST_CASE(algo, should_insert_in_rbtree_and_balance);
+	RUN_TEST_CASE(algo, should_trace_not_supported_traversals);
+	RUN_TEST_CASE(algo, should_sort_with_dict_node);
+	RUN_TEST_CASE(algo, should_allow_many_entries_in_strbag);
+	RUN_TEST_CASE(algo, should_sort_with_strbag);
+	RUN_TEST_CASE(algo, should_allow_preorder_traversal_with_strbag);
+	RUN_TEST_CASE(algo, should_find_first_in_strbag);
+	RUN_TEST_CASE(algo, should_allow_negative_count_in_strbag);
+	RUN_TEST_CASE(algo, should_not_block_after_insertion_in_waitq);
+	RUN_TEST_CASE(algo, should_trace_waitq_dataloss);
+	RUN_TEST_CASE(algo, should_return_freed_pointer_from_pool);
+}
+
+TEST(broker, should_destroy_null)
+{
+	broker_destroy(NULL);
+	subscriber_destroy(NULL);
+}
+
+TEST(broker, should_get_topic_from_channel)
 {
 	StBroker* broker = broker_create(0);
 	StChannel* ch = broker_search(broker, "test");
@@ -636,7 +694,7 @@ TEST(channel, should_access_its_topic)
 	broker_destroy(broker);
 }
 
-TEST(channel, should_return_null_payload)
+TEST(broker, should_return_null_payload_for_null_channel)
 {
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	TEST_ASSERT_NULL(channel_allocmsg(NULL).payload);
@@ -647,7 +705,7 @@ static void test_freepayload(struct StMessage msg)
 	st_free(*(char**)msg.payload);
 }
 
-TEST(subscriber, should_receive_enqueued_message)
+TEST(broker, should_forward_message)
 {
 	StBroker* broker = broker_create(sizeof(char**));
 	StSubscriber* sber = subscriber_create(broker);
@@ -673,16 +731,16 @@ TEST(subscriber, should_receive_enqueued_message)
 	broker_destroy(broker);
 }
 
-TEST(subscriber, should_trace_null_param)
+TEST(broker, should_trace_null_subscriber)
 {
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
 		BROKER_FILE_PATH ":383: Null param.\n",
-		strstr(SIMPTE_GETTRACE(subscriber, 0), BROKER_FILE_PATH ":"));
+		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 }
 
-TEST(subscriber, should_unload)
+TEST(broker, should_unload_subscriber)
 {
 	StBroker* broker = broker_create(sizeof(char**));
 	StSubscriber* sber = subscriber_create(broker);
@@ -717,7 +775,7 @@ TEST(subscriber, should_unload)
 	broker_destroy(broker);
 }
 
-TEST(subscriber, should_be_destroyed_independently)
+TEST(broker, should_destroy_any_subscriber)
 {
 	StBroker* broker = broker_create(0);
 	StSubscriber* sber = subscriber_create(broker);
@@ -752,6 +810,18 @@ TEST(broker, should_allow_many_topics)
 		broker_destroy(broker);
 		broker = NULL;
 	}
+}
+
+TEST(broker, should_trace_null_broker)
+{
+	StSubscriber* tmp = calloc(sizeof(char), 256);
+
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
+	subscribe(tmp, NULL);
+	TEST_ASSERT_EQUAL_STRING(
+		BROKER_FILE_PATH ":411: Null param.\n",
+		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
+	free(tmp);
 }
 
 TEST(broker, should_support_single_thread_pubsub)
@@ -814,103 +884,60 @@ TEST(broker, should_support_multi_thread_pubsub)
 	strbag_destroy(actual);
 }
 
-TEST(broker, should_trace_null_param)
+TEST_GROUP_RUNNER(broker)
 {
-	StSubscriber* tmp = calloc(sizeof(char), 256);
-
-	logger_detach(WARNING, SIMPTE_IO(STDERR));
-	subscribe(tmp, NULL);
-	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":411: Null param.\n",
-		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
-	free(tmp);
-}
-
-TEST(logger, should_trace_debug)
-{
-	logger_detach(DEBUG, SIMPTE_IO(STDOUT));
-	trace(DEBUG, NULL, "");
-	TEST_ASSERT_EQUAL_STRING("[debug] \n", SIMPTE_GETTRACE(logger, 0));
-}
-
-TEST(logger, should_trace_error)
-{
-	logger_detach(ERROR, SIMPTE_IO(STDERR));
-	trace(ERROR, NULL, "");
-	TEST_ASSERT_EQUAL_STRING("[error] \n", SIMPTE_GETTRACE(logger, 0));
-}
-
-TEST(logger, should_ignore_detached_trace_levels)
-{
-	logger_detach(ERROR, SIMPTE_IO(STDERR));
-	logger_detach(ERROR, SIMPTE_IO(logger));
-	trace(ERROR, NULL, "");
-}
-
-static void run_extra_tests(void)
-{
-	run_vertegs_tests();
+	printf("BROKER TESTS\n");
+	RUN_TEST_CASE(broker, should_destroy_null);
+	RUN_TEST_CASE(broker, should_get_topic_from_channel);
+	RUN_TEST_CASE(broker, should_return_null_payload_for_null_channel);
+	RUN_TEST_CASE(broker, should_forward_message);
+	RUN_TEST_CASE(broker, should_trace_null_subscriber);
+	RUN_TEST_CASE(broker, should_unload_subscriber);
+	RUN_TEST_CASE(broker, should_destroy_any_subscriber);
+	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
+	RUN_TEST_CASE(broker, should_allow_many_topics);
+	RUN_TEST_CASE(broker, should_trace_null_broker);
+	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
 	if (MULTITHREADING)
-		run_broker_extra_tests();
+		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
+}
+
+TEST(common, should_support_many_allocations_from_arena)
+{
+	struct StArenaGc gc = {0};
+	StArena* arena = arena_create(&gc, STURK_MEM_API);
+	struct StStrList* list = NULL;
+
+	for (int i = 0; i < 16384; i++)
+		list = strlist_ins(list, arena_alloc(arena, 128));
+
+	while (list)
+		strlist_rem(&list);
+	arena_destroy(arena);
+	arena_cleanup(&gc);
+}
+
+TEST_GROUP_RUNNER(common)
+{
+	printf("COMMON TESTS\n");
+	RUN_TEST_CASE(common, should_support_many_allocations_from_arena);
 }
 
 static void run_basic_tests(void)
 {
-	RUN_TEST_CASE(common, should_destroy_null);
-	RUN_TEST_CASE(list, should_implement_lifo);
-	RUN_TEST_CASE(cirq, should_implement_fifo);
-	RUN_TEST_CASE(rbnode, should_return_left_and_right);
-	RUN_TEST_CASE(rbnode, should_link_as_leaf);
-	RUN_TEST_CASE(rbnode, should_insert_and_balance);
-	RUN_TEST_CASE(rbnode, should_trace_not_supported_traversals);
-	RUN_TEST_CASE(dictnode, should_sort);
-	RUN_TEST_CASE(strbag, should_allow_many_entries);
-	RUN_TEST_CASE(strbag, should_sort);
-	RUN_TEST_CASE(strbag, should_allow_preorder_traversal);
-	RUN_TEST_CASE(strbag, should_find_first);
-	RUN_TEST_CASE(strbag, should_allow_negative_count);
-	RUN_TEST_CASE(mutex, should_not_block_on_trylock);
-	RUN_TEST_CASE(semaphore, should_not_block_if_posted);
-	RUN_TEST_CASE(waitq, should_not_block_after_insertion);
-	RUN_TEST_CASE(waitq, should_trace_dataloss);
-	RUN_TEST_CASE(pool, should_return_freed_pointer);
-	RUN_TEST_CASE(arena, should_allocate_aligned_memory);
-	RUN_TEST_CASE(arena, should_allocate_independent_blocks);
-	RUN_TEST_CASE(arena, should_allocate_freed_memory);
-	RUN_TEST_CASE(arena, should_return_null_for_null_arena);
-	RUN_TEST_CASE(arena, should_support_many_allocations);
-	RUN_TEST_CASE(io, should_calculate_iobuffer_length);
-	RUN_TEST_CASE(io, should_write_to_memory_buffer);
-	RUN_TEST_CASE(io, should_read_from_file);
-	RUN_TEST_CASE(io, should_write_to_file);
-	RUN_TEST_CASE(channel, should_access_its_topic);
-	RUN_TEST_CASE(channel, should_return_null_payload);
-	RUN_TEST_CASE(subscriber, should_receive_enqueued_message);
-	RUN_TEST_CASE(subscriber, should_trace_null_param);
-	RUN_TEST_CASE(subscriber, should_unload);
-	RUN_TEST_CASE(subscriber, should_be_destroyed_independently);
-	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
-	RUN_TEST_CASE(broker, should_allow_many_topics);
-	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
-	RUN_TEST_CASE(broker, should_trace_null_param);
-	RUN_TEST_CASE(logger, should_trace_debug);
-	RUN_TEST_CASE(logger, should_trace_error);
-	RUN_TEST_CASE(logger, should_ignore_detached_trace_levels);
-	if (MULTITHREADING) {
-		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
-		RUN_TEST_CASE(mutex, should_lock_twice_if_recursive);
-		RUN_TEST_CASE(mutex, should_trace_not_supported_policy);
-		RUN_TEST_CASE(mutex, should_trace_not_supported_type);
-	} else {
-		RUN_TEST_CASE(mutex, should_trace_double_lock_warning);
-		RUN_TEST_CASE(mutex, should_trace_double_unlock_warning);
-		RUN_TEST_CASE(semaphore, should_trace_fake_warning);
-	}
+	RUN_TEST_GROUP(basis);
+	RUN_TEST_GROUP(osal);
+	RUN_TEST_GROUP(logger);
+	RUN_TEST_GROUP(algo);
+	RUN_TEST_GROUP(broker);
+	RUN_TEST_GROUP(common);
 }
 
 int main(int argc, const char** argv)
 {
+	SimpteMain(argc, argv, run_vertegs_tests);
 	UnityMain(argc, argv, run_basic_tests);
-	SimpteMain(argc, argv, run_extra_tests);
+	if (MULTITHREADING)
+		SimpteMain(argc, argv, run_traffic_tests);
 	return 0;
 }

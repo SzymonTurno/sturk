@@ -2,8 +2,6 @@
 #include "sturk/cirq.h"
 #include "sturk/graph.h"
 
-SIMPTE_GROUP(vertegs, "vertegs");
-
 TEST(vertegs, should_implement_cirq)
 {
 	GRAPH(struct Cirq, 2, void*);
