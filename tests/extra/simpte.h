@@ -19,8 +19,6 @@
 /* clang-format off */
 #define RUN_TEST_CASE(group, case)                                             \
 	do {                                                                   \
-		printf(".\nRunning test case %d for: %s.\n",                   \
-		       ++simpte_##group##_counter, simpte_##group##_label);    \
 		simpte_##group##_##case();                                     \
 		printf("Done\n");                                              \
 		st_mem_cleanup();                                              \
@@ -87,9 +85,7 @@
 	SIMPTE_IO_DCL(STDOUT, 0);                                              \
 	SIMPTE_IO_DCL(STDERR, 0)
 
-#ifdef TEST_GROUP
-
-#define SIMPTE_GROUP(group, label)                                             \
+#define SIMPTE_GROUP(group)                                                    \
 	SIMPTE_IO_DCL(group, 512);                                             \
 	TEST_SETUP(group)                                                      \
 	{                                                                      \
@@ -107,7 +103,6 @@
 		logger_attach(WARNING, SIMPTE_IO(STDERR));                     \
 		logger_attach(ERROR, SIMPTE_IO(STDERR));                       \
 		printf("\n");                                                  \
-		trace(INFO, "ut", "Running test case for: %s.", label);        \
 		logger_attach(INFO, SIMPTE_IO(group));                         \
 		logger_attach(DEBUG, SIMPTE_IO(group));                        \
 		logger_attach(WARNING, SIMPTE_IO(group));                      \
@@ -120,14 +115,6 @@
 		st_mem_cleanup();                                              \
 	}                                                                      \
 	TEST_GROUP(group)
-
-#else /* not defined: TEST_GROUP */
-
-#define SIMPTE_GROUP(group, label)                                             \
-	int simpte_##group##_counter;                                          \
-	const char* simpte_##group##_label = label
-
-#endif /* TEST_GROUP */
 
 #define SIMPTE_GETTRACE(group, index)                                          \
 	SimpteGettrace(simpte_##group##_buff, index)

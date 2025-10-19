@@ -15,8 +15,6 @@ static StBroker* broker;
 static const char* topics1[] = {"Lorem", "ipsum", "aliqua.Ut"};
 static const char* topics2[] = {"veniam, quis", "consequat.Duis", "laboris"};
 
-SIMPTE_GROUP(broker_extra, "broker_extra");
-
 struct Payload {
 	char info[8];
 };
@@ -143,7 +141,8 @@ TEST(broker_extra, should_be_safe_from_race_conditions)
 	broker_destroy(broker);
 }
 
-void run_broker_extra_tests(void)
+void run_traffic_tests(void)
 {
+	printf("BROKER EXTRA TESTS\n");
 	RUN_TEST_CASE(broker_extra, should_be_safe_from_race_conditions);
 }
