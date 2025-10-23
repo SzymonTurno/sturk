@@ -57,8 +57,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if VX_DEBUG
 
 #include <assert.h>
+#include <stdio.h>
 
 #define VX_ASSERT(cond) assert(cond)
+
+extern void vx_debug(const char* text, const char* file, int line);
+
+#else /* not: VX_DEBUG */
+
+#define vx_debug(text, file, line) (void)(text)
 
 #endif /* VX_DEBUG */
 

@@ -105,6 +105,11 @@ def join(olvars):
     else:
         olvars.append('test_CFLAGS', '-DMULTITHREADING=0')
 
+    if settings['build_type'] == 'release':
+        olvars.append('test_CFLAGS', '-DVX_DEBUG=0')
+    else:
+        olvars.append('test_CFLAGS', '-DVX_DEBUG=1')
+
     olvars.append(
         'test_CFLAGS',
         '-DLOREM_TXT=\\"' + os.path.join(olvars.acwd(), 'lorem.txt') + '\\"')
