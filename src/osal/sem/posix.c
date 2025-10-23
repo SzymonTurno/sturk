@@ -30,9 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "st/os/sem.h"
-#include "sturk/io/except.h"
-#include "sturk/io/logger.h"
 #include "sturk/os/mem.h"
+#include "sturk/os/sys.h"
 #include <semaphore.h>
 
 #define OK 0
@@ -48,7 +47,7 @@ StSem* st_sem_create(StBits args)
 	(void)args;
 	if (sem_init(&self->sem, 0, 0) != OK) {
 		/* LCOV_EXCL_START */
-		RAISE(ERROR, sem_fail);
+		st_except(st_except_sem_fail.reason, __FILE__, __LINE__);
 		st_free(self);
 		return NULL;
 		/* LCOV_EXCL_STOP */
@@ -58,15 +57,19 @@ StSem* st_sem_create(StBits args)
 
 void st_sem_destroy(StSem* sem)
 {
+	/* LCOV_EXCL_START */
 	if (sem_destroy(&sem->sem) != OK)
-		RAISE(ERROR, sem_fail); /* LCOV_EXCL_LINE */
+		st_except(st_except_sem_fail.reason, __FILE__, __LINE__);
+	/* LCOV_EXCL_STOP */
 	st_free(sem);
 }
 
 void st_sem_wait(StSem* sem)
 {
+	/* LCOV_EXCL_START */
 	if (sem_wait(&sem->sem) != OK)
-		RAISE(ERROR, sem_fail); /* LCOV_EXCL_LINE */
+		st_except(st_except_sem_fail.reason, __FILE__, __LINE__);
+	/* LCOV_EXCL_STOP */
 }
 
 bool st_sem_trywait(StSem* sem)
@@ -76,6 +79,8 @@ bool st_sem_trywait(StSem* sem)
 
 void st_sem_post(StSem* sem)
 {
+	/* LCOV_EXCL_START */
 	if (sem_post(&sem->sem) != OK)
-		RAISE(ERROR, sem_fail); /* LCOV_EXCL_LINE */
+		st_except(st_except_sem_fail.reason, __FILE__, __LINE__);
+	/* LCOV_EXCL_STOP */
 }

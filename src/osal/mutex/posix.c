@@ -29,10 +29,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "sturk/io/except.h"
-#include "sturk/io/logger.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
+#include "sturk/os/sys.h"
+#include "vertegs/vertex.h"
 #include <pthread.h>
 
 #define OK   0
@@ -52,10 +52,15 @@ static int setprotocol(pthread_mutexattr_t* attr, StBits args)
 		break;
 	case MUTEX_POLICY_PRIO_INHERIT:
 		ret = pthread_mutexattr_setprotocol(attr, PTHREAD_PRIO_INHERIT);
-		ENSURE(ret == OK, ERROR, mutex_fail);
+		/* LCOV_EXCL_START */
+		if (ret != OK)
+			st_except(
+				st_except_mutex_fail.reason, __FILE__,
+				__LINE__);
+		/* LCOV_EXCL_STOP */
 		break;
 	default:
-		RAISE(WARNING, not_supported);
+		vx_debug(st_except_not_supported.reason, __FILE__, __LINE__);
 		break;
 	}
 	return ret;
@@ -71,10 +76,15 @@ static int settype(pthread_mutexattr_t* attr, StBits args)
 		break;
 	case MUTEX_TYPE_RECURSIVE:
 		ret = pthread_mutexattr_settype(attr, PTHREAD_MUTEX_RECURSIVE);
-		ENSURE(ret == OK, ERROR, mutex_fail);
+		/* LCOV_EXCL_START */
+		if (ret != OK)
+			st_except(
+				st_except_mutex_fail.reason, __FILE__,
+				__LINE__);
+		/* LCOV_EXCL_STOP */
 		break;
 	default:
-		RAISE(WARNING, not_supported);
+		vx_debug(st_except_not_supported.reason, __FILE__, __LINE__);
 		break;
 	}
 	return ret;
@@ -87,25 +97,25 @@ StMutex* st_mutex_create(StBits args)
 
 	if (pthread_mutexattr_init(&attr) != OK) {
 		/* LCOV_EXCL_START */
-		RAISE(ERROR, mutex_fail);
+		st_except(st_except_mutex_fail.reason, __FILE__, __LINE__);
 		return NULL;
 		/* LCOV_EXCL_STOP */
 	}
 
 	if (setprotocol(&attr, args) != OK) {
-		RAISE(WARNING, mutex_fail);
+		vx_debug(st_except_mutex_fail.reason, __FILE__, __LINE__);
 		return NULL;
 	}
 
 	if (settype(&attr, args) != OK) {
-		RAISE(WARNING, mutex_fail);
+		vx_debug(st_except_mutex_fail.reason, __FILE__, __LINE__);
 		return NULL;
 	}
 
 	self = NEW(struct StMutex);
 	if (pthread_mutex_init(&self->pmut, &attr) != OK) {
 		/* LCOV_EXCL_START */
-		RAISE(ERROR, mutex_fail);
+		st_except(st_except_mutex_fail.reason, __FILE__, __LINE__);
 		st_free(self);
 		return NULL;
 		/* LCOV_EXCL_STOP */
@@ -113,7 +123,7 @@ StMutex* st_mutex_create(StBits args)
 
 	if (pthread_mutexattr_destroy(&attr) != OK) {
 		/* LCOV_EXCL_START */
-		RAISE(ERROR, mutex_fail);
+		st_except(st_except_mutex_fail.reason, __FILE__, __LINE__);
 		st_free(self);
 		return NULL;
 		/* LCOV_EXCL_STOP */
@@ -123,15 +133,19 @@ StMutex* st_mutex_create(StBits args)
 
 void st_mutex_destroy(StMutex* mutex)
 {
+	/* LCOV_EXCL_START */
 	if (pthread_mutex_destroy(&mutex->pmut) != OK)
-		RAISE(ERROR, mutex_fail); /* LCOV_EXCL_LINE */
+		st_except(st_except_mutex_fail.reason, __FILE__, __LINE__);
+	/* LCOV_EXCL_STOP */
 	st_free(mutex);
 }
 
 void st_mutex_lock(StMutex* mutex)
 {
+	/* LCOV_EXCL_START */
 	if (pthread_mutex_lock(&mutex->pmut) != OK)
-		RAISE(ERROR, mutex_fail); /* LCOV_EXCL_LINE */
+		st_except(st_except_mutex_fail.reason, __FILE__, __LINE__);
+	/* LCOV_EXCL_STOP */
 }
 
 bool st_mutex_trylock(StMutex* mutex)
@@ -141,6 +155,8 @@ bool st_mutex_trylock(StMutex* mutex)
 
 void st_mutex_unlock(StMutex* mutex)
 {
+	/* LCOV_EXCL_START */
 	if (pthread_mutex_unlock(&mutex->pmut) != OK)
-		RAISE(ERROR, mutex_fail); /* LCOV_EXCL_LINE */
+		st_except(st_except_mutex_fail.reason, __FILE__, __LINE__);
+	/* LCOV_EXCL_STOP */
 }
