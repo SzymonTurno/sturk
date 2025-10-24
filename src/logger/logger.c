@@ -53,7 +53,7 @@ static const char* getlvlstr(enum StTraceLvl lvl)
 	default:
 		break;
 	}
-	except(st_except_sanity_fail.reason, __FILE__, __LINE__);
+	EXCEPT(sanity_fail);
 	return "unknown trace level";
 	/* LCOV_EXCL_STOP */
 }
@@ -65,7 +65,7 @@ void st_trace(enum StTraceLvl lvl, const char* tag, const char* fmt, ...)
 
 	/* LCOV_EXCL_START */
 	if (lvl <= UNKNOWN || lvl >= N_TRACE_LVLS)
-		except(st_except_not_supported.reason, __FILE__, __LINE__);
+		EXCEPT(not_supported);
 	/* LCOV_EXCL_STOP */
 
 	if (!iobag_count(iobags[lvl]))

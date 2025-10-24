@@ -29,10 +29,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include "sturk/debug.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
 #include "sturk/os/sys.h"
-#include "vertegs/vertex.h"
 #include <stddef.h>
 
 struct StMutex {
@@ -58,13 +58,11 @@ void st_mutex_lock(StMutex* mutex)
 {
 	/* LCOV_EXCL_START */
 	if (!mutex)
-		st_except(st_except_null_param.reason, __FILE__, __LINE__);
+		EXCEPT(null_param);
 	/* LCOV_EXCL_STOP */
 
 	if (mutex->locked && !mutex->recursive)
-		vx_debug(
-			"Fake mutex does not support context switch.", __FILE__,
-			__LINE__);
+		DEBUG("Fake mutex does not support context switch.");
 	mutex->locked = 1;
 }
 
@@ -72,7 +70,7 @@ bool st_mutex_trylock(StMutex* mutex)
 {
 	/* LCOV_EXCL_START */
 	if (!mutex)
-		st_except(st_except_null_param.reason, __FILE__, __LINE__);
+		EXCEPT(null_param);
 	/* LCOV_EXCL_STOP */
 
 	if (mutex->locked && !mutex->recursive)
@@ -85,12 +83,10 @@ void st_mutex_unlock(StMutex* mutex)
 {
 	/* LCOV_EXCL_START */
 	if (!mutex)
-		st_except(st_except_null_param.reason, __FILE__, __LINE__);
+		EXCEPT(null_param);
 	/* LCOV_EXCL_STOP */
 
 	if (!mutex->locked)
-		vx_debug(
-			"Unlocking an already unlocked mutex.", __FILE__,
-			__LINE__);
+		DEBUG("Unlocking an already unlocked mutex.");
 	mutex->locked = 0;
 }

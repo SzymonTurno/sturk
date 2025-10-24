@@ -40,16 +40,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "st/io/buffer.h"
 
-#ifndef ST_LOGGER_EN
+#ifndef ST_TRACKING
 
 /**
- * @def ST_LOGGER_EN
+ * @def ST_TRACKING
  *
- * @brief Logger enabled.
+ * @brief Traces enabled.
  */
-#define ST_LOGGER_EN 0
+#define ST_TRACKING 0
 
-#endif /* ST_LOGGER_EN */
+#endif /* ST_TRACKING */
 
 /**
  * @def ST_TRACE(lvl, tag, ...)
@@ -57,13 +57,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @brief Log to the streams that are attached to the logger.
  *
  * This is almost the same as st_trace(). The main difference is that it will
- * not compile if the ST_LOGGER_EN is 0.
+ * not compile if the ST_TRACKING is 0.
  *
  * @see st_trace()
  */
 #define ST_TRACE(lvl, tag, ...)                                                \
 	do {                                                                   \
-		if (ST_LOGGER_EN)                                              \
+		if (ST_TRACKING)                                               \
 			st_trace(lvl, tag, __VA_ARGS__);                       \
 	} while (0)
 

@@ -1,4 +1,3 @@
 ---
   logger:
-    tracing: true
-    excepting: true
+    tracking: true

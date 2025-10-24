@@ -41,17 +41,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "st/io/logger.h"
 #include "st/os/sys.h"
 
-#ifndef ST_EXCEPTIONS_EN
-
-/**
- * @def ST_EXCEPTIONS_EN
- *
- * @brief Exceptions enabled.
- */
-#define ST_EXCEPTIONS_EN 0
-
-#endif /* ST_EXCEPTIONS_EN */
-
 /**
  * @def ST_RAISE(lvl, e)
  *
@@ -68,10 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			ST_TRACE(                                              \
 				ST_ERROR, NULL, "%s:%d: %s", __FILE__,         \
 				__LINE__, st_except_##e.reason);               \
-			if (ST_EXCEPTIONS_EN)                                  \
-				st_except(                                     \
-					st_except_##e.reason, __FILE__,        \
-					__LINE__);                             \
+			ST_EXCEPT(e);                                          \
 		} else if (ST_WARNING == _lvl) {                               \
 			ST_TRACE(                                              \
 				ST_WARNING, NULL, "%s:%d: %s", __FILE__,       \

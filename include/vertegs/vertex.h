@@ -43,18 +43,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stddef.h>
 
-#ifndef VX_DEBUG
+#ifndef VX_DEBUGGING
 
 /**
- * @def VX_DEBUG
+ * @def VX_DEBUGGING
  *
  * @brief Enable assertions.
  */
-#define VX_DEBUG 0
+#define VX_DEBUGGING 0
 
-#endif /* VX_DEBUG */
+#endif /* VX_DEBUGGING */
 
-#if VX_DEBUG
+#if VX_DEBUGGING
 
 #include <assert.h>
 #include <stdio.h>
@@ -63,11 +63,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 extern void vx_debug(const char* text, const char* file, int line);
 
-#else /* not: VX_DEBUG */
+#else /* not: VX_DEBUGGING */
 
 #define vx_debug(text, file, line) (void)(text)
 
-#endif /* VX_DEBUG */
+#endif /* VX_DEBUGGING */
+
+#define VX_DEBUG(text) vx_debug(text, __FILE__, __LINE__)
 
 #ifndef VX_ASSERT
 

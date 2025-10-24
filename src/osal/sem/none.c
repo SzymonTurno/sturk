@@ -30,9 +30,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "st/os/sem.h"
+#include "sturk/debug.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/sys.h"
-#include "vertegs/vertex.h"
 #include <stddef.h>
 
 struct StSem {
@@ -57,13 +57,11 @@ void st_sem_wait(StSem* sem)
 {
 	/* LCOV_EXCL_START */
 	if (!sem)
-		st_except(st_except_null_param.reason, __FILE__, __LINE__);
+		EXCEPT(null_param);
 	/* LCOV_EXCL_STOP */
 
 	if (!sem->n)
-		vx_debug(
-			"Fake semaphore does not support context switch.",
-			__FILE__, __LINE__);
+		DEBUG("Fake semaphore does not support context switch.");
 	--sem->n;
 }
 
@@ -71,7 +69,7 @@ bool st_sem_trywait(StSem* sem)
 {
 	/* LCOV_EXCL_START */
 	if (!sem)
-		st_except(st_except_null_param.reason, __FILE__, __LINE__);
+		EXCEPT(null_param);
 	/* LCOV_EXCL_STOP */
 
 	if (sem->n) {
@@ -85,7 +83,7 @@ void st_sem_post(StSem* sem)
 {
 	/* LCOV_EXCL_START */
 	if (!sem)
-		st_except(st_except_null_param.reason, __FILE__, __LINE__);
+		EXCEPT(null_param);
 	/* LCOV_EXCL_STOP */
 
 	++sem->n;

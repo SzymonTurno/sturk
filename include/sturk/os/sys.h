@@ -46,4 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see st_except() */
 #define except st_except
 
+/** @see ST_EXCEPT() */
+#define EXCEPT ST_EXCEPT
+
 #endif /* STURK_OS_SYS_H */

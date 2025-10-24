@@ -29,6 +29,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include "sturk/debug.h"
 #include "sturk/graph.h"
 #include "sturk/io/bag.h"
 #include "sturk/io/buffer.h"
@@ -86,7 +87,7 @@ void st_iobag_ins(StIoBag* bag, StIo* io)
 {
 	struct IoList* entry = NULL;
 
-	VX_ASSERT(bag);
+	ASSERT(bag);
 	if (bag) {
 		entry = NEW(struct IoList);
 		*graph_datap(entry) = io;
@@ -99,7 +100,7 @@ void st_iobag_ins(StIoBag* bag, StIo* io)
 
 void st_iobag_rem(StIoBag* bag, StIo* io)
 {
-	VX_ASSERT(bag);
+	ASSERT(bag);
 	mutex_lock(bag->mutex);
 	for (struct IoList** i = &bag->head; *i; listit_next(&i))
 		if (*graph_datap(*i) == io) {
@@ -112,7 +113,7 @@ void st_iobag_rem(StIoBag* bag, StIo* io)
 
 void st_iobag_vprint(StIoBag* bag, const char* fmt, va_list va)
 {
-	VX_ASSERT(bag);
+	ASSERT(bag);
 	if (bag) {
 		mutex_lock(bag->mutex);
 		list_print(bag->head, fmt, va);
