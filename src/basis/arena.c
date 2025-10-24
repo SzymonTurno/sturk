@@ -31,6 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "st/arena.h"
 #include "st/arith.h"
+#include "sturk/debug.h"
 #include "sturk/graph.h"
 #include "sturk/list.h"
 
@@ -76,9 +77,9 @@ static void getchunk(StArena* arena, size_t size)
 		ptr = remgc(gc);
 		limit = graph_datap(ptr)->limit;
 	} else {
-		VX_ASSERT(CHUNK_SIZE > sizeof(union Header) + size);
+		ASSERT(CHUNK_SIZE > sizeof(union Header) + size);
 		ptr = graph_datap(arena)->vp->alloc_cb(CHUNK_SIZE);
-		VX_ASSERT(ptr);
+		ASSERT(ptr);
 		/* LCOV_EXCL_START */
 		if (!ptr)
 			return;
@@ -159,8 +160,8 @@ void st_arena_free(StArena* arena)
 		}
 		*arena = tmp;
 	}
-	VX_ASSERT(!graph_datap(arena)->limit);
-	VX_ASSERT(!graph_datap(arena)->avail);
+	ASSERT(!graph_datap(arena)->limit);
+	ASSERT(!graph_datap(arena)->avail);
 }
 
 void st_arena_cleanup(struct StArenaGc* gc)

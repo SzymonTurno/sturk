@@ -72,12 +72,12 @@ SIMPTE_GROUP(algo);
 SIMPTE_GROUP(broker);
 SIMPTE_GROUP(common);
 
-#if VX_DEBUG
+#if VX_DEBUGGING
 void vx_debug(const char* text, const char* file, int line)
 {
 	io_print(SIMPTE_IO(debug), "%s:%d: %s\n", file, line, text);
 }
-#endif /* VX_DEBUG */
+#endif /* VX_DEBUGGING */
 
 TEST(basis, should_destroy_null)
 {
@@ -291,11 +291,11 @@ TEST(osal, should_trace_mutex_not_supported_policy)
 {
 	(void)mutex_create(ST_MUTEX_BF(POLICY, 7));
 	TEST_ASSERT_EQUAL_STRING(
-		MUTEX_FILE_PATH("posix") ":63: Not supported.\n",
+		MUTEX_FILE_PATH("posix") ":61: Not supported.\n",
 		strstr(SIMPTE_GETTRACE(debug, 0),
 	               MUTEX_FILE_PATH("posix") ":"));
 	TEST_ASSERT_EQUAL_STRING(
-		MUTEX_FILE_PATH("posix") ":106: Mutex failure.\n",
+		MUTEX_FILE_PATH("posix") ":102: Mutex failure.\n",
 		strstr(SIMPTE_GETTRACE(debug, 1),
 	               MUTEX_FILE_PATH("posix") ":"));
 }
@@ -304,11 +304,11 @@ TEST(osal, should_trace_mutex_not_supported_type)
 {
 	(void)mutex_create(ST_MUTEX_BF(TYPE, 15));
 	TEST_ASSERT_EQUAL_STRING(
-		MUTEX_FILE_PATH("posix") ":87: Not supported.\n",
+		MUTEX_FILE_PATH("posix") ":83: Not supported.\n",
 		strstr(SIMPTE_GETTRACE(debug, 0),
 	               MUTEX_FILE_PATH("posix") ":"));
 	TEST_ASSERT_EQUAL_STRING(
-		MUTEX_FILE_PATH("posix") ":111: Mutex failure.\n",
+		MUTEX_FILE_PATH("posix") ":107: Mutex failure.\n",
 		strstr(SIMPTE_GETTRACE(debug, 1),
 	               MUTEX_FILE_PATH("posix") ":"));
 }
@@ -321,7 +321,7 @@ TEST(osal, should_trace_mutex_double_lock_warning)
 	TEST_ASSERT_NULL(SIMPTE_GETTRACE(debug, 0));
 	mutex_lock(mut);
 	TEST_ASSERT_EQUAL_STRING(
-		MUTEX_FILE_PATH("none") ":67: Fake mutex does not support "
+		MUTEX_FILE_PATH("none") ":65: Fake mutex does not support "
 					"context switch.\n",
 		strstr(SIMPTE_GETTRACE(debug, 0), MUTEX_FILE_PATH("none") ":"));
 	mutex_destroy(mut);
@@ -335,7 +335,7 @@ TEST(osal, should_trace_mutex_double_unlock_warning)
 	mutex_unlock(mut);
 	TEST_ASSERT_EQUAL_STRING(
 		MUTEX_FILE_PATH(
-			"none") ":94: Unlocking an already unlocked mutex.\n",
+			"none") ":90: Unlocking an already unlocked mutex.\n",
 		strstr(SIMPTE_GETTRACE(debug, 0), MUTEX_FILE_PATH("none") ":"));
 	mutex_destroy(mut);
 }
@@ -347,7 +347,7 @@ TEST(osal, should_trace_sem_fake_warning)
 	TEST_ASSERT_NULL(SIMPTE_GETTRACE(debug, 0));
 	sem_wait(sem);
 	TEST_ASSERT_EQUAL_STRING(
-		SEM_FILE_PATH("none") ":66: Fake semaphore does not support "
+		SEM_FILE_PATH("none") ":64: Fake semaphore does not support "
 				      "context switch.\n",
 		strstr(SIMPTE_GETTRACE(debug, 0), SEM_FILE_PATH("none") ":"));
 	sem_destroy(sem);
@@ -361,12 +361,12 @@ TEST_GROUP_RUNNER(osal)
 	if (MULTITHREADING)
 		RUN_TEST_CASE(osal, should_lock_mutex_twice_if_recursive);
 
-	if (MULTITHREADING && VX_DEBUG) {
+	if (MULTITHREADING && VX_DEBUGGING) {
 		RUN_TEST_CASE(osal, should_trace_mutex_not_supported_policy);
 		RUN_TEST_CASE(osal, should_trace_mutex_not_supported_type);
 	}
 
-	if (!MULTITHREADING && VX_DEBUG) {
+	if (!MULTITHREADING && VX_DEBUGGING) {
 		RUN_TEST_CASE(osal, should_trace_mutex_double_lock_warning);
 		RUN_TEST_CASE(osal, should_trace_mutex_double_unlock_warning);
 		RUN_TEST_CASE(osal, should_trace_sem_fake_warning);

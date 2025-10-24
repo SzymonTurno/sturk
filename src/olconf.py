@@ -58,15 +58,15 @@ def join(olvars):
 
     if settings['build_type'] == 'release':
         olvars.append('sturk_EXTRA_CFLAGS', '-O3')
-        olvars.append('sturk_EXTRA_CFLAGS', '-DVX_DEBUG=0')
+        olvars.append('sturk_EXTRA_CFLAGS', '-DVX_DEBUGGING=0')
     elif settings['build_type'] == 'debug':
         olvars.append('sturk_EXTRA_CFLAGS', '-g')
-        olvars.append('sturk_EXTRA_CFLAGS', '-DVX_DEBUG=1')
+        olvars.append('sturk_EXTRA_CFLAGS', '-DVX_DEBUGGING=1')
     elif settings['build_type'] == 'coverage':
         olvars.append('sturk_EXTRA_CFLAGS', '-g')
         olvars.append('sturk_EXTRA_CFLAGS', '-fprofile-arcs')
         olvars.append('sturk_EXTRA_CFLAGS', '-ftest-coverage')
-        olvars.append('sturk_EXTRA_CFLAGS', '-DVX_DEBUG=1')
+        olvars.append('sturk_EXTRA_CFLAGS', '-DVX_DEBUGGING=1')
     else:
         olvars.fail('Unknown build type: ' + settings['build_type'] + '.')
 

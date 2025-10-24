@@ -30,50 +30,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file sturk/io/logger.h
- *
- * @see sturk/io/logger.h
+ * @file sturk/debug.h
  */
 
-#ifndef STURK_IO_LOGGER_H
-#define STURK_IO_LOGGER_H
+#ifndef STURK_DEBUG_H
+#define STURK_DEBUG_H
 
-#include "st/io/logger.h"
+#include "vertegs/vertex.h"
 
-/** @see ST_TRACKING */
-#define TRACKING ST_TRACKING
+/** @see VX_ASSERT() */
+#define ASSERT VX_ASSERT
 
-/** @see ST_TRACE() */
-#define TRACE ST_TRACE
+/** @see vx_debug() */
+#define debug vx_debug
 
-/** @see ST_UNKNOWN */
-#define UNKNOWN ST_UNKNOWN
+/** @see VX_DEBUG() */
+#define DEBUG VX_DEBUG
 
-/** @see ST_DEBUG */
-#define DEBUG ST_DEBUG
-
-/** @see ST_INFO */
-#define INFO ST_INFO
-
-/** @see ST_WARNING */
-#define WARNING ST_WARNING
-
-/** @see ST_ERROR */
-#define ERROR ST_ERROR
-
-/** @see ST_N_TRACE_LVLS */
-#define N_TRACE_LVLS ST_N_TRACE_LVLS
-
-/** @see st_trace() */
-#define trace st_trace
-
-/** @see st_logger_attach() */
-#define logger_attach st_logger_attach
-
-/** @see st_logger_detach() */
-#define logger_detach st_logger_detach
-
-/** @see st_logger_cleanup() */
-#define logger_cleanup st_logger_cleanup
-
-#endif /* STURK_IO_LOGGER_H */
+#endif /* STURK_DEBUG_H */

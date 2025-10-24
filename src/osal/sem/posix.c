@@ -47,7 +47,7 @@ StSem* st_sem_create(StBits args)
 	(void)args;
 	if (sem_init(&self->sem, 0, 0) != OK) {
 		/* LCOV_EXCL_START */
-		st_except(st_except_sem_fail.reason, __FILE__, __LINE__);
+		EXCEPT(sem_fail);
 		st_free(self);
 		return NULL;
 		/* LCOV_EXCL_STOP */
@@ -59,7 +59,7 @@ void st_sem_destroy(StSem* sem)
 {
 	/* LCOV_EXCL_START */
 	if (sem_destroy(&sem->sem) != OK)
-		st_except(st_except_sem_fail.reason, __FILE__, __LINE__);
+		EXCEPT(sem_fail);
 	/* LCOV_EXCL_STOP */
 	st_free(sem);
 }
@@ -68,7 +68,7 @@ void st_sem_wait(StSem* sem)
 {
 	/* LCOV_EXCL_START */
 	if (sem_wait(&sem->sem) != OK)
-		st_except(st_except_sem_fail.reason, __FILE__, __LINE__);
+		EXCEPT(sem_fail);
 	/* LCOV_EXCL_STOP */
 }
 
@@ -81,6 +81,6 @@ void st_sem_post(StSem* sem)
 {
 	/* LCOV_EXCL_START */
 	if (sem_post(&sem->sem) != OK)
-		st_except(st_except_sem_fail.reason, __FILE__, __LINE__);
+		EXCEPT(sem_fail);
 	/* LCOV_EXCL_STOP */
 }

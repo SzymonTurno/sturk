@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "basis/io.h"
-#include "vertegs/vertex.h"
+#include "sturk/debug.h"
 
 static void stream_putc(void* p, char c)
 {
@@ -67,14 +67,14 @@ StIo* st_io_init(StIoBuffer* buff)
 
 void st_io_setp(StIo* io, void* p)
 {
-	VX_ASSERT(io);
+	ASSERT(io);
 	io->s.u.flags |= USR_MODE_MASK;
 	*(void**)&io[1] = p;
 }
 
 void st_io_setvp(StIo* io, const struct StIoVt* vp)
 {
-	VX_ASSERT(io);
+	ASSERT(io);
 	io->s.vp = vp;
 }
 
@@ -94,7 +94,7 @@ char* st_io_fgets(char* str, int size, StIo* io)
 	char* ret = str;
 
 	VX_ENSURE_MEM(str);
-	VX_ASSERT(size > 0);
+	ASSERT(size > 0);
 	while (--size && c != '\n' && (c = io_getc(io)) != IO_EOF)
 		*str++ = c;
 

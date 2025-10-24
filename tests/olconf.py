@@ -106,9 +106,9 @@ def join(olvars):
         olvars.append('test_CFLAGS', '-DMULTITHREADING=0')
 
     if settings['build_type'] == 'release':
-        olvars.append('test_CFLAGS', '-DVX_DEBUG=0')
+        olvars.append('test_CFLAGS', '-DVX_DEBUGGING=0')
     else:
-        olvars.append('test_CFLAGS', '-DVX_DEBUG=1')
+        olvars.append('test_CFLAGS', '-DVX_DEBUGGING=1')
 
     olvars.append(
         'test_CFLAGS',

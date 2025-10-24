@@ -98,4 +98,6 @@ void st_strprint(char* buff, const char* fmt, ...);
  */
 void st_except(const char* reason, const char* file, int line);
 
+#define ST_EXCEPT(e) st_except(st_except_##e.reason, __FILE__, __LINE__)
+
 #endif /* ST_SYS_H */

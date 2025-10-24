@@ -30,18 +30,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "basis/io.h"
-#include "vertegs/vertex.h"
+#include "sturk/debug.h"
 #include <limits.h>
 
 static char ul2c(unsigned long num)
 {
-	VX_ASSERT(num <= CHAR_MAX);
+	ASSERT(num <= CHAR_MAX);
 	return (char)num;
 }
 
 static unsigned c2u(char c)
 {
-	VX_ASSERT(c >= 0);
+	ASSERT(c >= 0);
 	return (unsigned)c;
 }
 
@@ -216,7 +216,7 @@ void st_io_vprint(StIo* io, const char* fmt, va_list va)
 			io_putc(io, ch);
 			break;
 		default:
-			VX_ASSERT(ch);
+			ASSERT(ch);
 			break;
 		}
 	}
