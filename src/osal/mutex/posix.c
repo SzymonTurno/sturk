@@ -35,8 +35,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/sys.h"
 #include <pthread.h>
 
-#define OK   0
-#define FAIL 1
+#define SUCCESS 0
+#define FAILURE 1
 
 struct StMutex {
 	pthread_mutex_t pmut;
@@ -44,16 +44,16 @@ struct StMutex {
 
 static int setprotocol(pthread_mutexattr_t* attr, StBits args)
 {
-	int ret = FAIL;
+	int ret = FAILURE;
 
 	switch (args & MUTEX_POLICY_MASK) {
 	case MUTEX_POLICY_NONE:
-		ret = OK;
+		ret = SUCCESS;
 		break;
 	case MUTEX_POLICY_PRIO_INHERIT:
 		ret = pthread_mutexattr_setprotocol(attr, PTHREAD_PRIO_INHERIT);
 		/* LCOV_EXCL_START */
-		if (ret != OK)
+		if (ret != SUCCESS)
 			EXCEPT(mutex_fail);
 		/* LCOV_EXCL_STOP */
 		break;
@@ -66,16 +66,16 @@ static int setprotocol(pthread_mutexattr_t* attr, StBits args)
 
 static int settype(pthread_mutexattr_t* attr, StBits args)
 {
-	int ret = FAIL;
+	int ret = FAILURE;
 
 	switch (args & MUTEX_TYPE_MASK) {
 	case MUTEX_TYPE_NONE:
-		ret = OK;
+		ret = SUCCESS;
 		break;
 	case MUTEX_TYPE_RECURSIVE:
 		ret = pthread_mutexattr_settype(attr, PTHREAD_MUTEX_RECURSIVE);
 		/* LCOV_EXCL_START */
-		if (ret != OK)
+		if (ret != SUCCESS)
 			EXCEPT(mutex_fail);
 		/* LCOV_EXCL_STOP */
 		break;
@@ -91,25 +91,25 @@ StMutex* st_mutex_create(StBits args)
 	struct StMutex* self = NULL;
 	pthread_mutexattr_t attr;
 
-	if (pthread_mutexattr_init(&attr) != OK) {
+	if (pthread_mutexattr_init(&attr) != SUCCESS) {
 		/* LCOV_EXCL_START */
 		EXCEPT(mutex_fail);
 		return NULL;
 		/* LCOV_EXCL_STOP */
 	}
 
-	if (setprotocol(&attr, args) != OK) {
+	if (setprotocol(&attr, args) != SUCCESS) {
 		DEBUG(st_except_mutex_fail.reason);
 		return NULL;
 	}
 
-	if (settype(&attr, args) != OK) {
+	if (settype(&attr, args) != SUCCESS) {
 		DEBUG(st_except_mutex_fail.reason);
 		return NULL;
 	}
 
 	self = NEW(struct StMutex);
-	if (pthread_mutex_init(&self->pmut, &attr) != OK) {
+	if (pthread_mutex_init(&self->pmut, &attr) != SUCCESS) {
 		/* LCOV_EXCL_START */
 		EXCEPT(mutex_fail);
 		st_free(self);
@@ -117,7 +117,7 @@ StMutex* st_mutex_create(StBits args)
 		/* LCOV_EXCL_STOP */
 	}
 
-	if (pthread_mutexattr_destroy(&attr) != OK) {
+	if (pthread_mutexattr_destroy(&attr) != SUCCESS) {
 		/* LCOV_EXCL_START */
 		EXCEPT(mutex_fail);
 		st_free(self);
@@ -130,7 +130,7 @@ StMutex* st_mutex_create(StBits args)
 void st_mutex_destroy(StMutex* mutex)
 {
 	/* LCOV_EXCL_START */
-	if (pthread_mutex_destroy(&mutex->pmut) != OK)
+	if (pthread_mutex_destroy(&mutex->pmut) != SUCCESS)
 		EXCEPT(mutex_fail);
 	/* LCOV_EXCL_STOP */
 	st_free(mutex);
@@ -139,20 +139,20 @@ void st_mutex_destroy(StMutex* mutex)
 void st_mutex_lock(StMutex* mutex)
 {
 	/* LCOV_EXCL_START */
-	if (pthread_mutex_lock(&mutex->pmut) != OK)
+	if (pthread_mutex_lock(&mutex->pmut) != SUCCESS)
 		EXCEPT(mutex_fail);
 	/* LCOV_EXCL_STOP */
 }
 
 bool st_mutex_trylock(StMutex* mutex)
 {
-	return pthread_mutex_trylock(&mutex->pmut) == OK;
+	return pthread_mutex_trylock(&mutex->pmut) == SUCCESS;
 }
 
 void st_mutex_unlock(StMutex* mutex)
 {
 	/* LCOV_EXCL_START */
-	if (pthread_mutex_unlock(&mutex->pmut) != OK)
+	if (pthread_mutex_unlock(&mutex->pmut) != SUCCESS)
 		EXCEPT(mutex_fail);
 	/* LCOV_EXCL_STOP */
 }

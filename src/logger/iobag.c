@@ -43,7 +43,7 @@ struct StIoBag {
 	struct IoList* head;
 	StMutex* mutex;
 	union {
-		size_t n_io;
+		size_t n;
 		void* align;
 	} u;
 };
@@ -67,7 +67,7 @@ StIoBag* st_iobag_create(void)
 
 	self->head = NULL;
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	self->u.n_io = 0;
+	self->u.n = 0;
 	return self;
 }
 
@@ -78,7 +78,7 @@ void st_iobag_destroy(StIoBag* bag)
 		bag->mutex = NULL;
 		while (bag->head)
 			st_free(list_rem(&bag->head));
-		bag->u.n_io = 0;
+		bag->u.n = 0;
 		st_free(bag);
 	}
 }
@@ -93,7 +93,7 @@ void st_iobag_ins(StIoBag* bag, StIo* io)
 		*graph_datap(entry) = io;
 		mutex_lock(bag->mutex);
 		bag->head = list_ins(bag->head, entry);
-		++bag->u.n_io;
+		++bag->u.n;
 		mutex_unlock(bag->mutex);
 	}
 }
@@ -105,7 +105,7 @@ void st_iobag_rem(StIoBag* bag, StIo* io)
 	for (struct IoList** i = &bag->head; *i; listit_next(&i))
 		if (*graph_datap(*i) == io) {
 			st_free(list_rem(i));
-			--bag->u.n_io;
+			--bag->u.n;
 			break;
 		}
 	mutex_unlock(bag->mutex);
@@ -123,5 +123,5 @@ void st_iobag_vprint(StIoBag* bag, const char* fmt, va_list va)
 
 size_t st_iobag_count(const StIoBag* bag)
 {
-	return bag ? bag->u.n_io : 0;
+	return bag ? bag->u.n : 0;
 }

@@ -41,10 +41,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see VX_ASSERT() */
 #define ASSERT VX_ASSERT
 
-/** @see vx_debug() */
-#define debug vx_debug
+/** @see VX_FAIL() */
+#define FAIL VX_FAIL
 
 /** @see VX_DEBUG() */
 #define DEBUG VX_DEBUG
+
+/** @see VX_ALLOC_FAIL_REASON */
+#define ALLOC_FAIL_REASON VX_ALLOC_FAIL_REASON
+
+/** @see vx_eprint() */
+#define eprint vx_eprint
+
+/** @see vx_debug() */
+#define debug vx_debug
 
 #endif /* STURK_DEBUG_H */

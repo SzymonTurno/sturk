@@ -8,3 +8,4 @@
     sem: "posix"
   test:
     multithreading: true
+    mem_limited: true

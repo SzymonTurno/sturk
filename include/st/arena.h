@@ -99,6 +99,14 @@ struct StArenaGc {
 };
 
 /**
+ * @def ST_ARENA_ALLOC(arena, size)
+ *
+ * @see st_arena_alloc()
+ */
+#define ST_ARENA_ALLOC(arena, size)                                            \
+	st_arena_alloc(arena, size, __FILE__, __LINE__)
+
+/**
  * @fn StArena* st_arena_create(struct StArenaGc* gc, const struct StMemVt* vp)
  *
  * @brief Create an arena.
@@ -120,16 +128,18 @@ StArena* st_arena_create(struct StArenaGc* gc, const struct StMemVt* vp);
 void st_arena_destroy(StArena* arena);
 
 /**
- * @fn void* st_arena_alloc(StArena* arena, size_t size)
+ * @fn void* st_arena_alloc(StArena* arena, size_t size, const char* file, int line)
  *
  * @brief Allocate memory from an arena.
  *
  * @param[in,out] arena The pointer to the arena.
  * @param[in,out] size The size in bytes of the requested memory.
+ * @param[in] file The name of the source file.
+ * @param[in] line The line number.
  *
  * @return The pointer to the allocated memory.
  */
-void* st_arena_alloc(StArena* arena, size_t size);
+void* st_arena_alloc(StArena* arena, size_t size, const char* file, int line);
 
 /**
  * @fn void st_arena_free(StArena* arena)

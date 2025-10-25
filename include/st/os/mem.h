@@ -76,8 +76,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @brief Allocate a contiguous memory region and optionally log a message on failure.
  *
  * @param[in] size The number of bytes to allocate.
- * @param[in] file The path to the file (for logging).
- * @param[in] line The line number (for logging).
+ * @param[in] file The name of the source file.
+ * @param[in] line The line number.
  *
  * @return The pointer to the allocated memory region.
  */
@@ -89,8 +89,8 @@ void* st_mem_alloc(size_t size, const char* file, int line);
  * @brief Free a contiguous memory region and optionally log a message on failure.
  *
  * @param[in] ptr The pointer to the memory region.
- * @param[in] file The path to the file (for logging).
- * @param[in] line The line number (for logging).
+ * @param[in] file The name of the source file.
+ * @param[in] line The line number.
  */
 void st_mem_free(void* ptr, const char* file, int line);
 

@@ -55,11 +55,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see st_broker_search() */
 #define broker_search st_broker_search
 
+/** @see st_broker_adjust() */
+#define broker_adjust st_broker_adjust
+
+/** @see st_messagestats_report() */
+#define messagestats_report st_messagestats_report
+
 /** @see st_channel_gettopic() */
 #define channel_gettopic st_channel_gettopic
 
-/** @see st_channel_allocmsg() */
-#define channel_allocmsg st_channel_allocmsg
+/** @see st_message_alloc() */
+#define message_alloc st_message_alloc
+
+/** @see st_message_tryalloc() */
+#define message_tryalloc st_message_tryalloc
 
 /** @see st_message_setcb() */
 #define message_setcb st_message_setcb

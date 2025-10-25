@@ -39,10 +39,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/list.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
+#include "sturk/os/sem.h"
 #include "sturk/pool.h"
 #include "sturk/rbtree.h"
 #include "sturk/str.h"
 #include "sturk/waitq.h"
+#include <limits.h>
 
 LIST(struct SubscriberList, StSubscriber*);
 
@@ -57,14 +59,16 @@ DICT(struct StChannel, struct ChannelData);
 struct StBroker {
 	StMutex* mutex;
 	struct {
-		struct SubscriberList* list;
-		StPool* pool;
-	} sbers;
-	struct {
 		StChannel* dict;
+		StSem* sem;
 		StPool* pool;
 	} channels;
+	struct {
+		StPool* pool;
+		struct SubscriberList* list;
+	} sbers;
 	size_t payload_size;
+	unsigned long n_total;
 };
 
 union Header {
@@ -94,6 +98,50 @@ struct StSubscriber {
 	union Header* cached;
 	struct ChannelList* list;
 };
+
+static union Header* header_create(StBroker* broker)
+{
+	union Header* h = st_alloc(sizeof(union Header) + broker->payload_size);
+
+	h->s.u.n_pending = 0;
+	h->s.mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
+	h->s.channel = NULL;
+	h->s.cb = NULL;
+	return h;
+}
+
+static void header_recycle(StBroker* broker, union Header* h)
+{
+	void (*cb)(struct StMessage) = h->s.cb;
+
+	if (cb)
+		cb((struct StMessage){.payload = &h[1]});
+	pool_free(broker->channels.pool, h);
+	sem_post(broker->channels.sem);
+}
+
+static union Header* header_alloc(StBroker* broker)
+{
+	sem_wait(broker->channels.sem);
+	return POOL_ALLOC(broker->channels.pool);
+}
+
+static union Header* header_tryalloc(StBroker* broker)
+{
+	if (sem_trywait(broker->channels.sem))
+		return POOL_ALLOC(broker->channels.pool);
+	return NULL;
+}
+
+static struct StMessage header_init(union Header* h, StChannel* ch)
+{
+	if (!h)
+		return (struct StMessage){.payload = NULL};
+	h->s.u.n_pending = 0;
+	h->s.channel = ch;
+	h->s.cb = NULL;
+	return (struct StMessage){.payload = &h[1]};
+}
 
 static StChannel* channel_create(StBroker* broker, const char* topic)
 {
@@ -155,7 +203,7 @@ static struct SubscriberList* slist_create(struct StSubscriber* sber)
 
 static void enqueue(StSubscriber* sber, union Header* h)
 {
-	struct Qentry* entry = pool_alloc(sber->broker->sbers.pool);
+	struct Qentry* entry = POOL_ALLOC(sber->broker->sbers.pool);
 
 	if (!entry) {
 		/* LCOV_EXCL_START */
@@ -194,38 +242,19 @@ static void* initmsg(StSubscriber* sber, struct Vertegs* node)
 	return &sber->cached[1];
 }
 
-static void recycle(StBroker* broker, union Header* h)
-{
-	void (*cb)(struct StMessage) = h->s.cb;
-
-	if (cb)
-		cb((struct StMessage){.payload = &h[1]});
-	pool_free(broker->channels.pool, h);
-}
-
-static void purge(StPool* pool)
-{
-	union Header* h = NULL;
-
-	while ((h = pool_tryalloc(pool))) {
-		mutex_destroy(h->s.mutex);
-		h->s.mutex = NULL;
-		st_free(h);
-	}
-	pool_destroy(pool);
-}
-
 StBroker* st_broker_create(size_t payload_size)
 {
 	struct StBroker* self = NULL;
 
 	self = NEW(struct StBroker);
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	self->channels.pool = pool_create(0);
 	self->channels.dict = NULL;
+	self->channels.sem = sem_create(0);
+	self->channels.pool = pool_create(0);
 	self->sbers.pool = pool_create(sizeof(struct Qentry));
 	self->sbers.list = NULL;
 	self->payload_size = payload_size;
+	self->n_total = 0;
 	return self;
 }
 
@@ -239,8 +268,11 @@ void st_broker_destroy(StBroker* broker)
 	pool_destroy(broker->sbers.pool);
 	broker->sbers.pool = NULL;
 
-	purge(broker->channels.pool);
+	broker_adjust(broker, INT_MIN);
+	pool_destroy(broker->channels.pool);
 	broker->channels.pool = NULL;
+	sem_destroy(broker->channels.sem);
+	broker->channels.sem = NULL;
 	if (broker->channels.dict)
 		dict_destroy(broker->channels.dict);
 	broker->channels.dict = NULL;
@@ -265,25 +297,50 @@ StChannel* st_broker_search(StBroker* broker, const char* topic)
 	return ch;
 }
 
-struct StMessage st_channel_allocmsg(StChannel* ch)
+int st_broker_adjust(StBroker* broker, int n)
 {
-	struct ChannelData* chdata = NULL;
+	int ret = 0;
 	union Header* h = NULL;
 
+	ENSURE(broker, WARNING, null_param);
+	if (!broker || n == 0)
+		return 0;
+
+	mutex_lock(broker->mutex);
+	if (n > 0) {
+		n = (int)MIN((unsigned)n, ULONG_MAX - broker->n_total);
+		broker->n_total += (unsigned)n;
+		ret = n;
+		while (n-- > 0)
+			header_recycle(broker, header_create(broker));
+	} else {
+		while (n++ < 0 && (h = pool_tryalloc(broker->channels.pool))) {
+			--ret;
+			ENSURE(broker->n_total > 0, ERROR, sanity_fail);
+			--broker->n_total;
+			mutex_destroy(h->s.mutex);
+			h->s.mutex = NULL;
+			st_free(h);
+		}
+	}
+	mutex_unlock(broker->mutex);
+	return ret;
+}
+
+struct StMessage st_message_alloc(StChannel* ch)
+{
 	ENSURE(ch, WARNING, null_param);
 	if (!ch)
 		return (struct StMessage){.payload = NULL};
-	chdata = dict_datap(ch);
-	h = pool_tryalloc(chdata->broker->channels.pool);
-	if (!h) {
-		h = st_alloc(
-			sizeof(union Header) + chdata->broker->payload_size);
-		h->s.mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	}
-	h->s.u.n_pending = 0;
-	h->s.channel = ch;
-	h->s.cb = NULL;
-	return (struct StMessage){.payload = &h[1]};
+	return header_init(header_alloc(dict_datap(ch)->broker), ch);
+}
+
+struct StMessage st_message_tryalloc(StChannel* ch)
+{
+	ENSURE(ch, WARNING, null_param);
+	if (!ch)
+		return (struct StMessage){.payload = NULL};
+	return header_init(header_tryalloc(dict_datap(ch)->broker), ch);
 }
 
 void st_message_setcb(struct StMessage msg, void (*cb)(struct StMessage))
@@ -299,7 +356,8 @@ StChannel* st_message_getchannel(struct StMessage msg)
 {
 	union Header* h = NULL;
 
-	ENSURE_MEM(msg.payload, ERROR);
+	if (!msg.payload)
+		return NULL;
 	h = (union Header*)msg.payload - 1;
 	return h->s.channel;
 }
@@ -320,7 +378,7 @@ void st_publish(struct StMessage* msg)
 	h->s.u.n_pending = n;
 	mutex_unlock(h->s.mutex);
 	if (!n)
-		recycle(chdata->broker, h);
+		header_recycle(chdata->broker, h);
 	mutex_unlock(chdata->mutex);
 }
 
@@ -395,7 +453,7 @@ void st_subscriber_unload(StSubscriber* sber)
 	}
 
 	if (last)
-		recycle(sber->broker, sber->cached);
+		header_recycle(sber->broker, sber->cached);
 	sber->cached = NULL;
 }
 

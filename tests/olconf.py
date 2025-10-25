@@ -105,6 +105,11 @@ def join(olvars):
     else:
         olvars.append('test_CFLAGS', '-DMULTITHREADING=0')
 
+    if settings['test']['mem_limited']:
+        olvars.append('test_CFLAGS', '-DMEM_LIMITED=1')
+    else:
+        olvars.append('test_CFLAGS', '-DMEM_LIMITED=0')
+
     if settings['build_type'] == 'release':
         olvars.append('test_CFLAGS', '-DVX_DEBUGGING=0')
     else:

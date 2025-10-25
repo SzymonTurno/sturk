@@ -63,6 +63,7 @@ TEST_SETUP(osal)
 }
 TEST_TEAR_DOWN(osal)
 {
+	mem_cleanup();
 }
 TEST_GROUP(osal);
 
@@ -91,7 +92,7 @@ TEST(basis, should_allocate_aligned_memory_from_arena)
 	void* buffs[8] = {0};
 
 	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
-		buffs[i] = arena_alloc(arena, 1 << i);
+		buffs[i] = ARENA_ALLOC(arena, 1 << i);
 		TEST_ASSERT_EQUAL_INT(
 			0, ((uintptr_t)buffs[i]) % sizeof(StAlign));
 	}
@@ -106,7 +107,7 @@ TEST(basis, should_allocate_nonoverlapping_blocks_from_arena)
 	void* buffs[15] = {0};
 
 	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
-		buffs[i] = arena_alloc(arena, i + 1);
+		buffs[i] = ARENA_ALLOC(arena, i + 1);
 		memset(buffs[i], i + 1, i + 1);
 	}
 
@@ -121,11 +122,11 @@ TEST(basis, should_allocate_freed_memory_from_arena)
 {
 	struct StArenaGc gc = {0};
 	StArena* arena = arena_create(&gc, STURK_MEM_API);
-	void* buff = arena_alloc(arena, 64);
+	void* buff = ARENA_ALLOC(arena, 64);
 
 	memset(buff, 0xbe, 64);
 	arena_free(arena);
-	buff = arena_alloc(arena, 64);
+	buff = ARENA_ALLOC(arena, 64);
 	for (int i = 16; i < 48; i++)
 		TEST_ASSERT_EQUAL_INT((char)0xbe, ((char*)buff)[i]);
 	arena_destroy(arena);
@@ -134,7 +135,7 @@ TEST(basis, should_allocate_freed_memory_from_arena)
 
 TEST(basis, should_alloc_null_from_null_arena)
 {
-	TEST_ASSERT_NULL(arena_alloc(NULL, 0));
+	TEST_ASSERT_NULL(ARENA_ALLOC(NULL, 0));
 }
 
 TEST(basis, should_calculate_iobuffer_length)
@@ -239,6 +240,47 @@ TEST(basis, should_write_to_file)
 	remove(filename);
 }
 
+TEST(basis, should_support_many_allocations_from_arena)
+{
+	struct StArenaGc gc = {0};
+	StArena* arena = arena_create(&gc, STURK_MEM_API);
+
+	for (int i = 0; i < 2048; i++)
+		TEST_ASSERT_NOT_NULL(ARENA_ALLOC(arena, 128));
+
+	arena_destroy(arena);
+	arena_cleanup(&gc);
+}
+
+static void* test_malloc(size_t size)
+{
+	static int allocated;
+	static int data[1024];
+
+	if (allocated)
+		return NULL;
+	allocated = 1;
+	return data;
+}
+
+static void test_free(void* ptr)
+{
+	(void)ptr;
+}
+
+static const struct StMemVt TEST_MEM_API[] = {
+	{.alloc_cb = test_malloc, .free_cb = test_free}};
+
+TEST(basis, should_return_null_from_arena)
+{
+	struct StArenaGc gc = {0};
+	StArena* arena = arena_create(&gc, TEST_MEM_API);
+
+	TEST_ASSERT_NULL(ARENA_ALLOC(arena, 1));
+	arena_destroy(arena);
+	arena_cleanup(&gc);
+}
+
 TEST_GROUP_RUNNER(basis)
 {
 	printf("BASIS TESTS\n");
@@ -251,6 +293,8 @@ TEST_GROUP_RUNNER(basis)
 	RUN_TEST_CASE(basis, should_write_to_memory_buffer);
 	RUN_TEST_CASE(basis, should_read_from_file);
 	RUN_TEST_CASE(basis, should_write_to_file);
+	RUN_TEST_CASE(basis, should_support_many_allocations_from_arena);
+	RUN_TEST_CASE(basis, should_return_null_from_arena);
 }
 
 TEST(osal, should_not_block_on_mutex_trylock)
@@ -353,6 +397,13 @@ TEST(osal, should_trace_sem_fake_warning)
 	sem_destroy(sem);
 }
 
+TEST(osal, should_reach_mem_limit)
+{
+	for (int i = 0; i < 7; i++)
+		TEST_ASSERT_NOT_NULL(st_alloc(8 * 512));
+	TEST_ASSERT_NULL(st_alloc(8 * 512));
+}
+
 TEST_GROUP_RUNNER(osal)
 {
 	printf("OSAL TESTS\n");
@@ -371,6 +422,9 @@ TEST_GROUP_RUNNER(osal)
 		RUN_TEST_CASE(osal, should_trace_mutex_double_unlock_warning);
 		RUN_TEST_CASE(osal, should_trace_sem_fake_warning);
 	}
+
+	if (MEM_LIMITED)
+		RUN_TEST_CASE(osal, should_reach_mem_limit);
 }
 
 TEST(logger, should_trace_debug)
@@ -509,11 +563,11 @@ TEST(algo, should_trace_not_supported_traversals)
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	rb_next(&node, BST_POSTORDER);
 	TEST_ASSERT_EQUAL_STRING(
-		RBTREE_FILE_PATH ":199: Not supported.\n",
+		RBTREE_FILE_PATH ":213: Not supported.\n",
 		strstr(SIMPTE_GETTRACE(algo, 0), RBTREE_FILE_PATH ":"));
 	rb_first(&node, BST_PREORDER);
 	TEST_ASSERT_EQUAL_STRING(
-		RBTREE_FILE_PATH ":160: Not supported.\n",
+		RBTREE_FILE_PATH ":174: Not supported.\n",
 		strstr(SIMPTE_GETTRACE(algo, 1), RBTREE_FILE_PATH ":"));
 }
 
@@ -555,12 +609,12 @@ TEST(algo, should_allow_many_entries_in_strbag)
 	char str[sizeof(int) + 1] = {0};
 
 	srand(1);
-	*((int*)str) = rand();
+	*(int*)str = rand();
 	bag = strbag_ins(bag, str);
 	TEST_ASSERT_EQUAL_STRING(str, dict_getk(bag));
 	for (int i = 0; i < 10; i++) {
-		for (int i = 0; i < 1000; i++) {
-			*((int*)str) = rand();
+		for (int j = 0; j < 1000; j++) {
+			*(int*)str = rand();
 			bag = strbag_ins(bag, str);
 		}
 		strbag_destroy(bag);
@@ -578,18 +632,78 @@ TEST(algo, should_sort_with_strbag)
 	bag = strbag_ins(bag, "r");
 	bag = strbag_ins(bag, "t");
 	bag = strbag_ins(bag, "y");
+	bag = strbag_ins(bag, "u");
+	bag = strbag_ins(bag, "i");
+	bag = strbag_ins(bag, "o");
+	bag = strbag_ins(bag, "p");
+	bag = strbag_ins(bag, "a");
+	bag = strbag_ins(bag, "s");
+	bag = strbag_ins(bag, "d");
+	bag = strbag_ins(bag, "f");
+	bag = strbag_ins(bag, "g");
+	bag = strbag_ins(bag, "h");
+	bag = strbag_ins(bag, "j");
+	bag = strbag_ins(bag, "k");
+	bag = strbag_ins(bag, "l");
+	bag = strbag_ins(bag, "z");
+	bag = strbag_ins(bag, "x");
+	bag = strbag_ins(bag, "c");
+	bag = strbag_ins(bag, "v");
+	bag = strbag_ins(bag, "b");
+	bag = strbag_ins(bag, "n");
+	bag = strbag_ins(bag, "m");
 	bag = dict_first(bag);
+	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("d", dict_getk(bag));
+	bag = dict_next(bag);
 	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("f", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("g", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("h", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("i", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("j", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("k", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("l", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("m", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("n", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("o", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("p", dict_getk(bag));
 	bag = dict_next(bag);
 	TEST_ASSERT_EQUAL_STRING("q", dict_getk(bag));
 	bag = dict_next(bag);
 	TEST_ASSERT_EQUAL_STRING("r", dict_getk(bag));
 	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("s", dict_getk(bag));
+	bag = dict_next(bag);
 	TEST_ASSERT_EQUAL_STRING("t", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("u", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("v", dict_getk(bag));
 	bag = dict_next(bag);
 	TEST_ASSERT_EQUAL_STRING("w", dict_getk(bag));
 	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("x", dict_getk(bag));
+	bag = dict_next(bag);
 	TEST_ASSERT_EQUAL_STRING("y", dict_getk(bag));
+	bag = dict_next(bag);
+	TEST_ASSERT_EQUAL_STRING("z", dict_getk(bag));
 	TEST_ASSERT_NULL(dict_next(bag));
 	strbag_destroy(bag);
 }
@@ -685,10 +799,10 @@ TEST(algo, should_trace_waitq_dataloss)
 TEST(algo, should_return_freed_pointer_from_pool)
 {
 	StPool* pool = pool_create(1);
-	void* mem = pool_alloc(pool);
+	void* mem = POOL_ALLOC(pool);
 
 	pool_free(pool, mem);
-	TEST_ASSERT_EQUAL_PTR(mem, pool_alloc(pool));
+	TEST_ASSERT_EQUAL_PTR(mem, POOL_ALLOC(pool));
 	pool_free(pool, mem);
 	pool_destroy(pool);
 }
@@ -704,7 +818,8 @@ TEST_GROUP_RUNNER(algo)
 	RUN_TEST_CASE(algo, should_insert_in_rbtree_and_balance);
 	RUN_TEST_CASE(algo, should_trace_not_supported_traversals);
 	RUN_TEST_CASE(algo, should_sort_with_dict_node);
-	RUN_TEST_CASE(algo, should_allow_many_entries_in_strbag);
+	if (!MEM_LIMITED)
+		RUN_TEST_CASE(algo, should_allow_many_entries_in_strbag);
 	RUN_TEST_CASE(algo, should_sort_with_strbag);
 	RUN_TEST_CASE(algo, should_allow_preorder_traversal_with_strbag);
 	RUN_TEST_CASE(algo, should_find_first_in_strbag);
@@ -732,7 +847,7 @@ TEST(broker, should_get_topic_from_channel)
 TEST(broker, should_return_null_payload_for_null_channel)
 {
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
-	TEST_ASSERT_NULL(channel_allocmsg(NULL).payload);
+	TEST_ASSERT_NULL(message_alloc(NULL).payload);
 }
 
 static void test_freepayload(struct StMessage msg)
@@ -752,7 +867,8 @@ TEST(broker, should_forward_message)
 	TEST_ASSERT_NULL(subscriber_poll(sber).payload);
 
 	/* Publish */
-	msg = channel_allocmsg(ch);
+	broker_adjust(broker, 1);
+	msg = message_alloc(ch);
 	message_setcb(msg, test_freepayload);
 	*(char**)msg.payload = newstr("test contents");
 	publish(&msg);
@@ -771,7 +887,7 @@ TEST(broker, should_trace_null_subscriber)
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":385: Null param.\n",
+		BROKER_FILE_PATH ":443: Null param.\n",
 		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 }
 
@@ -784,7 +900,8 @@ TEST(broker, should_unload_subscriber)
 	struct StMessage alice = {0};
 
 	subscribe(sber, "test.topic");
-	msg = channel_allocmsg(ch);
+	broker_adjust(broker, 1);
+	msg = message_alloc(ch);
 	message_setcb(msg, test_freepayload);
 	*(char**)msg.payload = newstr("Alice");
 	publish(&msg);
@@ -795,7 +912,7 @@ TEST(broker, should_unload_subscriber)
 	subscriber_unload(sber);
 
 	/* Reusing memory previously used for "Alice" message. */
-	msg = channel_allocmsg(ch);
+	msg = message_alloc(ch);
 
 	message_setcb(msg, test_freepayload);
 	*(char**)msg.payload = newstr("Bob");
@@ -824,8 +941,10 @@ TEST(broker, should_allow_zero_subscribers)
 {
 	StBroker* broker = broker_create(0);
 	StChannel* ch = broker_search(broker, "test");
-	struct StMessage msg = channel_allocmsg(ch);
+	struct StMessage msg = {0};
 
+	broker_adjust(broker, 1);
+	msg = message_alloc(ch);
 	publish(&msg);
 	broker_destroy(broker);
 }
@@ -838,7 +957,7 @@ TEST(broker, should_allow_many_topics)
 	srand(1);
 	for (int i = 0; i < 10; i++) {
 		broker = broker_create(0);
-		for (int i = 0; i < 1000; i++) {
+		for (int j = 0; j < 1000; j++) {
 			*((int*)str) = rand();
 			broker_search(broker, str);
 		}
@@ -854,9 +973,30 @@ TEST(broker, should_trace_null_broker)
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":413: Null param.\n",
+		BROKER_FILE_PATH ":471: Null param.\n",
 		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 	free(tmp);
+}
+
+TEST(broker, should_alloc_message)
+{
+	StBroker* broker = broker_create(0);
+	StChannel* ch = broker_search(broker, "test");
+	struct StMessage msg = message_tryalloc(ch);
+
+	TEST_ASSERT_NULL(msg.payload);
+	broker_adjust(broker, 1);
+	msg = message_tryalloc(ch);
+	TEST_ASSERT_NOT_NULL(msg.payload);
+	publish(&msg);
+	broker_destroy(broker);
+}
+
+TEST(broker, should_return_null)
+{
+	TEST_ASSERT_NULL(message_tryalloc(NULL).payload);
+	TEST_ASSERT_NULL(message_getchannel((struct StMessage){NULL}));
+	TEST_ASSERT_EQUAL_INT(0, broker_adjust(NULL, 10));
 }
 
 TEST(broker, should_support_single_thread_pubsub)
@@ -930,32 +1070,14 @@ TEST_GROUP_RUNNER(broker)
 	RUN_TEST_CASE(broker, should_unload_subscriber);
 	RUN_TEST_CASE(broker, should_destroy_any_subscriber);
 	RUN_TEST_CASE(broker, should_allow_zero_subscribers);
-	RUN_TEST_CASE(broker, should_allow_many_topics);
+	if (!MEM_LIMITED)
+		RUN_TEST_CASE(broker, should_allow_many_topics);
 	RUN_TEST_CASE(broker, should_trace_null_broker);
+	RUN_TEST_CASE(broker, should_alloc_message);
+	RUN_TEST_CASE(broker, should_return_null);
 	RUN_TEST_CASE(broker, should_support_single_thread_pubsub);
 	if (MULTITHREADING)
 		RUN_TEST_CASE(broker, should_support_multi_thread_pubsub);
-}
-
-TEST(common, should_support_many_allocations_from_arena)
-{
-	struct StArenaGc gc = {0};
-	StArena* arena = arena_create(&gc, STURK_MEM_API);
-	struct StStrList* list = NULL;
-
-	for (int i = 0; i < 16384; i++)
-		list = strlist_ins(list, arena_alloc(arena, 128));
-
-	while (list)
-		strlist_rem(&list);
-	arena_destroy(arena);
-	arena_cleanup(&gc);
-}
-
-TEST_GROUP_RUNNER(common)
-{
-	printf("COMMON TESTS\n");
-	RUN_TEST_CASE(common, should_support_many_allocations_from_arena);
 }
 
 static void run_basic_tests(void)
@@ -965,7 +1087,6 @@ static void run_basic_tests(void)
 	RUN_TEST_GROUP(logger);
 	RUN_TEST_GROUP(algo);
 	RUN_TEST_GROUP(broker);
-	RUN_TEST_GROUP(common);
 }
 
 int main(int argc, const char** argv)

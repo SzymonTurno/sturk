@@ -40,6 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "st/arena.h"
 
+/** @see ST_ARENA_ALLOC() */
+#define ARENA_ALLOC ST_ARENA_ALLOC
+
 /** @see st_arena_pool() */
 #define arena_pool st_arena_pool
 

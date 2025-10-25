@@ -38,9 +38,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/mutex.h"
 
 struct StPool {
-	size_t blk_size;
-	union StFreeList* list;
 	StMutex* mutex;
+	union StFreeList* list;
+	size_t blk_size;
 };
 
 StPool* st_pool_create(size_t blk_size)
@@ -48,8 +48,8 @@ StPool* st_pool_create(size_t blk_size)
 	StPool* self = NEW(StPool);
 
 	self->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
-	self->blk_size = MAX(blk_size, sizeof(*self->list));
 	self->list = NULL;
+	self->blk_size = MAX(blk_size, sizeof(*self->list));
 	return self;
 }
 
@@ -66,7 +66,7 @@ void st_pool_destroy(StPool* pool)
 	st_free(pool);
 }
 
-void* st_pool_alloc(StPool* pool)
+void* st_pool_alloc(StPool* pool, const char* file, int line)
 {
 	void* ret = NULL;
 
@@ -75,7 +75,9 @@ void* st_pool_alloc(StPool* pool)
 	if (pool->list)
 		ret = list_rem(&pool->list);
 	mutex_unlock(pool->mutex);
-	return ret ? ret : st_alloc(pool->blk_size);
+	if (!ret)
+		ret = mem_alloc(pool->blk_size, file, line);
+	return ret;
 }
 
 void* st_pool_tryalloc(StPool* pool)

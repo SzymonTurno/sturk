@@ -40,7 +40,7 @@ static int receive(struct Subscriber* sub)
 static void sample_publish(struct Publisher* pub, const char* topic, int data)
 {
 	StChannel* ch = broker_search(pub->broker, topic);
-	struct StMessage msg = channel_allocmsg(ch);
+	struct StMessage msg = message_alloc(ch);
 	struct Payload* pload = msg.payload;
 
 	pload->new = data;
@@ -137,6 +137,7 @@ static void app(void)
 	struct Publisher pub = {.broker = broker, .u.data = 0};
 	pthread_t thid[DELIM_TH_ID] = {0};
 
+	broker_adjust(broker, 8);
 	start_thread(broker, thid, REP_TH_ID, report);
 	start_thread(broker, thid, MULT_TH_ID, multiply);
 	sample_publish(&pub, "input", -3);

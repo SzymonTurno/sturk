@@ -40,6 +40,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "st/pool.h"
 
+/** @see ST_POOL_ALLOC() */
+#define POOL_ALLOC ST_POOL_ALLOC
+
 /** @see st_pool_create() */
 #define pool_create st_pool_create
 

@@ -43,6 +43,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stddef.h>
 
 /**
+ * @def ST_POOL_ALLOC(pool)
+ *
+ * @see st_pool_alloc()
+ */
+#define ST_POOL_ALLOC(pool) st_pool_alloc(pool, __FILE__, __LINE__)
+
+/**
  * @var typedef struct StPool StPool
  *
  * @brief *pool*.
@@ -80,11 +87,13 @@ StPool* st_pool_create(size_t blk_size);
 void st_pool_destroy(StPool* pool);
 
 /**
- * @fn void* st_pool_alloc(StPool* pool)
+ * @fn void* st_pool_alloc(StPool* pool, const char* file, int line)
  *
  * @brief Allocate a block from a *pool*.
  *
  * @param[in,out] pool The *pool*.
+ * @param[in] file The name of the source file.
+ * @param[in] line The line number.
  *
  * If the *pool* is empty, allocates a new block from the system memory
  * allocator.
@@ -92,7 +101,7 @@ void st_pool_destroy(StPool* pool);
  *
  * @return The block.
  */
-void* st_pool_alloc(StPool* pool);
+void* st_pool_alloc(StPool* pool, const char* file, int line);
 
 /**
  * @fn void* st_pool_tryalloc(StPool* pool)
