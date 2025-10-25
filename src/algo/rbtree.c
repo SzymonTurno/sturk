@@ -38,19 +38,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define COLOR_MASK ((intptr_t)BIT(0))
 
-static void paint_red(struct StRbNode* node)
+enum Color {
+	BLACK = 0,
+	RED
+};
+
+static void set_color(struct StRbNode* node, enum Color color)
 {
-	graph_datap(node)->parcol |= COLOR_MASK;
+	switch (color) {
+	case BLACK:
+		graph_datap(node)->parcol &= ~COLOR_MASK;
+		break;
+	case RED:
+		graph_datap(node)->parcol |= COLOR_MASK;
+		break;
+		/* LCOV_EXCL_START */
+	default:
+		RAISE(ERROR, sanity_fail);
+		break;
+		/* LCOV_EXCL_STOP */
+	}
 }
 
-static void paint_black(struct StRbNode* node)
+static enum Color get_color(struct StRbNode* node)
 {
-	graph_datap(node)->parcol &= ~COLOR_MASK;
-}
-
-static int painted_red(struct StRbNode* node)
-{
-	return (node && (graph_datap(node)->parcol & COLOR_MASK));
+	if (node && (graph_datap(node)->parcol & COLOR_MASK))
+		return RED;
+	return BLACK;
 }
 
 static void set_parent(struct StRbNode* node, struct StRbNode* parent)
@@ -200,10 +214,18 @@ static struct StRbNode* get_postordersucc(struct StRbNode* node)
 	return NULL;
 }
 
+static void swap_colors(struct StRbNode* a, struct StRbNode* b)
+{
+	const enum Color tmp = get_color(a);
+
+	set_color(a, get_color(b));
+	set_color(b, tmp);
+}
+
 struct StRbNode* st_rb_link(struct StRbNode* node, struct StRbNode* parent)
 {
 	ENSURE_MEM(node, ERROR);
-	paint_red(node);
+	set_color(node, RED);
 	set_parent(node, parent);
 	set_left(node, NULL);
 	set_right(node, NULL);
@@ -215,10 +237,10 @@ struct StRbNode* st_rb_insrebal(struct StRbNode* root, struct StRbNode* node)
 	ENSURE_MEM(node, ERROR);
 	for (struct StRbNode *p = NULL, *g = NULL, *u = NULL;;) {
 		p = get_parent(node);
-		if (!painted_red(p)) {
+		if (get_color(p) == BLACK) {
 			/* Case 0: done. */
 			if (!p) {
-				paint_black(node);
+				set_color(node, BLACK);
 				root = node;
 			}
 			break;
@@ -231,11 +253,11 @@ struct StRbNode* st_rb_insrebal(struct StRbNode* root, struct StRbNode* node)
 		 */
 		g = get_parent(p);
 		u = (p == rb_left(g)) ? rb_right(g) : rb_left(g);
-		if (painted_red(u)) {
+		if (get_color(u) == RED) {
 			/* Case 1: recolor. */
-			paint_black(p);
-			paint_black(u);
-			paint_red(g);
+			set_color(p, BLACK);
+			set_color(u, BLACK);
+			set_color(g, RED);
 			node = g;
 			continue;
 		}
@@ -281,14 +303,9 @@ struct StRbNode* st_rb_insrebal(struct StRbNode* root, struct StRbNode* node)
 			root = rot_left(g, root);
 			/* Go to step 2.2. */
 		}
+
 		/* Step 2.2: swap colors. */
-		if (painted_red(p) && !painted_red(g)) {
-			paint_black(p);
-			paint_red(g);
-		} else if (!painted_red(p) && painted_red(g)) {
-			paint_red(p);
-			paint_black(g);
-		}
+		swap_colors(p, g);
 		node = p;
 	}
 	ENSURE(root, ERROR, sanity_fail);

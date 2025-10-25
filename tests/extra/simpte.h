@@ -112,7 +112,7 @@
 	{                                                                      \
 		trace(INFO, "ut", "Done.");                                    \
 		logger_cleanup();                                              \
-		st_mem_cleanup();                                              \
+		mem_cleanup();                                                 \
 	}                                                                      \
 	TEST_GROUP(group)
 

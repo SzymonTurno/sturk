@@ -142,6 +142,13 @@ void st_broker_destroy(StBroker* broker);
 StChannel* st_broker_search(StBroker* broker, const char* topic);
 
 /**
+ * @fn int st_broker_adjust(StBroker* broker, int n)
+ *
+ * @brief Adjust the memory pool.
+ */
+int st_broker_adjust(StBroker* broker, int n);
+
+/**
  * @fn const char* st_channel_gettopic(const StChannel* ch)
  *
  * @brief Get the topic for the given channel.
@@ -153,15 +160,38 @@ StChannel* st_broker_search(StBroker* broker, const char* topic);
 const char* st_channel_gettopic(const StChannel* ch);
 
 /**
- * @fn struct StMessage st_channel_allocmsg(StChannel* ch)
+ * @fn struct StMessage st_message_alloc(StChannel* ch)
  *
- * @brief Allocate the payload and return it enclosed in a structure.
+ * @brief Allocate the payload and return it enclosed in a message structure.
  *
  * @param[in] ch The channel.
  *
+ * This function will allocate the payload of a message immediately, if there
+ * are any entries in the memory pool. If the pool is empty, with multithreading
+ * enabled, this will block the thread that has called this function until
+ * another thread inserts an entry in the pool by calling broker_adjust(). With
+ * a single thread application, the blocking is not supported.
+ *
+ * @see broker_adjust()
+ *
  * @return The message structure.
  */
-struct StMessage st_channel_allocmsg(StChannel* ch);
+struct StMessage st_message_alloc(StChannel* ch);
+
+/**
+ * @fn struct StMessage st_message_tryalloc(StChannel* ch)
+ *
+ * @brief Try to allocate the payload and return it enclosed in a message structure.
+ *
+ * @param[in] ch The channel.
+ *
+ * This function will allocate the payload of a message, if there are any
+ * entries in the memory pool. If the memory pool is empty, it will return a
+ * message structure with a NULL payload.
+ *
+ * @return The message structure.
+ */
+struct StMessage st_message_tryalloc(StChannel* ch);
 
 /**
  * @fn void st_message_setcb(struct StMessage msg, void (*cb)(struct StMessage))
@@ -214,16 +244,16 @@ void st_subscriber_destroy(StSubscriber* sber);
 /**
  * @fn StMessage* st_subscriber_await(StSubscriber* sber)
  *
- * @brief Wait for the messages that are wanted by the subscriber.
+ * @brief Wait for a message.
  *
  * @param[in,out] sber The pointer to the subscriber.
  *
  * This function will return the payload of a message immediately, if there are
  * any messages in the subscriber's queue. If the subscriber's queue is empty,
  * with multithreading enabled, this will block the thread that has called this
- * function until some other thread publishes to topic that the given
- * subscriber is interested in. With a single thread application, the blocking
- * is not supported.
+ * function until another thread publishes to topic that the given subscriber
+ * has subscribed to. With a single thread application, the blocking is not
+ * supported.
  *
  * @return The payload.
  */
@@ -232,7 +262,7 @@ struct StMessage st_subscriber_await(StSubscriber* sber);
 /**
  * @fn void* st_subscriber_poll(StSubscriber* sber)
  *
- * @brief Poll for the messages that are wanted by the subscriber.
+ * @brief Poll for a message.
  *
  * @param[in,out] sber The pointer to the subscriber.
  *

@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #define AWAIT_AND_ASSERT_TOPIC(sber, expected_topic)                           \
 	TEST_ASSERT_EQUAL_STRING(expected_topic, await_and_gettopic(sber))
@@ -34,13 +35,19 @@ static const char* await_and_gettopic(StSubscriber* sber)
 static void publ(StChannel* ch, const char* fmt, ...)
 {
 	va_list va;
-	struct StMessage msg = channel_allocmsg(ch);
-	struct Payload* pload = msg.payload;
+	struct StMessage msg = message_tryalloc(ch);
+	struct Payload* pload = NULL;
 
+	if (!msg.payload) {
+		TEST_ASSERT_EQUAL_INT(1, broker_adjust(broker, 1));
+		msg = message_alloc(ch);
+	}
+	pload = msg.payload;
 	va_start(va, fmt);
 	vsnprintf(pload->info, 8, fmt, va);
 	va_end(va);
 	publish(&msg);
+	usleep(1000);
 }
 
 static void* task(void* arg)
@@ -55,6 +62,7 @@ static void* task(void* arg)
 	int i = 0;
 	int done = 0;
 	StChannel* ch = NULL;
+	struct Payload* payload = NULL;
 
 	if ((id % 2)) {
 		topics_in = topics1;
@@ -106,9 +114,9 @@ static void* task(void* arg)
 
 TEST(broker_extra, should_be_safe_from_race_conditions)
 {
-	StSubscriber* sber = NULL;
 	pthread_t thid[N_THREADS];
 	pthread_attr_t attr;
+	StSubscriber* sber = NULL;
 	StChannel* ch = NULL;
 
 	pthread_attr_init(&attr);

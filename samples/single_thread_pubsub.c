@@ -37,7 +37,7 @@ static void receive(struct Subscriber* sub)
 
 static void sample_publish(StChannel* ch, int new, int old)
 {
-	struct StMessage msg = channel_allocmsg(ch);
+	struct StMessage msg = message_alloc(ch);
 	struct Payload* pload = msg.payload;
 
 	pload->new = new;
@@ -98,6 +98,7 @@ static void app(void)
 		{subscriber_create(broker), {0}}};
 	int store[ARRAY_SIZE(ch)] = {0};
 
+	broker_adjust(broker, 2);
 	subscribe(subs[STORAGE_EVENT].sber, "input");
 	subscribe(subs[STORAGE_EVENT].sber, "result");
 	subscribe(subs[MULTIPLY_EVENT].sber, "input");

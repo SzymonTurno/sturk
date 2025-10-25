@@ -27,7 +27,8 @@ else
 endif
 
 build/Makefile: build
-	cd build && $(mkfile_DIR)/tools/configure.sh
+	cd build && $(mkfile_DIR)/tools/configure.sh \
+		$(mkfile_DIR)/configs/default/olconf.yaml
 
 build:
 	$(call MKDIR, $@)

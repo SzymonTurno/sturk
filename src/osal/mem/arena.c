@@ -30,37 +30,59 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "sturk/arena.h"
+#include "sturk/arith.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
 #include "sturk/os/sys.h"
 
+#define N_HEAPWORDS 4096
+
+static StAlign heapmem[N_HEAPWORDS];
+static size_t heapp;
 static struct StArenaGc arena_gc;
 static StArena* arena;
 static StMutex* mutex;
 
-extern const struct StMemVt STURK_MEM_API[];
+static void* getmem(size_t size)
+{
+	void* ret = NULL;
+	size_t tmp = heapp;
+
+	if (size) {
+		ret = &heapmem[heapp];
+		tmp += 1 + (size - 1) / sizeof(heapmem[0]);
+	}
+
+	if (tmp > N_HEAPWORDS)
+		ret = NULL;
+	else
+		heapp = tmp;
+	return ret;
+}
+
+static void freemem(void* ptr)
+{
+	(void)ptr;
+}
+
+const struct StMemVt MEM_API[] = {{.alloc_cb = getmem, .free_cb = freemem}};
 
 void* st_mem_alloc(size_t size, const char* file, int line)
 {
 	void* ret = NULL;
 
 	if (!arena) {
-		arena = arena_create(&arena_gc, STURK_MEM_API);
+		arena = arena_create(&arena_gc, MEM_API);
 		mutex = mutex_create(ST_MUTEX_POLICY_PRIO_INHERIT);
 	}
 
 	if (mutex) {
 		mutex_lock(mutex);
-		ret = arena_alloc(arena, size);
+		ret = arena_alloc(arena, size, file, line);
 		mutex_unlock(mutex);
 	} else {
-		ret = arena_alloc(arena, size);
+		ret = arena_alloc(arena, size, file, line);
 	}
-
-	/* LCOV_EXCL_START */
-	if (!ret)
-		except(st_except_alloc_fail.reason, file, line);
-	/* LCOV_EXCL_STOP */
 	return ret;
 }
 
@@ -81,4 +103,5 @@ void st_mem_cleanup(void)
 		arena_cleanup(&arena_gc);
 	}
 	arena = NULL;
+	heapp = 0;
 }

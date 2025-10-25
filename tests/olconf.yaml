@@ -1,3 +1,4 @@
 ---
   test:
     multithreading: false
+    mem_limited: false

@@ -67,7 +67,7 @@ static StArena* remgc(struct StArenaGc* gc)
 	return ret;
 }
 
-static void getchunk(StArena* arena, size_t size)
+static void* getchunk(StArena* arena, size_t size, const char* file, int line)
 {
 	struct StArenaGc* gc = graph_datap(arena)->gc;
 	StArena* ptr = NULL;
@@ -79,17 +79,16 @@ static void getchunk(StArena* arena, size_t size)
 	} else {
 		ASSERT(CHUNK_SIZE > sizeof(union Header) + size);
 		ptr = graph_datap(arena)->vp->alloc_cb(CHUNK_SIZE);
-		ASSERT(ptr);
-		/* LCOV_EXCL_START */
-		if (!ptr)
-			return;
-		/* LCOV_EXCL_STOP */
+		if (!ptr) {
+			eprint(ALLOC_FAIL_REASON, file, line);
+			return NULL;
+		}
 		limit = (char*)ptr + CHUNK_SIZE;
 	}
 	*ptr = *arena;
 	graph_datap(arena)->avail = (char*)((union Header*)ptr + 1);
 	graph_datap(arena)->limit = limit;
-	arena = list_ins(ptr, arena);
+	return list_ins(ptr, arena);
 }
 
 static size_t roundup(size_t size, size_t align)
@@ -127,13 +126,14 @@ void st_arena_destroy(StArena* arena)
 	}
 }
 
-void* st_arena_alloc(StArena* arena, size_t size)
+void* st_arena_alloc(StArena* arena, size_t size, const char* file, int line)
 {
 	if (!arena)
 		return NULL;
 	size = roundup(size, sizeof(StAlign));
 	while (size > getbytes(arena))
-		getchunk(arena, size);
+		if (!getchunk(arena, size, file, line))
+			return NULL;
 	graph_datap(arena)->avail += size;
 	return graph_datap(arena)->avail - size;
 }

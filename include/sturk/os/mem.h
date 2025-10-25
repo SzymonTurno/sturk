@@ -43,4 +43,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see ST_NEW() */
 #define NEW ST_NEW
 
+/** @see st_mem_alloc() */
+#define mem_alloc st_mem_alloc
+
+/** @see st_mem_cleanup() */
+#define mem_cleanup st_mem_cleanup
+
 #endif /* STURK_OS_MEM_H */

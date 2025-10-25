@@ -93,11 +93,16 @@ void st_strprint(char* buff, const char* fmt, ...);
  * @brief Log error reason and call exit(EXIT_FAILURE).
  *
  * @param[in] reason The reason.
- * @param[in] file The path to the calling source file.
- * @param[in] line The number of the calling line of code from the source file.
+ * @param[in] file The name of the source file.
+ * @param[in] line The line number.
  */
 void st_except(const char* reason, const char* file, int line);
 
+/**
+ * @def ST_EXCEPT(e)
+ *
+ * @see st_except()
+ */
 #define ST_EXCEPT(e) st_except(st_except_##e.reason, __FILE__, __LINE__)
 
 #endif /* ST_SYS_H */

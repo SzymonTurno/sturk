@@ -61,15 +61,60 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define VX_ASSERT(cond) assert(cond)
 
+#define vx_eprint(text, file, line)                                            \
+	do {                                                                   \
+		if (VX_DEBUGGING)                                              \
+			fprintf(stderr, "%s:%d: %s\n", file, line, text);      \
+	} while (0)
+
 extern void vx_debug(const char* text, const char* file, int line);
 
 #else /* not: VX_DEBUGGING */
 
-#define vx_debug(text, file, line) (void)(text)
+/**
+ * @def vx_eprint(text, file, line)
+ *
+ * @brief Log a message to stderr.
+ *
+ * @param[in] text The message.
+ * @param[in] file The name of the source file.
+ * @param[in] line The line number.
+ */
+#define vx_eprint(text, file, line) ((void)(text), (void)(file), (void)(line))
+
+/**
+ * @fn vx_debug(text, file, line)
+ *
+ * @brief Log a debug message.
+ *
+ * @param[in] text The message.
+ * @param[in] file The name of the source file.
+ * @param[in] line The line number.
+ */
+#define vx_debug(text, file, line)  ((void)(text), (void)(file), (void)(line))
 
 #endif /* VX_DEBUGGING */
 
+/**
+ * @def VX_FAIL()
+ *
+ * @see VX_ASSERT()
+ */
+#define VX_FAIL() VX_ASSERT(!"Aborting!")
+
+/**
+ * @def VX_DEBUG(text)
+ *
+ * @see vx_debug()
+ */
 #define VX_DEBUG(text) vx_debug(text, __FILE__, __LINE__)
+
+/**
+ * @def VX_ALLOC_FAIL_REASON
+ *
+ * @brief Allocation failure message.
+ */
+#define VX_ALLOC_FAIL_REASON "Memory allocation failed."
 
 #ifndef VX_ASSERT
 
