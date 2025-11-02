@@ -9,6 +9,7 @@
 #include "sturk/io/buffer.h"
 #include "sturk/os/mutex.h"
 #include "sturk/os/sem.h"
+#include "sturk/os/sys.h"
 #include "sturk/pool.h"
 #include "sturk/rbtree.h"
 #include "sturk/str.h"
@@ -168,17 +169,17 @@ TEST(basis, should_write_to_memory_buffer)
 	TEST_ASSERT_NULL(io_fgets(out, sizeof(out), io));
 	TEST_ASSERT_EQUAL_INT('t', out[0]);
 	io = io_init(buff);
-	io_print(io, "%01Alu", 14);
+	io_print(io, "%020lu", 14);
 	io_putc(io, IO_EOF);
 	io = io_init(buff);
 	TEST_ASSERT_EQUAL_STRING(
 		"00000000000000000014", io_fgets(out, sizeof(out), io));
 	io = io_init(buff);
-	io_print(io, "%01ald", -14L);
+	io_print(io, "%020ld", -14L);
 	io_putc(io, IO_EOF);
 	io = io_init(buff);
 	TEST_ASSERT_EQUAL_STRING(
-		"00000000000000000-14", io_fgets(out, sizeof(out), io));
+		"-0000000000000000014", io_fgets(out, sizeof(out), io));
 	io = io_init(buff);
 	io_print(io, "%07lX", 11);
 	io_putc(io, IO_EOF);
@@ -316,6 +317,26 @@ TEST(osal, should_not_block_if_sem_posted)
 	sem_destroy(sem);
 }
 
+TEST(osal, should_write_to_string)
+{
+	char out[256] = {0};
+
+	strprint(out, "one ");
+	TEST_ASSERT_EQUAL_STRING("one ", out);
+	strprint(out, "two \nthree");
+	TEST_ASSERT_EQUAL_STRING("two \nthree", out);
+	strprint(out, " %d;%u;%x", -3000L, 200, 10);
+	TEST_ASSERT_EQUAL_STRING(" -3000;200;a", out);
+	strprint(out, "%012lu", 14);
+	TEST_ASSERT_EQUAL_STRING("000000000014", out);
+	strprint(out, "%012ld", -14L);
+	TEST_ASSERT_EQUAL_STRING("-00000000014", out);
+	strprint(out, "%07lX", 11);
+	TEST_ASSERT_EQUAL_STRING("000000B", out);
+	strprint(out, "%c:%%:%s", 's', "string");
+	TEST_ASSERT_EQUAL_STRING("s:%:string", out);
+}
+
 TEST(osal, should_lock_mutex_twice_if_recursive)
 {
 	StMutex* mutex = mutex_create(MUTEX_TYPE_RECURSIVE);
@@ -409,6 +430,7 @@ TEST_GROUP_RUNNER(osal)
 	printf("OSAL TESTS\n");
 	RUN_TEST_CASE(osal, should_not_block_on_mutex_trylock);
 	RUN_TEST_CASE(osal, should_not_block_if_sem_posted);
+	RUN_TEST_CASE(osal, should_write_to_string);
 	if (MULTITHREADING)
 		RUN_TEST_CASE(osal, should_lock_mutex_twice_if_recursive);
 
