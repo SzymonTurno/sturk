@@ -131,35 +131,45 @@ static char a2i(char ch, const char** src, int* nump)
 	return ch;
 }
 
-static void putchw(StIo* io, int n, char z, char* bf)
+static int putchw(StIo* io, int n, char z, char* bf)
 {
 	char fc = z ? '0' : ' ';
 	char ch;
 	char* p = bf;
+	int ret = 0;
 
 	while (*p++ && n > 0)
 		n--;
 
-	if (*bf == '-')
+	if (*bf == '-') {
+		++ret;
 		io_putc(io, *(bf++));
+	}
 
-	while (n-- > 0)
+	while (n-- > 0) {
+		++ret;
 		io_putc(io, fc);
+	}
 
-	while ((ch = *bf++))
+	while ((ch = *bf++)) {
+		++ret;
 		io_putc(io, ch);
+	}
+	return ret;
 }
 
-void st_io_vprint(StIo* io, const char* fmt, va_list va)
+int st_io_vprint(StIo* io, const char* fmt, va_list va)
 {
 	char bf[12] = {0};
 	char ch = 0;
 	char lz = 0;
 	int w = 0;
 	char lng = 0;
+	int ret = 0;
 
 	while ((ch = *(fmt++))) {
 		if (ch != '%') {
+			++ret;
 			io_putc(io, ch);
 			continue;
 		}
@@ -187,14 +197,14 @@ void st_io_vprint(StIo* io, const char* fmt, va_list va)
 				ul2a(va_arg(va, unsigned long), 10, 0, bf);
 			else
 				ui2a(va_arg(va, unsigned), 10, 0, bf);
-			putchw(io, w, lz, bf);
+			ret += putchw(io, w, lz, bf);
 			break;
 		case 'd':
 			if (lng)
 				li2a(va_arg(va, long), bf);
 			else
 				i2a(va_arg(va, int), bf);
-			putchw(io, w, lz, bf);
+			ret += putchw(io, w, lz, bf);
 			break;
 		case 'x':
 		case 'X':
@@ -203,15 +213,17 @@ void st_io_vprint(StIo* io, const char* fmt, va_list va)
 				     bf);
 			else
 				ui2a(va_arg(va, unsigned), 16, (ch == 'X'), bf);
-			putchw(io, w, lz, bf);
+			ret += putchw(io, w, lz, bf);
 			break;
 		case 'c':
+			++ret;
 			io_putc(io, (char)(va_arg(va, int)));
 			break;
 		case 's':
-			putchw(io, w, 0, va_arg(va, char*));
+			ret += putchw(io, w, 0, va_arg(va, char*));
 			break;
 		case '%':
+			++ret;
 			io_putc(io, ch);
 			break;
 		default:
@@ -219,13 +231,16 @@ void st_io_vprint(StIo* io, const char* fmt, va_list va)
 			break;
 		}
 	}
+	return ret;
 }
 
-void st_io_print(StIo* io, const char* fmt, ...)
+int st_io_print(StIo* io, const char* fmt, ...)
 {
 	va_list va;
+	int ret = 0;
 
 	va_start(va, fmt);
-	io_vprint(io, fmt, va);
+	ret = io_vprint(io, fmt, va);
 	va_end(va);
+	return ret;
 }

@@ -32,18 +32,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/io/buffer.h"
 #include "sturk/os/sys.h"
 
-void st_strprint(char* buff, const char* fmt, ...)
+int st_strprint(char* buff, const char* fmt, ...)
 {
 	va_list va;
 	StIoBuffer iobuff[iobuffer_calclen(0)] = {0};
 	StIo* io = io_init(iobuff);
 	char** s = &buff;
+	int ret = 0;
 
 	io_setp(io, s);
 	va_start(va, fmt);
-	io_vprint(io, fmt, va);
+	ret = io_vprint(io, fmt, va);
 	va_end(va);
 	io_putc(io, '\0');
+	return ret;
 }
 
 /* LCOV_EXCL_START */

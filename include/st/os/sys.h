@@ -81,11 +81,11 @@ static const struct StException st_except_sanity_fail /**/
 	= {"Sanity check failed."};
 
 /**
- * @fn void st_strprint(char* buff, const char* fmt, ...)
+ * @fn int st_strprint(char* buff, const char* fmt, ...)
  *
  * @see snprintf()
  */
-void st_strprint(char* buff, const char* fmt, ...);
+int st_strprint(char* buff, const char* fmt, ...);
 
 /**
  * @fn void st_except(const char* reason, const char* file, int line)
