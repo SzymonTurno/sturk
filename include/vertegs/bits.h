@@ -30,12 +30,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * @file st/bits.h
+ * @file vertegs/bits.h
  *
  * @brief Bits and bitfields.
  *
  * This header file provides macros for operating with bits and bitfields.
- * Use the StBits data type for bitwise operations as it avoids many issues
+ * Use the VxBits data type for bitwise operations as it avoids many issues
  * related to integral promotion, which is a common source of bugs when doing
  * bit manipulations.
  *
@@ -44,22 +44,42 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * Usage.
  *   1. Set.
  * @code
- *     word |= ST_BIT(pos);
- *     word |= ST_BITMASK(hi, lo);
+ *     word |= VX_BIT(pos);
+ *     word |= VX_BITMASK(hi, lo);
  * @endcode
  *
  *   2. Clear.
  * @code
- *     word &= ~ST_BIT(pos);
- *     word $= ~ST_BITMASK(hi, lo);
+ *     word &= ~VX_BIT(pos);
+ *     word $= ~VX_BITMASK(hi, lo);
  * @endcode
  */
 
-#ifndef ST_BITS_H
-#define ST_BITS_H
+#ifndef VERTEGS_BITS_H
+#define VERTEGS_BITS_H
 
 /**
- * @def st_bf_set(word, mask, val)
+ * @file vertegs/bits.h
+ *
+ * @brief Vertex.
+ *
+ * This header file provides data types, functions and macros that define and
+ * operate on graph vertices.
+ */
+
+/**
+ * @def VX_BIT(pos)
+ *
+ * @brief Create a bitmask for a single bit.
+ *
+ * This macro creates a bitmask for a bit at position @a pos.
+ *
+ * @return A bitmask for the bit at the @a pos position.
+ */
+#define VX_BIT(pos) (1 << (pos))
+
+/**
+ * @def VX_BF_SET(word, mask, val)
  *
  * @brief Set a bitfield in a word to a new value.
  *
@@ -69,21 +89,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @return New value of the word.
  */
-#define st_bf_set(word, mask, val) (((word) & ~(mask)) | (val))
+#define VX_BF_SET(word, mask, val) (((word) & ~(mask)) | ((mask) & (val)))
 
 /**
- * @def ST_BIT(pos)
- *
- * @brief Create a bitmask for a single bit.
- *
- * This macro creates a bitmask for a bit at position @a pos.
- *
- * @return A bitmask for the bit at the @a pos position.
- */
-#define ST_BIT(pos) (1 << (pos))
-
-/**
- * @def ST_BITMASK(hi, lo)
+ * @def VX_BITMASK(hi, lo)
  *
  * @brief Create a contiguous bitmask.
  *
@@ -92,10 +101,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @return A contiguous bitmask that spans from the @a hi to the @a lo.
  */
-#define ST_BITMASK(hi, lo) ((1 << (hi)) * 2 - (1 << (lo)))
+#define VX_BITMASK(hi, lo) ((1 << (hi)) * 2 - (1 << (lo)))
 
 /**
- * @def ST_BITFIELD(mask, val)
+ * @def VX_BITFIELD(mask, val)
  *
  * @brief Create a bitfield.
  *
@@ -104,13 +113,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @return A bitfield with the value @a val at the position of the @a mask.
  */
-#define ST_BITFIELD(mask, val) ((val) << (__builtin_ffs(mask) - 1))
+#define VX_BITFIELD(mask, val) ((val) << (__builtin_ffs(mask) - 1))
 
 /**
- * @var typedef int StBits
+ * @var typedef int VxBits
  *
  * @brief The data type for bitwise operations.
  */
-typedef int StBits;
+typedef int VxBits;
 
-#endif /* ST_BITS_H */
+#endif /* VERTEGS_BITS_H */

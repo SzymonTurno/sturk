@@ -38,6 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_SYS_H
 #define ST_SYS_H
 
+#include "vertegs/vertex.h"
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -62,7 +63,7 @@ static const struct StException st_except_null_param /**/
 
 /** Exception: "alloc_fail". */
 static const struct StException st_except_alloc_fail /**/
-	= {"Memory allocation failed."};
+	= {VX_ALLOC_FAIL_REASON};
 
 /** Exception: "sem_fail". */
 static const struct StException st_except_sem_fail /**/

@@ -32,24 +32,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/bits.h
  *
- * @see st/bits.h
+ * @see vertegs/bits.h
  */
 
 #ifndef STURK_BITS_H
 #define STURK_BITS_H
 
-#include "st/bits.h"
+#include "vertegs/bits.h"
 
-/** @see st_bf_set() */
-#define bf_set st_bf_set
+/** @see VX_BF_SET() */
+#define BF_SET VX_BF_SET
 
-/** @see ST_BIT() */
-#define BIT ST_BIT
+/** @see VX_BIT() */
+#define BIT VX_BIT
 
-/** @see ST_BITMASK() */
-#define BITMASK ST_BITMASK
+/** @see VX_BITMASK() */
+#define BITMASK VX_BITMASK
 
-/** @see ST_BITFIELD() */
-#define BITFIELD ST_BITFIELD
+/** @see VX_BITFIELD() */
+#define BITFIELD VX_BITFIELD
 
 #endif /* STURK_BITS_H */

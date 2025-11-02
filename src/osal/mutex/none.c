@@ -40,7 +40,7 @@ struct StMutex {
 	int recursive;
 };
 
-StMutex* st_mutex_create(StBits args)
+StMutex* st_mutex_create(VxBits args)
 {
 	StMutex* self = NEW(StMutex);
 

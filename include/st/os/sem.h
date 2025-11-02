@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_OS_SEM_H
 #define ST_OS_SEM_H
 
-#include "st/bits.h"
+#include "vertegs/bits.h"
 #include <stdbool.h>
 
 /**
@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 typedef struct StSem StSem;
 
 /**
- * @fn StSem* st_sem_create(StBits args)
+ * @fn StSem* st_sem_create(VxBits args)
  *
  * @brief Create a semaphore.
  *
@@ -57,7 +57,7 @@ typedef struct StSem StSem;
  *
  * @return The new semaphore.
  */
-StSem* st_sem_create(StBits args);
+StSem* st_sem_create(VxBits args);
 
 /**
  * @fn void st_sem_destroy(StSem* sem)

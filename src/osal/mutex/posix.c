@@ -42,7 +42,7 @@ struct StMutex {
 	pthread_mutex_t pmut;
 };
 
-static int setprotocol(pthread_mutexattr_t* attr, StBits args)
+static int setprotocol(pthread_mutexattr_t* attr, VxBits args)
 {
 	int ret = FAILURE;
 
@@ -64,7 +64,7 @@ static int setprotocol(pthread_mutexattr_t* attr, StBits args)
 	return ret;
 }
 
-static int settype(pthread_mutexattr_t* attr, StBits args)
+static int settype(pthread_mutexattr_t* attr, VxBits args)
 {
 	int ret = FAILURE;
 
@@ -86,7 +86,7 @@ static int settype(pthread_mutexattr_t* attr, StBits args)
 	return ret;
 }
 
-StMutex* st_mutex_create(StBits args)
+StMutex* st_mutex_create(VxBits args)
 {
 	struct StMutex* self = NULL;
 	pthread_mutexattr_t attr;

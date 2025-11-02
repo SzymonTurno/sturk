@@ -4,7 +4,7 @@
 
 TEST(vertegs, should_implement_cirq)
 {
-	GRAPH(struct Cirq, 2, void*);
+	VX_CIRQ(struct Cirq, void*);
 
 	const size_t next = 0;
 	const size_t prev = 1;
@@ -65,7 +65,19 @@ TEST(vertegs, should_implement_cirq)
 	TEST_ASSERT_EQUAL_PTR(NULL, head);
 }
 
+TEST(vertegs, should_implement_rbtree)
+{
+	struct Vertegs* parent[VX_RB_N_EDGES] = {0};
+	struct Vertegs* child[VX_RB_N_EDGES] = {0};
+
+	TEST_ASSERT_EQUAL_PTR(
+		vx_4nbor(child), vx_linkrb(vx_4nbor(child), vx_4nbor(parent)));
+	TEST_ASSERT_EQUAL_PTR(
+		vx_4nbor(parent), vx_postorderfirst(vx_4nbor(child)));
+}
+
 void run_vertegs_tests(void)
 {
 	RUN_TEST_CASE(vertegs, should_implement_cirq);
+	RUN_TEST_CASE(vertegs, should_implement_rbtree);
 }

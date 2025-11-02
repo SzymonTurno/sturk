@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "st/dict.h"
 
 /** @see st_dict_cast() */
-#define dict_cast st_dict_cast
+#define dict_2dictnode st_dict_2dictnode
 
 /** @see st_dict_setk() */
 #define dict_setk st_dict_setk
@@ -72,8 +72,5 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /** @see st_dictnode_find() */
 #define dictnode_find st_dictnode_find
-
-/** @see st_dictnode_from() */
-#define dictnode_from st_dictnode_from
 
 #endif /* STURK_DICT_H */

@@ -149,7 +149,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @return The next entry.
  */
 #define vx_graphit_next(it, edge)                                              \
-	(vx_graph_4vx(vx_itnext(vx_graphit_2vxit(it), edge), **(it)))
+	(vx_graph_4vx(vx_nextit(vx_graphit_2vxit(it), edge), **(it)))
 
 /**
  * @struct VxGraphEmpty

@@ -40,7 +40,7 @@ struct StSem {
 	sem_t sem;
 };
 
-StSem* st_sem_create(StBits args)
+StSem* st_sem_create(VxBits args)
 {
 	struct StSem* self = NEW(struct StSem);
 
