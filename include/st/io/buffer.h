@@ -146,7 +146,7 @@ void st_io_putc(StIo* io, char c);
 char st_io_getc(StIo* io);
 
 /**
- * @fn void st_io_vprint(StIo* io, const char* fmt, va_list va)
+ * @fn int st_io_vprint(StIo* io, const char* fmt, va_list va)
  *
  * @brief Convert data from a va_list and write it with an IO interface.
  *
@@ -154,10 +154,10 @@ char st_io_getc(StIo* io);
  * @param[in] fmt The format string.
  * @param[in] va The va_list.
  */
-void st_io_vprint(StIo* io, const char* fmt, va_list va);
+int st_io_vprint(StIo* io, const char* fmt, va_list va);
 
 /**
- * @fn void st_io_print(StIo* io, const char* fmt, ...)
+ * @fn int st_io_print(StIo* io, const char* fmt, ...)
  *
  * @brief Convert data from "..." and write it with an IO interface.
  *
@@ -165,7 +165,7 @@ void st_io_vprint(StIo* io, const char* fmt, va_list va);
  * @param[in] fmt The format string.
  * @param[in] ... The data.
  */
-void st_io_print(StIo* io, const char* fmt, ...);
+int st_io_print(StIo* io, const char* fmt, ...);
 
 /**
  * @fn char* st_io_fgets(char* str, int size, StIo* io)

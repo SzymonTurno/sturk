@@ -169,29 +169,29 @@ TEST(basis, should_write_to_memory_buffer)
 	TEST_ASSERT_NULL(io_fgets(out, sizeof(out), io));
 	TEST_ASSERT_EQUAL_INT('t', out[0]);
 	io = io_init(buff);
-	io_print(io, "%020lu", 14);
+	TEST_ASSERT_EQUAL_INT(20, io_print(io, "%020lu", 14));
 	io_putc(io, IO_EOF);
 	io = io_init(buff);
 	TEST_ASSERT_EQUAL_STRING(
 		"00000000000000000014", io_fgets(out, sizeof(out), io));
 	io = io_init(buff);
-	io_print(io, "%020ld", -14L);
+	TEST_ASSERT_EQUAL_INT(20, io_print(io, "%020ld", -14L));
 	io_putc(io, IO_EOF);
 	io = io_init(buff);
 	TEST_ASSERT_EQUAL_STRING(
 		"-0000000000000000014", io_fgets(out, sizeof(out), io));
 	io = io_init(buff);
-	io_print(io, "%07lX", 11);
+	TEST_ASSERT_EQUAL_INT(7, io_print(io, "%07lX", 11));
 	io_putc(io, IO_EOF);
 	io = io_init(buff);
 	TEST_ASSERT_EQUAL_STRING("000000B", io_fgets(out, sizeof(out), io));
 	io = io_init(buff);
-	io_print(io, "%c:%%:%s", 's', "string");
+	TEST_ASSERT_EQUAL_INT(10, io_print(io, "%c:%%:%s", 's', "string"));
 	io_putc(io, IO_EOF);
 	io = io_init(buff);
 	TEST_ASSERT_EQUAL_STRING("s:%:string", io_fgets(out, sizeof(out), io));
 	io = io_init(buff);
-	io_print(io, "%f%01b%", 3.14);
+	TEST_ASSERT_EQUAL_INT(0, io_print(io, "%f%01b%", 3.14));
 	io_putc(io, IO_EOF);
 	io = io_init(buff);
 	TEST_ASSERT_NULL(io_fgets(out, sizeof(out), io));
@@ -321,19 +321,19 @@ TEST(osal, should_write_to_string)
 {
 	char out[256] = {0};
 
-	strprint(out, "one ");
+	TEST_ASSERT_EQUAL_INT(4, strprint(out, "one "));
 	TEST_ASSERT_EQUAL_STRING("one ", out);
-	strprint(out, "two \nthree");
+	TEST_ASSERT_EQUAL_INT(10, strprint(out, "two \nthree"));
 	TEST_ASSERT_EQUAL_STRING("two \nthree", out);
-	strprint(out, " %d;%u;%x", -3000L, 200, 10);
+	TEST_ASSERT_EQUAL_INT(12, strprint(out, " %d;%u;%x", -3000L, 200, 10));
 	TEST_ASSERT_EQUAL_STRING(" -3000;200;a", out);
-	strprint(out, "%012lu", 14);
+	TEST_ASSERT_EQUAL_INT(12, strprint(out, "%012lu", 14));
 	TEST_ASSERT_EQUAL_STRING("000000000014", out);
-	strprint(out, "%012ld", -14L);
+	TEST_ASSERT_EQUAL_INT(12, strprint(out, "%012ld", -14L));
 	TEST_ASSERT_EQUAL_STRING("-00000000014", out);
-	strprint(out, "%07lX", 11);
+	TEST_ASSERT_EQUAL_INT(7, strprint(out, "%07lX", 11));
 	TEST_ASSERT_EQUAL_STRING("000000B", out);
-	strprint(out, "%c:%%:%s", 's', "string");
+	TEST_ASSERT_EQUAL_INT(10, strprint(out, "%c:%%:%s", 's', "string"));
 	TEST_ASSERT_EQUAL_STRING("s:%:string", out);
 }
 

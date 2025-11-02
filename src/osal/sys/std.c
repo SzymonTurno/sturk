@@ -34,13 +34,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdio.h>
 #include <stdlib.h>
 
-void st_strprint(char* buff, const char* fmt, ...)
+int st_strprint(char* buff, const char* fmt, ...)
 {
 	va_list va;
+	int ret = 0;
 
 	va_start(va, fmt);
-	vsprintf(buff, fmt, va);
+	ret = vsprintf(buff, fmt, va);
 	va_end(va);
+	return ret;
 }
 
 /* LCOV_EXCL_START */
