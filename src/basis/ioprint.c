@@ -111,22 +111,18 @@ static int a2d(char ch)
 {
 	if (ch >= '0' && ch <= '9')
 		return ch - '0';
-	else if (ch >= 'a' && ch <= 'f')
-		return ch - 'a' + 10;
-	else if (ch >= 'A' && ch <= 'F')
-		return ch - 'A' + 10;
 	return -1;
 }
 
-static char a2i(char ch, const char** src, int base, int* nump)
+static char a2i(char ch, const char** src, int* nump)
 {
+	const int base = 10;
 	const char* p = *src;
 	int num = 0;
 	int dgt = 0;
 
 	while ((dgt = a2d(ch)) >= 0) {
-		if (dgt > base)
-			break;
+		ASSERT(dgt <= base);
 		num = num * base + dgt;
 		ch = *p++;
 	}
@@ -143,6 +139,9 @@ static void putchw(StIo* io, int n, char z, char* bf)
 
 	while (*p++ && n > 0)
 		n--;
+
+	if (*bf == '-')
+		io_putc(io, *(bf++));
 
 	while (n-- > 0)
 		io_putc(io, fc);
@@ -172,7 +171,7 @@ void st_io_vprint(StIo* io, const char* fmt, va_list va)
 		}
 
 		if (ch >= '0' && ch <= '9')
-			ch = a2i(ch, &fmt, 10, &w);
+			ch = a2i(ch, &fmt, &w);
 
 		if (ch == 'l') {
 			ch = *(fmt++);
