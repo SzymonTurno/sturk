@@ -157,31 +157,29 @@ static StChannel* channel_create(StBroker* broker, const char* topic)
 
 static void channel_destroy(StChannel* ch)
 {
-	struct ChannelData* data = dict_datap(ch);
+	struct ChannelData* data = NULL;
 
-	ENSURE(!data->list, ERROR, sanity_fail);
-	mutex_destroy(data->mutex);
-	data->mutex = NULL;
-	data->broker = NULL;
-	st_free(dict_getk(ch));
-	dict_setk(ch, NULL);
-	st_free(ch);
+	if (ch) {
+		data = dict_datap(ch);
+		ENSURE(!data->list, ERROR, sanity_fail);
+		mutex_destroy(data->mutex);
+		data->mutex = NULL;
+		data->broker = NULL;
+		st_free(dict_getk(ch));
+		dict_setk(ch, NULL);
+		st_free(ch);
+	}
 }
 
 static void dict_destroy(StChannel* dict)
 {
-	for (struct StRbNode *i = NULL, *p = NULL;;) {
-		i = rb_first(&dict_cast(dict)->node, BST_POSTORDER);
-		p = rb_parent(i);
-		channel_destroy(
-			container_of(dictnode_from(i), StChannel, dictnode));
-		if (!p)
-			break;
+	struct StDictNode* root = dict_2dictnode(dict);
+	struct StDictNode* i = NULL;
 
-		if (i == rb_left(p))
-			graph_2vx(p)->nbor[BST_LEFT] = NULL;
-		else
-			graph_2vx(p)->nbor[BST_RIGHT] = NULL;
+	while (i != root) {
+		i = rb_deepest(root);
+		rb_unlink(i);
+		channel_destroy(container_of(i, StChannel, dictnode));
 	}
 }
 

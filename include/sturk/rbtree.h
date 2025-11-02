@@ -32,48 +32,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file sturk/rbtree.h
  *
- * @see st/rbtree.h
+ * @see vertegs/rbtree.h
  */
 
 #ifndef STURK_RBTREE_H
 #define STURK_RBTREE_H
 
-#include "st/rbtree.h"
+#include "vertegs/rbtree.h"
 
-/** @see ST_BST_INORDER */
-#define BST_INORDER ST_BST_INORDER
+/** @see VX_RBTREE() */
+#define RBTREE VX_RBTREE
 
-/** @see ST_BST_PREORDER */
-#define BST_PREORDER ST_BST_PREORDER
+/** @see vx_rb_link() */
+#define rb_link vx_rb_link
 
-/** @see ST_BST_POSTORDER */
-#define BST_POSTORDER ST_BST_POSTORDER
+/** @see vx_rb_unlink() */
+#define rb_unlink vx_rb_unlink
 
-/** @see ST_BST_LEFT */
-#define BST_LEFT ST_BST_LEFT
+/** @see vx_rb_insrebal() */
+#define rb_insrebal vx_rb_insrebal
 
-/** @see ST_BST_RIGHT */
-#define BST_RIGHT ST_BST_RIGHT
+/** @see vx_rb_deepest() */
+#define rb_deepest vx_rb_deepest
 
-/** @see st_rb_link() */
-#define rb_link st_rb_link
+/** @see vx_rb_root() */
+#define rb_root vx_rb_root
 
-/** @see st_rb_insrebal() */
-#define rb_insrebal st_rb_insrebal
+/** @see vx_rb_first() */
+#define rb_first vx_rb_first
 
-/** @see st_rb_left() */
-#define rb_left st_rb_left
-
-/** @see st_rb_right() */
-#define rb_right st_rb_right
-
-/** @see st_rb_parent() */
-#define rb_parent st_rb_parent
-
-/** @see st_rb_first() */
-#define rb_first st_rb_first
-
-/** @see st_rb_next() */
-#define rb_next st_rb_next
+/** @see vx_rb_next() */
+#define rb_next vx_rb_next
 
 #endif /* STURK_RBTREE_H */

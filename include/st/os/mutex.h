@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_OS_MUTEX_H
 #define ST_OS_MUTEX_H
 
-#include "st/bits.h"
+#include "vertegs/bits.h"
 #include <stdbool.h>
 
 /**
@@ -51,12 +51,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @return The bitfield.
  */
-#define ST_MUTEX_BF(attr, opt) ST_BITFIELD(ST_MUTEX_##attr##_MASK, (opt))
+#define ST_MUTEX_BF(attr, opt) VX_BITFIELD(ST_MUTEX_##attr##_MASK, (opt))
 
 /* clang-format off */
-#define ST_MUTEX_POLICY_MASK ST_BITMASK(2, 0)  /**< mutex policy setting bits. */
-#define ST_MUTEX_TYPE_MASK   ST_BITMASK(6, 3)  /**< mutex type setting bits. */
-#define ST_MUTEX_UNUSED_MASK ST_BITMASK(31, 7) /**< mutex settings unused bits. */
+#define ST_MUTEX_POLICY_MASK VX_BITMASK(2, 0)  /**< mutex policy setting bits. */
+#define ST_MUTEX_TYPE_MASK   VX_BITMASK(6, 3)  /**< mutex type setting bits. */
+#define ST_MUTEX_UNUSED_MASK VX_BITMASK(31, 7) /**< mutex settings unused bits. */
 
 #define ST_MUTEX_POLICY_NONE         ST_MUTEX_BF(POLICY, 0) /**< mutex policy none. */
 #define ST_MUTEX_POLICY_PRIO_INHERIT ST_MUTEX_BF(POLICY, 1) /**< mutex policy priority inherit. */
@@ -75,7 +75,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 typedef struct StMutex StMutex;
 
 /**
- * @fn StMutex* st_mutex_create(StBits args)
+ * @fn StMutex* st_mutex_create(VxBits args)
  *
  * @brief Create a mutex.
  *
@@ -88,7 +88,7 @@ typedef struct StMutex StMutex;
  *
  * @return The new mutex.
  */
-StMutex* st_mutex_create(StBits args);
+StMutex* st_mutex_create(VxBits args);
 
 /**
  * @fn void st_mutex_destroy(StMutex* mutex)

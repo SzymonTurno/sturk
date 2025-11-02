@@ -29,7 +29,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "st/dict.h"
+#include "sturk/dict.h"
 #include "sturk/arith.h"
 #include "sturk/graph.h"
 #include "sturk/io/except.h"
@@ -46,62 +46,42 @@ int st_strcmp(const char* s1, const char* s2)
 	return *(const unsigned char*)s1 - *(const unsigned char*)s2;
 }
 
-static struct StRbNode* rbnode_4nbor(struct Vertegs** nbor)
-{
-	struct StRbNode* ptr = NULL;
-
-	ENSURE(nbor, ERROR, sanity_fail);
-	ptr = graph_4vx(vx_4nbor(nbor), ptr);
-	return ptr;
-}
-
-static struct StDictNode* rbnode_2dictnode(struct StRbNode* ptr)
-{
-	return container_of(ptr, struct StDictNode, node);
-}
-
-static struct StDictNode* dictnode_4nbor(struct Vertegs** nbor)
-{
-	ENSURE(nbor, ERROR, sanity_fail);
-	return rbnode_2dictnode(rbnode_4nbor(nbor));
-}
-
 struct StDictNode*
 st_dictnode_ins(struct StDictNode* root, struct StDictNode* node)
 {
-	struct Vertegs* nbor[] = {root ? graph_2vx(&root->node) : NULL};
-	struct Vertegs** p = nbor;
-	size_t child = 0;
+	struct StDictNode** i = NULL;
+	struct StDictNode* p = NULL;
 
 	ENSURE_MEM(node, ERROR);
-	ENSURE_MEM(node->str, ERROR);
-	while (p[child]) {
-		p = p[child]->nbor;
-		if (st_strcmp(node->str, dictnode_4nbor(p)->str) < 0)
-			child = BST_LEFT;
+	ENSURE_MEM(*graph_datap(node), ERROR);
+	i = &root;
+	while (*i) {
+		p = *i;
+		if (st_strcmp(*graph_datap(node), *graph_datap(p)) < 0)
+			graphit_next(&i, VX_RB_LEFT);
 		else
-			child = BST_RIGHT;
+			graphit_next(&i, VX_RB_RIGHT);
 	}
-	p[child] = graph_2vx(
-		rb_link(&node->node, (p == nbor) ? NULL : rbnode_4nbor(p)));
-	return rbnode_2dictnode(
-		rb_insrebal(graph_4vx(nbor[0], &node->node), &node->node));
+	*i = rb_link(node, p);
+	return rb_insrebal(root, node);
 }
 
 struct StDictNode* st_dictnode_find(struct StDictNode* root, const char* str)
 {
+	struct StDictNode** i = NULL;
 	int tmp = 0;
 
 	ENSURE_MEM(str, ERROR);
-	while (root) {
-		ENSURE(root->str, ERROR, null_param);
-		tmp = st_strcmp(str, root->str);
+	i = &root;
+	while (*i) {
+		ENSURE(*graph_datap(*i), ERROR, null_param);
+		tmp = st_strcmp(str, *graph_datap(*i));
 		if (tmp < 0)
-			root = rbnode_2dictnode(rb_left(&root->node));
+			graphit_next(&i, VX_RB_LEFT);
 		else if (tmp > 0)
-			root = rbnode_2dictnode(rb_right(&root->node));
+			graphit_next(&i, VX_RB_RIGHT);
 		else
 			break;
 	}
-	return root;
+	return *i;
 }

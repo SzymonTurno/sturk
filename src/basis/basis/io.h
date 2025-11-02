@@ -36,13 +36,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/bits.h"
 #include "sturk/io/buffer.h"
 
-#define USR_MODE_MASK ST_BIT(0)
+#define USR_MODE_MASK BIT(0)
 
 union StIo {
 	struct {
 		const struct StIoVt* vp;
 		union {
-			StBits flags;
+			VxBits flags;
 			void* align;
 		} u;
 	} s;

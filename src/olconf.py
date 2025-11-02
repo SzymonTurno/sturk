@@ -13,7 +13,7 @@ CONSTRAINTS = [
 
 def append_rules(olvars):
     rule = olvars.rule(os.path.join('$(sturk_BLDDIR)', 'libsturk.a'))
-    incs = "$(sturk_INC) $(osal_INC)"
+    incs = "$(sturk_INC)"
 
     rule.normal_depend('$(sturk_OBJS)')
     rule.step('ar rcs $@ $(sturk_OBJS)')

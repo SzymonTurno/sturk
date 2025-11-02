@@ -11,7 +11,6 @@
 #include "sturk/os/sem.h"
 #include "sturk/os/sys.h"
 #include "sturk/pool.h"
-#include "sturk/rbtree.h"
 #include "sturk/str.h"
 #include "sturk/waitq.h"
 #include "unity.h"
@@ -517,45 +516,45 @@ TEST(algo, should_return_left_and_right_child_of_rbnode)
 	struct Vertegs right[1] = {0};
 	struct Vertegs* nbor[] = {left, right};
 
-	TEST_ASSERT_EQUAL_PTR(
-		left, (struct Vertegs*)rb_left((struct StRbNode*)nbor));
-	TEST_ASSERT_EQUAL_PTR(
-		right, (struct Vertegs*)rb_right((struct StRbNode*)nbor));
+	TEST_ASSERT_EQUAL_PTR(left, vx_4nbor(nbor)->nbor[VX_RB_LEFT]);
+	TEST_ASSERT_EQUAL_PTR(right, vx_4nbor(nbor)->nbor[VX_RB_RIGHT]);
 }
 
 TEST(algo, should_link_rbnode_as_leaf)
 {
-	struct StRbNode p = {0};
-	struct StRbNode n = {0};
+	struct Vertegs* p[VX_RB_N_EDGES] = {0};
+	struct Vertegs* n[VX_RB_N_EDGES] = {0};
 
-	memset(&n, 0xA, sizeof(n));
-	TEST_ASSERT_EQUAL_PTR(&n, rb_link(&n, &p));
+	memset(n, 0xA, sizeof(n));
+	TEST_ASSERT_EQUAL_PTR(vx_4nbor(n), vx_linkrb(vx_4nbor(n), vx_4nbor(p)));
 	/* Adding one ("+ 1") verifies that node is red. */
-	TEST_ASSERT_EQUAL_INT(((intptr_t)&p) + 1, graph_datap(&n)->parcol);
-	TEST_ASSERT_NULL(rb_left(&n));
-	TEST_ASSERT_NULL(rb_right(&n));
+	TEST_ASSERT_EQUAL_INT(
+		((intptr_t)vx_4nbor(p)) + 1, (intptr_t)n[VX_RB_PARCOL]);
+	TEST_ASSERT_NULL(vx_4nbor(n)->nbor[VX_RB_LEFT]);
+	TEST_ASSERT_NULL(vx_4nbor(n)->nbor[VX_RB_RIGHT]);
 }
 
 TEST(algo, should_insert_in_rbtree_and_balance)
 {
-	struct StRbNode c = {0};
-	struct StRbNode a = {0};
-	struct StRbNode b = {0};
-	struct Vertegs** nbor = ((struct Vertegs*)&c)->nbor;
+	struct Vertegs* c[VX_RB_N_EDGES] = {0};
+	struct Vertegs* a[VX_RB_N_EDGES] = {0};
+	struct Vertegs* b[VX_RB_N_EDGES] = {0};
+	struct Vertegs** nbor = c;
 
 	/*
 	 *    c
 	 *   / \
 	 *  a (nil)
 	 */
-	nbor[0] = graph_2vx(rb_link(&a, &c));
+	nbor[0] = vx_linkrb(vx_4nbor(a), vx_4nbor(c));
 
 	/*
 	 *    c
 	 *   / \
 	 *  a (nil)
 	 */
-	TEST_ASSERT_EQUAL_PTR(&c, rb_insrebal(&c, &a));
+	TEST_ASSERT_EQUAL_PTR(
+		vx_4nbor(c), vx_insrebalrb(vx_4nbor(c), vx_4nbor(a)));
 
 	/*
 	 *        c
@@ -564,65 +563,78 @@ TEST(algo, should_insert_in_rbtree_and_balance)
 	 *     / \
 	 *  (nil) b
 	 */
-	nbor = ((struct Vertegs*)&a)->nbor;
-	nbor[1] = graph_2vx(rb_link(&b, &a));
+	nbor = a;
+	nbor[1] = vx_linkrb(vx_4nbor(b), vx_4nbor(a));
 
 	/*
 	 *        b
 	 *       / \
 	 *      a   c
 	 */
-	TEST_ASSERT_EQUAL_PTR(&b, rb_insrebal(&c, &b));
-	nbor = ((struct Vertegs*)&b)->nbor;
-	TEST_ASSERT_EQUAL_PTR(&a, nbor[0]);
-	TEST_ASSERT_EQUAL_PTR(&c, nbor[1]);
-}
-
-TEST(algo, should_trace_not_supported_traversals)
-{
-	struct StRbNode node = {0};
-
-	logger_detach(WARNING, SIMPTE_IO(STDERR));
-	rb_next(&node, BST_POSTORDER);
-	TEST_ASSERT_EQUAL_STRING(
-		RBTREE_FILE_PATH ":213: Not supported.\n",
-		strstr(SIMPTE_GETTRACE(algo, 0), RBTREE_FILE_PATH ":"));
-	rb_first(&node, BST_PREORDER);
-	TEST_ASSERT_EQUAL_STRING(
-		RBTREE_FILE_PATH ":174: Not supported.\n",
-		strstr(SIMPTE_GETTRACE(algo, 1), RBTREE_FILE_PATH ":"));
+	TEST_ASSERT_EQUAL_PTR(
+		vx_4nbor(b), vx_insrebalrb(vx_4nbor(c), vx_4nbor(b)));
+	nbor = b;
+	TEST_ASSERT_EQUAL_PTR(vx_4nbor(a), nbor[0]);
+	TEST_ASSERT_EQUAL_PTR(vx_4nbor(c), nbor[1]);
 }
 
 TEST(algo, should_sort_with_dict_node)
 {
-	struct StDictNode q = {.node = {0}, .str = "q"};
-	struct StDictNode w = {.node = {0}, .str = "w"};
-	struct StDictNode e = {.node = {0}, .str = "e"};
-	struct StDictNode r = {.node = {0}, .str = "r"};
-	struct StDictNode t = {.node = {0}, .str = "t"};
-	struct StDictNode y = {.node = {0}, .str = "y"};
-	struct StDictNode* root = dictnode_ins(NULL, &q);
+	struct StDictNode q = {0};
+	struct StDictNode w = {0};
+	struct StDictNode e = {0};
+	struct StDictNode r = {0};
+	struct StDictNode t = {0};
+	struct StDictNode y = {0};
+	struct StDictNode* root = NULL;
 
+	*graph_datap(&q) = "q";
+	*graph_datap(&w) = "w";
+	*graph_datap(&e) = "e";
+	*graph_datap(&r) = "r";
+	*graph_datap(&t) = "t";
+	*graph_datap(&y) = "y";
+	root = dictnode_ins(NULL, &q);
 	TEST_ASSERT_EQUAL_PTR(&q, root);
 	root = dictnode_ins(root, &w);
 	root = dictnode_ins(root, &e);
 	root = dictnode_ins(root, &r);
 	root = dictnode_ins(root, &t);
 	root = dictnode_ins(root, &y);
-	root = (struct StDictNode*)rb_first(
-		(struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("e", root->str);
-	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("q", root->str);
-	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("r", root->str);
-	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("t", root->str);
-	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("w", root->str);
-	root = (struct StDictNode*)rb_next((struct StRbNode*)root, BST_INORDER);
-	TEST_ASSERT_EQUAL_STRING("y", root->str);
-	TEST_ASSERT_NULL(rb_next((struct StRbNode*)root, BST_INORDER));
+	root = (struct StDictNode*)vx_inorderfirst((struct Vertegs*)root);
+	TEST_ASSERT_EQUAL_STRING("e", *graph_datap(root));
+	root = (struct StDictNode*)vx_inordernext((struct Vertegs*)root);
+	TEST_ASSERT_EQUAL_STRING("q", *graph_datap(root));
+	root = (struct StDictNode*)vx_inordernext((struct Vertegs*)root);
+	TEST_ASSERT_EQUAL_STRING("r", *graph_datap(root));
+	root = (struct StDictNode*)vx_inordernext((struct Vertegs*)root);
+	TEST_ASSERT_EQUAL_STRING("t", *graph_datap(root));
+	root = (struct StDictNode*)vx_inordernext((struct Vertegs*)root);
+	TEST_ASSERT_EQUAL_STRING("w", *graph_datap(root));
+	root = (struct StDictNode*)vx_inordernext((struct Vertegs*)root);
+	TEST_ASSERT_EQUAL_STRING("y", *graph_datap(root));
+	TEST_ASSERT_NULL(vx_inordernext((struct Vertegs*)root));
+}
+
+TEST(algo, should_find_first_in_dict)
+{
+	struct StStrBag* bag = NULL;
+	struct StStrBag* first = NULL;
+
+	/*
+	 *        c
+	 *       / \
+	 *      a   d
+	 *     / \
+	 *  (nil) b
+	 */
+	bag = strbag_ins(NULL, "c");
+	bag = strbag_ins(bag, "a");
+	bag = strbag_ins(bag, "d");
+	bag = strbag_ins(bag, "b");
+	bag = dict_first(bag);
+	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
+	strbag_destroy(bag);
 }
 
 TEST(algo, should_allow_many_entries_in_strbag)
@@ -748,15 +760,15 @@ TEST(algo, should_allow_preorder_traversal_with_strbag)
 	 *  a   c   f
 	 */
 	TEST_ASSERT_EQUAL_STRING("d", dict_getk(bag));
-	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
+	bag = (struct StStrBag*)vx_preordernext((struct Vertegs*)bag);
 	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
-	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
+	bag = (struct StStrBag*)vx_preordernext((struct Vertegs*)bag);
 	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
-	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
+	bag = (struct StStrBag*)vx_preordernext((struct Vertegs*)bag);
 	TEST_ASSERT_EQUAL_STRING("c", dict_getk(bag));
-	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
+	bag = (struct StStrBag*)vx_preordernext((struct Vertegs*)bag);
 	TEST_ASSERT_EQUAL_STRING("e", dict_getk(bag));
-	bag = (struct StStrBag*)rb_next((struct StRbNode*)bag, BST_PREORDER);
+	bag = (struct StStrBag*)vx_preordernext((struct Vertegs*)bag);
 	TEST_ASSERT_EQUAL_STRING("f", dict_getk(bag));
 	strbag_destroy(bag);
 }
@@ -778,11 +790,11 @@ TEST(algo, should_find_first_in_strbag)
 	 *   \
 	 *    b
 	 */
-	tmp = (struct StStrBag*)rb_right((struct StRbNode*)bag);
+	tmp = (struct StStrBag*)((struct Vertegs*)bag)->nbor[VX_RB_RIGHT];
 	TEST_ASSERT_EQUAL_STRING("d", dict_getk(tmp));
-	bag = (struct StStrBag*)rb_first((struct StRbNode*)tmp, BST_INORDER);
+	bag = (struct StStrBag*)vx_inorderfirst((struct Vertegs*)tmp);
 	TEST_ASSERT_EQUAL_STRING("a", dict_getk(bag));
-	bag = (struct StStrBag*)rb_first((struct StRbNode*)tmp, BST_POSTORDER);
+	bag = (struct StStrBag*)vx_postorderfirst((struct Vertegs*)tmp);
 	TEST_ASSERT_EQUAL_STRING("b", dict_getk(bag));
 	strbag_destroy(bag);
 }
@@ -838,8 +850,8 @@ TEST_GROUP_RUNNER(algo)
 	RUN_TEST_CASE(algo, should_return_left_and_right_child_of_rbnode);
 	RUN_TEST_CASE(algo, should_link_rbnode_as_leaf);
 	RUN_TEST_CASE(algo, should_insert_in_rbtree_and_balance);
-	RUN_TEST_CASE(algo, should_trace_not_supported_traversals);
 	RUN_TEST_CASE(algo, should_sort_with_dict_node);
+	RUN_TEST_CASE(algo, should_find_first_in_dict);
 	if (!MEM_LIMITED)
 		RUN_TEST_CASE(algo, should_allow_many_entries_in_strbag);
 	RUN_TEST_CASE(algo, should_sort_with_strbag);
@@ -909,7 +921,7 @@ TEST(broker, should_trace_null_subscriber)
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	subscriber_unload(NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":443: Null param.\n",
+		BROKER_FILE_PATH ":441: Null param.\n",
 		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 }
 
@@ -995,7 +1007,7 @@ TEST(broker, should_trace_null_broker)
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	subscribe(tmp, NULL);
 	TEST_ASSERT_EQUAL_STRING(
-		BROKER_FILE_PATH ":471: Null param.\n",
+		BROKER_FILE_PATH ":469: Null param.\n",
 		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 	free(tmp);
 }

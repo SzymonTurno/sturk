@@ -67,36 +67,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_DICT_H
 #define ST_DICT_H
 
-#include "st/arith.h"
-#include "st/io/except.h"
-#include "st/rbtree.h"
-
-#ifdef __STRICT_ANSI__
-
-#define st_dict_cast(dict) ((struct StDictNode*)(dict))
-
-#define st_dict_setk(dict, key) ((dict)->dictnode.str = (key))
-
-#define st_dict_getk(dict) ((dict)->dictnode.str)
-
-#define st_dict_datap(dict) (&(dict)->data)
-
-#define st_dict_ins(dict, node)                                                \
-	((void*)st_dictnode_ins(st_dict_cast(dict), st_dict_cast(node)))
-
-#define st_dict_find(dict, key)                                                \
-	((void*)st_dictnode_find(st_dict_cast(dict), (key)))
-
-#define st_dict_first(dict)                                                    \
-	((void*)(st_dictnode_from(st_rb_first(&dict_cast(dict)->node, 0))))
-
-#define st_dict_next(dict)                                                     \
-	((void*)(st_dictnode_from(st_rb_next(&dict_cast(dict)->node, 0))))
-
-#else /* not defined: __STRICT_ANSI__ */
+#include "vertegs/rbtree.h"
 
 /**
- * @def st_dict_cast(dict)
+ * @def st_dict_2dictnode(dict)
  *
  * @brief Get the pointer to the StDictNode member of the dictionary entry.
  *
@@ -106,12 +80,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define st_dict_cast(dict)                                                     \
-	({                                                                     \
-		__typeof__(dict) _dict2 = (dict);                              \
-                                                                               \
-		_dict2 ? &_dict2->dictnode : NULL;                             \
-	})
+#define st_dict_2dictnode(dict) (&(dict)->dictnode)
 
 /**
  * @def st_dict_setk(dict, key)
@@ -123,13 +92,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define st_dict_setk(dict, key)                                                \
-	({                                                                     \
-		__typeof__(dict) _dict = (dict);                               \
-                                                                               \
-		ST_ENSURE(_dict, ST_ERROR, null_param);                        \
-		_dict->dictnode.str = (key);                                   \
-	})
+#define st_dict_setk(dict, key) (*vx_graph_datap(&(dict)->dictnode) = (key))
 
 /**
  * @def st_dict_getk(dict)
@@ -142,13 +105,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define st_dict_getk(dict)                                                     \
-	({                                                                     \
-		__typeof__(dict) _dict = (dict);                               \
-                                                                               \
-		ST_ENSURE(_dict, ST_ERROR, null_param);                        \
-		_dict->dictnode.str;                                           \
-	})
+#define st_dict_getk(dict) (*vx_graph_datap(&(dict)->dictnode))
 
 /**
  * @def st_dict_datap(dict)
@@ -161,13 +118,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define st_dict_datap(dict)                                                    \
-	({                                                                     \
-		__typeof__(dict) _dict = (dict);                               \
-                                                                               \
-		ST_ENSURE(_dict, ST_ERROR, null_param);                        \
-		&_dict->data;                                                  \
-	})
+#define st_dict_datap(dict) (&(dict)->data)
 
 /**
  * @def st_dict_ins(dict, entry)
@@ -182,14 +133,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
 #define st_dict_ins(dict, entry)                                               \
-	({                                                                     \
-		__typeof__(dict) _dict = (dict);                               \
-                                                                               \
-		st_container_of(                                               \
-			st_dictnode_ins(                                       \
-				st_dict_cast(_dict), st_dict_cast(entry)),     \
-			__typeof__(*dict), dictnode);                          \
-	})
+	((VX_TYPEOF(dict))st_dictnode_ins(                                     \
+		st_dict_2dictnode(dict), st_dict_2dictnode(entry)))
 
 /**
  * @def st_dict_find(dict, key)
@@ -204,13 +149,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
 #define st_dict_find(dict, key)                                                \
-	({                                                                     \
-		__typeof__(dict) _dict = (dict);                               \
-                                                                               \
-		st_container_of(                                               \
-			st_dictnode_find(st_dict_cast(_dict), (key)),          \
-			__typeof__(*dict), dictnode);                          \
-	})
+	((VX_TYPEOF(dict))st_dictnode_find(st_dict_2dictnode(dict), (key)))
 
 /**
  * @def st_dict_first(dict)
@@ -226,15 +165,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define st_dict_first(dict)                                                    \
-	({                                                                     \
-		__typeof__(dict) _dict = (dict);                               \
-                                                                               \
-		st_container_of(                                               \
-			st_dictnode_from(                                      \
-				st_rb_first(&dict_cast(_dict)->node, 0)),      \
-			__typeof__(*dict), dictnode);                          \
-	})
+#define st_dict_first(dict) ((VX_TYPEOF(dict))vx_rb_first(dict_2dictnode(dict)))
 
 /**
  * @def st_dict_next(dict)
@@ -250,17 +181,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @note Compile with the GNU extension to enable a type check for the @a dict.
  */
-#define st_dict_next(dict)                                                     \
-	({                                                                     \
-		__typeof__(dict) _dict = (dict);                               \
-                                                                               \
-		st_container_of(                                               \
-			st_dictnode_from(st_rb_next(                           \
-				&dict_cast(_dict)->node, ST_BST_INORDER)),     \
-			__typeof__(*dict), dictnode);                          \
-	})
-
-#endif /* __STRICT_ANSI__ */
+#define st_dict_next(dict) ((VX_TYPEOF(dict))vx_rb_next(dict_2dictnode(dict)))
 
 /**
  * @def ST_DICT(name, type)
@@ -281,25 +202,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 
 /**
+ * @def VX_RBTREE(struct StDictNode, char*)
+ *
  * @struct StDictNode
  *
  * @brief Dictionary node.
  */
-struct StDictNode {
-	/**
-	 * @var struct StRbNode node
-	 *
-	 * @brief The red-black tree node.
-	 */
-	struct StRbNode node;
-
-	/**
-	 * @var char* str
-	 *
-	 * @brief The key string.
-	 */
-	char* str;
-};
+VX_RBTREE(struct StDictNode, char*);
+/**< This is a macro definition of a type for a dictionary node. */
 
 /**
  * @fn struct StDictNode* st_dictnode_ins(struct StDictNode* root, struct StDictNode* entry)
@@ -325,19 +235,5 @@ st_dictnode_ins(struct StDictNode* root, struct StDictNode* entry);
  * @return The found entry or NULL if none found.
  */
 struct StDictNode* st_dictnode_find(struct StDictNode* root, const char* str);
-
-/**
- * @fn static inline struct StDictNode* st_dictnode_from(struct StRbNode* ptr)
- *
- * @brief Cast a StRbNode member out to the containing StDictNode structure.
- *
- * @param[in] ptr The pointer to the StRbNode member.
- *
- * @return A pointer to the StDictNode structure.
- */
-static inline struct StDictNode* st_dictnode_from(struct StRbNode* ptr)
-{
-	return st_container_of(ptr, struct StDictNode, node);
-}
 
 #endif /* ST_DICT_H */

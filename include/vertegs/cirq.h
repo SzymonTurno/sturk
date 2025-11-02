@@ -64,7 +64,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * This macro will define a compound type (must be struct or union) @a name,
  * a type for a *cirq* entry that holds the data of the type @a type.
  */
-#define VX_CIRQ(name, type) VX_GRAPH(name, 2, type)
+#define VX_CIRQ(name, type) VX_GRAPH(name, VX_LIST_N_EDGES, type)
 
 /**
  * @def vx_cirq_ins(cirq, ...)

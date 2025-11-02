@@ -36,7 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef STURK_DEBUG_H
 #define STURK_DEBUG_H
 
-#include "vertegs/vertex.h"
+#include "vertegs/debug.h"
 
 /** @see VX_ASSERT() */
 #define ASSERT VX_ASSERT

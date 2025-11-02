@@ -56,15 +56,6 @@ static void bag_destroy(struct StStrBag* bag)
 	st_free(bag);
 }
 
-static struct StStrBag* bag_root(struct StStrBag* bag)
-{
-	struct StRbNode* i = &dict_cast(bag)->node;
-
-	while (st_rb_parent(i))
-		i = st_rb_parent(i);
-	return container_of(dictnode_from(i), struct StStrBag, dictnode);
-}
-
 size_t st_strlen(const char* str)
 {
 	size_t len = 0;
@@ -162,20 +153,15 @@ int st_strbag_count(const struct StStrBag* bag)
 
 void st_strbag_destroy(struct StStrBag* bag)
 {
-	if (!bag)
-		return;
-	bag = bag_root(bag);
-	for (struct StRbNode *i = NULL, *p = NULL;;) {
-		i = rb_first(&dict_cast(bag)->node, BST_POSTORDER);
-		p = rb_parent(i);
-		bag_destroy(container_of(
-			dictnode_from(i), struct StStrBag, dictnode));
-		if (!p)
-			break;
+	struct StDictNode* root = NULL;
+	struct StDictNode* i = NULL;
 
-		if (i == rb_left(p))
-			graph_2vx(p)->nbor[BST_LEFT] = NULL;
-		else
-			graph_2vx(p)->nbor[BST_RIGHT] = NULL;
+	if (bag) {
+		root = rb_root(dict_2dictnode(bag));
+		while (i != root) {
+			i = rb_deepest(root);
+			rb_unlink(i);
+			bag_destroy(container_of(i, struct StStrBag, dictnode));
+		}
 	}
 }

@@ -37,7 +37,6 @@ def join(olvars):
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd(), 'mutex'))
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd(), 'sem'))
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd(), 'sys'))
-    olvars.append('osal_INC', '-I' + os.path.join(olvars.acwd(), 'include'))
     olvars.append(
         'sturk_OBJS',
         os.path.join(olvars.cwd(), 'mem', settings['osal']['mem'] + '.o'))
