@@ -35,8 +35,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/io/except.h"
 #include "sturk/io/logger.h"
 #include "sturk/rbtree.h"
+#include "sturk/str.h"
 
-static int st_strcmp(const char* s1, const char* s2)
+int st_strcmp(const char* s1, const char* s2)
 {
 	while (*s1 && (*s1 == *s2)) {
 		s1++;

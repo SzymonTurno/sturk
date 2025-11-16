@@ -124,7 +124,7 @@ struct StStrQ* single_thread_pubsub(void)
 	io_putc(io, IO_EOF);
 	io = io_init(buff);
 	while (io_fgets(out, 256, io))
-		ret = strq_ins(ret, newstr(out));
+		ret = strq_ins(ret, st_strdup(out));
 	st_free(buff);
 	st_free(out);
 	return ret;
