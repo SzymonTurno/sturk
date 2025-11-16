@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @var typedef struct StPool StPool
  *
- * @brief *pool*.
+ * @brief Memory pool.
  */
 typedef struct StPool StPool;
 
@@ -69,33 +69,33 @@ VX_LIST(union StFreeList, void*);
 /**
  * @fn StPool* st_pool_create(size_t blk_size)
  *
- * @brief Create a *pool*.
+ * @brief Create a memory pool.
  *
  * @param[in] blk_size The size of the blocks.
  *
- * @return A new *pool*.
+ * @return The new memory pool.
  */
 StPool* st_pool_create(size_t blk_size);
 
 /**
  * @fn void st_pool_destroy(StPool* pool)
  *
- * @brief Destroy a *pool*.
+ * @brief Destroy a memory pool.
  *
- * @param[in,out] pool The *pool*.
+ * @param[in,out] pool The memory pool.
  */
 void st_pool_destroy(StPool* pool);
 
 /**
  * @fn void* st_pool_alloc(StPool* pool, const char* file, int line)
  *
- * @brief Allocate a block from a *pool*.
+ * @brief Allocate a block from a memory pool.
  *
- * @param[in,out] pool The *pool*.
+ * @param[in,out] pool The memory pool.
  * @param[in] file The name of the source file.
  * @param[in] line The line number.
  *
- * If the *pool* is empty, allocates a new block from the system memory
+ * If the memory pool is empty, allocates a new block from the system memory
  * allocator.
  * @see st/os/mem.h
  *
@@ -106,20 +106,20 @@ void* st_pool_alloc(StPool* pool, const char* file, int line);
 /**
  * @fn void* st_pool_tryalloc(StPool* pool)
  *
- * @brief Try to allocate a block from a *pool*.
+ * @brief Try to allocate a block from a memory pool.
  *
- * @param[in,out] pool The *pool*.
+ * @param[in,out] pool The memory pool.
  *
- * @return The block, if the *pool* is not empty. Otherwise, NULL.
+ * @return The block, if the memory pool is not empty. Otherwise, NULL.
  */
 void* st_pool_tryalloc(StPool* pool);
 
 /**
  * @fn void st_pool_free(StPool* pool, void* blk)
  *
- * @brief Return a block to a *pool*.
+ * @brief Return a block to a memory pool.
  *
- * @param[in,out] pool The *pool*.
+ * @param[in,out] pool The memory pool.
  * @param[in,out] blk The block.
  */
 void st_pool_free(StPool* pool, void* blk);

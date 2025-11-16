@@ -9,10 +9,10 @@ is a C library that implements the publish-subscribe messaging pattern.
 
 ## Quickstart
 
-### Initialize a broker
+### Create a broker
 
 ```c
-        StBroker* broker = broker_create(SAMPLE_MESSAGE_API);
+        StBroker* broker = broker_create(sizeof(char*));
 ```
 
 ### Create a subscriber
@@ -21,22 +21,46 @@ is a C library that implements the publish-subscribe messaging pattern.
         StSubscriber* sber = subscriber_create(broker);
 ```
 
+### Create a channel
+
+```c
+        StChannel* ch = broker_search(broker, "test.topic");
+```
+
 ### Subscribe to a topic
 
 ```c
-        subscribe(sber, "test");
+        subscribe(sber, "test.topic");
 ```
 
-### Publish to a topic
+### Allocate a message from the message pool
 
 ```c
-        publish(broker_search(broker, "test"), 5);
+        msg = message_alloc(ch);
+```
+
+### Initialize the payload
+
+```c
+        *(char**)msg.payload = st_strdup("Alice");
+```
+
+### Publish a message
+
+```c
+        publish(&msg);
 ```
 
 ### Receive a message
 
 ```c
-        msg = subscriber_await(sber);
+        msg = subscriber_poll(sber);
+```
+
+### Cleanup
+
+```c
+        broker_destroy(broker);
 ```
 
 ## Portability
@@ -89,26 +113,25 @@ Sturk consists of several modules with dependencies as shown in the
 | :---------------: |
 | Modules hierarchy |
 
-The role of each module, hyperlink to its documentation and the location of its
-public header files are gathered in the **Modules** table. The ordering of the
-table corresponds to the modules hierarchy.
+The role of each module and hyperlink to its documentation are gathered in the
+**Modules** table. The ordering of the table corresponds to the modules hierarchy.
 
 Table: Modules
 
-|  #  | Module                               | Provides                                   | Include subdirectory         |
-| --- | ------------------------------------ | ------------------------------------------ | ---------------------------- |
-|  1  | [broker](src/broker/README.md)       | publish-subscribe utility                  | `st` (`sturk`)               |
-|  2  | [algo](src/algo/README.md)           | memory pool; waiting queue; dictionary     | `st` (`sturk`)               |
-|  3  | [logger](src/logger/README.md)       | logging to stdout/stderr/file              | `st/logger` (`sturk/logger`) |
-|  4  | [osal](src/osal/README.md)           | memory allocator; filesystem; thread sync. | `st/os` (`sturk/os`)         |
-|  5  | [basis](src/basis/README.md)         | arena                                      | `st` (`sturk`)               |
-|  6  | [vertegs](include/vertegs/README.md) | subroutines for operating on graphs        | `vertegs`                    |
+|  #  | Module                               | Provides                               |
+| --- | ------------------------------------ | -------------------------------------- |
+|  1  | [broker](src/broker/README.md)       | publish-subscribe utility              |
+|  2  | [algo](src/algo/README.md)           | memory pool; waiting queue; dictionary |
+|  3  | [logger](src/logger/README.md)       | logging to stdout/stderr/file/device   |
+|  4  | [osal](src/osal/README.md)           | memory management; thread sync.        |
+|  5  | [basis](src/basis/README.md)         | arena memory allocator; io operations  |
+|  6  | [vertegs](include/vertegs/README.md) | subroutines for operating on graphs    |
 
 ## Buildsystem<!--!{#buildsystem}!-->
 
-The build is configured with a single yaml file. Before running make the configuration
+The build is configured with a single yaml file. Before running `make` the path to the configuration
 file must be passed to the [configure.sh](https://github.com/SzymonTurno/sturk/blob/main/tools/configure.sh)
-script in order to generate a makefile.
+script in order to generate `Makefile`.
 
 ```sh
 mkdir build
@@ -143,8 +166,8 @@ See [src/olconf.py](https://github.com/SzymonTurno/sturk/blob/main/src/olconf.py
 
 ### Example configuration
 
-As an example see [configs/iso/olconf.yaml](https://github.com/SzymonTurno/sturk/blob/main/configs/iso/olconf.yaml)
-and compare it to [src/olconf.yaml](https://github.com/SzymonTurno/sturk/blob/main/src/olconf.yaml).
+As an example see (**A**) [configs/iso/olconf.yaml](https://github.com/SzymonTurno/sturk/blob/main/configs/iso/olconf.yaml)
+and compare it to (**B**) [src/olconf.yaml](https://github.com/SzymonTurno/sturk/blob/main/src/olconf.yaml).
 
 The following
 
@@ -152,12 +175,12 @@ The following
 /path/to/sturk/tools/configure.sh /path/to/sturk/configs/iso/olconf.yaml
 ```
 
-would overwrite the default configuration from `src/olconf.yaml`:
+would overwrite the default configuration from **B**:
 
 - `cver: "gnu"`,
 - `build_type: "release"`;
 
-with the configuration from `configs/iso/olconf.yaml`:
+with the configuration from **A**:
 
 - `cver: "iso"`,
 - `build_type: "coverage"`.

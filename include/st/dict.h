@@ -37,31 +37,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * This header file provides data types, functions and macros that define and
  * operate on dictionaries. These dictionaries are key-value data structures
  * where the key is always a sequence of characters (ie. string, char array).
- *
- *
- * Features
- * --------
- *
- * - Intrusive.
- *
- *
- * Usage
- * -----
- *
- * @code
- * typedef SomeData MyData;
- *
- * ST_DICT(struct MyDict, MyData);
- *
- * void push(struct MyDict** dictp, const char* key, MyData val)
- * {
- *     struct MyDict* entry = malloc(sizeof(*entry));
- *
- *     st_dict_setk(entry, key);
- *     *st_dict_data(entry) = val;
- *     *dictp = st_dict_ins(*dictp, entry);
- * }
- * @endcode
  */
 
 #ifndef ST_DICT_H
@@ -209,7 +184,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @brief Dictionary node.
  */
 VX_RBTREE(struct StDictNode, char*);
-/**< This is a macro definition of a type for a dictionary node. */
+/**< This is a macro definition of the dictionary node. */
 
 /**
  * @fn struct StDictNode* st_dictnode_ins(struct StDictNode* root, struct StDictNode* entry)

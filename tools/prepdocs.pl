@@ -58,7 +58,10 @@ sub new {
 		'> [!tip]',
 		'> [!important]',
 		'> [!warning]',
-		'> [!caution]'
+		'> [!caution]',
+		'> [!attention]',
+		'> [!remark]',
+		'> [!todo]'
 	);
 
 	if (exists($alerts{trim($line)})) {

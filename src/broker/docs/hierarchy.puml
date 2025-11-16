@@ -1,33 +1,44 @@
 @startuml "Broker data types"
 
-abstract class "MessageVtable" as MessageVtable {
-    +size()
-    +ctor(in args : va_list) : void*
-    +dtor(in msg : void*)
-}
-
 class Broker {
-    -channels : Dictionary<char*, Channel>
-    -subscribers : List<Subscriber>
-    +create(in vp : MessageVtable)
-    +search(in topic : char*) : Channel
+    -channels : Dictionary<string, Channel>
+    -subscribers : Set<Subscriber>
+    -pool : Set<Message>
+    +<<Create>> create(in payload_size : size_t)
+    +<<Destroy>> destroy()
+    +search(in topic : string) : Channel
+    +adjust(in n : int) : int
 }
 
 class Channel {
-    +publish(in args : ...)
-    +gettopic() : char*
+    -topic : string
+    +gettopic() : string
+}
+
+class Message {
+    +payload : void*
+    -channel : Channel
+    +<<Create>> alloc(in ch : Channel)
+    +<<Create>> tryalloc(in ch : Channel)
+    +<<Destroy>> publish()
+    +setcb(in cb : void (*)())
+    +getchannel() : Channel
 }
 
 class Subscriber {
-    +create(in broker : Broker)
-    +subscribe(in topic : char*)
-    +await() : void*
-    +poll() : void*
+    -last_msg : Message
+    +<<Create>> create(in broker : Broker)
+    +<<Destroy>> destroy()
+    +subscribe(in topic : string)
+    +await() : Message
+    +poll() : Message
     +unload()
 }
 
+Subscriber --> Message
+Message --> Channel
+Message "many" --o "1" Broker
 Channel "many" --o "1" Broker
-Broker --> MessageVtable
 Subscriber "many" --o "1" Broker
 Subscriber --> Broker
 

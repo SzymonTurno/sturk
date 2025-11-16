@@ -31,10 +31,10 @@ VX_LIST(struct MyList, MyData);
 ```c
 void push(struct MyList** listp, MyData data)
 {
-    struct MyList* entry = malloc(sizeof(*entry));
+        struct MyList* entry = malloc(sizeof(*entry));
 
-    *vx_graph_datap(entry) = data;
-    *listp = vx_list_ins(*listp, entry);
+        *vx_graph_datap(entry) = data;
+        *listp = vx_list_ins(*listp, entry);
 }
 ```
 
@@ -53,9 +53,39 @@ VX_CIRQ(struct MyCirq, MyData);
 ```c
 void push(struct MyCirq** headp, MyData data)
 {
-    struct MyCirq* entry = malloc(sizeof(*entry));
+        struct MyCirq* entry = malloc(sizeof(*entry));
 
-    *vx_graph_datap(entry) = data;
-    *headp = vx_cirq_ins(*headp, entry);
+        *vx_graph_datap(entry) = data;
+        *headp = vx_cirq_ins(*headp, entry);
+}
+```
+
+### Red-black tree
+
+#### Define a red-black tree data type
+
+```c
+typedef SomeData MyData;
+
+VX_RBTREE(struct MyRbTree, MyData);
+```
+
+#### Insert a node in a red-black tree
+
+```c
+void insert(struct MyRbTree** rootp, struct MyRbTree* node)
+{
+        struct MyRbTree** i = rootp;
+        struct MyRbTree* p = NULL;
+
+        while (*i) {
+                p = *i;
+                if (compare(node, p) < 0)
+                        vx_graphit_next(&i, VX_RB_LEFT);
+                else
+                        vx_graphit_next(&i, VX_RB_RIGHT);
+        }
+        *i = vx_rb_link(node, p);
+        *rootp = vx_rb_insrebal(*rootp, node);
 }
 ```
