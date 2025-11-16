@@ -40,29 +40,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/mem.h"
 #include "sturk/rbtree.h"
 
-static size_t st_strlen(const char* str)
-{
-	size_t len = 0;
-
-	while (str[len])
-		len++;
-	return len;
-}
-
-static char* st_strcpy(char* dest, const char* src)
-{
-	char* temp = dest;
-
-	while ((*dest++ = *src++))
-		;
-	return temp;
-}
-
 static struct StStrBag* bag_create(const char* str)
 {
 	struct StStrBag* self = NEW(struct StStrBag);
 
-	dict_setk(self, newstr(str));
+	dict_setk(self, st_strdup(str));
 	dict_datap(self)->n = 0;
 	return self;
 }
@@ -83,6 +65,24 @@ static struct StStrBag* bag_root(struct StStrBag* bag)
 	return container_of(dictnode_from(i), struct StStrBag, dictnode);
 }
 
+size_t st_strlen(const char* str)
+{
+	size_t len = 0;
+
+	while (str[len])
+		len++;
+	return len;
+}
+
+char* st_strcpy(char* dest, const char* src)
+{
+	char* temp = dest;
+
+	while ((*dest++ = *src++))
+		;
+	return temp;
+}
+
 struct StStrList* st_strlist_ins(struct StStrList* list, char* str)
 {
 	struct StStrList* self = NEW(struct StStrList);
@@ -92,7 +92,7 @@ struct StStrList* st_strlist_ins(struct StStrList* list, char* str)
 	return list_ins(list, self);
 }
 
-char* st_newstr(const char* str)
+char* st_strdup(const char* str)
 {
 	return st_strcpy(NEW(char, st_strlen(str) + 1), str);
 }

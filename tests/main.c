@@ -892,7 +892,7 @@ TEST(broker, should_forward_message)
 	broker_adjust(broker, 1);
 	msg = message_alloc(ch);
 	message_setcb(msg, test_freepayload);
-	*(char**)msg.payload = newstr("test contents");
+	*(char**)msg.payload = st_strdup("test contents");
 	publish(&msg);
 	TEST_ASSERT_NULL(msg.payload);
 
@@ -925,7 +925,7 @@ TEST(broker, should_unload_subscriber)
 	broker_adjust(broker, 1);
 	msg = message_alloc(ch);
 	message_setcb(msg, test_freepayload);
-	*(char**)msg.payload = newstr("Alice");
+	*(char**)msg.payload = st_strdup("Alice");
 	publish(&msg);
 	alice = subscriber_await(sber);
 	TEST_ASSERT_EQUAL_STRING("Alice", *(char**)alice.payload);
@@ -937,7 +937,7 @@ TEST(broker, should_unload_subscriber)
 	msg = message_alloc(ch);
 
 	message_setcb(msg, test_freepayload);
-	*(char**)msg.payload = newstr("Bob");
+	*(char**)msg.payload = st_strdup("Bob");
 	publish(&msg);
 	TEST_ASSERT_EQUAL_STRING(
 		"Bob", *(char**)subscriber_await(sber).payload);

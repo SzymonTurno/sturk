@@ -148,7 +148,7 @@ static StChannel* channel_create(StBroker* broker, const char* topic)
 	StChannel* self = NEW(StChannel);
 	struct ChannelData* data = dict_datap(self);
 
-	dict_setk(self, newstr(topic));
+	dict_setk(self, st_strdup(topic));
 	data->broker = broker;
 	data->mutex = mutex_create(MUTEX_POLICY_PRIO_INHERIT);
 	data->list = NULL;

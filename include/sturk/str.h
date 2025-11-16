@@ -40,9 +40,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "st/str.h"
 
-/** @see st_newstr() */
-#define newstr st_newstr
-
 /** @see st_strlist_ins() */
 #define strlist_ins st_strlist_ins
 

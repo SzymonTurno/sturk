@@ -75,11 +75,32 @@ ST_DICT(struct StStrBag, union {int n; void* align;});
 /* clang-format on */
 
 /**
- * @fn char* st_newstr(const char* str)
+ * @fn size_t st_strlen(const char* str)
+ *
+ * @see strlen()
+ */
+size_t st_strlen(const char* str);
+
+/**
+ * @fn char* st_strcpy(char* dest, const char* src)
+ *
+ * @see strcpy()
+ */
+char* st_strcpy(char* dest, const char* src);
+
+/**
+ * @fn int st_strcmp(const char* s1, const char* s2)
+ *
+ * @see strcmp()
+ */
+int st_strcmp(const char* s1, const char* s2);
+
+/**
+ * @fn char* st_strdup(const char* str)
  *
  * @see strdup()
  */
-char* st_newstr(const char* str);
+char* st_strdup(const char* str);
 
 /**
  * @fn struct StStrList* st_strlist_ins(struct StStrList* list, char* str)
