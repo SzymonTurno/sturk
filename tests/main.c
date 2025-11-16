@@ -891,7 +891,7 @@ static void test_freepayload(struct StMessage msg)
 
 TEST(broker, should_forward_message)
 {
-	StBroker* broker = broker_create(sizeof(char**));
+	StBroker* broker = broker_create(sizeof(char*));
 	StSubscriber* sber = subscriber_create(broker);
 	StChannel* ch = broker_search(broker, "test.topic");
 	struct StMessage msg = {0};
@@ -903,8 +903,8 @@ TEST(broker, should_forward_message)
 	/* Publish */
 	broker_adjust(broker, 1);
 	msg = message_alloc(ch);
-	message_setcb(msg, test_freepayload);
 	*(char**)msg.payload = st_strdup("test contents");
+	message_setcb(msg, test_freepayload);
 	publish(&msg);
 	TEST_ASSERT_NULL(msg.payload);
 
@@ -927,7 +927,7 @@ TEST(broker, should_trace_null_subscriber)
 
 TEST(broker, should_unload_subscriber)
 {
-	StBroker* broker = broker_create(sizeof(char**));
+	StBroker* broker = broker_create(sizeof(char*));
 	StSubscriber* sber = subscriber_create(broker);
 	StChannel* ch = broker_search(broker, "test.topic");
 	struct StMessage msg = {0};
@@ -936,8 +936,8 @@ TEST(broker, should_unload_subscriber)
 	subscribe(sber, "test.topic");
 	broker_adjust(broker, 1);
 	msg = message_alloc(ch);
-	message_setcb(msg, test_freepayload);
 	*(char**)msg.payload = st_strdup("Alice");
+	message_setcb(msg, test_freepayload);
 	publish(&msg);
 	alice = subscriber_await(sber);
 	TEST_ASSERT_EQUAL_STRING("Alice", *(char**)alice.payload);
