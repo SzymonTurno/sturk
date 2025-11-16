@@ -94,6 +94,17 @@ struct StIoVt {
 };
 
 /**
+ * @fn const char* st_iobuffer_front(const StIoBuffer* buff)
+ *
+ * @brief Get the front of a memory buffer.
+ *
+ * @param[in,out] buff The memory buffer.
+ *
+ * @return The front.
+ */
+const char* st_iobuffer_front(const StIoBuffer* buff);
+
+/**
  * @fn StIo* st_io_init(StIoBuffer* buff)
  *
  * @brief Initialize an IO interface from a memory buffer.

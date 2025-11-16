@@ -46,6 +46,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see st_iobuffer_calclen() */
 #define iobuffer_calclen st_iobuffer_calclen
 
+/** @see st_iobuffer_front() */
+#define iobuffer_front st_iobuffer_front
+
 /** @see st_io_init() */
 #define io_init st_io_init
 

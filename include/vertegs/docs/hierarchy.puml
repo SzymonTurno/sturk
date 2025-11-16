@@ -1,4 +1,4 @@
-@startuml
+@startuml "Vertegs data types"
 
 class Vertegs {
     +nbor[] : Vertegs
@@ -7,6 +7,8 @@ class Vertegs {
     +remlist(in pos : int) : Vertegs
     +inscirq(in entry : Vertegs, in pos : int)
     +remcirq(in pos : int) : Vertegs
+    +insrebalrb(in node : Vertegs)
+    +inordernext() : Vertegs
 }
 
 class Graph<T> extends Vertegs {
@@ -23,6 +25,11 @@ class List<T> implements Graph {
 class Cirq<T> implements Graph {
     +ins(in entry : Cirq<T>, in pos : int)
     +rem(in pos : int) : Cirq<T>
+}
+
+class RbTree<T> implements Graph {
+    +insrebal(in node : RbTree<T>)
+    +next() : RbTree<T>
 }
 
 @enduml

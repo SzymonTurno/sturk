@@ -52,6 +52,16 @@ static char stream_getc(void* p)
 static const struct StIoVt STREAM_API[] = {
 	{.putc_cb = stream_putc, .getc_cb = stream_getc}};
 
+const char* st_iobuffer_front(const StIoBuffer* buff)
+{
+	const StIo* io = (const StIo*)buff;
+	const char** s = NULL;
+
+	VX_ENSURE_MEM(buff);
+	s = (const char**)&io[1];
+	return (const char*)&s[1];
+}
+
 StIo* st_io_init(StIoBuffer* buff)
 {
 	StIo* io = (StIo*)buff;

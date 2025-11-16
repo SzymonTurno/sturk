@@ -168,6 +168,8 @@ TEST(basis, should_write_to_memory_buffer)
 
 	/* Initialize the memory buffer again to read from the beginning. */
 	io = io_init(buff);
+
+	/* Read the buffer. */
 	TEST_ASSERT_EQUAL_STRING("deadbeef", io_fgets(out, sizeof(out), io));
 }
 
@@ -506,6 +508,19 @@ TEST(logger, should_ignore_detached_trace_levels)
 	logger_attach(ERROR, SIMPTE_IO(STDERR));
 }
 
+TEST(logger, should_write_to_memory_buffer)
+{
+	StIoBuffer buff[iobuffer_calclen(32)] = {0};
+	StIo* io = io_init(buff);
+
+	logger_attach(INFO, io);
+	trace(INFO, "Alice", "%x", 0xDEADBEEF);
+	io_putc(io, '\0');
+	TEST_ASSERT_EQUAL_STRING(
+		"[info][Alice] deadbeef\n", iobuffer_front(buff));
+	logger_detach(INFO, io);
+}
+
 TEST_GROUP_RUNNER(logger)
 {
 	printf("LOGGER TESTS\n");
@@ -513,6 +528,7 @@ TEST_GROUP_RUNNER(logger)
 	RUN_TEST_CASE(logger, should_trace_debug);
 	RUN_TEST_CASE(logger, should_trace_error);
 	RUN_TEST_CASE(logger, should_ignore_detached_trace_levels);
+	RUN_TEST_CASE(logger, should_write_to_memory_buffer);
 }
 
 TEST(algo, should_destroy_null)
@@ -837,11 +853,18 @@ TEST(algo, should_find_first_in_strbag)
 	strbag_destroy(bag);
 }
 
-TEST(algo, should_allow_negative_count_in_strbag)
+TEST(algo, should_count_with_strbag)
 {
-	struct StStrBag* bag = strbag_rem(NULL, "");
+	struct StStrBag* bag = NULL;
 
-	TEST_ASSERT_EQUAL_INT(-1, strbag_count(bag));
+	bag = strbag_ins(NULL, "Alice");
+	bag = strbag_ins(bag, "Bob");
+	bag = strbag_ins(bag, "Bob");
+	bag = strbag_rem(bag, "Ted");
+	TEST_ASSERT_EQUAL_INT(1, strbag_count(dict_find(bag, "Alice")));
+	TEST_ASSERT_EQUAL_INT(2, strbag_count(dict_find(bag, "Bob")));
+	TEST_ASSERT_EQUAL_INT(0, strbag_count(dict_find(bag, "Carol")));
+	TEST_ASSERT_EQUAL_INT(-1, strbag_count(dict_find(bag, "Ted")));
 	strbag_destroy(bag);
 }
 
@@ -896,7 +919,7 @@ TEST_GROUP_RUNNER(algo)
 	RUN_TEST_CASE(algo, should_sort_with_strbag);
 	RUN_TEST_CASE(algo, should_allow_preorder_traversal_with_strbag);
 	RUN_TEST_CASE(algo, should_find_first_in_strbag);
-	RUN_TEST_CASE(algo, should_allow_negative_count_in_strbag);
+	RUN_TEST_CASE(algo, should_count_with_strbag);
 	RUN_TEST_CASE(algo, should_not_block_after_insertion_in_waitq);
 	RUN_TEST_CASE(algo, should_trace_waitq_dataloss);
 	RUN_TEST_CASE(algo, should_return_freed_pointer_from_pool);
