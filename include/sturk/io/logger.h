@@ -73,7 +73,4 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see st_logger_detach() */
 #define logger_detach st_logger_detach
 
-/** @see st_logger_cleanup() */
-#define logger_cleanup st_logger_cleanup
-
 #endif /* STURK_IO_LOGGER_H */

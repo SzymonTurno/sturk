@@ -62,7 +62,7 @@ void st_mutex_lock(StMutex* mutex)
 	/* LCOV_EXCL_STOP */
 
 	if (mutex->locked && !mutex->recursive)
-		DEBUG("Fake mutex does not support context switch.");
+		DPRINT("Fake mutex does not support context switch.");
 	mutex->locked = 1;
 }
 
@@ -87,6 +87,6 @@ void st_mutex_unlock(StMutex* mutex)
 	/* LCOV_EXCL_STOP */
 
 	if (!mutex->locked)
-		DEBUG("Unlocking an already unlocked mutex.");
+		DPRINT("Unlocking an already unlocked mutex.");
 	mutex->locked = 0;
 }

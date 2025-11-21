@@ -113,11 +113,4 @@ void st_logger_attach(enum StTraceLvl lvl, StIo* io);
  */
 void st_logger_detach(enum StTraceLvl lvl, StIo* io);
 
-/**
- * @fn void st_logger_cleanup(void)
- *
- * @brief Detach all streams and free all the memory allocated by the logger.
- */
-void st_logger_cleanup(void);
-
 #endif /* ST_IO_LOGGER_H */
