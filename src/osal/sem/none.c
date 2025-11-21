@@ -61,7 +61,7 @@ void st_sem_wait(StSem* sem)
 	/* LCOV_EXCL_STOP */
 
 	if (!sem->n)
-		DEBUG("Fake semaphore does not support context switch.");
+		DPRINT("Fake semaphore does not support context switch.");
 	--sem->n;
 }
 

@@ -111,7 +111,14 @@
 	TEST_TEAR_DOWN(group)                                                  \
 	{                                                                      \
 		trace(INFO, "ut", "Done.");                                    \
-		logger_cleanup();                                              \
+		logger_detach(ERROR, SIMPTE_IO(group));                        \
+		logger_detach(WARNING, SIMPTE_IO(group));                      \
+		logger_detach(DEBUG, SIMPTE_IO(group));                        \
+		logger_detach(INFO, SIMPTE_IO(group));                         \
+		logger_detach(ERROR, SIMPTE_IO(STDERR));                       \
+		logger_detach(WARNING, SIMPTE_IO(STDERR));                     \
+		logger_detach(DEBUG, SIMPTE_IO(STDOUT));                       \
+		logger_detach(INFO, SIMPTE_IO(STDOUT));                        \
 		mem_cleanup();                                                 \
 	}                                                                      \
 	TEST_GROUP(group)

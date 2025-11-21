@@ -58,7 +58,7 @@ static int setprotocol(pthread_mutexattr_t* attr, VxBits args)
 		/* LCOV_EXCL_STOP */
 		break;
 	default:
-		DEBUG(st_except_not_supported.reason);
+		DPRINT(st_except_not_supported.reason);
 		break;
 	}
 	return ret;
@@ -80,7 +80,7 @@ static int settype(pthread_mutexattr_t* attr, VxBits args)
 		/* LCOV_EXCL_STOP */
 		break;
 	default:
-		DEBUG(st_except_not_supported.reason);
+		DPRINT(st_except_not_supported.reason);
 		break;
 	}
 	return ret;
@@ -99,12 +99,12 @@ StMutex* st_mutex_create(VxBits args)
 	}
 
 	if (setprotocol(&attr, args) != SUCCESS) {
-		DEBUG(st_except_mutex_fail.reason);
+		DPRINT(st_except_mutex_fail.reason);
 		return NULL;
 	}
 
 	if (settype(&attr, args) != SUCCESS) {
-		DEBUG(st_except_mutex_fail.reason);
+		DPRINT(st_except_mutex_fail.reason);
 		return NULL;
 	}
 

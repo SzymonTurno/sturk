@@ -30,11 +30,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "sturk/io/logger.h"
+#include "sturk/debug.h"
 #include "sturk/io/bag.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/sys.h"
 
 #define BUFF_MAX_SIZE 128
+
+#define ASSERT_LVL(lvl)                                                        \
+	do {                                                                   \
+		ASSERT((lvl) > UNKNOWN && (lvl) < N_TRACE_LVLS);               \
+		if ((lvl) <= UNKNOWN || (lvl) >= N_TRACE_LVLS)                 \
+			EXCEPT(not_supported);                                 \
+	} while (0)
 
 static struct StIoBag* iobags[N_TRACE_LVLS];
 
@@ -63,11 +71,7 @@ void st_trace(enum StTraceLvl lvl, const char* tag, const char* fmt, ...)
 	va_list va;
 	char* buff = NULL;
 
-	/* LCOV_EXCL_START */
-	if (lvl <= UNKNOWN || lvl >= N_TRACE_LVLS)
-		EXCEPT(not_supported);
-	/* LCOV_EXCL_STOP */
-
+	ASSERT_LVL(lvl);
 	if (!iobag_count(iobags[lvl]))
 		return;
 	buff = NEW(char, BUFF_MAX_SIZE);
@@ -83,6 +87,7 @@ void st_trace(enum StTraceLvl lvl, const char* tag, const char* fmt, ...)
 
 void st_logger_attach(enum StTraceLvl lvl, StIo* io)
 {
+	ASSERT_LVL(lvl);
 	if (!iobags[lvl])
 		iobags[lvl] = iobag_create();
 	iobag_ins(iobags[lvl], io);
@@ -90,13 +95,11 @@ void st_logger_attach(enum StTraceLvl lvl, StIo* io)
 
 void st_logger_detach(enum StTraceLvl lvl, StIo* io)
 {
+	ASSERT_LVL(lvl);
+	ASSERT(iobag_count(iobags[lvl]));
 	iobag_rem(iobags[lvl], io);
-}
-
-void st_logger_cleanup(void)
-{
-	for (int i = 0; i < N_TRACE_LVLS; i++) {
-		iobag_destroy(iobags[i]);
-		iobags[i] = NULL;
+	if (!iobag_count(iobags[lvl])) {
+		iobag_destroy(iobags[lvl]);
+		iobags[lvl] = NULL;
 	}
 }

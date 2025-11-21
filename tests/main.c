@@ -74,7 +74,7 @@ SIMPTE_GROUP(broker);
 SIMPTE_GROUP(common);
 
 #if VX_DEBUGGING
-void vx_debug(const char* text, const char* file, int line)
+void vx_dprint(const char* text, const char* file, int line)
 {
 	io_print(SIMPTE_IO(debug), "%s:%d: %s\n", file, line, text);
 }
@@ -151,6 +151,27 @@ TEST(basis, should_calculate_iobuffer_length)
 }
 
 TEST(basis, should_write_to_memory_buffer)
+{
+	char out[16] = {0};
+
+	/* Allocate sixteen bytes plus metadata for the memory buffer. */
+	StIoBuffer buff[iobuffer_calclen(sizeof(out))] = {0};
+
+	/* Initialize the memory buffer. */
+	StIo* io = io_init(buff);
+
+	/* Print "deadbeef" to the memory buffer. */
+	io_print(io, "%x", 0xDEADBEEF);
+
+	/* Put EOF character in the memory buffer. */
+	io_putc(io, IO_EOF);
+
+	/* Initialize the memory buffer again to read from the beginning. */
+	io = io_init(buff);
+	TEST_ASSERT_EQUAL_STRING("deadbeef", io_fgets(out, sizeof(out), io));
+}
+
+TEST(basis, should_mimic_sprintf_with_io)
 {
 	char out[256] = {0};
 	StIoBuffer buff[iobuffer_calclen(sizeof(out))] = {0};
@@ -291,6 +312,7 @@ TEST_GROUP_RUNNER(basis)
 	RUN_TEST_CASE(basis, should_alloc_null_from_null_arena);
 	RUN_TEST_CASE(basis, should_calculate_iobuffer_length);
 	RUN_TEST_CASE(basis, should_write_to_memory_buffer);
+	RUN_TEST_CASE(basis, should_mimic_sprintf_with_io);
 	RUN_TEST_CASE(basis, should_read_from_file);
 	RUN_TEST_CASE(basis, should_write_to_file);
 	RUN_TEST_CASE(basis, should_support_many_allocations_from_arena);
@@ -448,11 +470,23 @@ TEST_GROUP_RUNNER(osal)
 		RUN_TEST_CASE(osal, should_reach_mem_limit);
 }
 
+TEST(logger, should_remove_io_when_destroying_iobag)
+{
+	char out[16] = {0};
+	StIoBuffer buff[iobuffer_calclen(sizeof(out))] = {0};
+	StIo* io = io_init(buff);
+	StIoBag* bag = iobag_create();
+
+	iobag_ins(bag, io);
+	iobag_destroy(bag);
+}
+
 TEST(logger, should_trace_debug)
 {
 	logger_detach(DEBUG, SIMPTE_IO(STDOUT));
 	trace(DEBUG, NULL, "");
 	TEST_ASSERT_EQUAL_STRING("[debug] \n", SIMPTE_GETTRACE(logger, 0));
+	logger_attach(DEBUG, SIMPTE_IO(STDOUT));
 }
 
 TEST(logger, should_trace_error)
@@ -460,6 +494,7 @@ TEST(logger, should_trace_error)
 	logger_detach(ERROR, SIMPTE_IO(STDERR));
 	trace(ERROR, NULL, "");
 	TEST_ASSERT_EQUAL_STRING("[error] \n", SIMPTE_GETTRACE(logger, 0));
+	logger_attach(ERROR, SIMPTE_IO(STDERR));
 }
 
 TEST(logger, should_ignore_detached_trace_levels)
@@ -467,11 +502,14 @@ TEST(logger, should_ignore_detached_trace_levels)
 	logger_detach(ERROR, SIMPTE_IO(STDERR));
 	logger_detach(ERROR, SIMPTE_IO(logger));
 	trace(ERROR, NULL, "");
+	logger_attach(ERROR, SIMPTE_IO(logger));
+	logger_attach(ERROR, SIMPTE_IO(STDERR));
 }
 
 TEST_GROUP_RUNNER(logger)
 {
 	printf("LOGGER TESTS\n");
+	RUN_TEST_CASE(logger, should_remove_io_when_destroying_iobag);
 	RUN_TEST_CASE(logger, should_trace_debug);
 	RUN_TEST_CASE(logger, should_trace_error);
 	RUN_TEST_CASE(logger, should_ignore_detached_trace_levels);
@@ -828,6 +866,7 @@ TEST(algo, should_trace_waitq_dataloss)
 	TEST_ASSERT_EQUAL_STRING(
 		"[warning][sturk] Data loss suspected.\n",
 		SIMPTE_GETTRACE(algo, 0));
+	logger_attach(WARNING, SIMPTE_IO(STDERR));
 }
 
 TEST(algo, should_return_freed_pointer_from_pool)
@@ -882,6 +921,7 @@ TEST(broker, should_return_null_payload_for_null_channel)
 {
 	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	TEST_ASSERT_NULL(message_alloc(NULL).payload);
+	logger_attach(WARNING, SIMPTE_IO(STDERR));
 }
 
 static void test_freepayload(struct StMessage msg)
@@ -923,6 +963,7 @@ TEST(broker, should_trace_null_subscriber)
 	TEST_ASSERT_EQUAL_STRING(
 		BROKER_FILE_PATH ":441: Null param.\n",
 		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
+	logger_attach(WARNING, SIMPTE_IO(STDERR));
 }
 
 TEST(broker, should_unload_subscriber)
@@ -1010,6 +1051,7 @@ TEST(broker, should_trace_null_broker)
 		BROKER_FILE_PATH ":469: Null param.\n",
 		strstr(SIMPTE_GETTRACE(broker, 0), BROKER_FILE_PATH ":"));
 	free(tmp);
+	logger_attach(WARNING, SIMPTE_IO(STDERR));
 }
 
 TEST(broker, should_alloc_message)
