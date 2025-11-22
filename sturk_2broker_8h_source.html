@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -171,19 +171,31 @@ $(document).ready(function(){initNavTree('sturk_2broker_8h_source.html',''); ini
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">   56</a></span><span class="preprocessor">#define broker_search st_broker_search</span></div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#a266db5e96592b3b4074c7131f5eecf3c">   59</a></span><span class="preprocessor">#define channel_gettopic st_channel_gettopic</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#a6d08a990c194599e156ee74390084ecc">   59</a></span><span class="preprocessor">#define broker_adjust st_broker_adjust</span></div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">   62</a></span><span class="preprocessor">#define subscriber_create st_subscriber_create</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#a8e8d74c944cd0027ae3e85cbb9ef0fe0">   62</a></span><span class="preprocessor">#define messagestats_report st_messagestats_report</span></div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#acf22b096250bd3257f8ab509e0345761">   65</a></span><span class="preprocessor">#define subscriber_destroy st_subscriber_destroy</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#a266db5e96592b3b4074c7131f5eecf3c">   65</a></span><span class="preprocessor">#define channel_gettopic st_channel_gettopic</span></div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#af23ee47bacf77f34816373673f569dd2">   68</a></span><span class="preprocessor">#define subscriber_await st_subscriber_await</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#a3684ec30a884f534134111348d744eed">   68</a></span><span class="preprocessor">#define message_alloc st_message_alloc</span></div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#ad89e3f07bb3fb1d05c0cc2da138749df">   71</a></span><span class="preprocessor">#define subscriber_poll st_subscriber_poll</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#a69208ebdeb16243de14094df7c1a12db">   71</a></span><span class="preprocessor">#define message_tryalloc st_message_tryalloc</span></div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#a484aa4a42302fcde6a903e59c59a53d3">   74</a></span><span class="preprocessor">#define subscriber_unload st_subscriber_unload</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#a8ca7facfb248c9ea68af212ebea3608f">   74</a></span><span class="preprocessor">#define message_setcb st_message_setcb</span></div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#endif </span><span class="comment">/* STURK_BROKER_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#aff440e68dd98abfe1b2bdc6959e6b062">   77</a></span><span class="preprocessor">#define message_getchannel st_message_getchannel</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">   80</a></span><span class="preprocessor">#define subscriber_create st_subscriber_create</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#acf22b096250bd3257f8ab509e0345761">   83</a></span><span class="preprocessor">#define subscriber_destroy st_subscriber_destroy</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#af23ee47bacf77f34816373673f569dd2">   86</a></span><span class="preprocessor">#define subscriber_await st_subscriber_await</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#ad89e3f07bb3fb1d05c0cc2da138749df">   89</a></span><span class="preprocessor">#define subscriber_poll st_subscriber_poll</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="sturk_2broker_8h.html#a484aa4a42302fcde6a903e59c59a53d3">   92</a></span><span class="preprocessor">#define subscriber_unload st_subscriber_unload</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">#endif </span><span class="comment">/* STURK_BROKER_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="ast_2broker_8h_html"><div class="ttname"><a href="st_2broker_8h.html">broker.h</a></div><div class="ttdoc">Message broker.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

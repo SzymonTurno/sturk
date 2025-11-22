@@ -11,7 +11,7 @@ var os_2mutex_8h =
     [ "ST_MUTEX_TYPE_RECURSIVE", "os_2mutex_8h.html#a92b60482e3bb0016a584e6dfdd07dd6c", null ],
     [ "ST_MUTEX_UNUSED_MASK", "os_2mutex_8h.html#ae463255f0886f4e66c4a7a1657ac6d4d", null ],
     [ "StMutex", "os_2mutex_8h.html#ab7f0bc6bb25db8452b4de5cfa576ad65", null ],
-    [ "st_mutex_create", "os_2mutex_8h.html#a254ac1413be6d9f0211b1d50e8fe51e2", null ],
+    [ "st_mutex_create", "os_2mutex_8h.html#ab00854187bac3890ee6814a6e948d377", null ],
     [ "st_mutex_destroy", "os_2mutex_8h.html#a8c945560a281d0ca14112c676c5271f3", null ],
     [ "st_mutex_lock", "os_2mutex_8h.html#aa6fb182e451fcd2f6699210f23958049", null ],
     [ "st_mutex_trylock", "os_2mutex_8h.html#a4fea98ef7018779d759bc9e10658b3e1", null ],

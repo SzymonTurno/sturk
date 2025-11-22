@@ -1,43 +1,25 @@
 <map id="st/str.h" name="st/str.h">
-<area shape="rect" id="Node000001" title="String utilities." alt="" coords="117,5,184,31"/>
-<area shape="rect" id="Node000002" href="$st_2dict_8h.html" title="Dictionary." alt="" coords="288,79,363,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,28,285,71,283,76,178,33"/>
-<area shape="rect" id="Node000016" href="$vertegs_2cirq_8h.html" title="Doubly linked circular list." alt="" coords="95,152,206,177"/>
-<area shape="poly" id="edge21_Node000001_Node000016" title=" " alt="" coords="153,31,153,138,148,138,148,31"/>
-<area shape="rect" id="Node000017" href="$vertegs_2list_8h.html" title="Singly linked list." alt="" coords="5,79,112,104"/>
-<area shape="poly" id="edge23_Node000001_Node000017" title=" " alt="" coords="138,33,86,72,83,68,134,29"/>
-<area shape="rect" id="Node000003" href="$st_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="231,152,311,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="318,106,290,143,286,140,314,103"/>
-<area shape="rect" id="Node000006" href="$logger_2except_8h.html" title="Exceptions." alt="" coords="393,225,532,251"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="364,102,404,120,423,134,439,150,455,180,463,211,458,212,450,182,435,154,419,138,401,125,362,107"/>
-<area shape="rect" id="Node000012" href="$st_2rbtree_8h.html" title="Red&#45;black tree." alt="" coords="335,152,425,177"/>
-<area shape="poly" id="edge14_Node000002_Node000012" title=" " alt="" coords="336,103,365,140,361,143,332,106"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="229,445,304,471"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="273,177,270,431,264,431,268,177"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="298,225,369,251"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="283,176,316,213,312,217,279,179"/>
-<area shape="rect" id="Node000007" href="$logger_2trace_8h.html" title="Trace." alt="" coords="297,299,425,324"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="448,253,391,293,388,288,445,248"/>
-<area shape="rect" id="Node000010" href="$sys_8h.html" title="System procedures." alt="" coords="441,372,532,397"/>
-<area shape="poly" id="edge10_Node000006_Node000010" title=" " alt="" coords="467,251,485,358,480,359,462,252"/>
-<area shape="rect" id="Node000008" href="$fstream_8h.html" title="File stream." alt="" coords="297,372,417,397"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="363,324,361,359,356,358,358,324"/>
-<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="344,399,294,439,291,434,341,395"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="340,445,415,471"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="363,397,373,431,368,433,358,398"/>
-<area shape="poly" id="edge13_Node000010_Node000004" title=" " alt="" coords="452,400,316,444,314,439,451,395"/>
-<area shape="poly" id="edge11_Node000010_Node000009" title=" " alt="" coords="471,400,408,440,405,435,468,395"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="445,445,528,471"/>
-<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="489,398,489,432,484,432,484,398"/>
-<area shape="poly" id="edge20_Node000012_Node000005" title=" " alt="" coords="375,179,351,215,346,212,370,176"/>
-<area shape="poly" id="edge15_Node000012_Node000006" title=" " alt="" coords="395,175,440,214,437,218,392,179"/>
-<area shape="rect" id="Node000013" href="$vertegs_2graph_8h.html" title="Graph." alt="" coords="89,225,213,251"/>
-<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="344,180,202,224,200,219,342,175"/>
-<area shape="rect" id="Node000014" href="$vertex_8h.html" title="Vertex." alt="" coords="86,299,215,324"/>
-<area shape="poly" id="edge17_Node000013_Node000014" title=" " alt="" coords="153,251,153,285,148,285,148,251"/>
-<area shape="poly" id="edge18_Node000014_Node000004" title=" " alt="" coords="162,323,251,433,247,436,158,326"/>
-<area shape="rect" id="Node000015" title=" " alt="" coords="97,372,172,397"/>
-<area shape="poly" id="edge19_Node000014_Node000015" title=" " alt="" coords="151,325,143,359,138,358,145,324"/>
-<area shape="poly" id="edge22_Node000016_Node000013" title=" " alt="" coords="153,178,153,212,148,212,148,178"/>
-<area shape="poly" id="edge24_Node000017_Node000013" title=" " alt="" coords="62,104,69,138,85,176,103,197,123,215,120,219,99,201,80,179,64,139,57,105"/>
+<area shape="rect" id="Node000001" title="String utilities." alt="" coords="233,5,299,31"/>
+<area shape="rect" id="Node000002" href="$st_2dict_8h.html" title="Dictionary." alt="" coords="121,79,195,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="250,33,189,73,186,69,247,28"/>
+<area shape="rect" id="Node000010" href="$vertegs_2cirq_8h.html" title="Doubly linked circular list." alt="" coords="211,152,321,177"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="269,31,269,138,263,138,263,31"/>
+<area shape="rect" id="Node000011" href="$vertegs_2list_8h.html" title="Singly linked list." alt="" coords="305,79,411,104"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="282,29,334,68,331,72,279,33"/>
+<area shape="rect" id="Node000003" href="$vertegs_2rbtree_8h.html" title="Red&#45;black tree." alt="" coords="60,152,187,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="155,106,137,141,133,138,150,103"/>
+<area shape="rect" id="Node000004" href="$vertegs_2graph_8h.html" title="Graph." alt="" coords="204,225,328,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="147,175,232,217,229,221,145,180"/>
+<area shape="rect" id="Node000005" href="$vertex_8h.html" title="Vertex." alt="" coords="201,299,331,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="269,251,269,285,263,285,263,251"/>
+<area shape="rect" id="Node000006" href="$vertegs_2bits_8h.html" title="Bits and bitfields." alt="" coords="5,372,116,397"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="234,327,108,370,106,365,232,321"/>
+<area shape="rect" id="Node000007" href="$vertegs_2debug_8h_source.html" title=" " alt="" coords="140,372,267,397"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="258,326,225,363,221,360,254,323"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="291,372,366,397"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="278,323,311,360,307,363,274,326"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="391,372,461,397"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="293,322,388,364,386,369,291,326"/>
+<area shape="poly" id="edge10_Node000010_Node000004" title=" " alt="" coords="269,178,269,212,263,212,263,178"/>
+<area shape="poly" id="edge12_Node000011_Node000004" title=" " alt="" coords="359,105,353,139,336,179,318,201,297,219,293,215,314,197,332,176,348,138,354,104"/>
 </map>

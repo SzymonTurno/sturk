@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -126,18 +126,18 @@ $(document).ready(function(){initNavTree('os_2sem_8h.html',''); initResizable();
 
 <p>Semaphore.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="st_2bits_8h_source.html">st/bits.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="vertegs_2bits_8h_source.html">vertegs/bits.h</a>&quot;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for sem.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="os_2sem_8h__incl.png" border="0" usemap="#ast_2os_2sem_8h" alt=""/></div>
 <map name="ast_2os_2sem_8h" id="ast_2os_2sem_8h">
-<area shape="rect" title="Semaphore." alt="" coords="45,5,142,31"/>
-<area shape="rect" href="st_2bits_8h.html" title="Bits and bitfields." alt="" coords="5,79,80,104"/>
-<area shape="poly" title=" " alt="" coords="87,33,61,69,57,66,83,29"/>
-<area shape="rect" title=" " alt="" coords="104,79,187,104"/>
-<area shape="poly" title=" " alt="" coords="104,29,131,66,127,69,100,33"/>
+<area shape="rect" title="Semaphore." alt="" coords="72,5,169,31"/>
+<area shape="rect" href="vertegs_2bits_8h.html" title="Bits and bitfields." alt="" coords="5,79,116,104"/>
+<area shape="poly" title=" " alt="" coords="113,33,81,70,77,66,109,29"/>
+<area shape="rect" title=" " alt="" coords="141,79,223,104"/>
+<area shape="poly" title=" " alt="" coords="133,29,165,66,161,70,129,33"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -162,9 +162,9 @@ typedef struct <a class="el" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a61c6d9d1298ddf34c500ae69e53fce18" id="r_a61c6d9d1298ddf34c500ae69e53fce18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2sem_8h.html#a61c6d9d1298ddf34c500ae69e53fce18">st_sem_create</a> (<a class="el" href="st_2bits_8h.html#a79c09e953a9d9e8b426c0e6ceb175f9d">StBits</a> args)</td></tr>
-<tr class="memdesc:a61c6d9d1298ddf34c500ae69e53fce18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a semaphore.  <br /></td></tr>
-<tr class="separator:a61c6d9d1298ddf34c500ae69e53fce18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af23e670434dc4e2b6bd72455b252afb5" id="r_af23e670434dc4e2b6bd72455b252afb5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2sem_8h.html#af23e670434dc4e2b6bd72455b252afb5">st_sem_create</a> (<a class="el" href="vertegs_2bits_8h.html#ab7a909c74b35f02eae3a6166424b75f0">VxBits</a> args)</td></tr>
+<tr class="memdesc:af23e670434dc4e2b6bd72455b252afb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a semaphore.  <br /></td></tr>
+<tr class="separator:af23e670434dc4e2b6bd72455b252afb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28ceaa9a8e7826a35ff7476a21ae8de3" id="r_a28ceaa9a8e7826a35ff7476a21ae8de3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2sem_8h.html#a28ceaa9a8e7826a35ff7476a21ae8de3">st_sem_destroy</a> (<a class="el" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a> *sem)</td></tr>
 <tr class="memdesc:a28ceaa9a8e7826a35ff7476a21ae8de3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy a semaphore.  <br /></td></tr>
 <tr class="separator:a28ceaa9a8e7826a35ff7476a21ae8de3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,8 +181,8 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Semaphore. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a61c6d9d1298ddf34c500ae69e53fce18" name="a61c6d9d1298ddf34c500ae69e53fce18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a61c6d9d1298ddf34c500ae69e53fce18">&#9670;&#160;</a></span>st_sem_create()</h2>
+<a id="af23e670434dc4e2b6bd72455b252afb5" name="af23e670434dc4e2b6bd72455b252afb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af23e670434dc4e2b6bd72455b252afb5">&#9670;&#160;</a></span>st_sem_create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -190,7 +190,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a> * st_sem_create </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="st_2bits_8h.html#a79c09e953a9d9e8b426c0e6ceb175f9d">StBits</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="vertegs_2bits_8h.html#ab7a909c74b35f02eae3a6166424b75f0">VxBits</a>&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
           <td></td>
         </tr>

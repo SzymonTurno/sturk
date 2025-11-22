@@ -1,6 +1,5 @@
 var sturk_2str_8h =
 [
-    [ "newstr", "sturk_2str_8h.html#a74fb5c8530261f954b51b613e370e810", null ],
     [ "strbag_count", "sturk_2str_8h.html#ab96ece7f412024c5f609db21bf4116ae", null ],
     [ "strbag_destroy", "sturk_2str_8h.html#aef12632f00900ea6ebc507f90a8dae0c", null ],
     [ "strbag_ins", "sturk_2str_8h.html#a7cef76a6ab16b0119cb33507eb4f3639", null ],

@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -129,6 +129,10 @@ $(document).ready(function(){initNavTree('md_include_2vertegs_2README.html','');
 <li class="level3"><a href="#autotoc_md7">Cirq example &quot;push&quot;</a></li>
 </ul>
 </li>
+<li class="level2"><a href="#autotoc_md8">Red-black tree</a><ul><li class="level3"><a href="#autotoc_md9">Define a red-black tree data type</a></li>
+<li class="level3"><a href="#autotoc_md10">Insert a node in a red-black tree</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -156,13 +160,13 @@ Define a list data type</h3>
 List example "push"</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> push(<span class="keyword">struct</span> MyList** listp, MyData data)</div>
 <div class="line">{</div>
-<div class="line">    <span class="keyword">struct </span>MyList* entry = malloc(<span class="keyword">sizeof</span>(*entry));</div>
+<div class="line">        <span class="keyword">struct </span>MyList* entry = malloc(<span class="keyword">sizeof</span>(*entry));</div>
 <div class="line"> </div>
-<div class="line">    *<a class="code hl_define" href="vertegs_2graph_8h.html#a7be9cbdf920dbd7b7203a8fa28322a0d">vx_graph_datap</a>(entry) = data;</div>
-<div class="line">    *listp = <a class="code hl_define" href="vertegs_2list_8h.html#a3430a38a8ce90dae26474a992b7508bb">vx_list_ins</a>(*listp, entry);</div>
+<div class="line">        *<a class="code hl_define" href="vertegs_2graph_8h.html#a7be9cbdf920dbd7b7203a8fa28322a0d">vx_graph_datap</a>(entry) = data;</div>
+<div class="line">        *listp = <a class="code hl_define" href="vertegs_2list_8h.html#a3430a38a8ce90dae26474a992b7508bb">vx_list_ins</a>(*listp, entry);</div>
 <div class="line">}</div>
-<div class="ttc" id="avertegs_2graph_8h_html_a7be9cbdf920dbd7b7203a8fa28322a0d"><div class="ttname"><a href="vertegs_2graph_8h.html#a7be9cbdf920dbd7b7203a8fa28322a0d">vx_graph_datap</a></div><div class="ttdeci">#define vx_graph_datap(graph)</div><div class="ttdoc">Get a pointer to the data member of a graph node.</div><div class="ttdef"><b>Definition</b> graph.h:126</div></div>
-<div class="ttc" id="avertegs_2list_8h_html_a3430a38a8ce90dae26474a992b7508bb"><div class="ttname"><a href="vertegs_2list_8h.html#a3430a38a8ce90dae26474a992b7508bb">vx_list_ins</a></div><div class="ttdeci">#define vx_list_ins(list,...)</div><div class="ttdoc">Insert, at a given position, an entry into a list.</div><div class="ttdef"><b>Definition</b> list.h:89</div></div>
+<div class="ttc" id="avertegs_2graph_8h_html_a7be9cbdf920dbd7b7203a8fa28322a0d"><div class="ttname"><a href="vertegs_2graph_8h.html#a7be9cbdf920dbd7b7203a8fa28322a0d">vx_graph_datap</a></div><div class="ttdeci">#define vx_graph_datap(graph)</div><div class="ttdoc">Get a pointer to the data member of a graph node.</div><div class="ttdef"><b>Definition</b> graph.h:139</div></div>
+<div class="ttc" id="avertegs_2list_8h_html_a3430a38a8ce90dae26474a992b7508bb"><div class="ttname"><a href="vertegs_2list_8h.html#a3430a38a8ce90dae26474a992b7508bb">vx_list_ins</a></div><div class="ttdeci">#define vx_list_ins(list,...)</div><div class="ttdoc">Insert, at a given position, an entry into a list.</div><div class="ttdef"><b>Definition</b> list.h:79</div></div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md5"></a>
 Cirq</h2>
 <h3><a class="anchor" id="autotoc_md6"></a>
@@ -175,12 +179,41 @@ Define a cirq data type</h3>
 Cirq example "push"</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> push(<span class="keyword">struct</span> MyCirq** headp, MyData data)</div>
 <div class="line">{</div>
-<div class="line">    <span class="keyword">struct </span>MyCirq* entry = malloc(<span class="keyword">sizeof</span>(*entry));</div>
+<div class="line">        <span class="keyword">struct </span>MyCirq* entry = malloc(<span class="keyword">sizeof</span>(*entry));</div>
 <div class="line"> </div>
-<div class="line">    *<a class="code hl_define" href="vertegs_2graph_8h.html#a7be9cbdf920dbd7b7203a8fa28322a0d">vx_graph_datap</a>(entry) = data;</div>
-<div class="line">    *headp = <a class="code hl_define" href="vertegs_2cirq_8h.html#a339d67c7033e5fa71191f2e97da3eb26">vx_cirq_ins</a>(*headp, entry);</div>
+<div class="line">        *<a class="code hl_define" href="vertegs_2graph_8h.html#a7be9cbdf920dbd7b7203a8fa28322a0d">vx_graph_datap</a>(entry) = data;</div>
+<div class="line">        *headp = <a class="code hl_define" href="vertegs_2cirq_8h.html#a339d67c7033e5fa71191f2e97da3eb26">vx_cirq_ins</a>(*headp, entry);</div>
 <div class="line">}</div>
 <div class="ttc" id="avertegs_2cirq_8h_html_a339d67c7033e5fa71191f2e97da3eb26"><div class="ttname"><a href="vertegs_2cirq_8h.html#a339d67c7033e5fa71191f2e97da3eb26">vx_cirq_ins</a></div><div class="ttdeci">#define vx_cirq_ins(cirq,...)</div><div class="ttdoc">Insert, at a given position, an entry into a cirq.</div><div class="ttdef"><b>Definition</b> cirq.h:81</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
+Red-black tree</h2>
+<h3><a class="anchor" id="autotoc_md9"></a>
+Define a red-black tree data type</h3>
+<div class="fragment"><div class="line"><span class="keyword">typedef</span> SomeData MyData;</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_define" href="vertegs_2rbtree_8h.html#a134e5c21fc8d67907bea1f180e91db5e">VX_RBTREE</a>(<span class="keyword">struct</span> MyRbTree, MyData);</div>
+<div class="ttc" id="avertegs_2rbtree_8h_html_a134e5c21fc8d67907bea1f180e91db5e"><div class="ttname"><a href="vertegs_2rbtree_8h.html#a134e5c21fc8d67907bea1f180e91db5e">VX_RBTREE</a></div><div class="ttdeci">#define VX_RBTREE(name, type)</div><div class="ttdoc">Define the red-black tree.</div><div class="ttdef"><b>Definition</b> rbtree.h:57</div></div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md10"></a>
+Insert a node in a red-black tree</h3>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> insert(<span class="keyword">struct</span> MyRbTree** rootp, <span class="keyword">struct</span> MyRbTree* node)</div>
+<div class="line">{</div>
+<div class="line">        <span class="keyword">struct </span>MyRbTree** i = rootp;</div>
+<div class="line">        <span class="keyword">struct </span>MyRbTree* p = NULL;</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">while</span> (*i) {</div>
+<div class="line">                p = *i;</div>
+<div class="line">                <span class="keywordflow">if</span> (compare(node, p) &lt; 0)</div>
+<div class="line">                        <a class="code hl_define" href="vertegs_2graph_8h.html#a9b589b612b4640217f14ac32f65a2c90">vx_graphit_next</a>(&amp;i, VX_RB_LEFT);</div>
+<div class="line">                <span class="keywordflow">else</span></div>
+<div class="line">                        <a class="code hl_define" href="vertegs_2graph_8h.html#a9b589b612b4640217f14ac32f65a2c90">vx_graphit_next</a>(&amp;i, <a class="code hl_enumvalue" href="vertex_8h.html#a168544b7e899c61f06fdab8b8ed524d4a864f097ae312086c89e5c1b9ae4e632f">VX_RB_RIGHT</a>);</div>
+<div class="line">        }</div>
+<div class="line">        *i = <a class="code hl_define" href="vertegs_2rbtree_8h.html#a311e5da46a6abba3edcfac37ef04fa63">vx_rb_link</a>(node, p);</div>
+<div class="line">        *rootp = <a class="code hl_define" href="vertegs_2rbtree_8h.html#ae8bae682a82055af0e72bdbeb0a33f8d">vx_rb_insrebal</a>(*rootp, node);</div>
+<div class="line">}</div>
+<div class="ttc" id="avertegs_2graph_8h_html_a9b589b612b4640217f14ac32f65a2c90"><div class="ttname"><a href="vertegs_2graph_8h.html#a9b589b612b4640217f14ac32f65a2c90">vx_graphit_next</a></div><div class="ttdeci">#define vx_graphit_next(it, edge)</div><div class="ttdoc">On a given edge, get the next entry from a graph iterator.</div><div class="ttdef"><b>Definition</b> graph.h:151</div></div>
+<div class="ttc" id="avertegs_2rbtree_8h_html_a311e5da46a6abba3edcfac37ef04fa63"><div class="ttname"><a href="vertegs_2rbtree_8h.html#a311e5da46a6abba3edcfac37ef04fa63">vx_rb_link</a></div><div class="ttdeci">#define vx_rb_link(node, parent)</div><div class="ttdoc">Prepare a node for insertion in a red-black tree.</div><div class="ttdef"><b>Definition</b> rbtree.h:75</div></div>
+<div class="ttc" id="avertegs_2rbtree_8h_html_ae8bae682a82055af0e72bdbeb0a33f8d"><div class="ttname"><a href="vertegs_2rbtree_8h.html#ae8bae682a82055af0e72bdbeb0a33f8d">vx_rb_insrebal</a></div><div class="ttdeci">#define vx_rb_insrebal(root, node)</div><div class="ttdoc">Insert a node in a red-black tree and rebalance the tree.</div><div class="ttdef"><b>Definition</b> rbtree.h:102</div></div>
+<div class="ttc" id="avertex_8h_html_a168544b7e899c61f06fdab8b8ed524d4a864f097ae312086c89e5c1b9ae4e632f"><div class="ttname"><a href="vertex_8h.html#a168544b7e899c61f06fdab8b8ed524d4a864f097ae312086c89e5c1b9ae4e632f">VX_RB_RIGHT</a></div><div class="ttdeci">@ VX_RB_RIGHT</div><div class="ttdoc">edge for the left node.</div><div class="ttdef"><b>Definition</b> vertex.h:88</div></div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -154,15 +154,16 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structStArenaGroup.html">StArenaGroup</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collection of arena instances.  <a href="structStArenaGroup.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structStMemVt.html">StMemVt</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vtable for a memory allocator.  <a href="structStMemVt.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structStArenaGc.html">StArenaGc</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arena garbage collector.  <a href="structStArenaGc.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:aa42d4d8667be633dd566ab137dad0a48" id="r_aa42d4d8667be633dd566ab137dad0a48"><td class="memItemLeft" align="right" valign="top"><a id="aa42d4d8667be633dd566ab137dad0a48" name="aa42d4d8667be633dd566ab137dad0a48"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>ST_ARENA_ALLOC</b>(arena,  size)&#160;&#160;&#160;	<a class="el" href="st_2arena_8h.html#acb8386aeb871037f09e3c12264513e2f">st_arena_alloc</a>((arena), (size), __FILE__, __LINE__)</td></tr>
-<tr class="memdesc:aa42d4d8667be633dd566ab137dad0a48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate memory from an arena. <br /></td></tr>
+<tr class="memitem:aa42d4d8667be633dd566ab137dad0a48" id="r_aa42d4d8667be633dd566ab137dad0a48"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2arena_8h.html#aa42d4d8667be633dd566ab137dad0a48">ST_ARENA_ALLOC</a>(arena,  size)&#160;&#160;&#160;	<a class="el" href="st_2arena_8h.html#acb8386aeb871037f09e3c12264513e2f">st_arena_alloc</a>(arena, size, __FILE__, __LINE__)</td></tr>
 <tr class="separator:aa42d4d8667be633dd566ab137dad0a48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
@@ -174,9 +175,9 @@ typedef struct <a class="el" href="st_2arena_8h.html#a41d4153611fcf544008b78c028
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aed171b70acc3b7ee6f54f003d5af5f10" id="r_aed171b70acc3b7ee6f54f003d5af5f10"><td class="memItemLeft" align="right" valign="top"><a class="el" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2arena_8h.html#aed171b70acc3b7ee6f54f003d5af5f10">st_arena_create</a> (struct <a class="el" href="structStArenaGroup.html">StArenaGroup</a> *group, void *(*alloc_cb)(size_t), void(*free_cb)(void *))</td></tr>
-<tr class="memdesc:aed171b70acc3b7ee6f54f003d5af5f10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an arena.  <br /></td></tr>
-<tr class="separator:aed171b70acc3b7ee6f54f003d5af5f10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6338db6680e0824b97f2da03f64f5372" id="r_a6338db6680e0824b97f2da03f64f5372"><td class="memItemLeft" align="right" valign="top"><a class="el" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2arena_8h.html#a6338db6680e0824b97f2da03f64f5372">st_arena_create</a> (struct <a class="el" href="structStArenaGc.html">StArenaGc</a> *gc, const struct <a class="el" href="structStMemVt.html">StMemVt</a> *vp)</td></tr>
+<tr class="memdesc:a6338db6680e0824b97f2da03f64f5372"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an arena.  <br /></td></tr>
+<tr class="separator:a6338db6680e0824b97f2da03f64f5372"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa46c8894d7caf945625f9d92e79f9c72" id="r_aa46c8894d7caf945625f9d92e79f9c72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2arena_8h.html#aa46c8894d7caf945625f9d92e79f9c72">st_arena_destroy</a> (<a class="el" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a> *arena)</td></tr>
 <tr class="memdesc:aa46c8894d7caf945625f9d92e79f9c72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy an arena.  <br /></td></tr>
 <tr class="separator:aa46c8894d7caf945625f9d92e79f9c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,15 +187,45 @@ Functions</h2></td></tr>
 <tr class="memitem:a27b151f6064bc4892facdfe2ac99d5fb" id="r_a27b151f6064bc4892facdfe2ac99d5fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2arena_8h.html#a27b151f6064bc4892facdfe2ac99d5fb">st_arena_free</a> (<a class="el" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a> *arena)</td></tr>
 <tr class="memdesc:a27b151f6064bc4892facdfe2ac99d5fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free all the memory allocated from a single arena.  <br /></td></tr>
 <tr class="separator:a27b151f6064bc4892facdfe2ac99d5fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e9560c75010d58d827bea0c64afc728" id="r_a0e9560c75010d58d827bea0c64afc728"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2arena_8h.html#a0e9560c75010d58d827bea0c64afc728">st_arena_cleanup</a> (struct <a class="el" href="structStArenaGroup.html">StArenaGroup</a> *group)</td></tr>
-<tr class="memdesc:a0e9560c75010d58d827bea0c64afc728"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free all the memory from an arena collection.  <br /></td></tr>
-<tr class="separator:a0e9560c75010d58d827bea0c64afc728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a715ca846d4da8c13cf46268b09121e88" id="r_a715ca846d4da8c13cf46268b09121e88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2arena_8h.html#a715ca846d4da8c13cf46268b09121e88">st_arena_cleanup</a> (struct <a class="el" href="structStArenaGc.html">StArenaGc</a> *gc)</td></tr>
+<tr class="memdesc:a715ca846d4da8c13cf46268b09121e88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free all the memory from the arena garbage collector.  <br /></td></tr>
+<tr class="separator:a715ca846d4da8c13cf46268b09121e88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Arena allocator. </p>
 <p>Solution inspired by the example from "C Interfaces and Implementations:
 Techniques for Creating Reusable Software" by David Hanson. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="aa42d4d8667be633dd566ab137dad0a48" name="aa42d4d8667be633dd566ab137dad0a48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa42d4d8667be633dd566ab137dad0a48">&#9670;&#160;</a></span>ST_ARENA_ALLOC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ST_ARENA_ALLOC</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">arena, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">size&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;	<a class="el" href="st_2arena_8h.html#acb8386aeb871037f09e3c12264513e2f">st_arena_alloc</a>(arena, size, __FILE__, __LINE__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="st_2arena_8h.html#acb8386aeb871037f09e3c12264513e2f" title="Allocate memory from an arena.">st_arena_alloc()</a> </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="acb8386aeb871037f09e3c12264513e2f" name="acb8386aeb871037f09e3c12264513e2f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acb8386aeb871037f09e3c12264513e2f">&#9670;&#160;</a></span>st_arena_alloc()</h2>
 
@@ -238,8 +269,8 @@ Techniques for Creating Reusable Software" by David Hanson. </p>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">arena</td><td>The pointer to the arena. </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">size</td><td>The size in bytes of the requested memory. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>The path to the calling source file. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>The number of the calling line of code from the source file.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>The name of the source file. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>The line number.</td></tr>
   </table>
   </dd>
 </dl>
@@ -247,8 +278,8 @@ Techniques for Creating Reusable Software" by David Hanson. </p>
 
 </div>
 </div>
-<a id="a0e9560c75010d58d827bea0c64afc728" name="a0e9560c75010d58d827bea0c64afc728"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e9560c75010d58d827bea0c64afc728">&#9670;&#160;</a></span>st_arena_cleanup()</h2>
+<a id="a715ca846d4da8c13cf46268b09121e88" name="a715ca846d4da8c13cf46268b09121e88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a715ca846d4da8c13cf46268b09121e88">&#9670;&#160;</a></span>st_arena_cleanup()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -256,25 +287,25 @@ Techniques for Creating Reusable Software" by David Hanson. </p>
         <tr>
           <td class="memname">void st_arena_cleanup </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structStArenaGroup.html">StArenaGroup</a> *&#160;</td>
-          <td class="paramname"><em>group</em></td><td>)</td>
+          <td class="paramtype">struct <a class="el" href="structStArenaGc.html">StArenaGc</a> *&#160;</td>
+          <td class="paramname"><em>gc</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Free all the memory from an arena collection. </p>
+<p>Free all the memory from the arena garbage collector. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">group</td><td>The arena collection. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">gc</td><td>Arena garbage collector. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="aed171b70acc3b7ee6f54f003d5af5f10" name="aed171b70acc3b7ee6f54f003d5af5f10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed171b70acc3b7ee6f54f003d5af5f10">&#9670;&#160;</a></span>st_arena_create()</h2>
+<a id="a6338db6680e0824b97f2da03f64f5372" name="a6338db6680e0824b97f2da03f64f5372"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6338db6680e0824b97f2da03f64f5372">&#9670;&#160;</a></span>st_arena_create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,20 +313,14 @@ Techniques for Creating Reusable Software" by David Hanson. </p>
         <tr>
           <td class="memname"><a class="el" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a> * st_arena_create </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structStArenaGroup.html">StArenaGroup</a> *&#160;</td>
-          <td class="paramname"><em>group</em>, </td>
+          <td class="paramtype">struct <a class="el" href="structStArenaGc.html">StArenaGc</a> *&#160;</td>
+          <td class="paramname"><em>gc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">void *(*)(size_t)&#160;</td>
-          <td class="paramname"><em>alloc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void(*)(void *)&#160;</td>
-          <td class="paramname"><em>free</em>&#160;</td>
+          <td class="paramtype">const struct <a class="el" href="structStMemVt.html">StMemVt</a> *&#160;</td>
+          <td class="paramname"><em>vp</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -308,9 +333,8 @@ Techniques for Creating Reusable Software" by David Hanson. </p>
 <p>Create an arena. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">group</td><td>Collection of arena instances. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">alloc</td><td>Memory allocation callback. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">free</td><td>Memory freeing callback.</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">gc</td><td>Arena garbage collector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vp</td><td>The memory allocator vtable.</td></tr>
   </table>
   </dd>
 </dl>

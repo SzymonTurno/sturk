@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -159,34 +159,26 @@ $(document).ready(function(){initNavTree('sturk_2rbtree_8h_source.html',''); ini
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#ifndef STURK_RBTREE_H</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define STURK_RBTREE_H</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &quot;<a class="code" href="st_2rbtree_8h.html">st/rbtree.h</a>&quot;</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &quot;<a class="code" href="vertegs_2rbtree_8h.html">vertegs/rbtree.h</a>&quot;</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#a5850905e30743ab0ba98c38006182ea6">   44</a></span><span class="preprocessor">#define BST_INORDER ST_BST_INORDER</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#a219ae34f488532e8ecb52165a067b01d">   44</a></span><span class="preprocessor">#define RBTREE VX_RBTREE</span></div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#ab49e9672ddba20df5785ea0a99f2d8a2">   47</a></span><span class="preprocessor">#define BST_PREORDER ST_BST_PREORDER</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#a58d70b77604149bd22342cbf82e205f8">   47</a></span><span class="preprocessor">#define rb_link vx_rb_link</span></div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#adb9ad7a27031b70aab87d2d4c8d8f733">   50</a></span><span class="preprocessor">#define BST_POSTORDER ST_BST_POSTORDER</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#aba5f65567b02ca226148e17cb36609ee">   50</a></span><span class="preprocessor">#define rb_unlink vx_rb_unlink</span></div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#a339ef6cf1a70fae73df326547480a6ab">   53</a></span><span class="preprocessor">#define BST_LEFT ST_BST_LEFT</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#a71b2d8e0fc93963c5ba267cfde17b459">   53</a></span><span class="preprocessor">#define rb_insrebal vx_rb_insrebal</span></div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#ad0282ee1977996b7f12c7f3b5836880e">   56</a></span><span class="preprocessor">#define BST_RIGHT ST_BST_RIGHT</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#a858236203fdba45a4e016a985ea2989e">   56</a></span><span class="preprocessor">#define rb_deepest vx_rb_deepest</span></div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#a58d70b77604149bd22342cbf82e205f8">   59</a></span><span class="preprocessor">#define rb_link st_rb_link</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#adfd8cea475cee4ea4f36a9b9456f46e3">   59</a></span><span class="preprocessor">#define rb_root vx_rb_root</span></div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#a71b2d8e0fc93963c5ba267cfde17b459">   62</a></span><span class="preprocessor">#define rb_insrebal st_rb_insrebal</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#ab0ce2a4badbfa134e8db71f2a92b85b4">   62</a></span><span class="preprocessor">#define rb_first vx_rb_first</span></div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#ae8d6dee6c7e95142de90e920d4d682b6">   65</a></span><span class="preprocessor">#define rb_left st_rb_left</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#ad12154b2ae877e5b4ed7d3c1e21886d3">   65</a></span><span class="preprocessor">#define rb_next vx_rb_next</span></div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#ada3192c2c4aa0f48b688b360acc43429">   68</a></span><span class="preprocessor">#define rb_right st_rb_right</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#a99a605c3e039b4793bcfe271caefd009">   71</a></span><span class="preprocessor">#define rb_parent st_rb_parent</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#ab0ce2a4badbfa134e8db71f2a92b85b4">   74</a></span><span class="preprocessor">#define rb_first st_rb_first</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="sturk_2rbtree_8h.html#ad12154b2ae877e5b4ed7d3c1e21886d3">   77</a></span><span class="preprocessor">#define rb_next st_rb_next</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#endif </span><span class="comment">/* STURK_RBTREE_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="ast_2rbtree_8h_html"><div class="ttname"><a href="st_2rbtree_8h.html">rbtree.h</a></div><div class="ttdoc">Red-black tree.</div></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#endif </span><span class="comment">/* STURK_RBTREE_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="avertegs_2rbtree_8h_html"><div class="ttname"><a href="vertegs_2rbtree_8h.html">rbtree.h</a></div><div class="ttdoc">Red-black tree.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

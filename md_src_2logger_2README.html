@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -120,13 +120,32 @@ $(document).ready(function(){initNavTree('md_src_2logger_2README.html',''); init
   <div class="headertitle"><div class="title">Logger</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md37"></a> See pages:</p>
-<ul>
-<li><a href="https://szymonturno.github.io/sturk/rk_2logger_2except_8h.html">except</a>,</li>
-<li><a href="https://szymonturno.github.io/sturk/rk_2logger_2streambag_8h.html">streambag</a>,</li>
-<li><a href="https://szymonturno.github.io/sturk/rk_2logger_2trace_8h.html">trace</a>. </li>
-</ul>
-</div></div><!-- contents -->
+<div class="textblock"><p><a class="anchor" id="autotoc_md65"></a> The logger writes to all attached IOs. IO can be a memory buffer, file, device. For information on how to use IO interface see <a href="https://szymonturno.github.io/sturk/md_src_2basis_2README.html">basis</a>.</p>
+<h1><a class="anchor" id="autotoc_md66"></a>
+Logger example</h1>
+<div class="fragment"><div class="line">TEST(logger, should_write_to_memory_buffer)</div>
+<div class="line">{</div>
+<div class="line">        <a class="code hl_union" href="unionStAlign.html">StIoBuffer</a> buff[<a class="code hl_define" href="rk_2io_2buffer_8h.html#ae5d150b241a5aa4b6aa59de74f12375f">iobuffer_calclen</a>(32)] = {0};</div>
+<div class="line">        <a class="code hl_typedef" href="io_2buffer_8h.html#ae141a35349e64d3959c5a23b368e4272">StIo</a>* io = <a class="code hl_define" href="rk_2io_2buffer_8h.html#a79a30883993f50b21f34dd1ec7b41bc2">io_init</a>(buff);</div>
+<div class="line"> </div>
+<div class="line">        <a class="code hl_define" href="rk_2io_2logger_8h.html#abf8d1a55f6f29cc059d24e7286c9f99c">logger_attach</a>(<a class="code hl_define" href="rk_2io_2logger_8h.html#ae1103fea1e1b3c41ca3322d5389f7162">INFO</a>, io);</div>
+<div class="line">        <a class="code hl_define" href="rk_2io_2logger_8h.html#a2526a8fa89c481f1f1b6f21c4957345a">trace</a>(<a class="code hl_define" href="rk_2io_2logger_8h.html#ae1103fea1e1b3c41ca3322d5389f7162">INFO</a>, <span class="stringliteral">&quot;Alice&quot;</span>, <span class="stringliteral">&quot;%x&quot;</span>, 0xDEADBEEF);</div>
+<div class="line">        <a class="code hl_define" href="rk_2io_2buffer_8h.html#ab2d54eb7d5b02e99876283c07617b39c">io_putc</a>(io, <span class="charliteral">&#39;\0&#39;</span>);</div>
+<div class="line">        TEST_ASSERT_EQUAL_STRING(</div>
+<div class="line">                <span class="stringliteral">&quot;[info][Alice] deadbeef\n&quot;</span>, <a class="code hl_define" href="rk_2io_2buffer_8h.html#a2e827dbfc90dc060c8dd0f9e96270a2b">iobuffer_front</a>(buff));</div>
+<div class="line">        <a class="code hl_define" href="rk_2io_2logger_8h.html#a8bd80beace6d13bcb60057595fbf7bbb">logger_detach</a>(<a class="code hl_define" href="rk_2io_2logger_8h.html#ae1103fea1e1b3c41ca3322d5389f7162">INFO</a>, io);</div>
+<div class="line">}</div>
+<div class="ttc" id="aio_2buffer_8h_html_ae141a35349e64d3959c5a23b368e4272"><div class="ttname"><a href="io_2buffer_8h.html#ae141a35349e64d3959c5a23b368e4272">StIo</a></div><div class="ttdeci">union StIo StIo</div><div class="ttdoc">The IO interface.</div><div class="ttdef"><b>Definition</b> buffer.h:73</div></div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_a2e827dbfc90dc060c8dd0f9e96270a2b"><div class="ttname"><a href="rk_2io_2buffer_8h.html#a2e827dbfc90dc060c8dd0f9e96270a2b">iobuffer_front</a></div><div class="ttdeci">#define iobuffer_front</div><div class="ttdef"><b>Definition</b> buffer.h:50</div></div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_a79a30883993f50b21f34dd1ec7b41bc2"><div class="ttname"><a href="rk_2io_2buffer_8h.html#a79a30883993f50b21f34dd1ec7b41bc2">io_init</a></div><div class="ttdeci">#define io_init</div><div class="ttdef"><b>Definition</b> buffer.h:53</div></div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_ab2d54eb7d5b02e99876283c07617b39c"><div class="ttname"><a href="rk_2io_2buffer_8h.html#ab2d54eb7d5b02e99876283c07617b39c">io_putc</a></div><div class="ttdeci">#define io_putc</div><div class="ttdef"><b>Definition</b> buffer.h:62</div></div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_ae5d150b241a5aa4b6aa59de74f12375f"><div class="ttname"><a href="rk_2io_2buffer_8h.html#ae5d150b241a5aa4b6aa59de74f12375f">iobuffer_calclen</a></div><div class="ttdeci">#define iobuffer_calclen</div><div class="ttdef"><b>Definition</b> buffer.h:47</div></div>
+<div class="ttc" id="ark_2io_2logger_8h_html_a2526a8fa89c481f1f1b6f21c4957345a"><div class="ttname"><a href="rk_2io_2logger_8h.html#a2526a8fa89c481f1f1b6f21c4957345a">trace</a></div><div class="ttdeci">#define trace</div><div class="ttdef"><b>Definition</b> logger.h:68</div></div>
+<div class="ttc" id="ark_2io_2logger_8h_html_a8bd80beace6d13bcb60057595fbf7bbb"><div class="ttname"><a href="rk_2io_2logger_8h.html#a8bd80beace6d13bcb60057595fbf7bbb">logger_detach</a></div><div class="ttdeci">#define logger_detach</div><div class="ttdef"><b>Definition</b> logger.h:74</div></div>
+<div class="ttc" id="ark_2io_2logger_8h_html_abf8d1a55f6f29cc059d24e7286c9f99c"><div class="ttname"><a href="rk_2io_2logger_8h.html#abf8d1a55f6f29cc059d24e7286c9f99c">logger_attach</a></div><div class="ttdeci">#define logger_attach</div><div class="ttdef"><b>Definition</b> logger.h:71</div></div>
+<div class="ttc" id="ark_2io_2logger_8h_html_ae1103fea1e1b3c41ca3322d5389f7162"><div class="ttname"><a href="rk_2io_2logger_8h.html#ae1103fea1e1b3c41ca3322d5389f7162">INFO</a></div><div class="ttdeci">#define INFO</div><div class="ttdef"><b>Definition</b> logger.h:56</div></div>
+<div class="ttc" id="aunionStAlign_html"><div class="ttname"><a href="unionStAlign.html">StAlign</a></div><div class="ttdoc">Type for the biggest fundamental alignment.</div><div class="ttdef"><b>Definition</b> arith.h:106</div></div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->

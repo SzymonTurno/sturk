@@ -1,20 +1,10 @@
 var searchData=
 [
-  ['max_0',['MAX',['../sturk_2arith_8h.html#a392fb874e547e582e9c66a08a1f23326',1,'arith.h']]],
-  ['min_1',['MIN',['../sturk_2arith_8h.html#adbd5cbe76e047a39e0a34f085cdae6fe',1,'arith.h']]],
-  ['mutex_5fbf_2',['MUTEX_BF',['../rk_2os_2mutex_8h.html#a7897b0132c5379b4a8cafc1a53722eaf',1,'mutex.h']]],
-  ['mutex_5fcreate_3',['mutex_create',['../rk_2os_2mutex_8h.html#a635fbcc0c13190023f25d1ad1a802bca',1,'mutex.h']]],
-  ['mutex_5fdestroy_4',['mutex_destroy',['../rk_2os_2mutex_8h.html#a7f4f7d1ead834461cf02070641311c95',1,'mutex.h']]],
-  ['mutex_5flock_5',['mutex_lock',['../rk_2os_2mutex_8h.html#a1b9da5b560704e6021d4d281b5b83461',1,'mutex.h']]],
-  ['mutex_5fpolicy_5fdelim_6',['MUTEX_POLICY_DELIM',['../rk_2os_2mutex_8h.html#aafa83abfa1abecfbcf68a7ca89af1144',1,'mutex.h']]],
-  ['mutex_5fpolicy_5fmask_7',['MUTEX_POLICY_MASK',['../rk_2os_2mutex_8h.html#aaa4bdba41b2708c457f5587048780abd',1,'mutex.h']]],
-  ['mutex_5fpolicy_5fnone_8',['MUTEX_POLICY_NONE',['../rk_2os_2mutex_8h.html#ade47862a55adb0e006117a33710e7541',1,'mutex.h']]],
-  ['mutex_5fpolicy_5fprio_5finherit_9',['MUTEX_POLICY_PRIO_INHERIT',['../rk_2os_2mutex_8h.html#af395df0e74389e5be7871b14813b79a3',1,'mutex.h']]],
-  ['mutex_5ftrylock_10',['mutex_trylock',['../rk_2os_2mutex_8h.html#a1038191081f4858aa9a803afe52020ca',1,'mutex.h']]],
-  ['mutex_5ftype_5fdelim_11',['MUTEX_TYPE_DELIM',['../rk_2os_2mutex_8h.html#ae1069c3f7c7d23c54975ad9d9d0c357d',1,'mutex.h']]],
-  ['mutex_5ftype_5fmask_12',['MUTEX_TYPE_MASK',['../rk_2os_2mutex_8h.html#a667f3da61b2153439924f75ac785192e',1,'mutex.h']]],
-  ['mutex_5ftype_5fnone_13',['MUTEX_TYPE_NONE',['../rk_2os_2mutex_8h.html#af27a23276c98e175a363d3ac170730ff',1,'mutex.h']]],
-  ['mutex_5ftype_5frecursive_14',['MUTEX_TYPE_RECURSIVE',['../rk_2os_2mutex_8h.html#aa5ed66e571a9798291a39fef1e52554c',1,'mutex.h']]],
-  ['mutex_5funlock_15',['mutex_unlock',['../rk_2os_2mutex_8h.html#a1d5fd784685227c3291dc67cbf5a88ef',1,'mutex.h']]],
-  ['mutex_5funused_5fmask_16',['MUTEX_UNUSED_MASK',['../rk_2os_2mutex_8h.html#aca25bddd3939383ff0cbc2b9db0d595a',1,'mutex.h']]]
+  ['list_0',['LIST',['../sturk_2list_8h.html#aed0a8f83088c41d721066cd5b3b9a00c',1,'list.h']]],
+  ['list_5fins_1',['list_ins',['../sturk_2list_8h.html#a0e97a7dc9e69190a60a1cdbb6c0709a1',1,'list.h']]],
+  ['list_5fnext_2',['list_next',['../sturk_2list_8h.html#a0136be9bfd75b0cacc857659ab95ee59',1,'list.h']]],
+  ['list_5frem_3',['list_rem',['../sturk_2list_8h.html#ad471c808c7e0dc61be905350e37028f9',1,'list.h']]],
+  ['listit_5fnext_4',['listit_next',['../sturk_2list_8h.html#a966d4262218036419519c8576e80349c',1,'list.h']]],
+  ['logger_5fattach_5',['logger_attach',['../rk_2io_2logger_8h.html#abf8d1a55f6f29cc059d24e7286c9f99c',1,'logger.h']]],
+  ['logger_5fdetach_6',['logger_detach',['../rk_2io_2logger_8h.html#a8bd80beace6d13bcb60057595fbf7bbb',1,'logger.h']]]
 ];

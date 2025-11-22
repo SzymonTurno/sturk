@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -127,18 +127,15 @@ $(document).ready(function(){initNavTree('st_2broker_8h.html',''); initResizable
 
 <p>Message broker.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stdarg.h&gt;</code><br />
-<code>#include &lt;stddef.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for broker.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="st_2broker_8h__incl.png" border="0" usemap="#ast_2broker_8h" alt=""/></div>
 <map name="ast_2broker_8h" id="ast_2broker_8h">
-<area shape="rect" title="Message broker." alt="" coords="47,5,137,31"/>
-<area shape="rect" title=" " alt="" coords="5,79,80,104"/>
-<area shape="poly" title=" " alt="" coords="86,33,61,69,56,66,82,29"/>
-<area shape="rect" title=" " alt="" coords="104,79,179,104"/>
-<area shape="poly" title=" " alt="" coords="102,29,128,66,123,69,98,33"/>
+<area shape="rect" title="Message broker." alt="" coords="5,5,96,31"/>
+<area shape="rect" title=" " alt="" coords="13,79,88,104"/>
+<area shape="poly" title=" " alt="" coords="53,31,53,65,48,65,48,31"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -156,8 +153,8 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structStMessageVt.html">StMessageVt</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vtable for message construction.  <a href="structStMessageVt.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structStMessage.html">StMessage</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message.  <a href="structStMessage.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
@@ -175,35 +172,51 @@ typedef struct <a class="el" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aaaa2686b811b6f91541c5a83a028a728" id="r_aaaa2686b811b6f91541c5a83a028a728"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#aaaa2686b811b6f91541c5a83a028a728">st_publish</a> (<a class="el" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a> *ch,...)</td></tr>
-<tr class="memdesc:aaaa2686b811b6f91541c5a83a028a728"><td class="mdescLeft">&#160;</td><td class="mdescRight">Broadcast the message.  <br /></td></tr>
-<tr class="separator:aaaa2686b811b6f91541c5a83a028a728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dab0f3691ffaf1df68ae0a0fcff99c9" id="r_a2dab0f3691ffaf1df68ae0a0fcff99c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a2dab0f3691ffaf1df68ae0a0fcff99c9">st_publish</a> (struct <a class="el" href="structStMessage.html">StMessage</a> *msg)</td></tr>
+<tr class="memdesc:a2dab0f3691ffaf1df68ae0a0fcff99c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Broadcast the message and set the payload pointer to NULL.  <br /></td></tr>
+<tr class="separator:a2dab0f3691ffaf1df68ae0a0fcff99c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27a238bc81de0b24503eea2fc4f123cd" id="r_a27a238bc81de0b24503eea2fc4f123cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a27a238bc81de0b24503eea2fc4f123cd">st_subscribe</a> (<a class="el" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a> *sber, const char *topic)</td></tr>
 <tr class="memdesc:a27a238bc81de0b24503eea2fc4f123cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribe to a topic.  <br /></td></tr>
 <tr class="separator:a27a238bc81de0b24503eea2fc4f123cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b66294af770ac87943de67f87156bd0" id="r_a9b66294af770ac87943de67f87156bd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a9b66294af770ac87943de67f87156bd0">st_broker_create</a> (const struct <a class="el" href="structStMessageVt.html">StMessageVt</a> *vp)</td></tr>
-<tr class="memdesc:a9b66294af770ac87943de67f87156bd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the message broker.  <br /></td></tr>
-<tr class="separator:a9b66294af770ac87943de67f87156bd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa82ee9d190369964e66737332f4df41" id="r_afa82ee9d190369964e66737332f4df41"><td class="memItemLeft" align="right" valign="top"><a class="el" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#afa82ee9d190369964e66737332f4df41">st_broker_create</a> (size_t payload_size)</td></tr>
+<tr class="memdesc:afa82ee9d190369964e66737332f4df41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the message broker.  <br /></td></tr>
+<tr class="separator:afa82ee9d190369964e66737332f4df41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a02a2eed991b22d915517c21d5d5fa2" id="r_a8a02a2eed991b22d915517c21d5d5fa2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a8a02a2eed991b22d915517c21d5d5fa2">st_broker_destroy</a> (<a class="el" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a> *broker)</td></tr>
 <tr class="memdesc:a8a02a2eed991b22d915517c21d5d5fa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the message broker.  <br /></td></tr>
 <tr class="separator:a8a02a2eed991b22d915517c21d5d5fa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae85dc7609122616270608548bc334fe5" id="r_ae85dc7609122616270608548bc334fe5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#ae85dc7609122616270608548bc334fe5">st_broker_search</a> (<a class="el" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a> *broker, const char *topic)</td></tr>
 <tr class="memdesc:ae85dc7609122616270608548bc334fe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the channel that is assigned to the given topic.  <br /></td></tr>
 <tr class="separator:ae85dc7609122616270608548bc334fe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27027dada97366d26b4c8e8e3aa159d6" id="r_a27027dada97366d26b4c8e8e3aa159d6"><td class="memItemLeft" align="right" valign="top"><a id="a27027dada97366d26b4c8e8e3aa159d6" name="a27027dada97366d26b4c8e8e3aa159d6"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>st_broker_adjust</b> (<a class="el" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a> *broker, int n)</td></tr>
+<tr class="memdesc:a27027dada97366d26b4c8e8e3aa159d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adjust the memory pool. <br /></td></tr>
+<tr class="separator:a27027dada97366d26b4c8e8e3aa159d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f12e2e839b2d10d7a0eb7b841156bbe" id="r_a7f12e2e839b2d10d7a0eb7b841156bbe"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a7f12e2e839b2d10d7a0eb7b841156bbe">st_channel_gettopic</a> (const <a class="el" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a> *ch)</td></tr>
 <tr class="memdesc:a7f12e2e839b2d10d7a0eb7b841156bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the topic for the given channel.  <br /></td></tr>
 <tr class="separator:a7f12e2e839b2d10d7a0eb7b841156bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74fa082bec3eadaa13a5a2a364b6b064" id="r_a74fa082bec3eadaa13a5a2a364b6b064"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structStMessage.html">StMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a74fa082bec3eadaa13a5a2a364b6b064">st_message_alloc</a> (<a class="el" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a> *ch)</td></tr>
+<tr class="memdesc:a74fa082bec3eadaa13a5a2a364b6b064"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate the payload and return it enclosed in a message structure.  <br /></td></tr>
+<tr class="separator:a74fa082bec3eadaa13a5a2a364b6b064"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8797703259097e47dcbbfe4752350f4" id="r_ae8797703259097e47dcbbfe4752350f4"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structStMessage.html">StMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#ae8797703259097e47dcbbfe4752350f4">st_message_tryalloc</a> (<a class="el" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a> *ch)</td></tr>
+<tr class="memdesc:ae8797703259097e47dcbbfe4752350f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to allocate the payload and return it enclosed in a message structure.  <br /></td></tr>
+<tr class="separator:ae8797703259097e47dcbbfe4752350f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e81a519717969a9a771f7f7f1e5f8f1" id="r_a6e81a519717969a9a771f7f7f1e5f8f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a6e81a519717969a9a771f7f7f1e5f8f1">st_message_setcb</a> (struct <a class="el" href="structStMessage.html">StMessage</a> msg, void(*cb)(struct <a class="el" href="structStMessage.html">StMessage</a>))</td></tr>
+<tr class="memdesc:a6e81a519717969a9a771f7f7f1e5f8f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a callback function for the message.  <br /></td></tr>
+<tr class="separator:a6e81a519717969a9a771f7f7f1e5f8f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26a257116d9548bcff31745cfd49698e" id="r_a26a257116d9548bcff31745cfd49698e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a26a257116d9548bcff31745cfd49698e">st_message_getchannel</a> (struct <a class="el" href="structStMessage.html">StMessage</a> msg)</td></tr>
+<tr class="memdesc:a26a257116d9548bcff31745cfd49698e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the source channel of the message.  <br /></td></tr>
+<tr class="separator:a26a257116d9548bcff31745cfd49698e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a136dcf33d83498b2f6e0a7ea2e9ce6b9" id="r_a136dcf33d83498b2f6e0a7ea2e9ce6b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a136dcf33d83498b2f6e0a7ea2e9ce6b9">st_subscriber_create</a> (<a class="el" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a> *broker)</td></tr>
 <tr class="memdesc:a136dcf33d83498b2f6e0a7ea2e9ce6b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the subscriber.  <br /></td></tr>
 <tr class="separator:a136dcf33d83498b2f6e0a7ea2e9ce6b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a424031be62e1a8f4cafd12a32d722382" id="r_a424031be62e1a8f4cafd12a32d722382"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a424031be62e1a8f4cafd12a32d722382">st_subscriber_destroy</a> (<a class="el" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a> *sber)</td></tr>
 <tr class="memdesc:a424031be62e1a8f4cafd12a32d722382"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the subscriber.  <br /></td></tr>
 <tr class="separator:a424031be62e1a8f4cafd12a32d722382"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fa24a920b6d20713b322a74c506dc56" id="r_a5fa24a920b6d20713b322a74c506dc56"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a5fa24a920b6d20713b322a74c506dc56">st_subscriber_await</a> (<a class="el" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a> *sber)</td></tr>
-<tr class="memdesc:a5fa24a920b6d20713b322a74c506dc56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for the messages that are wanted by the subscriber.  <br /></td></tr>
+<tr class="memitem:a5fa24a920b6d20713b322a74c506dc56" id="r_a5fa24a920b6d20713b322a74c506dc56"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structStMessage.html">StMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a5fa24a920b6d20713b322a74c506dc56">st_subscriber_await</a> (<a class="el" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a> *sber)</td></tr>
+<tr class="memdesc:a5fa24a920b6d20713b322a74c506dc56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for a message.  <br /></td></tr>
 <tr class="separator:a5fa24a920b6d20713b322a74c506dc56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ea6345d022309dbb5f67c6032132bd8" id="r_a9ea6345d022309dbb5f67c6032132bd8"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a9ea6345d022309dbb5f67c6032132bd8">st_subscriber_poll</a> (<a class="el" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a> *sber)</td></tr>
-<tr class="memdesc:a9ea6345d022309dbb5f67c6032132bd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll for the messages that are wanted by the subscriber.  <br /></td></tr>
+<tr class="memitem:a9ea6345d022309dbb5f67c6032132bd8" id="r_a9ea6345d022309dbb5f67c6032132bd8"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structStMessage.html">StMessage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a9ea6345d022309dbb5f67c6032132bd8">st_subscriber_poll</a> (<a class="el" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a> *sber)</td></tr>
+<tr class="memdesc:a9ea6345d022309dbb5f67c6032132bd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll for a message.  <br /></td></tr>
 <tr class="separator:a9ea6345d022309dbb5f67c6032132bd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6823237007d5aff73f31e3af74191894" id="r_a6823237007d5aff73f31e3af74191894"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st_2broker_8h.html#a6823237007d5aff73f31e3af74191894">st_subscriber_unload</a> (<a class="el" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a> *sber)</td></tr>
 <tr class="memdesc:a6823237007d5aff73f31e3af74191894"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inform the broker that the message can be released for the given subscriber.  <br /></td></tr>
@@ -226,7 +239,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The message broker. </p>
-<p>The broker holds the list of all subscribers (StSubscriber) in usage and a dictionary of channels (StChannel). All the messaging done through channels created by the same broker will also use the same API for message construction (<a class="el" href="structStMessageVt.html" title="Vtable for message construction.">StMessageVt</a>). </p>
+<p>The broker holds the list of all subscribers (StSubscriber) in usage and a dictionary of channels (StChannel). </p>
 
 </div>
 </div>
@@ -249,8 +262,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a9b66294af770ac87943de67f87156bd0" name="a9b66294af770ac87943de67f87156bd0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b66294af770ac87943de67f87156bd0">&#9670;&#160;</a></span>st_broker_create()</h2>
+<a id="afa82ee9d190369964e66737332f4df41" name="afa82ee9d190369964e66737332f4df41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa82ee9d190369964e66737332f4df41">&#9670;&#160;</a></span>st_broker_create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,8 +271,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a> * st_broker_create </td>
           <td>(</td>
-          <td class="paramtype">const struct <a class="el" href="structStMessageVt.html">StMessageVt</a> *&#160;</td>
-          <td class="paramname"><em>vp</em></td><td>)</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>payload_size</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -268,15 +281,10 @@ Functions</h2></td></tr>
 <p>Create the message broker. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">vp</td><td>The pointer to the vtable for the StMessage.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">payload_size</td><td>The size of the payload for each message.</td></tr>
   </table>
   </dd>
 </dl>
-<p>The chosen vtable will influence the behaviour of the functions that are responsible for constructing and receiving the messages:</p><ul>
-<li><a class="el" href="st_2broker_8h.html#aaaa2686b811b6f91541c5a83a028a728" title="Broadcast the message.">st_publish()</a>,</li>
-<li><a class="el" href="st_2broker_8h.html#a5fa24a920b6d20713b322a74c506dc56" title="Wait for the messages that are wanted by the subscriber.">st_subscriber_await()</a>,</li>
-<li><a class="el" href="st_2broker_8h.html#a9ea6345d022309dbb5f67c6032132bd8" title="Poll for the messages that are wanted by the subscriber.">st_subscriber_poll()</a>.</li>
-</ul>
 <dl class="section return"><dt>Returns</dt><dd>The pointer to the new broker. </dd></dl>
 
 </div>
@@ -373,23 +381,79 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aaaa2686b811b6f91541c5a83a028a728" name="aaaa2686b811b6f91541c5a83a028a728"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaaa2686b811b6f91541c5a83a028a728">&#9670;&#160;</a></span>st_publish()</h2>
+<a id="a74fa082bec3eadaa13a5a2a364b6b064" name="a74fa082bec3eadaa13a5a2a364b6b064"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74fa082bec3eadaa13a5a2a364b6b064">&#9670;&#160;</a></span>st_message_alloc()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void st_publish </td>
+          <td class="memname">struct <a class="el" href="structStMessage.html">StMessage</a> st_message_alloc </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a> *&#160;</td>
-          <td class="paramname"><em>ch</em>, </td>
+          <td class="paramname"><em>ch</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allocate the payload and return it enclosed in a message structure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ch</td><td>The channel.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function will allocate the payload of a message immediately, if there are any entries in the memory pool. If the pool is empty, with multithreading enabled, this will block the thread that has called this function until another thread inserts an entry in the pool by calling <a class="el" href="sturk_2broker_8h.html#a6d08a990c194599e156ee74390084ecc">broker_adjust()</a>. With a single thread application, the blocking is not supported.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="sturk_2broker_8h.html#a6d08a990c194599e156ee74390084ecc">broker_adjust()</a></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The message structure. </dd></dl>
+
+</div>
+</div>
+<a id="a26a257116d9548bcff31745cfd49698e" name="a26a257116d9548bcff31745cfd49698e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26a257116d9548bcff31745cfd49698e">&#9670;&#160;</a></span>st_message_getchannel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a> * st_message_getchannel </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structStMessage.html">StMessage</a>&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the source channel of the message. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">msg</td><td>The message.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The channel. </dd></dl>
+
+</div>
+</div>
+<a id="a6e81a519717969a9a771f7f7f1e5f8f1" name="a6e81a519717969a9a771f7f7f1e5f8f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e81a519717969a9a771f7f7f1e5f8f1">&#9670;&#160;</a></span>st_message_setcb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void st_message_setcb </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structStMessage.html">StMessage</a>&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
+          <td class="paramtype">void(*)(struct <a class="el" href="structStMessage.html">StMessage</a>)&#160;</td>
+          <td class="paramname"><em>cb</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -399,15 +463,70 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Broadcast the message. </p>
+<p>Set a callback function for the message. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">ch</td><td>The channel to which the message is sent. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">...</td><td>The list of arguments passed to the <a class="el" href="structStMessageVt.html#ae1b824bcd8cb7c78eb7aa21be4fcfc5f" title="Constructor callback for the message.">StMessageVt::ctor</a>.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">msg</td><td>The message. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cb</td><td>The callback.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Channels without any subscribers are allowed. Publishing to such channel is safe and it does not have any meaningful behaviour (it does "nothing"). </dd></dl>
+<p>The function passed will be called only once, when all of the subscribers finish reading the message i.e. the subscribers counter for the message hits 0.</p>
+<dl class="section note"><dt>Note</dt><dd>This can be useful for freeing any memory that has been allocated when initializing the payload. </dd></dl>
+
+</div>
+</div>
+<a id="ae8797703259097e47dcbbfe4752350f4" name="ae8797703259097e47dcbbfe4752350f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8797703259097e47dcbbfe4752350f4">&#9670;&#160;</a></span>st_message_tryalloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structStMessage.html">StMessage</a> st_message_tryalloc </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a> *&#160;</td>
+          <td class="paramname"><em>ch</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Try to allocate the payload and return it enclosed in a message structure. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">ch</td><td>The channel.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This function will allocate the payload of a message, if there are any entries in the memory pool. If the memory pool is empty, it will return a message structure with a NULL payload.</p>
+<dl class="section return"><dt>Returns</dt><dd>The message structure. </dd></dl>
+
+</div>
+</div>
+<a id="a2dab0f3691ffaf1df68ae0a0fcff99c9" name="a2dab0f3691ffaf1df68ae0a0fcff99c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dab0f3691ffaf1df68ae0a0fcff99c9">&#9670;&#160;</a></span>st_publish()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void st_publish </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structStMessage.html">StMessage</a> *&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Broadcast the message and set the payload pointer to NULL. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">msg</td><td>The message. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -455,7 +574,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">StMessage * st_subscriber_await </td>
+          <td class="memname"><a class="el" href="structStMessage.html">StMessage</a> * st_subscriber_await </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a> *&#160;</td>
           <td class="paramname"><em>sber</em></td><td>)</td>
@@ -464,15 +583,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Wait for the messages that are wanted by the subscriber. </p>
+<p>Wait for a message. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">sber</td><td>The pointer to the subscriber.</td></tr>
   </table>
   </dd>
 </dl>
-<p>This function will return the message immediately, if there are any messages in the subscriber's queue. If the subscriber's queue is empty, with multithreading enabled, this will block the thread that has called this function until some other thread publishes to topic that the given subscriber is interested in. With a single thread application, the blocking is not supported.</p>
-<dl class="section return"><dt>Returns</dt><dd>The message. </dd></dl>
+<p>This function will return the payload of a message immediately, if there are any messages in the subscriber's queue. If the subscriber's queue is empty, with multithreading enabled, this will block the thread that has called this function until another thread publishes to topic that the given subscriber has subscribed to. With a single thread application, the blocking is not supported.</p>
+<dl class="section return"><dt>Returns</dt><dd>The payload. </dd></dl>
 
 </div>
 </div>
@@ -545,15 +664,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Poll for the messages that are wanted by the subscriber. </p>
+<p>Poll for a message. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">sber</td><td>The pointer to the subscriber.</td></tr>
   </table>
   </dd>
 </dl>
-<p>This function will return the message, if there are any messages in the subscriber's queue. If the subscriber's queue is empty, it will return NULL.</p>
-<dl class="section return"><dt>Returns</dt><dd>The message. </dd></dl>
+<p>This function will return the payload of a message, if there are any messages in the subscriber's queue. If the subscriber's queue is empty, it will return NULL.</p>
+<dl class="section return"><dt>Returns</dt><dd>The payload. </dd></dl>
 
 </div>
 </div>
@@ -581,7 +700,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <p>Release the last message received by the subscriber - decrement the subscribers counter for the message. When the counter hits 0, the message is returned to the memory pool.</p>
-<dl class="section note"><dt>Note</dt><dd>Functions <a class="el" href="st_2broker_8h.html#a5fa24a920b6d20713b322a74c506dc56" title="Wait for the messages that are wanted by the subscriber.">st_subscriber_await()</a> and <a class="el" href="st_2broker_8h.html#a9ea6345d022309dbb5f67c6032132bd8" title="Poll for the messages that are wanted by the subscriber.">st_subscriber_poll()</a> call <a class="el" href="st_2broker_8h.html#a6823237007d5aff73f31e3af74191894" title="Inform the broker that the message can be released for the given subscriber.">st_subscriber_unload()</a> automatically, there is no need to release the last received message if the subscriber attempts to receive another message. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Functions <a class="el" href="st_2broker_8h.html#a5fa24a920b6d20713b322a74c506dc56" title="Wait for a message.">st_subscriber_await()</a> and <a class="el" href="st_2broker_8h.html#a9ea6345d022309dbb5f67c6032132bd8" title="Poll for a message.">st_subscriber_poll()</a> call <a class="el" href="st_2broker_8h.html#a6823237007d5aff73f31e3af74191894" title="Inform the broker that the message can be released for the given subscriber.">st_subscriber_unload()</a> automatically, there is no need to release the last received message if the subscriber attempts to receive another message. </dd></dl>
 
 </div>
 </div>

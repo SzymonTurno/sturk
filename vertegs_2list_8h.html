@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -131,15 +131,19 @@ Include dependency graph for list.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="vertegs_2list_8h__incl.png" border="0" usemap="#avertegs_2list_8h" alt=""/></div>
 <map name="avertegs_2list_8h" id="avertegs_2list_8h">
-<area shape="rect" title="Singly linked list." alt="" coords="39,5,145,31"/>
-<area shape="rect" href="vertegs_2graph_8h.html" title="Graph." alt="" coords="30,79,154,104"/>
-<area shape="poly" title=" " alt="" coords="95,31,95,65,89,65,89,31"/>
-<area shape="rect" href="vertex_8h.html" title="Vertex." alt="" coords="27,152,157,177"/>
-<area shape="poly" title=" " alt="" coords="95,104,95,138,89,138,89,104"/>
-<area shape="rect" title=" " alt="" coords="5,225,80,251"/>
-<area shape="poly" title=" " alt="" coords="86,179,61,216,56,213,82,176"/>
-<area shape="rect" title=" " alt="" coords="104,225,179,251"/>
-<area shape="poly" title=" " alt="" coords="102,176,128,213,123,216,98,179"/>
+<area shape="rect" title="Singly linked list." alt="" coords="213,5,319,31"/>
+<area shape="rect" href="vertegs_2graph_8h.html" title="Graph." alt="" coords="204,79,328,104"/>
+<area shape="poly" title=" " alt="" coords="269,31,269,65,263,65,263,31"/>
+<area shape="rect" href="vertex_8h.html" title="Vertex." alt="" coords="201,152,331,177"/>
+<area shape="poly" title=" " alt="" coords="269,104,269,138,263,138,263,104"/>
+<area shape="rect" href="vertegs_2bits_8h.html" title="Bits and bitfields." alt="" coords="5,225,116,251"/>
+<area shape="poly" title=" " alt="" coords="234,180,108,223,106,218,232,175"/>
+<area shape="rect" href="vertegs_2debug_8h_source.html" title=" " alt="" coords="140,225,267,251"/>
+<area shape="poly" title=" " alt="" coords="258,179,225,217,221,213,254,176"/>
+<area shape="rect" title=" " alt="" coords="291,225,366,251"/>
+<area shape="poly" title=" " alt="" coords="278,176,311,213,307,217,274,179"/>
+<area shape="rect" title=" " alt="" coords="391,225,461,251"/>
+<area shape="poly" title=" " alt="" coords="293,175,388,217,386,222,291,180"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -168,9 +172,6 @@ Macros</h2></td></tr>
 <tr class="memitem:ab89c0c5286ce94be2d2dc75e9ca3f04e" id="r_ab89c0c5286ce94be2d2dc75e9ca3f04e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_2list_8h.html#ab89c0c5286ce94be2d2dc75e9ca3f04e">VX_LIST</a>(name,  type)&#160;&#160;&#160;<a class="el" href="vertegs_2graph_8h.html#a6e4a4be50138a171db0bfc8754c93186">VX_GRAPH</a>(name, 1, type)</td></tr>
 <tr class="memdesc:ab89c0c5286ce94be2d2dc75e9ca3f04e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the list.  <br /></td></tr>
 <tr class="separator:ab89c0c5286ce94be2d2dc75e9ca3f04e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7962601a53337e4fd77faabcae60fd4c" id="r_a7962601a53337e4fd77faabcae60fd4c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_2list_8h.html#a7962601a53337e4fd77faabcae60fd4c">vx_list_foreach</a>(type,  i,  listp)&#160;&#160;&#160;<a class="el" href="vertegs_2graph_8h.html#a809fdde82c375f18fe20da9d1269b72e">vx_graph_foredge</a> (type, i, listp, 0)</td></tr>
-<tr class="memdesc:a7962601a53337e4fd77faabcae60fd4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traverse a list.  <br /></td></tr>
-<tr class="separator:a7962601a53337e4fd77faabcae60fd4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3430a38a8ce90dae26474a992b7508bb" id="r_a3430a38a8ce90dae26474a992b7508bb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_2list_8h.html#a3430a38a8ce90dae26474a992b7508bb">vx_list_ins</a>(list, ...)&#160;&#160;&#160;VX__LIST_INS((list), __VA_ARGS__, 0, )</td></tr>
 <tr class="memdesc:a3430a38a8ce90dae26474a992b7508bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert, at a given position, an entry into a list.  <br /></td></tr>
 <tr class="separator:a3430a38a8ce90dae26474a992b7508bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,6 +181,9 @@ Macros</h2></td></tr>
 <tr class="memitem:ae56d9e8c6b1f3593afb8e977b196b902" id="r_ae56d9e8c6b1f3593afb8e977b196b902"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_2list_8h.html#ae56d9e8c6b1f3593afb8e977b196b902">vx_list_next</a>(list)&#160;&#160;&#160;<a class="el" href="vertegs_2graph_8h.html#a9724074c4f6fe6004c54040ddd53898e">vx_graph_4vx</a>(<a class="el" href="vertegs_2graph_8h.html#a3d9d02ea479e7cbe16b92c6ee489fda1">vx_graph_2vx</a>(list)-&gt;nbor[0], list)</td></tr>
 <tr class="memdesc:ae56d9e8c6b1f3593afb8e977b196b902"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next entry in a list.  <br /></td></tr>
 <tr class="separator:ae56d9e8c6b1f3593afb8e977b196b902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dc9a0c343ae7a4400d9ac9a37b64f27" id="r_a1dc9a0c343ae7a4400d9ac9a37b64f27"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vertegs_2list_8h.html#a1dc9a0c343ae7a4400d9ac9a37b64f27">vx_listit_next</a>(it)&#160;&#160;&#160;<a class="el" href="vertegs_2graph_8h.html#a9b589b612b4640217f14ac32f65a2c90">vx_graphit_next</a>(it, 0)</td></tr>
+<tr class="memdesc:a1dc9a0c343ae7a4400d9ac9a37b64f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next entry in a list from a list iterator.  <br /></td></tr>
+<tr class="separator:a1dc9a0c343ae7a4400d9ac9a37b64f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Singly linked list. </p>
@@ -220,43 +224,6 @@ Macros</h2></td></tr>
   </dd>
 </dl>
 <p>This macro will define a compound type (must be struct or union) <em>name</em>, a type for a list entry that holds the data of the type <em>type</em>. </p>
-
-</div>
-</div>
-<a id="a7962601a53337e4fd77faabcae60fd4c" name="a7962601a53337e4fd77faabcae60fd4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7962601a53337e4fd77faabcae60fd4c">&#9670;&#160;</a></span>vx_list_foreach</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define vx_list_foreach</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">type, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">i, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">listp&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="vertegs_2graph_8h.html#a809fdde82c375f18fe20da9d1269b72e">vx_graph_foredge</a> (type, i, listp, 0)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Traverse a list. </p>
-<p>Traverse the list of type <em>type</em> referenced by <em>listp</em> in the forward direcion, assigning every entry in turn to <em>i</em>. </p>
 
 </div>
 </div>
@@ -337,6 +304,33 @@ Macros</h2></td></tr>
 <p>Remove, at a given position, an entry from a list. </p>
 <p>A call <a class="el" href="vertegs_2list_8h.html#aec5715bac6895fa91ab67d5f2f35db06" title="Remove, at a given position, an entry from a list.">vx_list_rem(listp, pos)</a> will remove an entry from the <em>listp</em> at the <em>pos</em> and will return the removed entry. To remove from the head use 0 for the <em>pos</em> and to remove from the tail use -1 for the <em>pos</em>. The argument <em>pos</em> is optional and by default it equals 0.</p>
 <dl class="section return"><dt>Returns</dt><dd>The removed entry. </dd></dl>
+
+</div>
+</div>
+<a id="a1dc9a0c343ae7a4400d9ac9a37b64f27" name="a1dc9a0c343ae7a4400d9ac9a37b64f27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dc9a0c343ae7a4400d9ac9a37b64f27">&#9670;&#160;</a></span>vx_listit_next</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define vx_listit_next</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">it</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="vertegs_2graph_8h.html#a9b589b612b4640217f14ac32f65a2c90">vx_graphit_next</a>(it, 0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the next entry in a list from a list iterator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">it</td><td>The list iterator.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The next entry. </dd></dl>
 
 </div>
 </div>

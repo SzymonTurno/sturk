@@ -1,0 +1,9 @@
+<map id="st/io/logger.h" name="st/io/logger.h">
+<area shape="rect" id="Node000001" title="Trace." alt="" coords="88,5,195,31"/>
+<area shape="rect" id="Node000002" href="$io_2except_8h.html" title="Exceptions." alt="" coords="15,79,126,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,43,84,80,80,77,118,39"/>
+<area shape="rect" id="Node000004" href="$rk_2io_2logger_8h.html" title=" " alt="" coords="150,79,277,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="165,39,204,77,200,80,161,43"/>
+<area shape="rect" id="Node000003" href="$rk_2io_2except_8h.html" title=" " alt="" coords="5,152,136,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="73,118,73,152,68,152,68,118"/>
+</map>

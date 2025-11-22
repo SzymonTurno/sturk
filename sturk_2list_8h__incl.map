@@ -1,20 +1,25 @@
 <map id="sturk/list.h" name="sturk/list.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="189,5,280,31"/>
-<area shape="rect" id="Node000002" href="$sys_8h.html" title="System procedures." alt="" coords="128,79,219,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,33,194,70,190,66,223,29"/>
-<area shape="rect" id="Node000006" href="$vertegs_2list_8h.html" title="Singly linked list." alt="" coords="257,79,364,104"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="249,29,290,67,286,71,245,33"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,152,80,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="154,106,77,148,75,143,151,102"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="104,152,187,177"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="171,105,157,140,152,138,166,103"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="189,299,264,324"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="182,103,201,151,218,223,227,285,221,285,212,224,196,153,177,105"/>
-<area shape="rect" id="Node000007" href="$vertegs_2graph_8h.html" title="Graph." alt="" coords="263,152,387,177"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="316,104,323,138,318,139,310,105"/>
-<area shape="rect" id="Node000008" href="$vertex_8h.html" title="Vertex." alt="" coords="262,225,391,251"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="328,178,329,212,324,212,323,178"/>
-<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="312,253,256,293,253,288,309,249"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="289,299,364,324"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="329,251,329,285,324,285,324,251"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="341,5,431,31"/>
+<area shape="rect" id="Node000002" href="$os_2sys_8h.html" title="System procedures." alt="" coords="407,152,498,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="394,30,444,138,439,141,389,32"/>
+<area shape="rect" id="Node000010" href="$vertegs_2list_8h.html" title="Singly linked list." alt="" coords="287,79,394,104"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="381,32,358,69,353,66,376,30"/>
+<area shape="rect" id="Node000003" href="$vertex_8h.html" title="Vertex." alt="" coords="256,225,385,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="433,180,355,221,353,216,430,175"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="386,299,461,324"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="453,178,431,286,426,284,448,177"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="461,225,535,251"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="462,176,486,212,481,215,458,179"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="559,225,642,251"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="478,175,565,217,563,222,475,180"/>
+<area shape="rect" id="Node000004" href="$vertegs_2bits_8h.html" title="Bits and bitfields." alt="" coords="5,299,116,324"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="280,253,117,298,115,292,278,248"/>
+<area shape="rect" id="Node000005" href="$vertegs_2debug_8h_source.html" title=" " alt="" coords="140,299,267,324"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="303,253,236,294,233,289,300,248"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="339,248,397,288,394,293,336,253"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="291,299,361,324"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="324,251,327,285,321,285,319,251"/>
+<area shape="rect" id="Node000011" href="$vertegs_2graph_8h.html" title="Graph." alt="" coords="259,152,383,177"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="340,105,330,140,325,138,335,104"/>
+<area shape="poly" id="edge12_Node000011_Node000003" title=" " alt="" coords="323,178,323,212,318,212,318,178"/>
 </map>

@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -120,14 +120,109 @@ $(document).ready(function(){initNavTree('md_src_2algo_2README.html',''); initRe
   <div class="headertitle"><div class="title">Algo</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md24"></a> See pages:</p>
-<ul>
-<li><a href="https://szymonturno.github.io/sturk/st_2dict_8h.html">dictionary</a>,</li>
-<li><a href="https://szymonturno.github.io/sturk/st_2pool_8h.html">memory pool</a>,</li>
-<li><a href="https://szymonturno.github.io/sturk/st_2rbtree_8h.html">red-black tree</a>,</li>
-<li><a href="https://szymonturno.github.io/sturk/st_2str_8h.html">string utilities</a>,</li>
-<li><a href="https://szymonturno.github.io/sturk/st_2waitq_8h.html">waiting queue</a>. </li>
-</ul>
+<div class="textblock"><p><a class="anchor" id="autotoc_md31"></a> </p>
+<h1><a class="anchor" id="autotoc_md32"></a>
+Memory pool</h1>
+<div class="fragment"><div class="line"> </div>
+<div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a> <a class="code hl_typedef" href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a>;</div>
+<div class="ttc" id="ast_2pool_8h_html_ad05b60f2fe249242e910c5ee9be65eaf"><div class="ttname"><a href="st_2pool_8h.html#ad05b60f2fe249242e910c5ee9be65eaf">StPool</a></div><div class="ttdeci">struct StPool StPool</div><div class="ttdoc">Memory pool.</div><div class="ttdef"><b>Definition</b> pool.h:57</div></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md33"></a>
+Waiting queue</h1>
+<div class="fragment"><div class="line"> </div>
+<div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_typedef" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a> <a class="code hl_typedef" href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a>;</div>
+<div class="ttc" id="ast_2waitq_8h_html_a8c766ae65ba0b483d5eded3c64976a0b"><div class="ttname"><a href="st_2waitq_8h.html#a8c766ae65ba0b483d5eded3c64976a0b">StWaitQ</a></div><div class="ttdeci">struct StWaitQ StWaitQ</div><div class="ttdoc">Waiting queue.</div><div class="ttdef"><b>Definition</b> waitq.h:49</div></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md34"></a>
+Dictionary</h1>
+<h2><a class="anchor" id="autotoc_md35"></a>
+Define a dictionary data type</h2>
+<div class="fragment"><div class="line"><span class="keyword">typedef</span> SomeData MyData;</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_define" href="st_2dict_8h.html#a51b71f83257ad2dc21f61926cc4c1846">ST_DICT</a>(<span class="keyword">struct</span> MyDict, MyData);</div>
+<div class="ttc" id="ast_2dict_8h_html_a51b71f83257ad2dc21f61926cc4c1846"><div class="ttname"><a href="st_2dict_8h.html#a51b71f83257ad2dc21f61926cc4c1846">ST_DICT</a></div><div class="ttdeci">#define ST_DICT(name, type)</div><div class="ttdoc">Define the dictionary.</div><div class="ttdef"><b>Definition</b> dict.h:172</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md36"></a>
+Dictionary example "push"</h2>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> push(<span class="keyword">struct</span> MyDict** dictp, <span class="keyword">const</span> <span class="keywordtype">char</span>* key, MyData val)</div>
+<div class="line">{</div>
+<div class="line">        <span class="keyword">struct </span>MyDict* entry = malloc(<span class="keyword">sizeof</span>(*entry));</div>
+<div class="line"> </div>
+<div class="line">        <a class="code hl_define" href="st_2dict_8h.html#a688ea156895160daef6756ff77b5be11">st_dict_setk</a>(entry, key);</div>
+<div class="line">        *<a class="code hl_define" href="st_2dict_8h.html#ac21151b1d7920c6c53482cd32e5c7af6">st_dict_datap</a>(entry) = val;</div>
+<div class="line">        *dictp = <a class="code hl_define" href="st_2dict_8h.html#a445a82360082ebf8218c55e120a06207">st_dict_ins</a>(*dictp, entry);</div>
+<div class="line">}</div>
+<div class="ttc" id="ast_2dict_8h_html_a445a82360082ebf8218c55e120a06207"><div class="ttname"><a href="st_2dict_8h.html#a445a82360082ebf8218c55e120a06207">st_dict_ins</a></div><div class="ttdeci">#define st_dict_ins(dict, entry)</div><div class="ttdoc">Insert an entry into the dictionary.</div><div class="ttdef"><b>Definition</b> dict.h:110</div></div>
+<div class="ttc" id="ast_2dict_8h_html_a688ea156895160daef6756ff77b5be11"><div class="ttname"><a href="st_2dict_8h.html#a688ea156895160daef6756ff77b5be11">st_dict_setk</a></div><div class="ttdeci">#define st_dict_setk(dict, key)</div><div class="ttdoc">Set a key string for a dictionary entry.</div><div class="ttdef"><b>Definition</b> dict.h:70</div></div>
+<div class="ttc" id="ast_2dict_8h_html_ac21151b1d7920c6c53482cd32e5c7af6"><div class="ttname"><a href="st_2dict_8h.html#ac21151b1d7920c6c53482cd32e5c7af6">st_dict_datap</a></div><div class="ttdeci">#define st_dict_datap(dict)</div><div class="ttdoc">Get a pointer to the data member of a dictionary entry.</div><div class="ttdef"><b>Definition</b> dict.h:96</div></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md37"></a>
+List of strings</h1>
+<div class="fragment"><div class="line"> </div>
+<div class="line"><a class="code hl_define" href="vertegs_2list_8h.html#ab89c0c5286ce94be2d2dc75e9ca3f04e">VX_LIST</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structStStrList.html">StStrList</a>, <span class="keywordtype">char</span>*);</div>
+<div class="ttc" id="astructStStrList_html"><div class="ttname"><a href="structStStrList.html">StStrList</a></div><div class="ttdoc">List of strings.</div></div>
+<div class="ttc" id="avertegs_2list_8h_html_ab89c0c5286ce94be2d2dc75e9ca3f04e"><div class="ttname"><a href="vertegs_2list_8h.html#ab89c0c5286ce94be2d2dc75e9ca3f04e">VX_LIST</a></div><div class="ttdeci">#define VX_LIST(name, type)</div><div class="ttdoc">Define the list.</div><div class="ttdef"><b>Definition</b> list.h:67</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md38"></a>
+List of strings example</h2>
+<div class="fragment"><div class="line">TEST(algo, should_implement_list_as_lifo)</div>
+<div class="line">{</div>
+<div class="line">        <span class="keyword">struct </span><a class="code hl_struct" href="structStStrList.html">StStrList</a>* list = NULL;</div>
+<div class="line"> </div>
+<div class="line">        list = <a class="code hl_define" href="sturk_2str_8h.html#a2a6a16dddbfd96899be0e2daac57b13d">strlist_ins</a>(NULL, <span class="stringliteral">&quot;One&quot;</span>);</div>
+<div class="line">        list = <a class="code hl_define" href="sturk_2str_8h.html#a2a6a16dddbfd96899be0e2daac57b13d">strlist_ins</a>(list, <span class="stringliteral">&quot;Two&quot;</span>);</div>
+<div class="line">        list = <a class="code hl_define" href="sturk_2str_8h.html#a2a6a16dddbfd96899be0e2daac57b13d">strlist_ins</a>(list, <span class="stringliteral">&quot;Three&quot;</span>);</div>
+<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;Three&quot;</span>, <a class="code hl_define" href="sturk_2str_8h.html#adeea8ac051f14a914f2334aae95345b8">strlist_rem</a>(&amp;list));</div>
+<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;Two&quot;</span>, <a class="code hl_define" href="sturk_2str_8h.html#adeea8ac051f14a914f2334aae95345b8">strlist_rem</a>(&amp;list));</div>
+<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;One&quot;</span>, <a class="code hl_define" href="sturk_2str_8h.html#adeea8ac051f14a914f2334aae95345b8">strlist_rem</a>(&amp;list));</div>
+<div class="line">        TEST_ASSERT_NULL(list);</div>
+<div class="line">}</div>
+<div class="ttc" id="asturk_2str_8h_html_a2a6a16dddbfd96899be0e2daac57b13d"><div class="ttname"><a href="sturk_2str_8h.html#a2a6a16dddbfd96899be0e2daac57b13d">strlist_ins</a></div><div class="ttdeci">#define strlist_ins</div><div class="ttdef"><b>Definition</b> str.h:44</div></div>
+<div class="ttc" id="asturk_2str_8h_html_adeea8ac051f14a914f2334aae95345b8"><div class="ttname"><a href="sturk_2str_8h.html#adeea8ac051f14a914f2334aae95345b8">strlist_rem</a></div><div class="ttdeci">#define strlist_rem</div><div class="ttdef"><b>Definition</b> str.h:47</div></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md39"></a>
+Queue of strings</h1>
+<div class="fragment"><div class="line"> </div>
+<div class="line"><a class="code hl_define" href="vertegs_2cirq_8h.html#a6c656392a404368beedc4e45295397a1">VX_CIRQ</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structStStrQ.html">StStrQ</a>, <span class="keywordtype">char</span>*);</div>
+<div class="ttc" id="astructStStrQ_html"><div class="ttname"><a href="structStStrQ.html">StStrQ</a></div><div class="ttdoc">Queue of strings.</div></div>
+<div class="ttc" id="avertegs_2cirq_8h_html_a6c656392a404368beedc4e45295397a1"><div class="ttname"><a href="vertegs_2cirq_8h.html#a6c656392a404368beedc4e45295397a1">VX_CIRQ</a></div><div class="ttdeci">#define VX_CIRQ(name, type)</div><div class="ttdoc">Define the cirq.</div><div class="ttdef"><b>Definition</b> cirq.h:67</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md40"></a>
+Queue of strings example</h2>
+<div class="fragment"><div class="line">TEST(algo, should_implement_cirq_as_fifo)</div>
+<div class="line">{</div>
+<div class="line">        <span class="keyword">struct </span><a class="code hl_struct" href="structStStrQ.html">StStrQ</a>* q = NULL;</div>
+<div class="line"> </div>
+<div class="line">        q = <a class="code hl_define" href="sturk_2str_8h.html#ad7198969f046f7a92c78f97f0d40b512">strq_ins</a>(NULL, <span class="stringliteral">&quot;One&quot;</span>);</div>
+<div class="line">        q = <a class="code hl_define" href="sturk_2str_8h.html#ad7198969f046f7a92c78f97f0d40b512">strq_ins</a>(q, <span class="stringliteral">&quot;Two&quot;</span>);</div>
+<div class="line">        q = <a class="code hl_define" href="sturk_2str_8h.html#ad7198969f046f7a92c78f97f0d40b512">strq_ins</a>(q, <span class="stringliteral">&quot;Three&quot;</span>);</div>
+<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;One&quot;</span>, <a class="code hl_define" href="sturk_2str_8h.html#a875205a453bad3a662b86623236cfd51">strq_rem</a>(&amp;q));</div>
+<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;Two&quot;</span>, <a class="code hl_define" href="sturk_2str_8h.html#a875205a453bad3a662b86623236cfd51">strq_rem</a>(&amp;q));</div>
+<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;Three&quot;</span>, <a class="code hl_define" href="sturk_2str_8h.html#a875205a453bad3a662b86623236cfd51">strq_rem</a>(&amp;q));</div>
+<div class="line">        TEST_ASSERT_NULL(q);</div>
+<div class="line">}</div>
+<div class="ttc" id="asturk_2str_8h_html_a875205a453bad3a662b86623236cfd51"><div class="ttname"><a href="sturk_2str_8h.html#a875205a453bad3a662b86623236cfd51">strq_rem</a></div><div class="ttdeci">#define strq_rem</div><div class="ttdef"><b>Definition</b> str.h:53</div></div>
+<div class="ttc" id="asturk_2str_8h_html_ad7198969f046f7a92c78f97f0d40b512"><div class="ttname"><a href="sturk_2str_8h.html#ad7198969f046f7a92c78f97f0d40b512">strq_ins</a></div><div class="ttdeci">#define strq_ins</div><div class="ttdef"><b>Definition</b> str.h:50</div></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md41"></a>
+Bag of strings</h1>
+<div class="fragment"><div class="line"> </div>
+<div class="line"><a class="code hl_define" href="st_2dict_8h.html#a51b71f83257ad2dc21f61926cc4c1846">ST_DICT</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structStStrBag.html">StStrBag</a>, <span class="keyword">union</span> {<span class="keywordtype">int</span> n; <span class="keywordtype">void</span>* align;});</div>
+<div class="ttc" id="astructStStrBag_html"><div class="ttname"><a href="structStStrBag.html">StStrBag</a></div><div class="ttdoc">Bag of strings.</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md42"></a>
+Bag of strings example</h2>
+<div class="fragment"><div class="line">TEST(algo, should_count_with_strbag)</div>
+<div class="line">{</div>
+<div class="line">        <span class="keyword">struct </span><a class="code hl_struct" href="structStStrBag.html">StStrBag</a>* bag = NULL;</div>
+<div class="line"> </div>
+<div class="line">        bag = <a class="code hl_define" href="sturk_2str_8h.html#a7cef76a6ab16b0119cb33507eb4f3639">strbag_ins</a>(NULL, <span class="stringliteral">&quot;Alice&quot;</span>);</div>
+<div class="line">        bag = <a class="code hl_define" href="sturk_2str_8h.html#a7cef76a6ab16b0119cb33507eb4f3639">strbag_ins</a>(bag, <span class="stringliteral">&quot;Bob&quot;</span>);</div>
+<div class="line">        bag = <a class="code hl_define" href="sturk_2str_8h.html#a7cef76a6ab16b0119cb33507eb4f3639">strbag_ins</a>(bag, <span class="stringliteral">&quot;Bob&quot;</span>);</div>
+<div class="line">        bag = <a class="code hl_define" href="sturk_2str_8h.html#a2527f76cf6f71b75187af7b272115b0e">strbag_rem</a>(bag, <span class="stringliteral">&quot;Ted&quot;</span>);</div>
+<div class="line">        TEST_ASSERT_EQUAL_INT(1, <a class="code hl_define" href="sturk_2str_8h.html#ab96ece7f412024c5f609db21bf4116ae">strbag_count</a>(<a class="code hl_define" href="sturk_2dict_8h.html#af925d01443e8ae91a1ea18103a8afe23">dict_find</a>(bag, <span class="stringliteral">&quot;Alice&quot;</span>)));</div>
+<div class="line">        TEST_ASSERT_EQUAL_INT(2, <a class="code hl_define" href="sturk_2str_8h.html#ab96ece7f412024c5f609db21bf4116ae">strbag_count</a>(<a class="code hl_define" href="sturk_2dict_8h.html#af925d01443e8ae91a1ea18103a8afe23">dict_find</a>(bag, <span class="stringliteral">&quot;Bob&quot;</span>)));</div>
+<div class="line">        TEST_ASSERT_EQUAL_INT(0, <a class="code hl_define" href="sturk_2str_8h.html#ab96ece7f412024c5f609db21bf4116ae">strbag_count</a>(<a class="code hl_define" href="sturk_2dict_8h.html#af925d01443e8ae91a1ea18103a8afe23">dict_find</a>(bag, <span class="stringliteral">&quot;Carol&quot;</span>)));</div>
+<div class="line">        TEST_ASSERT_EQUAL_INT(-1, <a class="code hl_define" href="sturk_2str_8h.html#ab96ece7f412024c5f609db21bf4116ae">strbag_count</a>(<a class="code hl_define" href="sturk_2dict_8h.html#af925d01443e8ae91a1ea18103a8afe23">dict_find</a>(bag, <span class="stringliteral">&quot;Ted&quot;</span>)));</div>
+<div class="line">        <a class="code hl_define" href="sturk_2str_8h.html#aef12632f00900ea6ebc507f90a8dae0c">strbag_destroy</a>(bag);</div>
+<div class="line">}</div>
+<div class="ttc" id="asturk_2dict_8h_html_af925d01443e8ae91a1ea18103a8afe23"><div class="ttname"><a href="sturk_2dict_8h.html#af925d01443e8ae91a1ea18103a8afe23">dict_find</a></div><div class="ttdeci">#define dict_find</div><div class="ttdef"><b>Definition</b> dict.h:59</div></div>
+<div class="ttc" id="asturk_2str_8h_html_a2527f76cf6f71b75187af7b272115b0e"><div class="ttname"><a href="sturk_2str_8h.html#a2527f76cf6f71b75187af7b272115b0e">strbag_rem</a></div><div class="ttdeci">#define strbag_rem</div><div class="ttdef"><b>Definition</b> str.h:59</div></div>
+<div class="ttc" id="asturk_2str_8h_html_a7cef76a6ab16b0119cb33507eb4f3639"><div class="ttname"><a href="sturk_2str_8h.html#a7cef76a6ab16b0119cb33507eb4f3639">strbag_ins</a></div><div class="ttdeci">#define strbag_ins</div><div class="ttdef"><b>Definition</b> str.h:56</div></div>
+<div class="ttc" id="asturk_2str_8h_html_ab96ece7f412024c5f609db21bf4116ae"><div class="ttname"><a href="sturk_2str_8h.html#ab96ece7f412024c5f609db21bf4116ae">strbag_count</a></div><div class="ttdeci">#define strbag_count</div><div class="ttdef"><b>Definition</b> str.h:62</div></div>
+<div class="ttc" id="asturk_2str_8h_html_aef12632f00900ea6ebc507f90a8dae0c"><div class="ttname"><a href="sturk_2str_8h.html#aef12632f00900ea6ebc507f90a8dae0c">strbag_destroy</a></div><div class="ttdeci">#define strbag_destroy</div><div class="ttdef"><b>Definition</b> str.h:65</div></div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The bag of strings data type inherits from the dictionary data type and thus, can be used with <code><a class="el" href="sturk_2dict_8h.html#af925d01443e8ae91a1ea18103a8afe23">dict_find()</a></code>. </dd></dl>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

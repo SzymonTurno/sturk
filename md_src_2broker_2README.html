@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -121,155 +121,132 @@ $(document).ready(function(){initNavTree('md_src_2broker_2README.html',''); init
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#broker-example">Broker example</a><ul><li class="level2"><a href="#autotoc_md27">Define an API for messages</a><ul><li class="level3"><a href="#autotoc_md28">Define the size of the message</a></li>
-<li class="level3"><a href="#define-a-message-constructor">Define a message constructor</a></li>
-<li class="level3"><a href="#autotoc_md29">Define a message destructor</a></li>
-<li class="level3"><a href="#define-a-vtable">Define a vtable</a></li>
-<li class="level3"><a href="#autotoc_md30">Complete API</a></li>
-</ul>
-</li>
-<li class="level2"><a href="#publish-subscribe">Publish-subscribe</a><ul><li class="level3"><a href="#autotoc_md31">Initialize a broker</a></li>
-<li class="level3"><a href="#autotoc_md32">Create a subscriber</a></li>
-<li class="level3"><a href="#autotoc_md33">Subscribe to a topic</a></li>
-<li class="level3"><a href="#autotoc_md34">Publish to a topic</a></li>
-<li class="level3"><a href="#autotoc_md35">Receive a message</a></li>
-<li class="level3"><a href="#autotoc_md36">Complete example</a></li>
-</ul>
-</li>
+<ul><li class="level1"><a href="#autotoc_md53">Broker example</a><ul><li class="level2"><a href="#autotoc_md54">Create a broker</a></li>
+<li class="level2"><a href="#autotoc_md55">Create a subscriber</a></li>
+<li class="level2"><a href="#autotoc_md56">Create a channel</a></li>
+<li class="level2"><a href="#autotoc_md57">Subscribe to a topic</a></li>
+<li class="level2"><a href="#autotoc_md58">Expand the message pool</a></li>
+<li class="level2"><a href="#autotoc_md59">Allocate a message from the message pool</a></li>
+<li class="level2"><a href="#initialize-the-payload">Initialize the payload</a></li>
+<li class="level2"><a href="#autotoc_md60">Set the message callback</a></li>
+<li class="level2"><a href="#autotoc_md61">Publish a message</a></li>
+<li class="level2"><a href="#autotoc_md62">Receive a message</a></li>
+<li class="level2"><a href="#autotoc_md63">Cleanup</a></li>
+<li class="level2"><a href="#autotoc_md64">Complete example</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="textblock"><p><a class="anchor" id="autotoc_md26"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md52"></a></p>
 <p>The core of Sturk's publish-subscribe implementation is the message broker which is responsible for constructing and routing messages. It aggregates instances of two data types:</p>
 <ol type="1">
 <li>channels - in a dictionary (key-value data structure),</li>
 <li>subscribers.</li>
 </ol>
 <p>The key used in a channels dictionary is a character array (string) and it is called <em>topic</em> or <em>named channel</em>. Messages are published to channels and received with subscribers. In order for the subscriber to receive a message sent through a channel it must subscribe to a topic that corresponds to the channel.</p>
-<p>The size of the message, its structure and the parsing of arguments passed to the publish procedure are controlled by the message API. See the <a class="el" href="md_src_2broker_2README.html#broker-example">example</a>.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadCenter"><img src="http://www.plantuml.com/plantuml/proxy?cache=no&amp;src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/main/src/broker/docs/hierarchy.puml" alt="broker-hierarchy" class="inline"/>    </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter">Broker hierarchy   </td></tr>
 </table>
-<dl class="section note"><dt>Note</dt><dd>Typical publish-subscribe implementations introduce also a publisher data type. Sturk implementation does not have publishers. Publishing is done directly to a message channel.</dd></dl>
-<h1><a class="anchor" id="broker-example"></a>
+<h1><a class="anchor" id="autotoc_md53"></a>
 Broker example</h1>
-<p>In this example the message will be a sequence of pipe characters - <code>|</code>. The sequence length will be equal to the integer passed to the publish procedure.</p>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadCenter"><img src="http://www.plantuml.com/plantuml/proxy?cache=no&amp;src=https://raw.githubusercontent.com/SzymonTurno/sturk/refs/heads/main/src/broker/docs/message.puml" alt="broker-example-message" class="inline"/>    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter">Message for a call "publish(5)"   </td></tr>
-</table>
-<h2><a class="anchor" id="autotoc_md27"></a>
-Define an API for messages</h2>
-<h3><a class="anchor" id="autotoc_md28"></a>
-Define the size of the message</h3>
-<div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">size_t</span> getsize(<span class="keywordtype">void</span>)</div>
-<div class="line">{</div>
-<div class="line">        <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(<span class="keywordtype">char</span>*);</div>
-<div class="line">}</div>
-</div><!-- fragment --><h3><a class="anchor" id="define-a-message-constructor"></a>
-Define a message constructor</h3>
-<p>For <code>n</code> pipe characters allocate <code>n + 1</code> bytes (add one to include the string terminating character - <code>\0</code>) and fill the string with <code>n</code> number of <code>|</code>.</p>
-<div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> init(<span class="keywordtype">void</span>* msg, va_list vlist)</div>
-<div class="line">{</div>
-<div class="line">        <span class="keywordtype">int</span> n = va_arg(vlist, <span class="keywordtype">int</span>) + 1;</div>
-<div class="line">        <span class="keywordtype">char</span>* str = NULL;</div>
-<div class="line"> </div>
-<div class="line">        <span class="keywordflow">if</span> (n &gt; 0) {</div>
-<div class="line">                str = malloc((<span class="keywordtype">size_t</span>)n);</div>
-<div class="line">                str[--n] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line">                <span class="keywordflow">while</span> (n--)</div>
-<div class="line">                        str[n] = <span class="charliteral">&#39;|&#39;</span>;</div>
-<div class="line">        }</div>
-<div class="line">        *(<span class="keywordtype">char</span>**)msg = str;</div>
-<div class="line">}</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md29"></a>
-Define a message destructor</h3>
-<div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> deinit(<span class="keywordtype">void</span>* msg)</div>
-<div class="line">{</div>
-<div class="line">        free(*(<span class="keywordtype">char</span>**)msg);</div>
-<div class="line">}</div>
-</div><!-- fragment --><h3><a class="anchor" id="define-a-vtable"></a>
-Define a vtable</h3>
-<div class="fragment"><div class="line"><span class="keyword">const</span> <span class="keyword">struct </span><a class="code hl_struct" href="structStMessageVt.html">StMessageVt</a> SAMPLE_MESSAGE_API[] = {</div>
-<div class="line">        {.<a class="code hl_variable" href="structStMessageVt.html#a344d8016d48bc0bfe62fd39756041cd8">size_cb</a> = getsize, .ctor = init, .dtor = deinit}};</div>
-<div class="ttc" id="astructStMessageVt_html"><div class="ttname"><a href="structStMessageVt.html">StMessageVt</a></div><div class="ttdoc">Vtable for message construction.</div><div class="ttdef"><b>Definition</b> broker.h:52</div></div>
-<div class="ttc" id="astructStMessageVt_html_a344d8016d48bc0bfe62fd39756041cd8"><div class="ttname"><a href="structStMessageVt.html#a344d8016d48bc0bfe62fd39756041cd8">StMessageVt::size_cb</a></div><div class="ttdeci">size_t(* size_cb)(void)</div><div class="ttdoc">Callback for obtaining the size of the message.</div><div class="ttdef"><b>Definition</b> broker.h:60</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md30"></a>
-Complete API</h3>
-<div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">size_t</span> getsize(<span class="keywordtype">void</span>)</div>
-<div class="line">{</div>
-<div class="line">        <span class="keywordflow">return</span> <span class="keyword">sizeof</span>(<span class="keywordtype">char</span>*);</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> init(<span class="keywordtype">void</span>* msg, va_list vlist)</div>
-<div class="line">{</div>
-<div class="line">        <span class="keywordtype">int</span> n = va_arg(vlist, <span class="keywordtype">int</span>) + 1;</div>
-<div class="line">        <span class="keywordtype">char</span>* str = NULL;</div>
-<div class="line"> </div>
-<div class="line">        <span class="keywordflow">if</span> (n &gt; 0) {</div>
-<div class="line">                str = malloc((<span class="keywordtype">size_t</span>)n);</div>
-<div class="line">                str[--n] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line">                <span class="keywordflow">while</span> (n--)</div>
-<div class="line">                        str[n] = <span class="charliteral">&#39;|&#39;</span>;</div>
-<div class="line">        }</div>
-<div class="line">        *(<span class="keywordtype">char</span>**)msg = str;</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> deinit(<span class="keywordtype">void</span>* msg)</div>
-<div class="line">{</div>
-<div class="line">        free(*(<span class="keywordtype">char</span>**)msg);</div>
-<div class="line">}</div>
-<div class="line"> </div>
-<div class="line"><span class="keyword">const</span> <span class="keyword">struct </span><a class="code hl_struct" href="structStMessageVt.html">StMessageVt</a> SAMPLE_MESSAGE_API[] = {</div>
-<div class="line">        {.<a class="code hl_variable" href="structStMessageVt.html#a344d8016d48bc0bfe62fd39756041cd8">size_cb</a> = getsize, .ctor = init, .dtor = deinit}};</div>
-</div><!-- fragment --><h2><a class="anchor" id="publish-subscribe"></a>
-Publish-subscribe</h2>
-<h3><a class="anchor" id="autotoc_md31"></a>
-Initialize a broker</h3>
-<div class="fragment"><div class="line"><a class="code hl_typedef" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a>* broker = <a class="code hl_define" href="sturk_2broker_8h.html#ab327ff3f3c8556db878846baaecd526e">broker_create</a>(SAMPLE_MESSAGE_API);</div>
-<div class="ttc" id="ast_2broker_8h_html_a6b9f4806e7cb8a3eaba05e43ffbe593e"><div class="ttname"><a href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a></div><div class="ttdeci">struct StBroker StBroker</div><div class="ttdoc">The message broker.</div><div class="ttdef"><b>Definition</b> broker.h:97</div></div>
+<p>In this example the payload is a single string.</p>
+<h2><a class="anchor" id="autotoc_md54"></a>
+Create a broker</h2>
+<p>Use <code>sizeof(char*)</code> as a size of the payload.</p>
+<div class="fragment"><div class="line"><a class="code hl_typedef" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a>* broker = <a class="code hl_define" href="sturk_2broker_8h.html#ab327ff3f3c8556db878846baaecd526e">broker_create</a>(<span class="keyword">sizeof</span>(<span class="keywordtype">char</span>*));</div>
+<div class="ttc" id="ast_2broker_8h_html_a6b9f4806e7cb8a3eaba05e43ffbe593e"><div class="ttname"><a href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a></div><div class="ttdeci">struct StBroker StBroker</div><div class="ttdoc">The message broker.</div><div class="ttdef"><b>Definition</b> broker.h:71</div></div>
 <div class="ttc" id="asturk_2broker_8h_html_ab327ff3f3c8556db878846baaecd526e"><div class="ttname"><a href="sturk_2broker_8h.html#ab327ff3f3c8556db878846baaecd526e">broker_create</a></div><div class="ttdeci">#define broker_create</div><div class="ttdef"><b>Definition</b> broker.h:50</div></div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The API passed here is the previously defined <a class="el" href="md_src_2broker_2README.html#define-a-vtable">vtable</a>.</dd></dl>
-<h3><a class="anchor" id="autotoc_md32"></a>
-Create a subscriber</h3>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md55"></a>
+Create a subscriber</h2>
 <div class="fragment"><div class="line"><a class="code hl_typedef" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a>* sber = <a class="code hl_define" href="sturk_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">subscriber_create</a>(broker);</div>
-<div class="ttc" id="ast_2broker_8h_html_a1b0315ffe98c0f040f2942c30ee0a279"><div class="ttname"><a href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a></div><div class="ttdeci">struct StSubscriber StSubscriber</div><div class="ttdoc">The subscriber.</div><div class="ttdef"><b>Definition</b> broker.h:104</div></div>
-<div class="ttc" id="asturk_2broker_8h_html_abb6f835e1e22798f48b820b6ca84a634"><div class="ttname"><a href="sturk_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">subscriber_create</a></div><div class="ttdeci">#define subscriber_create</div><div class="ttdef"><b>Definition</b> broker.h:62</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md33"></a>
-Subscribe to a topic</h3>
-<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a>(sber, <span class="stringliteral">&quot;test&quot;</span>);</div>
-<div class="ttc" id="asturk_2broker_8h_html_a14ca1bc17062b36cac51ad0df7d56e91"><div class="ttname"><a href="sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a></div><div class="ttdeci">#define subscribe</div><div class="ttdef"><b>Definition</b> broker.h:47</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md34"></a>
-Publish to a topic</h3>
-<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7">publish</a>(<a class="code hl_define" href="sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">broker_search</a>(broker, <span class="stringliteral">&quot;test&quot;</span>), 5);</div>
+<div class="ttc" id="ast_2broker_8h_html_a1b0315ffe98c0f040f2942c30ee0a279"><div class="ttname"><a href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a></div><div class="ttdeci">struct StSubscriber StSubscriber</div><div class="ttdoc">The subscriber.</div><div class="ttdef"><b>Definition</b> broker.h:78</div></div>
+<div class="ttc" id="asturk_2broker_8h_html_abb6f835e1e22798f48b820b6ca84a634"><div class="ttname"><a href="sturk_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">subscriber_create</a></div><div class="ttdeci">#define subscriber_create</div><div class="ttdef"><b>Definition</b> broker.h:80</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md56"></a>
+Create a channel</h2>
+<div class="fragment"><div class="line"><a class="code hl_typedef" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a>* ch = <a class="code hl_define" href="sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">broker_search</a>(broker, <span class="stringliteral">&quot;test.topic&quot;</span>);</div>
+<div class="ttc" id="ast_2broker_8h_html_add66350cb5b020bcc1a04ba9820ec907"><div class="ttname"><a href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a></div><div class="ttdeci">struct StChannel StChannel</div><div class="ttdoc">The channel for messages.</div><div class="ttdef"><b>Definition</b> broker.h:89</div></div>
 <div class="ttc" id="asturk_2broker_8h_html_a062f5f37e33e4568681930342fdbbca6"><div class="ttname"><a href="sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">broker_search</a></div><div class="ttdeci">#define broker_search</div><div class="ttdef"><b>Definition</b> broker.h:56</div></div>
-<div class="ttc" id="asturk_2broker_8h_html_a83d5184a54325155defc6fa384dd45f7"><div class="ttname"><a href="sturk_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7">publish</a></div><div class="ttdeci">#define publish</div><div class="ttdef"><b>Definition</b> broker.h:44</div></div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The behaviour of the publish procedure is controlled with the <a class="el" href="md_src_2broker_2README.html#define-a-message-constructor">message constructor</a>.</dd></dl>
-<h3><a class="anchor" id="autotoc_md35"></a>
-Receive a message</h3>
-<div class="fragment"><div class="line">msg = <a class="code hl_define" href="sturk_2broker_8h.html#af23ee47bacf77f34816373673f569dd2">subscriber_await</a>(sber);</div>
-<div class="ttc" id="asturk_2broker_8h_html_af23ee47bacf77f34816373673f569dd2"><div class="ttname"><a href="sturk_2broker_8h.html#af23ee47bacf77f34816373673f569dd2">subscriber_await</a></div><div class="ttdeci">#define subscriber_await</div><div class="ttdef"><b>Definition</b> broker.h:68</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md36"></a>
-Complete example</h3>
-<div class="fragment"><div class="line">TEST(subscriber, should_receive_enqueued_message)</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md57"></a>
+Subscribe to a topic</h2>
+<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a>(sber, <span class="stringliteral">&quot;test.topic&quot;</span>);</div>
+<div class="ttc" id="asturk_2broker_8h_html_a14ca1bc17062b36cac51ad0df7d56e91"><div class="ttname"><a href="sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a></div><div class="ttdeci">#define subscribe</div><div class="ttdef"><b>Definition</b> broker.h:47</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md58"></a>
+Expand the message pool</h2>
+<p>Put one message in the pool.</p>
+<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a6d08a990c194599e156ee74390084ecc">broker_adjust</a>(broker, 1);</div>
+<div class="ttc" id="asturk_2broker_8h_html_a6d08a990c194599e156ee74390084ecc"><div class="ttname"><a href="sturk_2broker_8h.html#a6d08a990c194599e156ee74390084ecc">broker_adjust</a></div><div class="ttdeci">#define broker_adjust</div><div class="ttdef"><b>Definition</b> broker.h:59</div></div>
+</div><!-- fragment --><blockquote class="doxtable">
+<p>&zwj;[!attention] The message pool of a freshly created broker is empty. Make sure that you placed some messages in the pool - empty pool means that the communication is stuck. </p>
+</blockquote>
+<h2><a class="anchor" id="autotoc_md59"></a>
+Allocate a message from the message pool</h2>
+<div class="fragment"><div class="line">msg = <a class="code hl_define" href="sturk_2broker_8h.html#a3684ec30a884f534134111348d744eed">message_alloc</a>(ch);</div>
+<div class="ttc" id="asturk_2broker_8h_html_a3684ec30a884f534134111348d744eed"><div class="ttname"><a href="sturk_2broker_8h.html#a3684ec30a884f534134111348d744eed">message_alloc</a></div><div class="ttdeci">#define message_alloc</div><div class="ttdef"><b>Definition</b> broker.h:68</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="initialize-the-payload"></a>
+Initialize the payload</h2>
+<div class="fragment"><div class="line">*(<span class="keywordtype">char</span>**)msg.payload = <a class="code hl_function" href="st_2str_8h.html#a7ac7f5c123e6a39734271b290e05f0ae">st_strdup</a>(<span class="stringliteral">&quot;Alice&quot;</span>);</div>
+<div class="ttc" id="ast_2str_8h_html_a7ac7f5c123e6a39734271b290e05f0ae"><div class="ttname"><a href="st_2str_8h.html#a7ac7f5c123e6a39734271b290e05f0ae">st_strdup</a></div><div class="ttdeci">char * st_strdup(const char *str)</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md60"></a>
+Set the message callback</h2>
+<p>Set the callback function to perform some cleanup when the message is returned to the pool.</p>
+<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a8ca7facfb248c9ea68af212ebea3608f">message_setcb</a>(msg, test_freepayload);</div>
+<div class="ttc" id="asturk_2broker_8h_html_a8ca7facfb248c9ea68af212ebea3608f"><div class="ttname"><a href="sturk_2broker_8h.html#a8ca7facfb248c9ea68af212ebea3608f">message_setcb</a></div><div class="ttdeci">#define message_setcb</div><div class="ttdef"><b>Definition</b> broker.h:74</div></div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The memory allocated at <a class="el" href="md_src_2broker_2README.html#initialize-the-payload">Initialize the payload</a> is freed by the message callback.</dd></dl>
+<div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> test_freepayload(<span class="keyword">struct</span> <a class="code hl_struct" href="structStMessage.html">StMessage</a> msg)</div>
 <div class="line">{</div>
-<div class="line">        <a class="code hl_typedef" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a>* broker = <a class="code hl_define" href="sturk_2broker_8h.html#ab327ff3f3c8556db878846baaecd526e">broker_create</a>(SAMPLE_MESSAGE_API);</div>
-<div class="line">        <a class="code hl_typedef" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a>* sber = <a class="code hl_define" href="sturk_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">subscriber_create</a>(broker);</div>
-<div class="line">        <span class="keywordtype">char</span>** msg = NULL;</div>
+<div class="line">        <a class="code hl_define" href="os_2mem_8h.html#a1608520925b44d9855949a203f45b465">st_free</a>(*(<span class="keywordtype">char</span>**)msg.<a class="code hl_variable" href="structStMessage.html#af70822a2b375f277bc4268112732c888">payload</a>);</div>
+<div class="line">}</div>
+<div class="ttc" id="aos_2mem_8h_html_a1608520925b44d9855949a203f45b465"><div class="ttname"><a href="os_2mem_8h.html#a1608520925b44d9855949a203f45b465">st_free</a></div><div class="ttdeci">#define st_free(ptr)</div><div class="ttdef"><b>Definition</b> mem.h:56</div></div>
+<div class="ttc" id="astructStMessage_html"><div class="ttname"><a href="structStMessage.html">StMessage</a></div><div class="ttdoc">Message.</div><div class="ttdef"><b>Definition</b> broker.h:54</div></div>
+<div class="ttc" id="astructStMessage_html_af70822a2b375f277bc4268112732c888"><div class="ttname"><a href="structStMessage.html#af70822a2b375f277bc4268112732c888">StMessage::payload</a></div><div class="ttdeci">void * payload</div><div class="ttdoc">The payload of the message.</div><div class="ttdef"><b>Definition</b> broker.h:60</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md61"></a>
+Publish a message</h2>
+<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7">publish</a>(&amp;msg);</div>
+<div class="ttc" id="asturk_2broker_8h_html_a83d5184a54325155defc6fa384dd45f7"><div class="ttname"><a href="sturk_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7">publish</a></div><div class="ttdeci">#define publish</div><div class="ttdef"><b>Definition</b> broker.h:44</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md62"></a>
+Receive a message</h2>
+<div class="fragment"><div class="line">msg = <a class="code hl_define" href="sturk_2broker_8h.html#ad89e3f07bb3fb1d05c0cc2da138749df">subscriber_poll</a>(sber);</div>
+<div class="ttc" id="asturk_2broker_8h_html_ad89e3f07bb3fb1d05c0cc2da138749df"><div class="ttname"><a href="sturk_2broker_8h.html#ad89e3f07bb3fb1d05c0cc2da138749df">subscriber_poll</a></div><div class="ttdeci">#define subscriber_poll</div><div class="ttdef"><b>Definition</b> broker.h:89</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md63"></a>
+Cleanup</h2>
+<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a7f51b614c2070cffbeb75192cacc3396">broker_destroy</a>(broker);</div>
+<div class="ttc" id="asturk_2broker_8h_html_a7f51b614c2070cffbeb75192cacc3396"><div class="ttname"><a href="sturk_2broker_8h.html#a7f51b614c2070cffbeb75192cacc3396">broker_destroy</a></div><div class="ttdeci">#define broker_destroy</div><div class="ttdef"><b>Definition</b> broker.h:53</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md64"></a>
+Complete example</h2>
+<div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> test_freepayload(<span class="keyword">struct</span> <a class="code hl_struct" href="structStMessage.html">StMessage</a> msg)</div>
+<div class="line">{</div>
+<div class="line">        <a class="code hl_define" href="os_2mem_8h.html#a1608520925b44d9855949a203f45b465">st_free</a>(*(<span class="keywordtype">char</span>**)msg.<a class="code hl_variable" href="structStMessage.html#af70822a2b375f277bc4268112732c888">payload</a>);</div>
+<div class="line">}</div>
 <div class="line"> </div>
-<div class="line">        <a class="code hl_define" href="sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a>(sber, <span class="stringliteral">&quot;test&quot;</span>);</div>
-<div class="line">        <a class="code hl_define" href="sturk_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7">publish</a>(<a class="code hl_define" href="sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">broker_search</a>(broker, <span class="stringliteral">&quot;test&quot;</span>), 5);</div>
-<div class="line">        msg = <a class="code hl_define" href="sturk_2broker_8h.html#af23ee47bacf77f34816373673f569dd2">subscriber_await</a>(sber);</div>
-<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;|||||&quot;</span>, *msg);</div>
+<div class="line">TEST(broker, should_forward_message)</div>
+<div class="line">{</div>
+<div class="line">        <a class="code hl_typedef" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a>* broker = <a class="code hl_define" href="sturk_2broker_8h.html#ab327ff3f3c8556db878846baaecd526e">broker_create</a>(<span class="keyword">sizeof</span>(<span class="keywordtype">char</span>*));</div>
+<div class="line">        <a class="code hl_typedef" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a>* sber = <a class="code hl_define" href="sturk_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">subscriber_create</a>(broker);</div>
+<div class="line">        <a class="code hl_typedef" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a>* ch = <a class="code hl_define" href="sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">broker_search</a>(broker, <span class="stringliteral">&quot;test.topic&quot;</span>);</div>
+<div class="line">        <span class="keyword">struct </span><a class="code hl_struct" href="structStMessage.html">StMessage</a> msg = {0};</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">/* Subscribe */</span></div>
+<div class="line">        <a class="code hl_define" href="sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a>(sber, <span class="stringliteral">&quot;test.topic&quot;</span>);</div>
+<div class="line">        TEST_ASSERT_NULL(<a class="code hl_define" href="sturk_2broker_8h.html#ad89e3f07bb3fb1d05c0cc2da138749df">subscriber_poll</a>(sber).<a class="code hl_variable" href="structStMessage.html#af70822a2b375f277bc4268112732c888">payload</a>);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">/* Publish */</span></div>
+<div class="line">        <a class="code hl_define" href="sturk_2broker_8h.html#a6d08a990c194599e156ee74390084ecc">broker_adjust</a>(broker, 1);</div>
+<div class="line">        msg = <a class="code hl_define" href="sturk_2broker_8h.html#a3684ec30a884f534134111348d744eed">message_alloc</a>(ch);</div>
+<div class="line">        *(<span class="keywordtype">char</span>**)msg.<a class="code hl_variable" href="structStMessage.html#af70822a2b375f277bc4268112732c888">payload</a> = <a class="code hl_function" href="st_2str_8h.html#a7ac7f5c123e6a39734271b290e05f0ae">st_strdup</a>(<span class="stringliteral">&quot;test contents&quot;</span>);</div>
+<div class="line">        <a class="code hl_define" href="sturk_2broker_8h.html#a8ca7facfb248c9ea68af212ebea3608f">message_setcb</a>(msg, test_freepayload);</div>
+<div class="line">        <a class="code hl_define" href="sturk_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7">publish</a>(&amp;msg);</div>
+<div class="line">        TEST_ASSERT_NULL(msg.<a class="code hl_variable" href="structStMessage.html#af70822a2b375f277bc4268112732c888">payload</a>);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">/* Receive */</span></div>
+<div class="line">        msg = <a class="code hl_define" href="sturk_2broker_8h.html#ad89e3f07bb3fb1d05c0cc2da138749df">subscriber_poll</a>(sber);</div>
+<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;test contents&quot;</span>, *(<span class="keywordtype">char</span>**)msg.<a class="code hl_variable" href="structStMessage.html#af70822a2b375f277bc4268112732c888">payload</a>);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">/* Cleanup */</span></div>
 <div class="line">        <a class="code hl_define" href="sturk_2broker_8h.html#a7f51b614c2070cffbeb75192cacc3396">broker_destroy</a>(broker);</div>
 <div class="line">}</div>
-<div class="ttc" id="asturk_2broker_8h_html_a7f51b614c2070cffbeb75192cacc3396"><div class="ttname"><a href="sturk_2broker_8h.html#a7f51b614c2070cffbeb75192cacc3396">broker_destroy</a></div><div class="ttdeci">#define broker_destroy</div><div class="ttdef"><b>Definition</b> broker.h:53</div></div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

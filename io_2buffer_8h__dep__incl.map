@@ -1,0 +1,17 @@
+<map id="st/io/buffer.h" name="st/io/buffer.h">
+<area shape="rect" id="Node000001" title="Input/output operations interface." alt="" coords="144,5,247,31"/>
+<area shape="rect" id="Node000002" href="$io_2bag_8h.html" title="Bag of IO instances." alt="" coords="22,79,113,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,40,90,81,87,76,161,35"/>
+<area shape="rect" id="Node000004" href="$io_2logger_8h.html" title="Trace." alt="" coords="142,79,249,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="198,44,198,79,193,79,193,44"/>
+<area shape="rect" id="Node000008" href="$rk_2io_2buffer_8h.html" title=" " alt="" coords="273,79,397,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="231,34,314,76,311,81,229,39"/>
+<area shape="rect" id="Node000003" href="$rk_2io_2bag_8h.html" title=" " alt="" coords="5,152,116,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="68,118,64,152,59,152,62,118"/>
+<area shape="rect" id="Node000005" href="$io_2except_8h.html" title="Exceptions." alt="" coords="140,152,251,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="198,118,198,152,193,152,193,118"/>
+<area shape="rect" id="Node000007" href="$rk_2io_2logger_8h.html" title=" " alt="" coords="275,152,401,177"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="232,108,316,149,313,154,229,112"/>
+<area shape="rect" id="Node000006" href="$rk_2io_2except_8h.html" title=" " alt="" coords="130,225,261,251"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="198,191,198,225,193,225,193,191"/>
+</map>

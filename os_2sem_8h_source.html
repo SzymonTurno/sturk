@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -159,12 +159,12 @@ $(document).ready(function(){initNavTree('os_2sem_8h_source.html',''); initResiz
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#ifndef ST_OS_SEM_H</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define ST_OS_SEM_H</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &quot;<a class="code" href="st_2bits_8h.html">st/bits.h</a>&quot;</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &quot;<a class="code" href="vertegs_2bits_8h.html">vertegs/bits.h</a>&quot;</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">   49</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_typedef" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a> <a class="code hl_typedef" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a>;</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="os_2sem_8h.html#a61c6d9d1298ddf34c500ae69e53fce18">   60</a></span><a class="code hl_typedef" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a>* <a class="code hl_function" href="os_2sem_8h.html#a61c6d9d1298ddf34c500ae69e53fce18">st_sem_create</a>(<a class="code hl_typedef" href="st_2bits_8h.html#a79c09e953a9d9e8b426c0e6ceb175f9d">StBits</a> args);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="os_2sem_8h.html#af23e670434dc4e2b6bd72455b252afb5">   60</a></span><a class="code hl_typedef" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a>* <a class="code hl_function" href="os_2sem_8h.html#af23e670434dc4e2b6bd72455b252afb5">st_sem_create</a>(<a class="code hl_typedef" href="vertegs_2bits_8h.html#ab7a909c74b35f02eae3a6166424b75f0">VxBits</a> args);</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="os_2sem_8h.html#a28ceaa9a8e7826a35ff7476a21ae8de3">   69</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="os_2sem_8h.html#a28ceaa9a8e7826a35ff7476a21ae8de3">st_sem_destroy</a>(<a class="code hl_typedef" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a>* sem);</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
@@ -176,13 +176,13 @@ $(document).ready(function(){initNavTree('os_2sem_8h_source.html',''); initResiz
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="preprocessor">#endif </span><span class="comment">/* ST_OS_SEM_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="aos_2sem_8h_html_a28ceaa9a8e7826a35ff7476a21ae8de3"><div class="ttname"><a href="os_2sem_8h.html#a28ceaa9a8e7826a35ff7476a21ae8de3">st_sem_destroy</a></div><div class="ttdeci">void st_sem_destroy(StSem *sem)</div><div class="ttdoc">Destroy a semaphore.</div></div>
-<div class="ttc" id="aos_2sem_8h_html_a61c6d9d1298ddf34c500ae69e53fce18"><div class="ttname"><a href="os_2sem_8h.html#a61c6d9d1298ddf34c500ae69e53fce18">st_sem_create</a></div><div class="ttdeci">StSem * st_sem_create(StBits args)</div><div class="ttdoc">Create a semaphore.</div></div>
 <div class="ttc" id="aos_2sem_8h_html_a64521b297f332c2129855afb70dbc35c"><div class="ttname"><a href="os_2sem_8h.html#a64521b297f332c2129855afb70dbc35c">st_sem_post</a></div><div class="ttdeci">void st_sem_post(StSem *sem)</div><div class="ttdoc">Increment the semaphore counter.</div></div>
 <div class="ttc" id="aos_2sem_8h_html_a743dc06627be8799f9ea51f89d650a74"><div class="ttname"><a href="os_2sem_8h.html#a743dc06627be8799f9ea51f89d650a74">st_sem_wait</a></div><div class="ttdeci">void st_sem_wait(StSem *sem)</div><div class="ttdoc">Wait on semaphore.</div></div>
 <div class="ttc" id="aos_2sem_8h_html_a7b6e439c6adb46e996e35d98069bd33e"><div class="ttname"><a href="os_2sem_8h.html#a7b6e439c6adb46e996e35d98069bd33e">st_sem_trywait</a></div><div class="ttdeci">bool st_sem_trywait(StSem *sem)</div><div class="ttdoc">Decrement the semaphore counter if it is greater than 0.</div></div>
 <div class="ttc" id="aos_2sem_8h_html_a90de599315976ae8b63504b21ad2720d"><div class="ttname"><a href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a></div><div class="ttdeci">struct StSem StSem</div><div class="ttdoc">Semaphore.</div><div class="ttdef"><b>Definition</b> sem.h:49</div></div>
-<div class="ttc" id="ast_2bits_8h_html"><div class="ttname"><a href="st_2bits_8h.html">bits.h</a></div><div class="ttdoc">Bits and bitfields.</div></div>
-<div class="ttc" id="ast_2bits_8h_html_a79c09e953a9d9e8b426c0e6ceb175f9d"><div class="ttname"><a href="st_2bits_8h.html#a79c09e953a9d9e8b426c0e6ceb175f9d">StBits</a></div><div class="ttdeci">int StBits</div><div class="ttdoc">The data type for bitwise operations.</div><div class="ttdef"><b>Definition</b> bits.h:114</div></div>
+<div class="ttc" id="aos_2sem_8h_html_af23e670434dc4e2b6bd72455b252afb5"><div class="ttname"><a href="os_2sem_8h.html#af23e670434dc4e2b6bd72455b252afb5">st_sem_create</a></div><div class="ttdeci">StSem * st_sem_create(VxBits args)</div><div class="ttdoc">Create a semaphore.</div></div>
+<div class="ttc" id="avertegs_2bits_8h_html"><div class="ttname"><a href="vertegs_2bits_8h.html">bits.h</a></div><div class="ttdoc">Bits and bitfields.</div></div>
+<div class="ttc" id="avertegs_2bits_8h_html_ab7a909c74b35f02eae3a6166424b75f0"><div class="ttname"><a href="vertegs_2bits_8h.html#ab7a909c74b35f02eae3a6166424b75f0">VxBits</a></div><div class="ttdeci">int VxBits</div><div class="ttdoc">The data type for bitwise operations.</div><div class="ttdef"><b>Definition</b> bits.h:123</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

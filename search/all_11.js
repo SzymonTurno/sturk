@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['u_0',['u',['../structStArenaGroup.html#ae30c94256ec4ee49fd676632f15d398f',1,'StArenaGroup']]],
-  ['unknown_1',['UNKNOWN',['../rk_2logger_2trace_8h.html#ac1ae4add974b9cfc6b5aaf8a578f01ab',1,'trace.h']]],
-  ['usage_2',['usage',['../index.html#autotoc_md16',1,'Usage'],['../st_2dict_8h.html#autotoc_md41',1,'Usage']]]
+  ['u_0',['u',['../structStArenaGc.html#ad2a9e3919f972369bf73e80f98d5dfb6',1,'StArenaGc']]],
+  ['unknown_1',['UNKNOWN',['../rk_2io_2logger_8h.html#ac1ae4add974b9cfc6b5aaf8a578f01ab',1,'logger.h']]],
+  ['usage_2',['Usage',['../index.html#autotoc_md23',1,'']]]
 ];

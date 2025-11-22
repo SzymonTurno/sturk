@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -127,18 +127,18 @@ $(document).ready(function(){initNavTree('os_2mutex_8h.html',''); initResizable(
 
 <p>Mutex.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="st_2bits_8h_source.html">st/bits.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="vertegs_2bits_8h_source.html">vertegs/bits.h</a>&quot;</code><br />
 <code>#include &lt;stdbool.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for mutex.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="os_2mutex_8h__incl.png" border="0" usemap="#ast_2os_2mutex_8h" alt=""/></div>
 <map name="ast_2os_2mutex_8h" id="ast_2os_2mutex_8h">
-<area shape="rect" title="Mutex." alt="" coords="38,5,149,31"/>
-<area shape="rect" href="st_2bits_8h.html" title="Bits and bitfields." alt="" coords="5,79,80,104"/>
-<area shape="poly" title=" " alt="" coords="87,33,61,69,57,66,83,29"/>
-<area shape="rect" title=" " alt="" coords="104,79,187,104"/>
-<area shape="poly" title=" " alt="" coords="104,29,131,66,127,69,100,33"/>
+<area shape="rect" title="Mutex." alt="" coords="65,5,176,31"/>
+<area shape="rect" href="vertegs_2bits_8h.html" title="Bits and bitfields." alt="" coords="5,79,116,104"/>
+<area shape="poly" title=" " alt="" coords="113,33,81,70,77,66,109,29"/>
+<area shape="rect" title=" " alt="" coords="141,79,223,104"/>
+<area shape="poly" title=" " alt="" coords="133,29,165,66,161,70,129,33"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -156,19 +156,19 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a86846c3bbdd2a46e3b9008cc769f1e6f" id="r_a86846c3bbdd2a46e3b9008cc769f1e6f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2mutex_8h.html#a86846c3bbdd2a46e3b9008cc769f1e6f">ST_MUTEX_BF</a>(attr,  opt)&#160;&#160;&#160;<a class="el" href="st_2bits_8h.html#a44799112ee5d888aee7d49e16b8b5af6">ST_BITFIELD</a>(ST_MUTEX_##attr##_MASK, (opt))</td></tr>
+<tr class="memitem:a86846c3bbdd2a46e3b9008cc769f1e6f" id="r_a86846c3bbdd2a46e3b9008cc769f1e6f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2mutex_8h.html#a86846c3bbdd2a46e3b9008cc769f1e6f">ST_MUTEX_BF</a>(attr,  opt)&#160;&#160;&#160;<a class="el" href="vertegs_2bits_8h.html#a7075fb69115d9d7816c55f6a9836e9e2">VX_BITFIELD</a>(ST_MUTEX_##attr##_MASK, (opt))</td></tr>
 <tr class="memdesc:a86846c3bbdd2a46e3b9008cc769f1e6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a bitfield for the mutex attribute option.  <br /></td></tr>
 <tr class="separator:a86846c3bbdd2a46e3b9008cc769f1e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3075ce99c57ecc1f0f91638df8f3e913" id="r_a3075ce99c57ecc1f0f91638df8f3e913"><td class="memItemLeft" align="right" valign="top"><a id="a3075ce99c57ecc1f0f91638df8f3e913" name="a3075ce99c57ecc1f0f91638df8f3e913"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>ST_MUTEX_POLICY_MASK</b>&#160;&#160;&#160;<a class="el" href="st_2bits_8h.html#a8279c371d558c4c30d2bf888e566e015">ST_BITMASK</a>(2, 0)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ST_MUTEX_POLICY_MASK</b>&#160;&#160;&#160;<a class="el" href="vertegs_2bits_8h.html#acc2ca3a7aee341d2f6d5f3b65995793a">VX_BITMASK</a>(2, 0)</td></tr>
 <tr class="memdesc:a3075ce99c57ecc1f0f91638df8f3e913"><td class="mdescLeft">&#160;</td><td class="mdescRight">mutex policy setting bits. <br /></td></tr>
 <tr class="separator:a3075ce99c57ecc1f0f91638df8f3e913"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9748322bacee11a30addd6060e0c5ee" id="r_af9748322bacee11a30addd6060e0c5ee"><td class="memItemLeft" align="right" valign="top"><a id="af9748322bacee11a30addd6060e0c5ee" name="af9748322bacee11a30addd6060e0c5ee"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>ST_MUTEX_TYPE_MASK</b>&#160;&#160;&#160;<a class="el" href="st_2bits_8h.html#a8279c371d558c4c30d2bf888e566e015">ST_BITMASK</a>(6, 3)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ST_MUTEX_TYPE_MASK</b>&#160;&#160;&#160;<a class="el" href="vertegs_2bits_8h.html#acc2ca3a7aee341d2f6d5f3b65995793a">VX_BITMASK</a>(6, 3)</td></tr>
 <tr class="memdesc:af9748322bacee11a30addd6060e0c5ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">mutex type setting bits. <br /></td></tr>
 <tr class="separator:af9748322bacee11a30addd6060e0c5ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae463255f0886f4e66c4a7a1657ac6d4d" id="r_ae463255f0886f4e66c4a7a1657ac6d4d"><td class="memItemLeft" align="right" valign="top"><a id="ae463255f0886f4e66c4a7a1657ac6d4d" name="ae463255f0886f4e66c4a7a1657ac6d4d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>ST_MUTEX_UNUSED_MASK</b>&#160;&#160;&#160;<a class="el" href="st_2bits_8h.html#a8279c371d558c4c30d2bf888e566e015">ST_BITMASK</a>(31, 7)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ST_MUTEX_UNUSED_MASK</b>&#160;&#160;&#160;<a class="el" href="vertegs_2bits_8h.html#acc2ca3a7aee341d2f6d5f3b65995793a">VX_BITMASK</a>(31, 7)</td></tr>
 <tr class="memdesc:ae463255f0886f4e66c4a7a1657ac6d4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">mutex settings unused bits. <br /></td></tr>
 <tr class="separator:ae463255f0886f4e66c4a7a1657ac6d4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e43b4e74dffd56f1b1aa7fa9d7d65f3" id="r_a8e43b4e74dffd56f1b1aa7fa9d7d65f3"><td class="memItemLeft" align="right" valign="top"><a id="a8e43b4e74dffd56f1b1aa7fa9d7d65f3" name="a8e43b4e74dffd56f1b1aa7fa9d7d65f3"></a>
@@ -205,9 +205,9 @@ typedef struct <a class="el" href="os_2mutex_8h.html#ab7f0bc6bb25db8452b4de5cfa5
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a254ac1413be6d9f0211b1d50e8fe51e2" id="r_a254ac1413be6d9f0211b1d50e8fe51e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="os_2mutex_8h.html#ab7f0bc6bb25db8452b4de5cfa576ad65">StMutex</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2mutex_8h.html#a254ac1413be6d9f0211b1d50e8fe51e2">st_mutex_create</a> (<a class="el" href="st_2bits_8h.html#a79c09e953a9d9e8b426c0e6ceb175f9d">StBits</a> args)</td></tr>
-<tr class="memdesc:a254ac1413be6d9f0211b1d50e8fe51e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a mutex.  <br /></td></tr>
-<tr class="separator:a254ac1413be6d9f0211b1d50e8fe51e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab00854187bac3890ee6814a6e948d377" id="r_ab00854187bac3890ee6814a6e948d377"><td class="memItemLeft" align="right" valign="top"><a class="el" href="os_2mutex_8h.html#ab7f0bc6bb25db8452b4de5cfa576ad65">StMutex</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2mutex_8h.html#ab00854187bac3890ee6814a6e948d377">st_mutex_create</a> (<a class="el" href="vertegs_2bits_8h.html#ab7a909c74b35f02eae3a6166424b75f0">VxBits</a> args)</td></tr>
+<tr class="memdesc:ab00854187bac3890ee6814a6e948d377"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a mutex.  <br /></td></tr>
+<tr class="separator:ab00854187bac3890ee6814a6e948d377"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c945560a281d0ca14112c676c5271f3" id="r_a8c945560a281d0ca14112c676c5271f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2mutex_8h.html#a8c945560a281d0ca14112c676c5271f3">st_mutex_destroy</a> (<a class="el" href="os_2mutex_8h.html#ab7f0bc6bb25db8452b4de5cfa576ad65">StMutex</a> *mutex)</td></tr>
 <tr class="memdesc:a8c945560a281d0ca14112c676c5271f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy a mutex.  <br /></td></tr>
 <tr class="separator:a8c945560a281d0ca14112c676c5271f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -245,7 +245,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;<a class="el" href="st_2bits_8h.html#a44799112ee5d888aee7d49e16b8b5af6">ST_BITFIELD</a>(ST_MUTEX_##attr##_MASK, (opt))</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="vertegs_2bits_8h.html#a7075fb69115d9d7816c55f6a9836e9e2">VX_BITFIELD</a>(ST_MUTEX_##attr##_MASK, (opt))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -263,8 +263,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a254ac1413be6d9f0211b1d50e8fe51e2" name="a254ac1413be6d9f0211b1d50e8fe51e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a254ac1413be6d9f0211b1d50e8fe51e2">&#9670;&#160;</a></span>st_mutex_create()</h2>
+<a id="ab00854187bac3890ee6814a6e948d377" name="ab00854187bac3890ee6814a6e948d377"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab00854187bac3890ee6814a6e948d377">&#9670;&#160;</a></span>st_mutex_create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -272,7 +272,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="os_2mutex_8h.html#ab7f0bc6bb25db8452b4de5cfa576ad65">StMutex</a> * st_mutex_create </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="st_2bits_8h.html#a79c09e953a9d9e8b426c0e6ceb175f9d">StBits</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="vertegs_2bits_8h.html#ab7a909c74b35f02eae3a6166424b75f0">VxBits</a>&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
           <td></td>
         </tr>
@@ -286,9 +286,9 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Create a recursive mutex with a priority inherit policy. </p><div class="fragment"><div class="line">m = <a class="code hl_function" href="os_2mutex_8h.html#a254ac1413be6d9f0211b1d50e8fe51e2">st_mutex_create</a>(<a class="code hl_define" href="os_2mutex_8h.html#acc4e2edcd69bcca96977adc6c92688ce">ST_MUTEX_POLICY_PRIO_INHERIT</a> | <a class="code hl_define" href="os_2mutex_8h.html#a92b60482e3bb0016a584e6dfdd07dd6c">ST_MUTEX_TYPE_RECURSIVE</a>);</div>
-<div class="ttc" id="aos_2mutex_8h_html_a254ac1413be6d9f0211b1d50e8fe51e2"><div class="ttname"><a href="os_2mutex_8h.html#a254ac1413be6d9f0211b1d50e8fe51e2">st_mutex_create</a></div><div class="ttdeci">StMutex * st_mutex_create(StBits args)</div><div class="ttdoc">Create a mutex.</div></div>
+<p>Create a recursive mutex with a priority inherit policy. </p><div class="fragment"><div class="line">m = <a class="code hl_function" href="os_2mutex_8h.html#ab00854187bac3890ee6814a6e948d377">st_mutex_create</a>(<a class="code hl_define" href="os_2mutex_8h.html#acc4e2edcd69bcca96977adc6c92688ce">ST_MUTEX_POLICY_PRIO_INHERIT</a> | <a class="code hl_define" href="os_2mutex_8h.html#a92b60482e3bb0016a584e6dfdd07dd6c">ST_MUTEX_TYPE_RECURSIVE</a>);</div>
 <div class="ttc" id="aos_2mutex_8h_html_a92b60482e3bb0016a584e6dfdd07dd6c"><div class="ttname"><a href="os_2mutex_8h.html#a92b60482e3bb0016a584e6dfdd07dd6c">ST_MUTEX_TYPE_RECURSIVE</a></div><div class="ttdeci">#define ST_MUTEX_TYPE_RECURSIVE</div><div class="ttdoc">mutex type recursive.</div><div class="ttdef"><b>Definition</b> mutex.h:66</div></div>
+<div class="ttc" id="aos_2mutex_8h_html_ab00854187bac3890ee6814a6e948d377"><div class="ttname"><a href="os_2mutex_8h.html#ab00854187bac3890ee6814a6e948d377">st_mutex_create</a></div><div class="ttdeci">StMutex * st_mutex_create(VxBits args)</div><div class="ttdoc">Create a mutex.</div></div>
 <div class="ttc" id="aos_2mutex_8h_html_acc4e2edcd69bcca96977adc6c92688ce"><div class="ttname"><a href="os_2mutex_8h.html#acc4e2edcd69bcca96977adc6c92688ce">ST_MUTEX_POLICY_PRIO_INHERIT</a></div><div class="ttdeci">#define ST_MUTEX_POLICY_PRIO_INHERIT</div><div class="ttdoc">mutex policy priority inherit.</div><div class="ttdef"><b>Definition</b> mutex.h:62</div></div>
 </div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>The new mutex. </dd></dl>
 

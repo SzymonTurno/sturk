@@ -1,12 +1,13 @@
 var annotated_dup =
 [
     [ "StAlign", "unionStAlign.html", "unionStAlign" ],
-    [ "StArenaGroup", "structStArenaGroup.html", "structStArenaGroup" ],
-    [ "StDictNode", "structStDictNode.html", "structStDictNode" ],
+    [ "StArenaGc", "structStArenaGc.html", "structStArenaGc" ],
+    [ "StDictNode", "structStDictNode.html", null ],
     [ "StException", "structStException.html", "structStException" ],
     [ "StFreeList", "unionStFreeList.html", null ],
-    [ "StMessageVt", "structStMessageVt.html", "structStMessageVt" ],
-    [ "StRbNode", "structStRbNode.html", null ],
+    [ "StIoVt", "structStIoVt.html", "structStIoVt" ],
+    [ "StMemVt", "structStMemVt.html", "structStMemVt" ],
+    [ "StMessage", "structStMessage.html", "structStMessage" ],
     [ "StStrBag", "structStStrBag.html", null ],
     [ "StStrList", "structStStrList.html", null ],
     [ "StStrQ", "structStStrQ.html", null ],

@@ -1,0 +1,13 @@
+<map id="st/io/logger.h" name="st/io/logger.h">
+<area shape="rect" id="Node000001" title="Trace." alt="" coords="88,5,195,31"/>
+<area shape="rect" id="Node000002" href="$io_2buffer_8h.html" title="Input/output operations interface." alt="" coords="90,79,193,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,31,144,65,139,65,139,31"/>
+<area shape="rect" id="Node000003" href="$st_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="51,152,131,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="135,106,109,142,105,139,131,103"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="155,152,229,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="152,103,178,139,174,142,148,106"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,225,80,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="85,179,60,216,56,213,81,176"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="105,225,175,251"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="101,176,126,213,122,216,97,179"/>
+</map>

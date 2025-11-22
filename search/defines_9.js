@@ -1,6 +1,27 @@
 var searchData=
 [
-  ['n_5ftrace_5flvls_0',['N_TRACE_LVLS',['../rk_2logger_2trace_8h.html#a3f30aeff24391bfc45ff88a68ce42948',1,'trace.h']]],
-  ['new_1',['NEW',['../rk_2os_2mem_8h.html#ab6bca16ed021b1e211fde8669758f199',1,'mem.h']]],
-  ['newstr_2',['newstr',['../sturk_2str_8h.html#a74fb5c8530261f954b51b613e370e810',1,'str.h']]]
+  ['max_0',['MAX',['../sturk_2arith_8h.html#a392fb874e547e582e9c66a08a1f23326',1,'arith.h']]],
+  ['mem_5falloc_1',['mem_alloc',['../rk_2os_2mem_8h.html#a8352aa7704299fffab5797c32a3e439e',1,'mem.h']]],
+  ['mem_5fcleanup_2',['mem_cleanup',['../rk_2os_2mem_8h.html#afcd54843305f0c700a19c3e3fe09ea9a',1,'mem.h']]],
+  ['message_5falloc_3',['message_alloc',['../sturk_2broker_8h.html#a3684ec30a884f534134111348d744eed',1,'broker.h']]],
+  ['message_5fgetchannel_4',['message_getchannel',['../sturk_2broker_8h.html#aff440e68dd98abfe1b2bdc6959e6b062',1,'broker.h']]],
+  ['message_5fsetcb_5',['message_setcb',['../sturk_2broker_8h.html#a8ca7facfb248c9ea68af212ebea3608f',1,'broker.h']]],
+  ['message_5ftryalloc_6',['message_tryalloc',['../sturk_2broker_8h.html#a69208ebdeb16243de14094df7c1a12db',1,'broker.h']]],
+  ['messagestats_5freport_7',['messagestats_report',['../sturk_2broker_8h.html#a8e8d74c944cd0027ae3e85cbb9ef0fe0',1,'broker.h']]],
+  ['min_8',['MIN',['../sturk_2arith_8h.html#adbd5cbe76e047a39e0a34f085cdae6fe',1,'arith.h']]],
+  ['mutex_5fbf_9',['MUTEX_BF',['../rk_2os_2mutex_8h.html#a7897b0132c5379b4a8cafc1a53722eaf',1,'mutex.h']]],
+  ['mutex_5fcreate_10',['mutex_create',['../rk_2os_2mutex_8h.html#a635fbcc0c13190023f25d1ad1a802bca',1,'mutex.h']]],
+  ['mutex_5fdestroy_11',['mutex_destroy',['../rk_2os_2mutex_8h.html#a7f4f7d1ead834461cf02070641311c95',1,'mutex.h']]],
+  ['mutex_5flock_12',['mutex_lock',['../rk_2os_2mutex_8h.html#a1b9da5b560704e6021d4d281b5b83461',1,'mutex.h']]],
+  ['mutex_5fpolicy_5fdelim_13',['MUTEX_POLICY_DELIM',['../rk_2os_2mutex_8h.html#aafa83abfa1abecfbcf68a7ca89af1144',1,'mutex.h']]],
+  ['mutex_5fpolicy_5fmask_14',['MUTEX_POLICY_MASK',['../rk_2os_2mutex_8h.html#aaa4bdba41b2708c457f5587048780abd',1,'mutex.h']]],
+  ['mutex_5fpolicy_5fnone_15',['MUTEX_POLICY_NONE',['../rk_2os_2mutex_8h.html#ade47862a55adb0e006117a33710e7541',1,'mutex.h']]],
+  ['mutex_5fpolicy_5fprio_5finherit_16',['MUTEX_POLICY_PRIO_INHERIT',['../rk_2os_2mutex_8h.html#af395df0e74389e5be7871b14813b79a3',1,'mutex.h']]],
+  ['mutex_5ftrylock_17',['mutex_trylock',['../rk_2os_2mutex_8h.html#a1038191081f4858aa9a803afe52020ca',1,'mutex.h']]],
+  ['mutex_5ftype_5fdelim_18',['MUTEX_TYPE_DELIM',['../rk_2os_2mutex_8h.html#ae1069c3f7c7d23c54975ad9d9d0c357d',1,'mutex.h']]],
+  ['mutex_5ftype_5fmask_19',['MUTEX_TYPE_MASK',['../rk_2os_2mutex_8h.html#a667f3da61b2153439924f75ac785192e',1,'mutex.h']]],
+  ['mutex_5ftype_5fnone_20',['MUTEX_TYPE_NONE',['../rk_2os_2mutex_8h.html#af27a23276c98e175a363d3ac170730ff',1,'mutex.h']]],
+  ['mutex_5ftype_5frecursive_21',['MUTEX_TYPE_RECURSIVE',['../rk_2os_2mutex_8h.html#aa5ed66e571a9798291a39fef1e52554c',1,'mutex.h']]],
+  ['mutex_5funlock_22',['mutex_unlock',['../rk_2os_2mutex_8h.html#a1d5fd784685227c3291dc67cbf5a88ef',1,'mutex.h']]],
+  ['mutex_5funused_5fmask_23',['MUTEX_UNUSED_MASK',['../rk_2os_2mutex_8h.html#aca25bddd3939383ff0cbc2b9db0d595a',1,'mutex.h']]]
 ];

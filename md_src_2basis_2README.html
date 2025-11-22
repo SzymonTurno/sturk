@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -120,11 +120,114 @@ $(document).ready(function(){initNavTree('md_src_2basis_2README.html',''); initR
   <div class="headertitle"><div class="title">Basis</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md25"></a> See pages:</p>
-<ul>
-<li><a href="https://szymonturno.github.io/sturk/st_2arena_8h.html">arena</a>. </li>
-</ul>
-</div></div><!-- contents -->
+<div class="textblock"><p><a class="anchor" id="autotoc_md43"></a> </p>
+<h1><a class="anchor" id="autotoc_md44"></a>
+Arena</h1>
+<div class="fragment"><div class="line"> </div>
+<div class="line"><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a> <a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>;</div>
+<div class="ttc" id="ast_2arena_8h_html_a41d4153611fcf544008b78c028561937"><div class="ttname"><a href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a></div><div class="ttdeci">struct StArena StArena</div><div class="ttdoc">The arena.</div><div class="ttdef"><b>Definition</b> arena.h:72</div></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md45"></a>
+IO interface</h1>
+<div class="fragment"><div class="line"> </div>
+<div class="line"><span class="keyword">typedef</span> <span class="keyword">union </span><a class="code hl_typedef" href="io_2buffer_8h.html#ae141a35349e64d3959c5a23b368e4272">StIo</a> <a class="code hl_typedef" href="io_2buffer_8h.html#ae141a35349e64d3959c5a23b368e4272">StIo</a>;</div>
+<div class="ttc" id="aio_2buffer_8h_html_ae141a35349e64d3959c5a23b368e4272"><div class="ttname"><a href="io_2buffer_8h.html#ae141a35349e64d3959c5a23b368e4272">StIo</a></div><div class="ttdeci">union StIo StIo</div><div class="ttdoc">The IO interface.</div><div class="ttdef"><b>Definition</b> buffer.h:73</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md46"></a>
+Memory buffer example</h2>
+<div class="fragment"><div class="line">TEST(basis, should_write_to_memory_buffer)</div>
+<div class="line">{</div>
+<div class="line">        <span class="keywordtype">char</span> out[16] = {0};</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">/* Allocate sixteen bytes plus metadata for the memory buffer. */</span></div>
+<div class="line">        <a class="code hl_union" href="unionStAlign.html">StIoBuffer</a> buff[<a class="code hl_define" href="rk_2io_2buffer_8h.html#ae5d150b241a5aa4b6aa59de74f12375f">iobuffer_calclen</a>(<span class="keyword">sizeof</span>(out))] = {0};</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">/* Initialize the memory buffer. */</span></div>
+<div class="line">        <a class="code hl_typedef" href="io_2buffer_8h.html#ae141a35349e64d3959c5a23b368e4272">StIo</a>* io = <a class="code hl_define" href="rk_2io_2buffer_8h.html#a79a30883993f50b21f34dd1ec7b41bc2">io_init</a>(buff);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">/* Print &quot;deadbeef&quot; to the memory buffer. */</span></div>
+<div class="line">        <a class="code hl_define" href="rk_2io_2buffer_8h.html#ac487212cdc411aac8a91fde9bf628a90">io_print</a>(io, <span class="stringliteral">&quot;%x&quot;</span>, 0xDEADBEEF);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">/* Put EOF character in the memory buffer. */</span></div>
+<div class="line">        <a class="code hl_define" href="rk_2io_2buffer_8h.html#ab2d54eb7d5b02e99876283c07617b39c">io_putc</a>(io, <a class="code hl_define" href="rk_2io_2buffer_8h.html#a1ad4745566765732720df309e6505dc7">IO_EOF</a>);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">/* Initialize the memory buffer again to read from the beginning. */</span></div>
+<div class="line">        io = <a class="code hl_define" href="rk_2io_2buffer_8h.html#a79a30883993f50b21f34dd1ec7b41bc2">io_init</a>(buff);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">/* Read the buffer. */</span></div>
+<div class="line">        TEST_ASSERT_EQUAL_STRING(<span class="stringliteral">&quot;deadbeef&quot;</span>, <a class="code hl_define" href="rk_2io_2buffer_8h.html#ad1a0cfb206e903414f1809294f94456a">io_fgets</a>(out, <span class="keyword">sizeof</span>(out), io));</div>
+<div class="line">}</div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_a1ad4745566765732720df309e6505dc7"><div class="ttname"><a href="rk_2io_2buffer_8h.html#a1ad4745566765732720df309e6505dc7">IO_EOF</a></div><div class="ttdeci">#define IO_EOF</div><div class="ttdef"><b>Definition</b> buffer.h:44</div></div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_a79a30883993f50b21f34dd1ec7b41bc2"><div class="ttname"><a href="rk_2io_2buffer_8h.html#a79a30883993f50b21f34dd1ec7b41bc2">io_init</a></div><div class="ttdeci">#define io_init</div><div class="ttdef"><b>Definition</b> buffer.h:53</div></div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_ab2d54eb7d5b02e99876283c07617b39c"><div class="ttname"><a href="rk_2io_2buffer_8h.html#ab2d54eb7d5b02e99876283c07617b39c">io_putc</a></div><div class="ttdeci">#define io_putc</div><div class="ttdef"><b>Definition</b> buffer.h:62</div></div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_ac487212cdc411aac8a91fde9bf628a90"><div class="ttname"><a href="rk_2io_2buffer_8h.html#ac487212cdc411aac8a91fde9bf628a90">io_print</a></div><div class="ttdeci">#define io_print</div><div class="ttdef"><b>Definition</b> buffer.h:71</div></div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_ad1a0cfb206e903414f1809294f94456a"><div class="ttname"><a href="rk_2io_2buffer_8h.html#ad1a0cfb206e903414f1809294f94456a">io_fgets</a></div><div class="ttdeci">#define io_fgets</div><div class="ttdef"><b>Definition</b> buffer.h:74</div></div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_ae5d150b241a5aa4b6aa59de74f12375f"><div class="ttname"><a href="rk_2io_2buffer_8h.html#ae5d150b241a5aa4b6aa59de74f12375f">iobuffer_calclen</a></div><div class="ttdeci">#define iobuffer_calclen</div><div class="ttdef"><b>Definition</b> buffer.h:47</div></div>
+<div class="ttc" id="aunionStAlign_html"><div class="ttname"><a href="unionStAlign.html">StAlign</a></div><div class="ttdoc">Type for the biggest fundamental alignment.</div><div class="ttdef"><b>Definition</b> arith.h:106</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md47"></a>
+IO operations</h2>
+<div class="fragment"><div class="line"> </div>
+<div class="line"><span class="keyword">struct </span><a class="code hl_struct" href="structStIoVt.html">StIoVt</a> {</div>
+<div class="line">        void (*<a class="code hl_variable" href="structStIoVt.html#aabecc6044fd5f515177686ca400c7056">putc_cb</a>)(<span class="keywordtype">void</span>*, char);</div>
+<div class="line"> </div>
+<div class="line">        char (*<a class="code hl_variable" href="structStIoVt.html#a279c7f59225e8011195d0041d345c38d">getc_cb</a>)(<span class="keywordtype">void</span>*);</div>
+<div class="line">};</div>
+<div class="ttc" id="astructStIoVt_html"><div class="ttname"><a href="structStIoVt.html">StIoVt</a></div><div class="ttdoc">Vtable for IO operations.</div><div class="ttdef"><b>Definition</b> buffer.h:80</div></div>
+<div class="ttc" id="astructStIoVt_html_a279c7f59225e8011195d0041d345c38d"><div class="ttname"><a href="structStIoVt.html#a279c7f59225e8011195d0041d345c38d">StIoVt::getc_cb</a></div><div class="ttdeci">char(* getc_cb)(void *)</div><div class="ttdoc">Callback for reading a single char.</div><div class="ttdef"><b>Definition</b> buffer.h:93</div></div>
+<div class="ttc" id="astructStIoVt_html_aabecc6044fd5f515177686ca400c7056"><div class="ttname"><a href="structStIoVt.html#aabecc6044fd5f515177686ca400c7056">StIoVt::putc_cb</a></div><div class="ttdeci">void(* putc_cb)(void *, char)</div><div class="ttdoc">Callback for writing a single char.</div><div class="ttdef"><b>Definition</b> buffer.h:86</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md48"></a>
+Reading from a file</h2>
+<h3><a class="anchor" id="autotoc_md49"></a>
+Define the IO operations Vtable</h3>
+<div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> file_putc(<span class="keywordtype">void</span>* p, <span class="keywordtype">char</span> c)</div>
+<div class="line">{</div>
+<div class="line">        FILE* fp = p;</div>
+<div class="line"> </div>
+<div class="line">        putc(c, fp);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">char</span> file_getc(<span class="keywordtype">void</span>* p)</div>
+<div class="line">{</div>
+<div class="line">        FILE* fp = p;</div>
+<div class="line"> </div>
+<div class="line">        <span class="keywordflow">return</span> (<span class="keywordtype">char</span>)getc(fp);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">const</span> <span class="keyword">struct </span><a class="code hl_struct" href="structStIoVt.html">StIoVt</a> SAMPLE_FILE_API[] = {</div>
+<div class="line">        {.<a class="code hl_variable" href="structStIoVt.html#aabecc6044fd5f515177686ca400c7056">putc_cb</a> = file_putc, .getc_cb = file_getc}};</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md50"></a>
+Configure the IO interface</h3>
+<div class="fragment"><div class="line"><a class="code hl_union" href="unionStAlign.html">StIoBuffer</a> buff[<a class="code hl_define" href="rk_2io_2buffer_8h.html#ae5d150b241a5aa4b6aa59de74f12375f">iobuffer_calclen</a>(0)] = {0};</div>
+<div class="line"><a class="code hl_typedef" href="io_2buffer_8h.html#ae141a35349e64d3959c5a23b368e4272">StIo</a>* io = <a class="code hl_define" href="rk_2io_2buffer_8h.html#a79a30883993f50b21f34dd1ec7b41bc2">io_init</a>(buff);</div>
+<div class="line">FILE* fp = fopen(LOREM_TXT, <span class="stringliteral">&quot;r&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_define" href="rk_2io_2buffer_8h.html#a64641638a94ff6a8110f696295494df1">io_setp</a>(io, fp);</div>
+<div class="line"><a class="code hl_define" href="rk_2io_2buffer_8h.html#a63c63fbbbd88dd3030930ee5e3c83aaf">io_setvp</a>(io, SAMPLE_FILE_API);</div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_a63c63fbbbd88dd3030930ee5e3c83aaf"><div class="ttname"><a href="rk_2io_2buffer_8h.html#a63c63fbbbd88dd3030930ee5e3c83aaf">io_setvp</a></div><div class="ttdeci">#define io_setvp</div><div class="ttdef"><b>Definition</b> buffer.h:59</div></div>
+<div class="ttc" id="ark_2io_2buffer_8h_html_a64641638a94ff6a8110f696295494df1"><div class="ttname"><a href="rk_2io_2buffer_8h.html#a64641638a94ff6a8110f696295494df1">io_setp</a></div><div class="ttdeci">#define io_setp</div><div class="ttdef"><b>Definition</b> buffer.h:56</div></div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md51"></a>
+Reading from a file example</h3>
+<div class="fragment"><div class="line">TEST(basis, should_read_from_file)</div>
+<div class="line">{</div>
+<div class="line">        <span class="keyword">const</span> <span class="keywordtype">char</span>* expected[] = {</div>
+<div class="line">                <span class="stringliteral">&quot;Lorem ipsum dolor sit amet, consectetur adipiscing\n&quot;</span>,</div>
+<div class="line">                <span class="stringliteral">&quot;elit, sed do eiusmod tempor incididunt ut labore\n&quot;</span>,</div>
+<div class="line">                <span class="stringliteral">&quot;et dolore magna aliqua. Ut enim ad minim veniam,\n&quot;</span>,</div>
+<div class="line">                <span class="stringliteral">&quot;quis nostrud exercitation ullamco laboris nisi ut\n&quot;</span>,</div>
+<div class="line">                <span class="stringliteral">&quot;aliquip ex ea commodo consequat.\n&quot;</span>};</div>
+<div class="line">        <span class="keywordtype">char</span> out[256] = {0};</div>
+<div class="line">        <a class="code hl_union" href="unionStAlign.html">StIoBuffer</a> buff[<a class="code hl_define" href="rk_2io_2buffer_8h.html#ae5d150b241a5aa4b6aa59de74f12375f">iobuffer_calclen</a>(0)] = {0};</div>
+<div class="line">        <a class="code hl_typedef" href="io_2buffer_8h.html#ae141a35349e64d3959c5a23b368e4272">StIo</a>* io = <a class="code hl_define" href="rk_2io_2buffer_8h.html#a79a30883993f50b21f34dd1ec7b41bc2">io_init</a>(buff);</div>
+<div class="line">        FILE* fp = fopen(LOREM_TXT, <span class="stringliteral">&quot;r&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">        <a class="code hl_define" href="rk_2io_2buffer_8h.html#a64641638a94ff6a8110f696295494df1">io_setp</a>(io, fp);</div>
+<div class="line">        <a class="code hl_define" href="rk_2io_2buffer_8h.html#a63c63fbbbd88dd3030930ee5e3c83aaf">io_setvp</a>(io, SAMPLE_FILE_API);</div>
+<div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; ARRAY_SIZE(expected); i++)</div>
+<div class="line">                TEST_ASSERT_EQUAL_STRING(</div>
+<div class="line">                        expected[i], <a class="code hl_define" href="rk_2io_2buffer_8h.html#ad1a0cfb206e903414f1809294f94456a">io_fgets</a>(out, <span class="keyword">sizeof</span>(out), io));</div>
+<div class="line">        TEST_ASSERT_NULL(<a class="code hl_define" href="rk_2io_2buffer_8h.html#ad1a0cfb206e903414f1809294f94456a">io_fgets</a>(out, <span class="keyword">sizeof</span>(out), io));</div>
+<div class="line">        TEST_ASSERT_EQUAL_INT(expected[4][0], out[0]);</div>
+<div class="line">        fclose(fp);</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->

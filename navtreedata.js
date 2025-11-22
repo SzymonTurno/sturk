@@ -25,25 +25,29 @@
 var NAVTREE =
 [
   [ "Sturk", "index.html", [
-    [ "Quickstart", "index.html#autotoc_md9", [
-      [ "Initialize a broker", "index.html#autotoc_md10", null ],
-      [ "Create a subscriber", "index.html#autotoc_md11", null ],
-      [ "Subscribe to a topic", "index.html#autotoc_md12", null ],
-      [ "Publish to a topic", "index.html#autotoc_md13", null ],
-      [ "Receive a message", "index.html#autotoc_md14", null ]
+    [ "Quickstart", "index.html#autotoc_md12", [
+      [ "Create a broker", "index.html#autotoc_md13", null ],
+      [ "Create a subscriber", "index.html#autotoc_md14", null ],
+      [ "Create a channel", "index.html#autotoc_md15", null ],
+      [ "Subscribe to a topic", "index.html#autotoc_md16", null ],
+      [ "Allocate a message from the message pool", "index.html#autotoc_md17", null ],
+      [ "Initialize the payload", "index.html#autotoc_md18", null ],
+      [ "Publish a message", "index.html#autotoc_md19", null ],
+      [ "Receive a message", "index.html#autotoc_md20", null ],
+      [ "Cleanup", "index.html#autotoc_md21", null ]
     ] ],
-    [ "Portability", "index.html#autotoc_md15", null ],
-    [ "Usage", "index.html#autotoc_md16", [
-      [ "Compile libsturk.a", "index.html#autotoc_md17", null ],
-      [ "Link to libsturk.a", "index.html#autotoc_md18", null ],
-      [ "Configuring", "index.html#autotoc_md19", null ]
+    [ "Portability", "index.html#autotoc_md22", null ],
+    [ "Usage", "index.html#autotoc_md23", [
+      [ "Compile libsturk.a", "index.html#autotoc_md24", null ],
+      [ "Link to libsturk.a", "index.html#autotoc_md25", null ],
+      [ "Configuring", "index.html#autotoc_md26", null ]
     ] ],
-    [ "Overview", "index.html#autotoc_md20", null ],
+    [ "Overview", "index.html#autotoc_md27", null ],
     [ "Buildsystem", "index.html#buildsystem", [
-      [ "C99 support", "index.html#autotoc_md21", null ],
-      [ "Example configuration", "index.html#autotoc_md22", null ]
+      [ "C99 support", "index.html#autotoc_md28", null ],
+      [ "Example configuration", "index.html#autotoc_md29", null ]
     ] ],
-    [ "Glossary", "index.html#autotoc_md23", null ],
+    [ "Glossary", "index.html#autotoc_md30", null ],
     [ "Vertegs", "md_include_2vertegs_2README.html", [
       [ "Vertegs examples", "md_include_2vertegs_2README.html#autotoc_md1", [
         [ "List", "md_include_2vertegs_2README.html#autotoc_md2", [
@@ -53,33 +57,63 @@ var NAVTREE =
         [ "Cirq", "md_include_2vertegs_2README.html#autotoc_md5", [
           [ "Define a cirq data type", "md_include_2vertegs_2README.html#autotoc_md6", null ],
           [ "Cirq example \"push\"", "md_include_2vertegs_2README.html#autotoc_md7", null ]
-        ] ]
-      ] ]
-    ] ],
-    [ "Algo", "md_src_2algo_2README.html", null ],
-    [ "Basis", "md_src_2basis_2README.html", null ],
-    [ "Broker", "md_src_2broker_2README.html", [
-      [ "Broker example", "md_src_2broker_2README.html#broker-example", [
-        [ "Define an API for messages", "md_src_2broker_2README.html#autotoc_md27", [
-          [ "Define the size of the message", "md_src_2broker_2README.html#autotoc_md28", null ],
-          [ "Define a message constructor", "md_src_2broker_2README.html#define-a-message-constructor", null ],
-          [ "Define a message destructor", "md_src_2broker_2README.html#autotoc_md29", null ],
-          [ "Define a vtable", "md_src_2broker_2README.html#define-a-vtable", null ],
-          [ "Complete API", "md_src_2broker_2README.html#autotoc_md30", null ]
         ] ],
-        [ "Publish-subscribe", "md_src_2broker_2README.html#publish-subscribe", [
-          [ "Initialize a broker", "md_src_2broker_2README.html#autotoc_md31", null ],
-          [ "Create a subscriber", "md_src_2broker_2README.html#autotoc_md32", null ],
-          [ "Subscribe to a topic", "md_src_2broker_2README.html#autotoc_md33", null ],
-          [ "Publish to a topic", "md_src_2broker_2README.html#autotoc_md34", null ],
-          [ "Receive a message", "md_src_2broker_2README.html#autotoc_md35", null ],
-          [ "Complete example", "md_src_2broker_2README.html#autotoc_md36", null ]
+        [ "Red-black tree", "md_include_2vertegs_2README.html#autotoc_md8", [
+          [ "Define a red-black tree data type", "md_include_2vertegs_2README.html#autotoc_md9", null ],
+          [ "Insert a node in a red-black tree", "md_include_2vertegs_2README.html#autotoc_md10", null ]
         ] ]
       ] ]
     ] ],
-    [ "Logger", "md_src_2logger_2README.html", null ],
+    [ "Algo", "md_src_2algo_2README.html", [
+      [ "Memory pool", "md_src_2algo_2README.html#autotoc_md32", null ],
+      [ "Waiting queue", "md_src_2algo_2README.html#autotoc_md33", null ],
+      [ "Dictionary", "md_src_2algo_2README.html#autotoc_md34", [
+        [ "Define a dictionary data type", "md_src_2algo_2README.html#autotoc_md35", null ],
+        [ "Dictionary example \"push\"", "md_src_2algo_2README.html#autotoc_md36", null ]
+      ] ],
+      [ "List of strings", "md_src_2algo_2README.html#autotoc_md37", [
+        [ "List of strings example", "md_src_2algo_2README.html#autotoc_md38", null ]
+      ] ],
+      [ "Queue of strings", "md_src_2algo_2README.html#autotoc_md39", [
+        [ "Queue of strings example", "md_src_2algo_2README.html#autotoc_md40", null ]
+      ] ],
+      [ "Bag of strings", "md_src_2algo_2README.html#autotoc_md41", [
+        [ "Bag of strings example", "md_src_2algo_2README.html#autotoc_md42", null ]
+      ] ]
+    ] ],
+    [ "Basis", "md_src_2basis_2README.html", [
+      [ "Arena", "md_src_2basis_2README.html#autotoc_md44", null ],
+      [ "IO interface", "md_src_2basis_2README.html#autotoc_md45", [
+        [ "Memory buffer example", "md_src_2basis_2README.html#autotoc_md46", null ],
+        [ "IO operations", "md_src_2basis_2README.html#autotoc_md47", null ],
+        [ "Reading from a file", "md_src_2basis_2README.html#autotoc_md48", [
+          [ "Define the IO operations Vtable", "md_src_2basis_2README.html#autotoc_md49", null ],
+          [ "Configure the IO interface", "md_src_2basis_2README.html#autotoc_md50", null ],
+          [ "Reading from a file example", "md_src_2basis_2README.html#autotoc_md51", null ]
+        ] ]
+      ] ]
+    ] ],
+    [ "Broker", "md_src_2broker_2README.html", [
+      [ "Broker example", "md_src_2broker_2README.html#autotoc_md53", [
+        [ "Create a broker", "md_src_2broker_2README.html#autotoc_md54", null ],
+        [ "Create a subscriber", "md_src_2broker_2README.html#autotoc_md55", null ],
+        [ "Create a channel", "md_src_2broker_2README.html#autotoc_md56", null ],
+        [ "Subscribe to a topic", "md_src_2broker_2README.html#autotoc_md57", null ],
+        [ "Expand the message pool", "md_src_2broker_2README.html#autotoc_md58", null ],
+        [ "Allocate a message from the message pool", "md_src_2broker_2README.html#autotoc_md59", null ],
+        [ "Initialize the payload", "md_src_2broker_2README.html#initialize-the-payload", null ],
+        [ "Set the message callback", "md_src_2broker_2README.html#autotoc_md60", null ],
+        [ "Publish a message", "md_src_2broker_2README.html#autotoc_md61", null ],
+        [ "Receive a message", "md_src_2broker_2README.html#autotoc_md62", null ],
+        [ "Cleanup", "md_src_2broker_2README.html#autotoc_md63", null ],
+        [ "Complete example", "md_src_2broker_2README.html#autotoc_md64", null ]
+      ] ]
+    ] ],
+    [ "Logger", "md_src_2logger_2README.html", [
+      [ "Logger example", "md_src_2logger_2README.html#autotoc_md66", null ]
+    ] ],
     [ "OSAL", "md_src_2osal_2README.html", [
-      [ "Configuring OSAL", "md_src_2osal_2README.html#autotoc_md39", null ]
+      [ "Configuring OSAL", "md_src_2osal_2README.html#autotoc_md68", null ]
     ] ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
@@ -98,7 +132,7 @@ var NAVTREE =
         [ "Typedefs", "globals_type.html", null ],
         [ "Enumerations", "globals_enum.html", null ],
         [ "Enumerator", "globals_eval.html", null ],
-        [ "Macros", "globals_defs.html", null ]
+        [ "Macros", "globals_defs.html", "globals_defs" ]
       ] ]
     ] ]
   ] ]
@@ -107,7 +141,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"st_2dict_8h.html"
+"rk_2io_2logger_8h.html#ac1ae4add974b9cfc6b5aaf8a578f01ab",
+"sturk_2waitq_8h.html#a08809a720584081578bc46521c782ca5"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

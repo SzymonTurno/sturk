@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -121,63 +121,83 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md9">Quickstart</a><ul><li class="level2"><a href="#autotoc_md10">Initialize a broker</a></li>
-<li class="level2"><a href="#autotoc_md11">Create a subscriber</a></li>
-<li class="level2"><a href="#autotoc_md12">Subscribe to a topic</a></li>
-<li class="level2"><a href="#autotoc_md13">Publish to a topic</a></li>
-<li class="level2"><a href="#autotoc_md14">Receive a message</a></li>
+<ul><li class="level1"><a href="#autotoc_md12">Quickstart</a><ul><li class="level2"><a href="#autotoc_md13">Create a broker</a></li>
+<li class="level2"><a href="#autotoc_md14">Create a subscriber</a></li>
+<li class="level2"><a href="#autotoc_md15">Create a channel</a></li>
+<li class="level2"><a href="#autotoc_md16">Subscribe to a topic</a></li>
+<li class="level2"><a href="#autotoc_md17">Allocate a message from the message pool</a></li>
+<li class="level2"><a href="#autotoc_md18">Initialize the payload</a></li>
+<li class="level2"><a href="#autotoc_md19">Publish a message</a></li>
+<li class="level2"><a href="#autotoc_md20">Receive a message</a></li>
+<li class="level2"><a href="#autotoc_md21">Cleanup</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#autotoc_md15">Portability</a></li>
-<li class="level1"><a href="#autotoc_md16">Usage</a><ul><li class="level2"><a href="#autotoc_md17">Compile libsturk.a</a></li>
-<li class="level2"><a href="#autotoc_md18">Link to libsturk.a</a></li>
-<li class="level2"><a href="#autotoc_md19">Configuring</a></li>
+<li class="level1"><a href="#autotoc_md22">Portability</a></li>
+<li class="level1"><a href="#autotoc_md23">Usage</a><ul><li class="level2"><a href="#autotoc_md24">Compile libsturk.a</a></li>
+<li class="level2"><a href="#autotoc_md25">Link to libsturk.a</a></li>
+<li class="level2"><a href="#autotoc_md26">Configuring</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#autotoc_md20">Overview</a></li>
-<li class="level1"><a href="#buildsystem">Buildsystem</a><ul><li class="level2"><a href="#autotoc_md21">C99 support</a></li>
-<li class="level2"><a href="#autotoc_md22">Example configuration</a></li>
+<li class="level1"><a href="#autotoc_md27">Overview</a></li>
+<li class="level1"><a href="#buildsystem">Buildsystem</a><ul><li class="level2"><a href="#autotoc_md28">C99 support</a></li>
+<li class="level2"><a href="#autotoc_md29">Example configuration</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#autotoc_md23">Glossary</a></li>
+<li class="level1"><a href="#autotoc_md30">Glossary</a></li>
 </ul>
 </div>
 <div class="textblock"><p><a class="anchor" id="md_README"></a></p>
 <p><a href="https://opensource.org/licenses/BSD-3-Clause"><img src="https://img.shields.io/badge/License-BSD_3--Clause-blue.svg" alt="License" style="pointer-events: none;" class="inline"/></a></p>
 <p><a href="https://szymonturno.github.io/sturk/">Sturk</a> is a C library that implements the publish-subscribe messaging pattern.</p>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Quickstart</h1>
-<h2><a class="anchor" id="autotoc_md10"></a>
-Initialize a broker</h2>
-<div class="fragment"><div class="line"><a class="code hl_typedef" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a>* broker = <a class="code hl_define" href="sturk_2broker_8h.html#ab327ff3f3c8556db878846baaecd526e">broker_create</a>(SAMPLE_MESSAGE_API);</div>
-<div class="ttc" id="ast_2broker_8h_html_a6b9f4806e7cb8a3eaba05e43ffbe593e"><div class="ttname"><a href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a></div><div class="ttdeci">struct StBroker StBroker</div><div class="ttdoc">The message broker.</div><div class="ttdef"><b>Definition</b> broker.h:97</div></div>
+<h2><a class="anchor" id="autotoc_md13"></a>
+Create a broker</h2>
+<div class="fragment"><div class="line"><a class="code hl_typedef" href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a>* broker = <a class="code hl_define" href="sturk_2broker_8h.html#ab327ff3f3c8556db878846baaecd526e">broker_create</a>(<span class="keyword">sizeof</span>(<span class="keywordtype">char</span>*));</div>
+<div class="ttc" id="ast_2broker_8h_html_a6b9f4806e7cb8a3eaba05e43ffbe593e"><div class="ttname"><a href="st_2broker_8h.html#a6b9f4806e7cb8a3eaba05e43ffbe593e">StBroker</a></div><div class="ttdeci">struct StBroker StBroker</div><div class="ttdoc">The message broker.</div><div class="ttdef"><b>Definition</b> broker.h:71</div></div>
 <div class="ttc" id="asturk_2broker_8h_html_ab327ff3f3c8556db878846baaecd526e"><div class="ttname"><a href="sturk_2broker_8h.html#ab327ff3f3c8556db878846baaecd526e">broker_create</a></div><div class="ttdeci">#define broker_create</div><div class="ttdef"><b>Definition</b> broker.h:50</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md11"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md14"></a>
 Create a subscriber</h2>
 <div class="fragment"><div class="line"><a class="code hl_typedef" href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a>* sber = <a class="code hl_define" href="sturk_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">subscriber_create</a>(broker);</div>
-<div class="ttc" id="ast_2broker_8h_html_a1b0315ffe98c0f040f2942c30ee0a279"><div class="ttname"><a href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a></div><div class="ttdeci">struct StSubscriber StSubscriber</div><div class="ttdoc">The subscriber.</div><div class="ttdef"><b>Definition</b> broker.h:104</div></div>
-<div class="ttc" id="asturk_2broker_8h_html_abb6f835e1e22798f48b820b6ca84a634"><div class="ttname"><a href="sturk_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">subscriber_create</a></div><div class="ttdeci">#define subscriber_create</div><div class="ttdef"><b>Definition</b> broker.h:62</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md12"></a>
-Subscribe to a topic</h2>
-<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a>(sber, <span class="stringliteral">&quot;test&quot;</span>);</div>
-<div class="ttc" id="asturk_2broker_8h_html_a14ca1bc17062b36cac51ad0df7d56e91"><div class="ttname"><a href="sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a></div><div class="ttdeci">#define subscribe</div><div class="ttdef"><b>Definition</b> broker.h:47</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md13"></a>
-Publish to a topic</h2>
-<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7">publish</a>(<a class="code hl_define" href="sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">broker_search</a>(broker, <span class="stringliteral">&quot;test&quot;</span>), 5);</div>
+<div class="ttc" id="ast_2broker_8h_html_a1b0315ffe98c0f040f2942c30ee0a279"><div class="ttname"><a href="st_2broker_8h.html#a1b0315ffe98c0f040f2942c30ee0a279">StSubscriber</a></div><div class="ttdeci">struct StSubscriber StSubscriber</div><div class="ttdoc">The subscriber.</div><div class="ttdef"><b>Definition</b> broker.h:78</div></div>
+<div class="ttc" id="asturk_2broker_8h_html_abb6f835e1e22798f48b820b6ca84a634"><div class="ttname"><a href="sturk_2broker_8h.html#abb6f835e1e22798f48b820b6ca84a634">subscriber_create</a></div><div class="ttdeci">#define subscriber_create</div><div class="ttdef"><b>Definition</b> broker.h:80</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md15"></a>
+Create a channel</h2>
+<div class="fragment"><div class="line"><a class="code hl_typedef" href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a>* ch = <a class="code hl_define" href="sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">broker_search</a>(broker, <span class="stringliteral">&quot;test.topic&quot;</span>);</div>
+<div class="ttc" id="ast_2broker_8h_html_add66350cb5b020bcc1a04ba9820ec907"><div class="ttname"><a href="st_2broker_8h.html#add66350cb5b020bcc1a04ba9820ec907">StChannel</a></div><div class="ttdeci">struct StChannel StChannel</div><div class="ttdoc">The channel for messages.</div><div class="ttdef"><b>Definition</b> broker.h:89</div></div>
 <div class="ttc" id="asturk_2broker_8h_html_a062f5f37e33e4568681930342fdbbca6"><div class="ttname"><a href="sturk_2broker_8h.html#a062f5f37e33e4568681930342fdbbca6">broker_search</a></div><div class="ttdeci">#define broker_search</div><div class="ttdef"><b>Definition</b> broker.h:56</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md16"></a>
+Subscribe to a topic</h2>
+<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a>(sber, <span class="stringliteral">&quot;test.topic&quot;</span>);</div>
+<div class="ttc" id="asturk_2broker_8h_html_a14ca1bc17062b36cac51ad0df7d56e91"><div class="ttname"><a href="sturk_2broker_8h.html#a14ca1bc17062b36cac51ad0df7d56e91">subscribe</a></div><div class="ttdeci">#define subscribe</div><div class="ttdef"><b>Definition</b> broker.h:47</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md17"></a>
+Allocate a message from the message pool</h2>
+<div class="fragment"><div class="line">msg = <a class="code hl_define" href="sturk_2broker_8h.html#a3684ec30a884f534134111348d744eed">message_alloc</a>(ch);</div>
+<div class="ttc" id="asturk_2broker_8h_html_a3684ec30a884f534134111348d744eed"><div class="ttname"><a href="sturk_2broker_8h.html#a3684ec30a884f534134111348d744eed">message_alloc</a></div><div class="ttdeci">#define message_alloc</div><div class="ttdef"><b>Definition</b> broker.h:68</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md18"></a>
+Initialize the payload</h2>
+<div class="fragment"><div class="line">*(<span class="keywordtype">char</span>**)msg.payload = <a class="code hl_function" href="st_2str_8h.html#a7ac7f5c123e6a39734271b290e05f0ae">st_strdup</a>(<span class="stringliteral">&quot;Alice&quot;</span>);</div>
+<div class="ttc" id="ast_2str_8h_html_a7ac7f5c123e6a39734271b290e05f0ae"><div class="ttname"><a href="st_2str_8h.html#a7ac7f5c123e6a39734271b290e05f0ae">st_strdup</a></div><div class="ttdeci">char * st_strdup(const char *str)</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md19"></a>
+Publish a message</h2>
+<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7">publish</a>(&amp;msg);</div>
 <div class="ttc" id="asturk_2broker_8h_html_a83d5184a54325155defc6fa384dd45f7"><div class="ttname"><a href="sturk_2broker_8h.html#a83d5184a54325155defc6fa384dd45f7">publish</a></div><div class="ttdeci">#define publish</div><div class="ttdef"><b>Definition</b> broker.h:44</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md14"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md20"></a>
 Receive a message</h2>
-<div class="fragment"><div class="line">msg = <a class="code hl_define" href="sturk_2broker_8h.html#af23ee47bacf77f34816373673f569dd2">subscriber_await</a>(sber);</div>
-<div class="ttc" id="asturk_2broker_8h_html_af23ee47bacf77f34816373673f569dd2"><div class="ttname"><a href="sturk_2broker_8h.html#af23ee47bacf77f34816373673f569dd2">subscriber_await</a></div><div class="ttdeci">#define subscriber_await</div><div class="ttdef"><b>Definition</b> broker.h:68</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md15"></a>
+<div class="fragment"><div class="line">msg = <a class="code hl_define" href="sturk_2broker_8h.html#ad89e3f07bb3fb1d05c0cc2da138749df">subscriber_poll</a>(sber);</div>
+<div class="ttc" id="asturk_2broker_8h_html_ad89e3f07bb3fb1d05c0cc2da138749df"><div class="ttname"><a href="sturk_2broker_8h.html#ad89e3f07bb3fb1d05c0cc2da138749df">subscriber_poll</a></div><div class="ttdeci">#define subscriber_poll</div><div class="ttdef"><b>Definition</b> broker.h:89</div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md21"></a>
+Cleanup</h2>
+<div class="fragment"><div class="line"><a class="code hl_define" href="sturk_2broker_8h.html#a7f51b614c2070cffbeb75192cacc3396">broker_destroy</a>(broker);</div>
+<div class="ttc" id="asturk_2broker_8h_html_a7f51b614c2070cffbeb75192cacc3396"><div class="ttname"><a href="sturk_2broker_8h.html#a7f51b614c2070cffbeb75192cacc3396">broker_destroy</a></div><div class="ttdeci">#define broker_destroy</div><div class="ttdef"><b>Definition</b> broker.h:53</div></div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md22"></a>
 Portability</h1>
 <ul>
 <li>C99 support: <code>gcc -std=c99 -pedantic ...</code>.</li>
 <li>CI/CD platforms: ubuntu, macos, windows.</li>
 <li>OSAL.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Usage</h1>
 <p>Sturk is designed with an intention to be used as a static library. Therefore, the most straightforward approach to compile a program that uses Sturk would be to build in two steps:</p>
 <ol type="1">
@@ -189,19 +209,19 @@ Usage</h1>
 <li>Header files are located at <code>/path/to/sturk/include</code>.</li>
 </ul>
 </dd></dl>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Compile libsturk.a</h2>
 <div class="fragment"><div class="line">cd /path/to/sturk</div>
 <div class="line">make</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md18"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md25"></a>
 Link to libsturk.a</h2>
 <div class="fragment"><div class="line">cc main.c /path/to/sturk/build/src/libsturk.a -I/path/to/sturk/include</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md19"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md26"></a>
 Configuring</h2>
 <p>To configure the build see <a class="el" href="index.html#buildsystem">buildsystem</a>.</p>
 <p>To choose an OS or to add support for an OS see also <a class="el" href="md_src_2osal_2README.html">osal</a>.</p>
 <dl class="section note"><dt>Note</dt><dd>By default multithreading is not supported.</dd></dl>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md27"></a>
 Overview</h1>
 <p>Sturk consists of several modules with dependencies as shown in the <b>Modules hierarchy</b> diagram.</p>
 <table class="markdownTable">
@@ -210,27 +230,27 @@ Overview</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter">Modules hierarchy   </td></tr>
 </table>
-<p>The role of each module, hyperlink to its documentation and the location of its public header files are gathered in the <b>Modules</b> table. The ordering of the table corresponds to the modules hierarchy.</p>
+<p>The role of each module and hyperlink to its documentation are gathered in the <b>Modules</b> table. The ordering of the table corresponds to the modules hierarchy.</p>
 <p>Table: Modules</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">#   </th><th class="markdownTableHeadNone">Module   </th><th class="markdownTableHeadNone">Provides   </th><th class="markdownTableHeadNone">Include subdirectory    </th></tr>
+<th class="markdownTableHeadNone">#   </th><th class="markdownTableHeadNone">Module   </th><th class="markdownTableHeadNone">Provides    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone"><a class="el" href="md_src_2broker_2README.html">broker</a>   </td><td class="markdownTableBodyNone">publish-subscribe utility   </td><td class="markdownTableBodyNone"><code>st</code> (<code>sturk</code>)    </td></tr>
+<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone"><a class="el" href="md_src_2broker_2README.html">broker</a>   </td><td class="markdownTableBodyNone">publish-subscribe utility    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone"><a class="el" href="md_src_2algo_2README.html">algo</a>   </td><td class="markdownTableBodyNone">memory pool; waiting queue; dictionary   </td><td class="markdownTableBodyNone"><code>st</code> (<code>sturk</code>)    </td></tr>
+<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone"><a class="el" href="md_src_2algo_2README.html">algo</a>   </td><td class="markdownTableBodyNone">memory pool; waiting queue; dictionary    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone"><a class="el" href="md_src_2logger_2README.html">logger</a>   </td><td class="markdownTableBodyNone">logging to stdout/stderr/file   </td><td class="markdownTableBodyNone"><code>st/logger</code> (<code>sturk/logger</code>)    </td></tr>
+<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone"><a class="el" href="md_src_2logger_2README.html">logger</a>   </td><td class="markdownTableBodyNone">logging to stdout/stderr/file/device    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone"><a class="el" href="md_src_2osal_2README.html">osal</a>   </td><td class="markdownTableBodyNone">memory allocator; filesystem; thread sync.   </td><td class="markdownTableBodyNone"><code>st/os</code> (<code>sturk/os</code>)    </td></tr>
+<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone"><a class="el" href="md_src_2osal_2README.html">osal</a>   </td><td class="markdownTableBodyNone">memory management; thread sync.    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone"><a class="el" href="md_src_2basis_2README.html">basis</a>   </td><td class="markdownTableBodyNone">arena   </td><td class="markdownTableBodyNone"><code>st</code> (<code>sturk</code>)    </td></tr>
+<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone"><a class="el" href="md_src_2basis_2README.html">basis</a>   </td><td class="markdownTableBodyNone">arena memory allocator; io operations    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone"><a class="el" href="md_include_2vertegs_2README.html">vertegs</a>   </td><td class="markdownTableBodyNone">subroutines for operating on graphs   </td><td class="markdownTableBodyNone"><code>vertegs</code>   </td></tr>
+<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone"><a class="el" href="md_include_2vertegs_2README.html">vertegs</a>   </td><td class="markdownTableBodyNone">subroutines for operating on graphs   </td></tr>
 </table>
 <h1><a class="anchor" id="buildsystem"></a>
 Buildsystem</h1>
-<p>The build is configured with a single yaml file. Before running make the configuration file must be passed to the <a href="https://github.com/SzymonTurno/sturk/blob/main/tools/configure.sh">configure.sh</a> script in order to generate a makefile.</p>
+<p>The build is configured with a single yaml file. Before running <code>make</code> the path to the configuration file must be passed to the <a href="https://github.com/SzymonTurno/sturk/blob/main/tools/configure.sh">configure.sh</a> script in order to generate <code>Makefile</code>.</p>
 <div class="fragment"><div class="line">mkdir build</div>
 <div class="line">cd build</div>
 <div class="line"> </div>
@@ -240,7 +260,7 @@ Buildsystem</h1>
 <div class="line"># build default target - libsturk.a</div>
 <div class="line">make</div>
 </div><!-- fragment --><p>All possible build variables can be found inside <code>olconf.yaml</code> files from the <code>src</code> directory. The configuration is processed by <code>olconf.py</code> scripts.</p>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 C99 support</h2>
 <p>Configuring with <code>cver: "gnu"</code> will pass <code>-std=gnu11</code> to the compiler while <code>cver: "iso"</code> will pass <code>-std=c99 -pedantic</code> instead.</p>
 <p>See <a href="https://github.com/SzymonTurno/sturk/blob/main/src/olconf.py">src/olconf.py</a>.</p>
@@ -251,22 +271,22 @@ C99 support</h2>
 <div class="line">    olvars.append(<span class="stringliteral">&#39;sturk_EXTRA_CFLAGS&#39;</span>, <span class="stringliteral">&#39;-pedantic&#39;</span>)</div>
 <div class="line"><span class="keywordflow">else</span>:</div>
 <div class="line">    olvars.fail(<span class="stringliteral">&#39;Unknown cver: &#39;</span> + settings[<span class="stringliteral">&#39;cver&#39;</span>] + <span class="stringliteral">&#39;.&#39;</span>)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md22"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md29"></a>
 Example configuration</h2>
-<p>As an example see <a href="https://github.com/SzymonTurno/sturk/blob/main/configs/iso/olconf.yaml">configs/iso/olconf.yaml</a> and compare it to <a href="https://github.com/SzymonTurno/sturk/blob/main/src/olconf.yaml">src/olconf.yaml</a>.</p>
+<p>As an example see (<b>A</b>) <a href="https://github.com/SzymonTurno/sturk/blob/main/configs/iso/olconf.yaml">configs/iso/olconf.yaml</a> and compare it to (<b>B</b>) <a href="https://github.com/SzymonTurno/sturk/blob/main/src/olconf.yaml">src/olconf.yaml</a>.</p>
 <p>The following</p>
 <div class="fragment"><div class="line">/path/to/sturk/tools/configure.sh /path/to/sturk/configs/iso/olconf.yaml</div>
-</div><!-- fragment --><p>would overwrite the default configuration from <code>src/olconf.yaml</code>:</p>
+</div><!-- fragment --><p>would overwrite the default configuration from <b>B</b>:</p>
 <ul>
 <li><code>cver: "gnu"</code>,</li>
 <li><code>build_type: "release"</code>;</li>
 </ul>
-<p>with the configuration from <code>configs/iso/olconf.yaml</code>:</p>
+<p>with the configuration from <b>A</b>:</p>
 <ul>
 <li><code>cver: "iso"</code>,</li>
 <li><code>build_type: "coverage"</code>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md30"></a>
 Glossary</h1>
 <p>Table: Glossary</p>
 <table class="markdownTable">

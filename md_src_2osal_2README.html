@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -121,33 +121,31 @@ $(document).ready(function(){initNavTree('md_src_2osal_2README.html',''); initRe
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md39">Configuring OSAL</a></li>
+<ul><li class="level1"><a href="#autotoc_md68">Configuring OSAL</a></li>
 </ul>
 </div>
-<div class="textblock"><p><a class="anchor" id="autotoc_md38"></a></p>
-<p>Operating System Abstraction Layer (OSAL) gathers all os-specific operations and provides a common API for all implementations. It consists of five submodules configured with the <code>osal</code> section from the yaml configuration file - see <a href="https://github.com/SzymonTurno/sturk/blob/main/src/osal/olconf.yaml">default osal configuration</a>.</p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md67"></a></p>
+<p>Operating System Abstraction Layer (OSAL) gathers all os-specific operations and provides a common API for all implementations. It consists of four submodules configured with the <code>osal</code> section from the yaml configuration file - see <a href="https://github.com/SzymonTurno/sturk/blob/main/src/osal/olconf.yaml">default osal configuration</a>.</p>
 <p>Table: OSAL</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">#   </th><th class="markdownTableHeadNone">API   </th><th class="markdownTableHeadNone">Implementations    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone"><a href="https://szymonturno.github.io/sturk/fstream_8h.html">fstream</a>   </td><td class="markdownTableBodyNone"><code>std</code>    </td></tr>
+<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone"><a href="https://szymonturno.github.io/sturk/os_2mem_8h.html">mem</a>   </td><td class="markdownTableBodyNone"><code>arena</code>, <code>ext</code>, <code>std</code>    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone"><a href="https://szymonturno.github.io/sturk/os_2mem_8h.html">mem</a>   </td><td class="markdownTableBodyNone"><code>arena</code>, <code>std</code>    </td></tr>
+<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone"><a href="https://szymonturno.github.io/sturk/os_2mutex_8h.html">mutex</a>   </td><td class="markdownTableBodyNone"><code>none</code>, <code>posix</code>    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone"><a href="https://szymonturno.github.io/sturk/os_2mutex_8h.html">mutex</a>   </td><td class="markdownTableBodyNone"><code>none</code>, <code>posix</code>    </td></tr>
+<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone"><a href="https://szymonturno.github.io/sturk/os_2sem_8h.html">sem</a>   </td><td class="markdownTableBodyNone"><code>none</code>, <code>posix</code>    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone"><a href="https://szymonturno.github.io/sturk/os_2sem_8h.html">sem</a>   </td><td class="markdownTableBodyNone"><code>none</code>, <code>posix</code>    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone"><a href="https://szymonturno.github.io/sturk/sys_8h.html">sys</a>   </td><td class="markdownTableBodyNone"><code>std</code>   </td></tr>
+<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone"><a href="https://szymonturno.github.io/sturk/sys_8h.html">sys</a>   </td><td class="markdownTableBodyNone"><code>none</code>, <code>std</code>   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md39"></a>
+<h1><a class="anchor" id="autotoc_md68"></a>
 Configuring OSAL</h1>
-<p>For a given configuration file</p>
+<p>For the following configuration file</p>
 <div class="fragment"><div class="line">---</div>
 <div class="line">  osal:</div>
 <div class="line">    &lt;api&gt;: &quot;&lt;implementation&gt;&quot;</div>
-</div><!-- fragment --><p>a source file <code>/path/to/sturk/src/osal/&lt;api&gt;/&lt;implementation&gt;.c</code> will be added to the build. </p>
+</div><!-- fragment --><p>the source file <code>/path/to/sturk/src/osal/&lt;api&gt;/&lt;implementation&gt;.c</code> will be added to the build. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

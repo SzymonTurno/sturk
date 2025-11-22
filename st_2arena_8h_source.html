@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.0</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -161,47 +161,55 @@ $(document).ready(function(){initNavTree('st_2arena_8h_source.html',''); initRes
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="foldopen" id="foldopen00051" data-start="" data-end="">
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#aa42d4d8667be633dd566ab137dad0a48">   51</a></span><span class="preprocessor">#define ST_ARENA_ALLOC(arena, size)                                            \</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">        st_arena_alloc((arena), (size), __FILE__, __LINE__)</span></div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="};">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="structStMemVt.html">   51</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structStMemVt.html">StMemVt</a> {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="structStMemVt.html#a8a5a784fc4449513a9fe3cfe9227c3be">   57</a></span>        <span class="keywordtype">void</span>* (*alloc_cb)(size_t);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="structStMemVt.html#a05a2a659e80abb345ae46ec7cb06a67c">   64</a></span>        void (*<a class="code hl_variable" href="structStMemVt.html#a05a2a659e80abb345ae46ec7cb06a67c">free_cb</a>)(<span class="keywordtype">void</span>*);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>};</div>
 </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">   59</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a> <a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="foldopen" id="foldopen00066" data-start="{" data-end="};">
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="structStArenaGroup.html">   66</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structStArenaGroup.html">StArenaGroup</a> {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keyword">union </span>{</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                <span class="keywordtype">int</span> n_elems;</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                <span class="keywordtype">void</span>* align;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="structStArenaGroup.html#ae30c94256ec4ee49fd676632f15d398f">   78</a></span>        } <a class="code hl_variable" href="structStArenaGroup.html#ae30c94256ec4ee49fd676632f15d398f">u</a>;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="structStArenaGroup.html#a1f6ded84f7b8fd83a80289ead7ed2ab0">   85</a></span>        <a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>* <a class="code hl_variable" href="structStArenaGroup.html#a1f6ded84f7b8fd83a80289ead7ed2ab0">p</a>;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>};</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">   72</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a> <a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="foldopen" id="foldopen00079" data-start="{" data-end="};">
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="structStArenaGc.html">   79</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structStArenaGc.html">StArenaGc</a> {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keyword">union </span>{</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                <span class="keywordtype">int</span> n_elems;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                <span class="keywordtype">void</span>* align;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="structStArenaGc.html#ad2a9e3919f972369bf73e80f98d5dfb6">   91</a></span>        } <a class="code hl_variable" href="structStArenaGc.html#ad2a9e3919f972369bf73e80f98d5dfb6">u</a>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="structStArenaGc.html#a91e01cd52301a196f1613d55369efac7">   98</a></span>        <a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>* <a class="code hl_variable" href="structStArenaGc.html#a91e01cd52301a196f1613d55369efac7">p</a>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>};</div>
 </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#aed171b70acc3b7ee6f54f003d5af5f10">   99</a></span><a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>* <a class="code hl_function" href="st_2arena_8h.html#aed171b70acc3b7ee6f54f003d5af5f10">st_arena_create</a>(</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keyword">struct</span> <a class="code hl_struct" href="structStArenaGroup.html">StArenaGroup</a>* group, <span class="keywordtype">void</span>* (*alloc_cb)(<span class="keywordtype">size_t</span>),</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordtype">void</span> (*free_cb)(<span class="keywordtype">void</span>*));</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#aa46c8894d7caf945625f9d92e79f9c72">  110</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="st_2arena_8h.html#aa46c8894d7caf945625f9d92e79f9c72">st_arena_destroy</a>(<a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>* arena);</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#acb8386aeb871037f09e3c12264513e2f">  124</a></span><span class="keywordtype">void</span>* <a class="code hl_function" href="st_2arena_8h.html#acb8386aeb871037f09e3c12264513e2f">st_arena_alloc</a>(<a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>* arena, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> <span class="keywordtype">char</span>* file, <span class="keywordtype">int</span> line);</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#a27b151f6064bc4892facdfe2ac99d5fb">  133</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="st_2arena_8h.html#a27b151f6064bc4892facdfe2ac99d5fb">st_arena_free</a>(<a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>* arena);</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#a0e9560c75010d58d827bea0c64afc728">  142</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="st_2arena_8h.html#a0e9560c75010d58d827bea0c64afc728">st_arena_cleanup</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structStArenaGroup.html">StArenaGroup</a>* group);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="foldopen" id="foldopen00106" data-start="" data-end="">
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#aa42d4d8667be633dd566ab137dad0a48">  106</a></span><span class="preprocessor">#define ST_ARENA_ALLOC(arena, size)                                            \</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">        st_arena_alloc(arena, size, __FILE__, __LINE__)</span></div>
+</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#a6338db6680e0824b97f2da03f64f5372">  119</a></span><a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>* <a class="code hl_function" href="st_2arena_8h.html#a6338db6680e0824b97f2da03f64f5372">st_arena_create</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structStArenaGc.html">StArenaGc</a>* gc, <span class="keyword">const</span> <span class="keyword">struct</span> <a class="code hl_struct" href="structStMemVt.html">StMemVt</a>* vp);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#aa46c8894d7caf945625f9d92e79f9c72">  128</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="st_2arena_8h.html#aa46c8894d7caf945625f9d92e79f9c72">st_arena_destroy</a>(<a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>* arena);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#acb8386aeb871037f09e3c12264513e2f">  142</a></span><span class="keywordtype">void</span>* <a class="code hl_function" href="st_2arena_8h.html#acb8386aeb871037f09e3c12264513e2f">st_arena_alloc</a>(<a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>* arena, <span class="keywordtype">size_t</span> size, <span class="keyword">const</span> <span class="keywordtype">char</span>* file, <span class="keywordtype">int</span> line);</div>
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="preprocessor">#endif </span><span class="comment">/* ST_ARENA_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="ast_2arena_8h_html_a0e9560c75010d58d827bea0c64afc728"><div class="ttname"><a href="st_2arena_8h.html#a0e9560c75010d58d827bea0c64afc728">st_arena_cleanup</a></div><div class="ttdeci">void st_arena_cleanup(struct StArenaGroup *group)</div><div class="ttdoc">Free all the memory from an arena collection.</div></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#a27b151f6064bc4892facdfe2ac99d5fb">  151</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="st_2arena_8h.html#a27b151f6064bc4892facdfe2ac99d5fb">st_arena_free</a>(<a class="code hl_typedef" href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a>* arena);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="st_2arena_8h.html#a715ca846d4da8c13cf46268b09121e88">  160</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="st_2arena_8h.html#a715ca846d4da8c13cf46268b09121e88">st_arena_cleanup</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structStArenaGc.html">StArenaGc</a>* gc);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="preprocessor">#endif </span><span class="comment">/* ST_ARENA_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="ast_2arena_8h_html_a27b151f6064bc4892facdfe2ac99d5fb"><div class="ttname"><a href="st_2arena_8h.html#a27b151f6064bc4892facdfe2ac99d5fb">st_arena_free</a></div><div class="ttdeci">void st_arena_free(StArena *arena)</div><div class="ttdoc">Free all the memory allocated from a single arena.</div></div>
-<div class="ttc" id="ast_2arena_8h_html_a41d4153611fcf544008b78c028561937"><div class="ttname"><a href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a></div><div class="ttdeci">struct StArena StArena</div><div class="ttdoc">The arena.</div><div class="ttdef"><b>Definition</b> arena.h:59</div></div>
+<div class="ttc" id="ast_2arena_8h_html_a41d4153611fcf544008b78c028561937"><div class="ttname"><a href="st_2arena_8h.html#a41d4153611fcf544008b78c028561937">StArena</a></div><div class="ttdeci">struct StArena StArena</div><div class="ttdoc">The arena.</div><div class="ttdef"><b>Definition</b> arena.h:72</div></div>
+<div class="ttc" id="ast_2arena_8h_html_a6338db6680e0824b97f2da03f64f5372"><div class="ttname"><a href="st_2arena_8h.html#a6338db6680e0824b97f2da03f64f5372">st_arena_create</a></div><div class="ttdeci">StArena * st_arena_create(struct StArenaGc *gc, const struct StMemVt *vp)</div><div class="ttdoc">Create an arena.</div></div>
+<div class="ttc" id="ast_2arena_8h_html_a715ca846d4da8c13cf46268b09121e88"><div class="ttname"><a href="st_2arena_8h.html#a715ca846d4da8c13cf46268b09121e88">st_arena_cleanup</a></div><div class="ttdeci">void st_arena_cleanup(struct StArenaGc *gc)</div><div class="ttdoc">Free all the memory from the arena garbage collector.</div></div>
 <div class="ttc" id="ast_2arena_8h_html_aa46c8894d7caf945625f9d92e79f9c72"><div class="ttname"><a href="st_2arena_8h.html#aa46c8894d7caf945625f9d92e79f9c72">st_arena_destroy</a></div><div class="ttdeci">void st_arena_destroy(StArena *arena)</div><div class="ttdoc">Destroy an arena.</div></div>
 <div class="ttc" id="ast_2arena_8h_html_acb8386aeb871037f09e3c12264513e2f"><div class="ttname"><a href="st_2arena_8h.html#acb8386aeb871037f09e3c12264513e2f">st_arena_alloc</a></div><div class="ttdeci">void * st_arena_alloc(StArena *arena, size_t size, const char *file, int line)</div><div class="ttdoc">Allocate memory from an arena.</div></div>
-<div class="ttc" id="ast_2arena_8h_html_aed171b70acc3b7ee6f54f003d5af5f10"><div class="ttname"><a href="st_2arena_8h.html#aed171b70acc3b7ee6f54f003d5af5f10">st_arena_create</a></div><div class="ttdeci">StArena * st_arena_create(struct StArenaGroup *group, void *(*alloc_cb)(size_t), void(*free_cb)(void *))</div><div class="ttdoc">Create an arena.</div></div>
-<div class="ttc" id="astructStArenaGroup_html"><div class="ttname"><a href="structStArenaGroup.html">StArenaGroup</a></div><div class="ttdoc">Collection of arena instances.</div><div class="ttdef"><b>Definition</b> arena.h:66</div></div>
-<div class="ttc" id="astructStArenaGroup_html_a1f6ded84f7b8fd83a80289ead7ed2ab0"><div class="ttname"><a href="structStArenaGroup.html#a1f6ded84f7b8fd83a80289ead7ed2ab0">StArenaGroup::p</a></div><div class="ttdeci">StArena * p</div><div class="ttdoc">The pointer to an arena.</div><div class="ttdef"><b>Definition</b> arena.h:85</div></div>
-<div class="ttc" id="astructStArenaGroup_html_ae30c94256ec4ee49fd676632f15d398f"><div class="ttname"><a href="structStArenaGroup.html#ae30c94256ec4ee49fd676632f15d398f">StArenaGroup::u</a></div><div class="ttdeci">union StArenaGroup::@0 u</div><div class="ttdoc">Using union u for explicit padding.</div></div>
+<div class="ttc" id="astructStArenaGc_html"><div class="ttname"><a href="structStArenaGc.html">StArenaGc</a></div><div class="ttdoc">Arena garbage collector.</div><div class="ttdef"><b>Definition</b> arena.h:79</div></div>
+<div class="ttc" id="astructStArenaGc_html_a91e01cd52301a196f1613d55369efac7"><div class="ttname"><a href="structStArenaGc.html#a91e01cd52301a196f1613d55369efac7">StArenaGc::p</a></div><div class="ttdeci">StArena * p</div><div class="ttdoc">The pointer to an arena.</div><div class="ttdef"><b>Definition</b> arena.h:98</div></div>
+<div class="ttc" id="astructStArenaGc_html_ad2a9e3919f972369bf73e80f98d5dfb6"><div class="ttname"><a href="structStArenaGc.html#ad2a9e3919f972369bf73e80f98d5dfb6">StArenaGc::u</a></div><div class="ttdeci">union StArenaGc::@0 u</div><div class="ttdoc">Using union u for explicit padding.</div></div>
+<div class="ttc" id="astructStMemVt_html"><div class="ttname"><a href="structStMemVt.html">StMemVt</a></div><div class="ttdoc">Vtable for a memory allocator.</div><div class="ttdef"><b>Definition</b> arena.h:51</div></div>
+<div class="ttc" id="astructStMemVt_html_a05a2a659e80abb345ae46ec7cb06a67c"><div class="ttname"><a href="structStMemVt.html#a05a2a659e80abb345ae46ec7cb06a67c">StMemVt::free_cb</a></div><div class="ttdeci">void(* free_cb)(void *)</div><div class="ttdoc">Callback for freeing memory.</div><div class="ttdef"><b>Definition</b> arena.h:64</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

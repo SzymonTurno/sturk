@@ -1,0 +1,15 @@
+<map id="sturk/io/logger.h" name="sturk/io/logger.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="78,5,205,31"/>
+<area shape="rect" id="Node000002" href="$io_2logger_8h.html" title="Trace." alt="" coords="88,79,195,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,31,144,65,139,65,139,31"/>
+<area shape="rect" id="Node000003" href="$io_2buffer_8h.html" title="Input/output operations interface." alt="" coords="90,152,193,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="144,104,144,138,139,138,139,104"/>
+<area shape="rect" id="Node000004" href="$st_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="51,225,131,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="135,179,109,216,105,213,131,176"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="155,225,229,251"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="152,176,178,213,174,216,148,179"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,299,80,324"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="85,253,60,289,56,286,81,250"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="105,299,175,324"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="101,249,126,286,122,289,97,253"/>
+</map>

@@ -1,5 +1,6 @@
 var sturk_2pool_8h =
 [
+    [ "POOL_ALLOC", "sturk_2pool_8h.html#a54df3b6202a877e461faa41194fd2569", null ],
     [ "pool_alloc", "sturk_2pool_8h.html#a9a4278fea85bee246328f1100229add5", null ],
     [ "pool_create", "sturk_2pool_8h.html#a128706cd723f1b296ed83b8340f8c3da", null ],
     [ "pool_destroy", "sturk_2pool_8h.html#a6ad9fa6e5d7796147a52b43a6f3252dc", null ],
