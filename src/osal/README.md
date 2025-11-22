@@ -14,7 +14,7 @@ Table: OSAL
 |  1  | [mem](https://szymonturno.github.io/sturk/os_2mem_8h.html)     | `arena`, `ext`, `std` |
 |  2  | [mutex](https://szymonturno.github.io/sturk/os_2mutex_8h.html) | `none`, `posix`       |
 |  3  | [sem](https://szymonturno.github.io/sturk/os_2sem_8h.html)     | `none`, `posix`       |
-|  4  | [sys](https://szymonturno.github.io/sturk/sys_8h.html)         | `none`, `std`         |
+|  4  | [sys](https://szymonturno.github.io/sturk/os_2sys_8h.html)     | `none`, `std`         |
 
 ## Configuring OSAL
 
