@@ -73,7 +73,27 @@ SIMPTE_GROUP(algo);
 SIMPTE_GROUP(broker);
 SIMPTE_GROUP(common);
 
+static int ut_errors_on = 1;
+
+static void ut_start_catching(void)
+{
+	assert(ut_errors_on == 0);
+	ut_errors_on = 1;
+}
+
+static void ut_pause_catching(void)
+{
+	assert(ut_errors_on == 1);
+	ut_errors_on = 0;
+}
+
 #if VX_DEBUGGING
+void vx_eprint(const char* text, const char* file, int line)
+{
+	if (ut_errors_on)
+		fprintf(stderr, "%s:%d: %s\n", file, line, text);
+}
+
 void vx_dprint(const char* text, const char* file, int line)
 {
 	io_print(SIMPTE_IO(debug), "%s:%d: %s\n", file, line, text);
@@ -299,7 +319,9 @@ TEST(basis, should_return_null_from_arena)
 	struct StArenaGc gc = {0};
 	StArena* arena = arena_create(&gc, TEST_MEM_API);
 
+	ut_pause_catching();
 	TEST_ASSERT_NULL(ARENA_ALLOC(arena, 1));
+	ut_start_catching();
 	arena_destroy(arena);
 	arena_cleanup(&gc);
 }
@@ -445,7 +467,9 @@ TEST(osal, should_reach_mem_limit)
 {
 	for (int i = 0; i < 7; i++)
 		TEST_ASSERT_NOT_NULL(st_alloc(8 * 512));
+	ut_pause_catching();
 	TEST_ASSERT_NULL(st_alloc(8 * 512));
+	ut_start_catching();
 }
 
 TEST_GROUP_RUNNER(osal)
@@ -1093,9 +1117,11 @@ TEST(broker, should_alloc_message)
 
 TEST(broker, should_return_null)
 {
+	logger_detach(WARNING, SIMPTE_IO(STDERR));
 	TEST_ASSERT_NULL(message_tryalloc(NULL).payload);
 	TEST_ASSERT_NULL(message_getchannel((struct StMessage){NULL}));
 	TEST_ASSERT_EQUAL_INT(0, broker_adjust(NULL, 10));
+	logger_attach(WARNING, SIMPTE_IO(STDERR));
 }
 
 TEST(broker, should_support_single_thread_pubsub)

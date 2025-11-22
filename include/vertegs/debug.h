@@ -19,9 +19,7 @@
 
 #define VX_ASSERT(cond) assert(cond)
 
-#define vx_eprint(text, file, line)                                            \
-	fprintf(stderr, "%s:%d: %s\n", file, line, text)
-
+extern void vx_eprint(const char* text, const char* file, int line);
 extern void vx_dprint(const char* text, const char* file, int line);
 
 #else /* not: VX_DEBUGGING */
