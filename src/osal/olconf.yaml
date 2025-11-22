@@ -1,6 +1,6 @@
 ---
   osal:
-    mem: "arena"
+    mem: "ext"
     mutex: "none"
     sem: "none"
     sys: "none"

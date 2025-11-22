@@ -29,14 +29,15 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-static int subsequent;
-static StMutex* mutex;
+#include "sturk/arena.h"
+#include "sturk/os/mem.h"
+#include "sturk/os/sys.h"
 
 extern const struct StMemVt STURK_MEM_API[];
 
 void* st_mem_alloc(size_t size, const char* file, int line)
 {
-	void* ret = STURK_MEM_API->malloc(size);
+	void* ret = STURK_MEM_API->alloc_cb(size);
 
 	/* LCOV_EXCL_START */
 	if (!ret)
@@ -49,7 +50,7 @@ void st_mem_free(void* ptr, const char* file, int line)
 {
 	(void)file;
 	(void)line;
-	STURK_MEM_API->free(ptr);
+	STURK_MEM_API->free_cb(ptr);
 }
 
 void st_mem_cleanup(void)
