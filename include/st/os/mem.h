@@ -39,7 +39,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_OS_MEM_H
 
 #include <stddef.h>
-#include <stdint.h>
 
 /**
  * @def st_alloc(size)

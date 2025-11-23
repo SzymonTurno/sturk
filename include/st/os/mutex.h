@@ -39,7 +39,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_OS_MUTEX_H
 
 #include "vertegs/bits.h"
-#include <stdbool.h>
 
 /**
  * @def ST_MUTEX_BF(opt, val)
@@ -109,7 +108,7 @@ void st_mutex_destroy(StMutex* mutex);
 void st_mutex_lock(StMutex* mutex);
 
 /**
- * @fn bool st_mutex_trylock(StMutex* mutex)
+ * @fn int st_mutex_trylock(StMutex* mutex)
  *
  * @brief Lock the mutex if it is not locked. Do not block the calling thread.
  *
@@ -117,7 +116,7 @@ void st_mutex_lock(StMutex* mutex);
  *
  * @return True, if the mutex has been successfully locked.
  */
-bool st_mutex_trylock(StMutex* mutex);
+int st_mutex_trylock(StMutex* mutex);
 
 /**
  * @fn bool st_mutex_unlock(StMutex* mutex)

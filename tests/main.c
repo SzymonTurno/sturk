@@ -431,7 +431,7 @@ TEST(osal, should_trace_mutex_double_lock_warning)
 	TEST_ASSERT_NULL(SIMPTE_GETTRACE(debug, 0));
 	mutex_lock(mut);
 	TEST_ASSERT_EQUAL_STRING(
-		MUTEX_FILE_PATH("none") ":65: Fake mutex does not support "
+		MUTEX_FILE_PATH("none") ":64: Fake mutex does not support "
 					"context switch.\n",
 		strstr(SIMPTE_GETTRACE(debug, 0), MUTEX_FILE_PATH("none") ":"));
 	mutex_destroy(mut);
@@ -445,7 +445,7 @@ TEST(osal, should_trace_mutex_double_unlock_warning)
 	mutex_unlock(mut);
 	TEST_ASSERT_EQUAL_STRING(
 		MUTEX_FILE_PATH(
-			"none") ":90: Unlocking an already unlocked mutex.\n",
+			"none") ":89: Unlocking an already unlocked mutex.\n",
 		strstr(SIMPTE_GETTRACE(debug, 0), MUTEX_FILE_PATH("none") ":"));
 	mutex_destroy(mut);
 }
@@ -457,7 +457,7 @@ TEST(osal, should_trace_sem_fake_warning)
 	TEST_ASSERT_NULL(SIMPTE_GETTRACE(debug, 0));
 	sem_wait(sem);
 	TEST_ASSERT_EQUAL_STRING(
-		SEM_FILE_PATH("none") ":64: Fake semaphore does not support "
+		SEM_FILE_PATH("none") ":63: Fake semaphore does not support "
 				      "context switch.\n",
 		strstr(SIMPTE_GETTRACE(debug, 0), SEM_FILE_PATH("none") ":"));
 	sem_destroy(sem);

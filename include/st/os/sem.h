@@ -39,7 +39,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_OS_SEM_H
 
 #include "vertegs/bits.h"
-#include <stdbool.h>
 
 /**
  * @var typedef struct StSem StSem
@@ -81,7 +80,7 @@ void st_sem_destroy(StSem* sem);
 void st_sem_wait(StSem* sem);
 
 /**
- * @fn bool st_sem_trywait(StSem* sem)
+ * @fn int st_sem_trywait(StSem* sem)
  *
  * @brief Decrement the semaphore counter if it is greater than 0.
  *
@@ -91,7 +90,7 @@ void st_sem_wait(StSem* sem);
  *
  * @return True, if the counter has been successfully decremented.
  */
-bool st_sem_trywait(StSem* sem);
+int st_sem_trywait(StSem* sem);
 
 /**
  * @fn void st_sem_post(StSem* sem)

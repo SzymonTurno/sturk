@@ -33,7 +33,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/debug.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/sys.h"
-#include <stddef.h>
 
 struct StSem {
 	int n;
@@ -65,7 +64,7 @@ void st_sem_wait(StSem* sem)
 	--sem->n;
 }
 
-bool st_sem_trywait(StSem* sem)
+int st_sem_trywait(StSem* sem)
 {
 	/* LCOV_EXCL_START */
 	if (!sem)
@@ -74,9 +73,9 @@ bool st_sem_trywait(StSem* sem)
 
 	if (sem->n) {
 		--sem->n;
-		return true;
+		return 1;
 	}
-	return false;
+	return 0;
 }
 
 void st_sem_post(StSem* sem)

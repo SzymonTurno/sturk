@@ -38,7 +38,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_ARITH_H
 #define ST_ARITH_H
 
-#include <stddef.h>
 #include <stdint.h>
 
 /**

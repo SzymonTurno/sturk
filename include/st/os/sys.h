@@ -39,9 +39,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define ST_SYS_H
 
 #include "vertegs/vertex.h"
-#include <stdarg.h>
-#include <stdbool.h>
-#include <stddef.h>
 
 /**
  * @struct StException

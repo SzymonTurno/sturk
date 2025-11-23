@@ -1,6 +1,8 @@
 #ifndef VERTEGS_DEBUG_H
 #define VERTEGS_DEBUG_H
 
+#include <stddef.h>
+
 #ifndef VX_DEBUGGING
 
 /**
