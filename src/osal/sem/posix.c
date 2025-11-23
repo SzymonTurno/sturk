@@ -72,7 +72,7 @@ void st_sem_wait(StSem* sem)
 	/* LCOV_EXCL_STOP */
 }
 
-bool st_sem_trywait(StSem* sem)
+int st_sem_trywait(StSem* sem)
 {
 	return sem_trywait(&sem->sem) == OK;
 }

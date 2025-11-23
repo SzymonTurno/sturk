@@ -144,7 +144,7 @@ void st_mutex_lock(StMutex* mutex)
 	/* LCOV_EXCL_STOP */
 }
 
-bool st_mutex_trylock(StMutex* mutex)
+int st_mutex_trylock(StMutex* mutex)
 {
 	return pthread_mutex_trylock(&mutex->pmut) == SUCCESS;
 }

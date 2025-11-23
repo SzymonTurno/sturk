@@ -43,7 +43,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "vertegs/bits.h"
 #include "vertegs/debug.h"
-#include <stddef.h>
 #include <stdint.h>
 
 /**

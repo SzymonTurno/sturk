@@ -38,9 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_POOL_H
 #define ST_POOL_H
 
-#include "st/os/sys.h"
 #include "vertegs/list.h"
-#include <stddef.h>
 
 /**
  * @def ST_POOL_ALLOC(pool)

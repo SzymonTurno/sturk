@@ -31,6 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "st/os/mem.h"
 #include "st/os/sys.h"
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 

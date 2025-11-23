@@ -33,7 +33,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
 #include "sturk/os/sys.h"
-#include <stddef.h>
 
 struct StMutex {
 	int locked;
@@ -66,7 +65,7 @@ void st_mutex_lock(StMutex* mutex)
 	mutex->locked = 1;
 }
 
-bool st_mutex_trylock(StMutex* mutex)
+int st_mutex_trylock(StMutex* mutex)
 {
 	/* LCOV_EXCL_START */
 	if (!mutex)
@@ -74,9 +73,9 @@ bool st_mutex_trylock(StMutex* mutex)
 	/* LCOV_EXCL_STOP */
 
 	if (mutex->locked && !mutex->recursive)
-		return false;
+		return 0;
 	mutex->locked = 1;
-	return true;
+	return 1;
 }
 
 void st_mutex_unlock(StMutex* mutex)
