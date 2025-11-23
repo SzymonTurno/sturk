@@ -1,9 +1,7 @@
 <map id="sturk/os/mem.h" name="sturk/os/mem.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="29,5,153,31"/>
-<area shape="rect" id="Node000002" href="$os_2mem_8h.html" title="System memory allocator." alt="" coords="39,79,142,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,31,93,65,88,65,88,31"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,152,80,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="85,106,60,142,56,139,81,103"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="105,152,175,177"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="101,103,126,139,122,142,97,106"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,129,31"/>
+<area shape="rect" id="Node000002" href="$os_2mem_8h.html" title="System memory allocator." alt="" coords="16,79,119,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="70,31,70,65,65,65,65,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="30,152,105,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="70,104,70,138,65,138,65,104"/>
 </map>

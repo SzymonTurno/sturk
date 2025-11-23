@@ -1,23 +1,19 @@
 <map id="st/os/sys.h" name="st/os/sys.h">
-<area shape="rect" id="Node000001" title="System procedures." alt="" coords="385,5,476,31"/>
-<area shape="rect" id="Node000002" href="$io_2except_8h.html" title="Exceptions." alt="" coords="26,79,137,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="372,34,137,81,136,76,371,29"/>
-<area shape="rect" id="Node000004" href="$st_2pool_8h.html" title="Memory pool." alt="" coords="170,79,249,104"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="383,37,246,81,244,76,382,32"/>
-<area shape="rect" id="Node000006" href="$st_2waitq_8h.html" title="Waiting queue." alt="" coords="273,79,359,104"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="402,40,336,81,333,76,399,35"/>
-<area shape="rect" id="Node000008" href="$sturk_2cirq_8h.html" title=" " alt="" coords="383,79,478,104"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="433,44,433,79,428,79,428,44"/>
-<area shape="rect" id="Node000009" href="$sturk_2graph_8h.html" title=" " alt="" coords="502,79,610,104"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="464,35,537,76,534,81,461,40"/>
-<area shape="rect" id="Node000010" href="$sturk_2list_8h.html" title=" " alt="" coords="635,79,725,104"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="485,32,640,76,639,81,483,37"/>
-<area shape="rect" id="Node000011" href="$rk_2os_2sys_8h_source.html" title=" " alt="" coords="749,79,861,104"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="490,28,750,77,749,82,489,33"/>
+<area shape="rect" id="Node000001" title="System procedures." alt="" coords="340,5,431,31"/>
+<area shape="rect" id="Node000002" href="$io_2except_8h.html" title="Exceptions." alt="" coords="25,79,135,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="327,36,130,81,128,76,326,30"/>
+<area shape="rect" id="Node000004" href="$st_2waitq_8h.html" title="Waiting queue." alt="" coords="165,79,251,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="345,38,238,81,236,76,343,33"/>
+<area shape="rect" id="Node000006" href="$sturk_2cirq_8h.html" title=" " alt="" coords="275,79,370,104"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="368,43,335,80,331,77,364,39"/>
+<area shape="rect" id="Node000007" href="$sturk_2graph_8h.html" title=" " alt="" coords="394,79,502,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="407,39,440,77,436,80,403,43"/>
+<area shape="rect" id="Node000008" href="$sturk_2list_8h.html" title=" " alt="" coords="527,79,617,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="429,33,542,76,541,81,427,38"/>
+<area shape="rect" id="Node000009" href="$rk_2os_2sys_8h_source.html" title=" " alt="" coords="641,79,753,104"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="444,30,648,76,647,81,443,35"/>
 <area shape="rect" id="Node000003" href="$rk_2io_2except_8h.html" title=" " alt="" coords="5,152,136,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="80,118,75,152,70,151,75,117"/>
-<area shape="rect" id="Node000005" href="$sturk_2pool_8h.html" title=" " alt="" coords="160,152,259,177"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="212,118,212,152,207,152,207,118"/>
-<area shape="rect" id="Node000007" href="$sturk_2waitq_8h.html" title=" " alt="" coords="283,152,389,177"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="326,117,335,151,330,153,320,118"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="79,118,75,152,70,152,74,117"/>
+<area shape="rect" id="Node000005" href="$sturk_2waitq_8h.html" title=" " alt="" coords="160,152,267,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="213,118,215,152,210,152,207,118"/>
 </map>

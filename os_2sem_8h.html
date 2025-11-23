@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.1</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.2</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -127,17 +127,14 @@ $(document).ready(function(){initNavTree('os_2sem_8h.html',''); initResizable();
 <p>Semaphore.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="vertegs_2bits_8h_source.html">vertegs/bits.h</a>&quot;</code><br />
-<code>#include &lt;stdbool.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for sem.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="os_2sem_8h__incl.png" border="0" usemap="#ast_2os_2sem_8h" alt=""/></div>
 <map name="ast_2os_2sem_8h" id="ast_2os_2sem_8h">
-<area shape="rect" title="Semaphore." alt="" coords="72,5,169,31"/>
+<area shape="rect" title="Semaphore." alt="" coords="12,5,109,31"/>
 <area shape="rect" href="vertegs_2bits_8h.html" title="Bits and bitfields." alt="" coords="5,79,116,104"/>
-<area shape="poly" title=" " alt="" coords="113,33,81,70,77,66,109,29"/>
-<area shape="rect" title=" " alt="" coords="141,79,223,104"/>
-<area shape="poly" title=" " alt="" coords="133,29,165,66,161,70,129,33"/>
+<area shape="poly" title=" " alt="" coords="63,31,63,65,58,65,58,31"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -171,9 +168,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a743dc06627be8799f9ea51f89d650a74" id="r_a743dc06627be8799f9ea51f89d650a74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2sem_8h.html#a743dc06627be8799f9ea51f89d650a74">st_sem_wait</a> (<a class="el" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a> *sem)</td></tr>
 <tr class="memdesc:a743dc06627be8799f9ea51f89d650a74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait on semaphore.  <br /></td></tr>
 <tr class="separator:a743dc06627be8799f9ea51f89d650a74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b6e439c6adb46e996e35d98069bd33e" id="r_a7b6e439c6adb46e996e35d98069bd33e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2sem_8h.html#a7b6e439c6adb46e996e35d98069bd33e">st_sem_trywait</a> (<a class="el" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a> *sem)</td></tr>
-<tr class="memdesc:a7b6e439c6adb46e996e35d98069bd33e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrement the semaphore counter if it is greater than 0.  <br /></td></tr>
-<tr class="separator:a7b6e439c6adb46e996e35d98069bd33e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82c8a0f91c9140a4cef438600a191ea3" id="r_a82c8a0f91c9140a4cef438600a191ea3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2sem_8h.html#a82c8a0f91c9140a4cef438600a191ea3">st_sem_trywait</a> (<a class="el" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a> *sem)</td></tr>
+<tr class="memdesc:a82c8a0f91c9140a4cef438600a191ea3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrement the semaphore counter if it is greater than 0.  <br /></td></tr>
+<tr class="separator:a82c8a0f91c9140a4cef438600a191ea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64521b297f332c2129855afb70dbc35c" id="r_a64521b297f332c2129855afb70dbc35c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="os_2sem_8h.html#a64521b297f332c2129855afb70dbc35c">st_sem_post</a> (<a class="el" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a> *sem)</td></tr>
 <tr class="memdesc:a64521b297f332c2129855afb70dbc35c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Increment the semaphore counter.  <br /></td></tr>
 <tr class="separator:a64521b297f332c2129855afb70dbc35c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -260,14 +257,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a7b6e439c6adb46e996e35d98069bd33e" name="a7b6e439c6adb46e996e35d98069bd33e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b6e439c6adb46e996e35d98069bd33e">&#9670;&#160;</a></span>st_sem_trywait()</h2>
+<a id="a82c8a0f91c9140a4cef438600a191ea3" name="a82c8a0f91c9140a4cef438600a191ea3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82c8a0f91c9140a4cef438600a191ea3">&#9670;&#160;</a></span>st_sem_trywait()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool st_sem_trywait </td>
+          <td class="memname">int st_sem_trywait </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="os_2sem_8h.html#a90de599315976ae8b63504b21ad2720d">StSem</a> *&#160;</td>
           <td class="paramname"><em>sem</em></td><td>)</td>

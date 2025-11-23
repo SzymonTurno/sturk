@@ -1,25 +1,20 @@
 <map id="sturk/list.h" name="sturk/list.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="341,5,431,31"/>
-<area shape="rect" id="Node000002" href="$os_2sys_8h.html" title="System procedures." alt="" coords="407,152,498,177"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="394,30,444,138,439,141,389,32"/>
-<area shape="rect" id="Node000010" href="$vertegs_2list_8h.html" title="Singly linked list." alt="" coords="287,79,394,104"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="381,32,358,69,353,66,376,30"/>
-<area shape="rect" id="Node000003" href="$vertex_8h.html" title="Vertex." alt="" coords="256,225,385,251"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="433,180,355,221,353,216,430,175"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="386,299,461,324"/>
-<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="453,178,431,286,426,284,448,177"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="461,225,535,251"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="462,176,486,212,481,215,458,179"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="559,225,642,251"/>
-<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="478,175,565,217,563,222,475,180"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="158,5,249,31"/>
+<area shape="rect" id="Node000002" href="$os_2sys_8h.html" title="System procedures." alt="" coords="93,152,183,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,32,151,141,146,138,196,30"/>
+<area shape="rect" id="Node000008" href="$vertegs_2list_8h.html" title="Singly linked list." alt="" coords="206,79,313,104"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="215,29,244,66,240,69,210,33"/>
+<area shape="rect" id="Node000003" href="$vertex_8h.html" title="Vertex." alt="" coords="139,225,268,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="151,176,185,213,182,217,147,179"/>
 <area shape="rect" id="Node000004" href="$vertegs_2bits_8h.html" title="Bits and bitfields." alt="" coords="5,299,116,324"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="280,253,117,298,115,292,278,248"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="182,253,97,295,95,290,179,248"/>
 <area shape="rect" id="Node000005" href="$vertegs_2debug_8h_source.html" title=" " alt="" coords="140,299,267,324"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="303,253,236,294,233,289,300,248"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="339,248,397,288,394,293,336,253"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="206,251,206,285,201,285,201,251"/>
 <area shape="rect" id="Node000007" title=" " alt="" coords="291,299,361,324"/>
-<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="324,251,327,285,321,285,319,251"/>
-<area shape="rect" id="Node000011" href="$vertegs_2graph_8h.html" title="Graph." alt="" coords="259,152,383,177"/>
-<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="340,105,330,140,325,138,335,104"/>
-<area shape="poly" id="edge12_Node000011_Node000003" title=" " alt="" coords="323,178,323,212,318,212,318,178"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="224,248,296,289,293,294,222,253"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="166,372,241,397"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="206,324,206,358,201,358,201,324"/>
+<area shape="rect" id="Node000009" href="$vertegs_2graph_8h.html" title="Graph." alt="" coords="208,152,332,177"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="264,104,269,138,264,139,258,105"/>
+<area shape="poly" id="edge9_Node000009_Node000003" title=" " alt="" coords="261,179,225,217,222,213,257,176"/>
 </map>

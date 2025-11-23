@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.1</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.2</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -160,35 +160,34 @@ $(document).ready(function(){initNavTree('os_2mem_8h_source.html',''); initResiz
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define ST_OS_MEM_H</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a90aa237259e5fbdf08bf9a1ede17299b">   49</a></span><span class="preprocessor">#define st_alloc(size) st_mem_alloc((size), __FILE__, __LINE__)</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a1608520925b44d9855949a203f45b465">   56</a></span><span class="preprocessor">#define st_free(ptr) st_mem_free((ptr), __FILE__, __LINE__)</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">/* @cond */</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#define ST__NEW(type, n, ...) ((type*)st_alloc(sizeof(type) * n))</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="comment">/* @endcond */</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a8e70aeada35b78c8691d593acda32265">   71</a></span><span class="preprocessor">#define ST_NEW(...) ST__NEW(__VA_ARGS__, 1, )</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a17425fea819fc6c31fb2b7e7b5505f91">   84</a></span><span class="keywordtype">void</span>* <a class="code hl_function" href="os_2mem_8h.html#a17425fea819fc6c31fb2b7e7b5505f91">st_mem_alloc</a>(<span class="keywordtype">size_t</span> size, <span class="keyword">const</span> <span class="keywordtype">char</span>* file, <span class="keywordtype">int</span> line);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a50b9a50464c8d358b7abc4c89585ef38">   95</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="os_2mem_8h.html#a50b9a50464c8d358b7abc4c89585ef38">st_mem_free</a>(<span class="keywordtype">void</span>* ptr, <span class="keyword">const</span> <span class="keywordtype">char</span>* file, <span class="keywordtype">int</span> line);</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="comment">/*</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="comment"> * @fn void st_mem_expand(void* buff, size_t size)</span></div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment"> * @brief Add a buffer to the free memory.</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="comment"> * @param[in] buff The buffer.</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment"> * @param[in] size The size of the buffer in bytes.</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="comment"> */</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="comment">/* void st_mem_expand(void* buff, size_t size); */</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a8995cf11733c0a4dee047b357706ce9e">  112</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="os_2mem_8h.html#a8995cf11733c0a4dee047b357706ce9e">st_mem_cleanup</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">#endif </span><span class="comment">/* ST_OS_MEM_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a90aa237259e5fbdf08bf9a1ede17299b">   48</a></span><span class="preprocessor">#define st_alloc(size) st_mem_alloc((size), __FILE__, __LINE__)</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a1608520925b44d9855949a203f45b465">   55</a></span><span class="preprocessor">#define st_free(ptr) st_mem_free((ptr), __FILE__, __LINE__)</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">/* @cond */</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#define ST__NEW(type, n, ...) ((type*)st_alloc(sizeof(type) * n))</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">/* @endcond */</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a8e70aeada35b78c8691d593acda32265">   70</a></span><span class="preprocessor">#define ST_NEW(...) ST__NEW(__VA_ARGS__, 1, )</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a17425fea819fc6c31fb2b7e7b5505f91">   83</a></span><span class="keywordtype">void</span>* <a class="code hl_function" href="os_2mem_8h.html#a17425fea819fc6c31fb2b7e7b5505f91">st_mem_alloc</a>(<span class="keywordtype">size_t</span> size, <span class="keyword">const</span> <span class="keywordtype">char</span>* file, <span class="keywordtype">int</span> line);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a50b9a50464c8d358b7abc4c89585ef38">   94</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="os_2mem_8h.html#a50b9a50464c8d358b7abc4c89585ef38">st_mem_free</a>(<span class="keywordtype">void</span>* ptr, <span class="keyword">const</span> <span class="keywordtype">char</span>* file, <span class="keywordtype">int</span> line);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="comment"> * @fn void st_mem_expand(void* buff, size_t size)</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="comment"> * @brief Add a buffer to the free memory.</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="comment"> * @param[in] buff The buffer.</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="comment"> * @param[in] size The size of the buffer in bytes.</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="comment">/* void st_mem_expand(void* buff, size_t size); */</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="os_2mem_8h.html#a8995cf11733c0a4dee047b357706ce9e">  111</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="os_2mem_8h.html#a8995cf11733c0a4dee047b357706ce9e">st_mem_cleanup</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#endif </span><span class="comment">/* ST_OS_MEM_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="aos_2mem_8h_html_a17425fea819fc6c31fb2b7e7b5505f91"><div class="ttname"><a href="os_2mem_8h.html#a17425fea819fc6c31fb2b7e7b5505f91">st_mem_alloc</a></div><div class="ttdeci">void * st_mem_alloc(size_t size, const char *file, int line)</div><div class="ttdoc">Allocate a contiguous memory region and optionally log a message on failure.</div></div>
 <div class="ttc" id="aos_2mem_8h_html_a50b9a50464c8d358b7abc4c89585ef38"><div class="ttname"><a href="os_2mem_8h.html#a50b9a50464c8d358b7abc4c89585ef38">st_mem_free</a></div><div class="ttdeci">void st_mem_free(void *ptr, const char *file, int line)</div><div class="ttdoc">Free a contiguous memory region and optionally log a message on failure.</div></div>
 <div class="ttc" id="aos_2mem_8h_html_a8995cf11733c0a4dee047b357706ce9e"><div class="ttname"><a href="os_2mem_8h.html#a8995cf11733c0a4dee047b357706ce9e">st_mem_cleanup</a></div><div class="ttdeci">void st_mem_cleanup(void)</div><div class="ttdoc">If supported, free all the memory allocated with the system allocator.</div></div>
