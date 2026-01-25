@@ -201,9 +201,8 @@ struct StMessage st_message_tryalloc(StChannel* ch);
  * @param[in] msg The message.
  * @param[in] cb The callback.
  *
- * The function passed will be called only once, when all of the subscribers
- * finish reading the message i.e. the subscribers counter for the message hits
- * 0.
+ * The function passed will be called only once, when all subscribers finish
+ * reading the message i.e. the subscribers counter for the message hits 0.
  *
  * @note This can be useful for freeing any memory that has been allocated when
  * initializing the payload.
