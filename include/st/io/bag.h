@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_IO_BAG_H
 #define ST_IO_BAG_H
 
-#include "st/io/buffer.h"
+#include "st/io/api.h"
 
 /**
  * @var typedef struct StIoBag StIoBag
@@ -66,24 +66,24 @@ StIoBag* st_iobag_create(void);
 void st_iobag_destroy(StIoBag* bag);
 
 /**
- * @fn void st_iobag_ins(StIoBag* bag, StIo* io)
+ * @fn void st_iobag_ins(StIoBag* bag, struct StIo* io)
  *
  * @brief Insert an IO interface into a bag.
  *
  * @param[in,out] bag The bag.
  * @param[in,out] io The IO interface.
  */
-void st_iobag_ins(StIoBag* bag, StIo* io);
+void st_iobag_ins(StIoBag* bag, struct StIo* io);
 
 /**
- * @fn void st_iobag_rem(StIoBag* bag, StIo* io)
+ * @fn void st_iobag_rem(StIoBag* bag, struct StIo* io)
  *
  * @brief Remove an IO interface from a bag.
  *
  * @param[in,out] bag The bag.
  * @param[in,out] io The IO interface.
  */
-void st_iobag_rem(StIoBag* bag, StIo* io);
+void st_iobag_rem(StIoBag* bag, struct StIo* io);
 
 /**
  * @fn void st_iobag_vprint(StIoBag* bag, const char* fmt, va_list va)

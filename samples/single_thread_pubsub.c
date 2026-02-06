@@ -1,6 +1,7 @@
 #include "sample.h"
 #include "st/os/sys.h"
 #include "sturk/broker.h"
+#include "sturk/io/buffer.h"
 #include "sturk/io/logger.h"
 #include "sturk/os/mem.h"
 #include "sturk/str.h"
@@ -115,17 +116,17 @@ struct StStrQ* single_thread_pubsub(void)
 {
 	struct StStrQ* ret = NULL;
 	char* out = NEW(char, 256);
-	StIoBuffer* buff = NEW(StIoBuffer, iobuffer_calclen(1024));
-	StIo* io = io_init(buff);
+	struct StIo* io = NEW(struct StIo, iocontig_calclen(1024));
 
+	iobuffer_init((struct StIoBuffer*)io);
 	logger_attach(INFO, io);
 	app();
 	logger_detach(INFO, io);
 	io_putc(io, IO_EOF);
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	while (io_fgets(out, 256, io))
 		ret = strq_ins(ret, st_strdup(out));
-	st_free(buff);
+	st_free(io);
 	st_free(out);
 	return ret;
 }

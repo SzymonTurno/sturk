@@ -29,8 +29,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "basis/io.h"
 #include "sturk/debug.h"
+#include "sturk/io/api.h"
 #include <limits.h>
 
 static char ul2c(unsigned long num)
@@ -131,7 +131,7 @@ static char a2i(char ch, const char** src, int* nump)
 	return ch;
 }
 
-static int putchw(StIo* io, int n, char z, char* bf)
+static int putchw(struct StIo* io, int n, char z, char* bf)
 {
 	char fc = z ? '0' : ' ';
 	char ch;
@@ -158,7 +158,7 @@ static int putchw(StIo* io, int n, char z, char* bf)
 	return ret;
 }
 
-int st_io_vprint(StIo* io, const char* fmt, va_list va)
+int st_io_vprint(struct StIo* io, const char* fmt, va_list va)
 {
 	char bf[12] = {0};
 	char ch = 0;
@@ -234,7 +234,7 @@ int st_io_vprint(StIo* io, const char* fmt, va_list va)
 	return ret;
 }
 
-int st_io_print(StIo* io, const char* fmt, ...)
+int st_io_print(struct StIo* io, const char* fmt, ...)
 {
 	va_list va;
 	int ret = 0;

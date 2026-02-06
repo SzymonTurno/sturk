@@ -1,6 +1,7 @@
 #ifndef SIMPTE_H
 #define SIMPTE_H
 
+#include "sturk/io/api.h"
 #include "sturk/io/buffer.h"
 #include "sturk/io/logger.h"
 #include "sturk/os/mem.h"
@@ -36,14 +37,28 @@
 #ifndef TEST_ASSERT_GREATER_THAN_INT
 
 #define TEST_ASSERT_GREATER_THAN_INT(expected, actual)                         \
-	assert((expected) > (actual))
+	assert((expected) < (actual))
 
 #endif /* TEST_ASSERT_GREATER_THAN_INT */
+
+#ifndef TEST_ASSERT_GREATER_OR_EQUAL_INT
+
+#define TEST_ASSERT_GREATER_OR_EQUAL_INT(expected, actual)                     \
+	assert((expected) <= (actual))
+
+#endif /* TEST_ASSERT_GREATER_OR_EQUAL_INT */
+
+#ifndef TEST_ASSERT_LESS_THAN_INT
+
+#define TEST_ASSERT_LESS_THAN_INT(expected, actual)                            \
+	assert((expected) > (actual))
+
+#endif /* TEST_ASSERT_LESS_THAN_INT */
 
 #ifndef TEST_ASSERT_LESS_OR_EQUAL_INT
 
 #define TEST_ASSERT_LESS_OR_EQUAL_INT(expected, actual)                        \
-	assert((expected) <= (actual))
+	assert((expected) >= (actual))
 
 #endif /* TEST_ASSERT_LESS_OR_EQUAL_INT */
 
@@ -75,29 +90,19 @@
 
 #define SIMPTE_IO(ref) simpte_##ref##_io
 
-#define SIMPTE_IO_DCL(ref, bytes)                                              \
-	static StIoBuffer simpte_##ref##_buff[iobuffer_calclen(bytes)];        \
-	static StIo* SIMPTE_IO(ref)
-
-#define SIMPTE_IO_INIT(ref) SIMPTE_IO(ref) = io_init(simpte_##ref##_buff)
-
 #define SIMPTE_BEGIN()                                                         \
-	SIMPTE_IO_DCL(STDOUT, 0);                                              \
-	SIMPTE_IO_DCL(STDERR, 0)
+	static struct StIo* SIMPTE_IO(STDOUT);                                 \
+	static struct StIo* SIMPTE_IO(STDERR)
 
 #define SIMPTE_GROUP(group)                                                    \
-	SIMPTE_IO_DCL(group, 512);                                             \
+	static struct StIo SIMPTE_IO(group)[iocontig_calclen(512)];            \
 	TEST_SETUP(group)                                                      \
 	{                                                                      \
-		SIMPTE_IO_INIT(STDOUT);                                        \
-		SIMPTE_IO_INIT(STDERR);                                        \
-		SIMPTE_IO_INIT(group);                                         \
+		iobuffer_init((struct StIoBuffer*)SIMPTE_IO(group));           \
 		io_putc(SIMPTE_IO(group), IO_EOF);                             \
-		SIMPTE_IO_INIT(group);                                         \
-		io_setp(SIMPTE_IO(STDOUT), stdout);                            \
-		io_setvp(SIMPTE_IO(STDOUT), SAMPLE_FILE_API);                  \
-		io_setp(SIMPTE_IO(STDERR), stdout);                            \
-		io_setvp(SIMPTE_IO(STDERR), SAMPLE_FILE_API);                  \
+		iobuffer_init((struct StIoBuffer*)SIMPTE_IO(group));           \
+		SIMPTE_IO(STDOUT) = iofile_create(stdout);                     \
+		SIMPTE_IO(STDERR) = iofile_create(stderr);                     \
 		logger_attach(INFO, SIMPTE_IO(STDOUT));                        \
 		logger_attach(DEBUG, SIMPTE_IO(STDOUT));                       \
 		logger_attach(WARNING, SIMPTE_IO(STDERR));                     \
@@ -119,12 +124,15 @@
 		logger_detach(WARNING, SIMPTE_IO(STDERR));                     \
 		logger_detach(DEBUG, SIMPTE_IO(STDOUT));                       \
 		logger_detach(INFO, SIMPTE_IO(STDOUT));                        \
+		st_free(SIMPTE_IO(STDERR));                                    \
+		SIMPTE_IO(STDERR) = NULL;                                      \
+		st_free(SIMPTE_IO(STDOUT));                                    \
+		SIMPTE_IO(STDOUT) = NULL;                                      \
 		mem_cleanup();                                                 \
 	}                                                                      \
 	TEST_GROUP(group)
 
-#define SIMPTE_GETTRACE(group, index)                                          \
-	SimpteGettrace(simpte_##group##_buff, index)
+#define SIMPTE_GETTRACE(group, index) SimpteGettrace(SIMPTE_IO(group), index)
 
 static inline void SimpteMain(int argc, const char** argv, void (*fn)(void))
 {
@@ -135,11 +143,11 @@ static inline void SimpteMain(int argc, const char** argv, void (*fn)(void))
 	printf("\n\n-----------------------\nOK\n");
 }
 
-static inline const char* SimpteGettrace(StIoBuffer* buff, int index)
+static inline const char* SimpteGettrace(struct StIo* io, int index)
 {
 	static char out[256];
-	StIo* io = io_init(buff);
 
+	iobuffer_init((struct StIoBuffer*)io);
 	while (index--)
 		io_fgets(out, sizeof(out), io);
 	return io_fgets(out, sizeof(out), io);

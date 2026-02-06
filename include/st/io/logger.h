@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ST_IO_LOGGER_H
 #define ST_IO_LOGGER_H
 
-#include "st/io/buffer.h"
+#include "st/io/api.h"
 
 #ifndef ST_TRACKING
 
@@ -94,23 +94,23 @@ enum StTraceLvl {
 void st_trace(enum StTraceLvl lvl, const char* tag, const char* format, ...);
 
 /**
- * @fn void st_logger_attach(enum StTraceLvl lvl, StIo* io)
+ * @fn void st_logger_attach(enum StTraceLvl lvl, struct StIo* io)
  *
  * @brief Attach an io to the logger.
  *
  * @param[in] lvl The trace level.
  * @param[in,out] io The io.
  */
-void st_logger_attach(enum StTraceLvl lvl, StIo* io);
+void st_logger_attach(enum StTraceLvl lvl, struct StIo* io);
 
 /**
- * @fn void st_logger_detach(enum StTraceLvl lvl, StIo* io)
+ * @fn void st_logger_detach(enum StTraceLvl lvl, struct StIo* io)
  *
  * @brief Detach an io from the logger.
  *
  * @param[in] lvl The trace level.
  * @param[in,out] io The io.
  */
-void st_logger_detach(enum StTraceLvl lvl, StIo* io);
+void st_logger_detach(enum StTraceLvl lvl, struct StIo* io);
 
 #endif /* ST_IO_LOGGER_H */
