@@ -89,9 +89,9 @@ static void* task(void* arg)
 			           channel_gettopic(message_getchannel(msg))) ==
 			    0)
 				break;
-			TEST_ASSERT_GREATER_THAN_INT(
+			TEST_ASSERT_LESS_THAN_INT(
 				N_THREADS, msg_getid(msg.payload));
-			TEST_ASSERT_LESS_OR_EQUAL_INT(
+			TEST_ASSERT_GREATER_OR_EQUAL_INT(
 				0, msg_getid(msg.payload));
 			counters[id][msg_getid(msg.payload)]++;
 			msg.payload = NULL;

@@ -29,30 +29,33 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "sturk/io/api.h"
-#include "sturk/io/buffer.h"
-#include "sturk/os/sys.h"
+/**
+ * @file sturk/io/api.h
+ *
+ * @see st/io/api.h
+ */
 
-int st_strprint(char* buff, const char* fmt, ...)
-{
-	va_list va;
-	int ret = 0;
-	struct StIoBuffer iobuff = {0};
-	struct StIo* io = iobuffer_init(&iobuff);
+#ifndef STURK_IO_API_H
+#define STURK_IO_API_H
 
-	iobuff.cp = buff;
-	va_start(va, fmt);
-	ret = io_vprint(io, fmt, va);
-	va_end(va);
-	io_putc(io, '\0');
-	return ret;
-}
+#include "st/io/api.h"
 
-/* LCOV_EXCL_START */
-void st_except(const char* reason, const char* file, int line)
-{
-	(void)reason;
-	(void)file;
-	(void)line;
-}
-/* LCOV_EXCL_STOP */
+/** @see ST_IO_EOF */
+#define IO_EOF ST_IO_EOF
+
+/** @see st_io_putc() */
+#define io_putc st_io_putc
+
+/** @see st_io_getc() */
+#define io_getc st_io_getc
+
+/** @see st_io_vprint() */
+#define io_vprint st_io_vprint
+
+/** @see st_io_print() */
+#define io_print st_io_print
+
+/** @see st_io_fgets() */
+#define io_fgets st_io_fgets
+
+#endif /* ST_IO_API_H */

@@ -1,19 +1,35 @@
 #include "sample.h"
-#include <stdio.h>
+#include "sturk/debug.h"
+#include "sturk/os/mem.h"
 
-static void file_putc(void* p, char c)
+struct IoFile {
+	struct StIo vt;
+	FILE* fp;
+};
+
+static void file_putc(struct StIo* vp, char c)
 {
-	FILE* fp = p;
+	struct IoFile* self = (struct IoFile*)vp;
 
-	putc(c, fp);
+	putc(c, self->fp);
 }
 
-static char file_getc(void* p)
+static char file_getc(struct StIo* vp)
 {
-	FILE* fp = p;
+	struct IoFile* self = (struct IoFile*)vp;
 
-	return (char)getc(fp);
+	return (char)getc(self->fp);
 }
 
-const struct StIoVt SAMPLE_FILE_API[] = {
-	{.putc_cb = file_putc, .getc_cb = file_getc}};
+struct StIo* iofile_create(FILE* fp)
+{
+	struct IoFile* file = ST_NEW(struct IoFile);
+	struct StIo* ret = (struct StIo*)file;
+
+	/* Make sure that `vt` is the first member. */
+	ASSERT(ret == &file->vt);
+	ret->putc_cb = file_putc;
+	ret->getc_cb = file_getc;
+	file->fp = fp;
+	return ret;
+}

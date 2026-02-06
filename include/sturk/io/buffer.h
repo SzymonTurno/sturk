@@ -43,34 +43,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /** @see ST_IO_EOF */
 #define IO_EOF ST_IO_EOF
 
-/** @see st_iobuffer_calclen() */
-#define iobuffer_calclen st_iobuffer_calclen
+/** @see st_iobuffer_init() */
+#define iobuffer_init st_iobuffer_init
 
-/** @see st_iobuffer_front() */
-#define iobuffer_front st_iobuffer_front
+/** @see st_iocontig_calclen() */
+#define iocontig_calclen st_iocontig_calclen
 
-/** @see st_io_init() */
-#define io_init st_io_init
-
-/** @see st_io_setp() */
-#define io_setp st_io_setp
-
-/** @see st_io_setvp() */
-#define io_setvp st_io_setvp
-
-/** @see st_io_putc() */
-#define io_putc st_io_putc
-
-/** @see st_io_getc() */
-#define io_getc st_io_getc
-
-/** @see st_io_vprint() */
-#define io_vprint st_io_vprint
-
-/** @see st_io_print() */
-#define io_print st_io_print
-
-/** @see st_io_fgets() */
-#define io_fgets st_io_fgets
+/** @see st_iocontig_front() */
+#define iocontig_front st_iocontig_front
 
 #endif /* ST_IO_BUFFER_H */

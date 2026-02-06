@@ -32,163 +32,89 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * @file st/io/buffer.h
  *
- * @brief Input/output operations interface.
+ * @brief Memory buffer stream.
  */
 
 #ifndef ST_IO_BUFFER_H
 #define ST_IO_BUFFER_H
 
-#include "st/arith.h"
-#include <stdarg.h>
+#include "st/io/api.h"
 
 /**
- * @def ST_IO_EOF
+ * @struct StIoBuffer
  *
- * @brief End of file.
+ * @brief Interface for a memory buffer stream.
  */
-#define ST_IO_EOF -1
-
-/**
- * @def st_iobuffer_calclen(bytes)
- *
- * @brief Calculate the length of an iobuffer array.
- *
- * @param[in] bytes The number of bytes of the required free space.
- */
-#define st_iobuffer_calclen(bytes)                                             \
-	(3 + (sizeof(char*) + (bytes) - 1) / sizeof(StAlign))
-
-/**
- * @var typedef StAlign StIoBuffer
- *
- * @brief The IO buffer.
- */
-typedef StAlign StIoBuffer;
-
-/**
- * @var typedef union StIo StIo
- *
- * @brief The IO interface.
- */
-typedef union StIo StIo;
-
-/**
- * @struct StIoVt
- *
- * @brief Vtable for IO operations.
- */
-struct StIoVt {
+struct StIoBuffer {
 	/**
-	 * @var void (*putc_cb)(void*, char)
+	 * @var struct StIo _vt
 	 *
-	 * @brief Callback for writing a single char.
+	 * @brief IO interface.
 	 */
-	void (*putc_cb)(void*, char);
+	struct StIo _vt;
 
 	/**
-	 * @var char (*getc_cb)(void*)
+	 * @var char* cp;
 	 *
-	 * @brief Callback for reading a single char.
+	 * @brief Stream pointer.
 	 */
-	char (*getc_cb)(void*);
+	char* cp;
 };
 
 /**
- * @fn const char* st_iobuffer_front(const StIoBuffer* buff)
+ * @fn struct StIo* st_iobuffer_init(struct StIoBuffer* io_buff)
+ *
+ * @brief Initialize a memory buffer stream.
+ *
+ * In order to use the memory buffer stream interface: initialize the interface
+ * and assign the front of the buffer to its `cp` member.
+ *
+ * ```
+ *     struct StIoBuffer io_buff = {.cp = buff};
+ *     struct StIo* io = st_iobuffer_init(&io_buff);
+ * ```
+ *
+ * @param[in,out] io_buff The memory buffer stream interface.
+ *
+ * @return A pointer to the IO interface.
+ */
+struct StIo* st_iobuffer_init(struct StIoBuffer* io_buff);
+
+/**
+ * @def st_iocontig_calclen(n_bytes)
+ *
+ * @brief Calculate the length of `struct StIo` array.
+ *
+ * Initialize the array with st_iobuffer_init() to use it as a memory buffer
+ * stream of the size @a nbytes.
+ *
+ * ```
+ *     struct StIo io[st_iobuffer_init(N)];
+ *
+ *     st_iobuffer_init((struct StIoBuffer*)io);
+ * ```
+ *
+ * @param[in] n_bytes The number of bytes for free space.
+ *
+ * @return The number of elements in a `struct StIo` array.
+ *
+ * @see st_iobuffer_init()
+ */
+#define st_iocontig_calclen(n_bytes)                                           \
+	(((n_bytes) + sizeof(struct StIoBuffer) - 1) / sizeof(struct StIo) + 1)
+
+/**
+ * @fn static inline char* st_iocontig_front(struct StIo* io)
  *
  * @brief Get the front of a memory buffer.
  *
- * @param[in,out] buff The memory buffer.
+ * @param[in,out] io IO interface.
  *
- * @return The front.
+ * @return The front of a memory buffer.
  */
-const char* st_iobuffer_front(const StIoBuffer* buff);
-
-/**
- * @fn StIo* st_io_init(StIoBuffer* buff)
- *
- * @brief Initialize an IO interface from a memory buffer.
- *
- * @param[in,out] buff The memory buffer.
- *
- * @return The pointer to the IO interface.
- */
-StIo* st_io_init(StIoBuffer* buff);
-
-/**
- * @fn void st_io_setp(StIo* io, void* p)
- *
- * @brief Set the pointer that is passed to the IO operations.
- *
- * @param[in,out] io The IO interface.
- * @param[in] p The pointer.
- */
-void st_io_setp(StIo* io, void* p);
-
-/**
- * @fn void st_io_setvp(StIo* io, const struct StIoVt* vp)
- *
- * @brief Set the API for IO operations.
- *
- * @param[in,out] io The IO interface.
- * @param[in] vp The pointer to the vtable.
- */
-void st_io_setvp(StIo* io, const struct StIoVt* vp);
-
-/**
- * @fn void st_io_putc(StIo* io, char c)
- *
- * @brief Write a single char with an IO interface.
- *
- * @param[in,out] io The IO interface.
- * @param[in] c The char.
- */
-void st_io_putc(StIo* io, char c);
-
-/**
- * @fn char st_io_getc(StIo* io)
- *
- * @brief Read a single char with an IO interface.
- *
- * @param[in,out] io The IO interface.
- *
- * @return The char.
- */
-char st_io_getc(StIo* io);
-
-/**
- * @fn int st_io_vprint(StIo* io, const char* fmt, va_list va)
- *
- * @brief Convert data from a va_list and write it with an IO interface.
- *
- * @param[in,out] io The IO interface.
- * @param[in] fmt The format string.
- * @param[in] va The va_list.
- */
-int st_io_vprint(StIo* io, const char* fmt, va_list va);
-
-/**
- * @fn int st_io_print(StIo* io, const char* fmt, ...)
- *
- * @brief Convert data from "..." and write it with an IO interface.
- *
- * @param[in,out] io The IO interface.
- * @param[in] fmt The format string.
- * @param[in] ... The data.
- */
-int st_io_print(StIo* io, const char* fmt, ...);
-
-/**
- * @fn char* st_io_fgets(char* str, int size, StIo* io)
- *
- * @brief Read a number of characters with an IO interface to a string.
- *
- * @param[in,out] str The destination string.
- * @param[in] size The number of characters to read.
- * @param[in] io The IO interface.
- *
- * @return io The destination string.
- */
-char* st_io_fgets(char* str, int size, StIo* io);
+static inline char* st_iocontig_front(struct StIo* io)
+{
+	return (char*)&((struct StIoBuffer*)io)[1];
+}
 
 #endif /* ST_IO_BUFFER_H */

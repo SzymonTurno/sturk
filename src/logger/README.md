@@ -10,7 +10,7 @@ see [basis](https://szymonturno.github.io/sturk/md_src_2basis_2README.html).
 TEST(logger, should_write_to_memory_buffer)
 {
         StIoBuffer buff[iobuffer_calclen(32)] = {0};
-        StIo* io = io_init(buff);
+        struct StIo* io = io_init(buff);
 
         logger_attach(INFO, io);
         trace(INFO, "Alice", "%x", 0xDEADBEEF);
