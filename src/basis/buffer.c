@@ -29,29 +29,40 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef BASIS_IO_H
-#define BASIS_IO_H
-
-#include "sturk/arith.h"
-#include "sturk/bits.h"
 #include "sturk/io/buffer.h"
+#include "sturk/debug.h"
 
-#define USR_MODE_MASK BIT(0)
-
-union StIo {
-	struct {
-		const struct StIoVt* vp;
-		union {
-			VxBits flags;
-			void* align;
-		} u;
-	} s;
-	StAlign align;
-};
-
-static inline void* getp(StIo* io)
+static void buffer_putc(struct StIo* vp, char c)
 {
-	return (io->s.u.flags & USR_MODE_MASK) ? *(void**)&io[1] : &io[1];
+	struct StIoBuffer* buff = (struct StIoBuffer*)vp;
+
+	ASSERT(buff);
+	ASSERT(buff->cp);
+	*buff->cp++ = c;
 }
 
-#endif /* BASIS_IO_H */
+static char buffer_getc(struct StIo* vp)
+{
+	struct StIoBuffer* buff = (struct StIoBuffer*)vp;
+	char c = 0;
+
+	ASSERT(buff);
+	ASSERT(buff->cp);
+	c = *buff->cp;
+	if (c != IO_EOF)
+		++buff->cp;
+	return c;
+}
+
+struct StIo* st_iobuffer_init(struct StIoBuffer* buff)
+{
+	struct StIo* ret = (struct StIo*)buff;
+
+	VX_ENSURE_MEM(ret);
+	/* Ensure `struct StIo` is the first member of `struct StIoBuffer`. */
+	ASSERT(ret == &buff->_vt);
+	ret->putc_cb = buffer_putc;
+	ret->getc_cb = buffer_getc;
+	buff->cp = (char*)&buff[1];
+	return ret;
+}

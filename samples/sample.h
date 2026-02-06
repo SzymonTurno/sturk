@@ -1,10 +1,11 @@
 #ifndef PUBSUB_H
 #define PUBSUB_H
 
-#include "sturk/io/buffer.h"
+#include "sturk/io/api.h"
 #include "sturk/str.h"
+#include <stdio.h>
 
-extern const struct StIoVt SAMPLE_FILE_API[];
+struct StIo* iofile_create(FILE* fp);
 
 struct StStrQ* single_thread_pubsub(void);
 

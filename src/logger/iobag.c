@@ -31,13 +31,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "sturk/debug.h"
 #include "sturk/graph.h"
+#include "sturk/io/api.h"
 #include "sturk/io/bag.h"
-#include "sturk/io/buffer.h"
 #include "sturk/list.h"
 #include "sturk/os/mem.h"
 #include "sturk/os/mutex.h"
 
-LIST(struct IoList, StIo*);
+LIST(struct IoList, struct StIo*);
 
 struct StIoBag {
 	struct IoList* head;
@@ -83,7 +83,7 @@ void st_iobag_destroy(StIoBag* bag)
 	}
 }
 
-void st_iobag_ins(StIoBag* bag, StIo* io)
+void st_iobag_ins(StIoBag* bag, struct StIo* io)
 {
 	struct IoList* entry = NULL;
 
@@ -98,7 +98,7 @@ void st_iobag_ins(StIoBag* bag, StIo* io)
 	}
 }
 
-void st_iobag_rem(StIoBag* bag, StIo* io)
+void st_iobag_rem(StIoBag* bag, struct StIo* io)
 {
 	ASSERT(bag);
 	mutex_lock(bag->mutex);

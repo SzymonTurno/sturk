@@ -29,76 +29,20 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "basis/io.h"
 #include "sturk/debug.h"
+#include "sturk/io/api.h"
 
-static void stream_putc(void* p, char c)
+void st_io_putc(struct StIo* io, char c)
 {
-	char** s = p;
-
-	*(*s)++ = c;
+	io->putc_cb(io, c);
 }
 
-static char stream_getc(void* p)
+char st_io_getc(struct StIo* io)
 {
-	char** s = p;
-	char c = **s;
-
-	if (c != IO_EOF)
-		++(*s);
-	return c;
+	return io->getc_cb(io);
 }
 
-static const struct StIoVt STREAM_API[] = {
-	{.putc_cb = stream_putc, .getc_cb = stream_getc}};
-
-const char* st_iobuffer_front(const StIoBuffer* buff)
-{
-	const StIo* io = (const StIo*)buff;
-	const char** s = NULL;
-
-	VX_ENSURE_MEM(buff);
-	s = (const char**)&io[1];
-	return (const char*)&s[1];
-}
-
-StIo* st_io_init(StIoBuffer* buff)
-{
-	StIo* io = (StIo*)buff;
-	char** s = NULL;
-
-	VX_ENSURE_MEM(buff);
-	io->s.vp = STREAM_API;
-	io->s.u.flags = 0;
-	s = (char**)&io[1];
-	*s = (char*)&s[1];
-	return io;
-}
-
-void st_io_setp(StIo* io, void* p)
-{
-	ASSERT(io);
-	io->s.u.flags |= USR_MODE_MASK;
-	*(void**)&io[1] = p;
-}
-
-void st_io_setvp(StIo* io, const struct StIoVt* vp)
-{
-	ASSERT(io);
-	io->s.vp = vp;
-}
-
-void st_io_putc(StIo* io, char c)
-{
-	io->s.vp->putc_cb(getp(io), c);
-}
-
-char st_io_getc(StIo* io)
-{
-	return io->s.vp->getc_cb(getp(io));
-}
-
-char* st_io_fgets(char* str, int size, StIo* io)
+char* st_io_fgets(char* str, int size, struct StIo* io)
 {
 	char c = '\0';
 	char* ret = str;

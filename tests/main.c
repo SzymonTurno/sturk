@@ -5,6 +5,7 @@
 #include "sturk/cirq.h"
 #include "sturk/dict.h"
 #include "sturk/graph.h"
+#include "sturk/io/api.h"
 #include "sturk/io/bag.h"
 #include "sturk/io/buffer.h"
 #include "sturk/os/mutex.h"
@@ -43,7 +44,7 @@ const struct StMemVt STURK_MEM_API[] = {{.alloc_cb = malloc, .free_cb = free}};
 extern void run_vertegs_tests(void);
 extern void run_traffic_tests(void);
 
-SIMPTE_IO_DCL(debug, 512);
+static struct StIo SIMPTE_IO(debug)[iocontig_calclen(512)];
 
 TEST_SETUP(basis)
 {
@@ -56,9 +57,9 @@ TEST_GROUP(basis);
 
 TEST_SETUP(osal)
 {
-	SIMPTE_IO_INIT(debug);
+	iobuffer_init((struct StIoBuffer*)SIMPTE_IO(debug));
 	io_putc(SIMPTE_IO(debug), IO_EOF);
-	SIMPTE_IO_INIT(debug);
+	iobuffer_init((struct StIoBuffer*)SIMPTE_IO(debug));
 	printf("\n");
 }
 TEST_TEAR_DOWN(osal)
@@ -158,16 +159,17 @@ TEST(basis, should_alloc_null_from_null_arena)
 	TEST_ASSERT_NULL(ARENA_ALLOC(NULL, 0));
 }
 
-TEST(basis, should_calculate_iobuffer_length)
+TEST(basis, should_calculate_iocontig_length)
 {
-	const size_t remain = sizeof(StAlign) - sizeof(char*);
+	const size_t remain = sizeof(struct StIoBuffer) - sizeof(struct StIo);
 
-	TEST_ASSERT_EQUAL_INT(3, iobuffer_calclen(0));
-	TEST_ASSERT_EQUAL_INT(3, iobuffer_calclen(remain));
-	TEST_ASSERT_EQUAL_INT(4, iobuffer_calclen(remain + 1));
-	TEST_ASSERT_EQUAL_INT(4, iobuffer_calclen(remain + sizeof(StAlign)));
+	TEST_ASSERT_EQUAL_INT(2, iocontig_calclen(0));
+	TEST_ASSERT_EQUAL_INT(2, iocontig_calclen(remain));
+	TEST_ASSERT_EQUAL_INT(3, iocontig_calclen(remain + 1));
 	TEST_ASSERT_EQUAL_INT(
-		5, iobuffer_calclen(remain + sizeof(StAlign) + 1));
+		3, iocontig_calclen(remain + sizeof(struct StIo)));
+	TEST_ASSERT_EQUAL_INT(
+		4, iocontig_calclen(remain + sizeof(struct StIo) + 1));
 }
 
 TEST(basis, should_write_to_memory_buffer)
@@ -175,10 +177,11 @@ TEST(basis, should_write_to_memory_buffer)
 	char out[16] = {0};
 
 	/* Allocate sixteen bytes plus metadata for the memory buffer. */
-	StIoBuffer buff[iobuffer_calclen(sizeof(out))] = {0};
+	struct StIo io[iocontig_calclen(sizeof(out))] = {0};
+	struct StIoBuffer* tmp = (struct StIoBuffer*)io;
 
 	/* Initialize the memory buffer. */
-	StIo* io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 
 	/* Print "deadbeef" to the memory buffer. */
 	io_print(io, "%x", 0xDEADBEEF);
@@ -187,7 +190,7 @@ TEST(basis, should_write_to_memory_buffer)
 	io_putc(io, IO_EOF);
 
 	/* Initialize the memory buffer again to read from the beginning. */
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 
 	/* Read the buffer. */
 	TEST_ASSERT_EQUAL_STRING("deadbeef", io_fgets(out, sizeof(out), io));
@@ -196,46 +199,47 @@ TEST(basis, should_write_to_memory_buffer)
 TEST(basis, should_mimic_sprintf_with_io)
 {
 	char out[256] = {0};
-	StIoBuffer buff[iobuffer_calclen(sizeof(out))] = {0};
-	StIo* io = io_init(buff);
+	struct StIo io[iocontig_calclen(sizeof(out))] = {0};
 
-	TEST_ASSERT_EQUAL_INT(sizeof(out) + 3 * sizeof(StAlign), sizeof(buff));
+	iobuffer_init((struct StIoBuffer*)io);
+	TEST_ASSERT_GREATER_OR_EQUAL_INT(
+		sizeof(out) + sizeof(struct StIoBuffer), sizeof(io));
 	io_print(io, "one ");
 	io_print(io, "two \nthree");
 	io_print(io, " %d;%u;%x", -3000L, 200, 10);
 	io_putc(io, IO_EOF);
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_EQUAL_STRING("one two \n", io_fgets(out, sizeof(out), io));
 	TEST_ASSERT_EQUAL_STRING(
 		"three -3000;200;a", io_fgets(out, sizeof(out), io));
 	TEST_ASSERT_NULL(io_fgets(out, sizeof(out), io));
 	TEST_ASSERT_EQUAL_INT('t', out[0]);
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_EQUAL_INT(20, io_print(io, "%020lu", 14));
 	io_putc(io, IO_EOF);
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_EQUAL_STRING(
 		"00000000000000000014", io_fgets(out, sizeof(out), io));
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_EQUAL_INT(20, io_print(io, "%020ld", -14L));
 	io_putc(io, IO_EOF);
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_EQUAL_STRING(
 		"-0000000000000000014", io_fgets(out, sizeof(out), io));
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_EQUAL_INT(7, io_print(io, "%07lX", 11));
 	io_putc(io, IO_EOF);
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_EQUAL_STRING("000000B", io_fgets(out, sizeof(out), io));
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_EQUAL_INT(10, io_print(io, "%c:%%:%s", 's', "string"));
 	io_putc(io, IO_EOF);
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_EQUAL_STRING("s:%:string", io_fgets(out, sizeof(out), io));
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_EQUAL_INT(0, io_print(io, "%f%01b%", 3.14));
 	io_putc(io, IO_EOF);
-	io = io_init(buff);
+	iobuffer_init((struct StIoBuffer*)io);
 	TEST_ASSERT_NULL(io_fgets(out, sizeof(out), io));
 	TEST_ASSERT_EQUAL_INT('s', out[0]);
 }
@@ -249,17 +253,15 @@ TEST(basis, should_read_from_file)
 		"quis nostrud exercitation ullamco laboris nisi ut\n",
 		"aliquip ex ea commodo consequat.\n"};
 	char out[256] = {0};
-	StIoBuffer buff[iobuffer_calclen(0)] = {0};
-	StIo* io = io_init(buff);
 	FILE* fp = fopen(LOREM_TXT, "r");
+	struct StIo* io = iofile_create(fp);
 
-	io_setp(io, fp);
-	io_setvp(io, SAMPLE_FILE_API);
 	for (int i = 0; i < ARRAY_SIZE(expected); i++)
 		TEST_ASSERT_EQUAL_STRING(
 			expected[i], io_fgets(out, sizeof(out), io));
 	TEST_ASSERT_NULL(io_fgets(out, sizeof(out), io));
 	TEST_ASSERT_EQUAL_INT(expected[4][0], out[0]);
+	st_free(io);
 	fclose(fp);
 }
 
@@ -267,18 +269,16 @@ TEST(basis, should_write_to_file)
 {
 	const char* filename = "sturk_tests_delete_me.txt";
 	char out[256] = {0};
-	StIoBuffer buff[iobuffer_calclen(0)] = {0};
-	StIo* io = io_init(buff);
 	FILE* fp = fopen(filename, "w");
+	struct StIo* io = iofile_create(fp);
 
-	io_setp(io, fp);
-	io_setvp(io, SAMPLE_FILE_API);
 	io_print(io, "%d;%u;%x\n", -3000L, 200, 10);
 	fclose(fp);
 	fp = fopen(filename, "r");
 	TEST_ASSERT_EQUAL_STRING("-3000;200;a\n", fgets(out, sizeof(out), fp));
 	TEST_ASSERT_NULL(fgets(out, sizeof(out), fp));
 	TEST_ASSERT_EQUAL_INT('-', out[0]);
+	st_free(io);
 	fclose(fp);
 	remove(filename);
 }
@@ -334,7 +334,7 @@ TEST_GROUP_RUNNER(basis)
 	RUN_TEST_CASE(basis, should_allocate_nonoverlapping_blocks_from_arena);
 	RUN_TEST_CASE(basis, should_allocate_freed_memory_from_arena);
 	RUN_TEST_CASE(basis, should_alloc_null_from_null_arena);
-	RUN_TEST_CASE(basis, should_calculate_iobuffer_length);
+	RUN_TEST_CASE(basis, should_calculate_iocontig_length);
 	RUN_TEST_CASE(basis, should_write_to_memory_buffer);
 	RUN_TEST_CASE(basis, should_mimic_sprintf_with_io);
 	RUN_TEST_CASE(basis, should_read_from_file);
@@ -499,10 +499,10 @@ TEST_GROUP_RUNNER(osal)
 TEST(logger, should_remove_io_when_destroying_iobag)
 {
 	char out[16] = {0};
-	StIoBuffer buff[iobuffer_calclen(sizeof(out))] = {0};
-	StIo* io = io_init(buff);
+	struct StIo io[iocontig_calclen(sizeof(out))] = {0};
 	StIoBag* bag = iobag_create();
 
+	iobuffer_init((struct StIoBuffer*)io);
 	iobag_ins(bag, io);
 	iobag_destroy(bag);
 }
@@ -534,14 +534,14 @@ TEST(logger, should_ignore_detached_trace_levels)
 
 TEST(logger, should_write_to_memory_buffer)
 {
-	StIoBuffer buff[iobuffer_calclen(32)] = {0};
-	StIo* io = io_init(buff);
+	struct StIo io[iocontig_calclen(32)] = {0};
 
+	iobuffer_init((struct StIoBuffer*)io);
 	logger_attach(INFO, io);
 	trace(INFO, "Alice", "%x", 0xDEADBEEF);
 	io_putc(io, '\0');
 	TEST_ASSERT_EQUAL_STRING(
-		"[info][Alice] deadbeef\n", iobuffer_front(buff));
+		"[info][Alice] deadbeef\n", iocontig_front(io));
 	logger_detach(INFO, io);
 }
 

@@ -85,7 +85,7 @@ void st_trace(enum StTraceLvl lvl, const char* tag, const char* fmt, ...)
 	st_free(buff);
 }
 
-void st_logger_attach(enum StTraceLvl lvl, StIo* io)
+void st_logger_attach(enum StTraceLvl lvl, struct StIo* io)
 {
 	ASSERT_LVL(lvl);
 	if (!iobags[lvl])
@@ -93,7 +93,7 @@ void st_logger_attach(enum StTraceLvl lvl, StIo* io)
 	iobag_ins(iobags[lvl], io);
 }
 
-void st_logger_detach(enum StTraceLvl lvl, StIo* io)
+void st_logger_detach(enum StTraceLvl lvl, struct StIo* io)
 {
 	ASSERT_LVL(lvl);
 	ASSERT(iobag_count(iobags[lvl]));
