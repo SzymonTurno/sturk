@@ -109,7 +109,7 @@ class Olrule:
 
 class Olvars:
     def __init__(self, root: str, yamls: list):
-        self.__root = os.path.normpath(os.path.dirname(root))
+        self.__root = os.path.normpath(root)
         self.__cwd = '.'
         self.__constraints = []
         self.__settings = {}

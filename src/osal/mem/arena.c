@@ -65,14 +65,12 @@ static void freemem(void* ptr)
 	(void)ptr;
 }
 
-const struct StMemVt MEM_API[] = {{.alloc_cb = getmem, .free_cb = freemem}};
-
 void* st_mem_alloc(size_t size, const char* file, int line)
 {
 	void* ret = NULL;
 
 	if (!arena) {
-		arena = arena_create(&arena_gc, MEM_API);
+		arena = arena_create(&arena_gc, getmem, freemem);
 		mutex = mutex_create(ST_MUTEX_POLICY_PRIO_INHERIT);
 	}
 
