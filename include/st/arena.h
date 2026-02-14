@@ -107,16 +107,17 @@ struct StArenaGc {
 	st_arena_alloc(arena, size, __FILE__, __LINE__)
 
 /**
- * @fn StArena* st_arena_create(struct StArenaGc* gc, const struct StMemVt* vp)
+ * @fn StArena* st_arena_create(struct StArenaGc* gc, void* (*alloc_cb)(size_t), void (*free_cb)(void*))
  *
  * @brief Create an arena.
  *
  * @param[in,out] gc Arena garbage collector.
- * @param[in] vp The memory allocator vtable.
+ * @param[in] alloc_cb Callback for allocating memory.
+ * @param[in] free_cb Callback for freeing memory.
  *
  * @return The pointer to the new arena.
  */
-StArena* st_arena_create(struct StArenaGc* gc, const struct StMemVt* vp);
+StArena* st_arena_create(struct StArenaGc* gc, void* (*alloc_cb)(size_t), void (*free_cb)(void*));
 
 /**
  * @fn void st_arena_destroy(StArena* arena)

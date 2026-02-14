@@ -109,7 +109,7 @@ TEST(basis, should_destroy_null)
 TEST(basis, should_allocate_aligned_memory_from_arena)
 {
 	struct StArenaGc gc = {0};
-	StArena* arena = arena_create(&gc, STURK_MEM_API);
+	StArena* arena = arena_create(&gc, malloc, free);
 	void* buffs[8] = {0};
 
 	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
@@ -124,7 +124,7 @@ TEST(basis, should_allocate_aligned_memory_from_arena)
 TEST(basis, should_allocate_nonoverlapping_blocks_from_arena)
 {
 	struct StArenaGc gc = {0};
-	StArena* arena = arena_create(&gc, STURK_MEM_API);
+	StArena* arena = arena_create(&gc, malloc, free);
 	void* buffs[15] = {0};
 
 	for (int i = 0; i < ARRAY_SIZE(buffs); i++) {
@@ -142,7 +142,7 @@ TEST(basis, should_allocate_nonoverlapping_blocks_from_arena)
 TEST(basis, should_allocate_freed_memory_from_arena)
 {
 	struct StArenaGc gc = {0};
-	StArena* arena = arena_create(&gc, STURK_MEM_API);
+	StArena* arena = arena_create(&gc, malloc, free);
 	void* buff = ARENA_ALLOC(arena, 64);
 
 	memset(buff, 0xbe, 64);
@@ -286,7 +286,7 @@ TEST(basis, should_write_to_file)
 TEST(basis, should_support_many_allocations_from_arena)
 {
 	struct StArenaGc gc = {0};
-	StArena* arena = arena_create(&gc, STURK_MEM_API);
+	StArena* arena = arena_create(&gc, malloc, free);
 
 	for (int i = 0; i < 2048; i++)
 		TEST_ASSERT_NOT_NULL(ARENA_ALLOC(arena, 128));
@@ -311,13 +311,10 @@ static void test_free(void* ptr)
 	(void)ptr;
 }
 
-static const struct StMemVt TEST_MEM_API[] = {
-	{.alloc_cb = test_malloc, .free_cb = test_free}};
-
 TEST(basis, should_return_null_from_arena)
 {
 	struct StArenaGc gc = {0};
-	StArena* arena = arena_create(&gc, TEST_MEM_API);
+	StArena* arena = arena_create(&gc, test_malloc, test_free);
 
 	ut_pause_catching();
 	TEST_ASSERT_NULL(ARENA_ALLOC(arena, 1));
