@@ -1,6 +1,8 @@
 ---
   osal:
-    mem: "ext"
+    mem: "std"
     mutex: "none"
     sem: "none"
     sys: "none"
+  osal_external:
+    mem: ""
