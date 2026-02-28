@@ -24,6 +24,19 @@ CONSTRAINTS = [
     ),
 ]
 
+def join_external_memfile(olvars):
+    sturk_path = olvars.acwd().split()[0].split()[0]
+    tmp = sturk_path
+    relpath = olvars.settings()['relative_path']
+
+    while os.path.join(tmp, relpath, 'src', 'osal') != olvars.acwd():
+        tmp = tmp.split()[0]
+
+    olvars.append(
+        'sturk_OBJS',
+        os.path.join(tmp, olvars.settings()['osal_external']['mem']) + '.o'
+    )
+
 def join(olvars):
     settings = olvars.settings()
 
@@ -37,15 +50,23 @@ def join(olvars):
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd(), 'mutex'))
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd(), 'sem'))
     olvars.append('sturk_BLDDIRS', os.path.join(olvars.cwd(), 'sys'))
+    if settings['osal_external']['mem'] != "":
+        join_external_memfile(olvars)
+    else:
+        olvars.append(
+            'sturk_OBJS',
+            os.path.join(olvars.cwd(), 'mem', settings['osal']['mem'] + '.o')
+        )
+
     olvars.append(
         'sturk_OBJS',
-        os.path.join(olvars.cwd(), 'mem', settings['osal']['mem'] + '.o'))
+        os.path.join(olvars.cwd(), 'mutex', settings['osal']['mutex'] + '.o')
+    )
     olvars.append(
         'sturk_OBJS',
-        os.path.join(olvars.cwd(), 'mutex', settings['osal']['mutex'] + '.o'))
+        os.path.join(olvars.cwd(), 'sem', settings['osal']['sem'] + '.o')
+    )
     olvars.append(
         'sturk_OBJS',
-        os.path.join(olvars.cwd(), 'sem', settings['osal']['sem'] + '.o'))
-    olvars.append(
-        'sturk_OBJS',
-        os.path.join(olvars.cwd(), 'sys', settings['osal']['sys'] + '.o'))
+        os.path.join(olvars.cwd(), 'sys', settings['osal']['sys'] + '.o')
+    )
