@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.2</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.3</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -129,14 +129,16 @@ Include dependency graph for buffer.h:</div>
 <div class="center"><img src="rk_2io_2buffer_8h__incl.png" border="0" usemap="#asturk_2io_2buffer_8h" alt=""/></div>
 <map name="asturk_2io_2buffer_8h" id="asturk_2io_2buffer_8h">
 <area shape="rect" title=" " alt="" coords="34,5,158,31"/>
-<area shape="rect" href="io_2buffer_8h.html" title="Input/output operations interface." alt="" coords="45,79,147,104"/>
+<area shape="rect" href="io_2buffer_8h.html" title="Memory buffer stream." alt="" coords="45,79,147,104"/>
 <area shape="poly" title=" " alt="" coords="99,31,99,65,93,65,93,31"/>
-<area shape="rect" href="st_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="5,152,85,177"/>
-<area shape="poly" title=" " alt="" coords="90,106,64,142,59,139,85,103"/>
-<area shape="rect" title=" " alt="" coords="109,152,184,177"/>
-<area shape="poly" title=" " alt="" coords="107,103,133,139,128,142,102,106"/>
-<area shape="rect" title=" " alt="" coords="10,225,81,251"/>
-<area shape="poly" title=" " alt="" coords="48,178,48,212,43,212,43,178"/>
+<area shape="rect" href="io_2api_8h.html" title="Input/output (IO) operations interface." alt="" coords="53,152,139,177"/>
+<area shape="poly" title=" " alt="" coords="99,104,99,138,93,138,93,104"/>
+<area shape="rect" href="st_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="5,225,85,251"/>
+<area shape="poly" title=" " alt="" coords="90,179,64,216,59,213,85,176"/>
+<area shape="rect" title=" " alt="" coords="109,225,184,251"/>
+<area shape="poly" title=" " alt="" coords="107,176,133,213,128,216,102,179"/>
+<area shape="rect" title=" " alt="" coords="10,299,81,324"/>
+<area shape="poly" title=" " alt="" coords="48,251,48,285,43,285,43,251"/>
 </map>
 </div>
 </div>
@@ -144,31 +146,17 @@ Include dependency graph for buffer.h:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a1ad4745566765732720df309e6505dc7" id="r_a1ad4745566765732720df309e6505dc7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#a1ad4745566765732720df309e6505dc7">IO_EOF</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#afc0473b7d11e5c3954a5b16f3bbc57ee">ST_IO_EOF</a></td></tr>
+<tr class="memitem:a1ad4745566765732720df309e6505dc7" id="r_a1ad4745566765732720df309e6505dc7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#a1ad4745566765732720df309e6505dc7">IO_EOF</a>&#160;&#160;&#160;<a class="el" href="io_2api_8h.html#afc0473b7d11e5c3954a5b16f3bbc57ee">ST_IO_EOF</a></td></tr>
 <tr class="separator:a1ad4745566765732720df309e6505dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5d150b241a5aa4b6aa59de74f12375f" id="r_ae5d150b241a5aa4b6aa59de74f12375f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#ae5d150b241a5aa4b6aa59de74f12375f">iobuffer_calclen</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a8db207038584a57db44e3dc4e0d8f82e">st_iobuffer_calclen</a></td></tr>
-<tr class="separator:ae5d150b241a5aa4b6aa59de74f12375f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e827dbfc90dc060c8dd0f9e96270a2b" id="r_a2e827dbfc90dc060c8dd0f9e96270a2b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#a2e827dbfc90dc060c8dd0f9e96270a2b">iobuffer_front</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a7427a751fd8874ea9c288cb321952eab">st_iobuffer_front</a></td></tr>
-<tr class="separator:a2e827dbfc90dc060c8dd0f9e96270a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79a30883993f50b21f34dd1ec7b41bc2" id="r_a79a30883993f50b21f34dd1ec7b41bc2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#a79a30883993f50b21f34dd1ec7b41bc2">io_init</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a60c9c6d33dd8e2a4b1270abcb769ae4c">st_io_init</a></td></tr>
-<tr class="separator:a79a30883993f50b21f34dd1ec7b41bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64641638a94ff6a8110f696295494df1" id="r_a64641638a94ff6a8110f696295494df1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#a64641638a94ff6a8110f696295494df1">io_setp</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a75b68fa4054f3554ece3714848950f0c">st_io_setp</a></td></tr>
-<tr class="separator:a64641638a94ff6a8110f696295494df1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63c63fbbbd88dd3030930ee5e3c83aaf" id="r_a63c63fbbbd88dd3030930ee5e3c83aaf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#a63c63fbbbd88dd3030930ee5e3c83aaf">io_setvp</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a599087cc55b7a5bd04f9e8450e194cd0">st_io_setvp</a></td></tr>
-<tr class="separator:a63c63fbbbd88dd3030930ee5e3c83aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2d54eb7d5b02e99876283c07617b39c" id="r_ab2d54eb7d5b02e99876283c07617b39c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#ab2d54eb7d5b02e99876283c07617b39c">io_putc</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#afc7d5cbd07423934d2f2c59b7723e7ae">st_io_putc</a></td></tr>
-<tr class="separator:ab2d54eb7d5b02e99876283c07617b39c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1daa59e62c141cb97f0705102f2c7666" id="r_a1daa59e62c141cb97f0705102f2c7666"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#a1daa59e62c141cb97f0705102f2c7666">io_getc</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a7372ba2d1a4512293b5b96425c0aa7b3">st_io_getc</a></td></tr>
-<tr class="separator:a1daa59e62c141cb97f0705102f2c7666"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5187a18dba043a575d7c9607611d91ca" id="r_a5187a18dba043a575d7c9607611d91ca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#a5187a18dba043a575d7c9607611d91ca">io_vprint</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a7e2e8f72655ea54477a7c7908aff5e2e">st_io_vprint</a></td></tr>
-<tr class="separator:a5187a18dba043a575d7c9607611d91ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac487212cdc411aac8a91fde9bf628a90" id="r_ac487212cdc411aac8a91fde9bf628a90"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#ac487212cdc411aac8a91fde9bf628a90">io_print</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#af19b2cc0f509b82c322b8f9b3dd8183a">st_io_print</a></td></tr>
-<tr class="separator:ac487212cdc411aac8a91fde9bf628a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1a0cfb206e903414f1809294f94456a" id="r_ad1a0cfb206e903414f1809294f94456a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#ad1a0cfb206e903414f1809294f94456a">io_fgets</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#af3231c0614ae109e8a205901c21d7bad">st_io_fgets</a></td></tr>
-<tr class="separator:ad1a0cfb206e903414f1809294f94456a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6288a1a7aef281fdec848ae977f053d" id="r_ad6288a1a7aef281fdec848ae977f053d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#ad6288a1a7aef281fdec848ae977f053d">iobuffer_init</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#af7d163e436d34fcb107c37d6272ebfdd">st_iobuffer_init</a></td></tr>
+<tr class="separator:ad6288a1a7aef281fdec848ae977f053d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff55dd74df7be066c0e6a7eff6f3380c" id="r_aff55dd74df7be066c0e6a7eff6f3380c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#aff55dd74df7be066c0e6a7eff6f3380c">iocontig_calclen</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#afcec4ec81301c0be55056011382788c1">st_iocontig_calclen</a></td></tr>
+<tr class="separator:aff55dd74df7be066c0e6a7eff6f3380c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b6c918a97eed64d089c00eaff104779" id="r_a8b6c918a97eed64d089c00eaff104779"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2buffer_8h.html#a8b6c918a97eed64d089c00eaff104779">iocontig_front</a>&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a464c435186406c658924245c63dd80ab">st_iocontig_front</a></td></tr>
+<tr class="separator:a8b6c918a97eed64d089c00eaff104779"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html" title="Input/output operations interface.">st/io/buffer.h</a> </dd></dl>
+<div class="textblock"><dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html" title="Memory buffer stream.">st/io/buffer.h</a> </dd></dl>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a1ad4745566765732720df309e6505dc7" name="a1ad4745566765732720df309e6505dc7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1ad4745566765732720df309e6505dc7">&#9670;&#160;</a></span>IO_EOF</h2>
@@ -177,161 +165,56 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define IO_EOF&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#afc0473b7d11e5c3954a5b16f3bbc57ee">ST_IO_EOF</a></td>
+          <td class="memname">#define IO_EOF&#160;&#160;&#160;<a class="el" href="io_2api_8h.html#afc0473b7d11e5c3954a5b16f3bbc57ee">ST_IO_EOF</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#afc0473b7d11e5c3954a5b16f3bbc57ee" title="End of file.">ST_IO_EOF</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2api_8h.html#afc0473b7d11e5c3954a5b16f3bbc57ee" title="End of file.">ST_IO_EOF</a> </dd></dl>
 
 </div>
 </div>
-<a id="ad1a0cfb206e903414f1809294f94456a" name="ad1a0cfb206e903414f1809294f94456a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1a0cfb206e903414f1809294f94456a">&#9670;&#160;</a></span>io_fgets</h2>
+<a id="ad6288a1a7aef281fdec848ae977f053d" name="ad6288a1a7aef281fdec848ae977f053d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6288a1a7aef281fdec848ae977f053d">&#9670;&#160;</a></span>iobuffer_init</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define io_fgets&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#af3231c0614ae109e8a205901c21d7bad">st_io_fgets</a></td>
+          <td class="memname">#define iobuffer_init&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#af7d163e436d34fcb107c37d6272ebfdd">st_iobuffer_init</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#af3231c0614ae109e8a205901c21d7bad" title="Read a number of characters with an IO interface to a string.">st_io_fgets()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#af7d163e436d34fcb107c37d6272ebfdd" title="Initialize a memory buffer stream.">st_iobuffer_init()</a> </dd></dl>
 
 </div>
 </div>
-<a id="a1daa59e62c141cb97f0705102f2c7666" name="a1daa59e62c141cb97f0705102f2c7666"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1daa59e62c141cb97f0705102f2c7666">&#9670;&#160;</a></span>io_getc</h2>
+<a id="aff55dd74df7be066c0e6a7eff6f3380c" name="aff55dd74df7be066c0e6a7eff6f3380c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff55dd74df7be066c0e6a7eff6f3380c">&#9670;&#160;</a></span>iocontig_calclen</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define io_getc&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a7372ba2d1a4512293b5b96425c0aa7b3">st_io_getc</a></td>
+          <td class="memname">#define iocontig_calclen&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#afcec4ec81301c0be55056011382788c1">st_iocontig_calclen</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#a7372ba2d1a4512293b5b96425c0aa7b3" title="Read a single char with an IO interface.">st_io_getc()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#afcec4ec81301c0be55056011382788c1" title="Calculate the length of struct StIo array.">st_iocontig_calclen()</a> </dd></dl>
 
 </div>
 </div>
-<a id="a79a30883993f50b21f34dd1ec7b41bc2" name="a79a30883993f50b21f34dd1ec7b41bc2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79a30883993f50b21f34dd1ec7b41bc2">&#9670;&#160;</a></span>io_init</h2>
+<a id="a8b6c918a97eed64d089c00eaff104779" name="a8b6c918a97eed64d089c00eaff104779"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b6c918a97eed64d089c00eaff104779">&#9670;&#160;</a></span>iocontig_front</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define io_init&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a60c9c6d33dd8e2a4b1270abcb769ae4c">st_io_init</a></td>
+          <td class="memname">#define iocontig_front&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a464c435186406c658924245c63dd80ab">st_iocontig_front</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#a60c9c6d33dd8e2a4b1270abcb769ae4c" title="Initialize an IO interface from a memory buffer.">st_io_init()</a> </dd></dl>
-
-</div>
-</div>
-<a id="ac487212cdc411aac8a91fde9bf628a90" name="ac487212cdc411aac8a91fde9bf628a90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac487212cdc411aac8a91fde9bf628a90">&#9670;&#160;</a></span>io_print</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define io_print&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#af19b2cc0f509b82c322b8f9b3dd8183a">st_io_print</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#af19b2cc0f509b82c322b8f9b3dd8183a" title="Convert data from &quot;...&quot; and write it with an IO interface.">st_io_print()</a> </dd></dl>
-
-</div>
-</div>
-<a id="ab2d54eb7d5b02e99876283c07617b39c" name="ab2d54eb7d5b02e99876283c07617b39c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2d54eb7d5b02e99876283c07617b39c">&#9670;&#160;</a></span>io_putc</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define io_putc&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#afc7d5cbd07423934d2f2c59b7723e7ae">st_io_putc</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#afc7d5cbd07423934d2f2c59b7723e7ae" title="Write a single char with an IO interface.">st_io_putc()</a> </dd></dl>
-
-</div>
-</div>
-<a id="a64641638a94ff6a8110f696295494df1" name="a64641638a94ff6a8110f696295494df1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64641638a94ff6a8110f696295494df1">&#9670;&#160;</a></span>io_setp</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define io_setp&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a75b68fa4054f3554ece3714848950f0c">st_io_setp</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#a75b68fa4054f3554ece3714848950f0c" title="Set the pointer that is passed to the IO operations.">st_io_setp()</a> </dd></dl>
-
-</div>
-</div>
-<a id="a63c63fbbbd88dd3030930ee5e3c83aaf" name="a63c63fbbbd88dd3030930ee5e3c83aaf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63c63fbbbd88dd3030930ee5e3c83aaf">&#9670;&#160;</a></span>io_setvp</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define io_setvp&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a599087cc55b7a5bd04f9e8450e194cd0">st_io_setvp</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#a599087cc55b7a5bd04f9e8450e194cd0" title="Set the API for IO operations.">st_io_setvp()</a> </dd></dl>
-
-</div>
-</div>
-<a id="a5187a18dba043a575d7c9607611d91ca" name="a5187a18dba043a575d7c9607611d91ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5187a18dba043a575d7c9607611d91ca">&#9670;&#160;</a></span>io_vprint</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define io_vprint&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a7e2e8f72655ea54477a7c7908aff5e2e">st_io_vprint</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#a7e2e8f72655ea54477a7c7908aff5e2e" title="Convert data from a va_list and write it with an IO interface.">st_io_vprint()</a> </dd></dl>
-
-</div>
-</div>
-<a id="ae5d150b241a5aa4b6aa59de74f12375f" name="ae5d150b241a5aa4b6aa59de74f12375f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5d150b241a5aa4b6aa59de74f12375f">&#9670;&#160;</a></span>iobuffer_calclen</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define iobuffer_calclen&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a8db207038584a57db44e3dc4e0d8f82e">st_iobuffer_calclen</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#a8db207038584a57db44e3dc4e0d8f82e" title="Calculate the length of an iobuffer array.">st_iobuffer_calclen()</a> </dd></dl>
-
-</div>
-</div>
-<a id="a2e827dbfc90dc060c8dd0f9e96270a2b" name="a2e827dbfc90dc060c8dd0f9e96270a2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e827dbfc90dc060c8dd0f9e96270a2b">&#9670;&#160;</a></span>iobuffer_front</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define iobuffer_front&#160;&#160;&#160;<a class="el" href="io_2buffer_8h.html#a7427a751fd8874ea9c288cb321952eab">st_iobuffer_front</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#a7427a751fd8874ea9c288cb321952eab" title="Get the front of a memory buffer.">st_iobuffer_front()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2buffer_8h.html#a464c435186406c658924245c63dd80ab" title="Get the front of a memory buffer.">st_iocontig_front()</a> </dd></dl>
 
 </div>
 </div>

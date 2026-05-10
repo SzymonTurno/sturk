@@ -1,24 +1,24 @@
 <map id="st/io/except.h" name="st/io/except.h">
-<area shape="rect" id="Node000001" title="Exceptions." alt="" coords="161,5,271,31"/>
-<area shape="rect" id="Node000002" href="$io_2logger_8h.html" title="Trace." alt="" coords="101,79,208,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,33,176,70,172,66,204,29"/>
-<area shape="rect" id="Node000007" href="$os_2sys_8h.html" title="System procedures." alt="" coords="236,79,327,104"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="229,29,263,67,260,70,225,33"/>
-<area shape="rect" id="Node000003" href="$io_2buffer_8h.html" title="Input/output operations interface." alt="" coords="95,152,198,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="156,105,152,139,147,138,151,104"/>
+<area shape="rect" id="Node000001" title="Exceptions." alt="" coords="157,5,267,31"/>
+<area shape="rect" id="Node000002" href="$io_2logger_8h.html" title="Trace." alt="" coords="97,79,204,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,33,172,70,168,66,200,29"/>
+<area shape="rect" id="Node000007" href="$os_2sys_8h.html" title="System procedures." alt="" coords="231,79,321,104"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="225,29,259,67,255,70,221,33"/>
+<area shape="rect" id="Node000003" href="$io_2api_8h.html" title="Input/output (IO) operations interface." alt="" coords="103,152,190,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="153,104,151,139,145,138,147,104"/>
 <area shape="rect" id="Node000004" href="$st_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="5,225,85,251"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="132,180,75,219,72,215,129,175"/>
 <area shape="rect" id="Node000006" title=" " alt="" coords="109,225,184,251"/>
 <area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="149,178,149,212,144,212,144,178"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="98,299,169,324"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="61,249,110,288,107,292,58,253"/>
-<area shape="rect" id="Node000008" href="$vertex_8h.html" title="Vertex." alt="" coords="235,152,365,177"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="287,104,296,138,291,140,282,105"/>
-<area shape="poly" id="edge11_Node000008_Node000005" title=" " alt="" coords="288,180,159,292,155,287,285,176"/>
+<area shape="rect" id="Node000008" href="$vertex_8h.html" title="Vertex." alt="" coords="231,152,361,177"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="282,104,292,138,287,140,277,105"/>
+<area shape="poly" id="edge11_Node000008_Node000005" title=" " alt="" coords="284,180,158,292,155,288,281,176"/>
 <area shape="rect" id="Node000009" href="$vertegs_2bits_8h.html" title="Bits and bitfields." alt="" coords="259,225,370,251"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="305,177,312,211,307,212,300,178"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="302,177,311,212,306,213,297,178"/>
 <area shape="rect" id="Node000010" href="$vertegs_2debug_8h_source.html" title=" " alt="" coords="394,225,521,251"/>
-<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="326,175,420,217,418,222,324,180"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="323,175,420,217,417,222,321,180"/>
 <area shape="rect" id="Node000011" title=" " alt="" coords="420,299,495,324"/>
 <area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="460,251,460,285,455,285,455,251"/>
 </map>

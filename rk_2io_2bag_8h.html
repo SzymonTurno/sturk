@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.2</span>
+   <div id="projectname">Sturk<span id="projectnumber">&#160;1.2.3</span>
    </div>
    <div id="projectbrief">Publish-subscribe C implementation.</div>
   </td>
@@ -131,7 +131,7 @@ Include dependency graph for bag.h:</div>
 <area shape="rect" title=" " alt="" coords="41,5,151,31"/>
 <area shape="rect" href="io_2bag_8h.html" title="Bag of IO instances." alt="" coords="51,79,141,104"/>
 <area shape="poly" title=" " alt="" coords="99,31,99,65,93,65,93,31"/>
-<area shape="rect" href="io_2buffer_8h.html" title="Input/output operations interface." alt="" coords="45,152,147,177"/>
+<area shape="rect" href="io_2api_8h.html" title="Input/output (IO) operations interface." alt="" coords="53,152,139,177"/>
 <area shape="poly" title=" " alt="" coords="99,104,99,138,93,138,93,104"/>
 <area shape="rect" href="st_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="5,225,85,251"/>
 <area shape="poly" title=" " alt="" coords="90,179,64,216,59,213,85,176"/>
@@ -150,9 +150,9 @@ Macros</h2></td></tr>
 <tr class="separator:ac8df672b07d4c7ce3312e6d0a694fabc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab6c2aeb98fcd81a850cef92c0cd5975" id="r_aab6c2aeb98fcd81a850cef92c0cd5975"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2bag_8h.html#aab6c2aeb98fcd81a850cef92c0cd5975">iobag_destroy</a>&#160;&#160;&#160;<a class="el" href="io_2bag_8h.html#a083f3a2b2b1827460bd7316cbed18628">st_iobag_destroy</a></td></tr>
 <tr class="separator:aab6c2aeb98fcd81a850cef92c0cd5975"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebb2fa1cf0f1523bcd8a11abef7f95d6" id="r_aebb2fa1cf0f1523bcd8a11abef7f95d6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2bag_8h.html#aebb2fa1cf0f1523bcd8a11abef7f95d6">iobag_ins</a>&#160;&#160;&#160;<a class="el" href="io_2bag_8h.html#a036c8a854473cecc9aa75b4ef67e294f">st_iobag_ins</a></td></tr>
+<tr class="memitem:aebb2fa1cf0f1523bcd8a11abef7f95d6" id="r_aebb2fa1cf0f1523bcd8a11abef7f95d6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2bag_8h.html#aebb2fa1cf0f1523bcd8a11abef7f95d6">iobag_ins</a>&#160;&#160;&#160;<a class="el" href="io_2bag_8h.html#a5219acfaced95e216cd211cf8eea6056">st_iobag_ins</a></td></tr>
 <tr class="separator:aebb2fa1cf0f1523bcd8a11abef7f95d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4a72f2f9e92bf385a9f85af22e27885" id="r_aa4a72f2f9e92bf385a9f85af22e27885"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2bag_8h.html#aa4a72f2f9e92bf385a9f85af22e27885">iobag_rem</a>&#160;&#160;&#160;<a class="el" href="io_2bag_8h.html#aa21d80c51f6fcd2473d6e99258902362">st_iobag_rem</a></td></tr>
+<tr class="memitem:aa4a72f2f9e92bf385a9f85af22e27885" id="r_aa4a72f2f9e92bf385a9f85af22e27885"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2bag_8h.html#aa4a72f2f9e92bf385a9f85af22e27885">iobag_rem</a>&#160;&#160;&#160;<a class="el" href="io_2bag_8h.html#aa8f911d37cbcd0ae5a8be472889e0d82">st_iobag_rem</a></td></tr>
 <tr class="separator:aa4a72f2f9e92bf385a9f85af22e27885"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addd4e9abb962dcd47f921ae6728f94af" id="r_addd4e9abb962dcd47f921ae6728f94af"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rk_2io_2bag_8h.html#addd4e9abb962dcd47f921ae6728f94af">iobag_vprint</a>&#160;&#160;&#160;<a class="el" href="io_2bag_8h.html#a4016e60db581c5a8540302196dddeea9">st_iobag_vprint</a></td></tr>
 <tr class="separator:addd4e9abb962dcd47f921ae6728f94af"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,11 +214,11 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define iobag_ins&#160;&#160;&#160;<a class="el" href="io_2bag_8h.html#a036c8a854473cecc9aa75b4ef67e294f">st_iobag_ins</a></td>
+          <td class="memname">#define iobag_ins&#160;&#160;&#160;<a class="el" href="io_2bag_8h.html#a5219acfaced95e216cd211cf8eea6056">st_iobag_ins</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2bag_8h.html#a036c8a854473cecc9aa75b4ef67e294f" title="Insert an IO interface into a bag.">st_iobag_ins()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2bag_8h.html#a5219acfaced95e216cd211cf8eea6056" title="Insert an IO interface into a bag.">st_iobag_ins()</a> </dd></dl>
 
 </div>
 </div>
@@ -229,11 +229,11 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define iobag_rem&#160;&#160;&#160;<a class="el" href="io_2bag_8h.html#aa21d80c51f6fcd2473d6e99258902362">st_iobag_rem</a></td>
+          <td class="memname">#define iobag_rem&#160;&#160;&#160;<a class="el" href="io_2bag_8h.html#aa8f911d37cbcd0ae5a8be472889e0d82">st_iobag_rem</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2bag_8h.html#aa21d80c51f6fcd2473d6e99258902362" title="Remove an IO interface from a bag.">st_iobag_rem()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="io_2bag_8h.html#aa8f911d37cbcd0ae5a8be472889e0d82" title="Remove an IO interface from a bag.">st_iobag_rem()</a> </dd></dl>
 
 </div>
 </div>

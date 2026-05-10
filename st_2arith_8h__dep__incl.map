@@ -1,21 +1,25 @@
 <map id="st/arith.h" name="st/arith.h">
-<area shape="rect" id="Node000001" title="Basic arithmetic operations." alt="" coords="218,5,298,31"/>
-<area shape="rect" id="Node000002" href="$io_2buffer_8h.html" title="Input/output operations interface." alt="" coords="144,79,247,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="241,43,207,80,203,77,237,39"/>
-<area shape="rect" id="Node000010" href="$sturk_2arith_8h.html" title=" " alt="" coords="271,79,373,104"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="280,39,314,77,310,80,276,43"/>
-<area shape="rect" id="Node000003" href="$io_2bag_8h.html" title="Bag of IO instances." alt="" coords="22,152,113,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="164,113,90,154,87,149,161,108"/>
-<area shape="rect" id="Node000005" href="$io_2logger_8h.html" title="Trace." alt="" coords="142,152,249,177"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="198,118,198,152,193,152,193,118"/>
-<area shape="rect" id="Node000009" href="$rk_2io_2buffer_8h.html" title=" " alt="" coords="273,152,397,177"/>
-<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="231,108,314,149,311,154,229,113"/>
+<area shape="rect" id="Node000001" title="Basic arithmetic operations." alt="" coords="287,5,367,31"/>
+<area shape="rect" id="Node000002" href="$io_2api_8h.html" title="Input/output (IO) operations interface." alt="" coords="225,79,312,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="311,43,280,80,276,77,307,40"/>
+<area shape="rect" id="Node000012" href="$sturk_2arith_8h.html" title=" " alt="" coords="337,79,438,104"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="348,40,380,77,376,80,344,43"/>
+<area shape="rect" id="Node000003" href="$io_2bag_8h.html" title="Bag of IO instances." alt="" coords="29,152,119,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="226,111,107,154,105,149,224,106"/>
+<area shape="rect" id="Node000005" href="$io_2buffer_8h.html" title="Memory buffer stream." alt="" coords="153,152,256,177"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="251,116,217,154,213,150,247,113"/>
+<area shape="rect" id="Node000007" href="$io_2logger_8h.html" title="Trace." alt="" coords="286,152,393,177"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="292,112,330,150,326,154,288,116"/>
+<area shape="rect" id="Node000011" href="$rk_2io_2api_8h.html" title=" " alt="" coords="417,152,523,177"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="315,106,438,149,436,154,313,111"/>
 <area shape="rect" id="Node000004" href="$rk_2io_2bag_8h.html" title=" " alt="" coords="5,225,116,251"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="68,191,64,225,59,225,62,191"/>
-<area shape="rect" id="Node000006" href="$io_2except_8h.html" title="Exceptions." alt="" coords="140,225,251,251"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="198,191,198,225,193,225,193,191"/>
-<area shape="rect" id="Node000008" href="$rk_2io_2logger_8h.html" title=" " alt="" coords="275,225,401,251"/>
-<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="232,181,316,223,313,227,229,186"/>
-<area shape="rect" id="Node000007" href="$rk_2io_2except_8h.html" title=" " alt="" coords="130,299,261,324"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="198,264,198,299,193,299,193,264"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="72,192,65,226,60,225,67,191"/>
+<area shape="rect" id="Node000006" href="$rk_2io_2buffer_8h.html" title=" " alt="" coords="140,225,264,251"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="206,191,205,225,200,225,201,191"/>
+<area shape="rect" id="Node000008" href="$io_2except_8h.html" title="Exceptions." alt="" coords="288,225,399,251"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="343,191,345,225,340,225,338,191"/>
+<area shape="rect" id="Node000010" href="$rk_2io_2logger_8h.html" title=" " alt="" coords="423,225,549,251"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="376,181,463,223,461,228,374,186"/>
+<area shape="rect" id="Node000009" href="$rk_2io_2except_8h.html" title=" " alt="" coords="278,299,409,324"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="346,264,346,299,341,299,341,264"/>
 </map>

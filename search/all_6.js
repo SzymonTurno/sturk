@@ -1,13 +1,12 @@
 var searchData=
 [
-  ['getc_5fcb_0',['getc_cb',['../structStIoVt.html#a279c7f59225e8011195d0041d345c38d',1,'StIoVt']]],
-  ['glossary_1',['Glossary',['../index.html#autotoc_md30',1,'']]],
-  ['graph_2',['GRAPH',['../sturk_2graph_8h.html#afe4e3a536ad23e722f2fc1b04715fa33',1,'graph.h']]],
-  ['graph_2eh_3',['graph.h',['../sturk_2graph_8h.html',1,'(Global Namespace)'],['../vertegs_2graph_8h.html',1,'(Global Namespace)']]],
-  ['graph_5f2vx_4',['graph_2vx',['../sturk_2graph_8h.html#a05b3823e16b495c08e4d34ec26220340',1,'graph.h']]],
-  ['graph_5f4vx_5',['graph_4vx',['../sturk_2graph_8h.html#af74c1e80233dc0cb0b3848b4b23aac43',1,'graph.h']]],
-  ['graph_5fdatap_6',['graph_datap',['../sturk_2graph_8h.html#a287fc1bdd4fe840da4af755732818186',1,'graph.h']]],
-  ['graph_5fempty_7',['GRAPH_EMPTY',['../sturk_2graph_8h.html#a0624b3fb160661a7739b47e5d7b3231e',1,'graph.h']]],
-  ['graphit_5fnext_8',['graphit_next',['../sturk_2graph_8h.html#af03982810a7a1fc4073a677e54139d19',1,'graph.h']]],
-  ['graphp_5f2vxp_9',['graphp_2vxp',['../sturk_2graph_8h.html#a97d4fada8e1271f8e688c135727c2973',1,'graph.h']]]
+  ['f_0',['f',['../unionStAlign.html#a3e099c2f6c7288f779c4ae0abc72efbd',1,'StAlign']]],
+  ['fail_1',['FAIL',['../sturk_2debug_8h.html#abb508ea8227673f419e9fe3a86c30d8e',1,'debug.h']]],
+  ['file_2',['Reading from a file',['../md_src_2basis_2README.html#autotoc_md47',1,'']]],
+  ['file_20example_3',['Reading from a file example',['../md_src_2basis_2README.html#autotoc_md49',1,'']]],
+  ['fp_4',['fp',['../unionStAlign.html#a9f7f5cfbde66cc638b222f1cb51c1d12',1,'StAlign']]],
+  ['free_5fcb_5',['free_cb',['../structStMemVt.html#a05a2a659e80abb345ae46ec7cb06a67c',1,'StMemVt']]],
+  ['from_20a_20file_6',['Reading from a file',['../md_src_2basis_2README.html#autotoc_md47',1,'']]],
+  ['from_20a_20file_20example_7',['Reading from a file example',['../md_src_2basis_2README.html#autotoc_md49',1,'']]],
+  ['from_20the_20message_20pool_8',['from the message pool',['../index.html#autotoc_md17',1,'Allocate a message from the message pool'],['../md_src_2broker_2README.html#autotoc_md57',1,'Allocate a message from the message pool']]]
 ];

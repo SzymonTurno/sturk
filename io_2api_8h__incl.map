@@ -1,0 +1,9 @@
+<map id="st/io/api.h" name="st/io/api.h">
+<area shape="rect" id="Node000001" title="Input/output (IO) operations interface." alt="" coords="53,5,139,31"/>
+<area shape="rect" id="Node000002" href="$st_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="5,79,85,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,33,64,69,59,66,85,29"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="109,79,184,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="107,29,133,66,128,69,102,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="10,152,81,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="48,104,48,138,43,138,43,104"/>
+</map>

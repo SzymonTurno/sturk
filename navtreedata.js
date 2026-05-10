@@ -85,35 +85,33 @@ var NAVTREE =
       [ "Arena", "md_src_2basis_2README.html#autotoc_md44", null ],
       [ "IO interface", "md_src_2basis_2README.html#autotoc_md45", [
         [ "Memory buffer example", "md_src_2basis_2README.html#autotoc_md46", null ],
-        [ "IO operations", "md_src_2basis_2README.html#autotoc_md47", null ],
-        [ "Reading from a file", "md_src_2basis_2README.html#autotoc_md48", [
-          [ "Define the IO operations Vtable", "md_src_2basis_2README.html#autotoc_md49", null ],
-          [ "Configure the IO interface", "md_src_2basis_2README.html#autotoc_md50", null ],
-          [ "Reading from a file example", "md_src_2basis_2README.html#autotoc_md51", null ]
+        [ "Reading from a file", "md_src_2basis_2README.html#autotoc_md47", [
+          [ "Implement the IO interface", "md_src_2basis_2README.html#autotoc_md48", null ],
+          [ "Reading from a file example", "md_src_2basis_2README.html#autotoc_md49", null ]
         ] ]
       ] ]
     ] ],
     [ "Broker", "md_src_2broker_2README.html", [
-      [ "Broker example", "md_src_2broker_2README.html#autotoc_md53", [
-        [ "Create a broker", "md_src_2broker_2README.html#autotoc_md54", null ],
-        [ "Create a subscriber", "md_src_2broker_2README.html#autotoc_md55", null ],
-        [ "Create a channel", "md_src_2broker_2README.html#autotoc_md56", null ],
-        [ "Subscribe to a topic", "md_src_2broker_2README.html#autotoc_md57", null ],
-        [ "Expand the message pool", "md_src_2broker_2README.html#autotoc_md58", null ],
-        [ "Allocate a message from the message pool", "md_src_2broker_2README.html#autotoc_md59", null ],
+      [ "Broker example", "md_src_2broker_2README.html#autotoc_md51", [
+        [ "Create a broker", "md_src_2broker_2README.html#autotoc_md52", null ],
+        [ "Create a subscriber", "md_src_2broker_2README.html#autotoc_md53", null ],
+        [ "Create a channel", "md_src_2broker_2README.html#autotoc_md54", null ],
+        [ "Subscribe to a topic", "md_src_2broker_2README.html#autotoc_md55", null ],
+        [ "Expand the message pool", "md_src_2broker_2README.html#autotoc_md56", null ],
+        [ "Allocate a message from the message pool", "md_src_2broker_2README.html#autotoc_md57", null ],
         [ "Initialize the payload", "md_src_2broker_2README.html#initialize-the-payload", null ],
-        [ "Set the message callback", "md_src_2broker_2README.html#autotoc_md60", null ],
-        [ "Publish a message", "md_src_2broker_2README.html#autotoc_md61", null ],
-        [ "Receive a message", "md_src_2broker_2README.html#autotoc_md62", null ],
-        [ "Cleanup", "md_src_2broker_2README.html#autotoc_md63", null ],
-        [ "Complete example", "md_src_2broker_2README.html#autotoc_md64", null ]
+        [ "Set the message callback", "md_src_2broker_2README.html#autotoc_md58", null ],
+        [ "Publish a message", "md_src_2broker_2README.html#autotoc_md59", null ],
+        [ "Receive a message", "md_src_2broker_2README.html#autotoc_md60", null ],
+        [ "Cleanup", "md_src_2broker_2README.html#autotoc_md61", null ],
+        [ "Complete example", "md_src_2broker_2README.html#autotoc_md62", null ]
       ] ]
     ] ],
     [ "Logger", "md_src_2logger_2README.html", [
-      [ "Logger example", "md_src_2logger_2README.html#autotoc_md66", null ]
+      [ "Logger example", "md_src_2logger_2README.html#autotoc_md64", null ]
     ] ],
     [ "OSAL", "md_src_2osal_2README.html", [
-      [ "Configuring OSAL", "md_src_2osal_2README.html#autotoc_md68", null ]
+      [ "Configuring OSAL", "md_src_2osal_2README.html#autotoc_md66", null ]
     ] ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
@@ -141,7 +139,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"rk_2io_2logger_8h.html#ac1ae4add974b9cfc6b5aaf8a578f01ab",
+"rk_2io_2logger_8h_source.html",
 "sturk_2waitq_8h.html#a08809a720584081578bc46521c782ca5"
 ];
 

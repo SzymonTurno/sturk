@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['of_20strings_0',['of strings',['../md_src_2algo_2README.html#autotoc_md41',1,'Bag of strings'],['../md_src_2algo_2README.html#autotoc_md37',1,'List of strings'],['../md_src_2algo_2README.html#autotoc_md39',1,'Queue of strings']]],
-  ['of_20strings_20example_1',['of strings example',['../md_src_2algo_2README.html#autotoc_md42',1,'Bag of strings example'],['../md_src_2algo_2README.html#autotoc_md38',1,'List of strings example'],['../md_src_2algo_2README.html#autotoc_md40',1,'Queue of strings example']]],
-  ['operations_2',['IO operations',['../md_src_2basis_2README.html#autotoc_md47',1,'']]],
-  ['operations_20vtable_3',['Define the IO operations Vtable',['../md_src_2basis_2README.html#autotoc_md49',1,'']]],
-  ['osal_4',['osal',['../md_src_2osal_2README.html#autotoc_md68',1,'Configuring OSAL'],['../md_src_2osal_2README.html',1,'OSAL']]],
-  ['overview_5',['Overview',['../index.html#autotoc_md27',1,'']]]
+  ['n_5ftrace_5flvls_0',['N_TRACE_LVLS',['../rk_2io_2logger_8h.html#a3f30aeff24391bfc45ff88a68ce42948',1,'logger.h']]],
+  ['nbor_1',['nbor',['../structVertegs.html#a015d7e34dca7bf8eee692ecd014b2613',1,'Vertegs']]],
+  ['new_2',['NEW',['../rk_2os_2mem_8h.html#ab6bca16ed021b1e211fde8669758f199',1,'mem.h']]],
+  ['node_20in_20a_20red_20black_20tree_3',['Insert a node in a red-black tree',['../md_include_2vertegs_2README.html#autotoc_md10',1,'']]]
 ];

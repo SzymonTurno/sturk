@@ -1,6 +1,6 @@
 <map id="st/io/bag.h" name="st/io/bag.h">
 <area shape="rect" id="Node000001" title="Bag of IO instances." alt="" coords="51,5,141,31"/>
-<area shape="rect" id="Node000002" href="$io_2buffer_8h.html" title="Input/output operations interface." alt="" coords="45,79,147,104"/>
+<area shape="rect" id="Node000002" href="$io_2api_8h.html" title="Input/output (IO) operations interface." alt="" coords="53,79,139,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,31,99,65,93,65,93,31"/>
 <area shape="rect" id="Node000003" href="$st_2arith_8h.html" title="Basic arithmetic operations." alt="" coords="5,152,85,177"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="90,106,64,142,59,139,85,103"/>

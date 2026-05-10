@@ -10,7 +10,7 @@ var io_2logger_8h =
       [ "ST_ERROR", "io_2logger_8h.html#abbd81a7797bfd9459ea4bc8d7c1b898eaeba238d654a503a412ebac861c342bf9", null ],
       [ "ST_N_TRACE_LVLS", "io_2logger_8h.html#abbd81a7797bfd9459ea4bc8d7c1b898ea227f98d84052526f2a23540c8548a349", null ]
     ] ],
-    [ "st_logger_attach", "io_2logger_8h.html#aee499b1435ffc7657964523596754f35", null ],
-    [ "st_logger_detach", "io_2logger_8h.html#a07afdb58bbfd723780815efe02603b64", null ],
+    [ "st_logger_attach", "io_2logger_8h.html#a70e5f047b36a87d4bec44fce67c64adf", null ],
+    [ "st_logger_detach", "io_2logger_8h.html#ab991ab627a1ea4c17f0cf404751ad86f", null ],
     [ "st_trace", "io_2logger_8h.html#ae71cffea92a24ef12d3f2fd4038901c5", null ]
 ];
